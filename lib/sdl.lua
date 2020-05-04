@@ -74,6 +74,7 @@ ffi.cdef [[
     } SDL_GLattr;
 
     SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int w, int h, Uint32 flags);
+    SDL_Window* SDL_GL_GetCurrentWindow(void);
     void SDL_DestroyWindow(SDL_Window* window);
 
     void SDL_SetWindowTitle(SDL_Window* window, const char* title);
@@ -88,6 +89,7 @@ ffi.cdef [[
     int SDL_GL_GetAttribute(SDL_GLattr attr, int *value);
 
     SDL_GLContext SDL_GL_CreateContext(SDL_Window* window);
+    SDL_GLContext SDL_GL_GetCurrentContext(void);
     void SDL_GL_SwapWindow(SDL_Window* window);
     void SDL_GL_DeleteContext(SDL_GLContext context);
 
@@ -322,26 +324,41 @@ ffi.cdef [[
     SDL_Surface* IMG_Load(const char *file);
 ]]
 
-function sdl_init()
-    sdl = ffi.load('SDL2.framework/SDL2')
+local lib_path = 'SDL2.framework/SDL2'
+lib_path = '../../Libraries/bin/SDL2'
 
+sdl = ffi.load(lib_path)
+
+function sdl_init()
     if sdl.SDL_Init(sdl.SDL_INIT_VIDEO) == 0 then
         sdl.SDL_SetThreadPriority(sdl.SDL_THREAD_PRIORITY_HIGH)
 
-        local attributes = sdl.SDL_WINDOW_RESIZABLE + sdl.SDL_WINDOW_SHOWN
+        local attributes = sdl.SDL_WINDOW_RESIZABLE + sdl.SDL_WINDOW_HIDDEN + sdl.SDL_WINDOW_OPENGL
+
+        sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
+        sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MINOR_VERSION, 1)
+
+        if sdl.SDL_GL_LoadLibrary(ffi.NULL) == 1 then
+            assert(false, 'SDL_GL_LoadLibrary')
+        end
+
+        sdl.SDL_GL_SetAttribute(sdl.SDL_GL_DOUBLEBUFFER, 1)
+        sdl.SDL_GL_SetAttribute(sdl.SDL_GL_DEPTH_SIZE, 24)
+
         local W, H = 1024, 800
 
-        local window = sdl.SDL_CreateWindow('resurection',
+        local window, context
+
+        window = sdl.SDL_CreateWindow('resurection',
             0, 0,
             W, H,
             attributes)
 
         if window then
-            context = sdl.SDL_CreateRenderer(window, -1, 0)
+            context = sdl.SDL_GL_CreateContext(window)
+
             if context then
-
                 sdl.SDL_ShowWindow(window)
-
                 return window, context
             end
         end
@@ -374,9 +391,10 @@ end
 
 function sdl_release(window, context)
     if context then
-        sdl.SDL_DestroyRenderer(context)
+        sdl.SDL_GL_DeleteContext(context)
         if window then
             sdl.SDL_DestroyWindow(window)
+            sdl.SDL_GL_UnloadLibrary()            
         end
     end
     sdl.SDL_Quit()

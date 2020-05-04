@@ -1,17 +1,14 @@
 require 'lua'
 require 'maths'
 
-if love then
-    require 'engine.core_love'
-else
-    require 'engine.core_lua'
-end
+require ('engine.core_'..(love and 'love' or 'gl'))
 
 require 'engine.mouse'
 
 require 'engine.color'
 require 'engine.style'
-require ('engine.graphics_'..(love and 'love' or 'lua'))
+require 'engine.shader'
+require ('engine.graphics_'..(love and 'love' or 'gl'))
 
 require 'engine.game_object'
 

@@ -34,11 +34,13 @@ end
 function Engine:run()
     self:setup(1024, 768)
 
-
     engine.window, engine.context = sdl_init()
-
+    opengl_init()
+    
+    initShaders()
+    
     engine.active = true
-
+    
     while engine.active do
 
         sdl_events()
@@ -46,10 +48,11 @@ function Engine:run()
         self:update(1)
         self:draw()
 
-        sdl.SDL_RenderPresent(context)
+        sdl.SDL_GL_SwapWindow(engine.window)
     end
 
-    sdl_release(window, context)
+    opengl_release()
+    sdl_release(engine.window, engine.context)
 
     self:release()
 end

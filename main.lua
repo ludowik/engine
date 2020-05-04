@@ -1,3 +1,7 @@
+if arg[#arg] == '-debug' then
+    debugger.start()
+end
+
 require 'applications.stars'
 require 'lib'
 
