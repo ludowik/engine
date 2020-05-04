@@ -324,8 +324,12 @@ ffi.cdef [[
     SDL_Surface* IMG_Load(const char *file);
 ]]
 
-local lib_path = 'SDL2.framework/SDL2'
-lib_path = '../../Libraries/bin/SDL2'
+local lib_path
+if os.name == 'osx' then 
+    lib_path = 'SDL2.framework/SDL2'
+else
+    lib_path = '../../Libraries/bin/SDL2'
+end
 
 sdl = ffi.load(lib_path)
 

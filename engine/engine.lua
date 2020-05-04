@@ -51,6 +51,8 @@ function Engine:run()
         sdl.SDL_GL_SwapWindow(engine.window)
     end
 
+    releaseShaders()
+    
     opengl_release()
     sdl_release(engine.window, engine.context)
 

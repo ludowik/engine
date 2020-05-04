@@ -1,10 +1,15 @@
 require 'ffi'
 
+local defs = {}
+
 function precompile(str)
     function define2const(def, value)
+        defs[def] = tonumber(value)
         return 'static const int '..def..' = '..value..';\r'
     end
+
     str = str:gsub("#define%s+(%S+)%s+(%S+)[\r\n]", define2const)
+
     return str
 end  
 
@@ -254,37 +259,72 @@ ffi.cdef(precompile[[
     typedef void (*PFN_glDrawElementsInstanced)(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices, GLsizei instancecount);
 ]])
 
-local lib_path = 'SDL2.framework/SDL2'
-lib_path = 'System32/OpenGL32'
+local lib_path
+if os.name == 'osx' then 
+    lib_path = 'SDL2.framework/SDL2'
+else
+    lib_path = 'System32/OpenGL32'
+end
 
-_gl = ffi.load(lib_path)
+__gl = ffi.load(lib_path)
 
 function opengl_init()
     gl = {
+        defs = {
+            'glIsProgram',
+            'glCreateProgram',
+            'glDeleteProgram',
+            'glIsShader',
+            'glCreateShader',
+            'glDeleteShader',
+            'glShaderSource',
+            'glCompileShader',
+            'glAttachShader',
+            'glDetachShader',
+            'glGetShaderiv',
+            'glGetShaderInfoLog',
+            'glLinkProgram',
         }
-    
-    gl.glCreateProgram = ffi.cast('PFN_'..'glCreateProgram', sdl.SDL_GL_GetProcAddress('glCreateProgram'))
+    }
+
+    for i,v in ipairs(gl.defs) do
+        gl.defs[v] = ffi.cast('PFN_'..v, sdl.SDL_GL_GetProcAddress(v))
+    end
+
+    for k,v in pairs(defs) do
+        gl.defs[k] = v
+    end
+
+    gl.defs.__index = gl.defs
+
+    setmetatable(gl, gl.defs)
+
+    intptr = ffi.new('GLint[1]')
+
+    function gl.glShaderSource(id, code)
+        local s = ffi.new('const GLchar*[1]', {code})
+        local l = ffi.new('GLint[1]', #code)
+
+        gl.defs.glShaderSource(id, 1, s, l)
+    end
+
+    function gl.glGetShaderiv(id, flag)
+        gl.defs.glGetShaderiv(id, flag, intptr)
+        return intptr[0]
+    end
+
+    function gl.glGetShaderInfoLog(id)
+        local len = gl.glGetShaderiv(id, gl.GL_INFO_LOG_LENGTH)
+        if len == 0 then
+            return 'len == 0'
+        else
+--            local log = gl.char(len)
+            local log = ffi.new('GLchar[?]', len or 1)
+            gl.defs.glGetShaderInfoLog(id, len, nil, log)
+            return ffi.string(log, len - 1):gsub('ERROR: 0', '')
+        end
+    end
 end
 
 function opengl_release()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
