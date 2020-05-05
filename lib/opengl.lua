@@ -271,6 +271,7 @@ __gl = ffi.load(lib_path)
 function opengl_init()
     gl = {
         defs = {
+            -- shader
             'glIsProgram',
             'glCreateProgram',
             'glDeleteProgram',
@@ -284,6 +285,17 @@ function opengl_init()
             'glGetShaderiv',
             'glGetShaderInfoLog',
             'glLinkProgram',
+            'glUseProgram',
+
+            -- buffer
+            'glGenBuffers',
+            'glBindBuffer',
+            'glDeleteBuffers',
+            'glBufferData',
+            'glVertexAttribPointer',
+            'glEnableVertexAttribArray',
+            'glDisableVertexAttribArray',
+            'glDrawArrays',
         }
     }
 
@@ -300,6 +312,7 @@ function opengl_init()
     setmetatable(gl, gl.defs)
 
     intptr = ffi.new('GLint[1]')
+    idptr  = ffi.new('GLuint[1]')
 
     function gl.glShaderSource(id, code)
         local s = ffi.new('const GLchar*[1]', {code})
@@ -324,6 +337,17 @@ function opengl_init()
             return ffi.string(log, len - 1):gsub('ERROR: 0', '')
         end
     end
+
+    function gl.glGenBuffer()
+        gl.defs.glGenBuffers(1, idptr)
+        return idptr[0]
+    end
+
+    function gl.glDeleteBuffer(buffer)
+        idptr[0] = buffer
+        gl.defs.glDeleteBuffers(1, idptr)
+    end
+
 end
 
 function opengl_release()

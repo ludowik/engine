@@ -27,7 +27,7 @@ end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
     local shader_id = gl.glCreateShader(shaderType)
-    local source = io.open('engine/shaders/'..shaderName..'.'..shaderExtension):read('*a')
+    local source = io.open('graphics/shaders/'..shaderName..'.'..shaderExtension):read('*a')
 
     gl.glShaderSource(shader_id, source)
     gl.glCompileShader(shader_id)
@@ -41,6 +41,14 @@ function Shader:build(shaderType, shaderName, shaderExtension)
     end
 
     return shader_id
+end
+
+function Shader:use()
+    gl.glUseProgram(self.program_id)
+end
+
+function Shader:unuse()
+    gl.glUseProgram(0)
 end
 
 function initShaders()

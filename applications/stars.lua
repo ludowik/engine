@@ -27,8 +27,8 @@ function Star:update(dt)
 end
 
 function Star:draw()
---    strokeWidth(math.floor(self.r * self.position:len() / MAX_DISTANCE))
---    point(self.position.x, self.position.y)
+    strokeWidth(math.floor(self.r * self.position:len() / MAX_DISTANCE))
+    point(self.position.x, self.position.y)
 end
 
 function Application:setup()
@@ -58,12 +58,12 @@ function Application:draw()
     
     stroke(white)
     
-    self.points = self.points or {}
-    for i,v in self.stars.nodes:items() do
-        self.points[(i-1)*2+1] = v.position.x
-        self.points[(i-1)*2+2] = v.position.y
-    end
-    points(self.points)
+--    self.points = self.points or {}
+--    for i,v in self.stars.nodes:items() do
+--        self.points[(i-1)*2+1] = v.position.x
+--        self.points[(i-1)*2+2] = v.position.y
+--    end
+--    points(self.points)
     
     text(self.stars:len(), 0, 200)
 

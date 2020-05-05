@@ -3,6 +3,8 @@ end
 
 function point(x, y)
     clr = stroke()
+    
+    Mesh():render()
 end
 
 local buffer, size_buffer
