@@ -8,32 +8,33 @@ class 'MeshRender'
 
 function MeshRender:render(shader)
     shader = shader or defaultShader
-    
+
     self.buffer = gl.glGenBuffer()
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.buffer)
 
     do
+        shader:use()
 
         local bytes = ffi.new('GLfloat[?]', #self.vertices, self.vertices)
-        
+
         gl.glBufferData(gl.GL_ARRAY_BUFFER, #self.vertices * ffi.sizeof('GLfloat'), bytes, gl.GL_STATIC_DRAW)
-        
-        gl.glVertexAttribPointer(self.buffer, 3, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
-        
-        gl.glEnableVertexAttribArray(self.buffer)
+
+        local vertexLocation = gl.glGetAttribLocation(shader.program_id, 'vertex')
+        gl.glVertexAttribPointer(vertexLocation, 3, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
+
+        gl.glEnableVertexAttribArray(vertexLocation)
 
         do
-            shader:use()
 
-            gl.glDrawArrays(gl.GL_TRIANGLES, 0, #self.vertices / 3)
+            gl.glDrawArrays(gl.GL_TRIANGLES, 0, #self.vertices)
 
-            shader:unuse()
         end
-        
+
         gl.glDisableVertexAttribArray(self.buffer)
 
         bytes = nil
 
+        shader:unuse()
     end
 
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)

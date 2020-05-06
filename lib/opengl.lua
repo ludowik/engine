@@ -271,6 +271,19 @@ __gl = ffi.load(lib_path)
 function opengl_init()
     gl = {
         defs = {
+            -- property
+            'glEnable',
+            'glDisable',
+            
+            'glDepthFunc',
+            'glBlendEquation',
+            'glBlendFuncSeparate',
+            
+            -- clear
+            'glClearColor',
+            'glClearDepth',
+            'glClear',
+            
             -- shader
             'glIsProgram',
             'glCreateProgram',
@@ -296,6 +309,7 @@ function opengl_init()
             'glEnableVertexAttribArray',
             'glDisableVertexAttribArray',
             'glDrawArrays',
+            'glGetAttribLocation',
         }
     }
 
