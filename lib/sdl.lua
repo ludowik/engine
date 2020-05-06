@@ -76,6 +76,8 @@ ffi.cdef [[
     SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int w, int h, Uint32 flags);
     SDL_Window* SDL_GL_GetCurrentWindow(void);
     void SDL_DestroyWindow(SDL_Window* window);
+    
+    void SDL_SetWindowPosition(SDL_Window* window, int x, int y);
 
     void SDL_SetWindowTitle(SDL_Window* window, const char* title);
     void SDL_ShowWindow(SDL_Window* window);
@@ -329,15 +331,16 @@ if os.name == 'osx' then
     lib_path = 'SDL2.framework/SDL2'
 else
     lib_path = '../../Libraries/bin/SDL2'
+    lib_path = 'System32/SDL2'
 end
 
 sdl = ffi.load(lib_path)
 
 function sdl_init()
     if sdl.SDL_Init(sdl.SDL_INIT_VIDEO) == 0 then
-        sdl.SDL_SetThreadPriority(sdl.SDL_THREAD_PRIORITY_HIGH)
+        sdl.SDL_SetThreadPriority(sdl.SDL_THREAD_PRIORITY_NORMAL)
 
-        local attributes = sdl.SDL_WINDOW_RESIZABLE + sdl.SDL_WINDOW_HIDDEN + sdl.SDL_WINDOW_OPENGL
+        local attributes = sdl.SDL_WINDOW_RESIZABLE + sdl.SDL_WINDOW_OPENGL -- + sdl.SDL_WINDOW_HIDDEN
 
         sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
         sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MINOR_VERSION, 1)
@@ -349,7 +352,7 @@ function sdl_init()
         sdl.SDL_GL_SetAttribute(sdl.SDL_GL_DOUBLEBUFFER, 1)
         sdl.SDL_GL_SetAttribute(sdl.SDL_GL_DEPTH_SIZE, 24)
 
-        local W, H = 1024, 800
+        local W, H = 800, 600
 
         local window, context
 
@@ -359,10 +362,12 @@ function sdl_init()
             attributes)
 
         if window then
+            sdl.SDL_SetWindowPosition(window, 100, 100)
+            sdl.SDL_ShowWindow(window)
+                
             context = sdl.SDL_GL_CreateContext(window)
 
             if context then
-                sdl.SDL_ShowWindow(window)
                 return window, context
             end
         end

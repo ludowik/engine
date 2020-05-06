@@ -327,7 +327,15 @@ function opengl_init()
 
     intptr = ffi.new('GLint[1]')
     idptr  = ffi.new('GLuint[1]')
-
+    
+    function gl.glCheckError()
+        local err = gl.lib.glGetError()
+        if err ~= gl.GL_NO_ERROR then
+            error_name = string.format('OpenGL Error {%s} : 0x{%x}', name, error)
+            print(error_name)
+        end
+    end
+    
     function gl.glShaderSource(id, code)
         local s = ffi.new('const GLchar*[1]', {code})
         local l = ffi.new('GLint[1]', #code)

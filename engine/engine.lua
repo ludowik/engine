@@ -44,6 +44,8 @@ function Engine:run()
     while engine.active do
 
         sdl_events()
+        
+        mode()
 
         self:update(1)
         self:draw()

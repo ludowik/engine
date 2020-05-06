@@ -1,7 +1,8 @@
 class 'Mesh'
 
 function Mesh:init(vertices)
-    self.vertices = vertices or {0, 0, 0, 1, 0, 0, 1, 1, 0}
+    n = 1
+    self.vertices = vertices or {0, 0, 0, n, 0, 0, n, n, 0}
 end
 
 class 'MeshRender'
@@ -26,7 +27,7 @@ function MeshRender:render(shader)
 
         do
 
-            gl.glDrawArrays(gl.GL_TRIANGLES, 0, #self.vertices)
+            gl.glDrawArrays(gl.GL_TRIANGLES, 0, #self.vertices / 3)
 
         end
 

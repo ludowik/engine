@@ -13,4 +13,4 @@ function gc()
     collectgarbage('collect')
 end
 
-os.name = os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
+os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
