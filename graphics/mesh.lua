@@ -1,8 +1,7 @@
 class 'Mesh'
 
 function Mesh:init(vertices)
-    n = 1
-    self.vertices = vertices or {0, 0, 0, n, 0, 0, n, n, 0}
+    self.vertices = vertices or {}
 end
 
 class 'MeshRender'
@@ -10,7 +9,7 @@ class 'MeshRender'
 function MeshRender:render(shader)
     shader = shader or defaultShader
 
-    self.buffer = gl.glGenBuffer()
+    self.buffer = self.buffer or gl.glGenBuffer()
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, self.buffer)
 
     do
@@ -25,11 +24,7 @@ function MeshRender:render(shader)
 
         gl.glEnableVertexAttribArray(vertexLocation)
 
-        do
-
-            gl.glDrawArrays(gl.GL_TRIANGLES, 0, #self.vertices / 3)
-
-        end
+        gl.glDrawArrays(gl.GL_POINTS, 0, #self.vertices / 3)
 
         gl.glDisableVertexAttribArray(self.buffer)
 
@@ -39,7 +34,7 @@ function MeshRender:render(shader)
     end
 
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
-    gl.glDeleteBuffer(self.buffer)
+--    gl.glDeleteBuffer(self.buffer)
 end
 
 Mesh:extends(MeshRender)

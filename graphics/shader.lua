@@ -7,6 +7,11 @@ function Shader:init(name)
     self.fragment_id = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment')
 
     gl.glLinkProgram(self.program_id)
+
+    local err = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
+    if err == gl.GL_FALSE then
+        print(gl.glGetProgramInfoLog(self.program_id))
+    end
 end
 
 function Shader:release()
@@ -34,8 +39,8 @@ function Shader:build(shaderType, shaderName, shaderExtension)
 
     gl.glAttachShader(self.program_id, shader_id)
 
-    local res = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
-    if res == gl.GL_FALSE then
+    local err = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
+    if err == gl.GL_FALSE then
         print(gl.glGetShaderInfoLog(shader_id))
         return nil
     end
