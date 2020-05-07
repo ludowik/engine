@@ -32,7 +32,7 @@ function Star:draw()
 end
 
 function Application:setup()
-    MAX_STARS = 1000
+    MAX_STARS = 10000
     MAX_DISTANCE = vec2(W, H):len()
 
     self.scene.translate = vec2(W/2, H/2)
@@ -55,16 +55,17 @@ end
 
 function Application:draw()
     background(black)
-    
+
     stroke(white)
-    
---    self.points = self.points or {}
---    for i,v in self.stars.nodes:items() do
---        self.points[(i-1)*2+1] = v.position.x
---        self.points[(i-1)*2+2] = v.position.y
---    end
---    points(self.points)
-    
+
+    self.points = self.points or {}
+    for i,v in self.stars.nodes:items() do
+        self.points[(i-1)*3 + 1] = v.position.x
+        self.points[(i-1)*3 + 2] = v.position.y
+        self.points[(i-1)*3 + 3] = 0
+    end
+    points(self.points)
+
     text(self.stars:len(), 0, 200)
 
     self:addStars()

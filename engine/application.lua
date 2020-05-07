@@ -14,8 +14,8 @@ function Application:__update(dt)
 end
 
 function Application:__draw()
-    self.scene:draw()
     self:draw()
+    self.scene:draw()
 end
 
 function Application:setup()

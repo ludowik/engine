@@ -26,7 +26,7 @@ end
 function point(x, y)
     clr = stroke()
 
-    Mesh():render()
+    Mesh(Model.point(x, y)):render()
 end
 
 local buffer, size_buffer
@@ -45,6 +45,7 @@ function points(points)
 
     clr = stroke()
     if clr then
+        Mesh(Model.points(points)):render()
     end
 end
 

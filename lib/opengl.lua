@@ -51,6 +51,8 @@ ffi.cdef(precompile[[
 
     #define GL_COMPILE_STATUS 0x8B81
     #define GL_INFO_LOG_LENGTH 0x8B84
+    
+    #define GL_LINK_STATUS 0x8B82
 
     #define GL_ARRAY_BUFFER 0x8892
     #define GL_ELEMENT_ARRAY_BUFFER 0x8893
@@ -143,6 +145,7 @@ ffi.cdef(precompile[[
     void glDeleteShader(GLuint shader);
     void glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
     void glLinkProgram(GLuint program);
+    void glGetProgramiv(	GLuint program, GLenum pname, GLint *params);
     void glUseProgram(GLuint program);
 
     GLboolean glIsBuffer(GLuint buffer);
@@ -210,6 +213,7 @@ ffi.cdef(precompile[[
     typedef void (*PFN_glDeleteShader)(GLuint shader);
     typedef void (*PFN_glGetShaderInfoLog)(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
     typedef void (*PFN_glLinkProgram)(GLuint program);
+    typedef void (*PFN_glGetProgramiv)(GLuint program, GLenum pname, GLint *params);
     typedef void (*PFN_glUseProgram)(GLuint program);
 
     typedef GLboolean (*PFN_glIsBuffer)(GLuint buffer);
@@ -274,16 +278,19 @@ function opengl_init()
             -- property
             'glEnable',
             'glDisable',
-            
+
             'glDepthFunc',
             'glBlendEquation',
             'glBlendFuncSeparate',
-            
+
+            -- error
+            'glGetError',
+
             -- clear
             'glClearColor',
             'glClearDepth',
             'glClear',
-            
+
             -- shader
             'glIsProgram',
             'glCreateProgram',
@@ -298,6 +305,7 @@ function opengl_init()
             'glGetShaderiv',
             'glGetShaderInfoLog',
             'glLinkProgram',
+            'glGetProgramiv',   
             'glUseProgram',
 
             -- buffer
@@ -314,7 +322,18 @@ function opengl_init()
     }
 
     for i,v in ipairs(gl.defs) do
-        gl.defs[v] = ffi.cast('PFN_'..v, sdl.SDL_GL_GetProcAddress(v))
+        local f = ffi.cast('PFN_'..v, sdl.SDL_GL_GetProcAddress(v))
+        gl.defs[v] = f
+        gl[v] = function (...)
+            local res = f(...)
+            local err = gl.defs.glGetError()
+            if err ~= gl.GL_NO_ERROR then
+                local error_name = string.format('OpenGL Error {%s} : 0x{%x}', v, err)
+                print(error_name)
+                assert()
+            end
+            return res
+        end
     end
 
     for k,v in pairs(defs) do
@@ -327,15 +346,7 @@ function opengl_init()
 
     intptr = ffi.new('GLint[1]')
     idptr  = ffi.new('GLuint[1]')
-    
-    function gl.glCheckError()
-        local err = gl.lib.glGetError()
-        if err ~= gl.GL_NO_ERROR then
-            error_name = string.format('OpenGL Error {%s} : 0x{%x}', name, error)
-            print(error_name)
-        end
-    end
-    
+
     function gl.glShaderSource(id, code)
         local s = ffi.new('const GLchar*[1]', {code})
         local l = ffi.new('GLint[1]', #code)
@@ -357,6 +368,23 @@ function opengl_init()
             local log = ffi.new('GLchar[?]', len or 1)
             gl.defs.glGetShaderInfoLog(id, len, nil, log)
             return ffi.string(log, len - 1):gsub('ERROR: 0', '')
+        end
+    end
+
+    function gl.glGetProgramiv(id, flag)
+        gl.defs.glGetProgramiv(id, flag, intptr)
+        return intptr[0]
+    end
+
+    function gl.glGetProgramInfoLog(id)
+        local len = gl.glGetProgramiv(id, gl.GL_INFO_LOG_LENGTH)
+        if len == 0 then
+            return 'len == 0'
+        else
+--            local log = gl.char(len)
+            local log = ffi.new('GLchar[?]', len or 1)
+            gl.defs.glGetProgramInfoLog(id, len, nil, log)
+            return ffi.string(log, len - 1)
         end
     end
 
