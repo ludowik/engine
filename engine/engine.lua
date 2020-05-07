@@ -5,11 +5,12 @@ function Engine:init()
     engine = self
 
     self.ram = {
-        init = ram(),
-        current = 0,
-        max = 0,
-        release = 0
+        init = ram()
     }
+    self.ram.current = self.ram.init
+    self.ram.min = self.ram.init
+    self.ram.max = self.ram.init
+    self.ram.release = self.ram.init
 
     self.app = Application()
     self.nFrame = 1
@@ -22,12 +23,10 @@ function Engine:release()
 
     self.ram.release = ram()
 
-    function format_ram(ram)
-        return string.format('%.2f mo', ram / 1024 / 1024)
-    end
-
     print('memory at init    : '..format_ram(self.ram.init))
-    print('memory at max     : '..format_ram(self.ram.max))
+    print('memory min        : '..format_ram(self.ram.min))
+    print('memory max        : '..format_ram(self.ram.max))
+    print('memory variation  : '..format_ram(self.ram.max - self.ram.min))
     print('memory at release : '..format_ram(self.ram.release))
 end
 
@@ -72,6 +71,8 @@ end
 
 function Engine:update(dt)
     self.ram.current = ram()
+    
+    self.ram.min = math.min(self.ram.min, self.ram.current)
     self.ram.max = math.max(self.ram.max, self.ram.current)
 
     update(dt)
@@ -88,8 +89,7 @@ function Engine:draw()
     resetMatrix()
     do
         text(self.fps, 0, 0)
-        text(self.ram.current, 0, 32)
-        text(self.nFrame, 0, 64)
+        text(format_ram(self.ram.current), 0, 32)
         text(tostring(mouse), 0, 96)
     end
 end

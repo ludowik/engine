@@ -1,6 +1,6 @@
 require 'ffi'
 
-ffi.cdef [[
+ffi.cdef(precompile[[
     typedef unsigned char Uint8;
     typedef unsigned short Uint16;
     typedef unsigned int Uint32;
@@ -42,6 +42,7 @@ ffi.cdef [[
     int SDL_GL_SetSwapInterval(int interval);
 
     char* SDL_GetError();
+    void SDL_Log(const char *fmt, ...);
 
     typedef void* SDL_Window;
     typedef void* SDL_GLContext;
@@ -188,7 +189,11 @@ ffi.cdef [[
         Sint32 xrel;
         Sint32 yrel;
     } SDL_MouseMotionEvent;
-
+    
+    #define SDL_BUTTON_LMASK 1
+    #define SDL_BUTTON_MMASK 2
+    #define SDL_BUTTON_RMASK 4
+    
     typedef Sint32 SDL_Scancode;
     typedef Sint32 SDL_Keycode;
 
@@ -243,7 +248,6 @@ ffi.cdef [[
     SDL_Keycode SDL_GetKeyFromName(const char *name);
     void SDL_StartTextInput(void);
 
-
     typedef struct SDL_Point {
         int x;
         int y;
@@ -254,6 +258,8 @@ ffi.cdef [[
         int w, h;
     } SDL_Rect;
 
+    int SDL_GetDisplayBounds(int displayIndex, SDL_Rect* rect);
+    
     int SDL_PollEvent(SDL_Event* event);
 
     int SDL_SetRenderDrawColor(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
@@ -324,7 +330,7 @@ ffi.cdef [[
     } SDL_Surface;
 
     SDL_Surface* IMG_Load(const char *file);
-]]
+]])
 
 local lib_path
 if os.name == 'osx' then 
@@ -340,7 +346,7 @@ function sdl_init()
     if sdl.SDL_Init(sdl.SDL_INIT_VIDEO) == 0 then
         sdl.SDL_SetThreadPriority(sdl.SDL_THREAD_PRIORITY_NORMAL)
 
-        local attributes = sdl.SDL_WINDOW_RESIZABLE + sdl.SDL_WINDOW_OPENGL -- + sdl.SDL_WINDOW_HIDDEN
+        local attributes = sdl.SDL_WINDOW_RESIZABLE + sdl.SDL_WINDOW_OPENGL -- + sdl.SDL_WINDOW_SHOWN
 
         sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
         sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MINOR_VERSION, 1)
@@ -362,9 +368,15 @@ function sdl_init()
             attributes)
 
         if window then
-            sdl.SDL_SetWindowPosition(window, 100, 100)
+            local r = ffi.new('SDL_Rect');
+            if sdl.SDL_GetDisplayBounds(1, r) ~= 0 then
+                sdl.SDL_Log("SDL_GetDisplayBounds failed: %s", sdl.SDL_GetError())
+                return
+            end
+
+            sdl.SDL_SetWindowPosition(window, r.x+100, r.y+100)
             sdl.SDL_ShowWindow(window)
-                
+
             context = sdl.SDL_GL_CreateContext(window)
 
             if context then
@@ -393,6 +405,11 @@ function sdl_events()
         elseif event.type == sdl.SDL_MOUSEMOTION then
             mouse.x = event.motion.x
             mouse.y = H - event.motion.y
+            
+            mouse.dx = event.motion.xrel
+            mouse.dy = event.motion.yrel
+            
+            mouse.isTouch = (event.motion.state - sdl.SDL_BUTTON_LMASK) ~= event.motion.state
 
         end
     end
@@ -403,8 +420,8 @@ function sdl_release(window, context)
         sdl.SDL_GL_DeleteContext(context)
         if window then
             sdl.SDL_DestroyWindow(window)
-            sdl.SDL_GL_UnloadLibrary()            
         end
+        sdl.SDL_GL_UnloadLibrary()
     end
     sdl.SDL_Quit()
 end

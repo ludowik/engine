@@ -6,6 +6,9 @@ end
 
 class 'MeshRender'
 
+local bytes = nil
+local bytes_len = 0
+
 function MeshRender:render(shader)
     shader = shader or defaultShader
 
@@ -15,7 +18,10 @@ function MeshRender:render(shader)
     do
         shader:use()
 
-        local bytes = ffi.new('GLfloat[?]', #self.vertices, self.vertices)
+        if bytes == nil or #self.vertices > bytes_len then
+            bytes = ffi.new('GLfloat[?]', #self.vertices, self.vertices)
+            bytes_len = #self.vertices
+        end
 
         gl.glBufferData(gl.GL_ARRAY_BUFFER, #self.vertices * ffi.sizeof('GLfloat'), bytes, gl.GL_STATIC_DRAW)
 
@@ -34,7 +40,7 @@ function MeshRender:render(shader)
     end
 
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
---    gl.glDeleteBuffer(self.buffer)
+    gl.glDeleteBuffer(self.buffer)
 end
 
 Mesh:extends(MeshRender)

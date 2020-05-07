@@ -41,12 +41,27 @@ function love.keypressed(key, scancode, isrepeat)
 --    end
 end
 
-function love.mousemoved(x, y, dx, dy, istouch)
+function love.mousepressed(x, y, button, isTouch)
+    mouse.x = x
+    mouse.y = y
+
+    mouse.dx = 0
+    mouse.dy = 0
+
+    mouse.isTouch = true
+end
+
+function love.mousemoved(x, y, dx, dy, isTouch)
     mouse.x = x
     mouse.y = y
 
     mouse.dx = dx
     mouse.dy = dy
+end
 
-    mouse.istouch = istouch
+function love.mousereleased(x, y, button, isTouch)
+    mouse.x = x
+    mouse.y = y
+
+    mouse.isTouch = false
 end

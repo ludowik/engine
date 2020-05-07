@@ -1,18 +1,5 @@
 require 'ffi'
 
-local defs = {}
-
-function precompile(str)
-    function define2const(def, value)
-        defs[def] = tonumber(value)
-        return 'static const int '..def..' = '..value..';\r'
-    end
-
-    str = str:gsub("#define%s+(%S+)%s+(%S+)[\r\n]", define2const)
-
-    return str
-end  
-
 ffi.cdef(precompile[[
     typedef unsigned char uint8_t;
     typedef unsigned short uint16_t;
