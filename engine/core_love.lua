@@ -8,8 +8,6 @@ function love.load()
 
     love.window.setMode(1024, 800)
 
-    transform = love.math.newTransform()
-
     Engine()
     engine:setup(love.window.getMode())
 

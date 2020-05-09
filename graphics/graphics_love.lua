@@ -4,7 +4,7 @@ end
 
 function point(x, y)
     love.graphics.replaceTransform(transform)
-    love.graphics.point(x, y)
+    love.graphics.points(x, y)
 end
 
 function points(...)
@@ -13,6 +13,10 @@ function points(...)
 end
 
 function text(str, x, y)
+    local texture = love.graphics.newText(love.graphics.getFont(), str)
+
     love.graphics.replaceTransform(transform)
-    love.graphics.print(str, x, y)
+    love.graphics.draw(texture, x, y)
+    
+    TEXT_NEXT_Y = y + texture:getHeight()
 end

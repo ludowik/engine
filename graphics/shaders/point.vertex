@@ -1,0 +1,12 @@
+attribute vec2 point;
+
+uniform vec4 matrixModel;
+uniform vec4 matrixProjection;
+
+void main() {
+    gl_Position = vec4(
+        (point.x * matrixModel.x + matrixProjection.x) / matrixProjection.z,
+        (point.y * matrixModel.y + matrixProjection.y) / matrixProjection.w,
+        1.,
+        1.);
+}

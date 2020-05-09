@@ -1,5 +1,11 @@
 attribute vec3 vertex;
 
+uniform vec4 matrixProjection;
+
 void main() {
-    gl_Position = vec4(vertex.xy, 1., 1.);
+    gl_Position = vec4(
+        (vertex.x + matrixProjection.x) / matrixProjection.z,
+        (vertex.y + matrixProjection.y) / matrixProjection.w,
+        1.,
+        1.);
 }

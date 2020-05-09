@@ -1,7 +1,9 @@
 class 'Style'
 
 function Style:init()
-    self.attributes = {}
+    self.attributes = {
+        strokeWidth = 1
+    }
 end
 
 function Style:setAttribute(attribute_name, value, reset)
@@ -37,6 +39,6 @@ end
 
 function applyStyle()
     if love then
-        love.graphics.setPointSize(style.strokeWidth)
+        love.graphics.setPointSize(style.attributes.strokeWidth)
     end
 end

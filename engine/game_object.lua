@@ -1,13 +1,4 @@
-class 'GameObject'
-
-function GameObject:init()
-end
-
-function GameObject:update(dt)
-end
-
-function GameObject:draw()
-end
+GameObject = Component
 
 class 'Node' : extends(GameObject)
 
@@ -24,9 +15,27 @@ function Node:add(object)
     self.nodes:add(object)
 end
 
+function Node:setup()
+    for i,v in self.nodes:items() do
+        if v.setup then
+            v:setup()
+        end
+    end
+end
+
+function Node:release()
+    for i,v in self.nodes:items(true) do
+        if v.release then
+            v:release()
+        end
+    end
+end
+
 function Node:update(dt)
     for i,v in self.nodes:items() do
-        v:update(dt)
+        if v.update then
+            v:update(dt)
+        end
     end
 end
 
@@ -34,9 +43,11 @@ function Node:draw()
     if self.translate then
         translate(self.translate.x, self.translate.y)
     end
-    
+
     for i,v in self.nodes:items() do
-        v:draw()
+        if v.draw then
+            v:draw()
+        end
     end
 end
 

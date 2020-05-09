@@ -1,6 +1,8 @@
 class 'Shader'
 
 function Shader:init(name)
+    self.name = name
+    
     self.program_id = gl.glCreateProgram()
 
     self.vertex_id = self:build(gl.GL_VERTEX_SHADER, name, 'vertex')
@@ -32,7 +34,7 @@ end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
     local shader_id = gl.glCreateShader(shaderType)
-    local source = io.open('graphics/shaders/'..shaderName..'.'..shaderExtension):read('*a')
+    local source = io.read('graphics/shaders/'..shaderName..'.'..shaderExtension)
 
     gl.glShaderSource(shader_id, source)
     gl.glCompileShader(shader_id)
@@ -56,10 +58,18 @@ function Shader:unuse()
     gl.glUseProgram(0)
 end
 
-function initShaders()
-    defaultShader = Shader('default')
+class 'ShaderManager' : extends(Component)
+
+function ShaderManager:setup()
+    shaders = {
+        default = Shader('default'),
+        text = Shader('text'),
+        point = Shader('point')
+    }
 end
 
-function releaseShaders()
-    defaultShader:release()
+function ShaderManager:release()
+    for shaderName,shader in pairs(shaders) do
+        shader:release()
+    end
 end

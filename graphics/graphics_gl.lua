@@ -1,4 +1,6 @@
 function mode()
+    sdl.SDL_GL_SetSwapInterval(0)
+
     gl.glEnable(gl.GL_DEPTH_TEST)
     gl.glDepthFunc(gl.GL_LEQUAL)
 
@@ -11,7 +13,6 @@ function mode()
         gl.GL_ONE, gl.GL_ONE_MINUS_SRC_ALPHA)
 
     gl.glEnable(gl.GL_TEXTURE_2D)
-
 end
 
 function background(clr)
@@ -23,34 +24,41 @@ function background(clr)
         gl.GL_DEPTH_BUFFER_BIT)
 end
 
+local meshPoints = Mesh()
+local buf = {}
 function point(x, y)
-    clr = stroke()
-
-    Mesh(Model.point(x, y)):render()
+    buf[1] = x 
+    buf[2] = y
+    points(buf)
 end
 
-local buffer, size_buffer
 function points(points)
     local n = #points / 2
 
-    if size_buffer == nil or size_buffer < n then
-        buffer = ffi.new('SDL_Point[?]', n)
-        size_buffer = n
-    end
-
-    for i=0,n-1 do
-        buffer[i].x = points[i*2+1]
-        buffer[i].y = points[i*2+2]
-    end
-
     clr = stroke()
     if clr then
-        Mesh(Model.points(points)):render()
+        meshPoints.points = points
+        meshPoints:render(shaders['point'], gl.GL_POINTS)
     end
 end
 
+TEXT_NEXT_Y = 0
+
+local meshText = Mesh()
+meshText.vertices = Model.rect(0, 0, 1, 1)
 function text(str, x, y)
+    str = tostring(str)
+
     clr = stroke()
-    if crl then
+    if clr then
+        local hText = ft.load_text(ft.hFont, str)
+        local img = Image():makeTexture(hText)
+
+        TEXT_NEXT_Y = y + img.surface.h
+
+        meshText:render(shaders['text'], gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+
+        img:release()
+        ft.release_text(hText)
     end
 end

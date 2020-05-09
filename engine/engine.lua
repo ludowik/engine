@@ -4,82 +4,54 @@ function Engine:init()
     assert(engine == nil)
     engine = self
 
-    self.ram = {
-        init = ram()
-    }
-    self.ram.current = self.ram.init
-    self.ram.min = self.ram.init
-    self.ram.max = self.ram.init
-    self.ram.release = self.ram.init
-
     self.app = Application()
-    self.nFrame = 1
+
+    self.active = true
+
+    self.memory = Memory()
+    self.frame_time = FrameTime()
+
+    self.components = Node()
+
+    self.components:add(self.memory)
+    self.components:add(self.frame_time)
+
+    self.components:add(sdl)
+    self.components:add(gl)
+    self.components:add(ShaderManager())
+    self.components:add(ft)
+    self.components:add(self)    
+end
+
+function Engine:setup()
+    setup()
 end
 
 function Engine:release()
-    self.app = nil
-
     gc()
-
-    self.ram.release = ram()
-
-    print('memory at init    : '..format_ram(self.ram.init))
-    print('memory min        : '..format_ram(self.ram.min))
-    print('memory max        : '..format_ram(self.ram.max))
-    print('memory variation  : '..format_ram(self.ram.max - self.ram.min))
-    print('memory at release : '..format_ram(self.ram.release))
 end
 
 function Engine:run()
-    self:setup(1024, 768)
+    self.components:setup()
 
-    engine.window, engine.context = sdl_init()
-    opengl_init()
-    
-    initShaders()
-    
-    engine.active = true
-    
     while engine.active do
-
-        sdl_events()
-        
-        mode()
-
-        self:update(1)
-        self:draw()
-
-        sdl.SDL_GL_SwapWindow(engine.window)
+        self.components:update(self.frame_time.delta_time)
+        self.components:draw()
     end
 
-    releaseShaders()
-    
-    opengl_release()
-    sdl_release(engine.window, engine.context)
-
-    self:release()
+    self.components:release()
 end
 
 function Engine:quit()
     engine.active = false
 end
 
-function Engine:setup(w, h)
-    W, H = w, h
-    setup()
-end
-
 function Engine:update(dt)
-    self.ram.current = ram()
-    
-    self.ram.min = math.min(self.ram.min, self.ram.current)
-    self.ram.max = math.max(self.ram.max, self.ram.current)
-
     update(dt)
 end
 
 function Engine:draw()
-    self.nFrame = self.nFrame + 1
+    mode()
 
     resetMatrix()
     do
@@ -88,9 +60,9 @@ function Engine:draw()
 
     resetMatrix()
     do
-        text(self.fps, 0, 0)
-        text(format_ram(self.ram.current), 0, 32)
-        text(tostring(mouse), 0, 96)
+        text(self.frame_time.fps, 0, 0)
+        text(format_ram(self.memory.ram.current), 0, TEXT_NEXT_Y)
+        text(tostring(mouse), 0, TEXT_NEXT_Y)
     end
 end
 
