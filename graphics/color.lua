@@ -1,10 +1,36 @@
-class 'Color'
+ffi = require 'ffi'
 
-function Color:init(r, g, b, a)
-    self.r = r
-    self.g = g or r
-    self.b = b or r
-    self.a = a or 1
+ffi.cdef [[
+    typedef union color {
+        struct {
+            float r;
+            float g;
+            float b;
+            float a;
+        };
+        float values[4];
+	} color;
+]]
+
+color_meta = ffi.metatype('color', {
+        __index = {            
+            tobytes = function (clr)
+                return clr.values
+            end,
+
+            set = function (clr, r, g, b, a)
+                clr.r = r or 0
+                clr.g = g or clr.r
+                clr.b = b or clr.r
+                clr.a = a or 1
+            end
+        }
+    })
+
+function Color(r, g, b, a)
+    local self = color_meta()
+    self:set(r, g, b, a)
+    return self
 end
 
 black = Color(0)

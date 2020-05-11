@@ -57,7 +57,10 @@ function OpenGL:setup()
         'glDisableVertexAttribArray',
         'glDrawArrays',
         'glGetAttribLocation',
+        'glGetActiveAttrib',
         'glGetUniformLocation',
+        'glGetActiveUniform',
+        'glGetActiveUniformName',
 
         -- uniform
         'glUniform1f',

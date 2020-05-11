@@ -13,8 +13,10 @@ function Application:__update(dt)
     self:update()
 end
 
-function Application:__draw()
+function Application:__draw()    
     self:draw()
+
+    resetMatrix()
     self.scene:draw()
 end
 
@@ -25,4 +27,5 @@ function Application:update(dt)
 end
 
 function Application:draw()
+    background(black)
 end

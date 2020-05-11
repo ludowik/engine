@@ -28,6 +28,26 @@ typedef intptr_t GLsizeiptr;
 #define GL_TRUE 1
 #define GL_FALSE 0
 
+#define GL_INVALID_ENUM 0x0500
+#define GL_INVALID_FRAMEBUFFER_OPERATION 0x0506
+#define GL_INVALID_INDEX 0xFFFFFFFFu
+#define GL_INVALID_OPERATION 0x0502
+#define GL_INVALID_VALUE 0x0501
+
+#define GL_ACTIVE_ATTRIBUTES 0x8B89
+#define GL_ACTIVE_ATTRIBUTE_MAX_LENGTH 0x8B8A
+#define GL_ACTIVE_PROGRAM 0x8259
+#define GL_ACTIVE_SUBROUTINES 0x8DE5
+#define GL_ACTIVE_SUBROUTINE_MAX_LENGTH 0x8E48
+#define GL_ACTIVE_SUBROUTINE_UNIFORMS 0x8DE6
+#define GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS 0x8E47
+#define GL_ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH 0x8E49
+#define GL_ACTIVE_TEXTURE 0x84E0
+#define GL_ACTIVE_UNIFORMS 0x8B86
+#define GL_ACTIVE_UNIFORM_BLOCKS 0x8A36
+#define GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH 0x8A35
+#define GL_ACTIVE_UNIFORM_MAX_LENGTH 0x8B87
+
 #define GL_LINE_SMOOTH 0x0B20
 
 #define GL_VERTEX_SHADER 0x8B31
@@ -149,7 +169,11 @@ void glPixelStorei(GLenum pname, GLint param);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
 
 GLint glGetAttribLocation(GLuint program, const GLchar *name);
+void glGetActiveAttrib(GLuint program​, GLuint index​, GLsizei bufSize​, GLsizei *length​, GLint *size​, GLenum *type​, GLchar *name​);
+
 GLint glGetUniformLocation(GLuint program, const GLchar *name);
+void glGetActiveUniform(GLuint program​, GLuint index​, GLsizei bufSize​, GLsizei *length​, GLint *size​, GLenum *type​, char *name​);
+void glGetActiveUniformName(GLuint program​, GLuint uniformIndex​, GLsizei bufSize​, GLsizei *length​, GLchar *uniformName​);
 
 void glUniform1f(GLint location, GLfloat v0);
 void glUniform2f(GLint location, GLfloat v0, GLfloat v1);
@@ -232,7 +256,11 @@ typedef void (*PFN_glPixelStorei)(GLenum pname, GLint param);
 typedef void (*PFN_glTexParameteri)(GLenum target, GLenum pname, GLint param);
 
 typedef GLint (*PFN_glGetAttribLocation)(GLuint program, const GLchar *name);
+typedef void (*PFN_glGetActiveAttrib)(GLuint program​, GLuint index​, GLsizei bufSize​, GLsizei *length​, GLint *size​, GLenum *type​, GLchar *name​);
+
 typedef GLint (*PFN_glGetUniformLocation)(GLuint program, const GLchar *name);
+typedef void (*PFN_glGetActiveUniform)(GLuint program​, GLuint index​, GLsizei bufSize​, GLsizei *length​, GLint *size​, GLenum *type​, char *name​);
+typedef void (*PFN_glGetActiveUniformName)(GLuint program​, GLuint uniformIndex​, GLsizei bufSize​, GLsizei *length​, GLchar *uniformName​);
 
 typedef void (*PFN_glUniform1f)(GLint location, GLfloat v0);
 typedef void (*PFN_glUniform2f)(GLint location, GLfloat v0, GLfloat v1);

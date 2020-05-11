@@ -15,6 +15,10 @@ function Node:add(object)
     self.nodes:add(object)
 end
 
+function Node:remove(i)
+    self.nodes:remove(i)
+end
+
 function Node:setup()
     for i,v in self.nodes:items() do
         if v.setup then

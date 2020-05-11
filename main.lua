@@ -2,8 +2,8 @@ if arg[#arg] == '-debug' then
     debugger.start()
 end
 
-if false then
-    require 'applications.stars'
+if true then
+    require 'applications.surface'
 
     if not love then
         require 'lib'
@@ -14,7 +14,7 @@ else
 
     require 'engine'
     
-    t = Buffer()
+    t = Buffer('int')
 
     for i=1,1000 do
         t[i] = i

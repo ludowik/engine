@@ -60,6 +60,8 @@ function Engine:draw()
 
     resetMatrix()
     do
+        stroke(white)
+        
         text(self.frame_time.fps, 0, 0)
         text(format_ram(self.memory.ram.current), 0, TEXT_NEXT_Y)
         text(tostring(mouse), 0, TEXT_NEXT_Y)

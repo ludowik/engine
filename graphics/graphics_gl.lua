@@ -15,7 +15,19 @@ function mode()
     gl.glEnable(gl.GL_TEXTURE_2D)
 end
 
-function background(clr)
+local __clr = Color()
+function temp_color(r, g, b, a)
+    if type(r) == 'cdata' then
+        return r
+    else
+        __clr:set(r, g, b, a)
+        return __clr
+    end
+end
+
+function background(clr, ...)
+    clr = temp_color(clr, ...)
+    
     gl.glClearColor(clr.r, clr.g, clr.b, clr.a)
     gl.glClearDepth(1)
 
@@ -24,41 +36,69 @@ function background(clr)
         gl.GL_DEPTH_BUFFER_BIT)
 end
 
-local meshPoints = Mesh()
-local buf = {}
-function point(x, y)
-    buf[1] = x 
-    buf[2] = y
-    points(buf)
+function point(...)
+    local buf = Buffer('float')
+
+    function point(x, y)
+        buf[1] = x 
+        buf[2] = y
+        points(buf)
+    end
+
+    point(...)
 end
 
-function points(points)
-    local n = #points / 2
+function points(...)
+    local meshPoints = Mesh()
+    meshPoints.shader = shaders['point']
 
-    clr = stroke()
-    if clr then
-        meshPoints.points = points
-        meshPoints:render(shaders['point'], gl.GL_POINTS)
+    function points(vertices)
+        local n = #vertices / 2
+
+        clr = stroke()
+        if clr then
+            meshPoints.points = vertices
+            meshPoints:render(meshPoints.shader, gl.GL_POINTS)
+        end
     end
+
+    points(...)
 end
 
-TEXT_NEXT_Y = 0
+function line(x1, y1, x2, y2)
+end
 
-local meshText = Mesh()
-meshText.vertices = Model.rect(0, 0, 1, 1)
-function text(str, x, y)
-    str = tostring(str)
+function text(...)
+    TEXT_NEXT_Y = 0
 
-    clr = stroke()
-    if clr then
-        local hText = ft.load_text(ft.hFont, str)
-        local img = Image():makeTexture(hText)
+    local meshText = Mesh()
+    meshText.vertices, meshText.texCoords = Model.rect(0, 0, 1, 1)
+    meshText.shader = shaders['text']
 
-        TEXT_NEXT_Y = y + img.surface.h
+    function text(str, x, y)
+        str = tostring(str)
 
-        meshText:render(shaders['text'], gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+        clr = stroke()
+        if clr then
+            local txt = ft.load_text(ft.hFont, str)
+            local img = Image():makeTexture(txt)
 
-        img:release()
-        ft.release_text(hText)
+            TEXT_NEXT_Y = y + img.surface.h
+
+            meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+
+            img:release()
+            ft.release_text(txt)
+        end
     end
+
+    text(...)
+end
+
+function sprite(image, x, y)
+    local meshSprite = Mesh()
+    meshSprite.vertices, meshSprite.texCoords = Model.rect(0, 0, 1, 1)
+    meshSprite.shader = shaders['sprite']
+    
+    meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, image, x, y, image.surface.w, image.surface.h)
 end

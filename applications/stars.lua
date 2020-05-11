@@ -2,7 +2,13 @@ require 'engine'
 
 class 'Star' : extends(GameObject)
 
+Star.batchRendering = false
+
 function Star:init()
+    if Star.batchRendering then
+        getmetatable(self).draw = nil
+    end
+
     self.position = vec2()
 
     self.r = random.random(5)
@@ -26,28 +32,32 @@ function Star:update(dt)
     end
 end
 
-function Star:_draw()
+function Star:draw()
     strokeWidth(math.floor(self.r * self.position:len() / MAX_DISTANCE))
-    point(self.position.x, self.position.y)
+    points(self.position)
 end
 
 function Application:setup()
-    MAX_STARS = 10000
-    MAX_DISTANCE = vec2(W, H):len()
+    MAX_STARS = 1000
+    MAX_DISTANCE = W / 2 -- vec2(W/2, H/2):len()
 
     self.scene.translate = vec2(W/2, H/2)
+
     self.stars = Node()
     self.scene:add(self.stars)
+
+    self.points = Buffer('float')
 
     self:addStars()
 end
 
-function Application:update(dt)
-    self:addStars()
-
-    if mouse.x > W/2 then
-        MAX_STARS = MAX_STARS + 100
+function Application:_update(dt)
+    local distance = engine.frame_time.fps - 60
+    if distance ~= 60 then
+        MAX_STARS = MAX_STARS + distance * 10
     end
+
+    self:addStars()
 end
 
 function Application:addStars(n)
@@ -55,6 +65,10 @@ function Application:addStars(n)
     if n > 0 then
         for i in range(n) do
             self.stars:add(Star())
+        end
+    else
+        for i in range(-n) do
+            self.stars:remove(self.stars:len())
         end
     end
 end
@@ -66,14 +80,17 @@ function Application:draw()
 
     stroke(white)
 
-    self.points = self.points or {}
-    local ref = 1
-    for i,v in self.stars.nodes:items() do
-        self.points[ref  ] = v.position.x
-        self.points[ref+1] = v.position.y
-        ref = ref + 2
+    if Star.batchRendering then
+        self.points:reset()
+        
+        local ref = 1
+        for i,v in self.stars.nodes:items() do
+            self.points[ref  ] = v.position.x
+            self.points[ref+1] = v.position.y
+            ref = ref + 2
+        end
+        points(self.points)
     end
-    points(self.points)
 
     text(self.stars:len(), 0, 200)
 end

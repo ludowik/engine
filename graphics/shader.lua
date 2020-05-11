@@ -2,7 +2,7 @@ class 'Shader'
 
 function Shader:init(name)
     self.name = name
-    
+
     self.program_id = gl.glCreateProgram()
 
     self.vertex_id = self:build(gl.GL_VERTEX_SHADER, name, 'vertex')
@@ -13,6 +13,60 @@ function Shader:init(name)
     local err = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
     if err == gl.GL_FALSE then
         print(gl.glGetProgramInfoLog(self.program_id))
+    end
+
+    self:initAttributes()
+    self:initUniforms()
+end
+
+function Shader:initAttributes()
+    self.attributes = {}
+
+    local attributeName = ffi.new('char[64]')
+
+    local length_ptr = ffi.new('GLsizei[1]')
+    local size_ptr = ffi.new('GLint[1]')
+    local type_ptr = ffi.new('GLenum[1]')
+
+    local activeAttributes = gl.glGetProgramiv(self.program_id, gl.GL_ACTIVE_ATTRIBUTES)
+    for i=1,activeAttributes do
+        gl.glGetActiveAttrib(self.program_id,
+            i-1,
+            64,
+            length_ptr,
+            size_ptr,
+            type_ptr,
+            attributeName)
+
+        self.attributes[ffi.string(attributeName)] = {
+            attribLocation = gl.glGetAttribLocation(self.program_id, attributeName),
+            id = gl.glGenBuffer()
+        }
+    end
+end
+
+function Shader:initUniforms()
+    self.uniforms = {}
+
+    local uniformName = ffi.new('char[64]')
+
+    local length_ptr = ffi.new('GLsizei[1]')
+    local size_ptr = ffi.new('GLint[1]')
+    local type_ptr = ffi.new('GLenum[1]')
+
+    local activeUniforms = gl.glGetProgramiv(self.program_id, gl.GL_ACTIVE_UNIFORMS)
+    for i=1,activeUniforms do
+        gl.glGetActiveUniform(self.program_id,
+            i-1,
+            64,
+            length_ptr,
+            size_ptr,
+            type_ptr,
+            uniformName)
+
+        self.uniforms[ffi.string(uniformName)] = {
+            uniformLocation = gl.glGetUniformLocation(self.program_id, uniformName)
+        }
     end
 end
 
@@ -63,8 +117,9 @@ class 'ShaderManager' : extends(Component)
 function ShaderManager:setup()
     shaders = {
         default = Shader('default'),
+        point = Shader('point'),
+        sprite = Shader('text'),
         text = Shader('text'),
-        point = Shader('point')
     }
 end
 

@@ -1,7 +1,7 @@
 ffi = require 'ffi'
 
 ffi.cdef [[
-    typedef union {
+    typedef union vec2 {
         struct {
             float x;
             float y;
@@ -46,8 +46,16 @@ vec2 = ffi.metatype('vec2', {
                     self.y = self.y * coef / len
                 end
                 return self
+            end,
+
+            tobytes = function (clr)
+                return clr.values
             end
-        }
+        },
+
+        __len = function (clr)
+            return 2
+        end
     }
 )
 

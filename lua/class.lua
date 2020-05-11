@@ -31,7 +31,7 @@ function class(className)
         __call = function (_, ...)
             local instance = {}
             setmetatable(instance, k)
-            k.init(instance, ...)
+            instance = k.init(instance, ...) or instance
             return instance
         end,
     }

@@ -1,12 +1,36 @@
 class 'Image'
 
-function Image:init()
+function Image:init(w, h)
+    if w and h then
+        self:create(w, h)
+    end
+end
+
+function Image:create(w, h)
+    local surface = {
+        w = w,
+        h = h,
+
+        size = w * h * 4,
+
+        format = {
+            BytesPerPixel = 4,
+            Rmask = 0xff
+        }
+    }
+
+    surface.pixels = ffi.new('GLubyte[?]', surface.size)
+
+    self:makeTexture(surface)
 end
 
 function Image:makeTexture(surface)
-    self.surface = surface
-    
-    self.texture_id = gl.glGenTexture()
+    if surface then
+        self.surface = surface
+    end
+
+    self.texture_id = self.texture_id or gl.glGenTexture()
+
     gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture_id)
 
     local internalFormat = gl.GL_RGBA
@@ -50,7 +74,7 @@ function Image:makeTexture(surface)
     gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, gl.GL_CLAMP_TO_EDGE)
 
     gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
-    
+
     return self
 end
 
