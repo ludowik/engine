@@ -5,7 +5,7 @@ function random.range(min, max)
     if not max then
         min, max = 1, min
     end
-    return (random.random() * 2^8) % (max - min) + min
+    return (random.random() * max ^ 2) % (max - min) + min
 end
 
 function random.random(min, max)
