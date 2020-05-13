@@ -26,13 +26,25 @@ vec2 = ffi.metatype('vec2', {
                 return self
             end,
 
+            random = function (self, w, h)
+                if w then
+                    return vec2(
+                        random.range(w),
+                        random.range(h or w))
+                else
+                    return vec2(
+                        random.random(),
+                        random.random())
+                end
+            end,
+            
             add = function (self, v, coef)
                 coef = coef or 1
                 self.x = self.x + v.x * coef
                 self.y = self.y + v.y * coef                
                 return self
             end,
-            
+
             sub = function (self, v, coef)
                 coef = coef or 1
                 self.x = self.x - v.x * coef

@@ -27,7 +27,6 @@ function buffer_meta.__len(buffer)
 end
 
 function buffer_meta.__gc(buffer)
-    assert()
     ffi.C.free(buffer.data)
 end
 
@@ -63,6 +62,10 @@ function buffer_meta.__index(buffer, key)
     else
         return rawget(buffer_meta, key)
     end
+end
+
+function buffer_meta.insert(buffer, value)
+    buffer[#buffer] = value
 end
 
 function buffer_meta.reset(buffer)

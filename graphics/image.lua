@@ -19,7 +19,7 @@ function Image:create(w, h)
         }
     }
 
-    surface.pixels = ffi.new('GLubyte[?]', surface.size)
+    surface.pixels = ffi.new('GLubyte[?]', surface.size, 255)
 
     self:makeTexture(surface)
 end

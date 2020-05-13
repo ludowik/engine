@@ -27,7 +27,7 @@ end
 
 function background(clr, ...)
     clr = temp_color(clr, ...)
-    
+
     gl.glClearColor(clr.r, clr.g, clr.b, clr.a)
     gl.glClearDepth(1)
 
@@ -68,6 +68,27 @@ end
 function line(x1, y1, x2, y2)
 end
 
+function circle(...)
+    local meshCircle = Mesh()
+    meshCircle.vertices = Model.circle(0, 0, 1)
+    meshCircle.shader = shaders['default']
+
+    function circle(x, y, r)
+        meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x, y, r, r)
+    end
+
+    circle(...)
+end
+
+
+function sprite(image, x, y)
+    local meshSprite = Mesh()
+    meshSprite.vertices, meshSprite.texCoords = Model.rect(0, 0, 1, 1)
+    meshSprite.shader = shaders['sprite']
+
+    meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, image, x, y, image.surface.w, image.surface.h)
+end
+
 function text(...)
     TEXT_NEXT_Y = 0
 
@@ -93,12 +114,4 @@ function text(...)
     end
 
     text(...)
-end
-
-function sprite(image, x, y)
-    local meshSprite = Mesh()
-    meshSprite.vertices, meshSprite.texCoords = Model.rect(0, 0, 1, 1)
-    meshSprite.shader = shaders['sprite']
-    
-    meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, image, x, y, image.surface.w, image.surface.h)
 end

@@ -1,7 +1,10 @@
 attribute vec3 vertex;
+attribute vec2 texCoords;
 
 uniform vec4 matrixModel;
 uniform vec4 matrixProjection;
+
+varying vec2 vTexCoords;
 
 void main() {
     gl_Position = vec4(
@@ -9,4 +12,6 @@ void main() {
         (vertex.y * matrixModel.y + matrixProjection.y) / matrixProjection.w,
         1.,
         1.);
+    
+    vTexCoords = texCoords;
 }

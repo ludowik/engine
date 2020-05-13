@@ -118,7 +118,7 @@ function ShaderManager:setup()
     shaders = {
         default = Shader('default'),
         point = Shader('point'),
-        sprite = Shader('text'),
+        sprite = Shader('sprite'),
         text = Shader('text'),
     }
 end
