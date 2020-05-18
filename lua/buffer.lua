@@ -4,6 +4,8 @@ ffi.cdef [[
     void* malloc(size_t __size);
     void* realloc(void *__ptr, size_t __size);
     
+    void* memmove(void *destination, const void *source, size_t num);
+    
     void free(void *__ptr);
 ]]
 
@@ -37,12 +39,12 @@ function buffer_meta.__newindex(buffer, key, value)
 
             buffer.available = max(buffer.available * 2, key)
             buffer.size = buffer.available * buffer.sizeof_ctype
-            
+
             buffer.data = ffi.cast(ffi.typeof(buffer.data),
                 ffi.C.realloc(
                     buffer.data,
                     buffer.size))
-            
+
             assert(buffer.data)
 
         end
@@ -65,7 +67,7 @@ function buffer_meta.__index(buffer, key)
 end
 
 function buffer_meta.insert(buffer, value)
-    buffer[#buffer] = value
+    buffer[#buffer+1] = value
 end
 
 function buffer_meta.reset(buffer)
@@ -78,13 +80,13 @@ end
 
 local buffer_classes = {}
 
-function Buffer(ct)
+function Buffer(ct, ...)
     ct = ct or 'float'
 
     local buffer_class = buffer_classes[ct]
-    
+
     if buffer_classes[ct] == nil then
-        
+
         buffer_class = {
             ct = ct,
             ctype = ffi.typeof(ct..'*'),
@@ -106,8 +108,14 @@ function Buffer(ct)
         buffer_class.meta = ffi.metatype('buffer', buffer_meta)
 
         buffer_classes[ct] = buffer_class
-        
+
+    end
+
+    local buffer = buffer_class.meta():__init(buffer_class)
+
+    for i,v in ipairs {...} do
+        buffer[i] = v
     end
     
-    return buffer_class.meta():__init(buffer_class)
+    return buffer
 end

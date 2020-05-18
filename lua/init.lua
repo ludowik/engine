@@ -23,3 +23,5 @@ end
 io.read = function (fileName)
     return io.open(fileName):read('*a')
 end
+
+NL = '\n'

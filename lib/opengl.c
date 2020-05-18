@@ -150,6 +150,7 @@ void glDeleteShader(GLuint shader);
 void glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 void glLinkProgram(GLuint program);
 void glGetProgramiv(	GLuint program, GLenum pname, GLint *params);
+void glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 void glUseProgram(GLuint program);
 
 GLboolean glIsBuffer(GLuint buffer);
@@ -237,6 +238,7 @@ typedef void (*PFN_glDeleteShader)(GLuint shader);
 typedef void (*PFN_glGetShaderInfoLog)(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 typedef void (*PFN_glLinkProgram)(GLuint program);
 typedef void (*PFN_glGetProgramiv)(GLuint program, GLenum pname, GLint *params);
+typedef void (*PFN_glGetProgramInfoLog)(GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 typedef void (*PFN_glUseProgram)(GLuint program);
 
 typedef GLboolean (*PFN_glIsBuffer)(GLuint buffer);

@@ -10,33 +10,29 @@ local sizeofFloat = 4 -- ffi.sizeof('GLfloat')
 
 function MeshRender:sendAttribute(attributeName, data, nComponents)
     local attribute = self.shader.attributes[attributeName]
-    if attribute and attribute.attribLocation >= 0 then
-        local n = #data
 
+    if attribute then
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
 
-        local bytes
-        if type(data) == 'table' then
-            if attribute.bytes == nil or attribute.bytes_size < n then
-                attribute.bytes = ffi.new('GLfloat[?]', n)
-                attribute.bytes_size = n
+        local n = #data
+        if not attribute.sent or attribute.sent ~= n then
+            attribute.sent = n
+
+            local bytes
+            if type(data) == 'table' then
+                assert()
+            else
+                bytes = data:tobytes()
             end
 
-            for i=1,n do
-                attribute.bytes[i-1] = data[i]
-            end
-
-            bytes = attribute.bytes
-        else
-            bytes = data:tobytes()
+            gl.glBufferData(gl.GL_ARRAY_BUFFER, n * sizeofFloat, bytes, gl.GL_STATIC_DRAW)
         end
-
-        gl.glBufferData(gl.GL_ARRAY_BUFFER, n * sizeofFloat, bytes, gl.GL_STATIC_DRAW)
 
         gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
         gl.glEnableVertexAttribArray(attribute.attribLocation)
 
         return attribute
+
     end
 end
 
@@ -60,28 +56,20 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
         local pointAttrib = self:sendAttribute('point', self.points, 2)
         local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
 
-        if img then
-            local textureUniforms = shader.uniforms.tex0.uniformLocation
-            gl.glUniform1i(textureUniforms, 0)
-
+        if img and shader.uniforms.tex0 then
+            gl.glUniform1i(shader.uniforms.tex0.uniformLocation, 0)
             img:use(gl.GL_TEXTURE0)
         end
 
-        local matrixProjectionUniforms = shader.uniforms.matrixProjection.uniformLocation
-        if matrixProjectionUniforms >= 0 then
-            gl.glUniform4f(matrixProjectionUniforms,
-                x + transform.x,
-                y + transform.y,
-                transform.w,
-                transform.h
-            )
-        end
+        if shader.uniforms.matrixProjection then
+            local matrixProjection = pvMatrix()
 
-        local matrixModelUniforms = shader.uniforms.matrixModel.uniformLocation
-        if matrixModelUniforms >= 0 then
-            gl.glUniform4f(matrixModelUniforms,
-                w, h, 0, 0
-            )
+            local matrixModel = modelMatrix()
+            :translate(x, y, 0)
+            :scale(w, h, 1)
+
+            gl.glUniformMatrix4fv(shader.uniforms.matrixProjection.uniformLocation, 1, gl.GL_TRUE, matrixProjection:tobytes())
+            gl.glUniformMatrix4fv(shader.uniforms.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
         end
 
         if vertexAttrib then

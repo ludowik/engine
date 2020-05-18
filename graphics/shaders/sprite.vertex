@@ -1,17 +1,13 @@
 attribute vec3 vertex;
 attribute vec2 texCoords;
 
-uniform vec4 matrixModel;
-uniform vec4 matrixProjection;
+uniform mat4 matrixModel;
+uniform mat4 matrixProjection;
 
 varying vec2 vTexCoords;
 
 void main() {
-    gl_Position = vec4(
-        (vertex.x * matrixModel.x + matrixProjection.x) / matrixProjection.z,
-        (vertex.y * matrixModel.y + matrixProjection.y) / matrixProjection.w,
-        1.,
-        1.);
+    gl_Position = matrixProjection * matrixModel * vec4(vertex.xyz, 1.);
     
     vTexCoords = texCoords;
 }

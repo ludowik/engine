@@ -80,6 +80,7 @@ end
 
 function Image:release()
     gl.glDeleteTexture(self.texture_id)
+    self.surface.pixels = nil
 end
 
 function Image:use(index)
@@ -91,4 +92,27 @@ end
 
 function Image:unuse()
     gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
+end
+
+function Image:fragment(f)
+    local fragColor
+
+    local fragIndex = 0
+
+    for x=1,self.surface.w do
+        for y=1,self.surface.h do
+
+            fragColor = f(x, y)
+
+            self.surface.pixels[fragIndex  ] = fragColor.r * 255
+            self.surface.pixels[fragIndex+1] = fragColor.g * 255
+            self.surface.pixels[fragIndex+2] = fragColor.b * 255
+            self.surface.pixels[fragIndex+3] = fragColor.a * 255
+            
+            fragIndex = fragIndex + 4
+
+        end
+    end
+
+    self:makeTexture()
 end

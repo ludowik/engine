@@ -116,10 +116,16 @@ class 'ShaderManager' : extends(Component)
 
 function ShaderManager:setup()
     shaders = {
-        default = Shader('default'),
-        point = Shader('point'),
-        sprite = Shader('sprite'),
-        text = Shader('text'),
+        default  = Shader('default'),
+        point    = Shader('point'),
+        line     = Shader('point'),
+        polyline = Shader('point'),
+        polygon  = Shader('point'),
+        ellipse  = Shader('default'),
+        rect     = Shader('default'),
+        sprite   = Shader('sprite'),
+        text     = Shader('text'),
+        box      = Shader('sprite'),
     }
 end
 

@@ -2,6 +2,7 @@ class 'Style'
 
 function Style:init()
     self.attributes = {
+        stroke = white,
         strokeWidth = 1
     }
 end
