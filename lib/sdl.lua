@@ -30,9 +30,6 @@ function Sdl:setup()
         self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
         self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
 
-        W = 1280
-        H = math.floor(W*9/16)
-
         local window, context
 
         window = self.SDL_CreateWindow('resurection',

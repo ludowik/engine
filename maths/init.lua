@@ -1,3 +1,5 @@
-require 'maths.vector'
+require 'maths.math'
+require 'maths.vec2'
+require 'maths.vec3'
 require 'maths.matrix'
 require 'maths.transform'

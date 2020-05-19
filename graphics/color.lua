@@ -23,6 +23,13 @@ color_meta = ffi.metatype('color', {
                 clr.g = g or clr.r
                 clr.b = b or clr.r
                 clr.a = a or 1
+                
+                if clr.r > 1 then
+                    clr.r = clr.r / 255
+                    clr.g = clr.g / 255
+                    clr.b = clr.b / 255
+                    clr.a = clr.a / 255
+                end
             end
         }
     })

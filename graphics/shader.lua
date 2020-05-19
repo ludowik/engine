@@ -22,7 +22,8 @@ end
 function Shader:initAttributes()
     self.attributes = {}
 
-    local attributeName = ffi.new('char[64]')
+    local attributeNameLen = 64
+    local attributeName = ffi.new('char[?]', attributeNameLen)
 
     local length_ptr = ffi.new('GLsizei[1]')
     local size_ptr = ffi.new('GLint[1]')
@@ -32,7 +33,7 @@ function Shader:initAttributes()
     for i=1,activeAttributes do
         gl.glGetActiveAttrib(self.program_id,
             i-1,
-            64,
+            attributeNameLen,
             length_ptr,
             size_ptr,
             type_ptr,
@@ -116,10 +117,16 @@ class 'ShaderManager' : extends(Component)
 
 function ShaderManager:setup()
     shaders = {
-        default = Shader('default'),
-        point = Shader('point'),
-        sprite = Shader('text'),
-        text = Shader('text'),
+        default  = Shader('default'),
+        point    = Shader('point'),
+        line     = Shader('point'),
+        polyline = Shader('point'),
+        polygon  = Shader('point'),
+        ellipse  = Shader('default'),
+        rect     = Shader('default'),
+        sprite   = Shader('sprite'),
+        text     = Shader('text'),
+        box      = Shader('sprite'),
     }
 end
 

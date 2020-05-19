@@ -2,8 +2,8 @@ include_dirs = '/Library/Frameworks/FreeType.framework/Headers'
 
 if os.name == 'osx' then
     os.execute([[
-        gcc -arch x86_64 -m64 -Wmissing-field-initializers -W -Wall -g -fPIC -shared\
-            -I /Library/Frameworks/FreeType.framework/Headers\
+        gcc -m64 -shared \
+            -I /Library/Frameworks/FreeType.framework/Headers \
             -o lib/freetype.so lib/freetype.c /Library/Frameworks/FreeType.framework/FreeType
     ]])
 else

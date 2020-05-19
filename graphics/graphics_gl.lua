@@ -15,6 +15,40 @@ function mode()
     gl.glEnable(gl.GL_TEXTURE_2D)
 end
 
+local currentBlendMode = NORMAL
+function blendMode(mode)
+    if mode then
+        if currentBlendMode ~= mode then
+            currentBlendMode = mode
+
+            if mode == NORMAL then
+                gl.glEnable(gl.GL_BLEND)
+                gl.glBlendEquation(gl.GL_FUNC_ADD)
+--                gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
+                gl.glBlendFuncSeparate(
+                    gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA, 
+                    gl.GL_ONE, gl.GL_ONE_MINUS_SRC_ALPHA)
+
+            elseif mode == ADDITIVE then
+                gl.glEnable(gl.GL_BLEND)
+                gl.glBlendEquation(gl.GL_FUNC_ADD)
+                gl.glBlendFunc(gl.GL_ONE, gl.GL_ONE)
+
+            elseif mode == MULTIPLY then
+                gl.glEnable(gl.GL_BLEND)
+                gl.glBlendEquation(gl.GL_FUNC_ADD)
+                gl.glBlendFuncSeparate(
+                    gl.GL_DST_COLOR, gl.GL_ZERO,
+                    gl.GL_DST_ALPHA, gl.GL_ZERO)
+
+            else
+                assert(false, mode)
+            end
+        end
+    end
+    return currentBlendMode
+end
+
 local __clr = Color()
 function temp_color(r, g, b, a)
     if type(r) == 'cdata' then
@@ -27,7 +61,7 @@ end
 
 function background(clr, ...)
     clr = temp_color(clr, ...)
-    
+
     gl.glClearColor(clr.r, clr.g, clr.b, clr.a)
     gl.glClearDepth(1)
 
@@ -53,8 +87,6 @@ function points(...)
     meshPoints.shader = shaders['point']
 
     function points(vertices)
-        local n = #vertices / 2
-
         clr = stroke()
         if clr then
             meshPoints.points = vertices
@@ -65,7 +97,104 @@ function points(...)
     points(...)
 end
 
-function line(x1, y1, x2, y2)
+function line(...)
+    local buf = Buffer('float')
+
+    function line(x1, y1, x2, y2)
+        buf[1] = x1
+        buf[2] = y1
+        buf[3] = x2
+        buf[3] = y2
+        lines(buf)
+    end
+
+    line(...)
+end
+
+function lines(...)
+    local meshPoints = Mesh()
+    meshPoints.shader = shaders['line']
+
+    function lines(vertices)
+        clr = stroke()
+        if clr then
+            meshPoints.points = vertices
+            meshPoints:render(meshPoints.shader, gl.GL_LINES)
+        end
+    end
+
+    lines(...)
+end
+
+function polyline(...)
+    local meshPolyline = Mesh()
+    meshPolyline.shader = shaders['polyline']
+
+    function polyline(vertices)
+        clr = stroke()
+        if clr then
+            meshPolyline.points = vertices
+            meshPolyline:render(meshPolyline.shader, gl.GL_LINE_STRIP)
+        end
+    end
+
+    polyline(...)
+end
+
+function polygon(...)
+    local meshPolygon = Mesh()
+    meshPolygon.shader = shaders['polygon']
+
+    function polygon(vertices)
+        clr = stroke()
+        if clr then
+            meshPolygon.points = vertices
+            meshPolygon:render(meshPolygon.shader, gl.GL_LINE_LOOP)
+        end
+    end
+
+    polygon(...)
+end
+
+function rect(...)
+    local meshRect = Mesh()
+    meshRect.vertices = Model.rect(0, 0, 1, 1)
+    meshRect.shader = shaders['rect']
+
+    function rect(x, y, w, h)
+        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+    end
+
+    rect(...)
+end
+
+function circle(x, y, r)
+    ellipse(x, y, r*2, r*2)
+end
+
+function ellipse(...)
+    local meshEllipse = Mesh()
+    meshEllipse.vertices = Model.ellipse(0, 0, 1, 1)
+    meshEllipse.shader = shaders['ellipse']
+
+    function ellipse(x, y, w, h)
+        h = h or w 
+        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+    end
+
+    ellipse(...)
+end
+
+function sprite(...)
+    local meshSprite = Mesh()
+    meshSprite.vertices, meshSprite.texCoords = Model.rect(0, 0, 1, 1)
+    meshSprite.shader = shaders['sprite']
+
+    function sprite(img, x, y)
+        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+    end
+
+    sprite(...)
 end
 
 function text(...)
@@ -95,10 +224,14 @@ function text(...)
     text(...)
 end
 
-function sprite(image, x, y)
-    local meshSprite = Mesh()
-    meshSprite.vertices, meshSprite.texCoords = Model.rect(0, 0, 1, 1)
-    meshSprite.shader = shaders['sprite']
-    
-    meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, image, x, y, image.surface.w, image.surface.h)
+function box(...)
+    local mesh = Mesh()
+    mesh.vertices, mesh.texCoords = Model.box()
+    mesh.shader = shaders['box']
+
+    function box(img)
+        mesh:render(mesh.shader, gl.GL_TRIANGLES, img)
+    end
+
+    box(...)
 end

@@ -44,7 +44,8 @@ function OpenGL:setup()
         'glGetShaderiv',
         'glGetShaderInfoLog',
         'glLinkProgram',
-        'glGetProgramiv',   
+        'glGetProgramiv',
+        'glGetProgramInfoLog',
         'glUseProgram',
 
         -- buffer
@@ -175,6 +176,11 @@ function OpenGL:setup()
         idptr[0] = id
         self.glDeleteTextures(1, idptr)
     end
+
+    background(black)
+    sdl.SDL_GL_SwapWindow(sdl.window)
+    background(black)
+
 end
 
 function OpenGL:release()

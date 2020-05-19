@@ -1,9 +1,15 @@
 if arg[#arg] == '-debug' then
     debugger.start()
+    debugging = true
 end
 
+jit.off()
+
+print(jit.version)
+
 if true then
-    require 'applications.surface'
+
+    require 'applications.dots'
 
     if not love then
         require 'lib'
@@ -13,7 +19,7 @@ if true then
 else
 
     require 'engine'
-    
+
     t = Buffer('int')
 
     for i=1,1000 do
@@ -25,7 +31,7 @@ else
     end
 
     print(#t)
-    
-    buffer_meta.__gc(t)
-end
 
+    buffer_meta.__gc(t)
+
+end

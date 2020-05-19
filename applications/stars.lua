@@ -2,7 +2,7 @@ require 'engine'
 
 class 'Star' : extends(GameObject)
 
-Star.batchRendering = false
+Star.batchRendering = true
 
 function Star:init()
     if Star.batchRendering then
@@ -38,7 +38,7 @@ function Star:draw()
 end
 
 function Application:setup()
-    MAX_STARS = 1000
+    MAX_STARS = 10000
     MAX_DISTANCE = W / 2 -- vec2(W/2, H/2):len()
 
     self.scene.translate = vec2(W/2, H/2)

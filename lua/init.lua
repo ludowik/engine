@@ -27,3 +27,5 @@ end
 io.write = function (fileName, content)
     return io.open(fileName, "wt"):write(content)
 end
+
+NL = '\n'

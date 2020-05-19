@@ -20,7 +20,13 @@ function Engine:init()
     self.components:add(gl)
     self.components:add(ShaderManager())
     self.components:add(ft)
-    self.components:add(self)    
+    self.components:add(self)
+
+    W = 1280
+    H = math.floor(W*9/16)
+    
+    WIDTH = W
+    HEIGHT = H
 end
 
 function Engine:setup()
@@ -61,10 +67,11 @@ function Engine:draw()
     resetMatrix()
     do
         stroke(white)
-        
+
         text(self.frame_time.fps, 0, 0)
         text(format_ram(self.memory.ram.current), 0, TEXT_NEXT_Y)
         text(tostring(mouse), 0, TEXT_NEXT_Y)
+        text(jit.status(), 0, TEXT_NEXT_Y)
     end
 end
 
