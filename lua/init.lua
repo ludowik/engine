@@ -23,3 +23,7 @@ end
 io.read = function (fileName)
     return io.open(fileName):read('*a')
 end
+
+io.write = function (fileName, content)
+    return io.open(fileName, "wt"):write(content)
+end

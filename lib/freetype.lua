@@ -1,10 +1,18 @@
 include_dirs = '/Library/Frameworks/FreeType.framework/Headers'
 
-os.execute([[
-    gcc -arch x86_64 -m64 -Wmissing-field-initializers -W -Wall -g -fPIC -shared\
-        -I /Library/Frameworks/FreeType.framework/Headers\
-        -o lib/freetype.so lib/freetype.c /Library/Frameworks/FreeType.framework/FreeType
-]])
+if os.name == 'osx' then
+    os.execute([[
+        gcc -arch x86_64 -m64 -Wmissing-field-initializers -W -Wall -g -fPIC -shared\
+            -I /Library/Frameworks/FreeType.framework/Headers\
+            -o lib/freetype.so lib/freetype.c /Library/Frameworks/FreeType.framework/FreeType
+    ]])
+else
+    io.write('compile.bat', [[
+        set path=%path%;C:/Tools/MinGW/bin;
+        gcc.exe -Wmissing-field-initializers -W -Wall -g -fPIC -shared -I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include" -o lib/freetype.dll lib/freetype.c "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll"
+    ]])
+    
+end
 
 ffi.cdef([[
     typedef void* Handle;
@@ -31,7 +39,7 @@ ffi.cdef([[
     void release_text(Glyph glyph);
 ]])
 
-class 'FreeType' : meta(ffi.load('./lib/freetype.so'))
+class 'FreeType' : meta(ffi.load('./lib/freetype.dll'))
 
 function FreeType:setup()
     self.hLib = self.init_module()
