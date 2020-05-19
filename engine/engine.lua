@@ -24,6 +24,9 @@ function Engine:init()
 
     W = 1280
     H = math.floor(W*9/16)
+    
+    WIDTH = W
+    HEIGHT = H
 end
 
 function Engine:setup()
@@ -50,7 +53,6 @@ function Engine:quit()
 end
 
 function Engine:update(dt)
-    gc()
     update(dt)
 end
 

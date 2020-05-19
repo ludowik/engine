@@ -15,6 +15,40 @@ function mode()
     gl.glEnable(gl.GL_TEXTURE_2D)
 end
 
+local currentBlendMode = NORMAL
+function blendMode(mode)
+    if mode then
+        if currentBlendMode ~= mode then
+            currentBlendMode = mode
+
+            if mode == NORMAL then
+                gl.glEnable(gl.GL_BLEND)
+                gl.glBlendEquation(gl.GL_FUNC_ADD)
+--                gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
+                gl.glBlendFuncSeparate(
+                    gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA, 
+                    gl.GL_ONE, gl.GL_ONE_MINUS_SRC_ALPHA)
+
+            elseif mode == ADDITIVE then
+                gl.glEnable(gl.GL_BLEND)
+                gl.glBlendEquation(gl.GL_FUNC_ADD)
+                gl.glBlendFunc(gl.GL_ONE, gl.GL_ONE)
+
+            elseif mode == MULTIPLY then
+                gl.glEnable(gl.GL_BLEND)
+                gl.glBlendEquation(gl.GL_FUNC_ADD)
+                gl.glBlendFuncSeparate(
+                    gl.GL_DST_COLOR, gl.GL_ZERO,
+                    gl.GL_DST_ALPHA, gl.GL_ZERO)
+
+            else
+                assert(false, mode)
+            end
+        end
+    end
+    return currentBlendMode
+end
+
 local __clr = Color()
 function temp_color(r, g, b, a)
     if type(r) == 'cdata' then

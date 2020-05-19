@@ -9,7 +9,7 @@ print(jit.version)
 
 if true then
 
-    require 'applications.default'
+    require 'applications.dots'
 
     if not love then
         require 'lib'

@@ -93,9 +93,11 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 end
 
 function MeshRender:sendUniforms(shader)
-    local strokeLocation = gl.glGetUniformLocation(shader.program_id, 'stroke')
-    if strokeLocation >= 0 then
-        gl.glUniform4fv(strokeLocation, 1, stroke():tobytes())
+    if shader.uniforms.stroke and stroke() then
+        gl.glUniform4fv(shader.uniforms.stroke.uniformLocation, 1, stroke():tobytes())
+    end
+    if shader.uniforms.fill and fill() then
+        gl.glUniform4fv(shader.uniforms.fill.uniformLocation, 1, fill():tobytes())
     end
 end
 
