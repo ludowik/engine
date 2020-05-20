@@ -48,10 +48,10 @@ function draw()
             circle(x+xx, y, radius)
             
             fill(green)
---            circle(x+yy/2, y+yy, radius)
+            circle(x+yy/2, y+yy, radius)
 
             fill(blue)
---            circle(x, y, radius)
+            circle(x, y, radius)
         end
     end
 end

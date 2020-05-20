@@ -65,6 +65,7 @@ function Engine:draw()
     end
 
     resetMatrix()
+    blendMode(NORMAL)
     do
         stroke(white)
 
