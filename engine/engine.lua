@@ -42,7 +42,7 @@ function Engine:run()
 
     while engine.active do
         self.components:update(self.frame_time.delta_time)
-        self.components:draw()
+        self.components:draw()            
     end
 
     self.components:release()

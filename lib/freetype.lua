@@ -9,7 +9,7 @@ if os.name == 'osx' then
 else
     io.write('compile.bat', [[
         set path=%path%;C:/Tools/MinGW/bin;
-        gcc.exe -Wmissing-field-initializers -W -Wall -g -fPIC -shared -I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include" -o lib/freetype.dll lib/freetype.c "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll"
+        gcc.exe -shared -I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include" -o lib/ft.dll lib/freetype.c -L"C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32" -lfreetype
     ]])
     
 end
@@ -39,11 +39,17 @@ ffi.cdef([[
     void release_text(Glyph glyph);
 ]])
 
-class 'FreeType' : meta(ffi.load('./lib/freetype.dll'))
+ffi.load('C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll')
+
+class 'FreeType' : meta(ffi.load('./lib/ft.dll'))
 
 function FreeType:setup()
     self.hLib = self.init_module()
-    self.hFont = self.load_font(self.hLib, '/Users/lca/Projets/Lua/engine/res/fonts/Arial.ttf', 8)
+    if os.name == 'osx' then
+        self.hFont = self.load_font(self.hLib, '/Users/lca/Projets/Lua/engine/res/fonts/Arial.ttf', 8)
+    else
+        self.hFont = self.load_font(self.hLib, 'C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Lua/engine/res/fonts/Arial.ttf', 8)
+    end
 end
 
 function FreeType:release()

@@ -7,7 +7,8 @@ local lib_path
 if os.name == 'osx' then 
     lib_path = 'SDL2.framework/SDL2'
 else
-    lib_path = '../../Libraries/bin/SDL2'
+    --lib_path = '../../Libraries/bin/SDL2'
+    lib_path = 'SDL2'
 end
 
 class 'Sdl' : meta(ffi.load(lib_path))
@@ -18,7 +19,7 @@ function Sdl:setup()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
         self.SDL_SetThreadPriority(self.SDL_THREAD_PRIORITY_HIGH)
 
-        local attributes = self.SDL_WINDOW_RESIZABLE + self.SDL_WINDOW_OPENGL
+        local attributes = self.SDL_WINDOW_RESIZABLE + self.SDL_WINDOW_OPENGL + sdl.SDL_WINDOW_SHOWN
 
         self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
         self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
@@ -41,13 +42,14 @@ function Sdl:setup()
             local nDisplays = self.SDL_GetNumVideoDisplays()
 
             local r = ffi.new('SDL_Rect');
-            if self.SDL_GetDisplayBounds(nDisplays==1 and 0 or 1, r) ~= 0 then
+            if self.SDL_GetDisplayBounds(0, r) ~= 0 then
+--            if self.SDL_GetDisplayBounds(nDisplays==1 and 0 or 1, r) ~= 0 then
                 self.SDL_Log("SDL_GetDisplayBounds failed: %s", self.SDL_GetError())
                 return
             end
 
-            self.SDL_SetWindowPosition(window, r.x+100, r.y+100)
-            self.SDL_ShowWindow(window)
+            self.SDL_SetWindowPosition(window, r.x+100, r.y+100)            
+            self.SDL_ShowWindow(window)            
 
             context = self.SDL_GL_CreateContext(window)
 

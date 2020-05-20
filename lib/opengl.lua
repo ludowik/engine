@@ -3,12 +3,12 @@ require 'ffi'
 local code, defs = precompile(io.read('./lib/opengl.c'))
 ffi.cdef(code)
 
---local lib_path
---if os.name == 'osx' then 
---    lib_path = 'OpenGL.framework/OpenGL'
---else
---    lib_path = 'System32/OpenGL32'
---end
+local lib_path
+if os.name == 'osx' then 
+    lib_path = 'OpenGL.framework/OpenGL'
+else
+    lib_path = 'System32/OpenGL32'
+end
 
 class 'OpenGL' : extends(Component)
 
