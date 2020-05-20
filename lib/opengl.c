@@ -210,6 +210,7 @@ void glClearDepth(GLclampd depth);
 void glDepthFunc(GLenum func);
 
 void glBlendEquation(GLenum mode);
+void glBlendFunc(GLenum sfactor, GLenum dfactor);
 void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count);
@@ -298,6 +299,7 @@ typedef void (*PFN_glClearDepth)(GLclampd depth);
 typedef void (*PFN_glDepthFunc)(GLenum func);
 
 typedef void (*PFN_glBlendEquation)(GLenum mode);
+typedef void (*PFN_glBlendFunc)(GLenum sfactor, GLenum dfactor);
 typedef void (*PFN_glBlendFuncSeparate)(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
 
 typedef void (*PFN_glDrawArrays)(GLenum mode, GLint first, GLsizei count);

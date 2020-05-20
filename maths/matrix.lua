@@ -34,11 +34,12 @@ end
 
 function mt.scale(...)
     local m2 = matrix()
+    local values = m2.values
 
     function mt.scale(m1, sx, sy, sz, res)
-        m2.i0 = sx
-        m2.i5 = sy
-        m2.i10 = sz or 1
+        values[0] = sx
+        values[5] = sy
+        values[10] = sz or 1
         return m1:__mul(m2, res)
     end
 
@@ -47,11 +48,12 @@ end
 
 function mt.translate(...)
     local m2 = matrix()
+    local values = m2.values
 
     function mt.translate(m1, x, y, z, res)
-        m2.i3 = x
-        m2.i7 = y
-        m2.i11 = z or 0
+        values[3] = x
+        values[7] = y
+        values[11] = z or 0
         return m1:__mul(m2, res)
     end
 
@@ -117,15 +119,24 @@ function mt.__mul(m1, m2, res)
 
     local value
 
+    local values1 = m1.values
+    local values2 = m2.values
+
+    local n4, j = 0, 0
+
     for n=0,3 do
+        n4 = n * 4
+
         for m=0,3 do
 
             value = 0
             for i=0,3 do
-                value = value + m1.values[n*4+i] * m2.values[i*4+m]
+                value = value + values1[n4 + i] * values2[i * 4 + m]
             end
 
-            res.values[n*4+m] = value
+            res.values[j] = value
+            
+            j = j + 1
 
         end
     end

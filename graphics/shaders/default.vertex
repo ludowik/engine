@@ -1,8 +1,14 @@
 attribute vec3 vertex;
+attribute vec2 texCoords;
 
 uniform mat4 matrixModel;
 uniform mat4 matrixProjection;
 
+uniform vec3 pos;
+uniform vec3 size;
+
 void main() {
-    gl_Position = matrixProjection * matrixModel * vec4(vertex.xyz, 1.);
+    vec3 vertexPosition = vertex * size + pos;
+    
+    gl_Position = matrixProjection * matrixModel * vec4(vertexPosition.xyz, 1.);
 }

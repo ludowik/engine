@@ -11,7 +11,7 @@ local sizeofFloat = 4 -- ffi.sizeof('GLfloat')
 function MeshRender:sendAttribute(attributeName, data, nComponents)
     local attribute = self.shader.attributes[attributeName]
 
-    if attribute then
+    if attribute and data then
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
 
         local n = #data
@@ -50,7 +50,7 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
     do
         shader:use()
 
-        self:sendUniforms(shader)
+        self:sendUniforms(shader.uniforms)
 
         local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
         local pointAttrib = self:sendAttribute('point', self.points, 2)
@@ -65,11 +65,23 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
             local matrixProjection = pvMatrix()
 
             local matrixModel = modelMatrix()
-            :translate(x, y, 0)
-            :scale(w, h, 1)
+--            :translate(x, y, 0)
+--            :scale(w, h, 1)
 
-            gl.glUniformMatrix4fv(shader.uniforms.matrixProjection.uniformLocation, 1, gl.GL_TRUE, matrixProjection:tobytes())
+            if shader.matrixProjection ~= matrixProjection then
+                shader.matrixProjection = matrixProjection
+                gl.glUniformMatrix4fv(shader.uniforms.matrixProjection.uniformLocation, 1, gl.GL_TRUE, matrixProjection:tobytes())
+            end
+
             gl.glUniformMatrix4fv(shader.uniforms.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
+        end
+
+        if shader.uniforms.pos then
+            gl.glUniform3f(shader.uniforms.pos.uniformLocation, x, y, 0)
+        end
+
+        if shader.uniforms.size then
+            gl.glUniform3f(shader.uniforms.size.uniformLocation, w, h, 1)
         end
 
         if vertexAttrib then
@@ -92,12 +104,15 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
 end
 
-function MeshRender:sendUniforms(shader)
-    if shader.uniforms.stroke and stroke() then
-        gl.glUniform4fv(shader.uniforms.stroke.uniformLocation, 1, stroke():tobytes())
+function MeshRender:sendUniforms(uniforms)
+    local stroke = stroke()
+    if uniforms.stroke and stroke then
+        gl.glUniform4fv(uniforms.stroke.uniformLocation, 1, stroke:tobytes())
     end
-    if shader.uniforms.fill and fill() then
-        gl.glUniform4fv(shader.uniforms.fill.uniformLocation, 1, fill():tobytes())
+
+    local fill = fill()
+    if uniforms.fill and fill then
+        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, fill:tobytes())
     end
 end
 

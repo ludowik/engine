@@ -1,8 +1,9 @@
 __identityMatrix = matrix()
 
-__pvMatrix1 = matrix()
-__pvMatrix2 = matrix()
-__pvMatrix = __pvMatrix1
+--__pvMatrix1 = matrix()
+--__pvMatrix2 = matrix()
+--__pvMatrix = __pvMatrix1
+__pvMatrix = matrix()
 
 __projectionMatrix = matrix()
 __viewMatrix = matrix()
@@ -34,9 +35,7 @@ function projectionMatrix(m)
     if m then
         __projectionMatrix = m
 
-        __projectionMatrix:__mul(__viewMatrix, __pvMatrix2)
-        __pvMatrix1, __pvMatrix2 = __pvMatrix2, __pvMatrix1
-        __pvMatrix = __pvMatrix1
+        __pvMatrix = __projectionMatrix * __viewMatrix
     end
     return __projectionMatrix
 end
@@ -45,9 +44,7 @@ function viewMatrix(m)
     if m then
         __viewMatrix = m
 
-        __projectionMatrix:__mul(__viewMatrix, __pvMatrix2)
-        __pvMatrix1, __pvMatrix2 = __pvMatrix2, __pvMatrix1
-        __pvMatrix = __pvMatrix1
+        __pvMatrix = __projectionMatrix * __viewMatrix
     end
     return __viewMatrix
 end

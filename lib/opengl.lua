@@ -20,6 +20,7 @@ function OpenGL:setup()
 
         'glDepthFunc',
         'glBlendEquation',
+        'glBlendFunc',
         'glBlendFuncSeparate',
 
         -- error

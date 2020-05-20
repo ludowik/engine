@@ -1,19 +1,20 @@
 function mode()
     sdl.SDL_GL_SetSwapInterval(0)
 
-    gl.glEnable(gl.GL_DEPTH_TEST)
-    gl.glDepthFunc(gl.GL_LEQUAL)
+    gl.glDisable(gl.GL_DEPTH_TEST)
+--    gl.glEnable(gl.GL_DEPTH_TEST)
+--    gl.glDepthFunc(gl.GL_LEQUAL)
 
     gl.glDisable(gl.GL_CULL_FACE)
 
-    gl.glEnable(gl.GL_BLEND)
-    gl.glBlendEquation(gl.GL_FUNC_ADD)
-    gl.glBlendFuncSeparate(
-        gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA,
-        gl.GL_ONE, gl.GL_ONE_MINUS_SRC_ALPHA)
+    blendMode(NORMAL)
 
     gl.glEnable(gl.GL_TEXTURE_2D)
 end
+
+NORMAL = 1
+ADDITIVE = 2
+MULTIPLY = 3
 
 local currentBlendMode = NORMAL
 function blendMode(mode)
