@@ -28,6 +28,8 @@ typedef enum {
 int SDL_Init(Uint32 flags);
 void SDL_Quit(void);
 
+void SDL_Delay(Uint32 ms);
+
 typedef enum {
     SDL_THREAD_PRIORITY_LOW,
     SDL_THREAD_PRIORITY_NORMAL,
@@ -78,8 +80,9 @@ SDL_Window* SDL_GL_GetCurrentWindow(void);
 void SDL_DestroyWindow(SDL_Window* window);
 
 void SDL_SetWindowPosition(SDL_Window* window, int x, int y);
-
+void SDL_SetWindowSize(SDL_Window* window, int w, int h);
 void SDL_SetWindowTitle(SDL_Window* window, const char* title);
+
 void SDL_ShowWindow(SDL_Window* window);
 
 int SDL_GL_LoadLibrary(const char* path);
@@ -92,6 +95,7 @@ int SDL_GL_GetAttribute(SDL_GLattr attr, int *value);
 
 SDL_GLContext SDL_GL_CreateContext(SDL_Window* window);
 SDL_GLContext SDL_GL_GetCurrentContext(void);
+int SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context);
 void SDL_GL_SwapWindow(SDL_Window* window);
 void SDL_GL_DeleteContext(SDL_GLContext context);
 

@@ -5,27 +5,27 @@ require 'lua.math'
 require 'lua.random'
 require 'lua.decorator'
 require 'lua.buffer'
-
-function ram()
-    return collectgarbage('count') * 1024
-end
-
-function gc()
-    collectgarbage('collect')
-end
+require 'lua.memory'
+require 'lua.perf'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 
-function format_ram(ram)
-    return string.format('%.2f mo', ram / 1024 / 1024)
-end
-
 io.read = function (fileName)
-    return io.open(fileName):read('*a')
+    local f, res = io.open(fileName)
+    if f then
+        res = f:read('*a')
+        f:close()
+    end
+    return res
 end
 
 io.write = function (fileName, content)
-    return io.open(fileName, "wt"):write(content)
+    local f, res = io.open(fileName, "wt")
+    if f then
+        res = f:write(content)
+        f:close()
+    end
+    return res
 end
 
 NL = '\n'

@@ -12,7 +12,7 @@ end
 
 class 'OpenGL' : extends(Component)
 
-function OpenGL:setup()
+function OpenGL:loadProcAdresses()
     self.defs = {
         -- property
         'glEnable',
@@ -113,7 +113,11 @@ function OpenGL:setup()
     for k,v in pairs(defs) do
         self[k] = v
     end
+end
 
+function OpenGL:setup()
+    self:loadProcAdresses()
+    
     intptr = ffi.new('GLint[1]')
     idptr  = ffi.new('GLuint[1]')
 

@@ -1,9 +1,12 @@
 function mode()
     sdl.SDL_GL_SetSwapInterval(0)
 
-    gl.glDisable(gl.GL_DEPTH_TEST)
---    gl.glEnable(gl.GL_DEPTH_TEST)
---    gl.glDepthFunc(gl.GL_LEQUAL)
+    if false then
+        gl.glDisable(gl.GL_DEPTH_TEST)
+    else
+        gl.glEnable(gl.GL_DEPTH_TEST)
+        gl.glDepthFunc(gl.GL_LEQUAL)
+    end
 
     gl.glDisable(gl.GL_CULL_FACE)
 
@@ -16,7 +19,8 @@ NORMAL = 1
 ADDITIVE = 2
 MULTIPLY = 3
 
-local currentBlendMode = NORMAL
+local currentBlendMode
+
 function blendMode(mode)
     if mode then
         if currentBlendMode ~= mode then

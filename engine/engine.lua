@@ -30,6 +30,7 @@ function Engine:init()
 end
 
 function Engine:setup()
+    evaluatePerf()
     setup()
 end
 

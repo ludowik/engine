@@ -4,12 +4,11 @@ if os.name == 'osx' then
     os.execute([[
         gcc -m64 -shared \
             -I /Library/Frameworks/FreeType.framework/Headers \
-            -o lib/freetype.so lib/freetype.c /Library/Frameworks/FreeType.framework/FreeType
+            -o bin/freetype.so lib/freetype.c /Library/Frameworks/FreeType.framework/FreeType
     ]])
 else
-    io.write('compile.bat', [[
-        set path=%path%;C:/Tools/MinGW/bin;
-        gcc.exe -shared -I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include" -o lib/ft.dll lib/freetype.c -L"C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32" -lfreetype
+     os.execute([[
+        gcc.exe -shared -I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include" -o bin/ft.dll lib/freetype.c -L"C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32" -lfreetype
     ]])
     
 end
@@ -41,7 +40,7 @@ ffi.cdef([[
 
 ffi.load('C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll')
 
-class 'FreeType' : meta(ffi.load('./lib/ft.dll'))
+class 'FreeType' : meta(ffi.load('./bin/ft.dll'))
 
 function FreeType:setup()
     self.hLib = self.init_module()

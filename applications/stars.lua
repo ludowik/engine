@@ -51,10 +51,10 @@ function Application:setup()
     self:addStars()
 end
 
-function Application:_update(dt)
+function Application:update(dt)
     local distance = engine.frame_time.fps - 60
     if distance ~= 60 then
-        MAX_STARS = MAX_STARS + distance * 10
+        MAX_STARS = MAX_STARS + distance -- * 10
     end
 
     self:addStars()
@@ -75,6 +75,8 @@ end
 
 function Application:draw()
     background(black)
+    
+    blendMode(NORMAL)
 
     translate(W/2, H/2)
 

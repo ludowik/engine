@@ -19,43 +19,43 @@ function Sdl:setup()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
         self.SDL_SetThreadPriority(self.SDL_THREAD_PRIORITY_HIGH)
 
-        local attributes = self.SDL_WINDOW_RESIZABLE + self.SDL_WINDOW_OPENGL + sdl.SDL_WINDOW_SHOWN
-
-        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
-        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
-
         if self.SDL_GL_LoadLibrary(ffi.NULL) == 1 then
             assert(false, 'SDL_GL_LoadLibrary')
+            self.SDL_Log("SDL_GL_LoadLibrary: %s", self.SDL_GetError())
         end
-
+        
+        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
+        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
+        
         self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
         self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
-
-        local window, context
 
         window = self.SDL_CreateWindow('resurection',
             0, 0,
             W, H,
-            attributes)
+            self.SDL_WINDOW_SHOWN +
+            self.SDL_WINDOW_OPENGL)
 
         if window then
-            local nDisplays = self.SDL_GetNumVideoDisplays()
-
             local r = ffi.new('SDL_Rect');
+            
             if self.SDL_GetDisplayBounds(0, r) ~= 0 then
---            if self.SDL_GetDisplayBounds(nDisplays==1 and 0 or 1, r) ~= 0 then
                 self.SDL_Log("SDL_GetDisplayBounds failed: %s", self.SDL_GetError())
                 return
             end
-
-            self.SDL_SetWindowPosition(window, r.x+100, r.y+100)            
-            self.SDL_ShowWindow(window)            
 
             context = self.SDL_GL_CreateContext(window)
 
             if context then
                 self.window = window
                 self.context = context
+                
+                self.SDL_GL_MakeCurrent(window, context)
+                
+                self.SDL_SetWindowPosition(window, r.x+100, r.y+100)
+                self.SDL_SetWindowSize(window, W, H)
+                
+                self.SDL_ShowWindow(window)
             end
         end
     end

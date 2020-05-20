@@ -1,27 +1,13 @@
-__identityMatrix = matrix()
-
---__pvMatrix1 = matrix()
---__pvMatrix2 = matrix()
---__pvMatrix = __pvMatrix1
-__pvMatrix = matrix()
-
-__projectionMatrix = matrix()
-__viewMatrix = matrix()
-
-__modelMatrix1 = matrix()
-__modelMatrix2 = matrix()
-__modelMatrix = __modelMatrix1
-
 function resetMatrix()
     if love then
         transform = love.math.newTransform()
     else
-        __pvMatrix.values = __identityMatrix.values
+        __pvMatrix = matrix()
 
-        __projectionMatrix.values = __identityMatrix.values
-        __viewMatrix.values = __identityMatrix.values
+        __projectionMatrix = matrix()
+        __viewMatrix = matrix()
 
-        __modelMatrix.values = __identityMatrix.values
+        __modelMatrix = matrix()
 
         ortho()
     end
@@ -57,21 +43,15 @@ function modelMatrix(m)
 end
 
 function translate(x, y, z)
-    __modelMatrix:translate(x, y, z, __modelMatrix2)
-    __modelMatrix1, __modelMatrix2 = __modelMatrix2, __modelMatrix1
-    __modelMatrix = __modelMatrix1
+    __modelMatrix = __modelMatrix:translate(x, y, z)
 end
 
 function scale(sx, sy, sz)
-    __modelMatrix:scale(sx, sy, sz, __modelMatrix2)
-    __modelMatrix1, __modelMatrix2 = __modelMatrix2, __modelMatrix1
-    __modelMatrix = __modelMatrix1
+    __modelMatrix = __modelMatrix:scale(sx, sy, sz)
 end
 
 function rotate(angle, x, y, z)
-    __modelMatrix:rotate(angle, x, y, z, __modelMatrix2)
-    __modelMatrix1, __modelMatrix2 = __modelMatrix2, __modelMatrix1
-    __modelMatrix = __modelMatrix1
+    __modelMatrix = __modelMatrix:rotate(angle, x, y, z)
 end
 
 function ortho(left, right, bottom, top, near, far)
@@ -84,14 +64,11 @@ function ortho(left, right, bottom, top, near, far)
     local n = near or -1000
     local f = far or 1000
 
---    local m = matrix(
-    __projectionMatrix:set(
+    projectionMatrix(matrix(
         2/(r-l), 0, 0, -(r+l)/(r-l),
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
-        0, 0, 0, 1)
-
-    projectionMatrix(__projectionMatrix)
+        0, 0, 0, 1))
 end
 
 function perspective(fovy, aspect, near, far)
@@ -110,14 +87,11 @@ function perspective(fovy, aspect, near, far)
     local bottom = -range
     local top = range
 
---    local m = matrix(
-    __projectionMatrix:set(
+    projectionMatrix(matrix(
         (2 * near) / (right - left), 0, 0, 0,
         0, (2 * near) / (top - bottom), 0, 0,
         0, 0, - (far + near) / (far - near), - (2 * far * near) / (far - near),
-        0, 0, - 1, 0)
-
-    projectionMatrix(__projectionMatrix)
+        0, 0, - 1, 0))
 end
 
 function camera(eye, at, up)
@@ -132,12 +106,9 @@ function camera(eye, at, up)
 
     u:set(s):crossInPlace(f)
 
---    local m = matrix(
-    __viewMatrix:set(
+    viewMatrix(matrix(
         s.x,  s.y,  s.z, -s:dot(eye),
         u.x,  u.y,  u.z, -u:dot(eye),
         -f.x, -f.y, -f.z,  f:dot(eye),
-        0, 0, 0, 1)
-
-    viewMatrix(__viewMatrix)
+        0, 0, 0, 1))
 end

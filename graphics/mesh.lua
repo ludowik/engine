@@ -61,19 +61,22 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
             img:use(gl.GL_TEXTURE0)
         end
 
-        if shader.uniforms.matrixProjection then
-            local matrixProjection = pvMatrix()
+        if shader.uniforms.matrixPV then
+            local matrixPV = pvMatrix()
 
-            local matrixModel = modelMatrix()
---            :translate(x, y, 0)
---            :scale(w, h, 1)
-
-            if shader.matrixProjection ~= matrixProjection then
-                shader.matrixProjection = matrixProjection
-                gl.glUniformMatrix4fv(shader.uniforms.matrixProjection.uniformLocation, 1, gl.GL_TRUE, matrixProjection:tobytes())
+            if shader.matrixPV ~= matrixPV then
+                shader.matrixPV = matrixPV
+                gl.glUniformMatrix4fv(shader.uniforms.matrixPV.uniformLocation, 1, gl.GL_TRUE, matrixPV:tobytes())
             end
+        end
 
-            gl.glUniformMatrix4fv(shader.uniforms.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
+        if shader.uniforms.matrixModel then
+            local matrixModel = modelMatrix()
+
+            if shader.matrixModel ~= matrixModel then
+                shader.matrixModel = matrixModel
+                gl.glUniformMatrix4fv(shader.uniforms.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
+            end
         end
 
         if shader.uniforms.pos then
