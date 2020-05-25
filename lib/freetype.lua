@@ -1,15 +1,28 @@
 include_dirs = '/Library/Frameworks/FreeType.framework/Headers'
 
 if os.name == 'osx' then
-    os.execute([[
-        gcc -m64 -shared \
-            -I /Library/Frameworks/FreeType.framework/Headers \
-            -o bin/freetype.so lib/freetype.c /Library/Frameworks/FreeType.framework/FreeType
-    ]])
+    
+    ft = Library.compileFile('lib/freetype.c',
+        'ft',
+        '-I /Library/Frameworks/FreeType.framework/Headers',
+        '/Library/Frameworks/FreeType.framework/FreeType')
+    
+--    os.execute([[
+--        gcc -shared \
+--            -I /Library/Frameworks/FreeType.framework/Headers \
+--            -o bin/ft.so lib/freetype.c /Library/Frameworks/FreeType.framework/FreeType
+--    ]])
+
 else
-     os.execute([[
-        gcc.exe -shared -I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include" -o bin/ft.dll lib/freetype.c -L"C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32" -lfreetype
-    ]])
+
+    ft = Library.compileFile('lib/freetype.c',
+        'ft',
+        '-I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include"',
+        '-L"C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32" -lfreetype')
+     
+--     os.execute([[
+--        gcc.exe -shared -I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include" -o bin/ft.dll lib/freetype.c -L"C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32" -lfreetype
+--    ]])
     
 end
 
@@ -38,9 +51,11 @@ ffi.cdef([[
     void release_text(Glyph glyph);
 ]])
 
-ffi.load('C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll')
+if os.name == 'windows' then
+    ffi.load('C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll')
+end
 
-class 'FreeType' : meta(ffi.load('./bin/ft.dll'))
+class 'FreeType' : meta(ft)
 
 function FreeType:setup()
     self.hLib = self.init_module()

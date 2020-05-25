@@ -6,12 +6,13 @@ function Shader:init(name)
     self.program_id = gl.glCreateProgram()
 
     self.vertex_id = self:build(gl.GL_VERTEX_SHADER, name, 'vertex')
+    self.geometry_id = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry')
     self.fragment_id = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment')
 
     gl.glLinkProgram(self.program_id)
 
-    local err = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
-    if err == gl.GL_FALSE then
+    local status = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
+    if status == gl.GL_FALSE then
         print(gl.glGetProgramInfoLog(self.program_id))
     end
 
@@ -91,18 +92,22 @@ function Shader:build(shaderType, shaderName, shaderExtension)
     local shader_id = gl.glCreateShader(shaderType)
     local source = io.read('graphics/shaders/'..shaderName..'.'..shaderExtension)
 
-    gl.glShaderSource(shader_id, source)
-    gl.glCompileShader(shader_id)
+    if source then
+        gl.glShaderSource(shader_id, source)
+        gl.glCompileShader(shader_id)
 
-    gl.glAttachShader(self.program_id, shader_id)
+        local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
+        if status == gl.GL_FALSE then
+            print(gl.glGetShaderInfoLog(shader_id))
+            return nil
+        end
 
-    local err = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
-    if err == gl.GL_FALSE then
-        print(gl.glGetShaderInfoLog(shader_id))
-        return nil
+        gl.glAttachShader(self.program_id, shader_id)
+        
+        return shader_id
     end
-
-    return shader_id
+    
+    return -1
 end
 
 function Shader:use()
@@ -127,6 +132,7 @@ function ShaderManager:setup()
         sprite   = Shader('sprite'),
         text     = Shader('text'),
         box      = Shader('sprite'),
+        lines2d  = Shader('lines2d'),
     }
 end
 

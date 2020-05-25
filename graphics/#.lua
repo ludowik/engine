@@ -5,4 +5,4 @@ require 'graphics.mesh'
 require 'graphics.model'
 require 'graphics.image'
 
-require ('graphics.graphics_'..(love and 'love' or 'gl'))
+require 'graphics.graphics'

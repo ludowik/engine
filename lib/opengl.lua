@@ -117,7 +117,7 @@ end
 
 function OpenGL:setup()
     self:loadProcAdresses()
-    
+
     intptr = ffi.new('GLint[1]')
     idptr  = ffi.new('GLuint[1]')
 
@@ -135,14 +135,12 @@ function OpenGL:setup()
 
     function self.glGetShaderInfoLog(id)
         local len = self.glGetShaderiv(id, self.GL_INFO_LOG_LENGTH)
-        if len == 0 then
-            return 'len == 0'
-        else
---            local log = gl.char(len)
-            local log = ffi.new('GLchar[?]', len or 1)
-            self.defs.glGetShaderInfoLog(id, len, nil, log)
-            return ffi.string(log, len - 1):gsub('ERROR: 0', '')
-        end
+        len = len > 0 and len or 128
+        
+        local log = ffi.new('GLchar[?]', len or 1)
+        self.defs.glGetShaderInfoLog(id, len, nil, log)
+        
+        return ffi.string(log, len - 1):gsub('ERROR: 0', '')
     end
 
     function self.glGetProgramiv(id, flag)
@@ -152,14 +150,12 @@ function OpenGL:setup()
 
     function self.glGetProgramInfoLog(id)
         local len = self.glGetProgramiv(id, self.GL_INFO_LOG_LENGTH)
-        if len == 0 then
-            return 'len == 0'
-        else
---            local log = gl.char(len)
-            local log = ffi.new('GLchar[?]', len or 1)
-            self.defs.glGetProgramInfoLog(id, len, nil, log)
-            return ffi.string(log, len - 1)
-        end
+        len = len > 0 and len or 128
+        
+        local log = ffi.new('GLchar[?]', len or 1)
+        self.defs.glGetProgramInfoLog(id, len, nil, log)
+        
+        return ffi.string(log, len - 1)
     end
 
     function self.glGenBuffer()

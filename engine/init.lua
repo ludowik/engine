@@ -7,8 +7,6 @@ require 'engine.component'
 
 require 'graphics'
 
-require ('engine.core_'..(love and 'love' or 'gl'))
-
 require 'engine.mouse'
 
 require 'engine.game_object'

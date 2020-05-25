@@ -89,7 +89,7 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 
         if vertexAttrib then
             gl.glDrawArrays(drawMode, 0, #self.vertices / 3)
-        else
+        elseif pointAttrib then
             gl.glDrawArrays(drawMode, 0, #self.points / 2)
         end
 

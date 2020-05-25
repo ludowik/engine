@@ -23,10 +23,19 @@ function Sdl:setup()
             assert(false, 'SDL_GL_LoadLibrary')
             self.SDL_Log("SDL_GL_LoadLibrary: %s", self.SDL_GetError())
         end
-        
-        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
-        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
-        
+
+        if false then
+            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
+            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
+
+        else
+            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 4)
+            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
+            
+            sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_CORE)
+        end
+
+
         self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
         self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
 
@@ -38,7 +47,7 @@ function Sdl:setup()
 
         if window then
             local r = ffi.new('SDL_Rect');
-            
+
             if self.SDL_GetDisplayBounds(0, r) ~= 0 then
                 self.SDL_Log("SDL_GetDisplayBounds failed: %s", self.SDL_GetError())
                 return
@@ -49,12 +58,12 @@ function Sdl:setup()
             if context then
                 self.window = window
                 self.context = context
-                
+
                 self.SDL_GL_MakeCurrent(window, context)
-                
+
                 self.SDL_SetWindowPosition(window, r.x+100, r.y+100)
                 self.SDL_SetWindowSize(window, W, H)
-                
+
                 self.SDL_ShowWindow(window)
             end
         end

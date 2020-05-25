@@ -51,6 +51,7 @@ typedef intptr_t GLsizeiptr;
 #define GL_LINE_SMOOTH 0x0B20
 
 #define GL_VERTEX_SHADER 0x8B31
+#define GL_GEOMETRY_SHADER 0x8DD9
 #define GL_FRAGMENT_SHADER 0x8B30
 
 #define GL_COMPILE_STATUS 0x8B81

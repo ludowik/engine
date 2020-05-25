@@ -1,5 +1,5 @@
 function map(val, A, B, a, b)
-    return (val - A) * (b - a) / (B - A) + a
+    return a + (val - A) * (b - a) / (B - A)
 end
 
 math.maxinteger =  2^52
