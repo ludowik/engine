@@ -24,14 +24,10 @@ function Sdl:setup()
             self.SDL_Log("SDL_GL_LoadLibrary: %s", self.SDL_GetError())
         end
 
-        if true then
-            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
-            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
+        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, gl.majorVersion)
+        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, gl.minorVersion)
 
-        else
-            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 4)
-            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
-            
+        if gl.majorVersion == 4 then
             sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_CORE)
         end
 

@@ -108,6 +108,7 @@ typedef intptr_t GLsizeiptr;
 #define GL_CLAMP_TO_EDGE 0x812F
 
 #define GL_ALPHA 0x1906
+#define GL_RED 0x1903
 
 #define GL_RGB 0x1907
 #define GL_BGR 0x80E0

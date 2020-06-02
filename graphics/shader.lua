@@ -24,13 +24,27 @@ function Shader:build(shaderType, shaderName, shaderExtension)
     local shader_id = gl.glCreateShader(shaderType)
 
     local path = 'graphics/shaders/'..shaderName..'.'..shaderExtension
-
     local source = io.read(path)
 
     if source then
-        local include = '' -- '#version 330'..NL
-        local includeLen = 1
-        source = include..source
+        local include = ''
+        if gl.majorVersion == 4 then
+            include = [[
+            #version 330
+            
+            #define gl_FragColor fragColor
+            out vec4 fragColor;
+            
+            #define attribute
+            #define varying
+            
+            #define texture2D texture
+        ]]
+        end
+
+        local includeLen = 9
+
+        source = include..source        
 
         gl.glShaderSource(shader_id, source)
         gl.glCompileShader(shader_id)
@@ -61,6 +75,11 @@ function Shader:release()
         if gl.glIsShader(self.vertex_id) == gl.GL_TRUE then
             gl.glDetachShader(self.program_id, self.vertex_id)
             gl.glDeleteShader(self.vertex_id)
+        end
+
+        if gl.glIsShader(self.geometry_id) == gl.GL_TRUE then
+            gl.glDetachShader(self.program_id, self.geometry_id)
+            gl.glDeleteShader(self.geometry_id)
         end
 
         if gl.glIsShader(self.fragment_id) == gl.GL_TRUE then

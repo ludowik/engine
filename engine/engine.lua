@@ -115,7 +115,7 @@ function Engine:nextApp()
     end    
 
     local appName = files[nextAppIndex]:lower():gsub('%.lua', '')
-    self:loadApp(appNamed)
+    self:loadApp(appName)
 end
 
 function Engine:loadApp(appName, reloadApp)    

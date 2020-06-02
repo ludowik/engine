@@ -37,8 +37,13 @@ function Image:makeTexture(surface)
     local formatRGB = gl.GL_RGBA
 
     if self.surface.format.BytesPerPixel == 1 then
-        internalFormat = gl.GL_ALPHA
-        formatRGB = gl.GL_ALPHA
+        if gl.majorVersion == 4 then
+            internalFormat = gl.GL_RED
+            formatRGB = gl.GL_RED
+        else
+            internalFormat = gl.GL_ALPHA
+            formatRGB = gl.GL_ALPHA
+        end
 
     elseif self.surface.format.BytesPerPixel == 3 then
         internalFormat = gl.GL_RGB
@@ -108,7 +113,7 @@ function Image:fragment(f)
             self.surface.pixels[fragIndex+1] = fragColor.g * 255
             self.surface.pixels[fragIndex+2] = fragColor.b * 255
             self.surface.pixels[fragIndex+3] = fragColor.a * 255
-            
+
             fragIndex = fragIndex + 4
 
         end
