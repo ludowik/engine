@@ -7,67 +7,67 @@
         return b;
     }
 
-    const int n = 10;
+    #define n 10
     
     typedef struct vec2 {
         float x;
         float y;
-} vec2;
+    } vec2;
 
-vec2 vertices[n];
+    vec2 vertices[n];
 
-float map(float value, float min1, float max1, float min2, float max2) {
-    return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
-}
-
-float minDistance = 0;
-float maxDistance = 0;
-
-void init(int w, int h) {
-    for(int j = 0; j < n; ++j) {
-        vertices[j].x = rand() % w;
-        vertices[j].y = rand() % h;
+    float map(float value, float min1, float max1, float min2, float max2) {
+        return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
     }
 
-    maxDistance = w * w / 4;
-}
+    float minDistance = 0;
+    float maxDistance = 0;
 
-float get() {
-    return vertices[0].x;
-}
+    void init(int w, int h) {
+        for(int j = 0; j < n; ++j) {
+            vertices[j].x = rand() % w;
+            vertices[j].y = rand() % h;
+        }
 
-void mafunction(int w, int h, unsigned char* pixels) {
+        maxDistance = w * w / 4;
+    }
 
-    int i = 0;
+    float get() {
+        return vertices[0].x;
+    }
 
-    float dx, dy, dist;
+    void mafunction(int w, int h, unsigned char* pixels) {
 
-    for(int y = 0; y < h; ++y) {
+        int i = 0;
 
-        for(int x = 0; x < w; ++x) {
+        float dx, dy, dist;
 
-            minDistance = FLT_MAX;
+        for(int y = 0; y < h; ++y) {
 
-            for(int j = 0; j < n; ++j) {
+            for(int x = 0; x < w; ++x) {
 
-                dx = x-vertices[j].x;
-                dy = y-vertices[j].y;
+                minDistance = FLT_MAX;
 
-                dist = dx*dx + dy*dy;
+                for(int j = 0; j < n; ++j) {
 
-                if (dist < minDistance)
-                    minDistance = dist;
+                    dx = x-vertices[j].x;
+                    dy = y-vertices[j].y;
+
+                    dist = dx*dx + dy*dy;
+
+                    if (dist < minDistance)
+                        minDistance = dist;
+
+                }
+
+                minDistance = map(minDistance, 0, maxDistance, 255, 0);
+
+                pixels[i++] = minDistance;
+                pixels[i++] = minDistance;
+                pixels[i++] = minDistance;
+
+                pixels[i++] = 255;
 
             }
-
-            minDistance = map(minDistance, 0, maxDistance, 255, 0);
-
-            pixels[i++] = minDistance;
-            pixels[i++] = minDistance;
-            pixels[i++] = minDistance;
-
-            pixels[i++] = 255;
-
         }
     }
-}

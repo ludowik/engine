@@ -75,6 +75,13 @@ typedef enum {
     SDL_GL_FRAMEBUFFER_SRGB_CAPABLE
 } SDL_GLattr;
 
+typedef enum
+{
+    SDL_GL_CONTEXT_PROFILE_CORE = 0x0001,
+    SDL_GL_CONTEXT_PROFILE_COMPATIBILITY = 0x0002,
+    SDL_GL_CONTEXT_PROFILE_ES = 0x0004
+} SDL_GLprofile;
+
 SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int w, int h, Uint32 flags);
 SDL_Window* SDL_GL_GetCurrentWindow(void);
 void SDL_DestroyWindow(SDL_Window* window);

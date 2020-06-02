@@ -24,7 +24,7 @@ function Sdl:setup()
             self.SDL_Log("SDL_GL_LoadLibrary: %s", self.SDL_GetError())
         end
 
-        if false then
+        if true then
             self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, 2)
             self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, 1)
 

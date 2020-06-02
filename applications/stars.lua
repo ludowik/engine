@@ -1,5 +1,3 @@
-require 'engine'
-
 class 'Star' : extends(GameObject)
 
 Star.batchRendering = true
@@ -37,7 +35,9 @@ function Star:draw()
     points(self.position)
 end
 
-function Application:setup()
+class 'Stars' : extends(Application)
+
+function Stars:setup()
     MAX_STARS = 10000
     MAX_DISTANCE = W / 2 -- vec2(W/2, H/2):len()
 
@@ -51,7 +51,7 @@ function Application:setup()
     self:addStars()
 end
 
-function Application:update(dt)
+function Stars:update(dt)
     local distance = engine.frame_time.fps - 60
     if distance ~= 60 then
         MAX_STARS = MAX_STARS + distance -- * 10
@@ -60,7 +60,7 @@ function Application:update(dt)
     self:addStars()
 end
 
-function Application:addStars(n)
+function Stars:addStars(n)
     n = n or (MAX_STARS - self.stars:len())
     if n > 0 then
         for i in range(n) do
@@ -73,7 +73,7 @@ function Application:addStars(n)
     end
 end
 
-function Application:draw()
+function Stars:draw()
     background(black)
     
     blendMode(NORMAL)

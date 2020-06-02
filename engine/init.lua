@@ -1,5 +1,7 @@
 package.path = package.path..';'..'?/#.lua;?/main.lua;'
 
+lfs = require 'lfs'
+
 require 'lua'
 require 'maths'
 
@@ -14,3 +16,5 @@ require 'engine.application'
 require 'engine.engine'
 require 'engine.frame_time'
 require 'engine.engine_memory'
+
+require 'lib'

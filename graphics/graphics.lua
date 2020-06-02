@@ -12,7 +12,7 @@ function mode()
 
     blendMode(NORMAL)
 
-    gl.glEnable(gl.GL_TEXTURE_2D)
+--    gl.glEnable(gl.GL_TEXTURE_2D)
 end
 
 NORMAL = 1

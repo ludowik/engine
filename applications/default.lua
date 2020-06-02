@@ -1,5 +1,3 @@
-require 'engine'
-
 function setup()
     vertices = Buffer('float')
     for i=0,3 do

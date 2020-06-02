@@ -24,21 +24,30 @@ function Engine:init()
 
     W = 1280
     H = math.floor(W*9/16)
-    
+
     WIDTH = W
     HEIGHT = H
+
+    self.onEvents = {
+        keydown = {
+            ['escape'] = Engine.quit,
+            ['n'] = Engine.nextApp
+        }
+    }
 end
 
 function Engine:setup()
     evaluatePerf()
-    setup()
+    self:loadApp(self.appName)
 end
 
 function Engine:release()
     gc()
 end
 
-function Engine:run()
+function Engine:run(appName)
+    self.appName = appName
+
     self.components:setup()
 
     while engine.active do
@@ -54,7 +63,11 @@ function Engine:quit()
 end
 
 function Engine:update(dt)
-    update(dt)
+    if _G.env.update then
+        _G.env.update(dt)
+    else
+        update(dt)
+    end
 end
 
 function Engine:draw()
@@ -62,7 +75,11 @@ function Engine:draw()
 
     resetMatrix()
     do
-        draw()
+        if _G.env.draw then
+            _G.env.draw()
+        else
+            draw()
+        end
     end
 
     resetMatrix()
@@ -78,10 +95,66 @@ function Engine:draw()
 end
 
 function Engine:keydown(key)
-    if key == 'escape' then
-        self.quit()
+    if self.onEvents.keydown[key] then
+        self.onEvents.keydown[key](self)
     end
 end
+
+function Engine:nextApp()
+    local nextAppIndex = 1
+
+    local files = dir('./applications')
+    for i,file in ipairs(files) do
+        local name = file:lower():gsub('%.lua', '')
+        if name == self.appName then
+            if i < #files then
+                nextAppIndex = i + 1
+                break
+            end
+        end
+    end    
+
+    local appName = files[nextAppIndex]:lower():gsub('%.lua', '')
+    self:loadApp(appNamed)
+end
+
+function Engine:loadApp(appName, reloadApp)    
+    self.appName = appName
+    self.appPath = 'applications.'..appName
+
+    Engine.envs = Engine.envs or {}
+
+    if Engine.envs[self.appPath] == nil or reloadApp then
+        print('load '..self.appPath)
+
+        Engine.envs[self.appPath] = {}
+
+        local env = Engine.envs[self.appPath]
+        _G.env = env
+
+        setfenv(0, setmetatable(env, {__index=_G}))
+
+        ___requireReload = true
+        require(self.appPath)
+        ___requireReload = false
+
+        env.app = env.app and env.app() or Application()
+
+        if _G.env.setup then
+            _G.env.setup()
+        else
+            setup()
+        end
+
+    else
+        print('switch '..self.appPath)
+
+        local env = Engine.envs[self.appPath]
+        _G.env = env
+        setfenv(0, env)
+    end
+end
+
 
 function setup()
     engine.app:__setup()

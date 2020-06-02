@@ -20,6 +20,62 @@ function Shader:init(name)
     self:initUniforms()
 end
 
+function Shader:build(shaderType, shaderName, shaderExtension)
+    local shader_id = gl.glCreateShader(shaderType)
+
+    local path = 'graphics/shaders/'..shaderName..'.'..shaderExtension
+
+    local source = io.read(path)
+
+    if source then
+        local include = '' -- '#version 330'..NL
+        local includeLen = 1
+        source = include..source
+
+        gl.glShaderSource(shader_id, source)
+        gl.glCompileShader(shader_id)
+
+        local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
+        if status == gl.GL_FALSE then
+            local errors = gl.glGetShaderInfoLog(shader_id)            
+            errors = errors:gsub(':(%d*):',
+                function (line)
+                    line = tonumber(line) - includeLen                    
+                    return lfs.currentdir()..'/'..path..' :'..(line)..':'
+                end)
+
+            print(errors)
+            return nil
+        end
+
+        gl.glAttachShader(self.program_id, shader_id)
+
+        return shader_id
+    end
+
+    return -1
+end
+
+function Shader:release()
+    if gl.glIsProgram(self.program_id) == gl.GL_TRUE then
+        if gl.glIsShader(self.vertex_id) == gl.GL_TRUE then
+            gl.glDetachShader(self.program_id, self.vertex_id)
+            gl.glDeleteShader(self.vertex_id)
+        end
+
+        if gl.glIsShader(self.fragment_id) == gl.GL_TRUE then
+            gl.glDetachShader(self.program_id, self.fragment_id)
+            gl.glDeleteShader(self.fragment_id)
+        end
+
+        gl.glDeleteProgram(self.program_id)
+    end
+end
+
+function Shader:use()
+    gl.glUseProgram(self.program_id)
+end
+
 function Shader:initAttributes()
     self.attributes = {}
 
@@ -72,48 +128,6 @@ function Shader:initUniforms()
     end
 end
 
-function Shader:release()
-    if gl.glIsProgram(self.program_id) == gl.GL_TRUE then
-        if gl.glIsShader(self.vertex_id) == gl.GL_TRUE then
-            gl.glDetachShader(self.program_id, self.vertex_id)
-            gl.glDeleteShader(self.vertex_id)
-        end
-
-        if gl.glIsShader(self.fragment_id) == gl.GL_TRUE then
-            gl.glDetachShader(self.program_id, self.fragment_id)
-            gl.glDeleteShader(self.fragment_id)
-        end
-
-        gl.glDeleteProgram(self.program_id)
-    end
-end
-
-function Shader:build(shaderType, shaderName, shaderExtension)
-    local shader_id = gl.glCreateShader(shaderType)
-    local source = io.read('graphics/shaders/'..shaderName..'.'..shaderExtension)
-
-    if source then
-        gl.glShaderSource(shader_id, source)
-        gl.glCompileShader(shader_id)
-
-        local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
-        if status == gl.GL_FALSE then
-            print(gl.glGetShaderInfoLog(shader_id))
-            return nil
-        end
-
-        gl.glAttachShader(self.program_id, shader_id)
-        
-        return shader_id
-    end
-    
-    return -1
-end
-
-function Shader:use()
-    gl.glUseProgram(self.program_id)
-end
-
 function Shader:unuse()
     gl.glUseProgram(0)
 end
@@ -132,7 +146,7 @@ function ShaderManager:setup()
         sprite   = Shader('sprite'),
         text     = Shader('text'),
         box      = Shader('sprite'),
-        lines2d  = Shader('lines2d'),
+--        lines2d  = Shader('lines2d'),
     }
 end
 

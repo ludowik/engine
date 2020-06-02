@@ -1,5 +1,3 @@
-require 'engine'
-
 function setup()
     xx = 0
     yy = 0
