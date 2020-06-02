@@ -93,6 +93,18 @@ function Shader:build(shaderType, shaderName, shaderExtension)
     local source = io.read('graphics/shaders/'..shaderName..'.'..shaderExtension)
 
     if source then
+        source = [[
+            #version 330
+            
+            #define gl_FragColor fragColor
+            out vec4 fragColor;
+            
+            #define attribute
+            #define varying
+            
+            #define texture2D texture
+        ]]..source
+
         gl.glShaderSource(shader_id, source)
         gl.glCompileShader(shader_id)
 
@@ -103,10 +115,10 @@ function Shader:build(shaderType, shaderName, shaderExtension)
         end
 
         gl.glAttachShader(self.program_id, shader_id)
-        
+
         return shader_id
     end
-    
+
     return -1
 end
 
@@ -122,18 +134,18 @@ class 'ShaderManager' : extends(Component)
 
 function ShaderManager:setup()
     shaders = {
-        default  = Shader('default'),
-        point    = Shader('point'),
-        line     = Shader('point'),
-        polyline = Shader('point'),
-        polygon  = Shader('point'),
-        ellipse  = Shader('default'),
-        rect     = Shader('default'),
-        sprite   = Shader('sprite'),
-        text     = Shader('text'),
-        box      = Shader('sprite'),
-        lines2d  = Shader('lines2d'),
-    }
+    default  = Shader('default'),
+    point    = Shader('point'),
+    line     = Shader('point'),
+    polyline = Shader('point'),
+    polygon  = Shader('point'),
+    ellipse  = Shader('default'),
+    rect     = Shader('default'),
+    sprite   = Shader('sprite'),
+    text     = Shader('text'),
+    box      = Shader('sprite'),
+--        lines2d  = Shader('lines2d'),
+}
 end
 
 function ShaderManager:release()

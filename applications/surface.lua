@@ -22,7 +22,6 @@ function setup()
     libSurface = Library.compileCode(code, 'surface')
 
     libSurface.init(W, H)
-    print(libSurface.get())
 end
 
 code = [[

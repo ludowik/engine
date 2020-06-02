@@ -37,8 +37,8 @@ function Image:makeTexture(surface)
     local formatRGB = gl.GL_RGBA
 
     if self.surface.format.BytesPerPixel == 1 then
-        internalFormat = gl.GL_ALPHA
-        formatRGB = gl.GL_ALPHA
+        internalFormat = gl.GL_RED
+        formatRGB = gl.GL_RED
 
     elseif self.surface.format.BytesPerPixel == 3 then
         internalFormat = gl.GL_RGB
