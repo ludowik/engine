@@ -1,5 +1,3 @@
-require 'ffi'
-
 local code, defs = precompile(io.read('./lib/opengl.c'))
 ffi.cdef(code)
 
@@ -48,6 +46,12 @@ function OpenGL:loadProcAdresses()
         'glGetProgramiv',
         'glGetProgramInfoLog',
         'glUseProgram',
+
+        -- vao
+        'glIsVertexArray',
+        'glGenVertexArrays',
+        'glDeleteVertexArrays',
+        'glBindVertexArray',
 
         -- buffer
         'glGenBuffers',
@@ -102,9 +106,14 @@ function OpenGL:loadProcAdresses()
             local res = f(...)
             local err = self.defs.glGetError()
             if err ~= self.GL_NO_ERROR then
-                local error_name = string.format('OpenGL Error {%s} : 0x{%x}', v, err)
-                print(error_name)
-                assert()
+                for k,v in pairs(self) do
+                    if v == err then
+                        errAsString = k
+                        break
+                    end
+                end
+                local error_name = string.format('OpenGL Error %s : 0x%x %s', v, err, errAsString)
+                assert(false, error_name)
             end
             return res
         end
@@ -167,6 +176,16 @@ function OpenGL:setup()
         idptr[0] = buffer
         self.defs.glDeleteBuffers(1, idptr)
     end
+    
+    function self.glGenVertexArray()
+        self.defs.glGenVertexArrays(1, idptr)
+        return idptr[0]
+    end
+
+    function self.glDeleteVertexArray(buffer)
+        idptr[0] = buffer
+        self.defs.glDeleteVertexArrays(1, idptr)
+    end
 
     function self.glGenTexture()
         self.glGenTextures(1, idptr)
@@ -185,6 +204,26 @@ function OpenGL:setup()
 end
 
 function OpenGL:release()
+end
+
+function OpenGL:getOpenGLVersion()
+    return self.majorVersion * 100 + self.minorVersion * 10
+end
+
+function OpenGL:getGlslVersion()
+    local glVersion = self:getOpenGLVersion()
+    if glVersion == 200 then
+        return 110
+    elseif glVersion == 210 then
+        return 120
+    elseif glVersion == 300 then
+        return 130
+    elseif glVersion == 310 then
+        return 140
+    elseif glVersion == 320 then
+        return 150
+    end
+    return glVersion
 end
 
 gl = OpenGL()

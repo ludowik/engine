@@ -5,9 +5,11 @@ function Shader:init(name)
 
     self.program_id = gl.glCreateProgram()
 
-    self.vertex_id = self:build(gl.GL_VERTEX_SHADER, name, 'vertex')
-    self.geometry_id = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry')
-    self.fragment_id = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment')
+    self.ids = {
+        vertex = self:build(gl.GL_VERTEX_SHADER, name, 'vertex'),
+        geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry'),
+        fragment = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment'),
+    }
 
     gl.glLinkProgram(self.program_id)
 
@@ -29,17 +31,15 @@ function Shader:build(shaderType, shaderName, shaderExtension)
     if source then
         local include = ''
         if gl.majorVersion == 4 then
-            include = [[
-            #version 330
-            
-            #define gl_FragColor fragColor
-            out vec4 fragColor;
-            
-            #define attribute
-            #define varying
-            
-            #define texture2D texture
-        ]]
+            include = '#version '..gl:getGlslVersion()..NL..[[
+                #define gl_FragColor fragColor
+                out vec4 fragColor;
+                
+                #define attribute in
+                #define varying out
+                
+                #define texture2D texture
+            ]]
         end
 
         local includeLen = 9
@@ -72,21 +72,12 @@ end
 
 function Shader:release()
     if gl.glIsProgram(self.program_id) == gl.GL_TRUE then
-        if gl.glIsShader(self.vertex_id) == gl.GL_TRUE then
-            gl.glDetachShader(self.program_id, self.vertex_id)
-            gl.glDeleteShader(self.vertex_id)
+        for _,id in pairs(self.ids) do
+            if gl.glIsShader(id) == gl.GL_TRUE then
+                gl.glDetachShader(self.program_id, id)
+                gl.glDeleteShader(id)
+            end
         end
-
-        if gl.glIsShader(self.geometry_id) == gl.GL_TRUE then
-            gl.glDetachShader(self.program_id, self.geometry_id)
-            gl.glDeleteShader(self.geometry_id)
-        end
-
-        if gl.glIsShader(self.fragment_id) == gl.GL_TRUE then
-            gl.glDetachShader(self.program_id, self.fragment_id)
-            gl.glDeleteShader(self.fragment_id)
-        end
-
         gl.glDeleteProgram(self.program_id)
     end
 end
@@ -165,7 +156,7 @@ function ShaderManager:setup()
         sprite   = Shader('sprite'),
         text     = Shader('text'),
         box      = Shader('sprite'),
---        lines2d  = Shader('lines2d'),
+        --        lines2d  = Shader('lines2d'),
     }
 end
 

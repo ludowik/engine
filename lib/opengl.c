@@ -162,6 +162,11 @@ void glBindBuffer(GLenum target, GLuint buffer);
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid *data, GLenum usage);
 void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid *data);
 
+GLboolean glIsVertexArray(GLuint array);
+void glGenVertexArrays(GLsizei n, GLuint *arrays);
+void glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
+void glBindVertexArray(GLuint array);
+
 GLboolean glIsTexture(GLuint texture);
 void glGenTextures(GLsizei n, GLuint *textures);
 void glDeleteTextures(GLsizei n, const GLuint *textures);
@@ -250,6 +255,11 @@ typedef void (*PFN_glDeleteBuffers)(GLsizei n, const GLuint *buffers);
 typedef void (*PFN_glBindBuffer)(GLenum target, GLuint buffer);
 typedef void (*PFN_glBufferData)(GLenum target, GLsizeiptr size, const GLvoid *data, GLenum usage);
 typedef void (*PFN_glBufferSubData)(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid *data);
+
+typedef GLboolean (*PFN_glIsVertexArray)(GLuint array);
+typedef void (*PFN_glGenVertexArrays)(GLsizei n, GLuint *arrays);
+typedef void (*PFN_glDeleteVertexArrays)(GLsizei n, const GLuint *arrays);
+typedef void (*PFN_glBindVertexArray)(GLuint array);
 
 typedef GLboolean (*PFN_glIsTexture)(GLuint texture);
 typedef void (*PFN_glGenTextures)(GLsizei n, GLuint *textures);

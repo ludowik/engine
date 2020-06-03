@@ -6,7 +6,7 @@ function Engine:init()
 
     self.app = Application()
 
-    self.active = true
+    self.active = 'start'
 
     self.memory = Memory()
     self.frame_time = FrameTime()
@@ -31,7 +31,8 @@ function Engine:init()
     self.onEvents = {
         keydown = {
             ['escape'] = Engine.quit,
-            ['n'] = Engine.nextApp
+            ['r'] = Engine.restart,
+            ['n'] = Engine.nextApp,
         }
     }
 end
@@ -46,20 +47,30 @@ function Engine:release()
 end
 
 function Engine:run(appName)
-    self.appName = appName
+    self.appName = self.appName or appName
 
     self.components:setup()
 
-    while engine.active do
+    self.active = 'running'
+    while self.active == 'running' do
         self.components:update(self.frame_time.delta_time)
         self.components:draw()            
     end
 
     self.components:release()
+
+    if engine.active == 'restart' then
+        gl.majorVersion = 2
+        self:run()
+    end
+end
+
+function Engine:restart()
+    self.active = 'restart'
 end
 
 function Engine:quit()
-    engine.active = false
+    self.active = 'stop'
 end
 
 function Engine:update(dt)
@@ -87,7 +98,8 @@ function Engine:draw()
     do
         stroke(white)
 
-        text(self.frame_time.fps, 0, 0)
+        text(self.frame_time.fps, 0, H)
+        text(self.appName, 0, TEXT_NEXT_Y)
         text(format_ram(self.memory.ram.current), 0, TEXT_NEXT_Y)
         text(tostring(mouse), 0, TEXT_NEXT_Y)
         text(jit.status(), 0, TEXT_NEXT_Y)
@@ -119,8 +131,8 @@ function Engine:nextApp()
 end
 
 function Engine:loadApp(appName, reloadApp)    
-    self.appName = appName
-    self.appPath = 'applications.'..appName
+    self.appName = appName or self.appName
+    self.appPath = 'applications.'..self.appName
 
     Engine.envs = Engine.envs or {}
 

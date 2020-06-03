@@ -217,9 +217,9 @@ function text(...)
             local txt = ft.load_text(ft.hFont, str)
             local img = Image():makeTexture(txt)
 
-            TEXT_NEXT_Y = y + img.surface.h
+            TEXT_NEXT_Y = y - img.surface.h
 
-            meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+            meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, TEXT_NEXT_Y, img.surface.w, img.surface.h)
 
             img:release()
             ft.release_text(txt)

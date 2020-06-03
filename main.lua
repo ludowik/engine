@@ -7,7 +7,7 @@ print(jit.version)
 
 require 'engine'
 
-gl.majorVersion = 2
+gl.majorVersion = 4
 gl.minorVersion = 1
 
 Engine():run('dots')

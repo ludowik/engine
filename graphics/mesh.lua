@@ -12,6 +12,7 @@ function MeshRender:sendAttribute(attributeName, data, nComponents)
     local attribute = self.shader.attributes[attributeName]
 
     if attribute and data then
+
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
 
         local n = #data
@@ -51,6 +52,11 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
         shader:use()
 
         self:sendUniforms(shader.uniforms)
+
+        if gl.majorVersion == 4 then
+            shader.vao = shader.vao or gl.glGenVertexArray()
+            gl.glBindVertexArray(shader.vao)
+        end
 
         local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
         local pointAttrib = self:sendAttribute('point', self.points, 2)
@@ -99,6 +105,10 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 
         for attributeName,attribute in pairs(self.shader.attributes) do
             gl.glDisableVertexAttribArray(attribute.attribLocation)
+        end
+        
+        if gl.majorVersion == 4 then
+            gl.glBindVertexArray(0)
         end
 
         shader:unuse()

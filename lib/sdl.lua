@@ -1,5 +1,3 @@
-require 'ffi'
-
 local code, defs = precompile(io.read('./lib/sdl.c'))
 ffi.cdef(code)
 
@@ -30,8 +28,7 @@ function Sdl:setup()
         if gl.majorVersion == 4 then
             sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_CORE)
         end
-
-
+        
         self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
         self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
 
