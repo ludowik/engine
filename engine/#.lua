@@ -9,6 +9,7 @@ require 'engine.component'
 
 require 'graphics'
 
+require 'engine.config'
 require 'engine.mouse'
 
 require 'engine.game_object'

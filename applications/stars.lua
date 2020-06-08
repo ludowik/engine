@@ -35,9 +35,18 @@ function Star:draw()
     points(self.position)
 end
 
-class 'Stars' : extends(Application)
+function application(name)
+    local k = class(name)
+    k:extends(Application)
+    
+    c = k
+end
 
-function Stars:setup()
+application 'Stars'
+
+function Stars:init()
+    Application.init(self)
+    
     MAX_STARS = 10000
     MAX_DISTANCE = W / 2 -- vec2(W/2, H/2):len()
 

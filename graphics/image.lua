@@ -29,7 +29,9 @@ function Image:makeTexture(surface)
         self.surface = surface
     end
 
-    self.texture_id = self.texture_id or gl.glGenTexture()
+    if self.texture_id == nil or gl.glIsTexture(self.texture_id) == gl.GL_FALSE then
+        self.texture_id = gl.glGenTexture()
+    end
 
     gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture_id)
 

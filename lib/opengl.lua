@@ -58,15 +58,21 @@ function OpenGL:loadProcAdresses()
         'glBindBuffer',
         'glDeleteBuffers',
         'glBufferData',
+
+        -- attribute
         'glVertexAttribPointer',
         'glEnableVertexAttribArray',
         'glDisableVertexAttribArray',
-        'glDrawArrays',
         'glGetAttribLocation',
         'glGetActiveAttrib',
+
+        -- uniform
         'glGetUniformLocation',
         'glGetActiveUniform',
         'glGetActiveUniformName',
+
+        -- draw
+        'glDrawArrays',
 
         -- uniform
         'glUniform1f',
@@ -90,6 +96,7 @@ function OpenGL:loadProcAdresses()
         'glUniformMatrix4fv',
 
         -- texture
+        'glIsTexture',
         'glGenTextures',
         'glDeleteTextures',
         'glBindTexture',
@@ -145,10 +152,10 @@ function OpenGL:setup()
     function self.glGetShaderInfoLog(id)
         local len = self.glGetShaderiv(id, self.GL_INFO_LOG_LENGTH)
         len = len > 0 and len or 128
-        
+
         local log = ffi.new('GLchar[?]', len or 1)
         self.defs.glGetShaderInfoLog(id, len, nil, log)
-        
+
         return ffi.string(log, len - 1):gsub('ERROR: 0', '')
     end
 
@@ -160,10 +167,10 @@ function OpenGL:setup()
     function self.glGetProgramInfoLog(id)
         local len = self.glGetProgramiv(id, self.GL_INFO_LOG_LENGTH)
         len = len > 0 and len or 128
-        
+
         local log = ffi.new('GLchar[?]', len or 1)
         self.defs.glGetProgramInfoLog(id, len, nil, log)
-        
+
         return ffi.string(log, len - 1)
     end
 
@@ -176,7 +183,7 @@ function OpenGL:setup()
         idptr[0] = buffer
         self.defs.glDeleteBuffers(1, idptr)
     end
-    
+
     function self.glGenVertexArray()
         self.defs.glGenVertexArrays(1, idptr)
         return idptr[0]

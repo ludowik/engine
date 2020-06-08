@@ -4,9 +4,9 @@ function class(className)
     k.__className = className
 
     k.init = function (self)
-        if self.__base then
-            self.__base.init(self)
-        end
+--        if self.__base then
+--            self.__base.init(self)
+--        end
     end
 
     k.extends = function (self, __base)

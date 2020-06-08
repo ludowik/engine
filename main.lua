@@ -5,7 +5,7 @@ end
 
 print(jit.version)
 
-require 'engine'
+require 'engine.#'
 
 gl.majorVersion = 4
 gl.minorVersion = 1

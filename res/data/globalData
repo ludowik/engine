@@ -1,0 +1,4 @@
+return {
+    ["majorVersion"] = 4,
+    ["appName"] = "stars",
+}

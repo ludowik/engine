@@ -27,3 +27,9 @@ function Array:items(reverse)
         end
     end
 end
+
+function Array:apply(f)
+    for i,v in pairs(self) do
+        self[i] = f(v)
+    end
+end

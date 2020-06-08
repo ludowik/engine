@@ -12,15 +12,18 @@ function Engine:init()
     self.frame_time = FrameTime()
 
     self.components = Node()
+    do
+        self.components:add(self.memory)
+        self.components:add(self.frame_time)
+        self.components:add(Path())
 
-    self.components:add(self.memory)
-    self.components:add(self.frame_time)
-
-    self.components:add(sdl)
-    self.components:add(gl)
-    self.components:add(ShaderManager())
-    self.components:add(ft)
-    self.components:add(self)
+        self.components:add(sdl)
+        self.components:add(gl)
+        self.components:add(ShaderManager())
+        self.components:add(Graphics())
+        self.components:add(ft)
+--        self.components:add(self)
+    end
 
     W = 1280
     H = math.floor(W*9/16)
@@ -28,52 +31,80 @@ function Engine:init()
     WIDTH = W
     HEIGHT = H
 
+    self:initEvents()
+end
+
+function Engine:initEvents()
     self.onEvents = {
         keydown = {
             ['escape'] = Engine.quit,
             ['r'] = Engine.restart,
+            ['m'] = Engine.changeMode,
+            ['v'] = Engine.loopApp,
             ['n'] = Engine.nextApp,
+            ['b'] = Engine.previousApp,
         }
     }
 end
 
 function Engine:setup()
+    loadConfig()
+    self.components:setup()
     evaluatePerf()
     self:loadApp(self.appName)
 end
 
 function Engine:release()
+    saveConfig()
+    self.components:release()
     gc()
 end
 
 function Engine:run(appName)
     self.appName = self.appName or appName
 
-    self.components:setup()
+    repeat
 
-    self.active = 'running'
-    while self.active == 'running' do
-        self.components:update(self.frame_time.delta_time)
-        self.components:draw()            
-    end
+        self:setup()
 
-    self.components:release()
+        self.active = 'running'
 
-    if engine.active == 'restart' then
-        gl.majorVersion = 2
-        self:run()
-    end
-end
+        while self.active == 'running' do
+            self:update(self.frame_time.delta_time)
+            self:draw()
+        end
 
-function Engine:restart()
-    self.active = 'restart'
+        if type(self.active) == 'function' then
+            self.active = self.active()
+        end
+
+        self:release()
+
+    until engine.active ~= 'restart'
 end
 
 function Engine:quit()
     self.active = 'stop'
 end
 
+function Engine:restart()
+    self.active = 'restart'
+end
+
+function Engine:changeMode()
+    self.active = function ()
+        gl.majorVersion = toggle(gl.majorVersion, 2, 4)
+        return 'restart'
+    end
+end
+
 function Engine:update(dt)
+    self.components:update(self.frame_time.delta_time)
+
+    if self.action then
+        self:action()
+    end
+
     if _G.env.update then
         _G.env.update(dt)
     else
@@ -104,6 +135,8 @@ function Engine:draw()
         text(tostring(mouse), 0, TEXT_NEXT_Y)
         text(jit.status(), 0, TEXT_NEXT_Y)
     end
+
+    sdl:draw()
 end
 
 function Engine:keydown(key)
@@ -112,13 +145,19 @@ function Engine:keydown(key)
     end
 end
 
-function Engine:nextApp()
-    local nextAppIndex = 1
+function Engine:loopApp()
+    self.action = self.nextApp
+end
 
+function Engine:nextApp()
     local files = dir('./applications')
+    files:apply(function (file)
+            return file:lower():gsub('%.lua', '')
+        end)
+
+    local nextAppIndex = 1
     for i,file in ipairs(files) do
-        local name = file:lower():gsub('%.lua', '')
-        if name == self.appName then
+        if file == self.appName then
             if i < #files then
                 nextAppIndex = i + 1
                 break
@@ -126,7 +165,27 @@ function Engine:nextApp()
         end
     end    
 
-    local appName = files[nextAppIndex]:lower():gsub('%.lua', '')
+    local appName = files[nextAppIndex]
+    self:loadApp(appName)
+end
+
+function Engine:previousApp()
+    local files = dir('./applications')
+    files:apply(function (file)
+            return file:lower():gsub('%.lua', '')
+        end)
+
+    local previousAppIndex = #files
+    for i,file in ipairs(files) do
+        if file == self.appName then
+            if i > 1 then
+                previousAppIndex = i - 1
+                break
+            end
+        end
+    end    
+
+    local appName = files[previousAppIndex]
     self:loadApp(appName)
 end
 
@@ -150,7 +209,11 @@ function Engine:loadApp(appName, reloadApp)
         require(self.appPath)
         ___requireReload = false
 
-        env.app = env.app and env.app() or Application()
+        if env.appClass then
+            env.app = env.appClass()
+        else
+            env.app = Application()
+        end
 
         if _G.env.setup then
             _G.env.setup()
