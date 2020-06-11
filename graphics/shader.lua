@@ -36,11 +36,27 @@ function Shader:build(shaderType, shaderName, shaderExtension)
                 out vec4 fragColor;
                 
                 #define attribute in
-                #define varying out
+                #define varying
                 
                 #define texture2D texture
             ]]
+        else
+            include = '#version '..gl:getGlslVersion()..NL..[[
+                #define in  varying
+                #define out varying
+            ]]
         end
+
+        include = include..[[
+            vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
+            vec4 blakc = vec4(0.0, 0.0, 0.0, 1.0);
+
+            vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
+            vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
+            vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
+
+            vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+        ]]
 
         local includeLen = 9
 
@@ -56,18 +72,18 @@ function Shader:build(shaderType, shaderName, shaderExtension)
                 function (line)
                     line = tonumber(line) - includeLen                    
                     return lfs.currentdir()..'/'..path..' :'..(line)..':'
-                end)
+            end)
 
-            print(errors)
-            return nil
-        end
-
-        gl.glAttachShader(self.program_id, shader_id)
-
-        return shader_id
+        print(errors)
+        return nil
     end
 
-    return -1
+    gl.glAttachShader(self.program_id, shader_id)
+
+    return shader_id
+end
+
+return -1
 end
 
 function Shader:release()

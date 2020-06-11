@@ -7,7 +7,7 @@ uniform mat4 matrixPV;
 uniform vec3 pos;
 uniform vec3 size;
 
-varying vec2 vTexCoords;
+out vec2 vTexCoords;
 
 void main() {
     vec3 vertexPosition = vertex * size + pos;    

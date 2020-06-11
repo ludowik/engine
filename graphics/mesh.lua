@@ -16,8 +16,9 @@ function MeshRender:sendAttribute(attributeName, data, nComponents)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
 
         local n = #data
-        if not attribute.sent or attribute.sent ~= n then
+        if true or not attribute.sent or attribute.sent ~= n or attribute.version ~= data.version then
             attribute.sent = n
+            attribute.version = data.version
 
             local bytes
             if type(data) == 'table' then

@@ -23,13 +23,12 @@ function update(dt)
     angle = angle + 30 * dt
     
     perf[#perf+1] = engine.frame_time.nframes
-    perf[#perf+1] = engine.frame_time.fps /10
+    perf[#perf+1] = engine.frame_time.fps / 10
     
     if #perf == 500 then
         ffi.C.memmove(perf.data, perf.data+2, (perf.n-2)*perf.sizeof_ctype)
         perf.n = perf.n - 2
     end
-    
 end
 
 function draw()

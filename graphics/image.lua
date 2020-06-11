@@ -40,8 +40,8 @@ function Image:makeTexture(surface)
 
     if self.surface.format.BytesPerPixel == 1 then
         if gl.majorVersion == 4 then
-            internalFormat = gl.GL_RED
-            formatRGB = gl.GL_RED
+            internalFormat = gl.GL_ALPHA
+            formatRGB = gl.GL_ALPHA
         else
             internalFormat = gl.GL_ALPHA
             formatRGB = gl.GL_ALPHA

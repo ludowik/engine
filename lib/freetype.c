@@ -59,6 +59,8 @@ typedef struct {
 
 #define bitmap_buffer slot->bitmap.buffer
 
+int BytesPerPixel = 4;
+
 Glyph load_text(FT_Face face, const char* text) {
     Glyph glyph = {0, 0, 0, NULL, {0, 0}};
     if (face == NULL || text == NULL)
@@ -87,19 +89,28 @@ Glyph load_text(FT_Face face, const char* text) {
     top *= 1.25;
     h = top + bottom;
 
-    int size = w * h * sizeof(GLubyte);
+    int size = w * h * sizeof(GLubyte) * BytesPerPixel;
     GLubyte* pixels = malloc(size);
     memset(pixels, 0, size);
 
     for ( size_t n = 0; n < len; ++n ) {
         error = FT_Load_Char(face, text[n], FT_LOAD_RENDER);
-        if (error)
+        if (error) {
             continue;
+        }
 
         int index_bitmap = 0;
         for ( int j = 0; j < bitmap_rows; ++j ) {
             int index = (h - 1 - (j + top - bitmap_top)) * w + x + bitmap_left;
-            memcpy(&pixels[index], &bitmap_buffer[index_bitmap], bitmap_width);
+
+            if (BytesPerPixel == 4) {
+                for ( int j = 0; j < bitmap_width; ++j ) {
+                    pixels[(index+j)*BytesPerPixel+3] = bitmap_buffer[index_bitmap+j];
+                }
+            } else {
+                memcpy(&pixels[index], &bitmap_buffer[index_bitmap], bitmap_width);
+            }
+            
             index_bitmap += bitmap_width;
         }
 
@@ -114,7 +125,7 @@ Glyph load_text(FT_Face face, const char* text) {
     glyph.size = size;
     glyph.pixels = pixels;
 
-    glyph.format.BytesPerPixel = 1;
+    glyph.format.BytesPerPixel = BytesPerPixel;
     glyph.format.Rmask = 0xff;
 
     return glyph;

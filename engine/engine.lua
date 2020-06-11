@@ -134,6 +134,7 @@ function Engine:draw()
         text(format_ram(self.memory.ram.current), 0, TEXT_NEXT_Y)
         text(tostring(mouse), 0, TEXT_NEXT_Y)
         text(jit.status(), 0, TEXT_NEXT_Y)
+        text(gl.majorVersion, 0, TEXT_NEXT_Y)
     end
 
     sdl:draw()

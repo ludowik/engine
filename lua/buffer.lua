@@ -20,6 +20,7 @@ function buffer_meta.__init(buffer, buffer_class)
     buffer.data = ffi.cast(buffer_class.ctype, ffi.C.malloc(buffer.size))
 
     buffer.n = 0
+    buffer.version = 0
 
     return buffer
 end
@@ -51,6 +52,8 @@ function buffer_meta.__newindex(buffer, key, value)
 
         buffer.n = max(buffer.n, key)
         buffer.data[key-1] = value
+        
+        buffer.version = buffer.version +1
 
     else
         rawset(buffer_meta, key, value)

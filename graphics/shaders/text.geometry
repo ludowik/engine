@@ -1,0 +1,21 @@
+layout(triangles) in;
+layout(triangle_strip, max_vertices=256) out;
+
+in  vec2 vTexCoords[];
+out vec2 vTexCoordsEmit;
+
+void main() {
+    gl_Position = gl_in[0].gl_Position;
+    vTexCoordsEmit = vTexCoords[0];
+    EmitVertex();
+    
+    gl_Position = gl_in[1].gl_Position;
+    vTexCoordsEmit = vTexCoords[1];
+    EmitVertex();
+    
+    gl_Position = gl_in[2].gl_Position;
+    vTexCoordsEmit = vTexCoords[2];
+    EmitVertex();
+    
+    EndPrimitive();
+}
