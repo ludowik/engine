@@ -93,7 +93,7 @@ end
 
 function Engine:changeMode()
     self.active = function ()
-        gl.majorVersion = toggle(gl.majorVersion, 2, 4)
+        gl.majorVersion = toggle(gl.majorVersion, 3, 4)
         return 'restart'
     end
 end
@@ -211,9 +211,9 @@ function Engine:loadApp(appName, reloadApp)
         ___requireReload = false
 
         if env.appClass then
-            env.app = env.appClass()
+            self.app = env.appClass()
         else
-            env.app = Application()
+            self.app = Application()
         end
 
         if _G.env.setup then

@@ -39,7 +39,7 @@ function application(name)
     local k = class(name)
     k:extends(Application)
     
-    c = k
+    _G.env.appClass = k
 end
 
 application 'Stars'

@@ -22,7 +22,7 @@ function MeshRender:sendAttribute(attributeName, data, nComponents)
 
             local bytes
             if type(data) == 'table' then
-                assert()
+                bytes = Buffer('float', data)
             else
                 bytes = data:tobytes()
             end
@@ -54,7 +54,7 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 
         self:sendUniforms(shader.uniforms)
 
-        if gl.majorVersion == 4 then
+        if gl.majorVersion >= 4 then
             shader.vao = shader.vao or gl.glGenVertexArray()
             gl.glBindVertexArray(shader.vao)
         end
@@ -108,7 +108,7 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
             gl.glDisableVertexAttribArray(attribute.attribLocation)
         end
         
-        if gl.majorVersion == 4 then
+        if gl.majorVersion >= 4 then
             gl.glBindVertexArray(0)
         end
 

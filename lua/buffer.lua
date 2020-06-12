@@ -52,7 +52,7 @@ function buffer_meta.__newindex(buffer, key, value)
 
         buffer.n = max(buffer.n, key)
         buffer.data[key-1] = value
-        
+
         buffer.version = buffer.version +1
 
     else
@@ -83,7 +83,7 @@ end
 
 local buffer_classes = {}
 
-function Buffer(ct, ...)
+function Buffer(ct, data, ...)
     ct = ct or 'float'
 
     local buffer_class = buffer_classes[ct]
@@ -116,9 +116,15 @@ function Buffer(ct, ...)
 
     local buffer = buffer_class.meta():__init(buffer_class)
 
-    for i,v in ipairs {...} do
-        buffer[i] = v
+    if data then
+        if type(data) == 'number' then
+            data = {data, ...}
+        end
+        
+        for i,v in ipairs(data) do
+            buffer[i] = v
+        end
     end
-    
+
     return buffer
 end
