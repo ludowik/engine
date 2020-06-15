@@ -14,6 +14,8 @@ require 'lua.io'
 require 'lua.string'
 require 'lua.module'
 require 'lua.fs'
+require 'lua.tween'
+require 'lua.heap'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 

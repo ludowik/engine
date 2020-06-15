@@ -1,7 +1,7 @@
 uniform sampler2D tex0;
 
-in vec2 vTexCoordsEmit;
+in vec2 vTexCoords;
 
 void main() {
-    gl_FragColor = vec4(1., 1., 1., texture2D(tex0, vTexCoordsEmit).a);
+    gl_FragColor = vec4(1., 1., 1., texture2D(tex0, vTexCoords).a);
 }

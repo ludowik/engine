@@ -127,9 +127,21 @@ typedef intptr_t GLsizeiptr;
 #define GL_SRC_ALPHA 0x0302
 #define GL_ONE_MINUS_SRC_ALPHA 0x0303
 
-#define GL_CULL_FACE 0x0B44
-
 #define GL_DEPTH_TEST 0x0B71
+
+#define GL_CULL_FACE 0x0B44
+#define GL_CULL_FACE_MODE 0x0B45
+#define GL_CW 0x0900
+#define GL_CCW 0x0901
+
+#define GL_BACK 0x0405
+#define GL_BACK_LEFT 0x0402
+#define GL_BACK_RIGHT 0x0403
+#define GL_FRONT 0x0404
+#define GL_FRONT_AND_BACK 0x0408
+#define GL_FRONT_FACE 0x0B46
+#define GL_FRONT_LEFT 0x0400
+#define GL_FRONT_RIGHT 0x0401
 
 #define GL_LEQUAL 0x0203
 #define GL_LESS 0x0201
@@ -216,11 +228,14 @@ void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void glClearStencil(GLint s);
 void glClearDepth(GLclampd depth);
 
-void glDepthFunc(GLenum func);
-
 void glBlendEquation(GLenum mode);
 void glBlendFunc(GLenum sfactor, GLenum dfactor);
 void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+
+void glDepthFunc(GLenum func);
+
+void glCullFace(GLenum mode);
+void glFrontFace(GLenum mode);
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count);
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
@@ -310,11 +325,14 @@ typedef void (*PFN_glClearColor)(GLfloat red, GLfloat green, GLfloat blue, GLflo
 typedef void (*PFN_glClearStencil)(GLint s);
 typedef void (*PFN_glClearDepth)(GLclampd depth);
 
-typedef void (*PFN_glDepthFunc)(GLenum func);
-
 typedef void (*PFN_glBlendEquation)(GLenum mode);
 typedef void (*PFN_glBlendFunc)(GLenum sfactor, GLenum dfactor);
 typedef void (*PFN_glBlendFuncSeparate)(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+
+typedef void (*PFN_glDepthFunc)(GLenum func);
+
+typedef void (*PFN_glCullFace)(GLenum mode);
+typedef void (*PFN_glFrontFace)(GLenum mode);
 
 typedef void (*PFN_glDrawArrays)(GLenum mode, GLint first, GLsizei count);
 typedef void (*PFN_glDrawElements)(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);

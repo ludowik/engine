@@ -4,6 +4,22 @@ function Mesh:init(vertices)
     self.vertices = vertices or {}
 end
 
+function Mesh:buffer(name)
+    if name == 'position' then
+        self[name] = Buffer('vec3')
+    elseif name == 'normal' then
+        self[name] = Buffer('vec3')
+    elseif name == 'color' then
+        self[name] = Buffer('color')
+    end
+    
+    return self[name]
+end
+
+function Mesh:draw()
+    self:render(shaders['default'], gl.GL_TRIANGLES)
+end
+
 class 'MeshRender'
 
 local sizeofFloat = 4 -- ffi.sizeof('GLfloat')
@@ -107,7 +123,7 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
         for attributeName,attribute in pairs(self.shader.attributes) do
             gl.glDisableVertexAttribArray(attribute.attribLocation)
         end
-        
+
         if gl.majorVersion >= 4 then
             gl.glBindVertexArray(0)
         end
@@ -119,14 +135,16 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 end
 
 function MeshRender:sendUniforms(uniforms)
-    local stroke = stroke()
-    if uniforms.stroke and stroke then
-        gl.glUniform4fv(uniforms.stroke.uniformLocation, 1, stroke:tobytes())
+    if uniforms.stroke and style.attributes.stroke then
+        gl.glUniform4fv(uniforms.stroke.uniformLocation, 1, style.attributes.stroke:tobytes())
     end
 
-    local fill = fill()
-    if uniforms.fill and fill then
-        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, fill:tobytes())
+    if uniforms.strokeWidth and style.attributes.strokeWidth then
+        gl.glUniform1f(uniforms.strokeWidth.uniformLocation, style.attributes.strokeWidth)
+    end
+
+    if uniforms.fill and style.attributes.fill then
+        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, style.attributes.fill:tobytes())
     end
 end
 

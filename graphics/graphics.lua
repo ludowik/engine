@@ -46,25 +46,18 @@ end
 function mode()
     sdl.SDL_GL_SetSwapInterval(0)
 
-    if false then
-        gl.glDisable(gl.GL_DEPTH_TEST)
-    else
-        gl.glEnable(gl.GL_DEPTH_TEST)
-        gl.glDepthFunc(gl.GL_LEQUAL)
-    end
-
-    gl.glDisable(gl.GL_CULL_FACE)
-
     blendMode(NORMAL)
 
---    gl.glEnable(gl.GL_TEXTURE_2D)
+    depthMode(false)
+
+    cullingMode(true)
 end
+
+local currentBlendMode
 
 NORMAL = 1
 ADDITIVE = 2
 MULTIPLY = 3
-
-local currentBlendMode
 
 function blendMode(mode)
     if mode then
@@ -97,6 +90,42 @@ function blendMode(mode)
         end
     end
     return currentBlendMode
+end
+
+local currentCullingMode
+function cullingMode(culling)
+    if culling ~= nil then
+        currentCullingMode = culling
+
+        if culling then
+            gl.glEnable(gl.GL_CULL_FACE)
+
+            gl.glFrontFace(gl.GL_CCW)
+            if cullingFace == 'front' then
+                gl.glCullFace(gl.GL_FRONT)
+            else
+                gl.glCullFace(gl.GL_BACK)
+            end
+        else
+            gl.glDisable(gl.GL_CULL_FACE)
+        end
+    end
+    return currentCullingMode
+end
+
+local currentDepthMode
+function depthMode(mode)
+    if mode ~= nil then
+        currentDepthMode = mode
+
+        if mode then
+            gl.glEnable(gl.GL_DEPTH_TEST)
+            gl.glDepthFunc(gl.GL_LEQUAL)
+        else
+            gl.glDisable(gl.GL_DEPTH_TEST)
+        end
+    end
+    return currentDepthMode
 end
 
 local __clr = Color()
@@ -138,7 +167,7 @@ function line(x1, y1, x2, y2)
     buf[1] = x1
     buf[2] = y1
     buf[3] = x2
-    buf[3] = y2
+    buf[4] = y2
 
     lines(buf)
 end
@@ -202,5 +231,5 @@ function text(str, x, y)
 end
 
 function box(img)
-    mesh:render(mesh.shader, gl.GL_TRIANGLES, img)
+    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img)
 end

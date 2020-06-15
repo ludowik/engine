@@ -33,20 +33,24 @@ function buffer_meta.__gc(buffer)
     ffi.C.free(buffer.data)
 end
 
+function buffer_meta.resize(buffer, n)
+    buffer.available = n
+    buffer.size = buffer.available * buffer.sizeof_ctype
+
+    buffer.data = ffi.cast(ffi.typeof(buffer.data),
+        ffi.C.realloc(
+            buffer.data,
+            buffer.size))
+
+    assert(buffer.data)
+end
+
 local max = math.max
 function buffer_meta.__newindex(buffer, key, value)
     if type(key) == 'number' then
         if buffer.available < key then
 
-            buffer.available = max(buffer.available * 2, key)
-            buffer.size = buffer.available * buffer.sizeof_ctype
-
-            buffer.data = ffi.cast(ffi.typeof(buffer.data),
-                ffi.C.realloc(
-                    buffer.data,
-                    buffer.size))
-
-            assert(buffer.data)
+            buffer:resize(max(buffer.available * 2, key))
 
         end
 
@@ -95,20 +99,20 @@ function Buffer(ct, data, ...)
             ctype = ffi.typeof(ct..'*'),
             sizeof_ctype = ffi.sizeof(ct),
             struct = [[
-                typedef struct buffer {
+                typedef struct buffer_{ct} {
                     int available;
                     int sizeof_ctype;
                     int size;
                     int n;
                     {ct}* data;
-                } buffer;
+                } buffer_{ct};
             ]]
         }
 
         buffer_class.typed_struct = buffer_class.struct:gsub('{ct}', ct)
         ffi.cdef(buffer_class.typed_struct)
 
-        buffer_class.meta = ffi.metatype('buffer', buffer_meta)
+        buffer_class.meta = ffi.metatype('buffer_'..ct, buffer_meta)
 
         buffer_classes[ct] = buffer_class
 
@@ -120,7 +124,7 @@ function Buffer(ct, data, ...)
         if type(data) == 'number' then
             data = {data, ...}
         end
-        
+
         for i,v in ipairs(data) do
             buffer[i] = v
         end

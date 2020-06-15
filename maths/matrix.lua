@@ -11,7 +11,14 @@ ffi.cdef [[
 
 local mt = {
 }
-mt.__index = mt
+mt.__index = function (matrix, key)
+    if type(key) == 'number' then
+        return matrix.values[key-1]
+
+    else
+        return rawget(mt, key)
+    end
+end
 
 -- n rows x m columns
 function mt.__tostring(self)

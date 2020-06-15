@@ -93,7 +93,7 @@ end
 
 function Engine:changeMode()
     self.active = function ()
-        gl.majorVersion = toggle(gl.majorVersion, 3, 4)
+        gl.majorVersion = toggle(gl.majorVersion, 2, 4)
         return 'restart'
     end
 end

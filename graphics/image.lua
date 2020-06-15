@@ -106,10 +106,10 @@ function Image:fragment(f)
 
     local fragIndex = 0
 
-    for x=1,self.surface.w do
-        for y=1,self.surface.h do
+    for y=1,self.surface.h do
+        for x=1,self.surface.w do
 
-            fragColor = f(x, y)
+            fragColor = f(x-1, y-1)
 
             self.surface.pixels[fragIndex  ] = fragColor.r * 255
             self.surface.pixels[fragIndex+1] = fragColor.g * 255

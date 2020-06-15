@@ -1,5 +1,12 @@
 class 'Array'
 
+function Array:init(t)
+    if t then
+        setmetatable(t, Array)
+        return t
+    end
+end
+
 function Array:add(value)
     table.insert(self, value)
 end
@@ -32,4 +39,7 @@ function Array:apply(f)
     for i,v in pairs(self) do
         self[i] = f(v)
     end
+end
+
+function Array:resize(n)
 end

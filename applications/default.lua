@@ -7,40 +7,51 @@ function setup()
 
     angle = 0
 
-    img = Image(4*10, 3*10)
+    img = Image(4*100, 3*100)
     img:fragment(function (x, y)
-            if x % 2 == 0 then
-                return red
-            else
-                return green
-            end
+            local ix = math.floor(x/100)
+            local iy = math.floor(y/100)
+            
+            local colors = {
+                c01 = red,
+                c11 = green,
+                c21 = blue,
+                c31 = gray,
+                c12 = white,
+                c10 = yellow,
+            }
+            return colors['c'..ix..iy] or transparent
         end)
-    
+
     perf = Buffer()
 end
 
 function update(dt)
     angle = angle + 30 * dt
-    
+
     perf[#perf+1] = engine.frame_time.nframes
-    perf[#perf+1] = engine.frame_time.fps / 10
-    
-    if #perf == 500 then
+    perf[#perf+1] = engine.frame_time.fps
+
+    if #perf == 2000 then
         ffi.C.memmove(perf.data, perf.data+2, (perf.n-2)*perf.sizeof_ctype)
         perf.n = perf.n - 2
     end
 end
 
-function draw()
+function _draw()
     background(black)
+
     stroke(white)
-    translate(0, H/2)
-    
+    strokeWidth(5)
+
+    translate(0, 0)
+
     translate(-perf[1], 0)
+
     polyline(perf)
 end
 
-function _draw()
+function draw()
     background(black)
 
     stroke(green)
@@ -59,12 +70,16 @@ function _draw()
 
     resetMatrix()
 
+    depthMode(true)
+
     perspective()
 
-    camera(vec3(2, -4, -5))
+    camera(vec3(-2, -2, -5))
 
-    rotate(angle)
-    rotate(angle, 1)
+    translate(0, 0, 10)
+
+--    rotate(angle)
+--    rotate(angle, 1)
 
     for i=1, 100 do
         box(img)

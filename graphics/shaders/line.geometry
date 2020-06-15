@@ -1,0 +1,35 @@
+layout(lines) in;
+layout(triangle_strip, max_vertices=256) out;
+
+uniform mat4 matrixPV;
+
+uniform float strokeWidth;
+
+void main() {
+    vec4 v = gl_in[1].gl_Position - gl_in[0].gl_Position;
+    
+    vec4 perpendicular = vec4(-v.y, v.x, 0., 0.);
+    vec4 normal = normalize(perpendicular) * strokeWidth / 2.;
+    
+    gl_Position = matrixPV * (gl_in[0].gl_Position - normal);
+    EmitVertex();
+    
+    gl_Position = matrixPV * (gl_in[1].gl_Position - normal);
+    EmitVertex();
+    
+    gl_Position = matrixPV * (gl_in[1].gl_Position + normal);
+    EmitVertex();
+    
+    EndPrimitive();
+    
+    gl_Position = matrixPV * (gl_in[0].gl_Position - normal);
+    EmitVertex();
+    
+    gl_Position = matrixPV * (gl_in[1].gl_Position + normal);
+    EmitVertex();
+    
+    gl_Position = matrixPV * (gl_in[0].gl_Position + normal);
+    EmitVertex();
+    
+    EndPrimitive();
+}

@@ -57,12 +57,20 @@ mt.add = function (self, v, coef)
     return self
 end
 
+mt.__add = function (self, v)
+    return self:clone():add(v)
+end
+
 mt.sub = function (self, v, coef)
     coef = coef or 1
     self.x = self.x - v.x * coef
     self.y = self.y - v.y * coef
     self.z = self.z - v.z * coef
     return self
+end
+
+mt.__sub = function (self, v)
+    return self:clone():sub(v)
 end
 
 mt.mul = function (self, coef)
@@ -72,20 +80,35 @@ mt.mul = function (self, coef)
     return self
 end
 
+mt.__mul = function(self, coef)
+    if type(self) == 'number' then
+        self, coef = coef, self
+    end
+    return self:clone():mul(coef)
+end
+
+mt.div = function (self, coef)
+    return self:mul(1/coef)
+end
+
+mt.__div = function (self, coef)
+    return self:__mul(1/coef)
+end
+
 mt.normalize = function (self, coef)
     return self:clone():normalizeInPlace(coef)
 end
 
 mt.normalizeInPlace = function (self, coef)
     coef = coef or 1
-    
+
     local len = self:len()
     if len > 0 then
         self.x = self.x * coef / len
         self.y = self.y * coef / len
         self.z = self.z * coef / len
     end
-    
+
     return self
 end
 

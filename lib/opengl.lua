@@ -16,11 +16,6 @@ function OpenGL:loadProcAdresses()
         'glEnable',
         'glDisable',
 
-        'glDepthFunc',
-        'glBlendEquation',
-        'glBlendFunc',
-        'glBlendFuncSeparate',
-
         -- error
         'glGetError',
 
@@ -28,6 +23,18 @@ function OpenGL:loadProcAdresses()
         'glClearColor',
         'glClearDepth',
         'glClear',
+
+        -- blend
+        'glBlendEquation',
+        'glBlendFunc',
+        'glBlendFuncSeparate',
+
+        -- culling
+        'glCullFace',
+        'glFrontFace',
+
+        -- depth
+        'glDepthFunc',
 
         -- shader
         'glIsProgram',

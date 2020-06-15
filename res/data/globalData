@@ -1,4 +1,4 @@
 return {
     ["majorVersion"] = 4,
-    ["appName"] = "line",
+    ["appName"] = "default",
 }

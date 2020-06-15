@@ -7,9 +7,13 @@ function Shader:init(name)
 
     self.ids = {
         vertex = self:build(gl.GL_VERTEX_SHADER, name, 'vertex'),
-        geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry'),
+--        geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry'),
         fragment = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment'),
     }
+
+    if gl.majorVersion >= 3 then
+        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry')
+    end
 
     gl.glLinkProgram(self.program_id)
 
@@ -165,15 +169,15 @@ function ShaderManager:setup()
     shaders = {
         default  = Shader('default'),
         point    = Shader('point'),
-        line     = Shader('point'),
-        polyline = Shader('point'),
-        polygon  = Shader('point'),
+        line     = Shader('line'),
+        polyline = Shader('line'),
+        polygon  = Shader('line'),
         ellipse  = Shader('default'),
         rect     = Shader('default'),
         sprite   = Shader('sprite'),
         text     = Shader('text'),
         box      = Shader('sprite'),
-        --        lines2d  = Shader('lines2d'),
+--        lines2d  = Shader('lines2d'),
     }
 end
 

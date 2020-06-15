@@ -1,16 +1,26 @@
 function resetMatrix()
-    if love then
-        transform = love.math.newTransform()
-    else
-        __pvMatrix = matrix()
+    __projectionMatrix = matrix()
+    __viewMatrix = matrix()
 
-        __projectionMatrix = matrix()
-        __viewMatrix = matrix()
+    __pvMatrix = matrix()
 
-        __modelMatrix = matrix()
+    __modelMatrix = matrix()
 
-        ortho()
-    end
+    ortho()
+end
+
+function pushMatrix()
+    push('__projectionMatrix', __projectionMatrix)
+    push('__viewMatrix', __viewMatrix)
+    push('__pvMatrix', __pvMatrix)
+    push('__modelMatrix', __modelMatrix)
+end
+
+function popMatrix()
+    __projectionMatrix = pop('__projectionMatrix')
+    __viewMatrix = pop('__viewMatrix')
+    __pvMatrix = pop('__pvMatrix')
+    __modelMatrix = pop('__modelMatrix')
 end
 
 function pvMatrix()
@@ -65,10 +75,10 @@ function ortho(left, right, bottom, top, near, far)
     local f = far or 1000
 
     projectionMatrix(matrix(
-        2/(r-l), 0, 0, -(r+l)/(r-l),
-        0, 2/(t-b), 0, -(t+b)/(t-b),
-        0, 0, -2/(f-n), -(f+n)/(f-n),
-        0, 0, 0, 1))
+            2/(r-l), 0, 0, -(r+l)/(r-l),
+            0, 2/(t-b), 0, -(t+b)/(t-b),
+            0, 0, -2/(f-n), -(f+n)/(f-n),
+            0, 0, 0, 1))
 end
 
 function perspective(fovy, aspect, near, far)
@@ -88,13 +98,21 @@ function perspective(fovy, aspect, near, far)
     local top = range
 
     projectionMatrix(matrix(
-        (2 * near) / (right - left), 0, 0, 0,
-        0, (2 * near) / (top - bottom), 0, 0,
-        0, 0, - (far + near) / (far - near), - (2 * far * near) / (far - near),
-        0, 0, - 1, 0))
+            (2 * near) / (right - left), 0, 0, 0,
+            0, (2 * near) / (top - bottom), 0, 0,
+            0, 0, - (far + near) / (far - near), - (2 * far * near) / (far - near),
+            0, 0, - 1, 0))
 end
 
-function camera(eye, at, up)
+function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
+    if type(eye_x) == 'number' then
+        cameraImplem(vec3(eye_x, eye_y, eye_z), vec3(at_x, at_y, at_z), vec3(up_x, up_y, up_z))
+    else
+        cameraImplem(eye_x, eye_y, eye_z)
+    end
+end
+
+function cameraImplem(eye, at, up)
     at = at or vec3()
     up = up or vec3(0, 1, 0)
 
@@ -107,8 +125,8 @@ function camera(eye, at, up)
     u:set(s):crossInPlace(f)
 
     viewMatrix(matrix(
-        s.x,  s.y,  s.z, -s:dot(eye),
-        u.x,  u.y,  u.z, -u:dot(eye),
-        -f.x, -f.y, -f.z,  f:dot(eye),
-        0, 0, 0, 1))
+            s.x,  s.y,  s.z, -s:dot(eye),
+            u.x,  u.y,  u.z, -u:dot(eye),
+            -f.x, -f.y, -f.z,  f:dot(eye),
+            0, 0, 0, 1))
 end

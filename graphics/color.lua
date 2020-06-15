@@ -23,7 +23,7 @@ color_meta = ffi.metatype('color', {
                 clr.g = g or clr.r
                 clr.b = b or clr.r
                 clr.a = a or 1
-                
+
                 if clr.r > 1 then
                     clr.r = clr.r / 255
                     clr.g = clr.g / 255
@@ -34,15 +34,33 @@ color_meta = ffi.metatype('color', {
         }
     })
 
-function Color(r, g, b, a)
+class 'Color'
+
+function Color:init(r, g, b, a)
     local self = color_meta()
     self:set(r, g, b, a)
     return self
 end
 
+function Color.random()
+    return Color(
+        math.random(),
+        math.random(),
+        math.random(),
+        1)
+end
+
 black = Color(0)
 white = Color(1)
+
+gray = Color(0.5)
 
 red   = Color(1, 0, 0)
 green = Color(0, 1, 0)
 blue  = Color(0, 0, 1)
+
+yellow  = Color(1, 1, 0)
+magenta = Color(1, 0, 1)
+cyan    = Color(0, 1, 1)
+
+transparent = Color(0, 0, 0, 0)
