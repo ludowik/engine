@@ -29,3 +29,10 @@ end
 function Application:draw()
     background(black)
 end
+
+function application(name)
+    local k = class(name)
+    k:extends(Application)
+    
+    _G.env.appClass = k
+end

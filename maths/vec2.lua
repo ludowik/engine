@@ -74,12 +74,24 @@ mt.normalize = function (self, coef)
     return self
 end
 
-mt.tobytes = function (clr)
-    return clr.values
+mt.tobytes = function (v)
+    return v.values
 end
 
-mt.__len = function (clr)
+mt.__len = function (v)
     return 2
+end
+
+mt.__pairs = function (v)
+    local i = 0
+    local attribs = {'x', 'y'}
+    local f = function ()
+        if i < #attribs then
+            i = i + 1
+            return attribs[i]
+        end
+    end
+    return f, v, nil
 end
 
 vec2 = ffi.metatype('vec2', mt)

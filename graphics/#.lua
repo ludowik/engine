@@ -4,5 +4,6 @@ require 'graphics.shader'
 require 'graphics.mesh'
 require 'graphics.model'
 require 'graphics.image'
-
+require 'graphics.shape'
+require 'graphics.context'
 require 'graphics.graphics'

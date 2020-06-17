@@ -7,3 +7,5 @@ function saveConfig()
     saveGlobalData('majorVersion', gl.majorVersion)
     saveGlobalData('appName', engine.appName)
 end
+
+class 'config'

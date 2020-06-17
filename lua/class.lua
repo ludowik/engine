@@ -1,7 +1,7 @@
 function class(className)
     local k = {}
     k.__index = k
-    k.__className = className
+    k.__className = className:lower()
 
     k.init = function (self)
 --        if self.__base then
@@ -26,6 +26,8 @@ function class(className)
 
         getmetatable(self).__index = __base
     end
+    
+    k.attribs = table.attribs
 
     mt = {
         __call = function (_, ...)
@@ -41,4 +43,16 @@ function class(className)
     _G[className] = k
 
     return k
+end
+
+function typeof(t)
+    local typeof = type(t)
+    if typeof == 'table' then 
+        return t.__className or 'table'
+
+    elseif typeof == 'cdata' then 
+        return 'cdata'
+
+    end
+    return typeof
 end

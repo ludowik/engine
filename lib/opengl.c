@@ -146,6 +146,28 @@ typedef intptr_t GLsizeiptr;
 #define GL_LEQUAL 0x0203
 #define GL_LESS 0x0201
 
+#define GL_FRAMEBUFFER 0x8D40
+#define GL_RENDERBUFFER 0x8D41
+
+#define GL_DEPTH_COMPONENT16 0x81A5
+#define GL_DEPTH_COMPONENT24 0x81A6
+#define GL_DEPTH_COMPONENT32 0x81A7
+
+#define GL_DEPTH_ATTACHMENT 0x8D00
+
+#define GL_COLOR_ATTACHMENT0 0x8CE0
+#define GL_COLOR_ATTACHMENT1 0x8CE1
+#define GL_COLOR_ATTACHMENT2 0x8CE2
+#define GL_COLOR_ATTACHMENT3 0x8CE3
+#define GL_COLOR_ATTACHMENT4 0x8CE4
+#define GL_COLOR_ATTACHMENT5 0x8CE5
+#define GL_COLOR_ATTACHMENT6 0x8CE6
+#define GL_COLOR_ATTACHMENT7 0x8CE7
+#define GL_COLOR_ATTACHMENT8 0x8CE8
+#define GL_COLOR_ATTACHMENT9 0x8CE9
+
+#define GL_FRAMEBUFFER_COMPLETE 0x8CD5
+
 GLenum glGetError(void);
 
 void glEnable(GLenum cap);
@@ -189,6 +211,16 @@ void glActiveTexture(GLenum texture);
 void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
 void glPixelStorei(GLenum pname, GLint param);
 void glTexParameteri(GLenum target, GLenum pname, GLint param);
+void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, void* pixels);
+void glGenFramebuffers(GLsizei n, GLuint *ids);
+void glBindFramebuffer(GLenum target, GLuint framebuffer);
+void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers);
+void glBindRenderbuffer(GLenum target, GLuint renderbuffer);
+void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+void glFramebufferTexture(GLenum target, GLenum attachment, GLuint texture, GLint level);
+void glDrawBuffer(GLenum buf);
+GLenum glCheckFramebufferStatus(GLenum target);
 
 GLint glGetAttribLocation(GLuint program, const GLchar *name);
 void glGetActiveAttrib(GLuint program​, GLuint index​, GLsizei bufSize​, GLsizei *length​, GLint *size​, GLenum *type​, GLchar *name​);
@@ -222,6 +254,8 @@ void glVertexAttribDivisor(GLuint index, GLuint divisor);
 
 void glEnableVertexAttribArray(GLuint index);
 void glDisableVertexAttribArray(GLuint index);
+
+void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 
 void glClear(GLbitfield mask);
 void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
@@ -286,6 +320,16 @@ typedef void (*PFN_glActiveTexture)(GLenum texture);
 typedef void (*PFN_glTexImage2D)(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
 typedef void (*PFN_glPixelStorei)(GLenum pname, GLint param);
 typedef void (*PFN_glTexParameteri)(GLenum target, GLenum pname, GLint param);
+typedef void (*PFN_glGetTexImage)(GLenum target, GLint level, GLenum format, GLenum type, void* pixels);
+typedef void (*PFN_glGenFramebuffers)(GLsizei n, GLuint *ids);
+typedef void (*PFN_glBindFramebuffer)(GLenum target, GLuint framebuffer);
+typedef void (*PFN_glGenRenderbuffers)(GLsizei n, GLuint *renderbuffers);
+typedef void (*PFN_glBindRenderbuffer)(GLenum target, GLuint renderbuffer);
+typedef void (*PFN_glRenderbufferStorage)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void (*PFN_glFramebufferRenderbuffer)(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+typedef void (*PFN_glFramebufferTexture)(GLenum target, GLenum attachment, GLuint texture, GLint level);
+typedef void (*PFN_glDrawBuffer)(GLenum buf);
+typedef GLenum (*PFN_glCheckFramebufferStatus)(GLenum target);
 
 typedef GLint (*PFN_glGetAttribLocation)(GLuint program, const GLchar *name);
 typedef void (*PFN_glGetActiveAttrib)(GLuint program​, GLuint index​, GLsizei bufSize​, GLsizei *length​, GLint *size​, GLenum *type​, GLchar *name​);
@@ -319,6 +363,8 @@ typedef void (*PFN_glVertexAttribDivisor)(GLuint index, GLuint divisor);
 
 typedef void (*PFN_glEnableVertexAttribArray)(GLuint index);
 typedef void (*PFN_glDisableVertexAttribArray)(GLuint index);
+
+typedef void (*PFN_glViewport)(GLint x, GLint y, GLsizei width, GLsizei height);
 
 typedef void (*PFN_glClear)(GLbitfield mask);
 typedef void (*PFN_glClearColor)(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);

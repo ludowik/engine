@@ -213,6 +213,12 @@ function sprite(img, x, y)
     meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
 end
 
+function font(name)
+end
+
+function fontSize(size)
+end
+
 function text(str, x, y)
     str = tostring(str)
 
@@ -228,6 +234,20 @@ function text(str, x, y)
         img:release()
         ft.release_text(txt)
     end
+end
+
+function textSize(str)
+    str = tostring(str)
+
+    local txt = ft.load_text(ft.hFont, str)
+    local img = Image():makeTexture(txt)
+
+    local w, h = img.surface.w, img.surface.h
+
+    img:release()
+    ft.release_text(txt)
+
+    return w, h
 end
 
 function box(img)

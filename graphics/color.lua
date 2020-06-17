@@ -31,7 +31,19 @@ color_meta = ffi.metatype('color', {
                     clr.a = clr.a / 255
                 end
             end
-        }
+        },
+
+        __pairs = function (v)
+            local i = 0
+            local attribs = {'r', 'g', 'b', 'a'}
+            local f = function ()
+                if i < #attribs then
+                    i = i + 1
+                    return attribs[i]
+                end
+            end
+            return f, v, nil
+        end
     })
 
 class 'Color'

@@ -4,6 +4,8 @@ function Engine:init()
     assert(engine == nil)
     engine = self
 
+    ut.testAll()
+
     self.app = Application()
 
     self.active = 'start'
@@ -14,7 +16,7 @@ function Engine:init()
     self.components = Node()
     do
         self.components:add(self.memory)
-        self.components:add(self.frame_time)
+--        self.components:add(self.frame_time)
         self.components:add(Path())
 
         self.components:add(sdl)
@@ -23,6 +25,8 @@ function Engine:init()
         self.components:add(Graphics())
         self.components:add(ft)
 --        self.components:add(self)
+
+        tween.setup()
     end
 
     W = 1280
@@ -67,11 +71,38 @@ function Engine:run(appName)
 
         self:setup()
 
+        resetMatrix()
+
+--        renderFrame = Image(W, H)
+
         self.active = 'running'
 
+        local deltaTime = 0
         while self.active == 'running' do
-            self:update(self.frame_time.delta_time)
-            self:draw()
+            self.frame_time:update()
+
+            deltaTime = deltaTime + self.frame_time.delta_time
+
+            if deltaTime >= 1/60 then
+                deltaTime = deltaTime - 1/60
+
+                if renderFrame then
+                    resetMatrix()
+                    setContext(renderFrame)
+                end
+
+                self:update(1/60)
+                self:draw()
+
+                self.frame_time:draw()
+
+                if renderFrame then
+                    Context.noContext()
+                    ortho(0, W + W_INFO, 0, H)
+
+                    renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
+                end
+            end
         end
 
         if type(self.active) == 'function' then
@@ -150,35 +181,37 @@ function Engine:loopApp()
     self.action = self.nextApp
 end
 
-function Engine:nextApp()
-    local files = dir('./applications')
-    files:apply(function (file)
-            return file:lower():gsub('%.lua', '')
+function Engine:dirApps()
+    local apps = dir('./applications')
+    apps:apply(function (app)
+            return app:lower():gsub('%.lua', '')
         end)
+    return apps
+end
+
+function Engine:nextApp()
+    local apps = self:dirApps()
 
     local nextAppIndex = 1
-    for i,file in ipairs(files) do
-        if file == self.appName then
-            if i < #files then
+    for i,appName in ipairs(apps) do
+        if appName == self.appName then
+            if i < #apps then
                 nextAppIndex = i + 1
                 break
             end
         end
     end    
 
-    local appName = files[nextAppIndex]
+    local appName = apps[nextAppIndex]
     self:loadApp(appName)
 end
 
 function Engine:previousApp()
-    local files = dir('./applications')
-    files:apply(function (file)
-            return file:lower():gsub('%.lua', '')
-        end)
+    local apps = self:dirApps()
 
-    local previousAppIndex = #files
-    for i,file in ipairs(files) do
-        if file == self.appName then
+    local previousAppIndex = #apps
+    for i,appName in ipairs(apps) do
+        if appName == self.appName then
             if i > 1 then
                 previousAppIndex = i - 1
                 break
@@ -186,7 +219,7 @@ function Engine:previousApp()
         end
     end    
 
-    local appName = files[previousAppIndex]
+    local appName = apps[previousAppIndex]
     self:loadApp(appName)
 end
 

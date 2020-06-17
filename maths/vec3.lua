@@ -136,12 +136,24 @@ mt.dot = function (self, v)
     )
 end
 
-mt.tobytes = function (clr)
-    return clr.values
+mt.tobytes = function (v)
+    return v.values
 end
 
-mt.__len = function (clr)
+mt.__len = function (v)
     return 3
+end
+
+mt.__pairs = function (v)
+    local i = 0
+    local attribs = {'x', 'y', 'z'}
+    local f = function ()
+        if i < #attribs then
+            i = i + 1
+            return attribs[i]
+        end
+    end
+    return f, v, nil
 end
 
 vec3 = ffi.metatype('vec3', mt)

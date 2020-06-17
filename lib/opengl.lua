@@ -19,6 +19,9 @@ function OpenGL:loadProcAdresses()
         -- error
         'glGetError',
 
+        -- viewport
+        'glViewport',
+        
         -- clear
         'glClearColor',
         'glClearDepth',
@@ -111,6 +114,18 @@ function OpenGL:loadProcAdresses()
         'glTexImage2D',
         'glPixelStorei',
         'glTexParameteri',
+        'glGetTexImage',
+        
+        -- frame & render buffers
+        'glGenFramebuffers',
+        'glBindFramebuffer',
+        'glGenRenderbuffers',
+        'glBindRenderbuffer',
+        'glRenderbufferStorage',
+        'glFramebufferRenderbuffer',
+        'glFramebufferTexture',
+        'glDrawBuffer',
+        'glCheckFramebufferStatus',
     }
 
     for i,v in ipairs(self.defs) do
@@ -209,6 +224,16 @@ function OpenGL:setup()
     function self.glDeleteTexture(id)
         idptr[0] = id
         self.glDeleteTextures(1, idptr)
+    end
+    
+    function self.glGenFramebuffer()
+        self.glGenFramebuffers(1, idptr)
+        return idptr[0]
+    end
+    
+    function self.glGenRenderbuffer()
+        self.glGenRenderbuffers(1, idptr)
+        return idptr[0]
     end
 
     background(black)

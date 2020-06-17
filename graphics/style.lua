@@ -3,8 +3,14 @@ class 'Style'
 function Style:init()
     self.attributes = {
         fill = white,
+
         stroke = white,
-        strokeWidth = 1
+        strokeWidth = 1,
+
+        rectMode = CORNER,
+        textMode = CORNER,
+
+        spriteMode = CORNER,
     }
 end
 
@@ -34,13 +40,20 @@ function noStroke()
 end
 
 function strokeWidth(width)
-    local res = style:setAttribute('strokeWidth', width)
-    applyStyle()
-    return res
+    return style:setAttribute('strokeWidth', width)
 end
 
-function applyStyle()
-    if love then
-        love.graphics.setPointSize(style.attributes.strokeWidth)
-    end
+CENTER = 'center'
+CORNER = 'corner'
+
+function textMode(mode)
+    return style:setAttribute('textMode', mode)
+end
+
+function rectMode(mode)
+    return style:setAttribute('rectMode', mode)
+end
+
+function spriteMode(mode)
+    return style:setAttribute('spriteMode', mode)
 end

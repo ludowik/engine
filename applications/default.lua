@@ -22,7 +22,9 @@ function setup()
             }
             return colors['c'..ix..iy] or transparent
         end)
-
+    
+    img:reversePixels()
+    
     perf = Buffer()
 end
 
