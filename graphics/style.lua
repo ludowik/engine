@@ -35,12 +35,5 @@ end
 
 function strokeWidth(width)
     local res = style:setAttribute('strokeWidth', width)
-    applyStyle()
     return res
-end
-
-function applyStyle()
-    if love then
-        love.graphics.setPointSize(style.attributes.strokeWidth)
-    end
 end

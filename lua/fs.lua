@@ -81,12 +81,8 @@ function load(file)
 end
 
 function fs.mkdir(path)
-    if love then
-        love.filesystem.createDirectory(path)
-    else
-        local fullPath = getSavePath(fil)
-        lfs.mkdir(fullPath)
-    end
+    local fullPath = getSavePath(fil)
+    lfs.mkdir(fullPath)
 end
 
 function loadFile(file, filesPath)
