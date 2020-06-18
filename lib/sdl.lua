@@ -13,6 +13,8 @@ class 'Sdl' : meta(ffi.load(lib_path))
 
 sdl = Sdl()
 
+sdl.image = class 'SdlImage' : meta(ffi.load('SDL2_image.framework/SDL2_image'))
+
 function Sdl:setup()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
         self.SDL_SetThreadPriority(self.SDL_THREAD_PRIORITY_HIGH)

@@ -25,6 +25,8 @@ function class(className)
         end
 
         getmetatable(self).__index = __base
+        
+        return self
     end
     
     k.attribs = table.attribs

@@ -1,8 +1,15 @@
 class 'Image'
 
 function Image:init(w, h)
-    if w and h then
+    if type(w) == 'number' and h then
         self:create(w, h)
+    elseif type(w) == 'string' then
+        local surface = sdl.image.IMG_Load(imageName)
+        surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
+        self.width = w
+        self.height = h
+
+        self:makeTexture(surface)
     end
 end
 
@@ -20,7 +27,7 @@ function Image:create(w, h)
     }
 
     surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
-    
+
     self.width = w
     self.height = h
 
@@ -107,10 +114,10 @@ function Image:reversePixels(pixels, w, h, bytesPerPixel)
 
     if pixels == nil then
         pixels = self.surface.pixels
-        
+
         w = self.surface.w
         h = self.surface.h
-        
+
         bytesPerPixel = self.surface.format.BytesPerPixel
     end
 

@@ -7,6 +7,8 @@ function setup()
 
     angle = 0
 
+    img2 = Image('res/images/marsu.jpeg')
+    
     img = Image(4*100, 3*100)
     img:fragment(function (x, y)
             local ix = math.floor(x/100)
@@ -69,6 +71,7 @@ function draw()
     lines(vertices)
 
     sprite(img, 200, 200)
+    sprite(img2, 300, 200)
 
     resetMatrix()
 
