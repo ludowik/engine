@@ -1,4 +1,5 @@
 return {
+    ["minorVersion"] = 1,
     ["majorVersion"] = 4,
-    ["appName"] = "surface",
+    ["appName"] = "blendmode",
 }

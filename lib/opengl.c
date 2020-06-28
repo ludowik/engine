@@ -123,7 +123,12 @@ typedef intptr_t GLsizeiptr;
 #define GL_BLEND 0x0BE2
 #define GL_FUNC_ADD 0x8006
 
+#define GL_ZERO 0
 #define GL_ONE 1
+
+#define GL_DST_ALPHA 0x0304
+#define GL_DST_COLOR 0x0306
+
 #define GL_SRC_ALPHA 0x0302
 #define GL_ONE_MINUS_SRC_ALPHA 0x0303
 

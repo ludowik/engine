@@ -1,15 +1,15 @@
-debugger = require('mobdebug')
+package.path = package.path..';'..'?/#.lua;?/main.lua;'
 
+debugger = require('mobdebug')
 if arg[#arg] == '-debug' then
     debugger.start()
     debugger.on()
     debugger.coro()
-    
+
     debugging = true
-    
 end
 
-package.path = package.path..';'..'?/#.lua;?/main.lua;'
+jit.on()
 
 lfs = require 'lfs'
 
@@ -17,8 +17,6 @@ require 'lua'
 require 'maths'
 
 require 'engine.component'
-
-require 'graphics'
 
 require 'engine.config'
 require 'engine.mouse'
@@ -30,4 +28,5 @@ require 'engine.frame_time'
 require 'engine.engine_memory'
 require 'engine.parameter'
 
+require 'graphics'
 require 'lib'

@@ -36,6 +36,8 @@ function dir(path, list, subPath)
 end
 
 function toggle(value, opt1, opt2)
+    if value == nil then return opt1 end
+    
     if value == opt1 then
         return opt2
     end

@@ -29,8 +29,6 @@ function Graphics:setup()
     meshSprite.vertices, meshSprite.texCoords = Model.rect(0, 0, 1, 1)
     meshSprite.shader = shaders['sprite']
 
-    TEXT_NEXT_Y = 0
-
     meshText = Mesh()
     meshText.vertices, meshText.texCoords = Model.rect(0, 0, 1, 1)
     meshText.shader = shaders['text']
@@ -43,14 +41,9 @@ end
 function Graphics:release()
 end
 
-function mode()
-    sdl.SDL_GL_SetSwapInterval(0)
-
-    blendMode(NORMAL)
-
-    depthMode(false)
-
-    cullingMode(true)
+function Graphics:update()
+    resetMatrix()
+    resetStyle()
 end
 
 local currentBlendMode
@@ -67,7 +60,6 @@ function blendMode(mode)
             if mode == NORMAL then
                 gl.glEnable(gl.GL_BLEND)
                 gl.glBlendEquation(gl.GL_FUNC_ADD)
---                gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
                 gl.glBlendFuncSeparate(
                     gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA, 
                     gl.GL_ONE, gl.GL_ONE_MINUS_SRC_ALPHA)
@@ -128,18 +120,8 @@ function depthMode(mode)
     return currentDepthMode
 end
 
-local __clr = Color()
-function temp_color(r, g, b, a)
-    if type(r) == 'cdata' then
-        return r
-    else
-        __clr:set(r, g, b, a)
-        return __clr
-    end
-end
-
 function background(clr, ...)
-    clr = temp_color(clr, ...)
+    clr = Color.args(clr, ...)
 
     gl.glClearColor(clr.r, clr.g, clr.b, clr.a)
     gl.glClearDepth(1)
@@ -214,13 +196,18 @@ function sprite(img, x, y)
 end
 
 function font(name)
+    ft:setFontName(name)
 end
 
 function fontSize(size)
+    ft:setFontSize(size)
 end
 
 function text(str, x, y)
     str = tostring(str)
+    
+    x = x or 0
+    y = y or TEXT_NEXT_Y
 
     clr = stroke()
     if clr then

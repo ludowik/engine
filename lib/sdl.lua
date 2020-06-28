@@ -56,6 +56,7 @@ function Sdl:setup()
                 self.context = context
 
                 self.SDL_GL_MakeCurrent(window, context)
+                self.SDL_GL_SetSwapInterval(0)
 
                 self.SDL_SetWindowPosition(window, r.x+100, r.y+100)
                 self.SDL_SetWindowSize(window, W, H)
@@ -106,6 +107,6 @@ function Sdl:update(dt)
     end
 end
 
-function Sdl:draw()
+function Sdl:swap()
     self.SDL_GL_SwapWindow(self.window)
 end

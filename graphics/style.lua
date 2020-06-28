@@ -21,18 +21,28 @@ function Style:setAttribute(attribute_name, value, reset)
     return self.attributes[attribute_name]
 end
 
-style = Style()
+function resetStyle()
+    style = Style()
 
-function fill(clr)
-    return style:setAttribute('fill', clr)
+    TEXT_NEXT_Y = H
+
+    blendMode(NORMAL)
+    depthMode(false)
+    cullingMode(true)
+
+    fontSize(12)
+end
+
+function fill(...)
+    return style:setAttribute('fill', Color.args(...):clone())
 end
 
 function noFill()
     return style:setAttribute('fill', nil, true)
 end
 
-function stroke(clr)
-    return style:setAttribute('stroke', clr)
+function stroke(...)
+    return style:setAttribute('stroke', Color.args(...):clone())
 end
 
 function noStroke()

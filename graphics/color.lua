@@ -62,6 +62,16 @@ function Color.random()
         1)
 end
 
+local __clr = Color()
+function Color.args(r, g, b, a)
+    if type(r) == 'cdata' then
+        return r
+    else
+        __clr:set(r, g, b, a)
+        return __clr
+    end
+end
+
 black = Color(0)
 white = Color(1)
 

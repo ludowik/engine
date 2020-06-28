@@ -4,12 +4,13 @@ function Image:init(w, h)
     if type(w) == 'number' and h then
         self:create(w, h)
     elseif type(w) == 'string' then
-        local surface = sdl.image.IMG_Load(w)
+        self.surface = sdl.image.IMG_Load(w)
 --        surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
-        self.width = surface.w
-        self.height = surface.h
+        self.width = self.surface.w
+        self.height = self.surface.h
 
-        self:makeTexture(surface)
+        self:reversePixels()
+        self:makeTexture()
     end
 end
 
