@@ -1,4 +1,5 @@
 return {
+    ["renderMode"] = "frame",
     ["minorVersion"] = 1,
     ["majorVersion"] = 4,
     ["appName"] = "blendmode",

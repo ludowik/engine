@@ -16,30 +16,8 @@ else
 
 end
 
-ffi.cdef([[
-    typedef void* Handle;
-    typedef unsigned char GLubyte;
-
-    typedef struct {
-        int w;
-        int h;
-        int size;
-        GLubyte* pixels;
-        struct {
-            int BytesPerPixel;
-            unsigned int Rmask;
-            } format;
-        } Glyph;
-
-    Handle init_module();
-    void release_module(Handle lib);
-
-    Handle load_font(Handle lib, const char* font_name, int font_size);
-    void release_font(Handle face);
-
-    Glyph load_text(Handle face, const char* text);
-    void release_text(Glyph glyph);
-]])
+local code, defs = precompile(io.read('./lib/freetype.h'))
+ffi.cdef(code)
 
 if os.name == 'windows' then
     ffi.load('C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll')
@@ -51,7 +29,9 @@ function FreeType:setup()
     self.hLib = self.init_module()
     self.hFont = false
 
-    self:setFont('JetBrainsMono-Regular', 12)
+    self.hFonts = Table()
+
+    self:setFont()
 end
 
 function FreeType:setFontName(fontName)
@@ -63,8 +43,10 @@ function FreeType:setFontSize(fontSize)
 end
 
 function FreeType:setFont(fontName, fontSize)
-    self.fontName = fontName
-    self.fontSize = fontSize
+    self.fontName = fontName or 'JetBrainsMono-Regular'
+    self.fontSize = fontSize or 12
+    
+    self.fontRef = self.fontName..'.'..self.fontSize
 
     if os.name == 'osx' then
         self.fontPath = '/Users/lca/Projets/Lua/engine/res/fonts/'..self.fontName..'.ttf'
@@ -72,14 +54,20 @@ function FreeType:setFont(fontName, fontSize)
         self.fontPath = 'C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Lua/engine/res/fonts/'..self.fontName..'.ttf'
     end
 
-    if self.hFont then
-        self.release_font(self.hFont)
+    if not self.hFonts[self.fontRef] then
+
+        self.hFonts[self.fontRef] = self.load_font(self.hLib, self.fontPath, self.fontSize)
     end
-    self.hFont = self.load_font(self.hLib, self.fontPath, self.fontSize)
+
+    self.hFont = self.hFonts[self.fontRef]
 end
 
 function FreeType:release()
-    self.release_font(self.hFont)
+    log('release '..self.hFonts:getnKeys()..' fonts')
+    
+    for k,hFont in pairs(self.hFonts) do
+        self.release_font(hFont)
+    end
     self.release_module(self.hLib)
 end
 

@@ -32,6 +32,8 @@ function MeshRender:sendAttribute(attributeName, data, nComponents)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
 
         local n = #data
+        
+        -- TODO : gérer la version correctement
         if true or not attribute.sent or attribute.sent ~= n or attribute.version ~= data.version then
             attribute.sent = n
             attribute.version = data.version

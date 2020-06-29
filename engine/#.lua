@@ -11,8 +11,6 @@ end
 
 jit.on()
 
-lfs = require 'lfs'
-
 require 'lua'
 require 'maths'
 

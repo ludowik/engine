@@ -43,3 +43,28 @@ end
 
 function Array:resize(n)
 end
+
+function Array.test()
+    local t = Array()
+    ut.assertEqual('table', #t, 0)
+
+    for i=1,100 do
+        t:add(i)
+    end
+    ut.assertEqual('table.add', #t, 100)
+
+    for i,v in t:items() do
+        ut.assertEqual('table.items', v, i)
+        ut.assertEqual('table.items', v, t[i])
+    end
+
+    for i,v in t:items(true) do
+        ut.assertEqual('table.items', v, i)
+        ut.assertEqual('table.items', v, t[i])
+    end
+
+    for i=1,100 do
+        t:remove(1)
+    end
+    ut.assertEqual('table.remove', #t, 0)
+end

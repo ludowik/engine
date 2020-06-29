@@ -142,7 +142,7 @@ function mt.__mul(m1, m2, res)
             end
 
             res.values[j] = value
-            
+
             j = j + 1
 
         end
@@ -153,6 +153,25 @@ end
 
 function mt.tobytes(m1)
     return m1.values
+end
+
+function mt.perf()
+    Performance.evaluate('create matrix', 
+        function (i)
+            matrix(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+        end)
+
+    Performance.evaluate('create and set matrix', 
+        function (i, m)
+            m:set(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+        end,
+        matrix())
+
+    Performance.evaluate('multiply matrix',
+        function (i, m1, m2)
+            local m = m1 * m2
+        end,
+        matrix(), matrix())
 end
 
 meta_matrix = ffi.metatype('matrix', mt)
@@ -170,3 +189,4 @@ function matrix(i0, ...)
     end
     return mat
 end
+

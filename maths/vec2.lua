@@ -13,16 +13,8 @@ ffi.cdef [[
 mt = {}
 mt.__index = mt
 
-mt.len = function (self)
-    return math.sqrt(self.x^2 + self.y^2)
-end
-
-mt.clone = function (self)
-    return vec2(self)
-end
-
 mt.set = function (self, x, y)
-    if type(x) == 'number' then
+    if x == nil or type(x) == 'number' then
         self.x = x
         self.y = y
     else
@@ -30,6 +22,10 @@ mt.set = function (self, x, y)
         self.y = x.y
     end
     return self
+end
+
+mt.clone = function (self)
+    return vec2(self)
 end
 
 mt.random = function (self, w, h)
@@ -42,6 +38,10 @@ mt.random = function (self, w, h)
             random.random(),
             random.random())
     end
+end
+
+mt.len = function (self)
+    return math.sqrt(self.x^2 + self.y^2)
 end
 
 mt.add = function (self, v, coef)

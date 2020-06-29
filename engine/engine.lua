@@ -2,10 +2,12 @@ class 'Engine'
 
 function Engine:init()
     assert(engine == nil)
+
     engine = self
     engine.envs = engine.envs or {}
 
-    ut.testAll()
+    ut.run()
+    performance.run()
 
     self.app = Application()
 
@@ -61,7 +63,6 @@ end
 function Engine:setup()
     loadConfig()
     self.components:setup()
-    evaluatePerf()
     self:loadApp(self.appName)
 end
 
@@ -81,15 +82,15 @@ function Engine:run(appName)
         self.active = 'running'
 
         local deltaTime = 0
-        
+
         self.fpsTarget = 120
-        
+
         self.frame_time:init()
 
         while self.active == 'running' do
             self.frame_time:update()
             deltaTime = deltaTime + self.frame_time.delta_time
-            
+
             local maxDeltaTime = 1/self.fpsTarget
 
             if deltaTime >= maxDeltaTime then
@@ -170,8 +171,10 @@ function Engine:update(dt)
 end
 
 function Engine:preRender()    
+    resetMatrix()
+    resetStyle()
+
     if self.renderFrame then
-        resetMatrix()
         setContext(self.renderFrame)
     else
         Context.noContext()
@@ -191,12 +194,10 @@ function Engine:draw()
 
     self:postRender()
 
-    self:preRender()
+--    self:preRender()
 
     resetMatrix()
     resetStyle()
-
-    background(transparent)
 
     do
         function info(name, value)
@@ -217,7 +218,7 @@ function Engine:draw()
         info('render mode', self.renderMode)
     end
 
-    self:postRender()
+--    self:postRender()
 
     sdl:swap()
 end
@@ -229,6 +230,14 @@ function Engine:postRender()
         Context.noContext()
         ortho(0, W + W_INFO, 0, H)
 
+        background(Color(0, 0, 0, 1))
+
+        blendMode(NORMAL)
+        depthMode(false)
+
+        resetMatrix()
+        resetStyle()
+
         self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
     end
 end
@@ -237,7 +246,7 @@ function Engine:keydown(key)
     if self.onEvents.keydown[key] then
         self.onEvents.keydown[key](self)
     else
-        print(string.format('no action for {key}', {key=key}))
+        log(string.format('no action for {key}', {key=key}))
     end
 end
 
@@ -298,7 +307,7 @@ function Engine:loadApp(appName, reloadApp)
     saveGlobalData('appName', engine.appName)
 
     if self.envs[self.appPath] == nil or reloadApp then
-        print('load '..self.appPath)
+        log('load '..self.appPath)
 
         self.envs[self.appPath] = {}
 
@@ -324,14 +333,13 @@ function Engine:loadApp(appName, reloadApp)
         end
 
     else
-        print('switch '..self.appPath)
+        log('switch '..self.appPath)
 
         local env = self.envs[self.appPath]
         _G.env = env
         setfenv(0, env)
     end
 end
-
 
 function setup()
     engine.app:__setup()

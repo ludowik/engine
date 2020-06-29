@@ -3,6 +3,8 @@ function loadConfig()
     gl.minorVersion = readGlobalData('minorVersion', 1)
     
     engine.appName = readGlobalData('appName', 'default')
+    
+    engine.renderMode = readGlobalData('renderMode', 'frame')
 end
 
 function saveConfig()
@@ -10,6 +12,8 @@ function saveConfig()
     saveGlobalData('minorVersion', gl.minorVersion)
     
     saveGlobalData('appName', engine.appName)
+    
+    saveGlobalData('renderMode', engine.renderMode)
 end
 
 class 'config'

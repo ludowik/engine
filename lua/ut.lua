@@ -1,24 +1,31 @@
-class('ut')
+class 'ut'
 
-function ut.assert(name, expression)
-    assert(expression, name)
+function ut.assert(name, expression, level)
+    if not expression then
+        error(name, level or 2)
+    end
 end
 
 function ut.assertEqual(name, expression, value)
-    assert(expression == value, name)
+    ut.assert(name, expression == value, 3)
 end
 
 function ut.assertBetween(name, expression, min, max)
-    assert(min <= expression and expression <= max, name)
+    ut.assert(name, min <= expression and expression <= max, 3)
 end
 
-function ut.testAll()
-    for k,v in pairs(_G) do
-        if type(v) == 'table' then
-            local test = rawget(v, 'test')
-            if test then
-                test()
-            end
-        end
-    end
+function ut.run()
+    call('test')
+end
+
+function ut.test()
+    ut.assert('assert', true)
+
+    ut.assertEqual('assertEqual', 1, 1)
+    ut.assertEqual('assertEqual', nil, nil)
+    ut.assertEqual('assertEqual', 'test', 'test')
+    
+    ut.assertBetween('assertBetween', 1, 1, 3)
+    ut.assertBetween('assertBetween', 2, 1, 3)
+    ut.assertBetween('assertBetween', 3, 1, 3)
 end

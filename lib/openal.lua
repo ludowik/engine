@@ -21,7 +21,6 @@ end
 function OpenAL:release()
 end
 
-
 local device = al.alcOpenDevice(ffi.NULL)
 
 if device then
