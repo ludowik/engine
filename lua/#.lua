@@ -16,14 +16,20 @@ require 'lua.module'
 require 'lua.fs'
 require 'lua.tween'
 require 'lua.heap'
+require 'lua.convert'
+require 'lua.grid'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 
-function dir(path)
-    local list = Array()
+function dir(path, list, subPath)
+    list = list or Array()
     for file in lfs.dir(path) do
-        if file ~= '.' and file ~= '..'  then
-            table.insert(list, file)
+        if not file:startWith('.') then
+            if isFile(path..'/'..file) then
+                table.insert(list, subPath and (subPath..'/'..file) or file)
+            else
+                dir(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
+            end
         end
     end
     return list

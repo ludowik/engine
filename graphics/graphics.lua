@@ -210,7 +210,9 @@ function ellipse(x, y, w, h)
 end
 
 function sprite(img, x, y)
-    meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+    if img and img.surface then
+        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+    end
 end
 
 function text(str, x, y)

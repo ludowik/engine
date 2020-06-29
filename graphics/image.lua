@@ -1,8 +1,10 @@
-class 'Image'
+image = class 'Image'
 
 function Image:init(w, h)
     if w and h then
         self:create(w, h)
+    else
+        self:create(100, 100)
     end
 end
 
@@ -20,6 +22,9 @@ function Image:create(w, h)
     }
 
     surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
+    
+    self.width = w
+    self.height = h
 
     self:makeTexture(surface)
 end
@@ -122,4 +127,60 @@ function Image:fragment(f)
     end
 
     self:makeTexture()
+end
+
+function image:readPixels()
+    return self.surface.pixels
+end
+
+function image:offset(x, y)
+    x = tointeger(x-1)
+    y = tointeger(y-1)
+
+    local offset = self.width * y + x
+    if offset >= 0 and offset < self.width * self.height then
+        return offset
+    end
+end
+
+function image:set(x, y, color_r, g, b, a)
+    a = a or 1
+
+    if type(color_r) == 'cdata' then
+        color_r, g, b, a = color_r.r, color_r.g, color_r.b, color_r.a
+    end
+
+    local pixels = self:readPixels()
+
+    local offset = self:offset(x, y)
+    if offset then
+        pixels[offset  ] = color_r * 255
+        pixels[offset+1] = g * 255
+        pixels[offset+2] = b * 255
+        pixels[offset+3] = a * 255
+
+        self.needUpdate = true
+    end
+end
+
+function image:get(x, y, clr)
+    clr = clr or Color()
+
+    self:readPixels()
+
+    local offset = self:offset(x, y)
+
+    if offset then
+        local pixels = self:readPixels()
+
+        clr.r = pixels[offset  ] / 255
+        clr.g = pixels[offset+1] / 255
+        clr.b = pixels[offset+2] / 255
+        clr.a = pixels[offset+3] / 255
+
+        return clr
+    end
+
+    clr:set()
+    return clr
 end

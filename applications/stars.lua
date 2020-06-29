@@ -35,13 +35,6 @@ function Star:draw()
     points(self.position)
 end
 
-function application(name)
-    local k = class(name)
-    k:extends(Application)
-    
-    _G.env.appClass = k
-end
-
 application 'Stars'
 
 function Stars:init()

@@ -37,3 +37,18 @@ function strokeWidth(width)
     local res = style:setAttribute('strokeWidth', width)
     return res
 end
+
+CENTER = 'center'
+CORNER = 'corner'
+
+function rectMode(mode)
+    return style:setAttribute('rectMode', mode, CENTER)
+end
+
+function spriteMode(mode)
+    return style:setAttribute('spriteMode', mode, CENTER)
+end
+
+function textMode(mode)
+    return style:setAttribute('textMode', mode, CENTER)
+end

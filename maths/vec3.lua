@@ -11,8 +11,15 @@ ffi.cdef [[
 	} vec3;
 ]]
 
-mt = {}
-mt.__index = mt
+local mt = {}
+
+mt.__index = function (v, key)
+    if type(key) == 'number' then
+        return v.values[key-1]
+    else
+        return rawget(mt, key)
+    end
+end
 
 mt.len = function (self)
     return math.sqrt(self.x^2 + self.y^2 + self.z^2)

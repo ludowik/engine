@@ -17,5 +17,6 @@ require 'engine.application'
 require 'engine.engine'
 require 'engine.frame_time'
 require 'engine.engine_memory'
+require 'engine.parameter'
 
 require 'lib'
