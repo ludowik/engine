@@ -140,3 +140,91 @@ function Model.box(w, h, d)
 
     return buf, texCoords
 end
+
+
+function Model.triangulate(points)
+    local mypoints = {}
+    for i = 1, #points do
+        table.insert(mypoints, vec3(points[i].x, points[i].y))
+    end
+
+    if #points == 1 then
+        return {mypoints[1], mypoints[1], mypoints[1]}
+
+    elseif #points == 2 then
+        return {mypoints[1], mypoints[1], mypoints[2]}
+
+    elseif #points == 3 then
+        return mypoints
+    end
+
+    -- result
+    local trivecs = {}
+
+    local steps_without_reduction = 0
+    local i = 1
+    while #mypoints >= 3 and steps_without_reduction < #mypoints do
+        local v2i = i % #mypoints + 1
+        local v3i = (i + 1) % #mypoints + 1
+        local v1 = mypoints[i]
+        local v2 = mypoints[v2i]
+        local v3 = mypoints[v3i]
+        local da = enclosedAngle(v1, v2, v3)
+        local reduce = false
+        if da >= 0 then
+            -- The two edges bend inwards, candidate for reduction.
+            reduce = true
+            -- Check that there's no other point inside.
+            for ii = 1, (#mypoints - 3) do
+                local mod_ii = (i + 2 + ii - 1) % #mypoints + 1
+                if isInsideTriangle(mypoints[mod_ii], v1, v2, v3) then
+                    reduce = false
+                end
+            end
+        end
+        if reduce then
+            table.insert(trivecs, v1)
+            table.insert(trivecs, v2)
+            table.insert(trivecs, v3)
+            table.remove(mypoints, v2i)
+            steps_without_reduction = 0
+        else
+            i = i + 1
+            steps_without_reduction = steps_without_reduction + 1
+        end
+        if i > #mypoints then
+            i = i - #mypoints
+        end
+    end
+    return trivecs
+end
+
+function triangulate(...)
+    return Model.triangulate(...)
+end
+
+Model.random = {}
+
+function Model.random.polygon(r, rmax)
+    r = r or math.random(10, 50)
+
+    rmax = rmax or r
+    rmin = r
+
+    local vertices = Table()
+
+    local angle = 0
+    while angle < math.pi * 2 do
+        local len = math.random(rmin, rmax)
+
+        local p = vec2(
+            len * math.cos(angle),
+            len * math.sin(angle))
+
+        vertices:insert(p)
+
+        angle = angle + math.random() * math.pi / 2
+    end
+
+    return vertices
+end

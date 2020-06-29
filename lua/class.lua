@@ -1,6 +1,6 @@
 local classes = {}
 
-function class(className)
+function class(className, __base)
     local k = {}
     k.__index = k
     k.__className = className:lower()
@@ -14,12 +14,21 @@ function class(className)
         assert(__base)
 
         self.__base = __base
-        for k,v in pairs(__base) do
-            if self[k] == nil then
-                self[k] = v
+        for name,v in pairs(__base) do
+            if name == 'init' then
+                k.init = v
+            end
+
+            if self[name] == nil then
+                self[name] = v
             end
         end
     end
+
+    k.properties = {
+        get = {},
+        set = {}
+    }
 
     k.meta = function (self, __base)
         k.init = function (self)
@@ -31,9 +40,17 @@ function class(className)
     end
 
     k.attribs = table.attribs
+    k.clone = table.clone
 
+    local mt
     mt = {
         __call = function (_, ...)
+            classWithProperties(k)
+            mt.__call = mt.__call2
+            return mt.__call(_, ...)
+        end,
+
+        __call2 = function (_, ...)
             local instance = {}
             setmetatable(instance, k)
             instance = k.init(instance, ...) or instance
@@ -43,9 +60,45 @@ function class(className)
 
     setmetatable(k, mt)
 
-    _G[className] = k
+    rawset(_G, className, k)
+
+    if __base then
+        k:extends(__base)
+    end
 
     return k
+end
+
+function classWithProperties(proto)
+    local get = proto.properties.get
+    if table.getnKeys(get) > 0 then
+        proto.__index = function(tbl, key)
+            if get[key] then
+                return get[key](tbl)
+            elseif proto[key] then
+                return proto[key]
+            elseif type(key) == 'number' and get.index then
+                return get.index(tbl, key)
+            else
+                return rawget(tbl, key)
+            end
+        end
+    end
+
+    local set = proto.properties.set
+    if table.getnKeys(set) > 0 then
+        proto.__newindex = function(tbl, key, value)
+            if set[key] then
+                set[key](tbl, value)
+            elseif proto[key] then
+                proto[key] = value
+            elseif type(key) == 'number' and set.index then
+                set.index(tbl, key, value)
+            else
+                rawset(tbl, key, value)
+            end
+        end
+    end
 end
 
 function typeof(object)

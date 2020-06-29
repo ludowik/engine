@@ -1,4 +1,4 @@
-App('FractalTree')
+application ('FractalTree')
 
 function FractalTree:init()
     Application.init(self)

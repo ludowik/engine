@@ -125,8 +125,8 @@ function cameraImplem(eye, at, up)
     u:set(s):crossInPlace(f)
 
     viewMatrix(matrix(
-            s.x,  s.y,  s.z, -s:dot(eye),
-            u.x,  u.y,  u.z, -u:dot(eye),
-            -f.x, -f.y, -f.z,  f:dot(eye),
+            s.x, s.y, s.z, -s:dot(eye),
+            u.x, u.y, u.z, -u:dot(eye),
+            -f.x, -f.y, -f.z, f:dot(eye),
             0, 0, 0, 1))
 end

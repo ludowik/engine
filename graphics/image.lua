@@ -199,7 +199,8 @@ function Image:fragment(f)
 end
 
 function image:readPixels()
-    return self.surface.pixels
+    local p = ffi.cast('GLubyte*', self.surface.pixels)
+    return p
 end
 
 function image:offset(x, y)

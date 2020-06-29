@@ -1,7 +1,7 @@
 local old, new, quantificationError
 
 function setup()
-    source = image('images/joconde')
+    source = image('res/images/joconde.png')
     target = image(source.width, source.height)
     
     old, new, quantificationError = color(), color(), color()

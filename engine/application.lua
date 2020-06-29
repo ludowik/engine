@@ -10,7 +10,7 @@ end
 
 function Application:__update(dt)
     self.scene:update(dt)
-    self:update()
+    self:update(dt)
 end
 
 function Application:__draw()    

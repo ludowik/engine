@@ -56,12 +56,12 @@ function Grid:reset()
 end
 
 function Grid:addLife(x, y)
-    x = x or randomInt(CELLS_COUNT.x)
-    y = y or randomInt(CELLS_COUNT.y)
+    x = x or random.range(CELLS_COUNT.x)
+    y = y or random.range(CELLS_COUNT.y)
 
     for i=1,6 do
-        local dx = randomInt(-2, 2)
-        local dy = randomInt(-2, 2)
+        local dx = random.range(-2, 2)
+        local dy = random.range(-2, 2)
 
         self:set(x+dx, y+dy, true)
     end

@@ -23,7 +23,6 @@ function keyboard(key)
             end)
         boxes = nextBoxes
     end
-
 end
 
 class('Box')

@@ -5,7 +5,7 @@ function setup()
     angle = 0
     x1, y1, x2, y2 = 0, 0, 0, 0
 
-    rotation = PI / 3
+    rotation = math.pi / 3
 
     len = 100
 

@@ -7,7 +7,7 @@ function setup()
     end
 
     function nextPosition(i)
-        local easing = randomInt(1, #tween.easingList)
+        local easing = random.range(1, #tween.easingList)
         tween(
             random(0.8, 1.5),
             vertices[i],

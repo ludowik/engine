@@ -1,4 +1,4 @@
-App('ReactionDiffusion')
+application('ReactionDiffusion')
 
 local gridIn
 local gridOut

@@ -1,4 +1,4 @@
-App('appPrimitives')
+application 'appPrimitives'
 
 function appPrimitives:init()
     Application.init(self)
@@ -15,7 +15,7 @@ function appPrimitives:init()
     self.y = (HEIGHT - self.h) / 2
 
     self.vectors = Model.random.polygon(self.primitiveWidth / 2)
-    self.mesh = mesh(Model.triangulate(self.vectors))
+    self.mesh = Mesh(Model.triangulate(self.vectors))
 end
 
 function appPrimitives:update(dt)

@@ -5,7 +5,6 @@ require 'lua.table'
 require 'lua.array'
 require 'lua.data'
 require 'lua.range'
-require 'lua.math'
 require 'lua.random'
 require 'lua.decorator'
 require 'lua.buffer'
@@ -24,6 +23,7 @@ require 'lua.date'
 require 'lua.eval'
 
 lfs = require 'lfs'
+utf8 = require 'lua.utf8'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 
