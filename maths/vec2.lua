@@ -10,8 +10,15 @@ ffi.cdef [[
 	} vec2;
 ]]
 
-mt = {}
-mt.__index = mt
+local mt = {}
+
+mt.__index = function (v, key)
+    if type(key) == 'number' then
+        return v.values[key-1]
+    else
+        return rawget(mt, key)
+    end
+end
 
 mt.set = function (self, x, y)
     if x == nil or type(x) == 'number' then

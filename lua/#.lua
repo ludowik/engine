@@ -18,6 +18,8 @@ require 'lua.module'
 require 'lua.fs'
 require 'lua.tween'
 require 'lua.heap'
+require 'lua.convert'
+require 'lua.grid'
 require 'lua.date'
 require 'lua.eval'
 

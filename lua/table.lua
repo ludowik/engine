@@ -366,7 +366,7 @@ function table.tostring(t)
 end
 
 table.random = function (self)
-    return self[randomInt(1, #self)]
+    return self[random.range(1, #self)]
 end
 
 table.chainIt = function (self)

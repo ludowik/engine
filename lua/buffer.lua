@@ -60,7 +60,7 @@ function buffer_meta.__newindex(buffer, key, value)
         buffer.version = buffer.version +1
 
     else
-        rawset(buffer_meta, key, value)
+        rawset(buffer, key, value)
     end
 end
 
@@ -104,6 +104,7 @@ function Buffer(ct, data, ...)
                     int sizeof_ctype;
                     int size;
                     int n;
+                    int version;
                     {ct}* data;
                 } buffer_{ct};
             ]]

@@ -1,11 +1,15 @@
 class 'random'
 
+function random:init(...)
+    return random.random(...)
+end
+
 function random.range(min, max)
     assert(min)
     if not max then
         min, max = 1, min
     end
-    return (random.random() * max ^ 2) % (max - min) + min
+    return math.floor((random.random() * max ^ 2) % (max - min)) + min
 end
 
 function random.random(min, max)
