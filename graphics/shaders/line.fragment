@@ -1,3 +1,4 @@
+uniform vec4 fill;
 uniform vec4 stroke;
 
 void main() {

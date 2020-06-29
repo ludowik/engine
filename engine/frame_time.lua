@@ -17,9 +17,6 @@ function FrameTime:init()
 end
 
 function FrameTime:update()
-    self.nframes = self.nframes + 1
-    self.delta_frames = self.delta_frames + 1
-
     self.end_time = sdl.SDL_GetTicks() * 0.001
 
     self.delta_time = self.end_time - self.start_time
@@ -34,4 +31,9 @@ function FrameTime:update()
     end
 
     self.start_time = self.end_time
+end
+
+function FrameTime:draw()
+    self.nframes = self.nframes + 1
+    self.delta_frames = self.delta_frames + 1
 end

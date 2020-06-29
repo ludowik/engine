@@ -1,4 +1,6 @@
+require 'lua.log'
 require 'lua.class'
+require 'lua.ut'
 require 'lua.table'
 require 'lua.array'
 require 'lua.data'
@@ -18,6 +20,10 @@ require 'lua.tween'
 require 'lua.heap'
 require 'lua.convert'
 require 'lua.grid'
+require 'lua.date'
+require 'lua.eval'
+
+lfs = require 'lfs'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 
@@ -36,6 +42,8 @@ function dir(path, list, subPath)
 end
 
 function toggle(value, opt1, opt2)
+    if value == nil then return opt1 end
+    
     if value == opt1 then
         return opt2
     end

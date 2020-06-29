@@ -2,7 +2,12 @@ class 'Engine'
 
 function Engine:init()
     assert(engine == nil)
+
     engine = self
+    engine.envs = engine.envs or {}
+
+    ut.run()
+    performance.run()
 
     self.app = Application()
 
@@ -14,7 +19,6 @@ function Engine:init()
     self.components = Node()
     do
         self.components:add(self.memory)
-        self.components:add(self.frame_time)
         self.components:add(Path())
 
         self.components:add(sdl)
@@ -22,7 +26,8 @@ function Engine:init()
         self.components:add(ShaderManager())
         self.components:add(Graphics())
         self.components:add(ft)
---        self.components:add(self)
+
+        tween.setup()
     end
 
     W = 1280
@@ -32,17 +37,25 @@ function Engine:init()
     HEIGHT = H
 
     self:initEvents()
+
+    self:toggleRenderMode()
+    self:toggleHelp()
 end
 
 function Engine:initEvents()
     self.onEvents = {
         keydown = {
-            ['escape'] = Engine.quit,
             ['r'] = Engine.restart,
-            ['m'] = Engine.changeMode,
-            ['v'] = Engine.loopApp,
+            ['escape'] = Engine.quit,
+
             ['n'] = Engine.nextApp,
             ['b'] = Engine.previousApp,
+            ['v'] = Engine.loopApp,
+
+            ['f1'] = Engine.toggleHelp,
+
+            ['f2'] = Engine.toggleRenderMode,
+            ['f3'] = Engine.toggleRenderVersion,
         }
     }
 end
@@ -50,7 +63,6 @@ end
 function Engine:setup()
     loadConfig()
     self.components:setup()
-    evaluatePerf()
     self:loadApp(self.appName)
 end
 
@@ -69,9 +81,32 @@ function Engine:run(appName)
 
         self.active = 'running'
 
+        local deltaTime = 0
+
+        self.fpsTarget = 120
+
+        self.frame_time:init()
+
         while self.active == 'running' do
-            self:update(self.frame_time.delta_time)
-            self:draw()
+            self.frame_time:update()
+            deltaTime = deltaTime + self.frame_time.delta_time
+
+            local maxDeltaTime = 1/self.fpsTarget
+
+            if deltaTime >= maxDeltaTime then
+                deltaTime = deltaTime - maxDeltaTime
+
+                if self.frame_time.delta_time >= maxDeltaTime then
+                    self.fpsTarget = self.fpsTarget - 1
+                else
+                    self.fpsTarget = self.fpsTarget + 1
+                end
+
+                self:update(deltaTime)
+                self:draw()
+
+                self.frame_time:draw()
+            end
         end
 
         if type(self.active) == 'function' then
@@ -83,6 +118,15 @@ function Engine:run(appName)
     until engine.active ~= 'restart'
 end
 
+function Engine:drawHelp()
+    if self.showHelp then
+        fontSize(8)
+        for k,v in pairs(self.onEvents.keydown) do
+            info(k)
+        end
+    end
+end
+
 function Engine:quit()
     self.active = 'stop'
 end
@@ -91,11 +135,25 @@ function Engine:restart()
     self.active = 'restart'
 end
 
-function Engine:changeMode()
+function Engine:toggleRenderVersion()
     self.active = function ()
         gl.majorVersion = toggle(gl.majorVersion, 2, 4)
         return 'restart'
     end
+end
+
+function Engine:toggleRenderMode()
+    self.renderMode = toggle(self.renderMode, 'direct', 'frame')
+
+    if self.renderMode == 'frame' then
+        self.renderFrame = Image(W, H)
+    else
+        self.renderFrame = nil
+    end
+end
+
+function Engine:toggleHelp()
+    self.showHelp = toggle(self.showHelp, false, true)
 end
 
 function Engine:update(dt)
@@ -112,10 +170,20 @@ function Engine:update(dt)
     end
 end
 
-function Engine:draw()
-    mode()
-
+function Engine:preRender()    
     resetMatrix()
+    resetStyle()
+
+    if self.renderFrame then
+        setContext(self.renderFrame)
+    else
+        Context.noContext()
+    end
+end
+
+function Engine:draw()
+    self:preRender()
+
     do
         if _G.env.draw then
             _G.env.draw()
@@ -124,61 +192,103 @@ function Engine:draw()
         end
     end
 
-    resetMatrix()
-    blendMode(NORMAL)
-    do
-        stroke(white)
+    self:postRender()
 
-        text(self.frame_time.fps, 0, H)
-        text(self.appName, 0, TEXT_NEXT_Y)
-        text(format_ram(self.memory.ram.current), 0, TEXT_NEXT_Y)
-        text(tostring(mouse), 0, TEXT_NEXT_Y)
-        text(jit.status(), 0, TEXT_NEXT_Y)
-        text(gl.majorVersion, 0, TEXT_NEXT_Y)
+--    self:preRender()
+
+    resetMatrix()
+    resetStyle()
+
+    do
+        function info(name, value)
+            local info = name..' : '..tostring(value)
+            text(info)
+        end
+
+        info('fps', self.frame_time.fps)
+        info('fps target', self.fpsTarget)
+        info('app', self.appName)
+        info('ram', format_ram(self.memory.ram.current))
+        info('mouse', mouse)
+        info('os', jit.os)
+        info('compile', jit.status())
+        info('arch', jit.arch)
+        info('jit version', jit.version)
+        info('opengl version', gl.majorVersion)
+        info('render mode', self.renderMode)
     end
 
-    sdl:draw()
+--    self:postRender()
+
+    sdl:swap()
+end
+
+function Engine:postRender()
+    self:drawHelp()
+
+    if self.renderFrame then
+        Context.noContext()
+        ortho(0, W + W_INFO, 0, H)
+
+        background(Color(0, 0, 0, 1))
+
+        blendMode(NORMAL)
+        depthMode(false)
+
+        resetMatrix()
+        resetStyle()
+
+        self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
+    end
 end
 
 function Engine:keydown(key)
     if self.onEvents.keydown[key] then
         self.onEvents.keydown[key](self)
+    else
+        log(string.format('no action for {key}', {key=key}))
     end
 end
 
 function Engine:loopApp()
-    self.action = self.nextApp
+    if self.action then
+        self.action = nil
+    else
+        self.action = self.nextApp
+    end
+end
+
+function Engine:dirApps()
+    local apps = dir('./applications')
+    apps:apply(function (app)
+            return app:lower():gsub('%.lua', '')
+        end)
+    return apps
 end
 
 function Engine:nextApp()
-    local files = dir('./applications')
-    files:apply(function (file)
-            return file:lower():gsub('%.lua', '')
-        end)
+    local apps = self:dirApps()
 
     local nextAppIndex = 1
-    for i,file in ipairs(files) do
-        if file == self.appName then
-            if i < #files then
+    for i,appName in ipairs(apps) do
+        if appName == self.appName then
+            if i < #apps then
                 nextAppIndex = i + 1
                 break
             end
         end
     end    
 
-    local appName = files[nextAppIndex]
+    local appName = apps[nextAppIndex]
     self:loadApp(appName)
 end
 
 function Engine:previousApp()
-    local files = dir('./applications')
-    files:apply(function (file)
-            return file:lower():gsub('%.lua', '')
-        end)
+    local apps = self:dirApps()
 
-    local previousAppIndex = #files
-    for i,file in ipairs(files) do
-        if file == self.appName then
+    local previousAppIndex = #apps
+    for i,appName in ipairs(apps) do
+        if appName == self.appName then
             if i > 1 then
                 previousAppIndex = i - 1
                 break
@@ -186,7 +296,7 @@ function Engine:previousApp()
         end
     end    
 
-    local appName = files[previousAppIndex]
+    local appName = apps[previousAppIndex]
     self:loadApp(appName)
 end
 
@@ -194,14 +304,14 @@ function Engine:loadApp(appName, reloadApp)
     self.appName = appName or self.appName
     self.appPath = 'applications.'..self.appName
 
-    Engine.envs = Engine.envs or {}
+    saveGlobalData('appName', engine.appName)
 
-    if Engine.envs[self.appPath] == nil or reloadApp then
-        print('load '..self.appPath)
+    if self.envs[self.appPath] == nil or reloadApp then
+        log('load '..self.appPath)
 
-        Engine.envs[self.appPath] = {}
+        self.envs[self.appPath] = {}
 
-        local env = Engine.envs[self.appPath]
+        local env = self.envs[self.appPath]
         _G.env = env
 
         setfenv(0, setmetatable(env, {__index=_G}))
@@ -223,14 +333,13 @@ function Engine:loadApp(appName, reloadApp)
         end
 
     else
-        print('switch '..self.appPath)
+        log('switch '..self.appPath)
 
-        local env = Engine.envs[self.appPath]
+        local env = self.envs[self.appPath]
         _G.env = env
         setfenv(0, env)
     end
 end
-
 
 function setup()
     engine.app:__setup()

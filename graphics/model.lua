@@ -70,7 +70,7 @@ function Model.ellipse(x, y, w, h)
     local x1, y1 = math.cos(0) / 2, math.sin(0) / 2
     local x2, y2 = 0, 0
 
-    for i=1,n+1 do
+    for i=n,0,-1 do
         x2 = math.cos(math.tau * i / n) / 2
         y2 = math.sin(math.tau * i / n) / 2
 

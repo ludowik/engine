@@ -12,9 +12,11 @@ typedef unsigned char GLubyte;
 
 FT_Library init_module() {
     FT_Library library;
+    
     error = FT_Init_FreeType(&library);
     if (error)
         return NULL;
+        
     return (FT_Library)library;
 }
 
@@ -24,15 +26,19 @@ void release_module(FT_Library library) {
 
 FT_Face load_font(FT_Library library, const char* font_name, int font_size) {
     FT_Face face;
+    
     error = FT_New_Face(library, font_name, 0 , &face);
+    
     if (error)
         return NULL;
+        
     FT_Set_Char_Size(
       face,             /* handle to face object           */
       0,                /* char_width in 1/64th of points  */
-      font_size * 64,   /* char_height in 1/64th of points */
+      0.5 * font_size * 64,   /* char_height in 1/64th of points */
       300,              /* horizontal device resolution    */
       300 );            /* vertical device resolution      */
+      
     return (FT_Face)face;
 }
 

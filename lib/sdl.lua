@@ -13,6 +13,8 @@ class 'Sdl' : meta(ffi.load(lib_path))
 
 sdl = Sdl()
 
+sdl.image = class 'SdlImage' : meta(ffi.load('SDL2_image.framework/SDL2_image'))
+
 function Sdl:setup()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
         self.SDL_SetThreadPriority(self.SDL_THREAD_PRIORITY_HIGH)
@@ -54,6 +56,7 @@ function Sdl:setup()
                 self.context = context
 
                 self.SDL_GL_MakeCurrent(window, context)
+                self.SDL_GL_SetSwapInterval(0)
 
                 self.SDL_SetWindowPosition(window, r.x+100, r.y+100)
                 self.SDL_SetWindowSize(window, W, H)
@@ -104,6 +107,6 @@ function Sdl:update(dt)
     end
 end
 
-function Sdl:draw()
+function Sdl:swap()
     self.SDL_GL_SwapWindow(self.window)
 end

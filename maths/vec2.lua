@@ -20,16 +20,8 @@ mt.__index = function (v, key)
     end
 end
 
-mt.len = function (self)
-    return math.sqrt(self.x^2 + self.y^2)
-end
-
-mt.clone = function (self)
-    return vec2(self)
-end
-
 mt.set = function (self, x, y)
-    if type(x) == 'number' then
+    if x == nil or type(x) == 'number' then
         self.x = x
         self.y = y
     else
@@ -37,6 +29,10 @@ mt.set = function (self, x, y)
         self.y = x.y
     end
     return self
+end
+
+mt.clone = function (self)
+    return vec2(self)
 end
 
 mt.random = function (self, w, h)
@@ -49,6 +45,10 @@ mt.random = function (self, w, h)
             random.random(),
             random.random())
     end
+end
+
+mt.len = function (self)
+    return math.sqrt(self.x^2 + self.y^2)
 end
 
 mt.add = function (self, v, coef)
@@ -81,12 +81,24 @@ mt.normalize = function (self, coef)
     return self
 end
 
-mt.tobytes = function (clr)
-    return clr.values
+mt.tobytes = function (v)
+    return v.values
 end
 
-mt.__len = function (clr)
+mt.__len = function (v)
     return 2
+end
+
+mt.__pairs = function (v)
+    local i = 0
+    local attribs = {'x', 'y'}
+    local f = function ()
+        if i < #attribs then
+            i = i + 1
+            return attribs[i]
+        end
+    end
+    return f, v, nil
 end
 
 vec2 = ffi.metatype('vec2', mt)

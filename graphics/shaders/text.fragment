@@ -1,3 +1,6 @@
+uniform vec4 fill;
+uniform vec4 stroke;
+
 uniform sampler2D tex0;
 
 in vec2 vTexCoords;

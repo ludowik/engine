@@ -1,5 +1,5 @@
 function draw()
---    background(black)
+    background(black)
 
     ortho()
     

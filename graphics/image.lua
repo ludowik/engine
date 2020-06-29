@@ -1,8 +1,16 @@
 image = class 'Image'
 
 function Image:init(w, h)
-    if w and h then
+    if type(w) == 'number' and h then
         self:create(w, h)
+    elseif type(w) == 'string' then
+        self.surface = sdl.image.IMG_Load(w)
+--        surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
+        self.width = self.surface.w
+        self.height = self.surface.h
+
+        self:reversePixels()
+        self:makeTexture()
     else
         self:create(100, 100)
     end
@@ -26,6 +34,9 @@ function Image:create(w, h)
     self.width = w
     self.height = h
 
+    self.width = w
+    self.height = h
+
     self:makeTexture(surface)
 end
 
@@ -44,7 +55,7 @@ function Image:makeTexture(surface)
     local formatRGB = gl.GL_RGBA
 
     if self.surface.format.BytesPerPixel == 1 then
-        if gl.majorVersion == 4 then
+        if gl.majorVersion >= 4 then
             internalFormat = gl.GL_ALPHA
             formatRGB = gl.GL_ALPHA
         else
@@ -90,6 +101,60 @@ function Image:makeTexture(surface)
     return self
 end
 
+function Image:readPixels(formatAlpha, formatRGB)
+    formatRGB = formatRGB or gl.GL_RGBA
+
+    self:use()
+    do
+        gl.glGetTexImage(gl.GL_TEXTURE_2D,
+            0,
+            formatRGB,
+            gl.GL_UNSIGNED_BYTE,
+            self.surface.pixels)
+    end
+    self:unuse()
+end
+
+function Image:reversePixels(pixels, w, h, bytesPerPixel)
+    debugger.off()
+
+    if pixels == nil then
+        pixels = self.surface.pixels
+
+        w = self.surface.w
+        h = self.surface.h
+
+        bytesPerPixel = self.surface.format.BytesPerPixel
+    end
+
+    local p = ffi.cast('GLubyte*', pixels)
+
+    local i, j
+    for y = 1, h/2 do
+        for x = 1, w do
+            i = (w * (y-1) + (x-1)) * bytesPerPixel
+            j = (w * (h-y) + (x-1)) * bytesPerPixel
+
+            if bytesPerPixel == 1 then
+                p[i+0], p[j+0] = p[j+0], p[i+0]
+
+            elseif bytesPerPixel == 3 then
+                p[i+0], p[j+0] = p[j+0], p[i+0]
+                p[i+1], p[j+1] = p[j+1], p[i+1]
+                p[i+2], p[j+2] = p[j+2], p[i+2]
+
+            elseif bytesPerPixel == 4 then
+                p[i+0], p[j+0] = p[j+0], p[i+0]
+                p[i+1], p[j+1] = p[j+1], p[i+1]
+                p[i+2], p[j+2] = p[j+2], p[i+2]
+                p[i+3], p[j+3] = p[j+3], p[i+3]
+            end
+        end
+    end
+
+    debugger.on()
+end
+
 function Image:release()
     gl.glDeleteTexture(self.texture_id)
     self.surface.pixels = nil
@@ -104,6 +169,10 @@ end
 
 function Image:unuse()
     gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
+end
+
+function Image:draw(x, y, w, h)
+    sprite(self, x, y, w or self.width, h or self.height, CORNER)
 end
 
 function Image:fragment(f)
@@ -183,4 +252,29 @@ function image:get(x, y, clr)
 
     clr:set()
     return clr
+end
+
+function Image.createFramebuffer()
+    -- The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer
+    local framebufferName = gl.glGenFramebuffer()
+    gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, framebufferName)
+    return framebufferName
+end
+
+function Image.attachRenderbuffer(w, h)
+    -- The depth buffer
+    local depthrenderbuffer = gl.glGenRenderbuffer()
+    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, depthrenderbuffer)
+    gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT24, w, h)
+    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+    gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, depthrenderbuffer)
+    return depthrenderbuffer
+end
+
+function Image.attachTexture2D(renderedTexture)
+    -- Set "renderedTexture" as our colour attachement #0
+    gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, renderedTexture, 0)
+
+    -- Set the list of draw buffers
+    gl.glDrawBuffer(gl.GL_COLOR_ATTACHMENT0)
 end

@@ -122,7 +122,7 @@ end
 
 class('__string')
 
-function __string.test()
+string.test = function ()
     ut.assert('lower', string.lower('TEST') == 'test')
     ut.assert('upper', string.upper('test') == 'TEST')
     

@@ -2,5 +2,5 @@ uniform vec4 fill;
 uniform vec4 stroke;
 
 void main() {
-    gl_FragColor = stroke;
+    gl_FragColor = fill;
 }

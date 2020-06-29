@@ -1,4 +1,6 @@
-function perf(test, f, ...)
+performance = class 'Performance'
+
+function Performance.evaluate(test, f, ...)
     local infos = {
         n = 1000,
         elapsedTime = 0,
@@ -24,38 +26,25 @@ function perf(test, f, ...)
 
     collectgarbage('restart')
     gc()
-    
+
     infos.deltaTime = infos.elapsedTime / infos.n
     infos.deltaRam = infos.totalRam / infos.n
 
-    print("====================================")
-    print(test)
-    print(string.format("elapsed time: %.9f (%s)", infos.elapsedTime, infos.totalRam))
-    print(string.format("delta   time: %.9f (%s)", infos.deltaTime, infos.deltaRam))
-    print()
+    log('====================================')
+    log(test)
+    log(string.format('elapsed time: %.9f (%s)', infos.elapsedTime, infos.totalRam))
+    log(string.format('delta   time: %.9f (%s)', infos.deltaTime, infos.deltaRam))
+    log()
 
     return infos
 end
 
-function evaluatePerf()
-    perf('none', 
+function Performance.test()
+    Performance.evaluate('none', 
         function (i)
         end)
+end
 
-    perf('create matrix', 
-        function (i)
-            matrix(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
-        end)
-
-    perf('create and set matrix', 
-        function (i, m)
-            m:set(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
-        end,
-        matrix())
-    
-    perf('multiply matrix',
-        function (i, m1, m2)
-            local m = m1 * m2
-        end,
-        matrix(), matrix())
+function Performance.run()
+    call('perf')
 end

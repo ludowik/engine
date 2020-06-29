@@ -11,7 +11,7 @@ function Shader:init(name)
         fragment = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment'),
     }
 
-    if gl.majorVersion >= 3 then
+    if gl.majorVersion >= 4 then
         self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry')
     end
 
@@ -19,7 +19,7 @@ function Shader:init(name)
 
     local status = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
     if status == gl.GL_FALSE then
-        print(gl.glGetProgramInfoLog(self.program_id))
+        log(gl.glGetProgramInfoLog(self.program_id))
     end
 
     self:initAttributes()

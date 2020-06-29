@@ -99,12 +99,12 @@ function table.push2Global(mt)
     end
 end
 
-function table.print(t)
+function table.log(t)
     if t == nil then return end
 
-    print(t)
+    log(t)
     for k,v in pairs(t) do
-        print(tostring(k)..' = '..tostring(v))
+        log(tostring(k)..' = '..tostring(v))
     end
 end
 

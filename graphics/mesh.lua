@@ -12,7 +12,7 @@ function Mesh:buffer(name)
     elseif name == 'color' then
         self[name] = Buffer('color')
     end
-    
+
     return self[name]
 end
 
@@ -32,13 +32,21 @@ function MeshRender:sendAttribute(attributeName, data, nComponents)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
 
         local n = #data
+        
+        -- TODO : gérer la version correctement
         if true or not attribute.sent or attribute.sent ~= n or attribute.version ~= data.version then
             attribute.sent = n
             attribute.version = data.version
 
             local bytes
             if type(data) == 'table' then
-                bytes = Buffer('float', data)
+                if type(data[1]) == 'number' then
+                    bytes = Buffer('float', data)
+                elseif getmetatable(data[1]) == vec2 then
+                    bytes = Buffer('vec2', data)
+                elseif getmetatable(data[1]) == vec3 then
+                    bytes = Buffer('vec3', data)
+                end
             else
                 bytes = data:tobytes()
             end
