@@ -23,9 +23,9 @@ end
 
 mt.set = function (self, x, y, z)
     if x == nil or type(x) == 'number' then
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x = x or 0
+        self.y = y or 0
+        self.z = z or 0
     else
         self.x = x.x
         self.y = x.y
@@ -163,4 +163,9 @@ mt.__pairs = function (v)
     return f, v, nil
 end
 
-vec3 = ffi.metatype('vec3', mt)
+__vec3 = ffi.metatype('vec3', mt)
+
+class 'vec3' : meta(__vec3)
+function vec3:init(x, y, z)
+    return __vec3():set(x, y, z)
+end

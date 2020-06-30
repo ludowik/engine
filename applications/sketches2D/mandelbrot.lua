@@ -32,10 +32,10 @@ function compose()
     
     result = value * coef
 
-    x1 = r * cos(PI + value  * TAU / div)
-    y1 = r * sin(PI + value  * TAU / div)
-    x2 = r * cos(PI + result * TAU / div)
-    y2 = r * sin(PI + result * TAU / div)
+    x1 = r * cos(PI + value  * math.tau / div)
+    y1 = r * sin(PI + value  * math.tau / div)
+    x2 = r * cos(PI + result * math.tau / div)
+    y2 = r * sin(PI + result * math.tau / div)
 
     line(x1, y1, x2, y2)
 

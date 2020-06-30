@@ -1,4 +1,4 @@
-App('Horloge')
+application 'Horloge'
 
 function Horloge:init(lieu, decalage, x, y, rayon)
     Application.init(self)
@@ -45,7 +45,7 @@ function Horloge:aiguille(clr, x, y, a, l, size)
     translate(x, y)
     rotate(-a, 0, 0, 1)
     
-    local m = mesh()
+    local m = Mesh()
     m.vertices = {
         vec3(-size, 0),
         vec3(0, l),

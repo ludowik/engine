@@ -22,8 +22,8 @@ end
 
 mt.set = function (self, x, y)
     if x == nil or type(x) == 'number' then
-        self.x = x
-        self.y = y
+        self.x = x or 0
+        self.y = y or 0
     else
         self.x = x.x
         self.y = x.y
@@ -48,7 +48,15 @@ mt.random = function (self, w, h)
 end
 
 mt.len = function (self)
-    return math.sqrt(self.x^2 + self.y^2)
+    return math.sqrt(
+        self.x^2 +
+        self.y^2)
+end
+
+mt.dist = function (self, v)
+    return math.sqrt(
+        (v.x - self.x)^2 +
+        (v.y - self.y)^2)
 end
 
 mt.add = function (self, v, coef)
@@ -72,13 +80,25 @@ mt.mul = function (self, coef)
 end
 
 mt.normalize = function (self, coef)
+    return self:clone():normalizeInPlace(coef)
+end
+
+mt.normalizeInPlace = function (self, coef)
     coef = coef or 1
+
     local len = self:len()
     if len > 0 then
         self.x = self.x * coef / len
         self.y = self.y * coef / len
     end
+
     return self
+end
+
+function mt.from(v1, v2)
+    return vec2(
+        v1.x - v2.x,
+        v1.y - v2.y)
 end
 
 mt.tobytes = function (v)
@@ -101,4 +121,42 @@ mt.__pairs = function (v)
     return f, v, nil
 end
 
-vec2 = ffi.metatype('vec2', mt)
+local ORDER = 'counter-clockwise'
+
+function enclosedAngle(v1, v2, v3)
+    local a1 = math.atan2(v1.y - v2.y, v1.x - v2.x)
+    local a2 = math.atan2(v3.y - v2.y, v3.x - v2.x)
+    local da
+    if ORDER == 'clockwise' then
+        da = math.deg(a2 - a1)
+    else
+        da = math.deg(a1 - a2)
+    end
+    if da < -180 then da = da + 360 elseif da > 180 then da = da - 360 end
+    return da
+end
+
+-- Determines if a vector |v| is inside a triangle described by the vectors
+-- |v1|, |v2| and |v3|.
+function isInsideTriangle(v, v1, v2, v3)
+    local a1
+    local a2
+    a1 = enclosedAngle(v1, v2, v3)
+    a2 = enclosedAngle(v, v2, v3)
+    if a2 > a1 or a2 < 0 then return false end
+    a1 = enclosedAngle(v2, v3, v1)
+    a2 = enclosedAngle(v, v3, v1)
+    if a2 > a1 or a2 < 0 then return false end
+    a1 = enclosedAngle(v3, v1, v2)
+    a2 = enclosedAngle(v, v1, v2)
+    if a2 > a1 or a2 < 0 then return false end
+    return true
+end
+
+__vec2 = ffi.metatype('vec2', mt)
+
+class 'vec2' : meta(__vec2)
+function vec2:init(x, y)
+    return __vec2():set(x, y)
+end
+

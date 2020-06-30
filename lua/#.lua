@@ -1,4 +1,5 @@
 lfs = require 'lfs'
+utf8 = require 'lua.utf8'
 
 require 'lua.log'
 require 'lua.class'
@@ -7,7 +8,6 @@ require 'lua.table'
 require 'lua.array'
 require 'lua.data'
 require 'lua.range'
-require 'lua.math'
 require 'lua.random'
 require 'lua.decorator'
 require 'lua.buffer'
@@ -24,6 +24,7 @@ require 'lua.convert'
 require 'lua.grid'
 require 'lua.date'
 require 'lua.eval'
+
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 

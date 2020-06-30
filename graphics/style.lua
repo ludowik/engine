@@ -8,9 +8,13 @@ function Style:init()
         strokeWidth = 1,
 
         rectMode = CORNER,
+        ellipseMode = CENTER,
+        circleMode = CENTER,
         textMode = CORNER,
 
         spriteMode = CORNER,
+        
+        light = false
     }
 end
 
@@ -19,6 +23,18 @@ function Style:setAttribute(attribute_name, value, reset)
         self.attributes[attribute_name] = value
     end
     return self.attributes[attribute_name]
+end
+
+function pushStyle()
+    push('__style', style:clone())
+end
+
+function popStyle()
+    style = pop('__style')
+    
+    blendMode(style.blendMode)
+    cullingMode(style.cullingMode)
+    depthMode(style.depthMode)
 end
 
 function resetStyle()
@@ -56,29 +72,29 @@ end
 CENTER = 'center'
 CORNER = 'corner'
 
-function textMode(mode)
-    return style:setAttribute('textMode', mode)
-end
-
 function rectMode(mode)
     return style:setAttribute('rectMode', mode)
+end
+
+function ellipseMode(mode)
+    return style:setAttribute('ellipseMode', mode)
+end
+
+function circleMode(mode)
+    return style:setAttribute('circleMode', mode)
 end
 
 function spriteMode(mode)
     return style:setAttribute('spriteMode', mode)
 end
 
-CENTER = 'center'
-CORNER = 'corner'
-
-function rectMode(mode)
-    return style:setAttribute('rectMode', mode, CENTER)
-end
-
-function spriteMode(mode)
-    return style:setAttribute('spriteMode', mode, CENTER)
-end
-
 function textMode(mode)
-    return style:setAttribute('textMode', mode, CENTER)
+    return style:setAttribute('textMode', mode)
+end
+
+function light(mode)
+    return style:setAttribute('light', mode)
+end
+
+function supportedOrientations()
 end

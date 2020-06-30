@@ -5,7 +5,7 @@ function setup()
 
     for i=1,grid.w do
         for j=1,grid.h do
-            grid:set(i, j, randomInt(1, 4))
+            grid:set(i, j, random.range(1, 4))
         end
     end
 end

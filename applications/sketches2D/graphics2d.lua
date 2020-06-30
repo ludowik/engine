@@ -52,7 +52,7 @@ local primitives = {
 }
 
 function primitive(attributes)
-    local i = randomInt(1, #primitives)
+    local i = random.range(1, #primitives)
 
     if attributes.position then
         translate(attributes.position.x, attributes.position.y)
@@ -64,7 +64,7 @@ function primitive(attributes)
     
     fill(color.random())
     
-    strokeWidth(randomInt(6))
+    strokeWidth(random.range(6))
     stroke(color.random())
     
     primitives[i](attributes)

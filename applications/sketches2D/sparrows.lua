@@ -9,7 +9,7 @@ function setup()
     nSparrows = 200
 
     for i=1,nSparrows do
-        local sparrow = vec2.random()
+        local sparrow = {x=random.random(), y=random.random()} --vec2.random()
         sparrows:add(sparrow)
 
         sparrow.force = vec2()
@@ -76,7 +76,7 @@ function update(dt)
                     local attraction = map(dist, minDist, maxDist, 1, 0.5)
                     force = force + attraction
 
-                    local direction = s1:from(s2):normalizeInPlace(100 * attraction)
+                    local direction = vec2.from(s1, s2):normalizeInPlace(100 * attraction)
                     
                     s1.force:sub(direction)
                     s2.force:add(direction)

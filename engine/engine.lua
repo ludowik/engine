@@ -8,7 +8,7 @@ function Engine:init()
 
     ut.run()
     performance.run()
-
+    
     self.app = Application()
 
     self.active = 'start'
@@ -23,9 +23,10 @@ function Engine:init()
 
         self.components:add(sdl)
         self.components:add(gl)
+        self.components:add(ft)
+        
         self.components:add(ShaderManager())
         self.components:add(Graphics())
-        self.components:add(ft)
 
         tween.setup()
     end
@@ -101,6 +102,9 @@ function Engine:run(appName)
                 else
                     self.fpsTarget = self.fpsTarget + 1
                 end
+                
+                DeltaTime = deltaTime
+                ElapsedTime = self.frame_time.elapsed_time
 
                 self:update(deltaTime)
                 self:draw()
@@ -300,7 +304,7 @@ function Engine:previousApp()
     self:loadApp(appName)
 end
 
-function Engine:loadApp(appName, reloadApp)    
+function Engine:loadApp(appName, reloadApp)
     self.appName = appName or self.appName
     self.appPath = 'applications.'..self.appName
 

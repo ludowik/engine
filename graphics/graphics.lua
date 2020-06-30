@@ -36,6 +36,8 @@ function Graphics:setup()
     meshBox = Mesh()
     meshBox.vertices, meshBox.texCoords = Model.box()
     meshBox.shader = shaders['box']
+
+    self:update()
 end
 
 function Graphics:release()
@@ -46,16 +48,14 @@ function Graphics:update()
     resetStyle()
 end
 
-local currentBlendMode
-
 NORMAL = 1
 ADDITIVE = 2
 MULTIPLY = 3
 
 function blendMode(mode)
     if mode then
-        if currentBlendMode ~= mode then
-            currentBlendMode = mode
+        if style.blendMode ~= mode then
+            style.blendMode = mode
 
             if mode == NORMAL then
                 gl.glEnable(gl.GL_BLEND)
@@ -81,13 +81,12 @@ function blendMode(mode)
             end
         end
     end
-    return currentBlendMode
+    return style.blendMode
 end
 
-local currentCullingMode
 function cullingMode(culling)
     if culling ~= nil then
-        currentCullingMode = culling
+        style.cullingMode = culling
 
         if culling then
             gl.glEnable(gl.GL_CULL_FACE)
@@ -102,13 +101,12 @@ function cullingMode(culling)
             gl.glDisable(gl.GL_CULL_FACE)
         end
     end
-    return currentCullingMode
+    return style.cullingMode
 end
 
-local currentDepthMode
 function depthMode(mode)
     if mode ~= nil then
-        currentDepthMode = mode
+        style.depthMode = mode
 
         if mode then
             gl.glEnable(gl.GL_DEPTH_TEST)
@@ -117,7 +115,7 @@ function depthMode(mode)
             gl.glDisable(gl.GL_DEPTH_TEST)
         end
     end
-    return currentDepthMode
+    return style.depthMode
 end
 
 function background(clr, ...)
@@ -137,7 +135,9 @@ function point(x, y)
     points(buf)
 end
 
-function points(vertices)
+function points(vertices, ...)
+    if type(vertices) == 'number' then vertices = {vertices, ...} end
+
     clr = stroke()
     if clr then
         meshPoints.points = vertices
@@ -207,7 +207,7 @@ end
 
 function text(str, x, y)
     str = tostring(str)
-    
+
     x = x or 0
     y = y or TEXT_NEXT_Y
 
@@ -239,6 +239,20 @@ function textSize(str)
     return w, h
 end
 
-function box(img)
-    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img)
+function plane()
+end
+
+function box(img, x, y, z)
+    if type(img) == 'number' then
+        x, y, z = img, x, y
+        img = nil
+    end
+    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, x, y)
+end
+
+function sphere()
+end
+
+
+function pyramid()
 end

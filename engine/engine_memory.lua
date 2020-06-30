@@ -23,9 +23,9 @@ end
 function Memory:release()
     self.ram.release = ram()
 
-    loadstring('memory at init    : '..format_ram(self.ram.init))
-    loadstring('memory min        : '..format_ram(self.ram.min))
-    loadstring('memory max        : '..format_ram(self.ram.max))
-    loadstring('memory variation  : '..format_ram(self.ram.max - self.ram.min))
-    loadstring('memory at release : '..format_ram(self.ram.release))
+    log('memory at init    : '..format_ram(self.ram.init))
+    log('memory min        : '..format_ram(self.ram.min))
+    log('memory max        : '..format_ram(self.ram.max))
+    log('memory variation  : '..format_ram(self.ram.max - self.ram.min))
+    log('memory at release : '..format_ram(self.ram.release))
 end
