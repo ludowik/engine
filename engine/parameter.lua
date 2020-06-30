@@ -3,6 +3,10 @@ class 'parameter'
 function parameter.watch()  
 end
 
+function parameter.boolean(name, default, callback)
+    _G.env[name] = default
+end
+
 function parameter.integer(name, min, max, default, callback)
     _G.env[name] = default
 end
@@ -12,4 +16,7 @@ function parameter.number(name, min, max, default, callback)
 end
 
 function parameter.action()
+end
+
+function parameter.add()
 end

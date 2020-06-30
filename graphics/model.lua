@@ -141,6 +141,21 @@ function Model.box(w, h, d)
     return buf, texCoords
 end
 
+function Model.skybox(w, h, d)
+    return Model.box(w, h, d)
+end
+
+function Model.sphere(w, h, d)
+    return {}
+end
+
+function Model.cylinder(w, h, d)
+    return {}
+end
+
+function Model.pyramid(w, h, d)
+    return {}
+end
 
 function Model.triangulate(points)
     local mypoints = {}
@@ -227,4 +242,241 @@ function Model.random.polygon(r, rmax)
     end
 
     return vertices
+end
+
+function Model.computeIndices(vertices, texCoords, normals)
+    local v = {}
+    local t = texCoords and {}
+    local n = normals and {}
+
+    local indices = {}
+
+    local nb = 1
+
+    local find
+
+    for i=1,#vertices do
+
+        find = false
+        for j=1,#indices do
+            if v[j] == vertices[i] and
+            (not t or t[j] == texCoords[i]) and 
+            (not n or n[j] == normals[i]) then
+                find = j
+                break
+            end
+        end
+
+        if find then
+            indices[i] = find-1
+        else
+            v[nb] = vertices[i]
+
+            if texCoords then
+                t[nb] = texCoords[i]
+            end
+
+            if normals then
+                n[nb] = normals[i]
+            end
+
+            indices[i] = nb-1
+
+            nb = nb + 1
+        end
+    end
+
+    return v, t, n, indices
+end
+
+function Model.computeNormals(vertices, indices)
+    local normals = {}
+
+    local n = indices and #indices or #vertices
+
+    assert(n/3 == floor(n/3))
+
+    local v12, v13 = vec3(), vec3()
+    
+    local v1, v2, v3
+    for i=1,n,3 do
+        if indices then
+            v1 = vertices[indices[i]]
+            v2 = vertices[indices[i+1]]
+            v3 = vertices[indices[i+2]]
+        else
+            v1 = vertices[i]
+            v2 = vertices[i+1]
+            v3 = vertices[i+2]
+        end
+
+        v12:set(v2):sub(v1)
+        v13:set(v3):sub(v1)
+
+        local normal = v12:crossInPlace(v13)
+
+        normals[i  ] = normal
+        normals[i+1] = normal
+        normals[i+2] = normal
+    end
+
+    return normals
+end
+
+function Model.averageNormals(vertices, normals)
+    local t = {}
+
+    for i = 1, #normals do
+        local vertex = vertices[i]
+        local normal = normals[i]
+
+        local ref = vertex.x.."."..vertex.y
+
+        if t[ref] == nil then
+            t[ref] = normal
+        else
+            t[ref] = t[ref] + normal
+        end
+    end 
+
+    return t
+end
+
+function Model.gravityCenter(vertices)
+    local v = Point()
+    for i=1,#vertices do
+        v = v + vertices[i]
+    end
+
+    v = v / #vertices
+
+    for i=1,#vertices do
+        vertices[i]:sub(v)
+    end
+end
+
+function Model.minmax(vertices)
+    local minVertex = vec3( math.MAX_INTEGER,  math.MAX_INTEGER)
+    local maxVertex = vec3(-math.MAX_INTEGER, -math.MAX_INTEGER)
+
+    for i=1,#vertices do
+        local v = vertices[i]
+
+        minVertex.x = min(minVertex.x, v.x)
+        minVertex.y = min(minVertex.y, v.y)
+        minVertex.z = min(minVertex.z, v.z or 0)
+
+        maxVertex.x = max(maxVertex.x, v.x)
+        maxVertex.y = max(maxVertex.y, v.y)
+        maxVertex.z = max(maxVertex.z, v.z or 0)
+    end
+
+    return minVertex, maxVertex, maxVertex-minVertex
+end
+
+function Model.center(vertices)
+    local minVertex, maxVertex, size = Model.minmax(vertices)
+
+    local v = minVertex + size / 2
+    for i=1,#vertices do
+        vertices[i] = vertices[i] - v
+    end
+
+    return vertices 
+end
+
+function Model.normalize(vertices, norm)
+    norm = norm or 1
+
+    local minVertex, maxVertex, size = Model.minmax(vertices)
+
+    norm = norm / ((size.x + size.y + size.z) / 3)
+
+    for i=1,#vertices do
+        vertices[i] = vertices[i] * norm
+    end
+
+    return vertices
+end
+
+function Model.transform(vertices, matrix)
+    for i=1,#vertices do
+        vertices[i] = matrix:mulVector(vertices[i])
+    end
+
+    return vertices
+end
+
+function Model.scale(vertices, w, h, e)
+    w = w or 1
+    e = e or h and 1 or w
+    h = h or w
+
+    local m = matrix()
+    m = m:scale(w, h, e)
+
+    return Model.transform(Table.clone(vertices), m)
+end
+
+function Model.translate(vertices, x, y, z)
+    x = x or 0
+    z = z or y and 0 or x
+    y = y or x
+
+    local m = matrix()
+    m = m:translate(x, y, z)
+
+    return Model.transform(Table.clone(vertices), m)
+end
+
+function Model.scaleAndTranslateAndRotate(vertices, x, y, z, w, h, e, ax, ay, az)
+    x = x or 0
+    z = z or y and 0 or x
+    y = y or x
+
+    w = w or 1
+    h = h or w
+    e = e or w
+
+    ax = ax or 0
+    ay = ay or 0
+    az = az or 0
+
+    local m = matrix()
+
+    m1 = m:translate(x, y, z)
+
+    m2 = m:rotate(ax, 1,0,0)
+    m3 = m:rotate(ay, 0,1,0)
+    m4 = m:rotate(az, 0,0,1)
+
+    m5 = m:scale(w, h, e)
+
+    return Model.transform(Table.clone(vertices), m1*m2*m5)
+end
+
+function meshAddVertex(vertices, v)
+    table.insert(vertices, v)
+end
+
+function meshAddTriangle(vertices, v1, v2, v3)
+    table.insert(vertices, v1)
+    table.insert(vertices, v2)
+    table.insert(vertices, v3)
+end
+
+function meshAddRect(vertices, v1, v2, v3, v4)
+    table.insert(vertices, v1)
+    table.insert(vertices, v2)
+    table.insert(vertices, v3)
+
+    table.insert(vertices, v1)
+    table.insert(vertices, v3)
+    table.insert(vertices, v4)
+end
+
+function meshSetTriangleColors(colors, clr)
+    meshAddVertex(colors, clr)
+    meshAddVertex(colors, clr)
+    meshAddVertex(colors, clr)
 end

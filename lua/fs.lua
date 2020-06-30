@@ -29,6 +29,10 @@ function isFileMode(path, mode)
     return info and true or false
 end
 
+function exists(path)
+    return fs.getInfo(path) and true or false
+end
+
 function fs.getInfo(path, mode)
     local info = lfs.attributes(path)
     if info then
@@ -83,6 +87,23 @@ end
 function fs.mkdir(path)
     local fullPath = getSavePath(fil)
     lfs.mkdir(fullPath)
+end
+
+function dir(path, list, subPath)
+    list = list or Array()
+    for file in lfs.dir(path) do
+        if not file:startWith('.') then
+            if (isFile(path..'/'..file) or 
+                isFile(path..'/'..file..'/#.lua') or 
+                isFile(path..'/'..file..'/main.lua'))
+            then
+                table.insert(list, subPath and (subPath..'/'..file) or file)
+            else
+                dir(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
+            end
+        end
+    end
+    return list
 end
 
 function loadFile(file, filesPath)

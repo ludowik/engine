@@ -66,6 +66,10 @@ mt.add = function (self, v, coef)
     return self
 end
 
+mt.__add = function (self, v)
+    return self:clone():add(v)
+end
+
 mt.sub = function (self, v, coef)
     coef = coef or 1
     self.x = self.x - v.x * coef
@@ -73,10 +77,33 @@ mt.sub = function (self, v, coef)
     return self
 end
 
+mt.__sub = function (self, v)
+    return self:clone():sub(v)
+end
+
+mt.__unm = function (self, v)
+    return self:clone():mul(-1)
+end
+
 mt.mul = function (self, coef)
     self.x = self.x * coef
     self.y = self.y * coef
     return self
+end
+
+mt.__mul = function(self, coef)
+    if type(self) == 'number' then
+        self, coef = coef, self
+    end
+    return self:clone():mul(coef)
+end
+
+mt.div = function (self, coef)
+    return self:mul(1/coef)
+end
+
+mt.__div = function (self, coef)
+    return self:__mul(1/coef)
 end
 
 mt.normalize = function (self, coef)
@@ -121,18 +148,32 @@ mt.__pairs = function (v)
     return f, v, nil
 end
 
+mt.unpack = function (v)
+    return v.x, v.y
+end
+
+function mt.draw()
+end
+
 local ORDER = 'counter-clockwise'
 
 function enclosedAngle(v1, v2, v3)
     local a1 = math.atan2(v1.y - v2.y, v1.x - v2.x)
     local a2 = math.atan2(v3.y - v2.y, v3.x - v2.x)
+
     local da
     if ORDER == 'clockwise' then
         da = math.deg(a2 - a1)
     else
         da = math.deg(a1 - a2)
     end
-    if da < -180 then da = da + 360 elseif da > 180 then da = da - 360 end
+
+    if da < -180 then
+        da = da + 360
+    elseif da > 180 then
+        da = da - 360
+    end
+
     return da
 end
 
@@ -141,15 +182,25 @@ end
 function isInsideTriangle(v, v1, v2, v3)
     local a1
     local a2
+
     a1 = enclosedAngle(v1, v2, v3)
     a2 = enclosedAngle(v, v2, v3)
-    if a2 > a1 or a2 < 0 then return false end
+    if a2 > a1 or a2 < 0 then
+        return false 
+    end
+
     a1 = enclosedAngle(v2, v3, v1)
     a2 = enclosedAngle(v, v3, v1)
-    if a2 > a1 or a2 < 0 then return false end
+    if a2 > a1 or a2 < 0 then 
+        return false 
+    end
+
     a1 = enclosedAngle(v3, v1, v2)
     a2 = enclosedAngle(v, v1, v2)
-    if a2 > a1 or a2 < 0 then return false end
+    if a2 > a1 or a2 < 0 then
+        return false 
+    end
+
     return true
 end
 

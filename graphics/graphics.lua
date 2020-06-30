@@ -36,6 +36,15 @@ function Graphics:setup()
     meshBox = Mesh()
     meshBox.vertices, meshBox.texCoords = Model.box()
     meshBox.shader = shaders['box']
+    
+    meshSphere = Mesh()
+    meshSphere.vertices = Model.sphere()
+    
+    meshPyramid = Mesh()
+    meshPyramid.vertices = Model.pyramid()
+    
+    meshCylinder = Mesh()
+    meshCylinder.vertices = Model.center(Model.cylinder(1, 1, 10000))
 
     self:update()
 end
@@ -255,4 +264,28 @@ end
 
 
 function pyramid()
+end
+
+function MeshAxes(x, y, z)
+    x, y, z = xyz(x, y, z)
+
+    pushMatrix()
+    do
+        translate(x, y, z)
+
+        scale(0.01, 0.01, 0.01)
+
+        rotate(90, 0, 1, 0)
+        meshCylinder:setColors(red)
+        meshCylinder:draw()
+
+        rotate(-90, 1, 0, 0)
+        meshCylinder:setColors(green)
+        meshCylinder:draw()
+
+        rotate(90, 0, 1, 0)
+        meshCylinder:setColors(blue)
+        meshCylinder:draw()
+    end
+    popMatrix()
 end

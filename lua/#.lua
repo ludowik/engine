@@ -2,13 +2,13 @@ lfs = require 'lfs'
 utf8 = require 'lua.utf8'
 
 require 'lua.log'
+require 'lua.require'
 require 'lua.class'
 require 'lua.ut'
 require 'lua.table'
 require 'lua.array'
 require 'lua.data'
 require 'lua.range'
-require 'lua.random'
 require 'lua.decorator'
 require 'lua.buffer'
 require 'lua.memory'
@@ -25,28 +25,26 @@ require 'lua.grid'
 require 'lua.date'
 require 'lua.eval'
 
-
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 
-function dir(path, list, subPath)
-    list = list or Array()
-    for file in lfs.dir(path) do
-        if not file:startWith('.') then
-            if isFile(path..'/'..file) then
-                table.insert(list, subPath and (subPath..'/'..file) or file)
-            else
-                dir(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
-            end
-        end
-    end
-    return list
-end
 
 function toggle(value, opt1, opt2)
     if value == nil then return opt1 end
-    
+
     if value == opt1 then
         return opt2
     end
     return opt1
+end
+
+__assert = assert
+
+function assert(exp, message, level)
+    if not exp then
+        error(message or 'error', level and (level+1) or 2)
+    end
+end
+
+function warning(message, level)
+    log(message)
 end

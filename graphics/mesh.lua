@@ -1,7 +1,8 @@
 class 'Mesh'
 
-function Mesh:init(vertices)
+function Mesh:init(vertices, colors)
     self.vertices = vertices or {}
+    self.colors = colors or {}
 end
 
 function Mesh:buffer(name)

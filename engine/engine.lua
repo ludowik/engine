@@ -8,7 +8,7 @@ function Engine:init()
 
     ut.run()
     performance.run()
-    
+
     self.app = Application()
 
     self.active = 'start'
@@ -24,7 +24,7 @@ function Engine:init()
         self.components:add(sdl)
         self.components:add(gl)
         self.components:add(ft)
-        
+
         self.components:add(ShaderManager())
         self.components:add(Graphics())
 
@@ -102,7 +102,7 @@ function Engine:run(appName)
                 else
                     self.fpsTarget = self.fpsTarget + 1
                 end
-                
+
                 DeltaTime = deltaTime
                 ElapsedTime = self.frame_time.elapsed_time
 
@@ -272,7 +272,7 @@ end
 
 function Engine:nextApp()
     local apps = self:dirApps()
-
+    
     local nextAppIndex = 1
     for i,appName in ipairs(apps) do
         if appName == self.appName then
@@ -306,9 +306,18 @@ end
 
 function Engine:loadApp(appName, reloadApp)
     self.appName = appName or self.appName
-    self.appPath = 'applications.'..self.appName
+    self.appPath = 'applications/'..self.appName
 
-    saveGlobalData('appName', engine.appName)
+    if (not exists(Path.sourcePath..'/'..self.appPath..'.lua') and
+        not exists(Path.sourcePath..'/'..self.appPath..'/#.lua') and
+        not exists(Path.sourcePath..'/'..self.appPath..'/main.lua'))
+    then
+        error(self.appName)
+        self.appName = 'default'
+        self.appPath = 'applications/'..self.appName
+    end
+
+    saveGlobalData('appName', self.appName)
 
     if self.envs[self.appPath] == nil or reloadApp then
         log('load '..self.appPath)
@@ -329,6 +338,8 @@ function Engine:loadApp(appName, reloadApp)
         else
             self.app = Application()
         end
+
+        app = self.app
 
         if _G.env.setup then
             _G.env.setup()
@@ -355,4 +366,8 @@ end
 
 function draw()
     engine.app:__draw()
+end
+
+function collide(...)
+    engine.app:__collide(...)
 end

@@ -80,6 +80,10 @@ mt.__sub = function (self, v)
     return self:clone():sub(v)
 end
 
+mt.__unm = function (self, v)
+    return self:clone():mul(-1)
+end
+
 mt.mul = function (self, coef)
     self.x = self.x * coef
     self.y = self.y * coef
@@ -163,9 +167,23 @@ mt.__pairs = function (v)
     return f, v, nil
 end
 
+mt.unpack = function (v)
+    return v.x, v.y, v.z
+end
+
+function mt.draw()
+end
+
 __vec3 = ffi.metatype('vec3', mt)
 
 class 'vec3' : meta(__vec3)
 function vec3:init(x, y, z)
     return __vec3():set(x, y, z)
+end
+
+function xyz(x, y, z, coef)
+    if type(x) == 'table' then 
+        return x.x, x.y, x.z or 0, y or 1
+    end
+    return x or 0, y or 0, z or 0, coef or 1
 end
