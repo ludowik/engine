@@ -11,8 +11,8 @@ else
 
     ft = Library.compileFile('lib/freetype.c',
         'ft',
-        '-I "C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/include"',
-        '-L"C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32" -lfreetype')
+        '-I "'..Path.libraryPath..'/Libraries/freetype/include"',
+        '-L"'..Path.libraryPath..'/Libraries/freetype/win32" -lfreetype')
 
 end
 
@@ -20,7 +20,7 @@ local code, defs = precompile(io.read('./lib/freetype.h'))
 ffi.cdef(code)
 
 if os.name == 'windows' then
-    ffi.load('C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/freetype/win32/freetype.dll')
+    ffi.load(Path.libraryPath..'/Libraries/freetype/win32/freetype.dll')
 end
 
 class 'FreeType' : meta(ft)
@@ -48,11 +48,7 @@ function FreeType:setFont(fontName, fontSize)
     
     self.fontRef = self.fontName..'.'..self.fontSize
 
-    if os.name == 'osx' then
-        self.fontPath = '/Users/lca/Projets/Lua/engine/res/fonts/'..self.fontName..'.ttf'
-    else
-        self.fontPath = 'C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Lua/engine/res/fonts/'..self.fontName..'.ttf'
-    end
+    self.fontPath = Path.sourcePath..'/res/fonts/'..self.fontName..'.ttf'
 
     if not self.hFonts[self.fontRef] then
 

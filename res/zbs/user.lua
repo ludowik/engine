@@ -50,7 +50,7 @@ excludelist["*.obj"] = false
 binarylist["*.obj"] = true
 
 if jit.os == 'Windows' then
-    path.lua = 'C:/Users/lmilhau/Documents/Persos/Mes Projets Persos/Libraries/LuaJIT-2.0.5/src/luajit.exe'
+    path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/LuaJIT-2.0.5/src/luajit.exe'
 else
     path.lua = '/Users/lca/Projets/Libraries/luaJIT-2.0.5/src/luajit'
 end

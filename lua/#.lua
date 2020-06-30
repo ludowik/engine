@@ -1,3 +1,5 @@
+lfs = require 'lfs'
+
 require 'lua.log'
 require 'lua.class'
 require 'lua.ut'
@@ -22,8 +24,6 @@ require 'lua.convert'
 require 'lua.grid'
 require 'lua.date'
 require 'lua.eval'
-
-lfs = require 'lfs'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 

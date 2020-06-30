@@ -5,7 +5,7 @@ local lib_path
 if os.name == 'osx' then 
     lib_path = 'SDL2.framework/SDL2'
 else
-    --lib_path = '../../Libraries/bin/SDL2'
+--    lib_path = '../../Libraries/bin/SDL2'
     lib_path = 'SDL2'
 end
 
@@ -13,7 +13,16 @@ class 'Sdl' : meta(ffi.load(lib_path))
 
 sdl = Sdl()
 
-sdl.image = class 'SdlImage' : meta(ffi.load('SDL2_image.framework/SDL2_image'))
+
+local lib_path_sdl_image
+if os.name == 'osx' then 
+    lib_path_sdl_image = 'SDL2_image.framework/SDL2_image'
+else
+--    lib_path = '../../Libraries/bin/SDL2_image'
+    lib_path_sdl_image = 'SDL2_image'
+end
+
+sdl.image = class 'SdlImage' : meta(ffi.load(lib_path_sdl_image))
 
 function Sdl:setup()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
