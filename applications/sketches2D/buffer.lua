@@ -35,7 +35,7 @@ function update(dt)
             ffiBufferSize = ffiBufferSize + #buf
         end
         
-        ffiBuffer = BufferLua()
+        ffiBuffer = Buffer()
         ffiBuffer[1] = 12
         ffiBuffer[2] = 24
         
@@ -43,8 +43,8 @@ function update(dt)
     end
     
     for i =1,10^6 do
-        ffiBuffer[#ffiBuffer+1] = random()
-        --luaBuffer[#luaBuffer+1] = random()
+        ffiBuffer[#ffiBuffer] = random()
+        --luaBuffer[#luaBuffer] = random()
     end
 end
 

@@ -129,8 +129,8 @@ function Body.chain:init(loop, ...)
 end
 
 function Body.edge:init(v1, v2)
-    self.points:insert(v1)
-    self.points:insert(v2)
+    self.points:add(v1)
+    self.points:add(v2)
 
     self:computeSize()
 end
@@ -145,8 +145,8 @@ function Body.sphere:init(radius)
 end
 
 function Body:computeSize()
-    local left, right = math.MAX_INTEGER, -math.MAX_INTEGER
-    local bottom, top = math.MAX_INTEGER, -math.MAX_INTEGER
+    local left, right = math.maxinteger, -math.maxinteger
+    local bottom, top = math.maxinteger, -math.maxinteger
     for i,vertex in ipairs(self.points) do
         left = min(left, vertex.x)
         right = max(right, vertex.x)
