@@ -29,6 +29,10 @@ function isFileMode(path, mode)
     return info and true or false
 end
 
+function exists(path)
+    return fs.getInfo(path) and true or false
+end
+
 function fs.getInfo(path, mode)
     local info = lfs.attributes(path)
     if info then

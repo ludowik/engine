@@ -306,7 +306,12 @@ end
 
 function Engine:loadApp(appName, reloadApp)
     self.appName = appName or self.appName
-    self.appPath = 'applications.'..self.appName
+    self.appPath = 'applications/'..self.appName
+    
+    log(Path.sourcePath..'/'..self.appPath..'.lua')
+    if not exists(Path.sourcePath..'/'..self.appPath..'.lua') then
+        self.appPath = 'applications/default'
+    end
 
     saveGlobalData('appName', engine.appName)
 
