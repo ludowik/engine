@@ -102,8 +102,20 @@ function noStroke()
     return styles:setAttribute('stroke', nil, true)
 end
 
+function light(mode)
+    return styles:setAttribute('light', mode)
+end
+
+function noLight()
+    return styles:setAttribute('light', nil, true)
+end
+
 function tint(...)
     return styles:setAttribute('tint', Color.args(...):clone())
+end
+
+function noTint()
+    return styles:setAttribute('tint', nil, true)
 end
 
 function strokeWidth(width)
@@ -137,9 +149,18 @@ function lineCapMode(mode)
     return styles:setAttribute('lineCapMode', mode)
 end
 
-function light(mode)
-    return styles:setAttribute('light', mode)
+function smooth(mode)
+    return styles:setAttribute('smooth', mode)
+end
+
+function noSmooth()
+    return styles:setAttribute('smooth', nil, true)
 end
 
 function supportedOrientations()
+    log('not implemented')
+end
+
+function displayMode()
+    log('not implemented')
 end

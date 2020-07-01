@@ -1,5 +1,7 @@
 Fizix = class('Fizix')
 
+Gravity = vec3(0, -9.81)
+
 function Fizix.setup()
     Physics2d = Fizix
     Physics3d = Fizix
@@ -19,8 +21,6 @@ function Fizix:init()
     self.pixelRatio = 32
     self.debug = false
 
-    Gravity = self.g
-    
     self:resume()
 end
 

@@ -12,8 +12,15 @@ ffi.cdef [[
 	} color;
 ]]
 
-mt = {}
-mt.__index = mt
+local mt = {}
+
+mt.__index = function (v, key)
+    if type(key) == 'number' then
+        return v.values[key-1]
+    else
+        return rawget(mt, key)
+    end
+end
 
 mt.set = function (clr, r, g, b, a)
     if r == nil or type(r) == 'number' then
@@ -34,6 +41,7 @@ mt.set = function (clr, r, g, b, a)
         clr.b = clr.b / 255
         clr.a = clr.a / 255
     end
+    return clr
 end
 
 mt.clone = function (self)
@@ -48,13 +56,25 @@ mt.__len = function (v)
     return 4
 end
 
+mt.__ipairs = function (v)
+    local i = 0
+    local attribs = {'r', 'g', 'b', 'a'}
+    local f = function ()
+        if i < #attribs then
+            i = i + 1
+            return i, v[i]
+        end
+    end
+    return f, v, nil
+end
+
 mt.__pairs = function (v)
     local i = 0
     local attribs = {'r', 'g', 'b', 'a'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return attribs[i]
+            return attribs[i], v[i]
         end
     end
     return f, v, nil
@@ -62,16 +82,6 @@ end
 
 mt.unpack = function (v)
     return v.r, v.g, v.b, v.a
-end
-
-color_meta = ffi.metatype('color', mt)
-
-color = class 'Color'
-
-function Color:init(r, g, b, a)
-    local self = color_meta()
-    self:set(r, g, b, a)
-    return self
 end
 
 function mt.random()
@@ -261,6 +271,13 @@ function rgb(r, g, b, a)
         g and g / 255,
         b and b / 255,
         a and a / 255)
+end
+
+color_meta = ffi.metatype('color', mt)
+
+color = class 'Color' : meta(color_meta)
+function Color:init(r, g, b, a)
+    return color_meta():set(r, g, b, a)
 end
 
 local __clr = Color()

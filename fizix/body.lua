@@ -60,7 +60,7 @@ function Body:init(bodyType, shapeType, ...)
 
     self.keepInArea = false -- TODO
 
-    self.points = Array()
+    self.points = Buffer('vec2')
 
     Body[self.shapeType].init(self, ...)
 end
@@ -270,7 +270,7 @@ end
 function Body.polygon:draw()
     assert(#self.points >= 3)
 
-    local vertices = Array()
+    local vertices = Buffer('vec2')
 
     local p1, p2, p3 = self.points[1]
     for i=3,#self.points do

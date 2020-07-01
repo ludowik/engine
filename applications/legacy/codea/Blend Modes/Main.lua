@@ -1,12 +1,12 @@
 -- Blend Modes
 function setup()
-    print("This demonstrates blending modes. Blend modes determine how drawing operations blend together on-screen.")
-    print()
-    print("The top pair of ellipses uses normal blending.")
-    print()
-    print("The middle uses additive.")
-    print()
-    print("And the bottom uses multiplicative blending.")
+    log("This demonstrates blending modes. Blend modes determine how drawing operations blend together on-screen.")
+    log()
+    log("The top pair of ellipses uses normal blending.")
+    log()
+    log("The middle uses additive.")
+    log()
+    log("And the bottom uses multiplicative blending.")
     
     size = HEIGHT/4
 end

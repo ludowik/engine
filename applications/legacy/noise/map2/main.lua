@@ -13,24 +13,25 @@ function setup()
 
     local index = 0
 
-    local n = debugging() and 20 or 500
+    local n = debugging and 20 or 500
     
-    local x, z, z = 0, 0, 0
+    local v = vec3()
+    
     local w, h, d = 10, 10, 10
     
     for i=0,n-1 do
-        x = i*w
+        v.x = i*w
         
         for j=0,n-1 do
-            z = j*w
-
-            m.vertices[index+1] = vec3( w/2, 0, -h/2):add(x, 0, z)
-            m.vertices[index+2] = vec3(-w/2, 0, -h/2):add(x, 0, z)
-            m.vertices[index+3] = vec3( w/2, 0,  h/2):add(x, 0, z)
+            v.z = j*w
             
-            m.vertices[index+4] = vec3( w/2, 0,  h/2):add(x, 0, z)
-            m.vertices[index+5] = vec3(-w/2, 0, -h/2):add(x, 0, z)
-            m.vertices[index+6] = vec3(-w/2, 0,  h/2):add(x, 0, z)
+            m.vertices[index+1] = vec3( w/2, 0, -h/2):add(v)
+            m.vertices[index+2] = vec3(-w/2, 0, -h/2):add(v)
+            m.vertices[index+3] = vec3( w/2, 0,  h/2):add(v)
+            
+            m.vertices[index+4] = vec3( w/2, 0,  h/2):add(v)
+            m.vertices[index+5] = vec3(-w/2, 0, -h/2):add(v)
+            m.vertices[index+6] = vec3(-w/2, 0,  h/2):add(v)
 
             index = index + 6
         end        

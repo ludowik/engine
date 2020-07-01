@@ -1,5 +1,5 @@
 function setup()
-    ffiBuffer = BufferLua()
+    ffiBuffer = Buffer()
     ffiBuffer[1] = 12
     ffiBuffer[2] = 24
     
@@ -44,7 +44,7 @@ function update(dt)
     
     for i =1,10^6 do
         ffiBuffer[#ffiBuffer] = random()
-        --luaBuffer[#luaBuffer+1] = random()
+        luaBuffer[#luaBuffer] = random()
     end
 end
 

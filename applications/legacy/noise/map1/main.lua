@@ -126,7 +126,7 @@ function appMap:init()
     self.s = 10
     local s = self.s
 
-    terrain = mesh()
+    terrain = Mesh()
 
     sea = mesh()
 
@@ -221,7 +221,7 @@ function appMap:draw()
     currentMaterial = defaultMaterial
 
     MeshAxes()
-    MeshAxes(lca.camera:at())
+--    MeshAxes(lca.camera:at())
 
     skybox:draw()
 

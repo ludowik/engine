@@ -130,6 +130,35 @@ mt.normalizeInPlace = function (self, coef)
     return self
 end
 
+function mt:rotate(phi)
+    assert(config.noOptimization)
+
+    local c, s = cos(phi), sin(phi)
+    return vec2(
+        c * self.x - s * self.y,
+        s * self.x + c * self.y)
+end
+
+function mt:rotateInPlace(phi)
+    local c, s = cos(phi), sin(phi)
+
+    local x, y
+    x = c * self.x - s * self.y
+    y = s * self.x + c * self.y
+
+    self.x = x
+    self.y = y
+
+    return self
+end
+
+function mt:angleBetween(other)
+    local alpha1 = atan2(self.y, self.x)
+    local alpha2 = atan2(other.y, other.x)
+
+    return alpha2 - alpha1
+end
+
 function mt.from(v1, v2)
     return vec2(
         v1.x - v2.x,
@@ -144,13 +173,25 @@ mt.__len = function (v)
     return 2
 end
 
+mt.__ipairs = function (v)
+    local i = 0
+    local attribs = {'x', 'y'}
+    local f = function ()
+        if i < #attribs then
+            i = i + 1
+            return i, v[i]
+        end
+    end
+    return f, v, nil
+end
+
 mt.__pairs = function (v)
     local i = 0
     local attribs = {'x', 'y'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return attribs[i]
+            return attribs[i], v[i]
         end
     end
     return f, v, nil
@@ -218,4 +259,3 @@ class 'vec2' : meta(__vec2)
 function vec2:init(x, y)
     return __vec2():set(x, y)
 end
-

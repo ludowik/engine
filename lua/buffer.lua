@@ -76,6 +76,7 @@ end
 function buffer_meta.insert(buffer, value)
     buffer[#buffer+1] = value
 end
+buffer_meta.add = buffer_meta.insert
 
 function buffer_meta.reset(buffer)
     buffer.n = 0
@@ -83,6 +84,34 @@ end
 
 function buffer_meta.tobytes(buffer)
     return buffer.data
+end
+
+function buffer_meta.__ipairs(buffer)
+    local i = 0
+    local f = function ()
+        if i < buffer.n then
+            i = i + 1
+            return i, buffer[i]
+        end
+    end
+    return f, v, nil
+end
+
+function buffer_meta.cast(buffer, ct)
+    local buffer2 = Buffer(ct)
+    buffer2.data = ffi.cast(ffi.typeof(buffer2.data), buffer.data)
+    
+    if buffer.sizeof_ctype > buffer2.sizeof_ctype then
+        local coef = buffer.sizeof_ctype / buffer2.sizeof_ctype
+        buffer2.available = buffer.available * coef
+        buffer2.n = buffer.n * coef
+    else
+        local coef = buffer2.sizeof_ctype / buffer.sizeof_ctype
+        buffer2.available = buffer.available / coef
+        buffer2.n = buffer.n / coef
+    end
+    
+    return buffer2
 end
 
 local buffer_classes = {}

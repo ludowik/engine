@@ -65,6 +65,13 @@ mt.len = function (self)
     return math.sqrt(self.x^2 + self.y^2 + self.z^2)
 end
 
+mt.dist = function (self, v)
+    return math.sqrt(
+        (v.x - self.x)^2 +
+        (v.y - self.y)^2 +
+        (v.z - self.z)^2)
+end
+
 mt.add = function (self, v, coef)
     coef = coef or 1
     self.x = self.x + v.x * coef
@@ -164,13 +171,25 @@ mt.__len = function (v)
     return 3
 end
 
+mt.__ipairs = function (v)
+    local i = 0
+    local attribs = {'x', 'y', 'z'}
+    local f = function ()
+        if i < #attribs then
+            i = i + 1
+            return i, v[i]
+        end
+    end
+    return f, v, nil
+end
+
 mt.__pairs = function (v)
     local i = 0
     local attribs = {'x', 'y', 'z'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return attribs[i]
+            return attribs[i], v[i]
         end
     end
     return f, v, nil
@@ -191,7 +210,7 @@ function vec3:init(x, y, z)
 end
 
 function xyz(x, y, z, coef)
-    if type(x) == 'table' then 
+    if type(x) == 'table' or type(x) == 'cdata' then 
         return x.x, x.y, x.z or 0, y or 1
     end
     return x or 0, y or 0, z or 0, coef or 1

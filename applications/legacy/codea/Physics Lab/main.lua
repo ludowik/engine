@@ -1,6 +1,6 @@
 supportedOrientations(LANDSCAPE_ANY)
 
-_G.physics = box2dRef.Physics()
+_G.physics = Physics()
 
 -- Use this function to perform your initial setup
 function setup()    
@@ -58,7 +58,7 @@ end
 
 function createBox(x,y,w,h)
     -- polygons are defined by a series of points in counter-clockwise order
-    local box = physics.body(POLYGON, vec2(-w/2,h/2), vec2(-w/2,-h/2), vec2(w/2,-h/2), vec2(w/2,h/2))
+    local box = physics.body(POLYGON, {vec2(-w/2,h/2), vec2(-w/2,-h/2), vec2(w/2,-h/2), vec2(w/2,h/2)})
     box.interpolate = true
     box.x = x
     box.y = y
@@ -69,7 +69,7 @@ function createBox(x,y,w,h)
 end
 
 function createGround()
-    local ground = physics.body(POLYGON, vec2(0,20), vec2(0,0), vec2(WIDTH,0), vec2(WIDTH,20))
+    local ground = physics.body(POLYGON, {vec2(0,20), vec2(0,0), vec2(WIDTH,0), vec2(WIDTH,20)})
     ground.type = STATIC
     debugDraw:addBody(ground)
     return ground
@@ -85,12 +85,12 @@ function createRandPoly(x,y)
     assert(count >= 3)
     
     for i = 1,count do
-        local v = vec2(r,0):rotateInPlace(a):add(math.random(-10,10), math.random(-10,10))
+        local v = vec2(r,0):rotateInPlace(a):add(vec2(math.random(-10,10), math.random(-10,10)))
         a = a + d
         table.insert(points, v)
     end
     
-    local poly = physics.body(POLYGON, unpack(points))
+    local poly = physics.body(POLYGON, points)
     poly.x = x
     poly.y = y
     poly.sleepingAllowed = false
@@ -100,7 +100,7 @@ function createRandPoly(x,y)
 end
 
 function cleanup()
-    output.clear()
+--    output.clear()
     debugDraw:clear()
 end
 

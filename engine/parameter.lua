@@ -8,11 +8,11 @@ function parameter.boolean(name, default, callback)
 end
 
 function parameter.integer(name, min, max, default, callback)
-    _G.env[name] = default
+    _G.env[name] = default or min
 end
 
 function parameter.number(name, min, max, default, callback)
-    _G.env[name] = default
+    _G.env[name] = default or min
 end
 
 function parameter.action()

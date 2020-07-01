@@ -1,26 +1,40 @@
 local classes = {}
 
-function class(className, ...)
+local function defaultInit()
+end
+
+function class(...)
+    local args = {...}
+
+    local className
+    if #args > 0 and type(args[1]) == 'string' then    
+        className = args[1]
+        table.remove(args, 1)
+    else
+        className = 'file.'..scriptName()..id(scriptName())
+    end
+
     local k = {}
     k.__index = k
     k.__className = className:lower()
 
     table.insert(classes, k)
 
-    k.init = function (self)
-    end
+    k.init = defaultInit
 
-    k.extends = function (self, ...)
+    k.extends = function (k, ...)
         __bases = {...}
         assert(#__bases > 0)
 
-        k.init = nil
+        if k.init == defaultInit then
+            k.init = nil
+        end
 
-        self.__bases = __bases
+        k.__bases = __bases
         for i,__base in ipairs(__bases) do
             for name,v in pairs(__base) do
-                if self[name] == nil then
-                    self[name] = v
+                if k[name] == nil then
+                    k[name] = v
                 end
             end
         end
@@ -63,9 +77,8 @@ function class(className, ...)
 
     rawset(_G, className, k)
 
-    __bases = {...}
-    if #__bases > 0 then
-        k:extends(...)
+    if #args > 0 then
+        k:extends(unpack(args))
     end
 
     return k

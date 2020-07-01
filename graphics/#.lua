@@ -7,6 +7,7 @@ require 'graphics.image'
 require 'graphics.shape'
 require 'graphics.context'
 require 'graphics.graphics'
+require 'graphics.material'
 require 'graphics.drawing'
 
 local N = 12

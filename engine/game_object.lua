@@ -21,6 +21,10 @@ function Node:remove(i)
     self.nodes:remove(i)
 end
 
+function Node:clear()
+    self.nodes = Array()
+end
+
 function Node:setup()
     for i,v in self.nodes:items() do
         if v.setup then
@@ -38,7 +42,6 @@ function Node:release()
 end
 
 function Node:update(dt)
-    log(self.__className)
     for i,v in self.nodes:items() do
         if v.update then
             v:update(dt)

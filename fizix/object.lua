@@ -98,7 +98,7 @@ function MeshObject:init(object, ...)
 
     self.object = object
     if object then
-        object.shader = object.shader or Shader.shaders['default']
+        object.shader = object.shader or shaders['default']
     end
 end
 

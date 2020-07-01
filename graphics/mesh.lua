@@ -17,6 +17,9 @@ function Mesh:buffer(name)
     return self[name]
 end
 
+function Mesh:setColors(clr)
+end
+
 function Mesh:draw()
     self:render(shaders['default'], gl.GL_TRIANGLES)
 end
@@ -33,7 +36,7 @@ function MeshRender:sendAttribute(attributeName, data, nComponents)
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
 
         local n = #data
-        
+
         -- TODO : gérer la version correctement
         if true or not attribute.sent or attribute.sent ~= n or attribute.version ~= data.version then
             attribute.sent = n

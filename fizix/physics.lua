@@ -1,11 +1,11 @@
 class('Physics')
 
 function Physics.setup()
-    Physics.instance = newPhysics()  
+    Physics.instance = Fizix()  
 end
 
 function Physics:init(instance)
-    Physics.instance = instance or Physics.instance
+    Physics.instance = instance or Physics.instance or Fizix()
     return Physics
 end
 

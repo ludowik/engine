@@ -1,3 +1,3 @@
 return {
-    ["appName"] = "legacy/apps/tetris",
+    ["appName"] = "legacy/codea/cargo-bot",
 }
