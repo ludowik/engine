@@ -32,7 +32,7 @@ function PhysicsInstance:add(item, bodyType, ...)
     assert(item)
     assert(bodyType)
 
-    local body = self.physics.body(...)
+    local body = self.physics:body(...)
     body.type = bodyType
 
     if item then

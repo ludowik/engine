@@ -473,7 +473,7 @@ conversions = {
 
         v.__formatting = true
         local result
-        if v.format then
+        if type(v.format) == 'function' then
             result = v:format()
         else
             result = table.format(v)

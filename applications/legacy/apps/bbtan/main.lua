@@ -212,12 +212,12 @@ end
 function draw()
     background(51)
 
-    graphics2d.NEXTY = HEIGHT / 2
+    TEXT_NEXT_Y = HEIGHT / 2
     
     textMode(CORNER)
     for i,body in ipairs(physics.bodies) do
-        local info = body.item.className..' '..body.shapeType..' at '..body.position:tostring()
-        text(info, 0, graphics2d.NEXTY)
+        local info = classnameof(body.item)..' '..body.shapeType..' at '..body.position:tostring()
+        text(info, 0, TEXT_NEXT_Y)
     end
 
     translate(areaPosition.x, areaPosition.y)

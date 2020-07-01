@@ -44,7 +44,7 @@ function mt.scale(...)
 
     function mt.scale(m1, sx, sy, sz, res)
         values[0] = sx
-        values[5] = sy
+        values[5] = sy or sx
         values[10] = sz or 1
         return m1:__mul(m2, res)
     end

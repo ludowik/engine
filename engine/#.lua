@@ -18,6 +18,7 @@ require 'engine.component'
 
 require 'engine.config'
 require 'engine.mouse'
+require 'engine.keyboard'
 
 require 'engine.game_object'
 require 'engine.application'
@@ -56,3 +57,13 @@ newPhysics = Fizix
 
 math.MAX_INTEGER = math.maxinteger
 math.MIN_INTEGER = math.mininteger
+
+function callback(object, f)
+    return function (...)
+        if f then
+            f(object, ...)
+        elseif object then
+            object(...)
+        end
+    end
+end

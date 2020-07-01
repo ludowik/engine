@@ -1,10 +1,3 @@
 return {
-    ["renderMode"] = "frame",
-    ["minorVersion"] = 1,
-<<<<<<< HEAD
-    ["appName"] = "legacy/apps/bbtan/main",
-=======
-    ["appName"] = "legacy/noise/map1",
->>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
-    ["majorVersion"] = 4,
+    ["appName"] = "legacy/apps/tetris",
 }

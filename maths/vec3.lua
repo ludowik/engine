@@ -52,6 +52,15 @@ mt.random = function (self, w, h, d)
     end
 end
 
+function mt:__tostring()
+    return (
+        "vec3{"..
+        "x=" .. ( round(self.x, 2) or 'nan' ) .. ", " ..
+        "y=" .. ( round(self.y, 2) or 'nan' ) .. ", " ..
+        "z=" .. ( round(self.z, 2) or 'nan' ) .. "}")
+end
+mt.tostring = mt.__tostring
+
 mt.len = function (self)
     return math.sqrt(self.x^2 + self.y^2 + self.z^2)
 end

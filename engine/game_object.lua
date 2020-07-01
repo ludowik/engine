@@ -1,9 +1,11 @@
 GameObject = Component
 
-class 'Node' : extends(GameObject)
+class 'Node' : extends(GameObject, Rect)
 
 function Node:init()
     GameObject.init(self)
+    Rect.init(self)
+    
     self.nodes = Array()
 end
 
@@ -36,6 +38,7 @@ function Node:release()
 end
 
 function Node:update(dt)
+    log(self.__className)
     for i,v in self.nodes:items() do
         if v.update then
             v:update(dt)

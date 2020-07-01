@@ -3,8 +3,7 @@ App('AppAsteroid')
 function AppAsteroid:init()
     Application.init(self)
 
-    physicsInstance = PhysicsInstance()
-
+    physicsInstance = Fizix()
 
     self.scene = Scene()
 
@@ -28,7 +27,7 @@ function AppAsteroid:init()
 
     self.score = 0
 
-    physics.gravity(0, 0)
+    fizix:gravity(0, 0)
 end
 
 function AppAsteroid:update(dt)

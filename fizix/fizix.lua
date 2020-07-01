@@ -9,6 +9,8 @@ function Fizix.setup()
 end
 
 function Fizix:init()
+    fizix = self
+    
     self.bodies = Array()
     self.contacts = Array()
 

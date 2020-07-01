@@ -1,6 +1,8 @@
 class 'Application'
 
 function Application:init()
+    app = self
+    
     self.scene = Scene()
     self.ui = UIScene()
 end

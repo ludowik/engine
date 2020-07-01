@@ -257,6 +257,7 @@ SDL_Scancode SDL_GetScancodeFromName(const char *name);
 const char * SDL_GetKeyName(SDL_Keycode key);
 SDL_Keycode SDL_GetKeyFromName(const char *name);
 void SDL_StartTextInput(void);
+const Uint8* SDL_GetKeyboardState(int* numkeys);
 
 typedef struct SDL_Point {
     int x;

@@ -74,7 +74,7 @@ function Color:init(r, g, b, a)
     return self
 end
 
-function Color.random()
+function mt.random()
     return Color(
         math.random(),
         math.random(),
@@ -82,7 +82,7 @@ function Color.random()
         1)
 end
 
-function Color.grayScaleLightness(clr, to)
+function mt.grayScaleLightness(clr, to)
     local r,g,b = clr.r, clr.g, clr.b
     local c = (max(r,g,b) + min(r,g,b)) / 2
     if to then
@@ -93,7 +93,7 @@ function Color.grayScaleLightness(clr, to)
     end
 end
 
-function Color.grayScaleAverage(clr, to)
+function mt.grayScaleAverage(clr, to)
     local r,g,b = clr.r, clr.g, clr.b
     local c = (r+g+b) / 3
     if to then
@@ -104,7 +104,7 @@ function Color.grayScaleAverage(clr, to)
     end
 end
 
-function Color.grayScaleLuminosity(clr, to)
+function mt.grayScaleLuminosity(clr, to)
     local r,g,b = clr.r, clr.g, clr.b
     local c = 0.21*r + 0.72*g + 0.07*b
     if to then
@@ -114,9 +114,9 @@ function Color.grayScaleLuminosity(clr, to)
         return Color(c,c,c,clr.a)
     end
 end
-Color.grayScale = Color.grayScaleLuminosity
+mt.grayScale = mt.grayScaleLuminosity
 
-function Color.mix(clr1, clr2, dst)
+function mt.mix(clr1, clr2, dst)
     local src = 1-dst
     return Color(
         min(0, clr1.r * src + clr2.r * dst),
@@ -125,7 +125,7 @@ function Color.mix(clr1, clr2, dst)
         min(0, clr1.a * src + clr2.a * dst))
 end
 
-function Color.alpha(clr, a)
+function mt.alpha(clr, a)
     return Color(
         clr.r,
         clr.g,
@@ -133,23 +133,23 @@ function Color.alpha(clr, a)
         a > 1 and a / 255 or a)
 end
 
-function Color.darken(clr, pct)
+function mt.darken(clr, pct)
     pct = pct or -50
-    return Color.lighten(clr, pct)
+    return clr:lighten(pct)
 end
 
-function Color.lighten(clr, pct)
+function mt.lighten(clr, pct)
     pct = pct or 50    
     local h, s, l, a = rgb2hsl(clr.r, clr.g, clr.b, clr.a)
     l = l + l * pct / 100
     return hsl(h,s,l,a)
 end
 
-function Color.opposite(clr)
+function mt.opposite(clr)
     return Color.complementary(clr, white)
 end
 
-function Color.complementary(clr, neutral)
+function mt.complementary(clr, neutral)
     neutral = neutral or white
     return Color(
         neutral.r - clr.r,
@@ -158,7 +158,7 @@ function Color.complementary(clr, neutral)
         clr.a)
 end
 
-function Color.visibleColor(clr)
+function mt.visibleColor(clr)
     local cm = ( clr.r + clr.g + clr.b ) / 3
 
     local m

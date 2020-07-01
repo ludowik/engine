@@ -144,16 +144,16 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 end
 
 function MeshRender:sendUniforms(uniforms)
-    if uniforms.stroke and style.attributes.stroke then
-        gl.glUniform4fv(uniforms.stroke.uniformLocation, 1, style.attributes.stroke:tobytes())
+    if uniforms.stroke and styles.attributes.stroke then
+        gl.glUniform4fv(uniforms.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
     end
 
-    if uniforms.strokeWidth and style.attributes.strokeWidth then
-        gl.glUniform1f(uniforms.strokeWidth.uniformLocation, style.attributes.strokeWidth)
+    if uniforms.strokeWidth and styles.attributes.strokeWidth then
+        gl.glUniform1f(uniforms.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
     end
 
-    if uniforms.fill and style.attributes.fill then
-        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, style.attributes.fill:tobytes())
+    if uniforms.fill and styles.attributes.fill then
+        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
     end
 end
 

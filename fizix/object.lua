@@ -3,6 +3,8 @@ Object = class('Fizix.Object', Rect)
 Fizix.Object = Object
 
 function Object:init(label)
+    Rect.init(self)
+    
     self.label = label or ''
 
     self.position = vec3()

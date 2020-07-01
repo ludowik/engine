@@ -20,10 +20,7 @@ end
 function Particle:draw()
     local r = randomInt(self.life/2)
     tint(self.life, r, r, 50)
-<<<<<<< HEAD
-=======
     
->>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
     local size = map(self.life, 0, MAX_LIFE, 5, 25)
     
     spriteMode(CENTER)

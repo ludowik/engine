@@ -1,12 +1,18 @@
-class 'Style'
+class 'Styles'
 
-function Style:init()
+s0 = 0.01
+s1 = 1.01
+for i = 2, 20 do
+    _G['s'..i] = i
+end
+
+function Styles:init()
     self.attributes = {
         fill = white,
 
         stroke = white,
         strokeWidth = 1,
-        
+
         tint = white,
 
         rectMode = CORNER,
@@ -15,12 +21,12 @@ function Style:init()
         textMode = CORNER,
 
         spriteMode = CORNER,
-        
+
         light = false
     }
 end
 
-function Style:setAttribute(attribute_name, value, reset)
+function Styles:setAttribute(attribute_name, value, reset)
     if value or reset then
         self.attributes[attribute_name] = value
     end
@@ -28,19 +34,19 @@ function Style:setAttribute(attribute_name, value, reset)
 end
 
 function pushStyle()
-    push('__style', style:clone())
+    push('__style', styles:clone())
 end
 
 function popStyle()
-    style = pop('__style')
-    
-    blendMode(style.blendMode)
-    cullingMode(style.cullingMode)
-    depthMode(style.depthMode)
+    styles = pop('__style')
+
+    blendMode(styles.blendMode)
+    cullingMode(styles.cullingMode)
+    depthMode(styles.depthMode)
 end
 
 function resetStyle()
-    style = Style()
+    styles = Styles()
 
     TEXT_NEXT_Y = H
 
@@ -51,55 +57,88 @@ function resetStyle()
     fontSize(12)
 end
 
+function style(size, clr1, clr2)
+    assert(size)
+
+    strokeWidth(size)
+    if clr1 and clr1 ~= transparent then
+        stroke(clr1)
+    else
+        noStroke()
+    end
+
+    if clr2 and clr2 ~= transparent then
+        fill(clr2)
+    else
+        noFill()
+    end
+end
+
+function textStyle(size, clr, mode)
+    assert(size)
+
+    fontSize(size)
+    if clr and clr ~= transparent then
+        fill(clr)
+    else
+        noFill()
+    end
+    textMode(mode)
+end
+
 function fill(...)
-    return style:setAttribute('fill', Color.args(...):clone())
+    return styles:setAttribute('fill', Color.args(...):clone())
 end
 
 function noFill()
-    return style:setAttribute('fill', nil, true)
+    return styles:setAttribute('fill', nil, true)
 end
 
 function stroke(...)
-    return style:setAttribute('stroke', Color.args(...):clone())
+    return styles:setAttribute('stroke', Color.args(...):clone())
 end
 
 function noStroke()
-    return style:setAttribute('stroke', nil, true)
+    return styles:setAttribute('stroke', nil, true)
 end
 
 function tint(...)
-    return style:setAttribute('tint', Color.args(...):clone())
+    return styles:setAttribute('tint', Color.args(...):clone())
 end
 
 function strokeWidth(width)
-    return style:setAttribute('strokeWidth', width)
+    return styles:setAttribute('strokeWidth', width)
 end
 
 CENTER = 'center'
 CORNER = 'corner'
 
 function rectMode(mode)
-    return style:setAttribute('rectMode', mode)
+    return styles:setAttribute('rectMode', mode)
 end
 
 function ellipseMode(mode)
-    return style:setAttribute('ellipseMode', mode)
+    return styles:setAttribute('ellipseMode', mode)
 end
 
 function circleMode(mode)
-    return style:setAttribute('circleMode', mode)
+    return styles:setAttribute('circleMode', mode)
 end
 
 function spriteMode(mode)
-    return style:setAttribute('spriteMode', mode)
+    return styles:setAttribute('spriteMode', mode)
 end
 
 function textMode(mode)
-    return style:setAttribute('textMode', mode)
+    return styles:setAttribute('textMode', mode)
+end
+
+function lineCapMode(mode)
+    return styles:setAttribute('lineCapMode', mode)
 end
 
 function light(mode)
-    return style:setAttribute('light', mode)
+    return styles:setAttribute('light', mode)
 end
 
 function supportedOrientations()

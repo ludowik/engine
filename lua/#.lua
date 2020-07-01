@@ -24,9 +24,9 @@ require 'lua.convert'
 require 'lua.grid'
 require 'lua.date'
 require 'lua.eval'
+require 'lua.id'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
-
 
 function toggle(value, opt1, opt2)
     if value == nil then return opt1 end

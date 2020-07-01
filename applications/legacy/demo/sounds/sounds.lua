@@ -6,11 +6,7 @@ local function keyFromHz(hz)
     return floor(12 * math.log(hz/440, 2) + 49)
 end
 
-<<<<<<< HEAD
-App('AppSound')
-=======
 application('AppSound')
->>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
 
 function AppSound:init()
     Application.init(self)

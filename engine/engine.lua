@@ -83,9 +83,7 @@ function Engine:run(appName)
         self.active = 'running'
 
         local deltaTime = 0
-
         self.fpsTarget = 120
-
         self.frame_time:init()
 
         while self.active == 'running' do
@@ -258,6 +256,7 @@ function Engine:loopApp()
     if self.action then
         self.action = nil
     else
+        self.appName = nil
         self.action = self.nextApp
     end
 end
@@ -307,12 +306,6 @@ end
 function Engine:loadApp(appName, reloadApp)
     self.appName = appName or self.appName
     self.appPath = 'applications/'..self.appName
-<<<<<<< HEAD
-    
-    log(Path.sourcePath..'/'..self.appPath..'.lua')
-    if not exists(Path.sourcePath..'/'..self.appPath..'.lua') then
-        self.appPath = 'applications/default'
-=======
 
     if (not exists(Path.sourcePath..'/'..self.appPath..'.lua') and
         not exists(Path.sourcePath..'/'..self.appPath..'/#.lua') and
@@ -321,7 +314,6 @@ function Engine:loadApp(appName, reloadApp)
         error(self.appName)
         self.appName = 'default'
         self.appPath = 'applications/'..self.appName
->>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
     end
 
     saveGlobalData('appName', self.appName)
@@ -340,19 +332,18 @@ function Engine:loadApp(appName, reloadApp)
         require(self.appPath)
         ___requireReload = false
 
+        if _G.env.setup then
+            _G.env.setup()
+        end
+        
         if env.appClass then
+            env.appClass.setup()
             self.app = env.appClass()
         else
             self.app = Application()
         end
 
         app = self.app
-
-        if _G.env.setup then
-            _G.env.setup()
-        else
-            setup()
-        end
 
     else
         log('switch '..self.appPath)

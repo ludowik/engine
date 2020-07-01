@@ -63,8 +63,8 @@ MULTIPLY = 3
 
 function blendMode(mode)
     if mode then
-        if style.blendMode ~= mode then
-            style.blendMode = mode
+        if styles.blendMode ~= mode then
+            styles.blendMode = mode
 
             if mode == NORMAL then
                 gl.glEnable(gl.GL_BLEND)
@@ -90,12 +90,12 @@ function blendMode(mode)
             end
         end
     end
-    return style.blendMode
+    return styles.blendMode
 end
 
 function cullingMode(culling)
     if culling ~= nil then
-        style.cullingMode = culling
+        styles.cullingMode = culling
 
         if culling then
             gl.glEnable(gl.GL_CULL_FACE)
@@ -110,12 +110,12 @@ function cullingMode(culling)
             gl.glDisable(gl.GL_CULL_FACE)
         end
     end
-    return style.cullingMode
+    return styles.cullingMode
 end
 
 function depthMode(mode)
     if mode ~= nil then
-        style.depthMode = mode
+        styles.depthMode = mode
 
         if mode then
             gl.glEnable(gl.GL_DEPTH_TEST)
@@ -124,7 +124,7 @@ function depthMode(mode)
             gl.glDisable(gl.GL_DEPTH_TEST)
         end
     end
-    return style.depthMode
+    return styles.depthMode
 end
 
 function background(clr, ...)

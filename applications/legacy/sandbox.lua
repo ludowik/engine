@@ -6,11 +6,7 @@ function Star:init(x, y)
 end
 
 function Star:update(dt)
-<<<<<<< HEAD
-    self.position:add(self.velocity.x * dt, self.velocity.x * dt)
-=======
     self.position:add(self.velocity, dt)
->>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
 end
 
 function Star:draw()
@@ -69,11 +65,7 @@ end
 
 class('heritagemultiple', Object, Rect)
 
-<<<<<<< HEAD
-print(classnameof(fs))
-=======
 log(classnameof(fs))
->>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
 
 function wheelmoved(id, x, y)
     offset = offset + y * 50

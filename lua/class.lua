@@ -1,6 +1,6 @@
 local classes = {}
 
-function class(className, __base)
+function class(className, ...)
     local k = {}
     k.__index = k
     k.__className = className:lower()
@@ -10,13 +10,18 @@ function class(className, __base)
     k.init = function (self)
     end
 
-    k.extends = function (self, __base)
-        assert(__base)
+    k.extends = function (self, ...)
+        __bases = {...}
+        assert(#__bases > 0)
 
-        self.__base = __base
-        for name,v in pairs(__base) do
-            if self[name] == nil then
-                self[name] = v
+        k.init = nil
+
+        self.__bases = __bases
+        for i,__base in ipairs(__bases) do
+            for name,v in pairs(__base) do
+                if self[name] == nil then
+                    self[name] = v
+                end
             end
         end
     end
@@ -58,8 +63,9 @@ function class(className, __base)
 
     rawset(_G, className, k)
 
-    if __base then
-        k:extends(__base)
+    __bases = {...}
+    if #__bases > 0 then
+        k:extends(...)
     end
 
     return k
