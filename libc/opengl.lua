@@ -1,4 +1,4 @@
-local code, defs = precompile(io.read('./lib/opengl.c'))
+local code, defs = precompile(io.read('./libc/opengl.c'))
 ffi.cdef(code)
 
 local lib_path

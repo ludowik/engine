@@ -89,6 +89,23 @@ function fs.mkdir(path)
     lfs.mkdir(fullPath)
 end
 
+function dir(path, list, subPath)
+    list = list or Array()
+    for file in lfs.dir(path) do
+        if not file:startWith('.') then
+            if (isFile(path..'/'..file) or 
+                isFile(path..'/'..file..'/#.lua') or 
+                isFile(path..'/'..file..'/main.lua'))
+            then
+                table.insert(list, subPath and (subPath..'/'..file) or file)
+            else
+                dir(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
+            end
+        end
+    end
+    return list
+end
+
 function loadFile(file, filesPath)
     assert(file)
 

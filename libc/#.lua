@@ -15,7 +15,7 @@ ffi = require 'ffi'
 
 ffi.NULL = ffi.cast('void*', 0)
 
-require 'lib.sdl'
-require 'lib.opengl'
-require 'lib.openal'
-require 'lib.freetype'
+require 'libc.sdl'
+require 'libc.opengl'
+require 'libc.openal'
+require 'libc.freetype'

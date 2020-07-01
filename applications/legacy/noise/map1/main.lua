@@ -120,7 +120,11 @@ function appMap:init()
 
     camera(500, 100, 500, -100, 0, -500)
 
+<<<<<<< HEAD
     skybox = Model.skybox(100000)
+=======
+    skybox = Mesh(Model.skybox(100000))
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
     skybox.texture = image('documents:skybox')
 
     self.s = 10
@@ -135,8 +139,13 @@ function appMap:init()
     local c = vec3(s, 0, -s)
     local d = vec3(0, 0, -s)
 
+<<<<<<< HEAD
     local w = debugging() and 32 or 256
     local h = debugging() and 32 or 256
+=======
+    local w = debugging and 32 or 256
+    local h = debugging and 32 or 256
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
 
     self.heightMap = {}
 
@@ -196,6 +205,7 @@ function appMap:init()
             end
 
             meshAddTriangle(sea.vertices,
+<<<<<<< HEAD
                 a:translate(translate),
                 b:translate(translate),
                 c:translate(translate))
@@ -204,6 +214,16 @@ function appMap:init()
                 a:translate(translate),
                 c:translate(translate),
                 d:translate(translate))
+=======
+                a:add(translate),
+                b:add(translate),
+                c:add(translate))
+
+            meshAddTriangle(sea.vertices,
+                a:add(translate),
+                c:add(translate),
+                d:add(translate))
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
         end
     end
 

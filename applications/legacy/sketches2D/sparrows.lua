@@ -9,7 +9,11 @@ function setup()
     nSparrows = 200
 
     for i=1,nSparrows do
+<<<<<<< HEAD:applications/legacy/sketches2D/sparrows.lua
         local sparrow = vec2.random()
+=======
+        local sparrow = vector(vec2.random())
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96:applications/sketches2D/sparrows.lua
         sparrows:add(sparrow)
 
         sparrow.force = vec2()

@@ -1,4 +1,4 @@
-local code, defs = precompile(io.read('./lib/sdl.c'))
+local code, defs = precompile(io.read('./libc/sdl.c'))
 ffi.cdef(code)
 
 local lib_path

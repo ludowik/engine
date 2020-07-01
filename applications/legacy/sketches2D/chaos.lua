@@ -16,9 +16,15 @@ function reset(i)
     size = WIDTH / 4
 
     deltaAngle = TAU / conf.n
+<<<<<<< HEAD
 
     for i = 0,conf.n-1 do
         vertices:add(vec2(
+=======
+    
+    for i = 0,conf.n-1 do
+        vertices:add(vector(
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
                 WIDTH/2  + sin(conf.startAngle + i * deltaAngle) * size,
                 HEIGHT/2 + cos(conf.startAngle + i * deltaAngle) * size))
     end
@@ -30,7 +36,11 @@ function reset(i)
 
     vertices:draw()
 
+<<<<<<< HEAD
     currentPoint = vec2(WIDTH/2, HEIGHT/2)
+=======
+    currentPoint = vector(WIDTH/2, HEIGHT/2)
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
 end
 
 function anyPoint()

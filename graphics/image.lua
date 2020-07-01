@@ -5,6 +5,12 @@ function Image:init(w, h)
         self:create(w, h)
     elseif type(w) == 'string' then
         self.surface = sdl.image.IMG_Load(w)
+        if self.surface == ffi.NULL then
+            warning("image doesn't exists", 3)
+            self:create(100, 100)
+            return
+        end
+        
 --        surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
         self.width = self.surface.w
         self.height = self.surface.h
@@ -115,6 +121,10 @@ function Image:readPixels(formatAlpha, formatRGB)
     self:unuse()
 end
 
+function image:getPixels()
+    return ffi.cast('GLubyte*', self.surface.pixels)
+end
+
 function Image:reversePixels(pixels, w, h, bytesPerPixel)
     debugger.off()
 
@@ -198,11 +208,6 @@ function Image:fragment(f)
     self:makeTexture()
 end
 
-function image:readPixels()
-    local p = ffi.cast('GLubyte*', self.surface.pixels)
-    return p
-end
-
 function image:offset(x, y)
     x = tointeger(x-1)
     y = tointeger(y-1)
@@ -220,7 +225,7 @@ function image:set(x, y, color_r, g, b, a)
         color_r, g, b, a = color_r.r, color_r.g, color_r.b, color_r.a
     end
 
-    local pixels = self:readPixels()
+    local pixels = self:getPixels()
 
     local offset = self:offset(x, y)
     if offset then
@@ -241,7 +246,7 @@ function image:get(x, y, clr)
     local offset = self:offset(x, y)
 
     if offset then
-        local pixels = self:readPixels()
+        local pixels = self:getPixels()
 
         clr.r = pixels[offset  ] / 255
         clr.g = pixels[offset+1] / 255
@@ -253,6 +258,29 @@ function image:get(x, y, clr)
 
     clr:set()
     return clr
+end
+
+function image:copy(x, y, w, h)
+    x = x or 0
+    y = y or 0
+
+    w = w or self.width
+    h = h or self.height
+
+    local img = image(w, h)
+
+    local from = self
+    local to = img
+
+    for i=1,w do
+        for j=1,h do
+            to:set(i, j, from:get(x+i, y+j):unpack())
+        end
+    end
+
+    img:makeTexture()
+
+    return img
 end
 
 function Image.createFramebuffer()

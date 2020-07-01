@@ -6,6 +6,8 @@ function Style:init()
 
         stroke = white,
         strokeWidth = 1,
+        
+        tint = white,
 
         rectMode = CORNER,
         ellipseMode = CENTER,
@@ -63,6 +65,10 @@ end
 
 function noStroke()
     return style:setAttribute('stroke', nil, true)
+end
+
+function tint(...)
+    return style:setAttribute('tint', Color.args(...):clone())
 end
 
 function strokeWidth(width)

@@ -22,10 +22,16 @@ function setup()
     minSize = vec2(16, 9):normalizeInPlace( 100)
     maxSize = vec2(16, 9):normalizeInPlace(1280)
 
+<<<<<<< HEAD
     mesh = Model.rect(maxSize.x, maxSize.y)
     mesh:update()
 
     if debugging() then
+=======
+    mesh = Mesh(Model.rect(maxSize.x, maxSize.y))
+
+    if debugging then
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
         loadShaders(false)
     else
         app.coroutine = coroutine.create(

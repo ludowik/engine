@@ -60,6 +60,10 @@ mt.__pairs = function (v)
     return f, v, nil
 end
 
+mt.unpack = function (v)
+    return v.r, v.g, v.b, v.a
+end
+
 color_meta = ffi.metatype('color', mt)
 
 color = class 'Color'
@@ -214,7 +218,7 @@ function hue2rgb(v1, v2, vH)
 end
 
 function rgb2hsl(...)
-    local clr = Color.from(...)
+    local clr = Color(...)
     local r, g, b, a = clr.r, clr.g, clr.b, clr.a
 
     local max, min = math.max(r, g, b), math.min(r, g, b)

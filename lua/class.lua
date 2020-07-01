@@ -15,10 +15,6 @@ function class(className, __base)
 
         self.__base = __base
         for name,v in pairs(__base) do
-            if name == 'init' then
-                k.init = v
-            end
-
             if self[name] == nil then
                 self[name] = v
             end

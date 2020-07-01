@@ -5,7 +5,7 @@ else
     lib_path = 'System32/OpenAL32'
 end
 
-local code, defs = precompile(io.read('./lib/openal.c'))
+local code, defs = precompile(io.read('./libc/openal.c'))
 ffi.cdef(code)
 
 class 'OpenAL' : meta(ffi.load(lib_path))

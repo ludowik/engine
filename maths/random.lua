@@ -21,3 +21,6 @@ function random.random(min, max)
 
     return math.random() * (max - min) + min
 end
+
+seed = math.randomseed
+seed(tonumber(tostring(os.time()):reverse():sub(1,6)))

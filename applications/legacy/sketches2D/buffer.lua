@@ -43,7 +43,11 @@ function update(dt)
     end
     
     for i =1,10^6 do
+<<<<<<< HEAD:applications/legacy/sketches2D/buffer.lua
         ffiBuffer[#ffiBuffer+1] = random()
+=======
+        ffiBuffer[#ffiBuffer] = random()
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96:applications/sketches2D/buffer.lua
         --luaBuffer[#luaBuffer+1] = random()
     end
 end

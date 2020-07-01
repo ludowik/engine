@@ -1,5 +1,9 @@
 function setup()
+<<<<<<< HEAD
     physicsInstance = PhysicsInstance()
+=======
+    physicsInstance = Fizix()
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
     
     physicsInstance.debug = true
 
@@ -9,7 +13,11 @@ function setup()
     physicsInstance:add(ground, STATIC, RECT, ground.size.x, ground.size.y)
 
     for i=1,10 do
+<<<<<<< HEAD
         local object = Object():setPosition(
+=======
+        local object = Fizix.Object():setPosition(
+>>>>>>> 1d13a5feaa5b73b80a35dec879405e9543da2a96
             math.random(WIDTH),
             math.random(HEIGHT))
 

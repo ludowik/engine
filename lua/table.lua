@@ -239,6 +239,10 @@ function table:forEach(f)
     return self
 end
 
+function table:iterator()
+    return ipairs(self)
+end
+
 function table:enumerate()
     local i = 0
     local n = #self

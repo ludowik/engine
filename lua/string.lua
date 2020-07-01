@@ -9,7 +9,7 @@ function string.format(str, args, ...)
         end
         return str
     end
-    
+
     return string.__format(str, args, ...)
 end
 
@@ -23,7 +23,7 @@ function string.inList(s, ...)
     if #args == 1 and type(args[1]) == 'table' then
         args = args[1]
     end
-    
+
     for i,v in ipairs(args) do
         if s == v then
             return true
@@ -37,7 +37,7 @@ function string.contains(s, ...)
     if #args == 1 and type(args[1]) == 'table' then
         args = args[1]
     end
-    
+
     for i,v in ipairs(args) do
         if s:find(v) then
             return true
@@ -77,7 +77,9 @@ end
 function string.findLast(s, txt)
     s = s:reverse()
     local i = s:find(txt:reverse())
-    return s:len() - i + 1
+    if i then
+        return s:len() - i + 1
+    end
 end
 
 function string.left(s, n)
@@ -125,19 +127,19 @@ class('__string')
 string.test = function ()
     ut.assert('lower', string.lower('TEST') == 'test')
     ut.assert('upper', string.upper('test') == 'TEST')
-    
+
     ut.assert('left', string.left('test', 2) == 'te')
     ut.assertEqual('right', string.right('right', 2), 'ht')
-    
+
     ut.assert('rep', string.rep('t', 4) == 'tttt')
-    
+
     ut.assert('proper', string.proper('test test') == 'Test test')
-    
+
     ut.assert('startWith=true', string.startWith('test', 'te') == true)
     ut.assert('startWith=false', string.startWith('test', 'et') == false)
-    
+
     ut.assert('contains=true', string.contains('test', 'es') == true)
     ut.assert('contains=false', string.contains('test', 'et') == false)
-    
+
     ut.assert('replace', string.replace('test', 'e', 'E') == 'tEst')
 end

@@ -2,21 +2,21 @@ include_dirs = '/Library/Frameworks/FreeType.framework/Headers'
 
 if os.name == 'osx' then
 
-    ft = Library.compileFile('lib/freetype.c',
+    ft = Library.compileFile('libc/freetype.c',
         'ft',
         '-I /Library/Frameworks/FreeType.framework/Headers',
         '/Library/Frameworks/FreeType.framework/FreeType')
 
 else
 
-    ft = Library.compileFile('lib/freetype.c',
+    ft = Library.compileFile('libc/freetype.c',
         'ft',
         '-I "'..Path.libraryPath..'/Libraries/freetype/include"',
         '-L"'..Path.libraryPath..'/Libraries/freetype/win32" -lfreetype')
 
 end
 
-local code, defs = precompile(io.read('./lib/freetype.h'))
+local code, defs = precompile(io.read('./libc/freetype.h'))
 ffi.cdef(code)
 
 if os.name == 'windows' then

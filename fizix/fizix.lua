@@ -1,5 +1,3 @@
-Object = class('Object')
-
 Fizix = class('Fizix')
 
 function Fizix.setup()
@@ -161,7 +159,7 @@ function Fizix:collision()
             end
         end
         
-        lca.collide(contact)
+        collide(contact)
 
         response(bodyA)
         response(bodyB)

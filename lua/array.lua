@@ -1,4 +1,4 @@
-class 'Array'
+class 'Array' : extends(table)
 
 function Array:init(t)
     if t then
