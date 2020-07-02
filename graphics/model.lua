@@ -4,16 +4,14 @@ function Model.point(x, y)
     x = x or 0
     y = y or 0
 
-    return Buffer('float', x, y, 0)
+    return Buffer('vec3', vec3(x, y, 0))
 end
 
 function Model.points(points)
-    local vertices = Buffer()
+    local vertices = Buffer('vec3')
 
     for i=1,#points,3 do
-        vertices[i+0] = points[i+0]
-        vertices[i+1] = points[i+1]
-        vertices[i+2] = 0
+        vertices:insert(vec3(points[i+0], points[i+1], 0))
     end
 
     return vertices
@@ -25,9 +23,9 @@ function Model.line(x, y, w, h)
     w = w or 1
     h = h or 1
 
-    local vertices = Buffer('float', 
-        x, y, 0,
-        x+w, y+h, 0)
+    local vertices = Buffer('vec3', 
+        vec3(x, y, 0),
+        vec3(x+w, y+h, 0))
 
     return vertices
 end
@@ -38,21 +36,21 @@ function Model.rect(x, y, w, h)
     w = w or 1
     h = h or 1
 
-    local vertices = Buffer('float',
-        x+0, y+0, 0,
-        x+w, y+0, 0,
-        x+w, y+h, 0,
-        x+0, y+0, 0,
-        x+w, y+h, 0,
-        x+0, y+h, 0)
+    local vertices = Buffer('vec3',
+        vec3(x+0, y+0, 0),
+        vec3(x+w, y+0, 0),
+        vec3(x+w, y+h, 0),
+        vec3(x+0, y+0, 0),
+        vec3(x+w, y+h, 0),
+        vec3(x+0, y+h, 0))
 
-    local texCoords = Buffer('float',
-        0,0,
-        1,0,
-        1,1,
-        0,0,
-        1,1,
-        0,1)
+    local texCoords = Buffer('vec2',
+        vec2(0,0),
+        vec2(1,0),
+        vec2(1,1),
+        vec2(0,0),
+        vec2(1,1),
+        vec2(0,1))
 
     return vertices, texCoords
 end
@@ -63,7 +61,7 @@ function Model.ellipse(x, y, w, h)
     w = w or 1
     h = h or 1
 
-    local vertices = Buffer()
+    local vertices = Buffer('vec3')
 
     local n = 128
 
@@ -74,17 +72,9 @@ function Model.ellipse(x, y, w, h)
         x2 = math.cos(math.tau * i / n) / 2
         y2 = math.sin(math.tau * i / n) / 2
 
-        vertices:insert(0)
-        vertices:insert(0)
-        vertices:insert(0)
-
-        vertices:insert(x2)
-        vertices:insert(y2)
-        vertices:insert(0)
-
-        vertices:insert(x1)
-        vertices:insert(y1)
-        vertices:insert(0)
+        vertices:insert(vec3())
+        vertices:insert(vec3(x2, y2, 0))
+        vertices:insert(vec3(x1, y1, 0))
 
         x1, y1 = x2, y2
     end
@@ -113,21 +103,20 @@ function Model.box(w, h, d)
 
     }
 
-    local buf = Buffer()
+    local buf = Buffer('vec3')
     for i=1,#vertices do
-        buf[#buf+1] = vertices[i][1]
-        buf[#buf+1] = vertices[i][2]
-        buf[#buf+1] = vertices[i][3]
+        buf:insert(vec3(vertices[i][1],
+                vertices[i][2],
+                vertices[i][3]))
     end
 
     local w = 1/4-1/100
     local h = 1/3-1/100
-    local texCoords = Buffer('float')
+    local texCoords = Buffer('vec2')
 
     function add(coords, dx, dy)
         for i=0,5 do
-            texCoords[#texCoords+1] = coords[i*2+1] + dx
-            texCoords[#texCoords+1] = coords[i*2+2] + dy
+            texCoords:insert(vec2(coords[i*2+1] + dx, coords[i*2+2] + dy))
         end
     end
 
@@ -158,7 +147,7 @@ function Model.pyramid(w, h, d)
 end
 
 function Model.triangulate(points)
-    local mypoints = {}
+    local mypoints = Buffer('vec3')
     for i = 1, #points do
         table.insert(mypoints, vec3(points[i].x, points[i].y))
     end
@@ -174,17 +163,22 @@ function Model.triangulate(points)
     end
 
     -- result
-    local trivecs = {}
+    local trivecs = Buffer('vec3')
 
     local steps_without_reduction = 0
+    
     local i = 1
+    
     while #mypoints >= 3 and steps_without_reduction < #mypoints do
         local v2i = i % #mypoints + 1
         local v3i = (i + 1) % #mypoints + 1
+        
         local v1 = mypoints[i]
         local v2 = mypoints[v2i]
         local v3 = mypoints[v3i]
+        
         local da = enclosedAngle(v1, v2, v3)
+        
         local reduce = false
         if da >= 0 then
             -- The two edges bend inwards, candidate for reduction.
@@ -197,16 +191,20 @@ function Model.triangulate(points)
                 end
             end
         end
+        
         if reduce then
-            table.insert(trivecs, v1)
-            table.insert(trivecs, v2)
-            table.insert(trivecs, v3)
+            trivecs:insert(v1)
+            trivecs:insert(v2)
+            trivecs:insert(v3)
+            
             table.remove(mypoints, v2i)
+            
             steps_without_reduction = 0
         else
             i = i + 1
             steps_without_reduction = steps_without_reduction + 1
         end
+        
         if i > #mypoints then
             i = i - #mypoints
         end

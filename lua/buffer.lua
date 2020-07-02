@@ -151,7 +151,7 @@ function Buffer(ct, data, ...)
     local buffer = buffer_class.meta():__init(buffer_class)
 
     if data then
-        if type(data) == 'number' then
+        if type(data) == 'number' or type(data) == 'cdata' then
             data = {data, ...}
         end
 
