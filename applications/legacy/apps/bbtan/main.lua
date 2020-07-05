@@ -13,7 +13,7 @@ AREA_HEIGHT = CELL_SIZE * 9
 function setup()
     supportedOrientations(PORTRAIT)
 
-    physics = PhysicsInstance(0, 0)
+    physics = Fizix(0, 0)
     physics:gravity(vec2())
     physics:setArea(0, 0, AREA_WIDTH, AREA_HEIGHT)
 

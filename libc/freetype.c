@@ -83,16 +83,16 @@ Glyph load_text(FT_Face face, const char* text) {
         if (error)
             continue;
 
+        w += bitmap_left;
         if (text[n] == ' ')
-            w = w + space_width + bitmap_left;
+            w += space_width;
         else
-            w = w + bitmap_width + bitmap_left;
+            w += bitmap_width;
 
         top = max(top, bitmap_top);
-        bottom = max(bottom, bitmap_rows - bitmap_top);
+        bottom = max(bottom, bitmap_rows - max(0, bitmap_top));
     }
 
-    top *= 1.25;
     h = top + bottom;
 
     int size = w * h * sizeof(GLubyte) * BytesPerPixel;
@@ -107,7 +107,7 @@ Glyph load_text(FT_Face face, const char* text) {
 
         int index_bitmap = 0;
         for ( int j = 0; j < bitmap_rows; ++j ) {
-            int index = (h - 1 - (j + top - bitmap_top)) * w + x + bitmap_left;
+            int index = (h-j-1-top+bitmap_top) * w + x + bitmap_left; // (h - 1 - (j + top - bitmap_top)) * w + x + bitmap_left;
 
             if (BytesPerPixel == 4) {
                 for ( int j = 0; j < bitmap_width; ++j ) {
@@ -120,10 +120,11 @@ Glyph load_text(FT_Face face, const char* text) {
             index_bitmap += bitmap_width;
         }
 
+        x += bitmap_left;
         if (text[n] == ' ')
-            x = x + space_width + bitmap_left;
+            x += space_width;
         else
-            x = x + bitmap_width + bitmap_left;
+            x += bitmap_width;
     }
 
     glyph.w = w;

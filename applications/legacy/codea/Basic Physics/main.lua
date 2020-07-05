@@ -1,7 +1,5 @@
 -- Simple Physics
 
-_G.physics = box2dRef.Physics()
-
 -- Use this function to perform your initial setup
 function setup()
     supportedOrientations(LANDSCAPE_ANY)

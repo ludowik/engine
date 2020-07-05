@@ -21,8 +21,9 @@ class('Planet')
 Planet.debugSetup = false
 
 function Planet.setup()
-    Planet.model = Model.sphere(1)
+    Planet.model = Planet.model or Model.sphere(1)
 end
+Planet.setup()
 
 function Planet:init(x, y, r, level)
     level = (level or 0) + 1

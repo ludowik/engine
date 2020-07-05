@@ -30,11 +30,11 @@ function Performance.evaluate(test, f, ...)
     infos.deltaTime = infos.elapsedTime / infos.n
     infos.deltaRam = infos.totalRam / infos.n
 
-    log('====================================')
-    log(test)
-    log(string.format('elapsed time: %.9f (%s)', infos.elapsedTime, infos.totalRam))
-    log(string.format('delta   time: %.9f (%s)', infos.deltaTime, infos.deltaRam))
-    log()
+    print('====================================')
+    print(test)
+    print(string.format('elapsed time: %.9f (%s)', infos.elapsedTime, infos.totalRam))
+    print(string.format('delta   time: %.9f (%s)', infos.deltaTime, infos.deltaRam))
+    print()
 
     return infos
 end

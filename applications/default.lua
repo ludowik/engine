@@ -89,5 +89,9 @@ function draw()
     for i=1, 100 do
         box(img)
     end
+    
+    local str = ''
+    for i=1,1000 do str = str..'a' end
+    text(str, 0, 0)
 end
 

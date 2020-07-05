@@ -104,6 +104,31 @@ function perspective(fovy, aspect, near, far)
             0, 0, - 1, 0))
 end
 
+function isometric(n)
+    ortho()
+
+    translate(WIDTH/2, HEIGHT/2)
+
+    local alpha = deg(atan(1/sqrt(2)))
+    local beta = 45
+
+    rotate(alpha, 1, 0, 0)
+    rotate(beta, 0, 1, 0)
+
+    if n then
+        scale(n, n, n)
+    end
+end
+
+function ortho3d(w, h)
+    w = w or WIDTH
+    h = h or HEIGHT
+
+    camera(w/2, h/2, w, w/2, h/2, 0)
+
+    perspective()
+end
+
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     if type(eye_x) == 'number' then
         cameraImplem(vec3(eye_x, eye_y, eye_z), vec3(at_x, at_y, at_z), vec3(up_x, up_y, up_z))

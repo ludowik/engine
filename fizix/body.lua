@@ -105,8 +105,11 @@ function Body.rect:init(w, h)
     }
 end
 
-function Body.polygon:init(vertices)
+function Body.polygon:init(vertices, ...)
     if vertices then
+        if type(vertices) == 'cdata' then
+            vertices = {vertices, ...}
+        end
         for i,vertex in ipairs(vertices) do
             self.points:insert(vertex)
         end

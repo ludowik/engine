@@ -25,10 +25,10 @@ function Node:clear()
     self.nodes = Array()
 end
 
-function Node:setup()
+function Node:initialize()
     for i,v in self.nodes:items() do
-        if v.setup then
-            v:setup()
+        if v.initialize then
+            v:initialize()
         end
     end
 end

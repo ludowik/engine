@@ -1,3 +1,6 @@
 return {
-    ["appName"] = "legacy/codea/cargo-bot",
+    ["renderMode"] = "frame",
+    ["minorVersion"] = 1,
+    ["majorVersion"] = 4,
+    ["appName"] = "legacy/demo/ui/ui",
 }

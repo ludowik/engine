@@ -39,7 +39,7 @@ function setup()
 
     fill(white)
 
-    app.scene.camera = camera(50, 200, -50, 100, 0, 100)
+    app.scene.camera = Camera(50, 200, -50, 100, 0, 100)
     
     app.scene:add(MeshObject(m))
     

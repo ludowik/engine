@@ -152,7 +152,8 @@ function appMap:init()
     local hueGreen = rgb2hsl(green)
     local hueBrown = rgb2hsl(brown)
 
-    terrain.vertices = {n=w*h*3}
+    terrain.vertices = Buffer('vec3')
+    terrain.vertices:resize(w*h*3)
 
     for x=-w/2,w/2 do
         for z=-h/2,h/2 do

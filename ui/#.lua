@@ -45,9 +45,12 @@ class 'Editor' : extends(UI)
 class 'UITimer' : extends(UI)
 
 class 'UIScene' : extends(UI, Scene)
-class 'Expression' : extends(UI, Scene)
 
 function UIScene:setLayoutFlow()
+    return self
+end
+
+function UIScene:setGridSize()
     return self
 end
 
@@ -59,6 +62,8 @@ Layout = {
     'row',
     innerMarge = 2
 }
+
+class 'Expression' : extends(UI)
 
 class 'Dashboard'
 

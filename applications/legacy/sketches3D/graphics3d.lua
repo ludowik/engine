@@ -4,7 +4,7 @@ function setup()
     local modelName = readProjectData('modelName', 'teapot')
     setModelName(modelName)
 
-    app.scene.camera = camera(2, 2, 2)
+    app.scene.camera = Camera(2, 2, 2)
 
     parameter.watch('#model.vertices')
 end
@@ -29,8 +29,10 @@ function createUILight(reset)
                 createUILight(false)
             end))
 
-    for i,light in pairs(lights) do
-        menuLights:add(CheckBox(i):bind(lights[i], 'on'))
+    if lights then
+        for i,light in pairs(lights) do
+            menuLights:add(CheckBox(i):bind(lights[i], 'on'))
+        end
     end
 
     if reset == nil then
@@ -40,7 +42,7 @@ end
 
 function setModelName(modelName)
     local model, keepColor = nil, false
-    
+
     if modelName == 'plane' then
         model = Model.plane()
 
@@ -70,20 +72,20 @@ function setModelName(modelName)
             end
         end
         keepColor = true
-        
+
     else
         model = Model.load(modelName, true) or Model.box()
-            
+
     end
-    
+
     setModel(model:normalize(), keepColor)
-        
+
     saveProjectData('modelName', modelName)
 end
 
 function setModel(model, keepColor)
     app.model = model
-    
+
     app.scene:clear()
     app.scene:add(MeshObject(model))
 
@@ -103,7 +105,7 @@ function createUIObjects()
     menuObjects:add(Expression('#app.model.colors'))
     menuObjects:add(Expression('#app.model.normals'))
     menuObjects:add(Expression('app.model.shader.name'))
-    
+
     local function changeModel(btn)
         setModelName(btn.label)
     end
@@ -115,7 +117,7 @@ function createUIObjects()
     menuObjects:add(Button('tetrahedron', changeModel))
 
     menuObjects:add(Button('planet'     , changeModel))
-    
+
     menuObjects:add(Button('teapot'     , changeModel))
     menuObjects:add(Button('trumpet'    , changeModel))
     menuObjects:add(Button('airboat'    , changeModel))

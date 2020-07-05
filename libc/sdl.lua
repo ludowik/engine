@@ -9,22 +9,9 @@ else
     lib_path = 'SDL2'
 end
 
-class 'Sdl' : meta(ffi.load(lib_path))
+class 'Sdl' : extends(Component) : meta(ffi.load(lib_path))
 
-sdl = Sdl()
-
-
-local lib_path_sdl_image
-if os.name == 'osx' then 
-    lib_path_sdl_image = 'SDL2_image.framework/SDL2_image'
-else
---    lib_path = '../../Libraries/bin/SDL2_image'
-    lib_path_sdl_image = 'SDL2_image'
-end
-
-sdl.image = class 'SdlImage' : meta(ffi.load(lib_path_sdl_image))
-
-function Sdl:setup()
+function Sdl:initialize()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
         self.SDL_SetThreadPriority(self.SDL_THREAD_PRIORITY_HIGH)
 
@@ -33,12 +20,12 @@ function Sdl:setup()
             self.SDL_Log("SDL_GL_LoadLibrary: %s", self.SDL_GetError())
         end
 
-        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, gl.majorVersion)
-        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, gl.minorVersion)
+        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, config.glMajorVersion)
+        self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, config.glMinorVersion)
 
-        if gl.majorVersion == 4 then
-            sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_CORE)
---            sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_COMPATIBILITY)
+        if config.glMajorVersion == 4 then
+            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_CORE)
+--            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_COMPATIBILITY)
         end
 
         self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
@@ -74,6 +61,16 @@ function Sdl:setup()
             end
         end
     end
+
+    local lib_path_sdl_image
+    if os.name == 'osx' then 
+        lib_path_sdl_image = 'SDL2_image.framework/SDL2_image'
+    else
+--    lib_path = '../../Libraries/bin/SDL2_image'
+        lib_path_sdl_image = 'SDL2_image'
+    end
+
+    sdl.image = class 'SdlImage' : meta(ffi.load(lib_path_sdl_image))
 end
 
 function Sdl:release()

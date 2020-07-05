@@ -11,7 +11,7 @@ function Shader:init(name)
         fragment = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment'),
     }
 
-    if gl.majorVersion >= 4 then
+    if config.glMajorVersion >= 4 then
         self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry')
     end
 
@@ -19,7 +19,7 @@ function Shader:init(name)
 
     local status = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
     if status == gl.GL_FALSE then
-        log(gl.glGetProgramInfoLog(self.program_id))
+        print(gl.glGetProgramInfoLog(self.program_id))
     end
 
     self:initAttributes()
@@ -165,7 +165,7 @@ end
 
 class 'ShaderManager' : extends(Component)
 
-function ShaderManager:setup()
+function ShaderManager:initialize()
     shaders = {
         default  = Shader('default'),
         point    = Shader('point'),

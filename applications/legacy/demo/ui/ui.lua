@@ -40,7 +40,7 @@ function reset()
         app.uiScene,
         gridScene)
     
-    app.scene.alignment = 'v-center,h-center'
+--    app.scene.alignment = 'v-center,h-center'
 
     for i=1,nbGroups do
         local node = UIScene(Layout.grid, gridSize)

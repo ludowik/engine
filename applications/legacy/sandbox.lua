@@ -63,10 +63,6 @@ function draw()
 --    db:draw()
 end
 
-class('heritagemultiple', Object, Rect)
-
-log(classnameof(fs))
-
 function wheelmoved(id, x, y)
     offset = offset + y * 50
 end

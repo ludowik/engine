@@ -144,5 +144,5 @@ function AppMap:init()
             position = vec3(0, 0, 0)
         })
 
-    self.scene.camera = camera(0, 500, 500, self.imageSize*10/2, 0, self.imageSize*10/2)
+    self.scene.camera = Camera(0, 500, 500, self.imageSize*10/2, 0, self.imageSize*10/2)
 end

@@ -1,13 +1,19 @@
-class 'Mesh'
+class 'Mesh' : extends(MeshRender)
 
 function Mesh:init(vertices, colors)
-    self.vertices = vertices or {}
-    self.colors = colors or {}
+    self:clear()
+end
+
+function Mesh:clear()
+    self.vertices = vertices or Buffer('vec3')
+    self.colors = colors or Buffer('color')
 end
 
 function Mesh:buffer(name)
     if name == 'position' then
         self[name] = Buffer('vec3')
+    elseif name == 'texCoord' then
+        self[name] = Buffer('vec2')
     elseif name == 'normal' then
         self[name] = Buffer('vec3')
     elseif name == 'color' then
@@ -17,147 +23,138 @@ function Mesh:buffer(name)
     return self[name]
 end
 
-function Mesh:setColors(clr)
-end
-
 function Mesh:draw()
     self:render(shaders['default'], gl.GL_TRIANGLES)
 end
 
-class 'MeshRender'
+function Mesh:normalize(norm)
+    norm = norm or 1
+    self.vertices = Model.normalize(self.vertices, norm)
+    return self
+end
 
-local sizeofFloat = 4 -- ffi.sizeof('GLfloat')
+function Mesh:center()
+    Model.center(self.vertices)
+    return self
+end
 
-function MeshRender:sendAttribute(attributeName, data, nComponents)
-    local attribute = self.shader.attributes[attributeName]
+function Mesh:setColors(clr)
+end
 
-    if attribute and data then
+function Mesh:vertex(i, v)
+    self.needUpdate = true
 
-        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
+    self.vertices[i] = v
+end
 
-        local n = #data
+function Mesh:color(i, ...)
+    self.needUpdate = true
 
-        -- TODO : gérer la version correctement
-        if true or not attribute.sent or attribute.sent ~= n or attribute.version ~= data.version then
-            attribute.sent = n
-            attribute.version = data.version
+    self.colorMode = 'colors'
+    self.colors[i] = Color(...)
+end
 
-            local bytes
-            if type(data) == 'table' then
-                if type(data[1]) == 'number' then
-                    bytes = Buffer('float', data)
-                elseif getmetatable(data[1]) == vec2 then
-                    bytes = Buffer('vec2', data)
-                elseif getmetatable(data[1]) == vec3 then
-                    bytes = Buffer('vec3', data)
-                end
-            else
-                bytes = data:tobytes()
-            end
+function Mesh:addRect(x, y, w, h, r)
+    self.needUpdate = true
 
-            gl.glBufferData(gl.GL_ARRAY_BUFFER, n * sizeofFloat, bytes, gl.GL_STATIC_DRAW)
+    local idx = #self.vertices + 1
+
+    self:setRectTex(idx, 0, 0, 1, 1)
+    self:setRectColor(idx, 1, 1, 1, 1)
+    self:setRect(idx, x, y, w, h, r)
+
+    return idx
+end
+
+function Mesh:setRect(idx, x, y, w, h, r)
+    self.needUpdate = true
+
+    r = r or 0
+
+    self.vertices[idx+0] = vec3(-w/2,  h/2, 0)
+    self.vertices[idx+1] = vec3(-w/2, -h/2, 0)
+    self.vertices[idx+2] = vec3( w/2, -h/2, 0)
+    self.vertices[idx+3] = vec3(-w/2,  h/2, 0)
+    self.vertices[idx+4] = vec3( w/2, -h/2, 0)
+    self.vertices[idx+5] = vec3( w/2,  h/2, 0)
+
+    if r ~= 0 then
+        local c = cos(r)
+        local s = sin(r)
+
+        for i = idx, idx+5 do
+            local v = self.vertices[i]
+            self.vertices[i]:set(
+                v.x * c - v.y * s,
+                v.y * c + v.x * s,
+                0)
         end
+    end
 
-        gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
-        gl.glEnableVertexAttribArray(attribute.attribLocation)
-
-        return attribute
-
+    local position = vec3(x, y, 0)
+    for i = idx, idx+5 do
+        self.vertices[i]:add(position)
     end
 end
 
-function MeshRender:render(shader, drawMode, img, x, y, w, h)
-    assert(shader)
-    assert(drawMode)
+function Mesh:addRectCorner(x, y, w, h, r)
+    self.needUpdate = true
 
-    x = x or 0
-    y = y or 0
-    w = w or 1
-    h = h or 1
+    local idx = #self.vertices + 1
 
-    self.shader = shader
+    self:setRectTex(idx, 0, 0, 1, 1)
+    self:setRectColor(idx, 1, 1, 1, 1)
+    self:setRectCorner(idx, x, y, w, h, r)
 
-    do
-        shader:use()
-
-        self:sendUniforms(shader.uniforms)
-
-        if gl.majorVersion >= 4 then
-            shader.vao = shader.vao or gl.glGenVertexArray()
-            gl.glBindVertexArray(shader.vao)
-        end
-
-        local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
-        local pointAttrib = self:sendAttribute('point', self.points, 2)
-        local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
-
-        if img and shader.uniforms.tex0 then
-            gl.glUniform1i(shader.uniforms.tex0.uniformLocation, 0)
-            img:use(gl.GL_TEXTURE0)
-        end
-
-        if shader.uniforms.matrixPV then
-            local matrixPV = pvMatrix()
-
-            if shader.matrixPV ~= matrixPV then
-                shader.matrixPV = matrixPV
-                gl.glUniformMatrix4fv(shader.uniforms.matrixPV.uniformLocation, 1, gl.GL_TRUE, matrixPV:tobytes())
-            end
-        end
-
-        if shader.uniforms.matrixModel then
-            local matrixModel = modelMatrix()
-
-            if shader.matrixModel ~= matrixModel then
-                shader.matrixModel = matrixModel
-                gl.glUniformMatrix4fv(shader.uniforms.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
-            end
-        end
-
-        if shader.uniforms.pos then
-            gl.glUniform3f(shader.uniforms.pos.uniformLocation, x, y, 0)
-        end
-
-        if shader.uniforms.size then
-            gl.glUniform3f(shader.uniforms.size.uniformLocation, w, h, 1)
-        end
-
-        if vertexAttrib then
-            gl.glDrawArrays(drawMode, 0, #self.vertices / 3)
-        elseif pointAttrib then
-            gl.glDrawArrays(drawMode, 0, #self.points / 2)
-        end
-
-        if img then
-            img:unuse()
-        end
-
-        for attributeName,attribute in pairs(self.shader.attributes) do
-            gl.glDisableVertexAttribArray(attribute.attribLocation)
-        end
-
-        if gl.majorVersion >= 4 then
-            gl.glBindVertexArray(0)
-        end
-
-        shader:unuse()
-    end
-
-    gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
+    return idx
 end
 
-function MeshRender:sendUniforms(uniforms)
-    if uniforms.stroke and styles.attributes.stroke then
-        gl.glUniform4fv(uniforms.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
-    end
+function Mesh:setRectCorner(idx, x, y, w, h)
+    self.needUpdate = true
 
-    if uniforms.strokeWidth and styles.attributes.strokeWidth then
-        gl.glUniform1f(uniforms.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
-    end
+    self.vertices[idx+0] = vec3(x  , y+h, 0)
+    self.vertices[idx+1] = vec3(x  , y  , 0)
+    self.vertices[idx+2] = vec3(x+w, y  , 0)
+    self.vertices[idx+3] = vec3(x  , y+h, 0)
+    self.vertices[idx+4] = vec3(x+w, y  , 0)
+    self.vertices[idx+5] = vec3(x+w, y+h, 0)    
+end
 
-    if uniforms.fill and styles.attributes.fill then
-        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
+function Mesh:setRectTex(idx, s, t, w, h)
+    self.needUpdate = true
+
+    local th = t+h
+    local sw = s+w
+
+    self.texCoords = self.texCoords or {}
+
+    self.texCoords[idx+0] = vec2(s , th)
+    self.texCoords[idx+1] = vec2(s , t)
+    self.texCoords[idx+2] = vec2(sw, t)
+    self.texCoords[idx+3] = vec2(s , th)
+    self.texCoords[idx+4] = vec2(sw, t)
+    self.texCoords[idx+5] = vec2(sw, th)
+end
+
+function Mesh:setRectColor(idx, ...)
+    self.needUpdate = true
+
+    local clr = Color(...)
+
+    self.colors = self.colors or {}
+    for i = idx, idx+5 do
+        self.colors[i] = clr
     end
 end
 
-Mesh:extends(MeshRender)
+function Mesh:setGradient(clr1, clr2)
+    local clr = color(clr1)
+    local step = (clr2 - clr1) / (#self.vertices - 1)
+    for i=1,#self.vertices do
+        self:color(i, clr.r, clr.g, clr.b, clr.a)
+        clr.r = clr.r + step.r
+        clr.g = clr.g + step.g
+        clr.b = clr.b + step.b
+        clr.a = clr.a + step.a
+    end
+end

@@ -4,6 +4,7 @@ utf8 = require 'lua.utf8'
 require 'lua.log'
 require 'lua.require'
 require 'lua.class'
+require 'lua.eval'
 require 'lua.ut'
 require 'lua.table'
 require 'lua.array'
@@ -23,7 +24,6 @@ require 'lua.heap'
 require 'lua.convert'
 require 'lua.grid'
 require 'lua.date'
-require 'lua.eval'
 require 'lua.id'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
@@ -46,5 +46,5 @@ function assert(exp, message, level)
 end
 
 function warning(message, level)
-    log(message)
+    print(message)
 end

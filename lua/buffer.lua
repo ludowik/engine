@@ -5,6 +5,7 @@ ffi.cdef [[
     void* realloc(void *__ptr, size_t __size);
     
     void* memmove(void *destination, const void *source, size_t num);
+    void* memcpy(void *destination, const void *source, size_t num);
     
     void free(void *__ptr);
 ]]
@@ -12,6 +13,8 @@ ffi.cdef [[
 buffer_meta = {}
 
 function buffer_meta.__init(buffer, buffer_class)
+    buffer.ct = buffer_class.ct
+
     buffer.available = 4
 
     buffer.sizeof_ctype = buffer_class.sizeof_ctype
@@ -25,6 +28,14 @@ function buffer_meta.__init(buffer, buffer_class)
     return buffer
 end
 
+function buffer_meta.clone(buffer)
+    local buf2 = Buffer(ffi.string(buffer.ct))
+    buf2:resize(buffer.n)
+    ffi.C.memcpy(buf2:addr(), buffer:addr(), buffer.sizeof_ctype * buffer.n)
+    buf2.n = buffer.n
+    return buf2
+end
+
 function buffer_meta.__len(buffer)
     return buffer.n
 end
@@ -34,24 +45,24 @@ function buffer_meta.__gc(buffer)
 end
 
 function buffer_meta.resize(buffer, n)
-    buffer.available = n
-    buffer.size = buffer.available * buffer.sizeof_ctype
+    if buffer.available < n then
+        buffer.available = n
+        buffer.size = buffer.available * buffer.sizeof_ctype
 
-    buffer.data = ffi.cast(ffi.typeof(buffer.data),
-        ffi.C.realloc(
-            buffer.data,
-            buffer.size))
+        buffer.data = ffi.cast(ffi.typeof(buffer.data),
+            ffi.C.realloc(
+                buffer.data,
+                buffer.size))
 
-    assert(buffer.data)
+        assert(buffer.data)
+    end
 end
 
 local max = math.max
 function buffer_meta.__newindex(buffer, key, value)
     if type(key) == 'number' then
         if buffer.available < key then
-
             buffer:resize(max(buffer.available * 2, key))
-
         end
 
         buffer.n = max(buffer.n, key)
@@ -78,8 +89,34 @@ function buffer_meta.insert(buffer, value)
 end
 buffer_meta.add = buffer_meta.insert
 
+function buffer_meta.addItems(buffer, buf2)
+    local n = buffer.n + buf2.n
+    if buffer.available < n then
+        buffer:resize(max(buffer.available * 2, n))
+    end
+    ffi.C.memcpy(buffer:addr(buffer.n), buf2:addr(0), buf2.sizeof_ctype * buf2.n)
+    buffer.n = n
+end
+
+function buffer_meta.remove(buffer, i)
+    if i > 0 and i <= buffer.n then
+        if i < buffer.n then
+            ffi.C.memmove(buffer:addr(i-1), buffer:addr(i), buffer.sizeof_ctype * (buffer.n-i))
+        end
+        buffer.n = buffer.n - 1
+    end
+end
+
 function buffer_meta.reset(buffer)
     buffer.n = 0
+end
+
+function buffer_meta.sizeof(buffer)
+    return buffer.sizeof_ctype * buffer.n
+end
+
+function buffer_meta.addr(buffer, i)
+    return buffer.data + (i or 0)
 end
 
 function buffer_meta.tobytes(buffer)
@@ -100,7 +137,7 @@ end
 function buffer_meta.cast(buffer, ct)
     local buffer2 = Buffer(ct)
     buffer2.data = ffi.cast(ffi.typeof(buffer2.data), buffer.data)
-    
+
     if buffer.sizeof_ctype > buffer2.sizeof_ctype then
         local coef = buffer.sizeof_ctype / buffer2.sizeof_ctype
         buffer2.available = buffer.available * coef
@@ -110,7 +147,7 @@ function buffer_meta.cast(buffer, ct)
         buffer2.available = buffer.available / coef
         buffer2.n = buffer.n / coef
     end
-    
+
     return buffer2
 end
 
@@ -128,13 +165,14 @@ function Buffer(ct, data, ...)
             ctype = ffi.typeof(ct..'*'),
             sizeof_ctype = ffi.sizeof(ct),
             struct = [[
-                typedef struct buffer_{ct} {
-                    int available;
-                    int sizeof_ctype;
-                    int size;
-                    int n;
-                    int version;
-                    {ct}* data;
+            typedef struct buffer_{ct} {
+                const char* ct;
+                int available;
+                int sizeof_ctype;
+                int size;
+                int n;
+                int version;
+                {ct}* data;
                 } buffer_{ct};
             ]]
         }

@@ -1,5 +1,5 @@
 function draw()
-    background(black)
+    background(red)
 
     ortho()
     
@@ -14,7 +14,9 @@ function draw()
     y2 = math.random(H)
 
     for i=1,100 do
-        stroke(Color.random())
+        local clr = Color.random()
+        
+        stroke(clr)
         
         strokeWidth(math.random(20))
         

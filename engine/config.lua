@@ -1,19 +1,15 @@
+class 'config'
+
 function loadConfig()
-    gl.majorVersion = readGlobalData('majorVersion', 4)
-    gl.minorVersion = readGlobalData('minorVersion', 1)
-    
-    engine.appName = readGlobalData('appName', 'default')
+    config.glMajorVersion = readGlobalData('glMajorVersion', 4)
+    config.glMinorVersion = readGlobalData('glMinorVersion', 1)
     
     engine.renderMode = readGlobalData('renderMode', 'frame')
 end
 
 function saveConfig()
-    saveGlobalData('majorVersion', gl.majorVersion)
-    saveGlobalData('minorVersion', gl.minorVersion)
-    
-    saveGlobalData('appName', engine.appName)
+    saveGlobalData('majorVersion', config.glMajorVersion)
+    saveGlobalData('minorVersion', config.glMinorVersion)
     
     saveGlobalData('renderMode', engine.renderMode)
 end
-
-class 'config'

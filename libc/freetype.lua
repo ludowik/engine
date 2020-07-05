@@ -23,15 +23,24 @@ if os.name == 'windows' then
     ffi.load(Path.libraryPath..'/Libraries/freetype/win32/freetype.dll')
 end
 
-class 'FreeType' : meta(ft)
+class 'FreeType' : extends(Component) : meta(ft)
 
-function FreeType:setup()
+function FreeType:initialize()
     self.hLib = self.init_module()
     self.hFont = false
 
     self.hFonts = Table()
 
     self:setFont()
+end
+
+function FreeType:release()
+    print('release '..self.hFonts:getnKeys()..' fonts')
+
+    for k,hFont in pairs(self.hFonts) do
+        self.release_font(hFont)
+    end
+    self.release_module(self.hLib)
 end
 
 function FreeType:setFontName(fontName)
@@ -42,35 +51,24 @@ function FreeType:setFontSize(fontSize)
     self:setFont(self.fontName, fontSize)
 end
 
+DEFAULT_FONT_NAME = 'JetBrainsMono-Regular'
+DEFAULT_FONT_SIZE = 12
+
 function FreeType:setFont(fontName, fontSize)
-    self.fontName = fontName or 'JetBrainsMono-Regular'
-    self.fontSize = fontSize or 12
-    
+    self.fontName = fontName or DEFAULT_FONT_NAME
+    self.fontSize = fontSize or DEFAULT_FONT_SIZE
+
     self.fontRef = self.fontName..'.'..self.fontSize
 
     self.fontPath = Path.sourcePath..'/res/fonts/'..self.fontName..'.ttf'
 
     if not self.hFonts[self.fontRef] then
-
         self.hFonts[self.fontRef] = self.load_font(self.hLib, self.fontPath, self.fontSize)
+
+        if self.hFonts[self.fontRef] == ffi.NULL then
+            return self:setFontName()
+        end
     end
 
     self.hFont = self.hFonts[self.fontRef]
 end
-
-function FreeType:release()
-    log('release '..self.hFonts:getnKeys()..' fonts')
-    
-    for k,hFont in pairs(self.hFonts) do
-        self.release_font(hFont)
-    end
-    self.release_module(self.hLib)
-end
-
-function FreeType:update(dt)
-end
-
-function FreeType:draw()
-end
-
-ft = FreeType()

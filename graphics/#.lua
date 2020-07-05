@@ -1,14 +1,19 @@
 require 'graphics.color'
 require 'graphics.style'
 require 'graphics.shader'
+require 'graphics.meshRender'
 require 'graphics.mesh'
 require 'graphics.model'
+require 'graphics.modelLoader'
 require 'graphics.image'
 require 'graphics.shape'
 require 'graphics.context'
 require 'graphics.graphics'
 require 'graphics.material'
 require 'graphics.drawing'
+require 'graphics.render'
+require 'graphics.geometry'
+require 'graphics.camera'
 
 local N = 12
 function ws(i, n)

@@ -34,7 +34,6 @@ function update(dt)
 end
 
 function draw()
-    assert(app.scene.camera == nil)
     background()
 
     spriteMode(CORNER)

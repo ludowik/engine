@@ -6,6 +6,8 @@ function Engine:init()
     engine = self
     engine.envs = engine.envs or {}
 
+    loadConfig()
+
     ut.run()
     performance.run()
 
@@ -16,6 +18,12 @@ function Engine:init()
     self.memory = Memory()
     self.frame_time = FrameTime()
 
+    -- modules
+    sdl = Sdl()
+    gl = OpenGL()
+    al = OpenAL()
+    ft = FreeType()
+
     self.components = Node()
     do
         self.components:add(self.memory)
@@ -23,6 +31,7 @@ function Engine:init()
 
         self.components:add(sdl)
         self.components:add(gl)
+        self.components:add(al)
         self.components:add(ft)
 
         self.components:add(ShaderManager())
@@ -38,9 +47,6 @@ function Engine:init()
     HEIGHT = H
 
     self:initEvents()
-
-    self:toggleRenderMode()
-    self:toggleHelp()
 end
 
 function Engine:initEvents()
@@ -49,6 +55,7 @@ function Engine:initEvents()
             ['r'] = Engine.restart,
             ['escape'] = Engine.quit,
 
+            ['d'] = Engine.defaultApp,
             ['n'] = Engine.nextApp,
             ['b'] = Engine.previousApp,
             ['v'] = Engine.loopApp,
@@ -61,10 +68,15 @@ function Engine:initEvents()
     }
 end
 
-function Engine:setup()
-    loadConfig()
-    self.components:setup()
-    self:loadApp(self.appName)
+function Engine:initialize()
+    self.components:initialize()
+
+    call('setup')
+
+    self:toggleRenderMode()
+    self:toggleHelp()
+
+    self:loadApp(readGlobalData('appName', 'default'))
 end
 
 function Engine:release()
@@ -78,7 +90,7 @@ function Engine:run(appName)
 
     repeat
 
-        self:setup()
+        self:initialize()
 
         self.active = 'running'
 
@@ -139,7 +151,7 @@ end
 
 function Engine:toggleRenderVersion()
     self.active = function ()
-        gl.majorVersion = toggle(gl.majorVersion, 2, 4)
+        config.glMajorVersion = toggle(config.glMajorVersion, 2, 4)
         return 'restart'
     end
 end
@@ -196,7 +208,7 @@ function Engine:draw()
 
     self:postRender()
 
---    self:preRender()
+    --    self:preRender()
 
     resetMatrix()
     resetStyle()
@@ -216,11 +228,11 @@ function Engine:draw()
         info('compile', jit.status())
         info('arch', jit.arch)
         info('jit version', jit.version)
-        info('opengl version', gl.majorVersion)
+        info('opengl version', config.glMajorVersion)
         info('render mode', self.renderMode)
     end
 
---    self:postRender()
+    --    self:postRender()
 
     sdl:swap()
 end
@@ -248,16 +260,7 @@ function Engine:keydown(key)
     if self.onEvents.keydown[key] then
         self.onEvents.keydown[key](self)
     else
-        log(string.format('no action for {key}', {key=key}))
-    end
-end
-
-function Engine:loopApp()
-    if self.action then
-        self.action = nil
-    else
-        self.appName = nil
-        self.action = self.nextApp
+        print(string.format('no action for {key}', {key=key}))
     end
 end
 
@@ -269,9 +272,13 @@ function Engine:dirApps()
     return apps
 end
 
+function Engine:defaultApp()
+    self:loadApp('default')
+end
+
 function Engine:nextApp()
     local apps = self:dirApps()
-    
+
     local nextAppIndex = 1
     for i,appName in ipairs(apps) do
         if appName == self.appName then
@@ -303,6 +310,23 @@ function Engine:previousApp()
     self:loadApp(appName)
 end
 
+function Engine:loopApp()
+    if self.action then
+        self.action = nil
+    else
+        self.loopApp = #self:dirApps()
+        self.action = self.loopAppProc
+    end
+end
+
+function Engine:loopAppProc()
+    self:nextApp()
+    self.loopApp = self.loopApp - 1
+    if self.loopApp == 0 then
+        self.action = nil
+    end
+end
+
 function Engine:loadApp(appName, reloadApp)
     self.appName = appName or self.appName
     self.appPath = 'applications/'..self.appName
@@ -319,7 +343,7 @@ function Engine:loadApp(appName, reloadApp)
     saveGlobalData('appName', self.appName)
 
     if self.envs[self.appPath] == nil or reloadApp then
-        log('load '..self.appPath)
+        print('load '..self.appPath)
 
         self.envs[self.appPath] = {}
 
@@ -332,21 +356,22 @@ function Engine:loadApp(appName, reloadApp)
         require(self.appPath)
         ___requireReload = false
 
-        if _G.env.setup then
-            _G.env.setup()
-        end
-        
+        env.physics = Physics()
+
         if env.appClass then
             env.appClass.setup()
             self.app = env.appClass()
         else
             self.app = Application()
+            if _G.env.setup then
+                _G.env.setup()
+            end
         end
 
         app = self.app
 
     else
-        log('switch '..self.appPath)
+        print('switch '..self.appPath)
 
         local env = self.envs[self.appPath]
         _G.env = env

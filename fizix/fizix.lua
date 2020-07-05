@@ -12,7 +12,7 @@ end
 
 function Fizix:init()
     fizix = self
-    
+
     self.bodies = Array()
     self.contacts = Array()
 
@@ -25,18 +25,17 @@ function Fizix:init()
 end
 
 function Fizix:gravity(x, y)
-    if x then
-        if type(x) == 'table' then
-            self.g:set(x.x, x.y)
-        else
-            self.g:set(x, y)
-        end
-    end
+    local v = vec2(x, y)
+    self.g:set(v.x, v.y)
     return self.g
 end
 
 function Fizix:body(...)
     return self:add(Object(), DYNAMIC, ...)
+end
+
+function Fizix:joint(...)
+    return Fizix.Joint(...)
 end
 
 function Fizix:pause()
@@ -50,7 +49,7 @@ end
 function Fizix:add(item, bodyType, ...)
     assert(item)
     assert(bodyType)
-    
+
     local body = Fizix.Body(bodyType, ...)
 
     if item then
@@ -80,14 +79,14 @@ end
 
 function Fizix:update(dt)
     if not self.running then return end
-    
+
     self:setProperties()
 
     while dt > 0 do
         self:step(math.min(0.001, dt))
         dt = dt - 0.001
     end
-    
+
     self:collision()
 
     self:updateProperties()
@@ -97,10 +96,10 @@ function Fizix:setProperties()
     local item
     for _,body in ipairs(self.bodies) do
         item = body.item
-        
+
         body.x = item.position.x
         body.y = item.position.y
-        
+
         body.previousPosition.x = item.position.x
         body.previousPosition.y = item.position.y
 
@@ -160,7 +159,7 @@ function Fizix:collision()
                 obj.position = obj.previousPosition
             end
         end
-        
+
         collide(contact)
 
         response(bodyA)
@@ -170,7 +169,7 @@ end
 
 function Fizix:draw()
     if not self.debug then return end
-    
+
     for _,body in ipairs(self.bodies) do
         body:draw(dt)
     end

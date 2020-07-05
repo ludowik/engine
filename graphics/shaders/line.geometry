@@ -3,6 +3,7 @@ layout(triangle_strip, max_vertices=256) out;
 
 uniform mat4 matrixPV;
 
+uniform vec4 stroke;
 uniform float strokeWidth;
 
 void main() {

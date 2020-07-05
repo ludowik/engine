@@ -150,6 +150,18 @@ function mt.__mul(m1, m2, res)
     return res
 end
 
+function mt:mulVector(b)
+    b = matrix(b.x, b.y, b.z or 0, 1)
+
+    local res = matrix(self.m, b.n)
+    self:__mul(b, res)
+
+    return vec3(
+        res[1],
+        res[2],
+        res[3])
+end
+
 function mt.tobytes(m1)
     return m1.values
 end

@@ -12,12 +12,12 @@ class 'OpenGL' : extends(Component)
 
 function OpenGL:loadProcAdresses()
     self.defs = {
+        -- error
+        'glGetError',
+
         -- property
         'glEnable',
         'glDisable',
-
-        -- error
-        'glGetError',
 
         -- viewport
         'glViewport',
@@ -153,7 +153,7 @@ function OpenGL:loadProcAdresses()
     end
 end
 
-function OpenGL:setup()
+function OpenGL:initialize()
     self:loadProcAdresses()
 
     intptr = ffi.new('GLint[1]')
@@ -246,7 +246,7 @@ function OpenGL:release()
 end
 
 function OpenGL:getOpenGLVersion()
-    return self.majorVersion * 100 + self.minorVersion * 10
+    return config.glMajorVersion * 100 + config.glMinorVersion * 10
 end
 
 function OpenGL:getGlslVersion()
@@ -264,5 +264,3 @@ function OpenGL:getGlslVersion()
     end
     return glVersion
 end
-
-gl = OpenGL()

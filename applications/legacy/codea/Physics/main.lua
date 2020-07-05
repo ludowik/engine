@@ -1,5 +1,3 @@
-_G.physics = box2dRef.Physics()
-
 --# addRect
 addRect = class()
 

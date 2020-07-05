@@ -1,7 +1,5 @@
 supportedOrientations(LANDSCAPE_ANY)
 
-_G.physics = Physics()
-
 -- Use this function to perform your initial setup
 function setup()    
     lineCapMode(ROUND)

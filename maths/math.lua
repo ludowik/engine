@@ -15,9 +15,6 @@ deg = math.deg
 min = math.min
 max = math.max
 
-ceil = math.ceil
-floor = math.floor
-
 sqrt = math.sqrt
 pow = math.pow
 
@@ -41,8 +38,22 @@ function math.sign(value)
 end
 sign = math.sign
 
-function math.round(value)
-    return math.floor(value+0.5)
+function ceil(num, idp)
+    idp = idp or 0
+    local mult = 10^idp
+    return math.ceil(num * mult) / mult
+end
+
+function floor(num, idp)
+    idp = idp or 0
+    local mult = 10^idp
+    return math.floor(num * mult) / mult
+end
+
+function math.round(num, idp)
+    idp = idp or 0
+    local mult = 10^idp
+    return math.floor(num * mult + 0.5) / mult
 end
 round = math.round
 

@@ -2,7 +2,7 @@ class 'Graphics' : extends(Component)
 
 local buf, meshPoints, meshLine, meshPolyline, meshPolygon, meshRect, meshEllipse, meshSprite, meshBox
 
-function Graphics:setup()
+function Graphics:initialize()
     buf = Buffer('float')
 
     meshPoints = Mesh()
@@ -17,34 +17,26 @@ function Graphics:setup()
     meshPolygon = Mesh()
     meshPolygon.shader = shaders['polygon']
 
-    meshRect = Mesh()
-    meshRect.vertices = Model.rect(0, 0, 1, 1)
+    meshRect = Model.rect(0, 0, 1, 1)
     meshRect.shader = shaders['rect']
 
-    meshEllipse = Mesh()
-    meshEllipse.vertices = Model.ellipse(0, 0, 1, 1)
+    meshEllipse = Model.ellipse(0, 0, 1, 1)
     meshEllipse.shader = shaders['ellipse']
 
-    meshSprite = Mesh()
-    meshSprite.vertices, meshSprite.texCoords = Model.rect(0, 0, 1, 1)
+    meshSprite = Model.rect(0, 0, 1, 1)
     meshSprite.shader = shaders['sprite']
 
-    meshText = Mesh()
-    meshText.vertices, meshText.texCoords = Model.rect(0, 0, 1, 1)
+    meshText = Model.rect(0, 0, 1, 1)
     meshText.shader = shaders['text']
 
-    meshBox = Mesh()
-    meshBox.vertices, meshBox.texCoords = Model.box()
+    meshBox = Model.box()
     meshBox.shader = shaders['box']
+
+    meshSphere = Model.sphere()
     
-    meshSphere = Mesh()
-    meshSphere.vertices = Model.sphere()
-    
-    meshPyramid = Mesh()
-    meshPyramid.vertices = Model.pyramid()
-    
-    meshCylinder = Mesh()
-    meshCylinder.vertices = Model.center(Model.cylinder(1, 1, 10000))
+    meshPyramid = Model.pyramid()
+
+    meshCylinder = Model.cylinder(1, 1, 10000):center()
 
     self:update()
 end
@@ -201,9 +193,22 @@ function ellipse(x, y, w, h)
 end
 
 function sprite(img, x, y)
+    if type(img) == 'string' then
+        img = image(img)
+    end
     if img and img.surface then
         meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
     end
+end
+
+function spriteSize(img)
+    if type(img) == 'string' then
+        img = image(img)
+    end
+    if img and img.surface then
+        return img.surface.w, img.surface.h
+    end
+    return 0,0
 end
 
 function font(name)

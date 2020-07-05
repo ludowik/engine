@@ -33,6 +33,17 @@ function Styles:setAttribute(attribute_name, value, reset)
     return self.attributes[attribute_name]
 end
 
+function Styles:setAttributeColor(attribute_name, clr, ...)
+    if clr then
+        self.attributes[attribute_name] = Color.args(clr, ...):clone()
+    end
+    return self.attributes[attribute_name]
+end
+
+function Styles:getAttribute(attribute_name)
+    return self.attributes[attribute_name]
+end
+
 function pushStyle()
     push('__style', styles:clone())
 end
@@ -87,7 +98,7 @@ function textStyle(size, clr, mode)
 end
 
 function fill(...)
-    return styles:setAttribute('fill', Color.args(...):clone())
+    return styles:setAttributeColor('fill', ...)
 end
 
 function noFill()
@@ -95,7 +106,7 @@ function noFill()
 end
 
 function stroke(...)
-    return styles:setAttribute('stroke', Color.args(...):clone())
+    return styles:setAttributeColor('stroke', ...)
 end
 
 function noStroke()
@@ -111,7 +122,7 @@ function noLight()
 end
 
 function tint(...)
-    return styles:setAttribute('tint', Color.args(...):clone())
+    return styles:setAttributeColor('tint', ...)
 end
 
 function noTint()
@@ -145,6 +156,14 @@ function textMode(mode)
     return styles:setAttribute('textMode', mode)
 end
 
+function textWrapWidth(width)
+    return styles:setAttribute('textWrapWidth', width)
+end
+
+function textAlign(mode)
+    return styles:setAttribute('textAlign', mode)
+end
+
 function lineCapMode(mode)
     return styles:setAttribute('lineCapMode', mode)
 end
@@ -158,9 +177,9 @@ function noSmooth()
 end
 
 function supportedOrientations()
-    log('not implemented')
+    print('not implemented')
 end
 
 function displayMode()
-    log('not implemented')
+    print('not implemented')
 end

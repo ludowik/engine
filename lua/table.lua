@@ -102,9 +102,9 @@ end
 function table.log(t)
     if t == nil then return end
 
-    log(t)
+    print(t)
     for k,v in pairs(t) do
-        log(tostring(k)..' = '..tostring(v))
+        print(tostring(k)..' = '..tostring(v))
     end
 end
 
@@ -192,12 +192,13 @@ function table:removeItem(item)
 end
 
 function table.call(t, method, ...)
-    local v, f
+    local object, f
     for i=1,#t do
-        v = t[i]
-        f = v[method]
+        object = t[i]
+        
+        f = object[method]
         if f then
-            f(v, ...)
+            f(object, ...)
         end
     end
 end

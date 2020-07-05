@@ -48,6 +48,16 @@ mt.clone = function (self)
     return Color(self)
 end
 
+function mt:__tostring()
+    return (
+        "color{"..
+        "r=" .. ( round(self.r, 2) or 'nan' ) .. ", " ..
+        "g=" .. ( round(self.g, 2) or 'nan' ) .. ", " ..
+        "b=" .. ( round(self.b, 2) or 'nan' ) .. ", " ..
+        "a=" .. ( round(self.a, 2) or 'nan' ) .. "}")
+end
+mt.tostring = mt.__tostring
+
 mt.tobytes = function (clr)
     return clr.values
 end
@@ -273,11 +283,11 @@ function rgb(r, g, b, a)
         a and a / 255)
 end
 
-color_meta = ffi.metatype('color', mt)
+__color = ffi.metatype('color', mt)
 
-color = class 'Color' : meta(color_meta)
+color = class 'Color' : meta(__color)
 function Color:init(r, g, b, a)
-    return color_meta():set(r, g, b, a)
+    return __color():set(r, g, b, a)
 end
 
 local __clr = Color()

@@ -1,7 +1,7 @@
 
 -- Use this function to perform your initial setup
 function setup()
-    log("An example that shows how to use the Gravity vector")
+    print("An example that shows how to use the Gravity vector")
 
     -- Watch the "Gravity" variable
     parameter.watch( "Gravity" )

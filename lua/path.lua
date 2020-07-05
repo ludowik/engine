@@ -4,7 +4,7 @@ Path.sourcePath = lfs.currentdir()
 Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos'
     
 function Path.setup()    
-    log(Path.sourcePath)
+    print(Path.sourcePath)
 end
 
 function validatePath(path)

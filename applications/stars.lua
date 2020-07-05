@@ -3,6 +3,8 @@ class 'Star' : extends(GameObject)
 Star.batchRendering = true
 
 function Star:init()
+    GameObject.init(self)
+    
     if Star.batchRendering then
         getmetatable(self).draw = nil
     end
@@ -19,14 +21,14 @@ function Star:init()
     self.position:add(self.velocity:clone():normalize(random.random(MAX_DISTANCE)))
 end
 
-function Star:setup()
+function Star:reset()
     self.position:set(0, 0)
 end
 
 function Star:update(dt)
     self.position:add(self.velocity, dt)
     if self.position:len() >= MAX_DISTANCE then
-        self:setup()
+        self:reset()
     end
 end
 

@@ -38,6 +38,8 @@ function class(...)
                 end
             end
         end
+        
+        return k
     end
 
     k.properties = {
@@ -61,16 +63,16 @@ function class(...)
     mt = {
         __call = function (_, ...)
             classWithProperties(k)
-            mt.__call = mt.__call2
-            return mt.__call(_, ...)
-        end,
 
-        __call2 = function (_, ...)
-            local instance = {}
-            setmetatable(instance, k)
-            instance = k.init(instance, ...) or instance
-            return instance
-        end,
+            mt.__call = function (_, ...)
+                local instance = {}
+                setmetatable(instance, k)
+                instance = k.init(instance, ...) or instance
+                return instance
+            end
+
+            return mt.__call(_, ...)
+        end
     }
 
     setmetatable(k, mt)
@@ -137,12 +139,17 @@ function attributeof(attrName, object)
     return evalExpression('_G.__object__.'..attrName)
 end
 
+function callOnObject(fname, object)
+    local f = attributeof(fname, object)
+    if f and type(f) == 'function' then
+        f(object)
+        return true
+    end
+end
+
 function call(fname)
-    for k,v in pairs(classes) do
-        local f = attributeof(fname, v)
-        if f and type(f) == 'function' then
-            f()
-            v[fname] = nil
+    for k,object in pairs(classes) do
+        if callOnObject(fname, object) then
         end
     end
 end
