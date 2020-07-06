@@ -177,9 +177,9 @@ function noSmooth()
 end
 
 function supportedOrientations()
-    print('not implemented')
+    functionNotImplemented()
 end
 
 function displayMode()
-    print('not implemented')
+    functionNotImplemented()
 end

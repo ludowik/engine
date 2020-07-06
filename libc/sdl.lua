@@ -98,6 +98,7 @@ function Sdl:update(dt)
                 key = ffi.string(self.SDL_GetKeyName(event.key.keysym.sym))
             end
             key = key:lower()
+            
             engine:keydown(key)
 
         elseif event.type == self.SDL_MOUSEMOTION then
@@ -108,6 +109,8 @@ function Sdl:update(dt)
             mouse.dy = event.motion.yrel
 
             mouse.isTouch = (event.motion.state - self.SDL_BUTTON_LMASK) ~= event.motion.state
+            
+            engine:touched(mouse)
 
         end
     end

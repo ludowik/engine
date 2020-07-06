@@ -1,6 +1,6 @@
 return {
-    ["renderMode"] = "frame",
+    ["renderMode"] = "direct",
     ["minorVersion"] = 1,
+    ["appName"] = "legacy/codea/bubbles",
     ["majorVersion"] = 4,
-    ["appName"] = "legacy/demo/ui/ui",
 }

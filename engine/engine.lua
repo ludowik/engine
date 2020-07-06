@@ -11,8 +11,6 @@ function Engine:init()
     ut.run()
     performance.run()
 
-    self.app = Application()
-
     self.active = 'start'
 
     self.memory = Memory()
@@ -157,7 +155,7 @@ function Engine:toggleRenderVersion()
 end
 
 function Engine:toggleRenderMode()
-    self.renderMode = toggle(self.renderMode, 'direct', 'frame')
+    self.renderMode = toggle(self.renderMode, 'frame', 'direct')
 
     if self.renderMode == 'frame' then
         self.renderFrame = Image(W, H)
@@ -198,13 +196,7 @@ end
 function Engine:draw()
     self:preRender()
 
-    do
-        if _G.env.draw then
-            _G.env.draw()
-        else
-            draw()
-        end
-    end
+    engine.app:draw()
 
     self:postRender()
 
@@ -225,6 +217,7 @@ function Engine:draw()
         info('ram', format_ram(self.memory.ram.current))
         info('mouse', mouse)
         info('os', jit.os)
+        info('debugging', debugging)
         info('compile', jit.status())
         info('arch', jit.arch)
         info('jit version', jit.version)
@@ -262,6 +255,10 @@ function Engine:keydown(key)
     else
         print(string.format('no action for {key}', {key=key}))
     end
+end
+
+function Engine:touched(touch)
+    engine.app:touched(touch)
 end
 
 function Engine:dirApps()
@@ -345,9 +342,8 @@ function Engine:loadApp(appName, reloadApp)
     if self.envs[self.appPath] == nil or reloadApp then
         print('load '..self.appPath)
 
-        self.envs[self.appPath] = {}
-
-        local env = self.envs[self.appPath]
+        local env = {}
+        self.envs[self.appPath] = env
         _G.env = env
 
         setfenv(0, setmetatable(env, {__index=_G}))
@@ -360,22 +356,25 @@ function Engine:loadApp(appName, reloadApp)
 
         if env.appClass then
             env.appClass.setup()
+
             self.app = env.appClass()
         else
             self.app = Application()
+
             if _G.env.setup then
                 _G.env.setup()
             end
         end
 
-        app = self.app
+        env.app = self.app
 
     else
         print('switch '..self.appPath)
 
         local env = self.envs[self.appPath]
         _G.env = env
-        setfenv(0, env)
+
+        setfenv(0, env)        
     end
 end
 

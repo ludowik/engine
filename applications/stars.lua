@@ -1,9 +1,9 @@
-class 'Star' : extends(GameObject)
+class 'Star' : extends(Object)
 
 Star.batchRendering = true
 
 function Star:init()
-    GameObject.init(self)
+    Object.init(self)
     
     if Star.batchRendering then
         getmetatable(self).draw = nil

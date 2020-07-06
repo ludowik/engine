@@ -1,20 +1,6 @@
-
-class 'UI' : extends(Node)
-
-function UI:init()
-    Node.init(self)
-    
-    self.position = vec2()
-    self.size = vec2()    
-end
-
-function UI:layout()
-    return self
-end
-
-function UI:bind()
-    return self
-end
+requireLib(
+    'ui',
+    'layout')
 
 class 'Bar' : extends(UI)
 
@@ -46,7 +32,8 @@ class 'UITimer' : extends(UI)
 
 class 'UIScene' : extends(UI, Scene)
 
-function UIScene:setLayoutFlow()
+function UIScene:setLayoutFlow(layoutFlow)
+    self.layoutFlow = layoutFlow
     return self
 end
 

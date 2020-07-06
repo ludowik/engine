@@ -6,15 +6,15 @@ local size = tileSize * 10
 function Cube:init()
     Application.init(self)
 
-    app.myTexture2()
+    self:myTexture2()
 
     camera(0, 0, 10)
 end
 
 function Cube:myTexture2()
-    app.aaa = image(size*4, size*3)
+    self.aaa = image(size*4, size*3)
     
-    render(app.aaa, function ()
+    render(self.aaa, function ()
             noStroke()
             rectMode(CORNER)
 
@@ -45,12 +45,12 @@ function Cube:draw()
     background(51)
 
     spriteMode(CORNER)
-    sprite(app.aaa, 0, 0)
+    sprite(self.aaa, 0, 0)
 
     perspective()
 
     strokeWidth(2)
     stroke(gray)
     
-    box(1, 1, 1, app.aaa)
+    box(1, 1, 1, self.aaa)
 end

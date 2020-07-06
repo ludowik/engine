@@ -11,7 +11,6 @@ function Image:init(w, h)
             return
         end
         
---        surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
         self.width = self.surface.w
         self.height = self.surface.h
 
@@ -167,6 +166,8 @@ end
 
 function Image:release()
     gl.glDeleteTexture(self.texture_id)
+    
+    -- Need to delete surface
     self.surface.pixels = nil
 end
 
@@ -241,7 +242,7 @@ end
 function image:get(x, y, clr)
     clr = clr or Color()
 
-    self:readPixels()
+--    self:readPixels()
 
     local offset = self:offset(x, y)
 
@@ -274,7 +275,7 @@ function image:copy(x, y, w, h)
 
     for i=1,w do
         for j=1,h do
-            to:set(i, j, from:get(x+i, y+j):unpack())
+            to:set(i, j, from:get(x+i, y+j))
         end
     end
 

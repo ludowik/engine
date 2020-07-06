@@ -12,7 +12,7 @@ function appCubeWave:init()
 end
 
 function appCubeWave:update(dt)
-    self.angle = self.angle + dt * app.speed
+    self.angle = self.angle + dt * self.speed
 end
 
 function appCubeWave:draw()
@@ -22,11 +22,11 @@ function appCubeWave:draw()
 
     light(true)
 
-    isometric(app.zoom)
+    isometric(self.zoom)
 
-    local n = app.n * 2 + 1
+    local n = self.n * 2 + 1
 
-    local w = app.size
+    local w = self.size
 
     local mind = 0
     local maxd = vec2(1, 1):dist(vec2(n/2, n/2))

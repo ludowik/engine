@@ -43,8 +43,8 @@ function fs.getInfo(path, mode)
     end
 end
 
-function fs.getLastModifiedTime(src)
-    local info = fs.getInfo(src)
+function fs.getLastModifiedTime(path)
+    local info = fs.getInfo(path)
     return info and info.modification
 end
 
@@ -59,8 +59,8 @@ function fs.getDirectoryItems(path)
     return lists
 end
 
-function fs.read(src)
-    local file = io.open(getReadPath(src), 'r')
+function fs.read(path)
+    local file = io.open(getReadPath(path), 'r')
     if file then
         local content = file:read('*all')
         file:close()
@@ -68,24 +68,24 @@ function fs.read(src)
     end
 end
 
-function fs.write(src, content, mode)
-    local file = io.open(getSavePath(src), mode or 'w')
+function fs.write(path, content, mode)
+    local file = io.open(getSavePath(path), mode or 'w')
     if file then
         file:write(content)
         file:close()
     end
 end
 
-function save(file, content, mode)
-    return fs.write(file, content)
+function save(path, content, mode)
+    return fs.write(path, content, mode)
 end
 
-function load(file)
-    return fs.read(file)
+function load(path)
+    return fs.read(path)
 end
 
 function fs.mkdir(path)
-    local fullPath = getSavePath(fil)
+    local fullPath = getSavePath(path)
     lfs.mkdir(fullPath)
 end
 

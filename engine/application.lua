@@ -1,8 +1,8 @@
 class 'Application'
 
 function Application:init()
-    app = self
-    
+    _G.env.app = self
+
     self.scene = Scene()
     self.ui = UIScene()
 end
@@ -17,14 +17,27 @@ function Application:__update(dt)
 end
 
 function Application:__draw()
-    self:draw()
-
-    resetMatrix()
-    self.scene:draw()
+    if _G.env.draw then
+        _G.env.draw()
+    else
+        self:draw()
+    end
 end
 
 function Application:__collide(...)
-    self:collide(...)
+    if _G.env.collide then
+        _G.env.collide(...)
+    else
+        self:collide(...)
+    end
+end
+
+function Application:__touched(...)
+    if _G.env.touched then
+        _G.env.touched(...)
+    else
+        self:touched(...)
+    end
 end
 
 function Application:setup()
@@ -35,14 +48,22 @@ end
 
 function Application:draw()
     background(black)
+    
+    resetMatrix()
+    resetStyle()
+    
+    self.scene:draw()
 end
 
 function Application:collide(...)
 end
 
+function Application:touched(touch)
+end
+
 function application(name)
     local k = class(name)
     k:extends(Application)
-    
+
     _G.env.appClass = k
 end

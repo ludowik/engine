@@ -14,13 +14,15 @@ jit.on()
 require 'lua'
 require 'maths'
 
-require 'engine.component'
-
 require 'engine.config'
 require 'engine.mouse'
 require 'engine.keyboard'
 
-require 'engine.game_object'
+require 'engine.objects.component'
+require 'engine.objects.object'
+require 'engine.objects.node'
+require 'engine.objects.scene'
+
 require 'engine.application'
 require 'engine.engine'
 require 'engine.frame_time'

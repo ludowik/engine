@@ -1,16 +1,16 @@
 lfs = require 'lfs'
 utf8 = require 'lua.utf8'
 
-require 'lua.log'
 require 'lua.require'
 require 'lua.class'
+require 'lua.decorator'
+require 'lua.log'
 require 'lua.eval'
 require 'lua.ut'
 require 'lua.table'
 require 'lua.array'
 require 'lua.data'
 require 'lua.range'
-require 'lua.decorator'
 require 'lua.buffer'
 require 'lua.memory'
 require 'lua.perf'
@@ -25,6 +25,7 @@ require 'lua.convert'
 require 'lua.grid'
 require 'lua.date'
 require 'lua.id'
+require 'lua.introspection'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 
@@ -35,16 +36,4 @@ function toggle(value, opt1, opt2)
         return opt2
     end
     return opt1
-end
-
-__assert = assert
-
-function assert(exp, message, level)
-    if not exp then
-        error(message or 'error', level and (level+1) or 2)
-    end
-end
-
-function warning(message, level)
-    print(message)
 end

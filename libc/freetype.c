@@ -33,11 +33,11 @@ FT_Face load_font(FT_Library library, const char* font_name, int font_size) {
         return NULL;
         
     FT_Set_Char_Size(
-      face,             /* handle to face object           */
-      0,                /* char_width in 1/64th of points  */
-      0.5 * font_size * 64,   /* char_height in 1/64th of points */
-      300,              /* horizontal device resolution    */
-      300 );            /* vertical device resolution      */
+      face,                 /* handle to face object           */
+      0,                    /* char_width in 1/64th of points  */
+      0.5 * font_size * 64, /* char_height in 1/64th of points */
+      300,                  /* horizontal device resolution    */
+      300 );                /* vertical device resolution      */
       
     return (FT_Face)face;
 }
@@ -90,7 +90,7 @@ Glyph load_text(FT_Face face, const char* text) {
             w += bitmap_width;
 
         top = max(top, bitmap_top);
-        bottom = max(bottom, bitmap_rows - max(0, bitmap_top));
+        bottom = max(bottom, bitmap_rows - bitmap_top);
     }
 
     h = top + bottom;

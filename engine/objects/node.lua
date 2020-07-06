@@ -1,9 +1,7 @@
-GameObject = Component
-
-class 'Node' : extends(GameObject, Rect)
+class 'Node' : extends(Object, Rect)
 
 function Node:init()
-    GameObject.init(self)
+    Object.init(self)
     Rect.init(self)
     
     self.nodes = Array()
@@ -15,14 +13,17 @@ end
 
 function Node:add(object)
     self.nodes:add(object)
+    return self
 end
 
 function Node:remove(i)
     self.nodes:remove(i)
+    return self
 end
 
 function Node:clear()
     self.nodes = Array()
+    return self
 end
 
 function Node:initialize()
@@ -31,6 +32,7 @@ function Node:initialize()
             v:initialize()
         end
     end
+    return self
 end
 
 function Node:release()
@@ -39,6 +41,7 @@ function Node:release()
             v:release()
         end
     end
+    return self
 end
 
 function Node:update(dt)
@@ -59,10 +62,4 @@ function Node:draw()
             v:draw()
         end
     end
-end
-
-class 'Scene' : extends(Node)
-
-function Scene:init()
-    Node.init(self)
 end
