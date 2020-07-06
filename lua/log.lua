@@ -6,9 +6,9 @@ end
 
 decorate('print', 
     function (f, str, ...)
+        assert(str and str ~= 'none')
+        
         str = tostring(str)
-
-        assert(str~='memory')
         f(str, ...)
 
         save('res/data/log', str..NL, 'a')

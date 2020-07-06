@@ -1,19 +1,7 @@
 requireLib(
     'ui',
-    'layout')
-
-class 'Bar' : extends(UI)
-
-function Bar:action()
-    return self
-end
-
-function Bar:number()
-    return self
-end
-
-class 'ToolBar' : extends(Bar)
-class 'MenuBar' : extends(Bar)
+    'layout',
+    'bar')
 
 class 'Label' : extends(UI)
 

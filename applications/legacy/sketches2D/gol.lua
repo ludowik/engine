@@ -50,9 +50,13 @@ end
 
 function Grid:reset()
     self:clear()
+    
     for i=1,CELLS_COUNT.x do
         self:addLife()
     end
+    
+    self.size = vec2()
+    self.position = vec2()
 end
 
 function Grid:addLife(x, y)

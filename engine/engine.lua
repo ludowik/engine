@@ -38,7 +38,7 @@ function Engine:init()
         tween.setup()
     end
 
-    W = 1280
+    W = 1600
     H = math.floor(W*9/16)
 
     WIDTH = W
@@ -175,11 +175,7 @@ function Engine:update(dt)
         self:action()
     end
 
-    if _G.env.update then
-        _G.env.update(dt)
-    else
-        update(dt)
-    end
+    engine.app:__update(dt)
 end
 
 function Engine:preRender()    
@@ -196,7 +192,7 @@ end
 function Engine:draw()
     self:preRender()
 
-    engine.app:draw()
+    engine.app:__draw()
 
     self:postRender()
 
@@ -204,6 +200,8 @@ function Engine:draw()
 
     resetMatrix()
     resetStyle()
+    
+    fontSize(10)
 
     do
         function info(name, value)
@@ -258,7 +256,7 @@ function Engine:keydown(key)
 end
 
 function Engine:touched(touch)
-    engine.app:touched(touch)
+    engine.app:__touched(touch)
 end
 
 function Engine:dirApps()
@@ -376,20 +374,17 @@ function Engine:loadApp(appName, reloadApp)
 
         setfenv(0, env)        
     end
+    
+    
+    sdl:swap()
 end
 
 function setup()
+    assert()
     engine.app:__setup()
 end
 
-function update(dt)
-    engine.app:__update(dt)
-end
-
-function draw()
-    engine.app:__draw()
-end
-
 function collide(...)
+    assert()
     engine.app:__collide(...)
 end

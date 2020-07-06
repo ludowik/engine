@@ -1,6 +1,6 @@
 return {
-    ["renderMode"] = "direct",
+    ["renderMode"] = "frame",
     ["minorVersion"] = 1,
-    ["appName"] = "legacy/codea/bubbles",
+    ["appName"] = "legacy/sketches2d/icons font",
     ["majorVersion"] = 4,
 }
