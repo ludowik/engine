@@ -8,7 +8,7 @@ end
 local code, defs = precompile(io.read('./libc/openal.c'))
 ffi.cdef(code)
 
-class 'OpenAL' : meta(ffi.load(lib_path))
+class 'OpenAL' : extends(Component) : meta(ffi.load(lib_path))
 
 function OpenAL:loadProcAdresses()
     self.defs = {
@@ -114,9 +114,6 @@ function OpenAL:initialize()
 
     al.alSource3f(al.source, al.AL_POSITION, 0, 0, 0)
     al.alSource3f(al.source, al.AL_VELOCITY, 0, 0, 0)
-end
-
-function OpenAL:update()
 end
 
 function OpenAL:release()

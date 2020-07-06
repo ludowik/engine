@@ -100,9 +100,9 @@ function Engine:run(appName)
             self.frame_time:update()
             deltaTime = deltaTime + self.frame_time.delta_time
 
-            local maxDeltaTime = 1/self.fpsTarget
+            local maxDeltaTime = 1 / self.fpsTarget
 
-            if deltaTime >= maxDeltaTime then
+            if true or deltaTime >= maxDeltaTime then
                 deltaTime = deltaTime - maxDeltaTime
 
                 if self.frame_time.delta_time >= maxDeltaTime then
@@ -200,7 +200,7 @@ function Engine:draw()
 
     resetMatrix()
     resetStyle()
-    
+
     fontSize(10)
 
     do
@@ -264,6 +264,7 @@ function Engine:dirApps()
     apps:apply(function (app)
             return app:lower():gsub('%.lua', '')
         end)
+    apps:sort()
     return apps
 end
 
@@ -374,17 +375,11 @@ function Engine:loadApp(appName, reloadApp)
 
         setfenv(0, env)        
     end
-    
-    
-    sdl:swap()
-end
 
-function setup()
-    assert()
-    engine.app:__setup()
-end
-
-function collide(...)
-    assert()
-    engine.app:__collide(...)
+    for i=1,2 do
+        self:preRender()
+        background(black)
+        self:postRender()
+        sdl:swap()
+    end
 end

@@ -1,12 +1,8 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/legacy/sketches2d/gol
-.\graphics\style.lua:180: not implemented : supportedOrientations
-load applications/legacy/sketches2d/graphics2d
-load applications/legacy/sketches2d/horloge
-load applications/legacy/sketches2d/icons font
-release 6 fonts
+/Users/lca/Projets/Lua/engine
+load applications/default
+release 2 fonts
 memory at init    : 0.69 mo
 memory min        : 0.69 mo
-memory max        : 15.96 mo
-memory variation  : 15.27 mo
-memory at release : 9.99 mo
+memory max        : 14.61 mo
+memory variation  : 13.92 mo
+memory at release : 11.23 mo

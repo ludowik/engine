@@ -33,7 +33,7 @@ function Graphics:initialize()
     meshBox.shader = shaders['box']
 
     meshSphere = Model.sphere()
-    
+
     meshPyramid = Model.pyramid()
 
     meshCylinder = Model.cylinder(1, 1, 10000):center()
@@ -227,28 +227,23 @@ function text(str, x, y)
 
     clr = stroke()
     if clr then
-        local txt = ft.load_text(ft.hFont, str)
-        local img = Image():makeTexture(txt)
+        local img = ft:getText(str)
 
         TEXT_NEXT_Y = y - img.surface.h
-
         meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, TEXT_NEXT_Y, img.surface.w, img.surface.h)
 
-        img:release()
-        ft.release_text(txt)
+        ft:releaseText(str)
     end
 end
 
 function textSize(str)
     str = tostring(str)
 
-    local txt = ft.load_text(ft.hFont, str)
-    local img = Image():makeTexture(txt)
-
+    local img = ft:getText(str)
+    
     local w, h = img.surface.w, img.surface.h
 
-    img:release()
-    ft.release_text(txt)
+    ft:releaseText(str)
 
     return w, h
 end

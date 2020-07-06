@@ -8,7 +8,11 @@ function Application:init()
 end
 
 function Application:__setup()
-    self:setup()
+    if _G.env.setup then
+        _G.env.setup()
+    else
+        self:setups()
+    end
 end
 
 function Application:__update(dt)

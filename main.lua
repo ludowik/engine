@@ -32,7 +32,7 @@ function override()
     end
 end
 
-if debugging then
+if debugging and false then
     override()
 end
 

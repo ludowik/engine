@@ -160,7 +160,7 @@ function Fizix:collision()
             end
         end
 
-        collide(contact)
+        engine.app:__collide(contact)
 
         response(bodyA)
         response(bodyB)

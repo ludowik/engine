@@ -5,6 +5,8 @@ function Mouse:init()
     self.y = 0
     
     self.isTouch = false
+    
+    self.id = 0
 end
 
 function Mouse:__tostring()

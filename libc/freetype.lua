@@ -30,6 +30,8 @@ function FreeType:initialize()
     self.hFont = false
 
     self.hFonts = Table()
+    
+    self.frame = 0
 
     self:setFont()
 end
@@ -71,4 +73,42 @@ function FreeType:setFont(fontName, fontSize)
     end
 
     self.hFont = self.hFonts[self.fontRef]
+end
+
+local images = {}
+
+function FreeType:getText(str)
+    local ref = self.fontRef..'.'..str
+
+    if not images[ref] then
+        local surface = self.load_text(self.hFont, str)
+        images[ref] = {
+            img = Image():makeTexture(surface),
+            count = 1,
+            frame = self.frame
+        }
+        ft.release_text(surface)
+    else
+        images[ref].count = images[ref].count + 1
+        images[ref].frame = self.frame
+    end
+
+    return images[ref].img
+end
+
+function FreeType:releaseText(str)
+--    local ref = self.fontRef..'.'..str
+--    if  images[ref] then
+--        images[ref].count = images[ref].count - 1
+--    end
+end
+
+function FreeType:update(dt)
+    for k,v in pairs(images) do
+        if v.frame < self.frame - 60 then
+            v.img:release()
+            images[k] = nil
+        end
+    end
+    self.frame = self.frame + 1
 end

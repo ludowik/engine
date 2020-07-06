@@ -1,6 +1,6 @@
 return {
     ["renderMode"] = "frame",
     ["minorVersion"] = 1,
-    ["appName"] = "legacy/sketches2d/icons font",
+    ["appName"] = "default",
     ["majorVersion"] = 4,
 }

@@ -15,8 +15,8 @@ typedef struct {
 Handle init_module();
 void release_module(Handle lib);
 
-Handle load_font(Handle lib, const char* font_name, int font_size);
+Handle load_font(Handle lib, const unsigned char* font_name, int font_size);
 void release_font(Handle face);
 
-Glyph load_text(Handle face, const char* text);
+Glyph load_text(Handle face, const unsigned char* text);
 void release_text(Glyph glyph);

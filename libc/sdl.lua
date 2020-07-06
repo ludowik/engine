@@ -54,8 +54,8 @@ function Sdl:initialize()
                 self.SDL_GL_MakeCurrent(window, context)
                 self.SDL_GL_SetSwapInterval(0)
 
-                self.SDL_SetWindowPosition(window, r.x+100, r.y+100)
                 self.SDL_SetWindowSize(window, W, H)
+                self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
 
                 self.SDL_ShowWindow(window)
             end

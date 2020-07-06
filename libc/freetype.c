@@ -57,7 +57,7 @@ typedef struct {
     } format;
 } Glyph;
 
-#define bitmap_left ((int)slot->bitmap_left)
+#define bitmap_left (max(0, (int)slot->bitmap_left))
 #define bitmap_top  ((int)slot->bitmap_top)
 
 #define bitmap_width ((int)slot->bitmap.width)
@@ -96,8 +96,7 @@ Glyph load_text(FT_Face face, const char* text) {
     h = top + bottom;
 
     int size = w * h * sizeof(GLubyte) * BytesPerPixel;
-    GLubyte* pixels = malloc(size);
-    memset(pixels, 0, size);
+    GLubyte* pixels = calloc(1, size);
 
     for ( size_t n = 0; n < len; ++n ) {
         error = FT_Load_Char(face, text[n], FT_LOAD_RENDER);
@@ -109,14 +108,19 @@ Glyph load_text(FT_Face face, const char* text) {
         for ( int j = 0; j < bitmap_rows; ++j ) {
             int index = (h-j-1-top+bitmap_top) * w + x + bitmap_left; // (h - 1 - (j + top - bitmap_top)) * w + x + bitmap_left;
 
-            if (BytesPerPixel == 4) {
-                for ( int j = 0; j < bitmap_width; ++j ) {
-                    pixels[(index+j)*BytesPerPixel+3] = bitmap_buffer[index_bitmap+j];
+            if (index >= 0 && index < size) {
+                if (BytesPerPixel == 4) {
+                    for ( int j = 0; j < bitmap_width; ++j ) {
+                        pixels[(index+j)*BytesPerPixel+3] = bitmap_buffer[index_bitmap+j];
+                    }
+                } else {
+                    memcpy(&pixels[index], &bitmap_buffer[index_bitmap], bitmap_width);
                 }
             } else {
-                memcpy(&pixels[index], &bitmap_buffer[index_bitmap], bitmap_width);
+                printf("car = %c, %d, %d, %d, %d, %d, %d, %d, %d, %d\n", text[n], index, x, w, h, j, top, bitmap_top, bitmap_left, size);
+                exit(-1);
             }
-            
+
             index_bitmap += bitmap_width;
         }
 
