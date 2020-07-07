@@ -2,7 +2,7 @@ class 'FrameTime' : extends(Component)
 
 function FrameTime:init()
     Component.init(self)
-    
+
     self.nframes = 0
     self.fps = 0
 
@@ -18,6 +18,9 @@ end
 
 function FrameTime:update()
     self.end_time = sdl.SDL_GetTicks() * 0.001
+    if self.start_time == 0 then
+        self.start_time = self.end_time
+    end
 
     self.delta_time = self.end_time - self.start_time
     self.elapsed_time = self.elapsed_time + self.delta_time

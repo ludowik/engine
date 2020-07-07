@@ -68,8 +68,9 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
         end
 
         local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
-        assert(vertexAttrib)
+        assert(vertexAttrib, shader.name..':'..#self.vertices)
         
+        local colorAttrib = self:sendAttribute('color', self.colors, 4)
         local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
 
         if img and shader.uniforms.tex0 then

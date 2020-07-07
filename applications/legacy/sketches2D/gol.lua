@@ -8,11 +8,11 @@ end
 
 function setup()
     supportedOrientations(PORTRAIT)
-    
+
     delay = 0
 
-    grid = Grid(CELLS_COUNT.x, CELLS_COUNT.y)
-    gridTemp = Grid(CELLS_COUNT.x, CELLS_COUNT.y)
+    grid = GolGrid(CELLS_COUNT.x, CELLS_COUNT.y)
+    gridTemp = GolGrid(CELLS_COUNT.x, CELLS_COUNT.y)
 
     grid:reset()
 
@@ -32,9 +32,9 @@ function draw()
     background(51)
 
     grid:draw()
-    
+
     resetMatrix()
-    
+
     menu:layout()
     menu:draw()
 end
@@ -48,18 +48,24 @@ function touched(touch)
     end
 end
 
-function Grid:reset()
+class 'GolGrid' : extends(Grid)
+
+function GolGrid:init(...)
+    Grid.init(self, ...)
+end
+
+function GolGrid:reset()
     self:clear()
-    
+
     for i=1,CELLS_COUNT.x do
         self:addLife()
     end
-    
+
     self.size = vec2()
     self.position = vec2()
 end
 
-function Grid:addLife(x, y)
+function GolGrid:addLife(x, y)
     x = x or randomInt(CELLS_COUNT.x)
     y = y or randomInt(CELLS_COUNT.y)
 
@@ -71,7 +77,7 @@ function Grid:addLife(x, y)
     end
 end
 
-function Grid:update(dt)
+function GolGrid:update(dt)
     delay = delay + dt
 
     if delay >= 0.08 then
@@ -107,7 +113,7 @@ function Grid:update(dt)
     end
 end
 
-function Grid:draw()
+function GolGrid:draw()
     local w, h = sizeCell.x, sizeCell.y
 
     self.scale = 1
@@ -129,7 +135,7 @@ function Grid:draw()
 
     stroke(red)
     strokeWidth(1)
-    
+
     fill(red)
 
     for i=0,grid.w do
@@ -141,7 +147,7 @@ function Grid:draw()
     end
 
     rectMode(CORNER)
-    
+
     for i,j,cell in self:ipairs() do
         if cell.value then
             rect(w*(i-1), h*(j-1), w, h)
@@ -149,7 +155,7 @@ function Grid:draw()
     end
 end
 
-function Grid:cellFromPosition(x, y)
+function GolGrid:cellFromPosition(x, y)
     x = x - self.position.x
     y = y - self.position.y
 

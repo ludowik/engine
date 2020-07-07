@@ -21,10 +21,10 @@ function Engine:init()
     gl = OpenGL()
     al = OpenAL()
     ft = FreeType()
-    
+
     resourceManager = ResourceManager()
     shaderManager = ShaderManager()
-    
+
     graphics = Graphics()
 
     self.components = Node()
@@ -36,7 +36,7 @@ function Engine:init()
         self.components:add(gl)
         self.components:add(al)
         self.components:add(ft)
-        
+
         self.components:add(resourceManager)
         self.components:add(shaderManager)
         self.components:add(graphics)
@@ -99,28 +99,29 @@ function Engine:run(appName)
         self.active = 'running'
 
         local deltaTime = 0
-        self.fpsTarget = 120
+        self.fpsTarget = 60
         self.frame_time:init()
 
         while self.active == 'running' do
             self.frame_time:update()
+            
             deltaTime = deltaTime + self.frame_time.delta_time
 
             local maxDeltaTime = 1 / self.fpsTarget
 
-            if true or deltaTime >= maxDeltaTime then
+            if deltaTime >= maxDeltaTime then
                 deltaTime = deltaTime - maxDeltaTime
 
-                if self.frame_time.delta_time >= maxDeltaTime then
-                    self.fpsTarget = self.fpsTarget - 1
-                else
-                    self.fpsTarget = self.fpsTarget + 1
-                end
+--                if self.frame_time.delta_time >= maxDeltaTime then
+--                    self.fpsTarget = self.fpsTarget - 1
+--                else
+--                    self.fpsTarget = self.fpsTarget + 1
+--                end
 
-                DeltaTime = deltaTime
+                DeltaTime = maxDeltaTime
                 ElapsedTime = self.frame_time.elapsed_time
-
-                self:update(deltaTime)
+                
+                self:update(DeltaTime)
                 self:draw()
 
                 self.frame_time:draw()
@@ -231,7 +232,7 @@ function Engine:draw()
     end
 
     self:drawHelp()
-    
+
     --    self:postRender()
 
     sdl:swap()
@@ -246,7 +247,7 @@ function Engine:postRender()
 
         resetMatrix()
         resetStyle()
-        
+
         blendMode(NORMAL)
         depthMode(false)
 
@@ -318,15 +319,24 @@ function Engine:loopApp()
         self.action = nil
     else
         self.loopApp = #self:dirApps()
+        self.loopFrame = 10
+
         self.action = self.loopAppProc
     end
 end
 
 function Engine:loopAppProc()
-    self:nextApp()
-    self.loopApp = self.loopApp - 1
-    if self.loopApp == 0 then
-        self.action = nil
+    if self.loopFrame <= 0 then
+        self:nextApp()
+        
+        self.loopApp = self.loopApp - 1
+        self.loopFrame = 10
+        
+        if self.loopApp == 0 then
+            self.action = nil
+        end
+    else
+        self.loopFrame = self.loopFrame - 1
     end
 end
 

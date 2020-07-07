@@ -97,7 +97,10 @@ function Emitter:draw()
             end
         end
     end
-    self.particleMesh:draw()
+
+    if #self.particleMesh.vertices > 0 then
+        self.particleMesh:draw()
+    end
 end
 
 

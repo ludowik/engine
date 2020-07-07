@@ -1,21 +1,40 @@
 image = class 'Image'
 
+function Image.getPath(imageName, ext)
+    local path = getImagePath()
+    path = path..'/'..imageName:replace(':', '/')..'.'..(ext or 'png')
+    return getFullPath(path)
+end
+
 function Image:init(w, h)
     if type(w) == 'number' and h then
         self:create(w, h)
+
     elseif type(w) == 'string' then
-        self.surface = sdl.image.IMG_Load(w)
+        local path = self.getPath(w)
+        if fs.getInfo(path) == nil then
+            path = self.getPath(w, 'jpg')
+            if fs.getInfo(path) == nil then
+                warning("image doesn't exists", 3)
+                self:create(100, 100)
+                return
+            end
+        end
+
+        self.surface = sdl.image.IMG_Load(path)
+
         if self.surface == ffi.NULL then
             warning("image doesn't exists", 3)
             self:create(100, 100)
             return
         end
-        
+
         self.width = self.surface.w
         self.height = self.surface.h
 
         self:reversePixels()
         self:makeTexture()
+
     else
         self:create(100, 100)
     end
@@ -35,7 +54,7 @@ function Image:create(w, h)
     }
 
     surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
-    
+
     self.width = w
     self.height = h
 
@@ -166,7 +185,7 @@ end
 
 function Image:release()
     gl.glDeleteTexture(self.texture_id)
-    
+
     -- Need to delete surface
     self.surface.pixels = nil
 end

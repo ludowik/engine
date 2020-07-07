@@ -9,7 +9,7 @@ function beginShape()
 end
 
 function vertex(x, y)
-    vertices[#vertices+1] = vec2(x, y)
+    vertices[#vertices+1] = vec3(x, y, 0)
 end
 
 function endShape(mode)

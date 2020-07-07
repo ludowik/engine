@@ -1,16 +1,17 @@
 class 'Mesh' : extends(MeshRender)
 
 function Mesh:init(vertices, colors)
-    self:clear()
+    self:clear(vertices, colors)
 end
 
-function Mesh:clear()
+function Mesh:clear(vertices, colors)
     self.vertices = vertices or Buffer('vec3')
     self.colors = colors or Buffer('color')
 end
 
 function Mesh:buffer(name)
     if name == 'position' then
+        name = 'vertices'
         self[name] = Buffer('vec3')
     elseif name == 'texCoord' then
         self[name] = Buffer('vec2')

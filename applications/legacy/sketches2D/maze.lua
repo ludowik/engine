@@ -16,7 +16,7 @@ function draw()
     
     stroke(white)
     
-    function line(x1, y1, x2, y2) 
+    local function line(x1, y1, x2, y2) 
         vertex(x1, y1)
         vertex(x2, y2)
     end
@@ -31,6 +31,8 @@ function draw()
                 line(i*l, j*l, (i-1)*l, j*l)
             elseif value == 4 then
                 line(i*l, j*l, i*l, (j-1)*l)
+            else
+                assert()
             end
         end)
     endShape(LINES)

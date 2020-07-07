@@ -158,10 +158,7 @@ local function cornerFromCenter(mode, x, y, w, h)
 end
 
 function point(x, y)
-    buf[1].x = x     
-    buf[1].y = y
-    buf[1].z = 0
-
+    buf[1] = vec3(x, y, 0)
     points(buf)
 end
 
@@ -175,14 +172,8 @@ function points(vertices, ...)
 end
 
 function line(x1, y1, x2, y2)
-    buf[1].x = x1
-    buf[1].y = y1
-    buf[1].z = 0
-
-    buf[2].x = x2
-    buf[2].y = y2
-    buf[2].z = 0
-
+    buf[1] = vec3(x1, y1, 0)
+    buf[2] = vec3(x2, y2, 0)
     lines(buf)
 end
 

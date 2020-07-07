@@ -1,5 +1,6 @@
 lfs = require 'lfs'
-utf8 = require 'lua.utf8'
+utf8 = require 'lib.utf8'
+json = require 'lib.json'
 
 require 'lua.require'
 require 'lua.class'

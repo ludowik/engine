@@ -194,22 +194,14 @@ function Model.ellipseBorder(x, y, w, h)
 end
 
 function Model.box(w, h, d)
-    local vertices = {
+    local vertices = Buffer('vec3', {
         f1, f2, f3, f1, f3, f4, -- front
         b2, b1, b4, b2, b4, b3, -- back
         f2, b2, b3, f2, b3, f3, -- right
         b1, f1, f4, b1, f4, b4, -- left
         f4, f3, b3, f4, b3, b4, -- top
         b1, b2, f2, b1, f2, f1, -- bottom
-
-    }
-
-    local buf = Buffer('vec3')
-    for i=1,#vertices do
-        buf:insert(vec3(vertices[i][1],
-                vertices[i][2],
-                vertices[i][3]))
-    end
+    })
 
     local w = 1/4-1/100
     local h = 1/3-1/100
@@ -228,11 +220,27 @@ function Model.box(w, h, d)
     add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 2/3)
     add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 0/3)
 
-    return Model.mesh(buf, texCoords)
+    return Model.mesh(vertices, texCoords)
 end
 
 function Model.skybox(w, h, d)
-    return Model.box(w, h, d)
+    w = w or 1
+    h = w
+    e = w
+    
+    local vertices = Buffer('vec3', {
+        f1, f2, f3, f1, f3, f4, -- front
+        b2, b1, b4, b2, b4, b3, -- back
+        f2, b2, b3, f2, b3, f3, -- right
+        b1, f1, f4, b1, f4, b4, -- left
+        f4, f3, b3, f4, b3, b4, -- top
+        b1, b2, f2, b1, f2, f1, -- bottom
+    })
+
+    return Model.mesh(
+        Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, -e),
+        texCoords_box,
+        Model.computeNormals(vertices))
 end
 
 function Model.sphere(x, y, z, w, h, d)
@@ -479,15 +487,16 @@ function Model.random.polygon(r, rmax)
     rmax = rmax or r
     rmin = r
 
-    local vertices = Table()
+    local vertices = Buffer('vec3')
 
     local angle = 0
     while angle < math.pi * 2 do
         local len = math.random(rmin, rmax)
 
-        local p = vec2(
+        local p = vec3(
             len * math.cos(angle),
-            len * math.sin(angle))
+            len * math.sin(angle),
+            0)
 
         vertices:insert(p)
 

@@ -1,9 +1,3 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/legacy/codea/bubbles
-.\graphics\style.lua:184: not implemented : displayMode
-release 2 fonts
-memory at init    : 0.80 mo
-memory min        : 0.80 mo
-memory max        : 2.20 mo
-memory variation  : 1.40 mo
-memory at release : 2.07 mo
+/Users/lca/Projets/Lua/engine
+load applications/legacy/sketches2d/primitives
+./graphics/style.lua:180: not implemented : supportedOrientations

@@ -13,8 +13,8 @@ function Mouse:init()
     self.x = 0
     self.y = 0
     
-    self.dx = 0
-    self.dy = 0
+    self.deltaX = 0
+    self.deltaY = 0
 
     self.isTouch = false
 end
@@ -31,8 +31,8 @@ function Mouse:mouseEvent(id, status, x, y, dx, dy, isTouch)
     mouse.x = x
     mouse.y = H - y
 
-    mouse.dx = dx
-    mouse.dy = dy
+    mouse.deltaX = dx
+    mouse.deltaY = dy
 
     mouse.isTouch = isTouch
     

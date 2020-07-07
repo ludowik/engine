@@ -120,7 +120,7 @@ function appMap:init()
 
     camera(500, 100, 500, -100, 0, -500)
 
-    skybox = Mesh(Model.skybox(100000))
+    skybox = Model.skybox(100000)
     skybox.texture = image('documents:skybox')
 
     self.s = 10

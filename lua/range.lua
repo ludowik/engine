@@ -12,7 +12,7 @@ function range(_start, _stop, _step)
     end
 end
 
-local index = 0
+local index = 1
 for i in range(10) do
     assert(i == index)
     index = index + 1

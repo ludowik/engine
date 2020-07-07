@@ -83,8 +83,9 @@ function Fizix:update(dt)
     self:setProperties()
 
     while dt > 0 do
-        self:step(math.min(0.001, dt))
-        dt = dt - 0.001
+        local t = math.min(0.001, dt)
+        self:step(t)
+        dt = dt - t
     end
 
     self:collision()

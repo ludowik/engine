@@ -17,7 +17,12 @@ end
 
 function Application:__update(dt)
     self.scene:update(dt)
-    self:update(dt)
+    
+    if _G.env.update then
+        _G.env.update(dt)
+    else
+        self:update(dt)
+    end
 end
 
 function Application:__draw()
