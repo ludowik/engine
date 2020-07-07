@@ -68,7 +68,8 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
         end
 
         local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
-        local pointAttrib = self:sendAttribute('point', self.points, 2)
+        assert(vertexAttrib)
+        
         local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
 
         if img and shader.uniforms.tex0 then
@@ -102,11 +103,7 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
             gl.glUniform3f(shader.uniforms.size.uniformLocation, w, h, 1)
         end
 
-        if vertexAttrib then
-            gl.glDrawArrays(drawMode, 0, #self.vertices)
-        elseif pointAttrib then
-            gl.glDrawArrays(drawMode, 0, #self.points)
-        end
+        gl.glDrawArrays(drawMode, 0, #self.vertices)
 
         if img then
             img:unuse()
@@ -135,7 +132,7 @@ function MeshRender:sendUniforms(uniforms)
         gl.glUniform1f(uniforms.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
     end
 
---    if uniforms.fill and styles.attributes.fill then
---        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
---    end
+    if uniforms.fill and styles.attributes.fill then
+        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
+    end
 end

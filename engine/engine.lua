@@ -21,6 +21,11 @@ function Engine:init()
     gl = OpenGL()
     al = OpenAL()
     ft = FreeType()
+    
+    resourceManager = ResourceManager()
+    shaderManager = ShaderManager()
+    
+    graphics = Graphics()
 
     self.components = Node()
     do
@@ -31,9 +36,10 @@ function Engine:init()
         self.components:add(gl)
         self.components:add(al)
         self.components:add(ft)
-
-        self.components:add(ShaderManager())
-        self.components:add(Graphics())
+        
+        self.components:add(resourceManager)
+        self.components:add(shaderManager)
+        self.components:add(graphics)
 
         tween.setup()
     end
@@ -221,27 +227,28 @@ function Engine:draw()
         info('jit version', jit.version)
         info('opengl version', config.glMajorVersion)
         info('render mode', self.renderMode)
+        info('res', resourceManager.resources:getnKeys())
     end
 
+    self:drawHelp()
+    
     --    self:postRender()
 
     sdl:swap()
 end
 
 function Engine:postRender()
-    self:drawHelp()
-
     if self.renderFrame then
         Context.noContext()
         ortho(0, W + W_INFO, 0, H)
 
         background(Color(0, 0, 0, 1))
 
-        blendMode(NORMAL)
-        depthMode(false)
-
         resetMatrix()
         resetStyle()
+        
+        blendMode(NORMAL)
+        depthMode(false)
 
         self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
     end

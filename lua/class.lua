@@ -153,3 +153,25 @@ function call(fname)
         end
     end
 end
+
+class('__class')
+
+function __class:test()
+    assert(class, 'exist')
+    assert(class(), 'new')
+
+    local t1 = class("class.test1")
+    function t1:f() end
+    assert(t1.__className == 'class.test1', 'className.class')
+    assert(t1().__className == 'class.test1', 'className.instance')
+    assert(t1().f == t1.f, 'className.f1')
+
+    local t2 = class("class.test2", t1)
+    function t2:f() end
+    assert(t2.__className == 'class.test2', 'className.derived.class')
+    assert(t2().__className == 'class.test2', 'className.derived.instance')
+    assert(t2().f == t2.f, 'className.f2')
+
+    local t3 = class('class.test3', t1)
+    assert(t3().f == t1.f, 'className.f3')
+end

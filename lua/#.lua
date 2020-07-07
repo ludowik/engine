@@ -26,6 +26,14 @@ require 'lua.grid'
 require 'lua.date'
 require 'lua.id'
 require 'lua.introspection'
+require 'lua.bit'
+require 'lua.callback'
+require 'lua.attribs'
+require 'lua.enum'
+
+require 'lua.octree'
+require 'lua.http'
+require 'lua.video'
 
 os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
 

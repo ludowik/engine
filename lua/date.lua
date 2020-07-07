@@ -1,7 +1,6 @@
 date = class('Date')
 
 function Date:init()
-    
     self:attribs(os.date('*t'))
 end
 

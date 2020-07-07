@@ -102,6 +102,51 @@ function mt.random()
         1)
 end
 
+function mt.__add(clr1, clr2)
+    return Color(
+        min(1, clr1.r + clr2.r),
+        min(1, clr1.g + clr2.g),
+        min(1, clr1.b + clr2.b),
+        min(1, clr1.a + clr2.a))
+end
+
+function mt:mul(coef)
+    self.r = self.r * coef
+    self.g = self.g * coef
+    self.b = self.b * coef
+    self.a = self.a * coef
+    return self
+end
+
+function mt:__mul(coef)
+    return Color(self):mul(coef)
+end
+
+function mt:__sub(clr)
+    return Color(
+        ( self.r - clr.r ),
+        ( self.g - clr.g ),
+        ( self.b - clr.b ),
+        ( self.a - clr.a )
+    )
+end
+
+function mt.__div(p, coef)
+    return Color.__mul(p, 1/coef)
+end
+
+function mt.__eq(clr1, clr2)
+    if (clr1 and
+        clr2 and 
+        clr1.r == clr2.r and
+        clr1.g == clr2.g and
+        clr1.b == clr2.b and
+        clr1.a == clr2.a)
+    then
+        return true
+    end
+end
+
 function mt.grayScaleLightness(clr, to)
     local r,g,b = clr.r, clr.g, clr.b
     local c = (max(r,g,b) + min(r,g,b)) / 2

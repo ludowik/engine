@@ -1,8 +1,9 @@
-/Users/lca/Projets/Lua/engine
-load applications/default
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/legacy/codea/bubbles
+.\graphics\style.lua:184: not implemented : displayMode
 release 2 fonts
-memory at init    : 0.69 mo
-memory min        : 0.69 mo
-memory max        : 14.61 mo
-memory variation  : 13.92 mo
-memory at release : 11.23 mo
+memory at init    : 0.80 mo
+memory min        : 0.80 mo
+memory max        : 2.20 mo
+memory variation  : 1.40 mo
+memory at release : 2.07 mo

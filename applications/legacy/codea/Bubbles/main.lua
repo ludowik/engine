@@ -75,7 +75,7 @@ function Bubbles:draw()
 
     -- Loop through bubbles and draw them
     for k,v in pairs(self.bubbles) do
-        rect(v.pos.x, v.pos.y, v.size, v.size)
+        ellipse(v.pos.x, v.pos.y, v.size, v.size)
     end
 
     -- Restore original style

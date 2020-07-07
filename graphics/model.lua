@@ -129,6 +129,21 @@ function Model.rect(x, y, w, h)
     return Model.mesh(vertices, texCoords)
 end
 
+function Model.rectBorder(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    w = w or 1
+    h = h or 1
+
+    local vertices = Buffer('vec3',
+        vec3(x+0, y+0, 0),
+        vec3(x+w, y+0, 0),
+        vec3(x+w, y+h, 0),
+        vec3(x+0, y+h, 0))
+
+    return Model.mesh(vertices)
+end
+
 function Model.ellipse(x, y, w, h)
     x = x or 0
     y = y or 0
@@ -151,6 +166,28 @@ function Model.ellipse(x, y, w, h)
         vertices:insert(vec3(x1, y1, 0))
 
         x1, y1 = x2, y2
+    end
+
+    return Model.mesh(vertices)
+end
+
+function Model.ellipseBorder(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    w = w or 1
+    h = h or 1
+
+    local vertices = Buffer('vec3')
+
+    local n = 128
+
+    local x, y
+
+    for i=0,n do
+        x = math.cos(math.tau * i / n) / 2
+        y = math.sin(math.tau * i / n) / 2
+
+        vertices:insert(vec3(x, y, 0))
     end
 
     return Model.mesh(vertices)
@@ -509,8 +546,6 @@ function Model.computeNormals(vertices, indices)
     local normals = Buffer('vec3')
 
     local n = indices and #indices or #vertices
-
-    assert(n/3 == floor(n/3))
 
     local v12, v13 = vec3(), vec3()
 

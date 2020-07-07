@@ -28,6 +28,7 @@ require 'engine.engine'
 require 'engine.frame_time'
 require 'engine.engine_memory'
 require 'engine.parameter'
+require 'engine.resourceManager'
 
 require 'libc'
 require 'lib.json'
@@ -60,12 +61,3 @@ newPhysics = Fizix
 math.MAX_INTEGER = math.maxinteger
 math.MIN_INTEGER = math.mininteger
 
-function callback(object, f)
-    return function (...)
-        if f then
-            f(object, ...)
-        elseif object then
-            object(...)
-        end
-    end
-end

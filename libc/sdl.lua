@@ -98,19 +98,38 @@ function Sdl:update(dt)
                 key = ffi.string(self.SDL_GetKeyName(event.key.keysym.sym))
             end
             key = key:lower()
-            
+
             engine:keydown(key)
 
-        elseif event.type == self.SDL_MOUSEMOTION then
-            mouse.x = event.motion.x
-            mouse.y = H - event.motion.y
+        elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
+            mouse:mouseEvent(
+                tonumber(event.tfinger.touchId),
+                BEGAN,
+                event.button.x, event.button.y,
+                0, 0,
+                1,
+                event.button.clicks)
 
-            mouse.dx = event.motion.xrel
-            mouse.dy = event.motion.yrel
+        elseif event.type == sdl.SDL_MOUSEMOTION then
+            local isTouch = bitAND(event.motion.state, self.SDL_BUTTON_LMASK)
 
-            mouse.isTouch = (event.motion.state - self.SDL_BUTTON_LMASK) ~= event.motion.state
-            
-            engine:touched(mouse)
+            if isTouch then
+                mouse:mouseEvent(
+                    tonumber(event.tfinger.touchId),
+                    MOVING,
+                    event.motion.x, event.motion.y,
+                    event.motion.xrel, event.motion.yrel,
+                    isTouch)
+            end
+
+        elseif event.type == sdl.SDL_MOUSEBUTTONUP then
+            mouse:mouseEvent(
+                tonumber(event.tfinger.touchId),
+                ENDED,
+                event.button.x, event.button.y,
+                0, 0,
+                event.button.button)
+
 
         end
     end

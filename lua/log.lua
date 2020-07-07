@@ -6,7 +6,7 @@ end
 
 decorate('print', 
     function (f, str, ...)
-        assert(str and str ~= 'none')
+        assert(str ~= '...')
         
         str = tostring(str)
         f(str, ...)
@@ -17,7 +17,7 @@ decorate('print',
 log = print
 
 decorate('assert',
-    function (exp, message, level)
+    function (f, exp, message, level)
         if not exp then
             error(message or 'error', level and (level+1) or 2)
         end

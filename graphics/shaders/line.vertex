@@ -1,4 +1,4 @@
-attribute vec2 point;
+attribute vec3 vertex;
 
 uniform vec4 stroke;
 
@@ -9,6 +9,6 @@ uniform vec3 pos;
 uniform vec3 size;
 
 void main() {
-    vec3 vertexPosition = vec3(point.xy, 0.) * size + pos;
+    vec3 vertexPosition = vertex * size + pos;
     gl_Position = matrixModel * vec4(vertexPosition.xyz, 1.);
 }

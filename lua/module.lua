@@ -21,10 +21,12 @@ function Library.compileFile(srcName, moduleName, headers, links)
     }
     
     local command = string.format('gcc -Wall -shared {headers} -o {libName} {srcName} {links}', params)
-    os.execute(command)
+    local res = os.execute(command)
+    assert(res == 0)
 
     command = string.format('gcc -E -M {headers} -o {headerName} {srcName}', params)
-    os.execute(command)
+    res = os.execute(command)
+    assert(res == 0)
 
     return ffi.load(params.libName)
 end

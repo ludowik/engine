@@ -5,6 +5,7 @@ typedef unsigned int Uint32;
 typedef signed char Sint8;
 typedef signed short Sint16;
 typedef signed int Sint32;
+typedef int64_t Sint64;
 
 static const int SDL_INIT_VIDEO = 0x00000020;
 
@@ -246,11 +247,42 @@ typedef struct SDL_KeyboardEvent {
     SDL_Keysym keysym;
 } SDL_KeyboardEvent;
 
+typedef Sint64 SDL_TouchID;
+typedef Sint64 SDL_FingerID;
+
+typedef struct SDL_TouchFingerEvent {
+    Uint32 type;
+    Uint32 timestamp;
+    SDL_TouchID touchId;
+    SDL_FingerID fingerId;
+    float x;
+    float y;
+    float dx;
+    float dy;
+    float pressure;
+    Uint32 windowID;
+} SDL_TouchFingerEvent;
+
+typedef struct SDL_MouseButtonEvent {
+    Uint32 type;
+    Uint32 timestamp;
+    Uint32 windowID;
+    Uint32 which;
+    Uint8 button;
+    Uint8 state;
+    Uint8 clicks;
+    Uint8 padding1;
+    Sint32 x;
+    Sint32 y;
+} SDL_MouseButtonEvent;
+
 typedef union SDL_Event {
     Uint32 type;
     SDL_WindowEvent window;
     SDL_MouseMotionEvent motion;
     SDL_KeyboardEvent key;
+    SDL_TouchFingerEvent tfinger;
+    SDL_MouseButtonEvent button;
     Uint8 padding[56];
 } SDL_Event;
 

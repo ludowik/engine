@@ -3,7 +3,7 @@ class 'Graphics' : extends(Component)
 local buf, meshPoints, meshLine, meshPolyline, meshPolygon, meshRect, meshEllipse, meshSprite, meshBox
 
 function Graphics:initialize()
-    buf = Buffer('float')
+    buf = Buffer('vec3')
 
     meshPoints = Mesh()
     meshPoints.shader = shaders['point']
@@ -20,8 +20,14 @@ function Graphics:initialize()
     meshRect = Model.rect(0, 0, 1, 1)
     meshRect.shader = shaders['rect']
 
+    meshRectBorder = Model.rectBorder(0, 0, 1, 1)
+    meshRectBorder.shader = shaders['line']
+
     meshEllipse = Model.ellipse(0, 0, 1, 1)
     meshEllipse.shader = shaders['ellipse']
+    
+    meshEllipseBorder = Model.ellipseBorder(0, 0, 1, 1)
+    meshEllipseBorder.shader = shaders['line']
 
     meshSprite = Model.rect(0, 0, 1, 1)
     meshSprite.shader = shaders['sprite']
@@ -49,6 +55,7 @@ function Graphics:update()
     resetStyle()
 end
 
+-- blend mode
 NORMAL = 1
 ADDITIVE = 2
 MULTIPLY = 3
@@ -130,73 +137,110 @@ function background(clr, ...)
         gl.GL_DEPTH_BUFFER_BIT)
 end
 
+local function centerFromCorner(mode, x, y, w, h)
+    x = x or 0
+    y = y or 0
+    if mode == CENTER then
+        x = x - w / 2
+        y = y - h / 2
+    end
+    return x, y
+end
+
+local function cornerFromCenter(mode, x, y, w, h)
+    x = x or 0
+    y = y or 0
+    if mode == CORNER then
+        x = x + w / 2
+        y = y + h / 2
+    end
+    return x, y
+end
+
 function point(x, y)
-    buf[1] = x 
-    buf[2] = y
+    buf[1].x = x     
+    buf[1].y = y
+    buf[1].z = 0
+
     points(buf)
 end
 
 function points(vertices, ...)
     if type(vertices) == 'number' then vertices = {vertices, ...} end
 
-    clr = stroke()
-    if clr then
-        meshPoints.points = vertices
+    if stroke() then
+        meshPoints.vertices = vertices
         meshPoints:render(meshPoints.shader, gl.GL_POINTS)
     end
 end
 
 function line(x1, y1, x2, y2)
-    buf[1] = x1
-    buf[2] = y1
-    buf[3] = x2
-    buf[4] = y2
+    buf[1].x = x1
+    buf[1].y = y1
+    buf[1].z = 0
+
+    buf[2].x = x2
+    buf[2].y = y2
+    buf[2].z = 0
 
     lines(buf)
 end
 
 function lines(vertices)
-    clr = stroke()
-    if clr then
-        meshLine.points = vertices
+    if stroke() then
+        meshLine.vertices = vertices
         meshLine:render(meshLine.shader, gl.GL_LINES)
     end
 end
 
 function polyline(vertices)
-    clr = stroke()
-    if clr then
-        meshPolyline.points = vertices
+    if stroke() then
+        meshPolyline.vertices = vertices
         meshPolyline:render(meshPolyline.shader, gl.GL_LINE_STRIP)
     end
 end
 
 function polygon(vertices)
-    clr = stroke()
-    if clr then
-        meshPolygon.points = vertices
+    if stroke() then
+        meshPolygon.vertices = vertices
         meshPolygon:render(meshPolygon.shader, gl.GL_LINE_LOOP)
     end
 end
 
-function rect(x, y, w, h)
-    meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+function rect(x, y, w, h, mode)
+    h = h or w
+    x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
+    
+    if fill() then
+        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+    end
+    if stroke() then
+        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, w, h)
+    end
 end
 
 function circle(x, y, r)
-    ellipse(x, y, r*2, r*2)
+    ellipse(x, y, r*2, r*2, circleMode())
 end
 
-function ellipse(x, y, w, h)
-    h = h or w 
-    meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+function ellipse(x, y, w, h, mode)
+    h = h or w
+    x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
+    
+    if fill() then
+        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+    end
+    if stroke() then
+        meshEllipseBorder:render(meshEllipseBorder.shader, gl.GL_LINE_LOOP, nil, x, y, w, h)
+    end
 end
 
-function sprite(img, x, y)
+function sprite(img, x, y, mode)    
     if type(img) == 'string' then
         img = image(img)
     end
     if img and img.surface then
+        x, y = centerFromCorner(mode or spriteMode(), x, y, img.surface.w, img.surface.h)
         meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
     end
 end
@@ -219,20 +263,19 @@ function fontSize(size)
     ft:setFontSize(size)
 end
 
-function text(str, x, y)
+function text(str, x, y, mode)
     str = tostring(str)
 
     x = x or 0
     y = y or TEXT_NEXT_Y
 
-    clr = stroke()
-    if clr then
+    if stroke() then
         local img = ft:getText(str)
 
+        x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
         TEXT_NEXT_Y = y - img.surface.h
+        
         meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, TEXT_NEXT_Y, img.surface.w, img.surface.h)
-
-        ft:releaseText(str)
     end
 end
 
@@ -240,12 +283,7 @@ function textSize(str)
     str = tostring(str)
 
     local img = ft:getText(str)
-    
-    local w, h = img.surface.w, img.surface.h
-
-    ft:releaseText(str)
-
-    return w, h
+    return img.surface.w, img.surface.h
 end
 
 function plane()
