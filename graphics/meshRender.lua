@@ -136,4 +136,12 @@ function MeshRender:sendUniforms(uniforms)
     if uniforms.fill and styles.attributes.fill then
         gl.glUniform4fv(uniforms.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
     end
+    
+    if uniforms.useColor then
+        if self.colors and #self.colors > 0 then
+            gl.glUniform1i(uniforms.useColor.uniformLocation, 1)
+        else
+           gl.glUniform1i(uniforms.useColor.uniformLocation, 0)
+        end
+    end
 end

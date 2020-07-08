@@ -227,8 +227,8 @@ function ellipse(x, y, w, h, mode)
 end
 
 function sprite(img, x, y, mode)    
-    if type(img) == 'string' then
-        img = image(img)
+    if type(img) == 'string' then        
+        img = resourceManager:get('image', img, image)        
     end
     if img and img.surface then
         x, y = centerFromCorner(mode or spriteMode(), x, y, img.surface.w, img.surface.h)
@@ -246,14 +246,6 @@ function spriteSize(img)
     return 0,0
 end
 
-function font(name)
-    ft:setFontName(name)
-end
-
-function fontSize(size)
-    ft:setFontSize(size)
-end
-
 function text(str, x, y, mode)
     str = tostring(str)
 
@@ -261,7 +253,7 @@ function text(str, x, y, mode)
     y = y or TEXT_NEXT_Y
 
     if stroke() then
-        local img = ft:getText(str)
+        local img = ft:getText(str).img
 
         x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
         TEXT_NEXT_Y = y - img.surface.h
@@ -273,7 +265,7 @@ end
 function textSize(str)
     str = tostring(str)
 
-    local img = ft:getText(str)
+    local img = ft:getText(str).img
     return img.surface.w, img.surface.h
 end
 

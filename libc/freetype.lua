@@ -45,10 +45,12 @@ end
 
 function FreeType:setFontName(fontName)
     self:setFont(fontName, self.fontSize)
+    return self.fontName
 end
 
 function FreeType:setFontSize(fontSize)
     self:setFont(self.fontName, fontSize)
+    return self.fontSize
 end
 
 DEFAULT_FONT_NAME = 'JetBrainsMono-Regular'

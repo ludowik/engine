@@ -20,7 +20,7 @@ function ResourceManager:get(resType, name, klass)
         self.resources[ref].frame = self.frame
     end
     
-    return self.resources[ref].resource:get()
+    return self.resources[ref].resource
 end
 
 function ResourceManager:update(dt)

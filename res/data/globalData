@@ -1,6 +1,6 @@
 return {
-    ["renderMode"] = "direct",
+    ["renderMode"] = "frame",
     ["minorVersion"] = 1,
-    ["appName"] = "legacy/sketches2d/primitives",
+    ["appName"] = "legacy/codea/roller coaster",
     ["majorVersion"] = 4,
 }

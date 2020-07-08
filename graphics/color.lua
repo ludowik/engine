@@ -22,29 +22,29 @@ mt.__index = function (v, key)
     end
 end
 
-mt.set = function (clr, r, g, b, a)
+function mt:set(r, g, b, a)
     if r == nil or type(r) == 'number' then
-        clr.r = r or 0
-        clr.g = g or clr.r
-        clr.b = b or clr.r
-        clr.a = a or (clr.r > 1 and 255 or 1)
+        self.r = r or 0
+        self.g = g or self.r
+        self.b = b or self.r
+        self.a = a or (self.r > 1 and 255 or 1)
     else
-        clr.r = r.r
-        clr.g = r.g
-        clr.b = r.b
-        clr.a = r.a
+        self.r = r.r
+        self.g = r.g
+        self.b = r.b
+        self.a = r.a
     end
 
-    if clr.r > 1 then
-        clr.r = clr.r / 255
-        clr.g = clr.g / 255
-        clr.b = clr.b / 255
-        clr.a = clr.a / 255
+    if self.r > 1 then
+        self.r = self.r / 255
+        self.g = self.g / 255
+        self.b = self.b / 255
+        self.a = self.a / 255
     end
-    return clr
+    return self
 end
 
-mt.clone = function (self)
+function mt:clone()
     return Color(self)
 end
 

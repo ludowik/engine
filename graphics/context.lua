@@ -16,15 +16,17 @@ function Context.setContext(context)
     assert(typeof(context) == 'image')
 
     if Context.currentContext == context then return end
-    if meshManager then meshManager:flush() end    
 
-    if context ~= renderFrame then
+    if context ~= engine.renderFrame then
         pushMatrix(true)
         resetMatrix(true)
+        
     elseif Context.currentContext then
         popMatrix(true)
     end
 
+    Context.closeCurrentContext()
+    
     Context.currentContext = context
 
     if context.framebufferName == nil then
@@ -46,9 +48,16 @@ function Context.setContext(context)
     ortho(0, context.width, 0, context.height)
 end
 
+function Context.closeCurrentContext()
+    if Context.currentContext and Context.currentContext ~= engine.renderFrame then
+        Context.currentContext:readPixels()
+    end
+    Context.currentContext  = nil
+end
+
 function Context.resetContext()
-    if renderFrame then
-        Context.setContext(renderFrame)
+    if engine.renderFrame then
+        Context.setContext(engine.renderFrame)
     else
         Context.noContext()
     end
@@ -56,8 +65,8 @@ end
 
 W_INFO = 0
 
-function Context.noContext()
-    Context.currentContext = nil
+function Context.noContext()    
+    Context.closeCurrentContext()
 
     gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
     Context.viewport(0, 0, W_INFO + W, H, config.highDPI)

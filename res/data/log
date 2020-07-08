@@ -1,3 +1,138 @@
-/Users/lca/Projets/Lua/engine
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/legacy/sketches2d/graphics2d
+load applications/legacy/sketches2d/horloge
+load applications/legacy/sketches2d/icons font
+load applications/legacy/sketches2d/lines
+load applications/legacy/sketches2d/logo
+load applications/legacy/sketches2d/mandelbrot
+load applications/legacy/sketches2d/maze
+load applications/legacy/sketches2d/physics2d
 load applications/legacy/sketches2d/primitives
-./graphics/style.lua:180: not implemented : supportedOrientations
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/sketches2d/reaction diffusion
+load applications/legacy/sketches2d/rose
+load applications/legacy/sketches2d/sandpiles
+load applications/legacy/sketches2d/snowflakes
+load applications/legacy/sketches2d/sparrows
+load applications/legacy/sketches2d/sponge
+load applications/legacy/sketches2d/squaregrid
+load applications/legacy/sketches2d/water
+load applications/legacy/sketches3d/cube minecraft
+load applications/legacy/sketches3d/cube wave
+load applications/legacy/sketches3d/graphics3d
+load applications/legacy/sketches3d/physics3d
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/sketches3d/solar system
+load applications/lines
+load applications/stars
+load applications/surface
+load applications/test
+load applications/blendmode
+load applications/default
+load applications/dots
+load applications/legacy/__shadertoy
+.\graphics\style.lua:192: not implemented : supportedOrientations
+switch applications/dots
+switch applications/legacy/__shadertoy
+load applications/legacy/appmanager
+load applications/legacy/apps/2048
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/apps/asteroid
+load applications/legacy/apps/bbtan
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/apps/calc
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/apps/freecell
+load applications/legacy/apps/icon
+load applications/legacy/apps/sudoku
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/apps/tetris
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/apps/triomino
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/codea/3d lab
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:196: not implemented : displayMode
+load applications/legacy/codea/animation
+.\graphics\style.lua:192: not implemented : supportedOrientations
+A demo showing how to use basic tweens
+1. tween.easing.linear
+2. tween.easing.quadInOut
+3. tween.easing.bounceOut
+load applications/legacy/codea/backgammon
+.\graphics\style.lua:196: not implemented : displayMode
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/codea/basic physics
+.\graphics\style.lua:192: not implemented : supportedOrientations
+Hello Physics!
+Touch the screen to make boxes
+load applications/legacy/codea/bezier
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/codea/blend modes
+This demonstrates blending modes. Blend modes determine how drawing operations blend together on-screen.
+nil
+The top pair of ellipses uses normal blending.
+nil
+The middle uses additive.
+nil
+And the bottom uses multiplicative blending.
+load applications/legacy/codea/brickout
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:196: not implemented : displayMode
+Tap the bat to lanch the ball.
+Drag om the screen to move the paddle
+When the game is over tap the screen to restart.
+load applications/legacy/codea/bubbles
+.\graphics\style.lua:196: not implemented : displayMode
+load applications/legacy/codea/cargo-bot
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:196: not implemented : displayMode
+load applications/legacy/codea/dungeon roller
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:196: not implemented : displayMode
+load applications/legacy/codea/fixedareabubble
+.\graphics\style.lua:196: not implemented : displayMode
+load applications/legacy/codea/gravity
+An example that shows how to use the Gravity vector
+load applications/legacy/codea/hammer
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:196: not implemented : displayMode
+load applications/legacy/codea/lines
+load applications/legacy/codea/mandelbrot
+.\graphics\style.lua:192: not implemented : supportedOrientations
+This program plots an image of the Mandelbrot set using the image() class.
+
+Tap anywhere in the window to zoom in, double-tap to zoom out.
+
+ManCalcTime is the time it takes to calculate the set membership and escape values.
+
+Parameter: RMode sets the type of color map the set is rendered with.
+
+Parameter: Resolution sets the level of image detail.
+Higher resolutions make prettier pictures at the expense of slower update.
+load applications/legacy/codea/orbital
+.\graphics\style.lua:196: not implemented : displayMode
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/codea/parameters
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:196: not implemented : displayMode
+Hello Parameters!
+X set to 800
+color{r=1, g=0.5, b=0, a=0.5}
+HasStroke toggled to true
+load applications/legacy/codea/physics
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/codea/physics lab
+.\graphics\style.lua:192: not implemented : supportedOrientations
+load applications/legacy/codea/roller coaster
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:192: not implemented : supportedOrientations
+.\graphics\style.lua:196: not implemented : displayMode
+release 28 fonts
+memory at init    : 0.78 mo
+memory min        : 0.78 mo
+memory max        : 73.00 mo
+memory variation  : 72.21 mo
+memory at release : 62.57 mo

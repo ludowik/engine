@@ -54,6 +54,9 @@ function popStyle()
     blendMode(styles.blendMode)
     cullingMode(styles.cullingMode)
     depthMode(styles.depthMode)
+    
+    font()
+    fontSize()
 end
 
 function resetStyle()
@@ -65,7 +68,8 @@ function resetStyle()
     depthMode(false)
     cullingMode(true)
 
-    fontSize(12)
+    font()
+    fontSize()
 end
 
 function style(size, clr1, clr2)
@@ -150,6 +154,14 @@ end
 
 function spriteMode(mode)
     return styles:setAttribute('spriteMode', mode)
+end
+
+function font(name)
+    return styles:setAttribute('fontName', ft:setFontName(name))
+end
+
+function fontSize(size)
+    return styles:setAttribute('fontSize', ft:setFontSize(size))
 end
 
 function textMode(mode)

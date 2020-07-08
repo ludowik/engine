@@ -21,7 +21,7 @@ mt.__index = function (v, key)
     end
 end
 
-mt.set = function (self, x, y, z)
+function mt:set(x, y, z)
     if x == nil or type(x) == 'number' then
         self.x = x or 0
         self.y = y or 0
@@ -34,11 +34,11 @@ mt.set = function (self, x, y, z)
     return self
 end
 
-mt.clone = function (self)
+function mt:clone()
     return vec3(self)
 end
 
-mt.random = function (self, w, h, d)
+function mt.random(w, h, d)
     if w then
         return vec3(
             random.range(w),
