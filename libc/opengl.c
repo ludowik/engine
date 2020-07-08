@@ -151,6 +151,9 @@ typedef intptr_t GLsizeiptr;
 #define GL_LEQUAL 0x0203
 #define GL_LESS 0x0201
 
+#define GL_FILL 0x1B02
+#define GL_LINE 0x1B01
+
 #define GL_FRAMEBUFFER 0x8D40
 #define GL_RENDERBUFFER 0x8D41
 
@@ -276,6 +279,8 @@ void glDepthFunc(GLenum func);
 void glCullFace(GLenum mode);
 void glFrontFace(GLenum mode);
 
+void glPolygonMode(GLenum face, GLenum mode);
+
 void glDrawArrays(GLenum mode, GLint first, GLsizei count);
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
 
@@ -384,6 +389,8 @@ typedef void (*PFN_glDepthFunc)(GLenum func);
 
 typedef void (*PFN_glCullFace)(GLenum mode);
 typedef void (*PFN_glFrontFace)(GLenum mode);
+
+typedef void (*PFN_glPolygonMode)(GLenum face, GLenum mode);
 
 typedef void (*PFN_glDrawArrays)(GLenum mode, GLint first, GLsizei count);
 typedef void (*PFN_glDrawElements)(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);

@@ -1,6 +1,6 @@
 return {
     ["renderMode"] = "frame",
     ["minorVersion"] = 1,
-    ["appName"] = "legacy/codea/roller coaster",
+    ["appName"] = "test",
     ["majorVersion"] = 4,
 }

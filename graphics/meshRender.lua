@@ -69,7 +69,7 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 
         local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
         assert(vertexAttrib, shader.name..':'..#self.vertices)
-        
+
         local colorAttrib = self:sendAttribute('color', self.colors, 4)
         local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
 
@@ -104,7 +104,52 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
             gl.glUniform3f(shader.uniforms.size.uniformLocation, w, h, 1)
         end
 
-        gl.glDrawArrays(drawMode, 0, #self.vertices)
+
+        -- TODO gérer les indices
+--        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.buffers.indices)
+--        gl.bufferData(gl.GL_ELEMENT_ARRAY_BUFFER,
+--            self:bufferData(
+--                Uint16Array,
+--                'indices',
+--                1),
+--            gl.GL_STATIC_DRAW)
+
+--        vertexCount = #self.indices
+--        dataType = gl.GL_UNSIGNED_SHORT
+--        offset = 0
+
+--        gl.glDrawElementsInstanced(self.drawMode, vertexCount, dataType, gl.glBufferOffset(offset), 1)
+
+        -- TODO gérer le multi-instances
+--        local offset = 0
+--        for i=0,3 do
+--            gl.glVertexAttribPointer(LOCATION_INSTANCE_MODEL_MATRIX+i, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
+--            gl.glVertexAttribDivisor(LOCATION_INSTANCE_MODEL_MATRIX+i, 1)
+--            gl.glEnableVertexAttribArray(LOCATION_INSTANCE_MODEL_MATRIX+i)
+
+--            offset = offset + floatSize4
+--        end
+
+--        gl.glVertexAttribPointer(LOCATION_INSTANCE_COLORS, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
+--        gl.glVertexAttribDivisor(LOCATION_INSTANCE_COLORS, 1)
+--        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_COLORS)
+--        offset = offset + floatSize4
+
+--        gl.glVertexAttribPointer(LOCATION_INSTANCE_WIDTH, 1, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
+--        gl.glVertexAttribDivisor(LOCATION_INSTANCE_WIDTH, 1)
+--        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_WIDTH)
+
+        config.wireframe = 'fill'
+
+        if img and shader.uniforms.tex0 or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
+            gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+            gl.glDrawArrays(drawMode, 0, #self.vertices)
+        end
+
+        if img == nil and (config.wireframe == 'line' or config.wireframe == 'fill&line') then
+            gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
+            gl.glDrawArrays(drawMode, 0, #self.vertices)
+        end
 
         if img then
             img:unuse()
@@ -136,12 +181,12 @@ function MeshRender:sendUniforms(uniforms)
     if uniforms.fill and styles.attributes.fill then
         gl.glUniform4fv(uniforms.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
     end
-    
+
     if uniforms.useColor then
         if self.colors and #self.colors > 0 then
             gl.glUniform1i(uniforms.useColor.uniformLocation, 1)
         else
-           gl.glUniform1i(uniforms.useColor.uniformLocation, 0)
+            gl.glUniform1i(uniforms.useColor.uniformLocation, 0)
         end
     end
 end

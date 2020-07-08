@@ -38,6 +38,37 @@ function mt.set(self, ...)
     self.values = {...}
 end
 
+function mt.random()
+    local m = matrix()
+    for i=0,15 do
+        m.values[i] = random(100)
+    end
+    return m
+end
+
+function mt:transpose()
+    local m = matrix()
+    for x=0,3 do
+        for y=0,3 do
+            m.values[y*4+x] = self.values[x*4+y]
+        end
+    end
+
+    return m
+end
+
+function mt:__eq(mat)
+    if not self or not mat then return false end
+        
+    for i=0,15 do
+        if self[i] ~= mat[i] then
+            return false
+        end
+    end
+
+    return true
+end
+
 function mt.scale(...)
     local m2 = matrix()
     local values = m2.values
@@ -187,7 +218,8 @@ end
 
 meta_matrix = ffi.metatype('matrix', mt)
 
-function matrix(i0, ...)
+class 'matrix' : meta(meta_matrix)
+function matrix:init(i0, ...)
     local mat
     if i0 == nil then
         mat = meta_matrix()
@@ -201,3 +233,27 @@ function matrix(i0, ...)
     return mat
 end
 
+function matrix.test()
+    -- TODO
+    local m = matrix()
+    assert(m == m)
+    assert(matrix():__eq(matrix()))
+
+    local function assertMatrixIdentity(m)    
+        for i=1,16 do
+            if i == 1 or i == 6 or i == 11 or i == 16 then
+                assert(m[i] == 1)
+            else
+                assert(m[i] == 0)
+            end
+        end
+    end
+
+    assertMatrixIdentity(matrix())
+
+--    translate(1, 2, 3)
+    local m = matrix():translate(1, 2, 3)
+    
+    m = matrix.random()
+    assert(m:transpose():transpose() == m)
+end

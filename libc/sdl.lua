@@ -90,9 +90,12 @@ function Sdl:update(dt)
         if event.type == self.SDL_WINDOWEVENT then
             if event.window.event == self.SDL_WINDOWEVENT_CLOSE then
                 engine.quit()
+
+            elseif event.window.event == sdl.SDL_WINDOWEVENT_RESIZED then
+                -- TODO
             end
 
-        elseif event.type == self.SDL_KEYDOWN then
+        elseif event.type == self.SDL_KEYDOWN or event.type == sdl.SDL_TEXTINPUT then
             local key = ffi.string(self.SDL_GetScancodeName(event.key.keysym.scancode))
             if key:len() <= 1 then
                 key = ffi.string(self.SDL_GetKeyName(event.key.keysym.sym))
@@ -100,6 +103,9 @@ function Sdl:update(dt)
             key = key:lower()
 
             engine:keydown(key)
+
+        elseif event.type == sdl.SDL_KEYUP then
+            -- DODO
 
         elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
             mouse:mouseEvent(
@@ -130,7 +136,8 @@ function Sdl:update(dt)
                 0, 0,
                 event.button.button)
 
-
+        elseif event.type == sdl.SDL_MOUSEWHEEL  then
+            -- TODO
         end
     end
 end

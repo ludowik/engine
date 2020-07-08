@@ -172,6 +172,11 @@ function points(vertices, ...)
 end
 
 function line(x1, y1, x2, y2)
+    -- TODO
+--    local mode = lineCapMode()
+--    ROUND
+--    PROJECT
+    
     buf[1] = vec3(x1, y1, 0)
     buf[2] = vec3(x2, y2, 0)
     lines(buf)

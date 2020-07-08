@@ -125,6 +125,35 @@ function Image:makeTexture(surface)
     return self
 end
 
+function Image:loadSubPixels(pixels, formatRGB, x, y, w, h, texParam, texClamp)
+    -- TODO
+    texParam = texParam or getTexParam() or gl.GL_LINEAR
+    texClamp = texClamp or getTexClamp() or gl.GL_CLAMP_TO_EDGE
+
+    self:use()
+    do
+        formatRGB = formatRGB or gl.GL_RGBA
+
+        gl.glTexSubImage2D(gl.GL_TEXTURE_2D,
+            0, -- level
+            x, y,
+            w, h,
+            formatRGB, gl.GL_UNSIGNED_BYTE,
+            pixels)
+        
+        gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1)
+
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, texParam)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, texParam)
+
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, texClamp)
+        gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, texClamp)
+    end
+    self:unuse()
+
+    return true
+end
+
 function Image:readPixels(formatAlpha, formatRGB)
     formatRGB = formatRGB or gl.GL_RGBA
 
@@ -326,4 +355,22 @@ function Image.attachTexture2D(renderedTexture)
 
     -- Set the list of draw buffers
     gl.glDrawBuffer(gl.GL_COLOR_ATTACHMENT0)
+end
+
+function Image:save(imageName, ext)
+    -- TODO
+    local pixels = self:readPixels()
+
+    local rmask = 0x000000ff
+    local gmask = 0x0000ff00
+    local bmask = 0x00ff0000
+    local amask = 0xff000000
+
+    local surface = sdl.SDL_CreateRGBSurfaceFrom(pixels, self.width, self.height, 32, 4*self.width, rmask, gmask, bmask, amask)
+    if surface ~= NULL then
+        self:reverseSurface(surface, 4)
+
+        sdl.image.IMG_SavePNG(surface, getFullPath(image.getPath(imageName, ext)))
+        self:freeSurface(surface)
+    end
 end

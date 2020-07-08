@@ -55,6 +55,16 @@ function mt:__tostring()
 end
 mt.tostring = mt.__tostring
 
+function mt.__eq(v1, v2)
+    if (v1 and
+        v2 and
+        v1.x == v2.x and
+        v1.y == v2.y)
+    then
+        return true
+    end
+end
+
 mt.len = function (self)
     return math.sqrt(
         self.x^2 +
@@ -159,10 +169,23 @@ function mt:angleBetween(other)
     return alpha2 - alpha1
 end
 
-function mt.from(v1, v2)
+mt.dot = function (self, v)
+    return (
+        self.x * v.x +
+        self.y * v.y
+    )
+end
+
+function mt:floor()
     return vec2(
-        v1.x - v2.x,
-        v1.y - v2.y)
+        floor(self.x),
+        floor(self.y))
+end
+
+function mt:cross(v)
+    return vec2(
+        self.y * v.z - self.z * v.y,
+        self.z * v.x - self.x * v.z)
 end
 
 mt.tobytes = function (v)
@@ -258,4 +281,16 @@ __vec2 = ffi.metatype('vec2', mt)
 class 'vec2' : meta(__vec2)
 function vec2:init(x, y)
     return __vec2():set(x, y)
+end
+
+function vec2.test()
+    assert(vec2() == vec2(0, 0))
+    assert(vec2(1) == vec2(1,0))
+    assert(vec2(1,2) == vec2(1,2))
+    assert(vec2():normalize() == vec2(0, 0))
+    assert(vec2(1,0):len() == 1)
+    assert(vec2(0,1):len() == 1)
+    assert(vec2(1,1):mul(2) == vec2(2,2))
+    assert(vec2(1,2).x == vec2(1,2)[1])
+    assert(vec2(1,2).y == vec2(1,2)[2])
 end

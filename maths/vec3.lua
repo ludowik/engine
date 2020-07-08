@@ -61,6 +61,24 @@ function mt:__tostring()
 end
 mt.tostring = mt.__tostring
 
+function mt.__eq(v1, v2)
+    if (v1 and
+        v2 and
+        v1.x == v2.x and
+        v1.y == v2.y and
+        v1.z == v2.z)
+    then
+        return true
+    end
+end
+
+function mt:floor()
+    return vec3(
+        floor(self.x),
+        floor(self.y),
+        floor(self.z))
+end
+
 mt.len = function (self)
     return math.sqrt(self.x^2 + self.y^2 + self.z^2)
 end
@@ -94,6 +112,13 @@ end
 
 mt.__sub = function (self, v)
     return self:clone():sub(v)
+end
+
+function mt.unm(p)
+    p.x = -p.x
+    p.y = -p.y
+    p.z = -p.z
+    return p
 end
 
 mt.__unm = function (self, v)
@@ -200,6 +225,7 @@ mt.unpack = function (v)
 end
 
 function mt.draw()
+    -- TODO
 end
 
 __vec3 = ffi.metatype('vec3', mt)
@@ -214,4 +240,18 @@ function xyz(x, y, z, coef)
         return x.x, x.y, x.z or 0, y or 1
     end
     return x or 0, y or 0, z or 0, coef or 1
+end
+
+function vec3.test()
+    assert(vec3() == vec3(0, 0))
+    assert(vec3(1) == vec3(1,0))
+    assert(vec3(1,2) == vec3(1,2))
+    assert(vec3():normalize() == vec3(0, 0))
+    assert(vec3():normalizeInPlace() == vec3(0, 0))
+    assert(vec3(1,0):len() == 1)
+    assert(vec3(0,1):len() == 1)
+    assert(vec3(1,1):mul(2) == vec3(2,2))
+    assert(vec3(1,2,3).x == vec3(1,2,3)[1])
+    assert(vec3(1,2,3).y == vec3(1,2,3)[2])
+    assert(vec3(1,2,3).z == vec3(1,2,3)[3])
 end

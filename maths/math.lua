@@ -103,3 +103,23 @@ function math.fract(x)
     return x - floor(x)
 end
 fract = math.fract
+
+class('__math')
+
+function __math.test()
+    ut.assertEqual('min', min(1,9), 1)
+    ut.assertEqual('max', max(1,9), 9)
+
+    ut.assertEqual('tointeger', tointeger(1.9), 1)
+
+    ut.assertEqual('round.down', round(1), 1)
+    ut.assertEqual('round.down', round(1.4), 1)
+
+    ut.assertEqual('round.up', round(1.5), 2)
+    ut.assertEqual('round.up', round(1.9), 2)
+    ut.assertEqual('round.up', round(2), 2)
+
+    ut.assertEqual('tau', TAU, math.pi * 2)
+
+    ut.assertBetween('random', random(), 0, 1)
+end

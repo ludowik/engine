@@ -82,6 +82,7 @@ function OpenGL:loadProcAdresses()
         'glGetActiveUniformName',
 
         -- draw
+        'glPolygonMode',
         'glDrawArrays',
 
         -- uniform
