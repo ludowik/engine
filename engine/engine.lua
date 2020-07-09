@@ -44,7 +44,12 @@ function Engine:init()
         tween.setup()
     end
 
-    W = 1600
+    if jit.os == 'osx' then
+        W = 1600
+    else
+        W = 1024
+    end
+    
     H = math.floor(W*9/16)
 
     WIDTH = W

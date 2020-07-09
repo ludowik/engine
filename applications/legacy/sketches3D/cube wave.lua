@@ -23,6 +23,9 @@ function appCubeWave:draw()
     light(true)
 
     isometric(self.zoom)
+    
+    depthMode(true)
+    cullingMode(true)
 
     local n = self.n * 2 + 1
 

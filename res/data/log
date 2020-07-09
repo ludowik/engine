@@ -1,8 +1,2 @@
-/Users/lca/Projets/Lua/engine
-load applications/legacy/sketches3d/sponge
-release 2 fonts
-memory at init    : 0.73 mo
-memory min        : 0.73 mo
-memory max        : 12.89 mo
-memory variation  : 12.16 mo
-memory at release : 10.21 mo
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/legacy/apps/icon

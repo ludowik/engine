@@ -63,3 +63,19 @@ function Node:draw()
         end
     end
 end
+
+function Node:setLayoutFlow(layoutFlow, layoutParam)
+    self.layoutFlow = layoutFlow
+    self.layoutParam = layoutParam
+    return self
+end
+
+function Node:layout()
+    if self.layoutFlow then
+        self.layoutFlow(self, self.layoutParam)
+    end
+end
+
+function Node:computeSize()
+    self:layout()
+end

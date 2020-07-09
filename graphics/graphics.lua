@@ -118,7 +118,7 @@ function depthMode(mode)
 
         if mode then
             gl.glEnable(gl.GL_DEPTH_TEST)
-            gl.glDepthFunc(gl.GL_LEQUAL)
+            gl.glDepthFunc(gl.GL_LESS)
         else
             gl.glDisable(gl.GL_DEPTH_TEST)
         end
@@ -208,10 +208,10 @@ function rect(x, y, w, h, mode)
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
     
     if fill() then
-        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
     end
     if stroke() then
-        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, w, h)
+        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
     end
 end
 
@@ -224,10 +224,10 @@ function ellipse(x, y, w, h, mode)
     x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
     
     if fill() then
-        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
     end
     if stroke() then
-        meshEllipseBorder:render(meshEllipseBorder.shader, gl.GL_LINE_LOOP, nil, x, y, w, h)
+        meshEllipseBorder:render(meshEllipseBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
     end
 end
 
@@ -237,7 +237,7 @@ function sprite(img, x, y, mode)
     end
     if img and img.surface then
         x, y = centerFromCorner(mode or spriteMode(), x, y, img.surface.w, img.surface.h)
-        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, img.surface.w, img.surface.h, 1)
     end
 end
 
@@ -263,7 +263,7 @@ function text(str, x, y, mode)
         x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
         TEXT_NEXT_Y = y - img.surface.h
         
-        meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, TEXT_NEXT_Y, img.surface.w, img.surface.h)
+        meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, TEXT_NEXT_Y, 0, img.surface.w, img.surface.h, 1)
     end
 end
 
@@ -287,7 +287,7 @@ function box(img, w, h, d)
     h = h or w
     d = d or w
     
-    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img)
+    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, 0, w, h, d)
 end
 
 function sphere()

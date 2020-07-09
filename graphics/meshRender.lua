@@ -49,14 +49,17 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
     end
 end
 
-function MeshRender:render(shader, drawMode, img, x, y, w, h)
+function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
     assert(shader)
     assert(drawMode)
 
     x = x or 0
     y = y or 0
+    z = z or 0
+    
     w = w or 1
     h = h or 1
+    d = d or 1
 
     self.shader = shader
 
@@ -77,8 +80,16 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
         local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
 
         if img and shader.uniforms.tex0 then
+            if shader.uniforms.useTexture then
+                gl.glUniform1i(shader.uniforms.useTexture.uniformLocation, 1)
+            end
+            
             gl.glUniform1i(shader.uniforms.tex0.uniformLocation, 0)
             img:use(gl.GL_TEXTURE0)
+        else
+            if shader.uniforms.useTexture then
+                gl.glUniform1i(shader.uniforms.useTexture.uniformLocation, 0)
+            end
         end
 
         if shader.uniforms.matrixPV then
@@ -100,11 +111,11 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
         end
 
         if shader.uniforms.pos then
-            gl.glUniform3f(shader.uniforms.pos.uniformLocation, x, y, 0)
+            gl.glUniform3f(shader.uniforms.pos.uniformLocation, x, y, z)
         end
 
         if shader.uniforms.size then
-            gl.glUniform3f(shader.uniforms.size.uniformLocation, w, h, 1)
+            gl.glUniform3f(shader.uniforms.size.uniformLocation, w, h, d)
         end
 
 

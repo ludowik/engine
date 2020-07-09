@@ -2,6 +2,7 @@ uniform vec4 fill;
 uniform vec4 stroke;
 
 uniform int useColor;
+uniform int useTexture;
 
 in vec4 vColor;
 
