@@ -76,7 +76,7 @@ function update(dt)
                     local attraction = map(dist, minDist, maxDist, 1, 0.5)
                     force = force + attraction
 
-                    local direction = s1:from(s2):normalizeInPlace(100 * attraction)
+                    local direction = s1:set(s2):normalizeInPlace(100 * attraction)
                     
                     s1.force:sub(direction)
                     s2.force:add(direction)

@@ -234,7 +234,6 @@ function matrix:init(i0, ...)
 end
 
 function matrix.test()
-    -- TODO
     local m = matrix()
     assert(m == m)
     assert(matrix():__eq(matrix()))
@@ -251,7 +250,6 @@ function matrix.test()
 
     assertMatrixIdentity(matrix())
 
---    translate(1, 2, 3)
     local m = matrix():translate(1, 2, 3)
     
     m = matrix.random()

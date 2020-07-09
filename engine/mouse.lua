@@ -12,7 +12,7 @@ function Mouse:init()
 
     self.x = 0
     self.y = 0
-    
+
     self.deltaX = 0
     self.deltaY = 0
 
@@ -25,7 +25,7 @@ end
 
 function Mouse:mouseEvent(id, status, x, y, dx, dy, isTouch)
     mouse.id = id
-    
+
     mouse.status = status
 
     mouse.x = x
@@ -35,8 +35,12 @@ function Mouse:mouseEvent(id, status, x, y, dx, dy, isTouch)
     mouse.deltaY = dy
 
     mouse.isTouch = isTouch
-    
+
     engine:touched(self)
+end
+
+function Mouse:mouseWheel(id, dx, dy)
+    engine:mouseWheel(dx, dy)
 end
 
 mouse = Mouse()

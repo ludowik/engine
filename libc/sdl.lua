@@ -84,6 +84,15 @@ function Sdl:release()
     self.SDL_Quit()
 end
 
+function Sdl:scancode2key(event)
+    local key = ffi.string(self.SDL_GetScancodeName(event.key.keysym.scancode))
+    if key:len() <= 1 then
+        key = ffi.string(self.SDL_GetKeyName(event.key.keysym.sym))
+    end
+    key = key:lower()
+    return key
+end
+
 local event = ffi.new('SDL_Event')
 function Sdl:update(dt)
     while self.SDL_PollEvent(event) == 1 do
@@ -96,16 +105,10 @@ function Sdl:update(dt)
             end
 
         elseif event.type == self.SDL_KEYDOWN or event.type == sdl.SDL_TEXTINPUT then
-            local key = ffi.string(self.SDL_GetScancodeName(event.key.keysym.scancode))
-            if key:len() <= 1 then
-                key = ffi.string(self.SDL_GetKeyName(event.key.keysym.sym))
-            end
-            key = key:lower()
-
-            engine:keydown(key)
+            engine:keydown(self:scancode2key(event))
 
         elseif event.type == sdl.SDL_KEYUP then
-            -- DODO
+            engine:keyup(self:scancode2key(event))
 
         elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
             mouse:mouseEvent(
@@ -137,7 +140,8 @@ function Sdl:update(dt)
                 event.button.button)
 
         elseif event.type == sdl.SDL_MOUSEWHEEL  then
-            -- TODO
+            mouse:mouseWheel(1, event.wheel.x, event.wheel.y)
+
         end
     end
 end

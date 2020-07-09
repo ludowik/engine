@@ -224,7 +224,8 @@ mt.unpack = function (v)
     return v.x, v.y
 end
 
-function mt.draw()
+function mt.draw(v)
+    point(v.x, v.y)
 end
 
 local ORDER = 'counter-clockwise'
@@ -274,6 +275,14 @@ function isInsideTriangle(v, v1, v2, v3)
     end
 
     return true
+end
+
+function xy(x, y, coef)
+    assert(coef == nil)
+    if type(x) == 'table' or type(x) == 'cdata' then 
+        return x.x, x.y, y or 1
+    end
+    return x or 0, y or 0, coef or 1
 end
 
 __vec2 = ffi.metatype('vec2', mt)

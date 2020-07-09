@@ -1,5 +1,5 @@
 function setup()
-    camera(0, 0, 20)
+    camera(0, 0, -20)
 
     boxes = Table()
     boxes:add(Box(0, 0, 0, 3))

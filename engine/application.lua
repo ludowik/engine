@@ -41,11 +41,27 @@ function Application:__collide(...)
     end
 end
 
+function Application:__keyboard(...)
+    if _G.env.keyboard then
+        _G.env.keyboard(...)
+    else
+        self:keyboard(...)
+    end
+end
+
 function Application:__touched(...)
     if _G.env.touched then
         _G.env.touched(...)
     else
         self:touched(...)
+    end
+end
+
+function Application:__mouseWheel(...)
+    if _G.env.mouseWheel then
+        _G.env.mouseWheel(...)
+    else
+        self:mouseWheel(...)
     end
 end
 
@@ -67,7 +83,13 @@ end
 function Application:collide(...)
 end
 
+function Application:keyboard(key)
+end
+
 function Application:touched(touch)
+end
+
+function Application:mouseWheel(dx, dy)
 end
 
 function application(name)

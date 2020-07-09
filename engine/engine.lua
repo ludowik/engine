@@ -68,6 +68,8 @@ function Engine:initEvents()
 
             ['f2'] = Engine.toggleRenderMode,
             ['f3'] = Engine.toggleRenderVersion,
+        },
+        keyup = {
         }
     }
 end
@@ -104,7 +106,7 @@ function Engine:run(appName)
 
         while self.active == 'running' do
             self.frame_time:update()
-            
+
             deltaTime = deltaTime + self.frame_time.delta_time
 
             local maxDeltaTime = 1 / self.fpsTarget
@@ -120,7 +122,7 @@ function Engine:run(appName)
 
                 DeltaTime = maxDeltaTime
                 ElapsedTime = self.frame_time.elapsed_time
-                
+
                 self:update(DeltaTime)
                 self:draw()
 
@@ -259,12 +261,22 @@ function Engine:keydown(key)
     if self.onEvents.keydown[key] then
         self.onEvents.keydown[key](self)
     else
-        print(string.format('no action for {key}', {key=key}))
+        engine.app:__keyboard(key)
     end
 end
 
-function Engine:touched(touch)
-    engine.app:__touched(touch)
+function Engine:keyup(key)
+    if self.onEvents.keyup[key] then
+        self.onEvents.keyup[key](self)
+    end
+end
+
+function Engine:touched(...)
+    engine.app:__touched(...)
+end
+
+function Engine:mouseWheel(...)
+    engine.app:__mouseWheel(...)
 end
 
 function Engine:dirApps()
@@ -328,10 +340,10 @@ end
 function Engine:loopAppProc()
     if self.loopFrame <= 0 then
         self:nextApp()
-        
+
         self.loopApp = self.loopApp - 1
         self.loopFrame = 10
-        
+
         if self.loopApp == 0 then
             self.action = nil
         end

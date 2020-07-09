@@ -277,12 +277,17 @@ end
 function plane()
 end
 
-function box(img, x, y, z)
+function box(img, w, h, d)
     if type(img) == 'number' then
-        x, y, z = img, x, y
+        w, h, d = img, w, h
         img = nil
     end
-    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, x, y)
+    
+    w = w or 1
+    h = h or w
+    d = d or w
+    
+    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img)
 end
 
 function sphere()

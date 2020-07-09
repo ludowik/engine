@@ -224,8 +224,11 @@ mt.unpack = function (v)
     return v.x, v.y, v.z
 end
 
-function mt.draw()
-    -- TODO
+function mt.draw(v)
+    pushMatrix()
+    translate(v.x, v.y, v.z)
+    sphere(1)
+    popMatrix()
 end
 
 __vec3 = ffi.metatype('vec3', mt)
@@ -236,6 +239,7 @@ function vec3:init(x, y, z)
 end
 
 function xyz(x, y, z, coef)
+    assert(coef == nil)
     if type(x) == 'table' or type(x) == 'cdata' then 
         return x.x, x.y, x.z or 0, y or 1
     end

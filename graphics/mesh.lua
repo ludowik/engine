@@ -127,7 +127,7 @@ function Mesh:setRectTex(idx, s, t, w, h)
     local th = t+h
     local sw = s+w
 
-    self.texCoords = self.texCoords or {}
+    self.texCoords = self.texCoords or Buffer('vec2')
 
     self.texCoords[idx+0] = vec2(s , th)
     self.texCoords[idx+1] = vec2(s , t)
@@ -142,7 +142,7 @@ function Mesh:setRectColor(idx, ...)
 
     local clr = Color(...)
 
-    self.colors = self.colors or {}
+    self.colors = self.colors or Buffer('color')
     for i = idx, idx+5 do
         self.colors[i] = clr
     end

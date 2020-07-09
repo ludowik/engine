@@ -11,10 +11,13 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
 
         local n = #buffer
 
-        -- TODO : gérer la version correctement
-        if true or not attribute.sent or attribute.sent ~= n or attribute.version ~= buffer.version then
+        if (attribute.sent == nil or attribute.sent ~= n or
+            buffer.id == nil or buffer.id ~= attribute.bufferId or
+            buffer.version == nil or buffer.version ~= attribute.bufferVersion)
+        then
             attribute.sent = n
-            attribute.version = buffer.version
+            attribute.bufferVersion = buffer.version
+            attribute.bufferId = buffer.id
 
             local bytes
             if type(buffer) == 'table' then
@@ -106,38 +109,38 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 
 
         -- TODO gérer les indices
---        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.buffers.indices)
---        gl.bufferData(gl.GL_ELEMENT_ARRAY_BUFFER,
---            self:bufferData(
---                Uint16Array,
---                'indices',
---                1),
---            gl.GL_STATIC_DRAW)
+        --        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.buffers.indices)
+        --        gl.bufferData(gl.GL_ELEMENT_ARRAY_BUFFER,
+        --            self:bufferData(
+        --                Uint16Array,
+        --                'indices',
+        --                1),
+        --            gl.GL_STATIC_DRAW)
 
---        vertexCount = #self.indices
---        dataType = gl.GL_UNSIGNED_SHORT
---        offset = 0
+        --        vertexCount = #self.indices
+        --        dataType = gl.GL_UNSIGNED_SHORT
+        --        offset = 0
 
---        gl.glDrawElementsInstanced(self.drawMode, vertexCount, dataType, gl.glBufferOffset(offset), 1)
+        --        gl.glDrawElementsInstanced(self.drawMode, vertexCount, dataType, gl.glBufferOffset(offset), 1)
 
         -- TODO gérer le multi-instances
---        local offset = 0
---        for i=0,3 do
---            gl.glVertexAttribPointer(LOCATION_INSTANCE_MODEL_MATRIX+i, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
---            gl.glVertexAttribDivisor(LOCATION_INSTANCE_MODEL_MATRIX+i, 1)
---            gl.glEnableVertexAttribArray(LOCATION_INSTANCE_MODEL_MATRIX+i)
+        --        local offset = 0
+        --        for i=0,3 do
+        --            gl.glVertexAttribPointer(LOCATION_INSTANCE_MODEL_MATRIX+i, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
+        --            gl.glVertexAttribDivisor(LOCATION_INSTANCE_MODEL_MATRIX+i, 1)
+        --            gl.glEnableVertexAttribArray(LOCATION_INSTANCE_MODEL_MATRIX+i)
 
---            offset = offset + floatSize4
---        end
+        --            offset = offset + floatSize4
+        --        end
 
---        gl.glVertexAttribPointer(LOCATION_INSTANCE_COLORS, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
---        gl.glVertexAttribDivisor(LOCATION_INSTANCE_COLORS, 1)
---        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_COLORS)
---        offset = offset + floatSize4
+        --        gl.glVertexAttribPointer(LOCATION_INSTANCE_COLORS, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
+        --        gl.glVertexAttribDivisor(LOCATION_INSTANCE_COLORS, 1)
+        --        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_COLORS)
+        --        offset = offset + floatSize4
 
---        gl.glVertexAttribPointer(LOCATION_INSTANCE_WIDTH, 1, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
---        gl.glVertexAttribDivisor(LOCATION_INSTANCE_WIDTH, 1)
---        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_WIDTH)
+        --        gl.glVertexAttribPointer(LOCATION_INSTANCE_WIDTH, 1, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
+        --        gl.glVertexAttribDivisor(LOCATION_INSTANCE_WIDTH, 1)
+        --        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_WIDTH)
 
         config.wireframe = 'fill'
 

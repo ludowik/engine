@@ -14,6 +14,8 @@ buffer_meta = {}
 
 function buffer_meta.__init(buffer, buffer_class)
     buffer.ct = buffer_class.ct
+    
+    buffer.id = id('buffer')
 
     buffer.available = 4
 
@@ -65,9 +67,9 @@ function buffer_meta.__newindex(buffer, key, value)
             buffer:resize(max(buffer.available * 2, key))
         end
 
-        buffer.n = max(buffer.n, key)
         buffer.data[key-1] = value
 
+        buffer.n = max(buffer.n, key)
         buffer.version = buffer.version +1
 
     else
@@ -91,11 +93,15 @@ buffer_meta.add = buffer_meta.insert
 
 function buffer_meta.addItems(buffer, buf2)
     local n = buffer.n + buf2.n
+
     if buffer.available < n then
         buffer:resize(max(buffer.available * 2, n))
     end
+
     ffi.C.memcpy(buffer:addr(buffer.n), buf2:addr(0), buf2.sizeof_ctype * buf2.n)
+
     buffer.n = n
+    buffer.version = buffer.version +1
 end
 
 function buffer_meta.remove(buffer, i)
@@ -104,11 +110,13 @@ function buffer_meta.remove(buffer, i)
             ffi.C.memmove(buffer:addr(i-1), buffer:addr(i), buffer.sizeof_ctype * (buffer.n-i))
         end
         buffer.n = buffer.n - 1
+        buffer.version = buffer.version +1
     end
 end
 
 function buffer_meta.reset(buffer)
     buffer.n = 0
+    buffer.version = buffer.version +1
 end
 
 function buffer_meta.sizeof(buffer)
@@ -167,6 +175,7 @@ function Buffer(ct, data, ...)
             struct = [[
             typedef struct buffer_{ct} {
                 const char* ct;
+                int id;
                 int available;
                 int sizeof_ctype;
                 int size;

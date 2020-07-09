@@ -276,6 +276,16 @@ typedef struct SDL_MouseButtonEvent {
     Sint32 y;
 } SDL_MouseButtonEvent;
 
+typedef struct SDL_MouseWheelEvent {
+    Uint32 type;
+    Uint32 timestamp;
+    Uint32 windowID;
+    Uint32 which;
+    Sint32 x;
+    Sint32 y;
+    Uint32 direction;
+} SDL_MouseWheelEvent;
+
 typedef union SDL_Event {
     Uint32 type;
     SDL_WindowEvent window;
@@ -283,6 +293,7 @@ typedef union SDL_Event {
     SDL_KeyboardEvent key;
     SDL_TouchFingerEvent tfinger;
     SDL_MouseButtonEvent button;
+    SDL_MouseWheelEvent wheel;
     Uint8 padding[56];
 } SDL_Event;
 

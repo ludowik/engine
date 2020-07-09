@@ -18,7 +18,7 @@ function Monster:init(hero, pos)
 end
 
 function Monster:moveToHero()
-    local line = self.hero.position:from(self.position):normalizeInPlace(2)
+    local line = self.hero.position:set(self.position):normalizeInPlace(2)
     
     self.position:add(line)
 end
