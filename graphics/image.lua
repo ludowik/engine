@@ -42,16 +42,16 @@ end
 
 function Image:create(w, h)
     local surface = {
-        w = w,
-        h = h,
-
-        size = w * h * 4,
+        w = max(1, w),
+        h = max(1, h),
 
         format = {
             BytesPerPixel = 4,
             Rmask = 0xff
         }
     }
+    
+    surface.size = surface.w * surface.h * 4
 
     surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
 
@@ -125,8 +125,8 @@ function Image:makeTexture(surface)
     return self
 end
 
+-- TODO
 function Image:loadSubPixels(pixels, formatRGB, x, y, w, h, texParam, texClamp)
-    -- TODO
     texParam = texParam or getTexParam() or gl.GL_LINEAR
     texClamp = texClamp or getTexClamp() or gl.GL_CLAMP_TO_EDGE
 
@@ -140,7 +140,7 @@ function Image:loadSubPixels(pixels, formatRGB, x, y, w, h, texParam, texClamp)
             w, h,
             formatRGB, gl.GL_UNSIGNED_BYTE,
             pixels)
-        
+
         gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1)
 
         gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, texParam)
@@ -210,13 +210,6 @@ function Image:reversePixels(pixels, w, h, bytesPerPixel)
     end
 
     debugger.on()
-end
-
-function Image:release()
-    gl.glDeleteTexture(self.texture_id)
-
-    -- Need to delete surface
-    self.surface.pixels = nil
 end
 
 function Image:use(index)
@@ -357,8 +350,15 @@ function Image.attachTexture2D(renderedTexture)
     gl.glDrawBuffer(gl.GL_COLOR_ATTACHMENT0)
 end
 
+function Image:release()
+    gl.glDeleteTexture(self.texture_id)
+
+    -- Need to delete surface
+    self.surface.pixels = nil
+end
+
+-- TODO 
 function Image:save(imageName, ext)
-    -- TODO
     local pixels = self:readPixels()
 
     local rmask = 0x000000ff

@@ -2,7 +2,7 @@ class('ColorPicker', UI, Bind)
 
 function ColorPicker:init(var, clr, ...)
     UI.init(self, var)
-    self.clr = Color.from(clr)
+    self.clr = Color(clr)
     
     self:bind(var, self.clr, ...)
 end

@@ -134,6 +134,88 @@ function Shader:initAttributes()
     end
 end
 
+-- TODO
+function Shader:pushTableToShader(table, name, option)
+    local t = {}
+    t[option] = #table
+
+    self:pushToShader(t)
+    for i,item in ipairs(table) do
+        self:pushToShader(item, name, i-1)
+    end
+end
+
+function Shader:pushToShader(object, array, i)
+    for k,v in pairs(object) do
+        if array then
+            if i then
+                k = array.."["..i.."]".."."..k
+            else
+                k = array.."."..k
+            end
+        end
+        self:send(k, v)
+    end
+end
+
+function Shader:send(k, v)
+    local uid = self.uniformLocations[k]
+    if uid == nil then
+        self.uniformLocations[k] = gl.glGetUniformLocation(self.ids.program, k)
+        uid = self.uniformLocations[k]
+    end
+
+    if uid ~= -1 then
+        local utype = self.uniformTypes[k]
+        if utype == nil then
+            self.uniformTypes[k] = typeof(v)
+            utype = self.uniformTypes[k]
+        end
+
+        if utype == 'number' then
+            if self.uniformGlslTypes[k] == gl.GL_INT then
+                gl.glUniform1i(uid, v)
+            elseif self.uniformGlslTypes[k] == gl.GL_SAMPLER_2D then
+                gl.glUniform1i(uid, v)
+            else
+                gl.glUniform1fv(uid, 1, v)
+            end
+
+        elseif utype == 'vec2' then
+            gl.glUniform2fv(uid, 1, v.x, v.y)
+
+        elseif utype == 'vec3' then
+            gl.glUniform3fv(uid, 1, v.x, v.y, v.z)
+
+        elseif utype == 'vec4' then
+            gl.glUniform4fv(uid, 1, v.x, v.y, v.z, v.w)
+
+        elseif utype == 'color' then
+            gl.glUniform4fv(uid, 1, v.r, v.g, v.b, v.a)
+
+        elseif utype == 'matrix' or utype == 'cdata' then
+            if matrix == glm_matrix then
+                assert()
+                gl.glUniformMatrix4fv(uid, 1, gl.GL_FALSE, v)
+            else
+                gl.glUniformMatrix4fv(uid, 1, gl.GL_TRUE, v)
+            end
+
+        elseif utype == 'boolean' then
+            if v == true then
+                gl.glUniform1i(uid, 1)
+            else
+                gl.glUniform1i(uid, 0)
+            end
+
+        else
+            assert(false, "shader : unmanaged type "..utype.." for "..k)
+        end
+    else
+        warning(false, self.name.." : unknown uniform '"..k.."'")
+    end
+end
+
 function Shader:initUniforms()
     self.uniforms = {}
 

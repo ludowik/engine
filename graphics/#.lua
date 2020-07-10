@@ -29,3 +29,9 @@ end
 function size(i, j)
     return vec2(ws(i), hs(j))
 end
+
+
+--x,y,z,w	Useful for points, vectors, normals
+--r,g,b,a	Useful for colors
+--s,t,p,q	Useful for texture coordinates
+

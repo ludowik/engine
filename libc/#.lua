@@ -1,21 +1,6 @@
-function precompile(str)
-    local defs = {}
-    
-    function define2const(def, value)
-        defs[def] = tonumber(value)
-        return 'static const int '..def..' = '..value..';\r'
-    end
+require 'libc.module'
 
-    str = str:gsub("#define%s+(%S+)%s+(%S+)[\r\n]", define2const)
-
-    return str, defs
-end
-
-ffi = require 'ffi'
-
-ffi.NULL = ffi.cast('void*', 0)
-
-require 'libc.sdl'
-require 'libc.opengl'
-require 'libc.openal'
-require 'libc.freetype'
+require 'libc.sdl.sdl'
+require 'libc.opengl.opengl'
+require 'libc.openal.openal'
+require 'libc.freetype.freetype'

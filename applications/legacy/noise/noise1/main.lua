@@ -31,7 +31,7 @@ function AppMap:init()
 
         local size = 10
 
-        local vectorsArray = ffi.typeof('vector[?]')
+        local vectorsArray = ffi.typeof('vec3[?]')
         local colorsArray = ffi.typeof('color[?]')
         
         for ib=0,n-1 do
@@ -109,7 +109,7 @@ function AppMap:init()
                     clockCurrent = os.clock()            
                     clockDelay = clockCurrent - clockStart
 
-                    if batchMode and clockDelay > 1/config.framerate then
+                    if batchMode and clockDelay > 1/engine.fpsTarget then
                         coroutine.yield()
                         clockStart = os.clock()
                     end

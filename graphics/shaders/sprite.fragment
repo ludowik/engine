@@ -1,5 +1,6 @@
 uniform vec4 fill;
 uniform vec4 stroke;
+uniform vec4 tint;
 
 uniform int useColor;
 uniform int useTexture;
@@ -10,7 +11,7 @@ in vec2 vTexCoords;
 
 void main() {
     if (useTexture == 1) 
-        gl_FragColor = texture2D(tex0, vTexCoords);
+        gl_FragColor = texture2D(tex0, vTexCoords) * tint;
     else
         gl_FragColor = fill;
 }

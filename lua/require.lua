@@ -1,3 +1,17 @@
+function requireLib(...)
+    for i,v in pairs({...}) do
+        require(scriptPath(3)..'/'..v)
+    end
+end
+
+function requirePlist(name)
+    local plist = load(name)
+
+    for res in (plist:match('<array>(.-)</array>'):gmatch('<string>(.-)</string>')) do
+        require('apps/physics2d/'..res)
+    end
+end
+
 function scriptPath(level)
     level = level or 3
     local source = debug.getinfo(level, "S").source
@@ -12,8 +26,3 @@ function scriptName(level)
     return str:match("(%w+)%.lua$")
 end
 
-function requireLib(...)
-    for i,v in pairs({...}) do
-        require(scriptPath(3)..'/'..v)
-    end
-end

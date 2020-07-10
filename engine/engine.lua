@@ -44,7 +44,7 @@ function Engine:init()
         tween.setup()
     end
 
-    if jit.os == 'osx' then
+    if getOS() == 'osx' then
         W = 1600
     else
         W = 1024

@@ -35,10 +35,10 @@ ide.config.keymap[ID.RUNTO]    = "Shift-F10"
 
 -- font size
 local size
-if jit.os == 'Windows' then
-    size = 9
-else
+if getOS() == 'osx' then
     size = 13
+else
+    size = 9
 end
 
 output.fontsize = size
@@ -49,8 +49,8 @@ editor.fontsize = size
 excludelist["*.obj"] = false
 binarylist["*.obj"] = true
 
-if jit.os == 'Windows' then
-    path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/LuaJIT-2.0.5/src/luajit.exe'
-else
+if getOS() == 'osx' then
     path.lua = '/Users/lca/Projets/Libraries/luaJIT-2.0.5/src/luajit'
+else
+    path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/LuaJIT-2.0.5/src/luajit.exe'
 end

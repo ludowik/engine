@@ -25,7 +25,7 @@ function Graphics:initialize()
 
     meshEllipse = Model.ellipse(0, 0, 1, 1)
     meshEllipse.shader = shaders['ellipse']
-    
+
     meshEllipseBorder = Model.ellipseBorder(0, 0, 1, 1)
     meshEllipseBorder.shader = shaders['line']
 
@@ -176,7 +176,7 @@ function line(x1, y1, x2, y2)
 --    local mode = lineCapMode()
 --    ROUND
 --    PROJECT
-    
+
     buf[1] = vec3(x1, y1, 0)
     buf[2] = vec3(x2, y2, 0)
     lines(buf)
@@ -206,7 +206,7 @@ end
 function rect(x, y, w, h, mode)
     h = h or w
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
-    
+
     if fill() then
         meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
     end
@@ -222,7 +222,7 @@ end
 function ellipse(x, y, w, h, mode)
     h = h or w
     x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
-    
+
     if fill() then
         meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
     end
@@ -258,17 +258,37 @@ function text(str, x, y, mode)
     y = y or TEXT_NEXT_Y
 
     if stroke() then
+        -- TODO 
+        -- multilignes        
+--        for i,line in ipairs(lines) do
+--            local image, lw, lh = ...
+--            ....textRender....
+--            w = max(w, lw)
+--            h = h + lh
+--        end
+
         local img = ft:getText(str).img
 
         x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
         TEXT_NEXT_Y = y - img.surface.h
-        
+
         meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, TEXT_NEXT_Y, 0, img.surface.w, img.surface.h, 1)
     end
 end
 
 function textSize(str)
     str = tostring(str)
+
+    -- TODO 
+    -- multilignes
+--    local w, h = 0, 0
+--    local lines = tostring(txt):split('\n')
+
+--    for i,line in ipairs(lines) do
+--        local lw, lh = .....
+--        w = max(w, lw)
+--        h = h + lh
+--    end
 
     local img = ft:getText(str).img
     return img.surface.w, img.surface.h
@@ -282,11 +302,11 @@ function box(img, w, h, d)
         w, h, d = img, w, h
         img = nil
     end
-    
+
     w = w or 1
     h = h or w
     d = d or w
-    
+
     meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, 0, w, h, d)
 end
 

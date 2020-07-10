@@ -1,16 +1,5 @@
 package.path = package.path..';'..'?/#.lua;?/main.lua;'
 
-debugger = require('mobdebug')
-if arg[#arg] == '-debug' then
-    debugger.start()
-    debugger.on()
-    debugger.coro()
-
-    debugging = true
-end
-
-jit.on()
-
 require 'lua'
 require 'maths'
 
@@ -29,6 +18,7 @@ require 'engine.frame_time'
 require 'engine.engine_memory'
 require 'engine.parameter'
 require 'engine.resourceManager'
+require 'engine.touchDirection'
 
 require 'libc'
 require 'lib.json'
@@ -60,4 +50,3 @@ newPhysics = Fizix
 
 math.MAX_INTEGER = math.maxinteger
 math.MIN_INTEGER = math.mininteger
-
