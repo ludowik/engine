@@ -24,7 +24,7 @@ function setup()
 
     mesh = Mesh(Model.rect(maxSize.x, maxSize.y))
 
-    if debugging then
+    if debugging() then
         loadShaders(false)
     else
         app.coroutine = coroutine.create(

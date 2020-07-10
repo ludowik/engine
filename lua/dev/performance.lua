@@ -1,37 +1,55 @@
---- performance
+performance = class 'Performance'
 
-function performance(name, f1, f2, m, n)
-	m = m or 10000
-    
-	local tab = {}
-    n = n or 1
-	for i=1,n do
-		tab[i] = i
-	end
+function Performance.evaluate(test, f, ...)
+    local infos = {
+        n = 1000,
+        elapsedTime = 0,
+        totalRam = 0
+    }
 
-	function computePerf(f, i)
-		local t = Chrono()
-        t:start()
-		do
-			f(tab)
-		end
-        t:stop()
-		return t:delay()
-	end
+    collectgarbage('stop')
 
-	local t1 = 0
-	local t2 = 0
-	
-	for i=1,m do
-		t1 = t1 + computePerf(f1, 1)
-		t2 = t2 + computePerf(f2, 2)
-	end
+    do
+        for i=1,infos.n do
+            local startTime = os.clock()
+            local startRam = ram()
+            do
+                f(i, ...)
+            end
+            local endTime = os.clock()
+            local endRam = ram()
 
-	t1 = t1 / m
-	t2 = t2 / m
+            infos.elapsedTime = infos.elapsedTime + (endTime - startTime)
+            infos.totalRam = infos.totalRam + (endRam - startRam)
+        end
+    end
 
-	print("Performance : "..name..'('..m..')'..' best is '..(t1<t2 and '1' or '2'))
+    collectgarbage('restart')
+    gc()
 
-	print("T1 => "..t1)
-	print("T2 => "..t2)
+    infos.deltaTime = infos.elapsedTime / infos.n
+    infos.deltaRam = infos.totalRam / infos.n
+
+    print('====================================')
+    print(test)
+    print(string.format('elapsed time: %.9f (%s)', infos.elapsedTime, infos.totalRam))
+    print(string.format('delta   time: %.9f (%s)', infos.deltaTime, infos.deltaRam))
+    print()
+
+    return infos
+end
+
+function Performance.compare(test, f1, f2, ...)
+    Performance.evaluate(test, f1, ...)
+    Performance.evaluate(test, f2, ...)
+end
+
+function Performance.test()
+    Performance.evaluate('none', 
+        function (i)
+        end)
+end
+
+function Performance.run()
+    call('perf')
 end

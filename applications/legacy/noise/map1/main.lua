@@ -135,8 +135,8 @@ function appMap:init()
     local c = vec3(s, 0, -s)
     local d = vec3(0, 0, -s)
 
-    local w = debugging and 32 or 256
-    local h = debugging and 32 or 256
+    local w = debugging() and 32 or 256
+    local h = debugging() and 32 or 256
 
     self.heightMap = {}
 

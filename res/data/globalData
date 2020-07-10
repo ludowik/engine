@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "legacy/sketches2d/sandpiles",
+    ["appName"] = "dots",
     ["majorVersion"] = 4,
 }

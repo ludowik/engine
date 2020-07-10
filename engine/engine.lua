@@ -58,6 +58,7 @@ function Engine:init()
     self:initEvents()
 end
 
+-- TODO utiliser une callback avec la reférence engine
 function Engine:initEvents()
     self.onEvents = {
         keydown = {
@@ -229,7 +230,7 @@ function Engine:draw()
         info('ram', format_ram(self.memory.ram.current))
         info('mouse', mouse)
         info('os', jit.os)
-        info('debugging', debugging)
+        info('debugging', debugging())
         info('compile', jit.status())
         info('arch', jit.arch)
         info('jit version', jit.version)
@@ -335,25 +336,25 @@ function Engine:loopApp()
     if self.action then
         self.action = nil
     else
-        self.loopApp = #self:dirApps()
-        self.loopFrame = 10
+        self.loopAppRef = #self:dirApps()
+        self.loopAppFrames = 10
 
         self.action = self.loopAppProc
     end
 end
 
 function Engine:loopAppProc()
-    if self.loopFrame <= 0 then
+    if self.loopAppFrames <= 0 then
         self:nextApp()
 
-        self.loopApp = self.loopApp - 1
-        self.loopFrame = 10
+        self.loopAppRef = self.loopAppRef - 1
+        self.loopAppFrames = 10
 
-        if self.loopApp == 0 then
+        if self.loopAppRef == 0 then
             self.action = nil
         end
     else
-        self.loopFrame = self.loopFrame - 1
+        self.loopAppFrames = self.loopAppFrames - 1
     end
 end
 

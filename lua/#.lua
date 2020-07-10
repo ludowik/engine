@@ -15,7 +15,6 @@ require 'lua.data'
 require 'lua.range'
 require 'lua.buffer'
 require 'lua.memory'
-require 'lua.perf'
 require 'lua.path'
 require 'lua.io'
 require 'lua.string'
@@ -37,6 +36,7 @@ require 'lua.video'
 require 'lua.url'
 require 'lua.timer'
 require 'lua.os'
+require 'lua.dev'
 
 -- TODO
 -- doublon sur les tests de performances

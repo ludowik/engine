@@ -1,10 +1,15 @@
 debugger = require('mobdebug')
+
 if arg[#arg] == '-debug' then
     debugger.start()
     debugger.on()
     debugger.coro()
 
-    debugging = true
+    debugger.debugging = true
+end
+
+function debugging()
+    return debugger.debugging or (engine.action and true) or false
 end
 
 function pause()
