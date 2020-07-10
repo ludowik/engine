@@ -1,6 +1,9 @@
 return {
-    ["renderMode"] = "frame",
     ["minorVersion"] = 1,
+<<<<<<< HEAD
     ["appName"] = "default",
+=======
+    ["appName"] = "dots",
+>>>>>>> 9ef30843b0b1a20ac449ed90d3f10ab9b9ab48dc
     ["majorVersion"] = 4,
 }

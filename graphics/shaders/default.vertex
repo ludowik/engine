@@ -9,10 +9,12 @@ uniform vec3 pos;
 uniform vec3 size;
 
 out vec4 vColor;
+out vec2 vTexCoords;
 
 void main() {
     vec3 vertexPosition = vertex * size + pos;    
     gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
     
     vColor = color;
+    vTexCoords = texCoords;
 }

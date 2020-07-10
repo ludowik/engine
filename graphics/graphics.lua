@@ -118,7 +118,7 @@ function depthMode(mode)
 
         if mode then
             gl.glEnable(gl.GL_DEPTH_TEST)
-            gl.glDepthFunc(gl.GL_LEQUAL)
+            gl.glDepthFunc(gl.GL_LESS)
         else
             gl.glDisable(gl.GL_DEPTH_TEST)
         end
@@ -208,10 +208,10 @@ function rect(x, y, w, h, mode)
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
 
     if fill() then
-        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
     end
     if stroke() then
-        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, w, h)
+        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
     end
 end
 
@@ -224,10 +224,10 @@ function ellipse(x, y, w, h, mode)
     x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
 
     if fill() then
-        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, w, h)
+        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
     end
     if stroke() then
-        meshEllipseBorder:render(meshEllipseBorder.shader, gl.GL_LINE_LOOP, nil, x, y, w, h)
+        meshEllipseBorder:render(meshEllipseBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
     end
 end
 
@@ -237,7 +237,7 @@ function sprite(img, x, y, w, h, mode)
     end
     if img and img.surface then
         x, y = centerFromCorner(mode or spriteMode(), x, y, w or img.surface.w, h or img.surface.h)
-        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, w or img.surface.w, h or img.surface.h)
+        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, w or img.surface.w, h or img.surface.h, 1)
     end
 end
 
@@ -258,17 +258,37 @@ function text(str, x, y, mode)
     y = y or TEXT_NEXT_Y
 
     if stroke() then
+        -- TODO 
+        -- multilignes        
+--        for i,line in ipairs(lines) do
+--            local image, lw, lh = ...
+--            ....textRender....
+--            w = max(w, lw)
+--            h = h + lh
+--        end
+
         local img = ft:getText(str).img
 
         x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
 
-        meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, y, img.surface.w, img.surface.h)
+        meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, y, 0, img.surface.w, img.surface.h, 1)
         TEXT_NEXT_Y = y - img.surface.h
     end
 end
 
 function textSize(str)
     str = tostring(str)
+
+    -- TODO 
+    -- multilignes
+--    local w, h = 0, 0
+--    local lines = tostring(txt):split('\n')
+
+--    for i,line in ipairs(lines) do
+--        local lw, lh = .....
+--        w = max(w, lw)
+--        h = h + lh
+--    end
 
     local img = ft:getText(str).img
     return img.surface.w, img.surface.h
@@ -287,7 +307,7 @@ function box(img, w, h, d)
     h = h or w
     d = d or w
 
-    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img)
+    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, 0, w, h, d)
 end
 
 function sphere()

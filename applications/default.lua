@@ -5,6 +5,8 @@ function update(dt)
 end
 
 function draw()
+    tint(green)
+    
     spriteMode(CENTER)
     sprite('documents:joconde', W/2, H/2, 400, 400)
     

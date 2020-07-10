@@ -1,0 +1,25 @@
+void main() {
+    highp vec4 texColor;
+    if (useTexture == 1) {
+        texColor = texture(uSampler, vTexCoord);
+    } else {
+        texColor = white;
+    }
+        
+    highp vec2 tc = vTexCoord - vec2(0.5, 0.5);
+    highp float r = sqrt(tc.x*tc.x + tc.y*tc.y);
+    
+    highp float delta = 2.0 * strokeWidth / size.x;
+    highp float rs = 0.15;
+        
+    if (r > 0.5) {
+        discard;
+    }
+        
+    highp float ssOut = smoothstep(0.5, 0.5-delta*rs, r);    
+    highp float ssIn  = smoothstep(0.5-delta, 0.5-delta*(1.0-rs), r);    
+            
+    fragColor =
+        fillColor * texColor * (1.0-ssIn) +
+        strokeColor * texColor * ssOut * ssIn;
+}

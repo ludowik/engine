@@ -13,7 +13,7 @@ function setup()
 
     local index = 0
 
-    local n = debugging and 20 or 500
+    local n = debugging() and 20 or 500
     
     local v = vec3()
     

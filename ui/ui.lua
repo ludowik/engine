@@ -1,54 +1,71 @@
-function Node:setLayoutFlow(layoutFlow, layoutParam)
-    self.layoutFlow = layoutFlow
-    self.layoutParam = layoutParam
-    return self
-end
+class('UI', Object)
 
-function Node:layout()
-    if self.layoutFlow then
-        self.layoutFlow(self, self.layoutParam)
-    end
-end
-
-function Node:computeSize()
-    self:layout()
-end
-
-function Scene:layout()
-    if self.layoutFlow then
-        if self.parent == nil then
-            self.position:init()
-            self.absolutePosition:init()
-
-            Node.computeNavigation(self, self, self)
-        end
-
-        Node.layout(self)
-        
-        if self.alignment then
-            Layout.align(self)
-        end
-        
-        Layout.computeAbsolutePosition(self)
-
-        if self.parent == nil then
-            Layout.reverse(self)
-        end
-    end
-end
-
-class 'UI' : extends(Node)
-
-function UI:init()
-    Node.init(self)
+function UI.setup()
+    UI.bgColor = blue
     
-    self.position = vec2()
-    self.size = vec2()    
+    UI.fontName = DEFAULT_FONT_NAME
+    UI.fontSize = DEFAULT_FONT_SIZE
+    
+    UI.marge = 5
 end
 
-function UI:bind()
-    return self
+function UI:init(label)
+    Object.init(self, label)
+end
+
+function UI:getLabel()
+    return tostring(self.label)
+end
+
+function UI:contains(v)
+    local x = v.x - self.absolutePosition.x
+    local y = v.y - self.absolutePosition.y
+
+    if (x >= 0 and x <= self.size.x and 
+        y >= 0 and y <= self.size.y) then
+        return true
+    end
+end
+
+function UI:computeSize()
+    font(UI.fontName)
+    fontSize(UI.fontSize)
+
+    self.size.x, self.size.y = textSize(self:getLabel())
+    
+    self.size.x = self.size.x + UI.marge * 2
+end
+
+function UI:draw()
+    noStroke()
+    
+    fill(UI.bgColor)
+
+    rectMode(CORNER)
+    rect(0, 0, self.size.x, self.size.y)
+    
+    self:drawLabel()
+end
+
+function UI:drawLabel()
+    if self.hasFocus then
+        fill(red)
+    else
+        fill(white)
+    end
+
+    font(UI.fontName)
+    fontSize(UI.fontSize)
+
+    textMode(CENTER)
+    text(self:getLabel(), self.size.x / 2, self.size.y / 2)
 end
 
 function UI:touched(touch)
+    if touch.state == BEGAN then
+        if self.action then
+            self.action(self)
+        end
+    end
+    return true
 end

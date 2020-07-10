@@ -117,18 +117,22 @@ function noStroke()
     return styles:setAttribute('stroke', nil, true)
 end
 
+-- TODO
 function light(mode)
     return styles:setAttribute('light', mode)
 end
 
+-- TODO
 function noLight()
     return styles:setAttribute('light', nil, true)
 end
 
+-- TODO
 function tint(...)
     return styles:setAttributeColor('tint', ...)
 end
 
+-- TODO
 function noTint()
     return styles:setAttribute('tint', nil, true)
 end
@@ -168,30 +172,80 @@ function textMode(mode)
     return styles:setAttribute('textMode', mode)
 end
 
+-- TODO
 function textWrapWidth(width)
     return styles:setAttribute('textWrapWidth', width)
 end
 
+-- TODO
 function textAlign(mode)
     return styles:setAttribute('textAlign', mode)
 end
 
+-- TODO
 function lineCapMode(mode)
     return styles:setAttribute('lineCapMode', mode)
 end
 
+-- TODO
 function smooth(mode)
     return styles:setAttribute('smooth', mode)
 end
 
+-- TODO
 function noSmooth()
     return styles:setAttribute('smooth', nil, true)
 end
 
-function supportedOrientations()
-    functionNotImplemented()
+-- TODO
+function clip(x, y, w, h)
+    if x then
+        gl.glEnable(gl.GL_SCISSOR_TEST)
+        gl.glScissor(x, y, w, h)        
+    else
+        gl.glDisable(gl.GL_SCISSOR_TEST)
+    end
 end
 
+function noClip()
+    clip()
+end
+
+--- display mode
+enum 'DisplayMode' {
+    STANDARD = 0,
+    OVERLAY = 1,
+    FULLSCREEN = 2,
+    FULLSCREEN_NO_BUTTONS = 3
+}
+
+RETAINED = 1
+
+--- orientation
+LANDSCAPE_LEFT = 1
+LANDSCAPE_RIGHT = 2
+LANDSCAPE_ANY = LANDSCAPE_LEFT + LANDSCAPE_RIGHT
+
+PORTRAIT = 4
+PORTRAIT_UPSIDE_DOWN = 8
+PORTRAIT_ANY = PORTRAIT + PORTRAIT_UPSIDE_DOWN
+
+ANY = LANDSCAPE_ANY + PORTRAIT_ANY
+
+function supportedOrientations(mode)
+    -- TODO : exploiter l'orientation pour la création et la mise à jour de la fenêtre
+    if mode then
+        if not bitAND(mode, LANDSCAPE_ANY) then
+            config.orientation = 'portrait'
+        end
+        if not bitAND(mode, PORTRAIT_ANY) then
+            config.orientation = 'landscape'
+        end
+    end
+    return styles:setAttribute('supportedOrientations', mode)
+end
+
+-- TODO
 function displayMode()
     functionNotImplemented()
 end

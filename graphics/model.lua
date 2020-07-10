@@ -46,6 +46,21 @@ vertices_tetra = Buffer('vec3', {
         b2,f1,b4
     })
 
+function Model.setup()
+    -- TODO
+    -- sin & cos
+    sinus = {}
+    cosinus = {}
+
+    local angle
+    for i=0,360*2 do
+        angle = math.rad(i)
+
+        sinus[i] = math.sin(angle)
+        cosinus[i] = math.cos(angle)
+    end
+end
+
 function Model.mesh(vertices, texCoords, normals, indices)
     local m = Mesh()
 
@@ -72,438 +87,6 @@ function Model.set(m, p)
     m.vertices = p.vertices or m.vertices
     m.texCoords = p.texCoords or m.texCoords
     m.normals = p.normals or m.normals
-end
-
-function Model.point(x, y)
-    x = x or 0
-    y = y or 0
-
-    return Model.mesh(Buffer('vec3', vec3(x, y, 0)))
-end
-
-function Model.points(points)
-    local vertices = Buffer('vec3')
-
-    for i=1,#points,3 do
-        vertices:insert(vec3(points[i+0], points[i+1], 0))
-    end
-
-    return Model.mesh(vertices)
-end
-
-function Model.line(x, y, w, h)
-    x = x or 0
-    y = y or 0
-    w = w or 1
-    h = h or 1
-
-    local vertices = Buffer('vec3', 
-        vec3(x, y, 0),
-        vec3(x+w, y+h, 0))
-
-    return Model.mesh(vertices)
-end
-
-function Model.rect(x, y, w, h)
-    x = x or 0
-    y = y or 0
-    w = w or 1
-    h = h or 1
-
-    local vertices = Buffer('vec3',
-        vec3(x+0, y+0, 0),
-        vec3(x+w, y+0, 0),
-        vec3(x+w, y+h, 0),
-        vec3(x+0, y+0, 0),
-        vec3(x+w, y+h, 0),
-        vec3(x+0, y+h, 0))
-
-    local texCoords = Buffer('vec2',
-        vec2(0,0),
-        vec2(1,0),
-        vec2(1,1),
-        vec2(0,0),
-        vec2(1,1),
-        vec2(0,1))
-
-    return Model.mesh(vertices, texCoords)
-end
-
-function Model.rectBorder(x, y, w, h)
-    x = x or 0
-    y = y or 0
-    w = w or 1
-    h = h or 1
-
-    local vertices = Buffer('vec3',
-        vec3(x+0, y+0, 0),
-        vec3(x+w, y+0, 0),
-        vec3(x+w, y+h, 0),
-        vec3(x+0, y+h, 0))
-
-    return Model.mesh(vertices)
-end
-
-function Model.ellipse(x, y, w, h)
-    x = x or 0
-    y = y or 0
-    w = w or 1
-    h = h or 1
-
-    local vertices = Buffer('vec3')
-
-    local n = 128
-
-    local x1, y1 = math.cos(0) / 2, math.sin(0) / 2
-    local x2, y2 = 0, 0
-
-    for i=n,0,-1 do
-        x2 = math.cos(math.tau * i / n) / 2
-        y2 = math.sin(math.tau * i / n) / 2
-
-        vertices:insert(vec3())
-        vertices:insert(vec3(x2, y2, 0))
-        vertices:insert(vec3(x1, y1, 0))
-
-        x1, y1 = x2, y2
-    end
-
-    return Model.mesh(vertices)
-end
-
-function Model.ellipseBorder(x, y, w, h)
-    x = x or 0
-    y = y or 0
-    w = w or 1
-    h = h or 1
-
-    local vertices = Buffer('vec3')
-
-    local n = 128
-
-    local x, y
-
-    for i=0,n do
-        x = math.cos(math.tau * i / n) / 2
-        y = math.sin(math.tau * i / n) / 2
-
-        vertices:insert(vec3(x, y, 0))
-    end
-
-    return Model.mesh(vertices)
-end
-
-function Model.box(w, h, d)
-    local vertices = Buffer('vec3', {
-        f1, f2, f3, f1, f3, f4, -- front
-        b2, b1, b4, b2, b4, b3, -- back
-        f2, b2, b3, f2, b3, f3, -- right
-        b1, f1, f4, b1, f4, b4, -- left
-        f4, f3, b3, f4, b3, b4, -- top
-        b1, b2, f2, b1, f2, f1, -- bottom
-    })
-
-    local w = 1/4-1/100
-    local h = 1/3-1/100
-    local texCoords = Buffer('vec2')
-
-    function add(coords, dx, dy)
-        for i=0,5 do
-            texCoords:insert(vec2(coords[i*2+1] + dx, coords[i*2+2] + dy))
-        end
-    end
-
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 3/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 2/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 0/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 2/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 0/3)
-
-    return Model.mesh(vertices, texCoords)
-end
-
-function Model.skybox(w, h, d)
-    w = w or 1
-    h = w
-    e = w
-    
-    local vertices = Buffer('vec3', {
-        f1, f2, f3, f1, f3, f4, -- front
-        b2, b1, b4, b2, b4, b3, -- back
-        f2, b2, b3, f2, b3, f3, -- right
-        b1, f1, f4, b1, f4, b4, -- left
-        f4, f3, b3, f4, b3, b4, -- top
-        b1, b2, f2, b1, f2, f1, -- bottom
-    })
-
-    return Model.mesh(
-        Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, -e),
-        texCoords_box,
-        Model.computeNormals(vertices))
-end
-
-function Model.sphere(x, y, z, w, h, d)
-    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
-
-    local hw, hh, hd = w/2, h/2, d/2
-
-    local vertices = Buffer('vec3')
-
-    local function coord(x, y, z, w, h, d, phi, theta)
-        phi = rad(phi)
-        theta = rad(theta)
-
-        return vec3(
-            x + hw * cos(phi) * sin(theta),
-            y + hh * cos(phi) * cos(theta),
-            z + hd * sin(phi))
-    end
-
-    local faces = 0
-    local delta = 10 -- 0.5
-
-    local v1, v2, v3, v4
-    for theta = 0, 360-delta, delta do
-        for phi = 90, 270-delta, delta do
-            v1 = coord(x, y, z, w, h, d, phi, theta)
-            v2 = coord(x, y, z, w, h, d, phi, theta+delta)
-            v3 = coord(x, y, z, w, h, d, phi+delta, theta+delta)
-            v4 = coord(x, y, z, w, h, d, phi+delta, theta)
-
-            meshAddRect(vertices,
-                v1,
-                v2,
-                v3,
-                v4)
-
-            faces = faces + 1
-        end
-    end
-
-    local texCoords = Buffer('vec2')
-    for s = 1, faces do
-        texCoords:addItems(texCoords_face)
-    end
-
-    local normals = Buffer('vec3')
-    for i = 1, #vertices do
-        normals[i] = vertices[i]:normalize()
-    end
-
-    return Model.mesh(vertices, texCoords, normals)
-end
-
-function Model.pyramid(w, h, d)
-    w = w or 1
-    h = h or w
-    d = d or w
-
-    local vertices = vertices_pyramid
-
-    local texCoords = Buffer('vec2')
-    for s = 1,4 do
-        texCoords:addItems(texCoords_triangle)
-    end
-    texCoords:addItems(texCoords_face)
-
-    return Model.mesh(
-        Model.scaleAndTranslateAndRotate(vertices, -w/2, -h/2, -d/2, w, h, d),
-        texCoords)
-end
-
-function Model.cone(r, e, delta)
-    r = r or 0.5
-    e = e or 1
-
-    local points = Buffer('vec3')
-    Geometry.arc(points, 0, 0, r, 0, TAU, delta)
-
-    local vertices = Buffer('vec3')
-
-    local vc = vec3(r, r, 0.0)
-    local v1 = points[1]
-
-    for i = 2, #points do
-        local v2 = points[i]
-        meshAddTriangle(vertices, vc, v2, v1)
-        v1 = v2
-    end
-
-    vc = vec3(r, r, e)
-    v1 = points[1]
-
-    for i = 2, #points do
-        local v2 = points[i]
-        meshAddTriangle(vertices, vc, v1, v2)
-        v1 = v2
-    end
-
-    local texCoords = Buffer('vec2')
-    for s = 1, 2*#points do
-        texCoords:addItems(texCoords_triangle)
-    end
-
-    return Model.mesh(
-        Model.scaleAndTranslateAndRotate(vertices, -r, -r, -e/2, 1, 1, 1, -90, 0, 0),
-        texCoords)
-end
-
-function Model.cylinder(r1, r2, e, delta)
-    r1 = r1 or 0.5
-    r2 = r2 or 0.5
-
-    e = e or 1
-
-    delta = delta or TAU*.05
-
-    local points1 = Buffer('vec3')
-    Geometry.arc(points1, 0, 0, r1, 0, TAU, delta)
-    points1 = Model.scaleAndTranslateAndRotate(points1, -r1, -r1)
-
-    local points2 = Buffer('vec3')
-    Geometry.arc(points2, 0, 0, r2, 0, TAU, delta)
-    points2 = Model.scaleAndTranslateAndRotate(points2, -r2, -r2)
-
-    local vertices = Buffer('vec3')
-
-    local vc = vec3(0, 0, 0)
-    local v1 = points1[1]
-
-    for i = 2, #points1 do
-        local v2 = points1[i]
-        meshAddTriangle(vertices, vc, v2, v1)
-        v1 = v2
-    end
-
-    vc = vec3(0, 0, e)
-    v1 = points2[1]
-
-    for i = 2, #points2 do
-        local v2 = points2[i]
-        meshAddTriangle(vertices, vc, vec3(v1.x, v1.y, e), vec3(v2.x, v2.y, e))
-        v1 = v2
-    end
-
-    v1 = points1[1]
-    v4 = points2[1]
-
-    for i = 2, #points2 do
-        local v2 = points1[i]
-        local v3 = points2[i]
-        meshAddRect(vertices, v1, v2, vec3(v3.x, v3.y, e), vec3(v4.x, v4.y, e))
-        v1 = v2
-        v4 = v3
-    end
-
-    local texCoords = Buffer('vec2')
-    for s = 1, 2*#points1-2 do
-        texCoords:addItems(texCoords_triangle)
-    end
-    for s = 2, #points2 do
-        texCoords:addItems(texCoords_face)
-    end
-
-    return Model.mesh(
-        vertices,
-        texCoords)
-end
-
-function Model.triangulate(points)
-    local mypoints = Buffer('vec3')
-    for i = 1, #points do
-        mypoints:insert(vec3(points[i].x, points[i].y))
-    end
-
-    if #points == 1 then
-        return {mypoints[1], mypoints[1], mypoints[1]}
-
-    elseif #points == 2 then
-        return {mypoints[1], mypoints[1], mypoints[2]}
-
-    elseif #points == 3 then
-        return mypoints
-    end
-
-    -- result
-    local trivecs = Buffer('vec3')
-
-    local steps_without_reduction = 0
-
-    local i = 1
-
-    while #mypoints >= 3 and steps_without_reduction < #mypoints do
-        local v2i = i % #mypoints + 1
-        local v3i = (i + 1) % #mypoints + 1
-
-        local v1 = mypoints[i]
-        local v2 = mypoints[v2i]
-        local v3 = mypoints[v3i]
-
-        local da = enclosedAngle(v1, v2, v3)
-
-        local reduce = false
-        if da >= 0 then
-            -- The two edges bend inwards, candidate for reduction.
-            reduce = true
-            -- Check that there's no other point inside.
-            for ii = 1, (#mypoints - 3) do
-                local mod_ii = (i + 2 + ii - 1) % #mypoints + 1
-                if isInsideTriangle(mypoints[mod_ii], v1, v2, v3) then
-                    reduce = false
-                end
-            end
-        end
-
-        if reduce then
-            trivecs:insert(v1)
-            trivecs:insert(v2)
-            trivecs:insert(v3)
-
-            mypoints:remove(v2i)
-
-            steps_without_reduction = 0
-        else
-            i = i + 1
-            steps_without_reduction = steps_without_reduction + 1
-        end
-
-        if i > #mypoints then
-            i = i - #mypoints
-        end
-    end
-    return trivecs
-end
-
-function triangulate(...)
-    return Model.triangulate(...)
-end
-
-Model.random = {}
-
-function Model.random.polygon(r, rmax)
-    r = r or math.random(10, 50)
-
-    rmax = rmax or r
-    rmin = r
-
-    local vertices = Buffer('vec3')
-
-    local angle = 0
-    while angle < math.pi * 2 do
-        local len = math.random(rmin, rmax)
-
-        local p = vec3(
-            len * math.cos(angle),
-            len * math.sin(angle),
-            0)
-
-        vertices:insert(p)
-
-        angle = angle + math.random() * math.pi / 2
-    end
-
-    return vertices
 end
 
 function Model.computeIndices(vertices, texCoords, normals)
@@ -715,20 +298,6 @@ function Model.scaleAndTranslateAndRotate(vertices, x, y, z, w, h, e, ax, ay, az
     return Model.transform(vertices:clone(), m1*m2*m5)
 end
 
-function Model.load(fileName, normalize)
-    local m = loadObj(fileName)
-
-    if #m.vertices == 0 and normalize then
-        m.vertices = Model.normalize(m.vertices)
-    end
-
-    if #m.normals == 0 then
-        m.normals = Model.computeNormals(m.vertices)
-    end
-
-    return m
-end
-
 function meshAddVertex(vertices, v)
     vertices:insert(v)
 end
@@ -753,6 +322,175 @@ function meshSetTriangleColors(colors, clr)
     meshAddVertex(colors, clr)
     meshAddVertex(colors, clr)
     meshAddVertex(colors, clr)
+end
+
+function Model.point(x, y)
+    x = x or 0
+    y = y or 0
+
+    return Model.mesh(Buffer('vec3', vec3(x, y, 0)))
+end
+
+function Model.points(points)
+    local vertices = Buffer('vec3')
+
+    for i=1,#points,3 do
+        vertices:insert(vec3(points[i+0], points[i+1], 0))
+    end
+
+    return Model.mesh(vertices)
+end
+
+function Model.line(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    w = w or 1
+    h = h or 1
+
+    local vertices = Buffer('vec3', 
+        vec3(x, y, 0),
+        vec3(x+w, y+h, 0))
+
+    return Model.mesh(vertices)
+end
+
+function Model.rect(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    w = w or 1
+    h = h or 1
+
+    local vertices = Buffer('vec3',
+        vec3(x+0, y+0, 0),
+        vec3(x+w, y+0, 0),
+        vec3(x+w, y+h, 0),
+        vec3(x+0, y+0, 0),
+        vec3(x+w, y+h, 0),
+        vec3(x+0, y+h, 0))
+
+    local texCoords = Buffer('vec2',
+        vec2(0,0),
+        vec2(1,0),
+        vec2(1,1),
+        vec2(0,0),
+        vec2(1,1),
+        vec2(0,1))
+
+    return Model.mesh(vertices, texCoords)
+end
+
+function Model.rectBorder(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    w = w or 1
+    h = h or 1
+
+    local vertices = Buffer('vec3',
+        vec3(x+0, y+0, 0),
+        vec3(x+w, y+0, 0),
+        vec3(x+w, y+h, 0),
+        vec3(x+0, y+h, 0))
+
+    return Model.mesh(vertices)
+end
+
+function Model.ellipse(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    w = w or 1
+    h = h or 1
+
+    local vertices = Buffer('vec3')
+
+    local n = 128
+
+    local x1, y1 = math.cos(0) / 2, math.sin(0) / 2
+    local x2, y2 = 0, 0
+
+    for i=n,0,-1 do
+        x2 = math.cos(math.tau * i / n) / 2
+        y2 = math.sin(math.tau * i / n) / 2
+
+        vertices:insert(vec3())
+        vertices:insert(vec3(x2, y2, 0))
+        vertices:insert(vec3(x1, y1, 0))
+
+        x1, y1 = x2, y2
+    end
+
+    return Model.mesh(vertices)
+end
+
+function Model.ellipseBorder(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    w = w or 1
+    h = h or 1
+
+    local vertices = Buffer('vec3')
+
+    local n = 128
+
+    local x, y
+
+    for i=0,n do
+        x = math.cos(math.tau * i / n) / 2
+        y = math.sin(math.tau * i / n) / 2
+
+        vertices:insert(vec3(x, y, 0))
+    end
+
+    return Model.mesh(vertices)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+function Model.box(w, h, d)
+    local vertices = Buffer('vec3', {
+        f1, f2, f3, f1, f3, f4, -- front
+        b2, b1, b4, b2, b4, b3, -- back
+        f2, b2, b3, f2, b3, f3, -- right
+        b1, f1, f4, b1, f4, b4, -- left
+        f4, f3, b3, f4, b3, b4, -- top
+        b1, b2, f2, b1, f2, f1, -- bottom
+    })
+
+    local w = 1/4-1/100
+    local h = 1/3-1/100
+    local texCoords = Buffer('vec2')
+
+    function add(coords, dx, dy)
+        for i=0,5 do
+            texCoords:insert(vec2(coords[i*2+1] + dx, coords[i*2+2] + dy))
+        end
+    end
+
+    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 1/3)
+    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 3/4, 1/3)
+    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 2/4, 1/3)
+    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 0/4, 1/3)
+    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 2/3)
+    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 0/3)
+
+    return Model.mesh(vertices, texCoords)
+end
+
+function Model.tetrahedron()
+    vertices = vertices_tetra
+    vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, 1, 1, 1, 90)
+    return Model.mesh(vertices,
+        nil,
+        Model.computeNormals(vertices_tetra))
 end
 
 function positionAndSize(x, y, z, w, h, d, size)
@@ -786,3 +524,433 @@ function positionAndSize(x, y, z, w, h, d, size)
 
     return x, y, z, w, h, d
 end
+
+function Model.sphere(x, y, z, w, h, d)
+    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
+
+    local hw, hh, hd = w/2, h/2, d/2
+
+    local vertices = Buffer('vec3')
+
+    local function coord(x, y, z, w, h, d, phi, theta)
+        phi = rad(phi)
+        theta = rad(theta)
+
+        return vec3(
+            x + hw * cos(phi) * sin(theta),
+            y + hh * cos(phi) * cos(theta),
+            z + hd * sin(phi))
+    end
+
+    local faces = 0
+    local delta = 10 -- 0.5
+
+    local v1, v2, v3, v4
+    for theta = 0, 360-delta, delta do
+        for phi = 90, 270-delta, delta do
+            v1 = coord(x, y, z, w, h, d, phi, theta)
+            v2 = coord(x, y, z, w, h, d, phi, theta+delta)
+            v3 = coord(x, y, z, w, h, d, phi+delta, theta+delta)
+            v4 = coord(x, y, z, w, h, d, phi+delta, theta)
+
+            meshAddRect(vertices,
+                v1,
+                v2,
+                v3,
+                v4)
+
+            faces = faces + 1
+        end
+    end
+
+    local texCoords = Buffer('vec2')
+    for s = 1, faces do
+        texCoords:addItems(texCoords_face)
+    end
+
+    local normals = Buffer('vec3')
+    for i = 1, #vertices do
+        normals[i] = vertices[i]:normalize()
+    end
+
+    return Model.mesh(vertices, texCoords, normals)
+end
+
+function Model.pyramid(w, h, d)
+    w = w or 1
+    h = h or w
+    d = d or w
+
+    local vertices = vertices_pyramid
+
+    local texCoords = Buffer('vec2')
+    for s = 1,4 do
+        texCoords:addItems(texCoords_triangle)
+    end
+    texCoords:addItems(texCoords_face)
+
+    return Model.mesh(
+        Model.scaleAndTranslateAndRotate(vertices, -w/2, -h/2, -d/2, w, h, d),
+        texCoords)
+end
+
+function Model.cone(r, e, delta)
+    r = r or 0.5
+    e = e or 1
+
+    local points = Buffer('vec3')
+    Geometry.arc(points, 0, 0, r, 0, TAU, delta)
+
+    local vertices = Buffer('vec3')
+
+    local vc = vec3(r, r, 0.0)
+    local v1 = points[1]
+
+    for i = 2, #points do
+        local v2 = points[i]
+        meshAddTriangle(vertices, vc, v2, v1)
+        v1 = v2
+    end
+
+    vc = vec3(r, r, e)
+    v1 = points[1]
+
+    for i = 2, #points do
+        local v2 = points[i]
+        meshAddTriangle(vertices, vc, v1, v2)
+        v1 = v2
+    end
+
+    local texCoords = Buffer('vec2')
+    for s = 1, 2*#points do
+        texCoords:addItems(texCoords_triangle)
+    end
+
+    return Model.mesh(
+        Model.scaleAndTranslateAndRotate(vertices, -r, -r, -e/2, 1, 1, 1, -90, 0, 0),
+        texCoords)
+end
+
+function Model.cylinder(r1, r2, e, delta)
+    r1 = r1 or 0.5
+    r2 = r2 or 0.5
+
+    e = e or 1
+
+    delta = delta or TAU*.05
+
+    local points1 = Buffer('vec3')
+    Geometry.arc(points1, 0, 0, r1, 0, TAU, delta)
+    points1 = Model.scaleAndTranslateAndRotate(points1, -r1, -r1)
+
+    local points2 = Buffer('vec3')
+    Geometry.arc(points2, 0, 0, r2, 0, TAU, delta)
+    points2 = Model.scaleAndTranslateAndRotate(points2, -r2, -r2)
+
+    local vertices = Buffer('vec3')
+
+    local vc = vec3(0, 0, 0)
+    local v1 = points1[1]
+
+    for i = 2, #points1 do
+        local v2 = points1[i]
+        meshAddTriangle(vertices, vc, v2, v1)
+        v1 = v2
+    end
+
+    vc = vec3(0, 0, e)
+    v1 = points2[1]
+
+    for i = 2, #points2 do
+        local v2 = points2[i]
+        meshAddTriangle(vertices, vc, vec3(v1.x, v1.y, e), vec3(v2.x, v2.y, e))
+        v1 = v2
+    end
+
+    v1 = points1[1]
+    v4 = points2[1]
+
+    for i = 2, #points2 do
+        local v2 = points1[i]
+        local v3 = points2[i]
+        meshAddRect(vertices, v1, v2, vec3(v3.x, v3.y, e), vec3(v4.x, v4.y, e))
+        v1 = v2
+        v4 = v3
+    end
+
+    local texCoords = Buffer('vec2')
+    for s = 1, 2*#points1-2 do
+        texCoords:addItems(texCoords_triangle)
+    end
+    for s = 2, #points2 do
+        texCoords:addItems(texCoords_face)
+    end
+
+    return Model.mesh(
+        vertices,
+        texCoords)
+end
+
+function Model.obelix()
+    local vertices = {}
+
+    local a = Model.cylinder(1, 0.5, 2)
+    local b = Model.cone(.5)
+
+    Table.addItems(vertices, Model.scaleAndTranslateAndRotate(a.mesh.vertices))
+    Table.addItems(vertices, Model.scaleAndTranslateAndRotate(b.mesh.vertices, 0, 0, 0))
+
+    return Model.mesh(vertices, texCoords)
+end
+
+function Model.grass_band(vertices, p1, p2, w, h, angle)
+    local e = sin(angle) * h
+
+    local p3 = vec3(p2.x-w*.5, p2.y+e, p2.z+h)
+    local p4 = vec3(p1.x+w*.5, p1.y+e, p1.z+h)
+
+    meshAddRect(vertices, p1, p2, p3, p4)
+
+    return p4, p3
+end
+
+function Model.grass_alea(vertices, texCoords, normals)
+    local v = {}
+
+    local w = random(0.25, 0.50)
+    local h = random(7.5, 15)
+    local e = random(0, h)
+
+    local p1 = vec3(-w*.5, 0, 0)
+    local p2 = vec3( w*.5, 0, 0)
+
+    local n = 5
+
+    local angle = 0
+
+    for i = 1, n do
+        p1, p2 = Model.grass_band(v, p1, p2, w*.5/n, h/n, angle)
+        angle = angle + 90/n
+    end
+
+    Model.scaleAndTranslateAndRotate(v, random(0,wcell), random(0,wcell), 0, 1, 1, 1, random(0,360))
+
+    table.addItems(vertices, v)
+    table.addItems(normals, Model.computeNormals(v))
+end
+
+function Model.grass(n)
+    local vertices = {}
+    local texCoords = {}
+    local normals = {}
+
+    n = n or 1
+    for i = 1, n do
+        Model.grass_alea(vertices, texCoords, normals)
+    end
+
+    return Model.mesh(
+        vertices, texCoords, normals)
+end
+
+function Model.plane()
+    local face = Model.scaleAndTranslateAndRotate(vertices_face, 0, 0, 0, 1, 1, 1, 90)
+    return Model.mesh(
+        face,
+        texCoords_face,
+        Model.computeNormals(face))
+end
+
+function Model.dalle(x, y, z)
+    local vertices = Table()
+
+    local m = 0.25
+    for i = 0, 4 do
+        vertices:addItems(Model.scaleAndTranslateAndRotate(vertices_box, m, i*10+m, 0, 50-m*2, 10-m*2, 2.5))
+        vertices:addItems(Model.scaleAndTranslateAndRotate(vertices_box, 50+m, 50+i*10+m, 0, 50-m*2, 10-m*2, 2.5))
+    end
+
+    for i = 0, 4 do
+        vertices:addItems(Model.scaleAndTranslateAndRotate(vertices_box, 50+i*10+m, m, 0, 10-m*2, 50-m*2, 2.5))
+        vertices:addItems(Model.scaleAndTranslateAndRotate(vertices_box, i*10+m, 50+m, 0, 10-m*2, 50-m*2, 2.5))
+    end
+
+    Model.scaleAndTranslateAndRotate(vertices, x, y, z)
+
+    return Model.mesh(
+        vertices,
+        texCoords)
+end
+
+function Model.complex()
+    --  local str = "10004,20004,30004,44444"
+    --  local str = "30000,31111,32222,43333"
+    local str = "989898989,877777778,977777779,877777778,977777779,877777778,977777779,877777778,989898989"
+
+    local vertices = {}
+
+    local texCoords = {}
+
+    local x = 0
+    local z = 0
+
+    local m = Model.box()
+    for h in str:gmatch(".") do
+        if h == ',' then
+            x = 0
+            z = z + 1
+        else
+            for y = 0, tonumber(h)-1 do
+                local verticesbox, texCoordsbox = m.vertices, m.texCoords
+
+                Table.addItems(vertices, Model.scaleAndTranslateAndRotate(verticesbox, x, y, z))
+                if texCoordsbox then
+                    Table.addItems(texCoords, texCoordsbox)
+                end
+            end
+
+            x = x + 1
+        end
+    end
+
+    return Model.mesh(
+        vertices,
+        texCoords,
+        Model.computeNormals(vertices))
+end
+
+function Model.teapot()
+    return Model.load('teapot')
+end
+
+function Model.skybox(w, h, d)
+    w = w or 1
+    h = w
+    e = w
+    
+    local vertices = Buffer('vec3', {
+        f1, f2, f3, f1, f3, f4, -- front
+        b2, b1, b4, b2, b4, b3, -- back
+        f2, b2, b3, f2, b3, f3, -- right
+        b1, f1, f4, b1, f4, b4, -- left
+        f4, f3, b3, f4, b3, b4, -- top
+        b1, b2, f2, b1, f2, f1, -- bottom
+    })
+
+    return Model.mesh(
+        Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, -e),
+        texCoords_box,
+        Model.computeNormals(vertices))
+end
+
+function Model.triangulate(points)
+    local mypoints = Buffer('vec3')
+    for i = 1, #points do
+        mypoints:insert(vec3(points[i].x, points[i].y))
+    end
+
+    if #points == 1 then
+        return {mypoints[1], mypoints[1], mypoints[1]}
+
+    elseif #points == 2 then
+        return {mypoints[1], mypoints[1], mypoints[2]}
+
+    elseif #points == 3 then
+        return mypoints
+    end
+
+    -- result
+    local trivecs = Buffer('vec3')
+
+    local steps_without_reduction = 0
+
+    local i = 1
+
+    while #mypoints >= 3 and steps_without_reduction < #mypoints do
+        local v2i = i % #mypoints + 1
+        local v3i = (i + 1) % #mypoints + 1
+
+        local v1 = mypoints[i]
+        local v2 = mypoints[v2i]
+        local v3 = mypoints[v3i]
+
+        local da = enclosedAngle(v1, v2, v3)
+
+        local reduce = false
+        if da >= 0 then
+            -- The two edges bend inwards, candidate for reduction.
+            reduce = true
+            -- Check that there's no other point inside.
+            for ii = 1, (#mypoints - 3) do
+                local mod_ii = (i + 2 + ii - 1) % #mypoints + 1
+                if isInsideTriangle(mypoints[mod_ii], v1, v2, v3) then
+                    reduce = false
+                end
+            end
+        end
+
+        if reduce then
+            trivecs:insert(v1)
+            trivecs:insert(v2)
+            trivecs:insert(v3)
+
+            mypoints:remove(v2i)
+
+            steps_without_reduction = 0
+        else
+            i = i + 1
+            steps_without_reduction = steps_without_reduction + 1
+        end
+
+        if i > #mypoints then
+            i = i - #mypoints
+        end
+    end
+    return trivecs
+end
+
+function triangulate(...)
+    return Model.triangulate(...)
+end
+
+Model.random = {}
+
+function Model.random.polygon(r, rmax)
+    r = r or math.random(10, 50)
+
+    rmax = rmax or r
+    rmin = r
+
+    local vertices = Buffer('vec3')
+
+    local angle = 0
+    while angle < math.pi * 2 do
+        local len = math.random(rmin, rmax)
+
+        local p = vec3(
+            len * math.cos(angle),
+            len * math.sin(angle),
+            0)
+
+        vertices:insert(p)
+
+        angle = angle + math.random() * math.pi / 2
+    end
+
+    return vertices
+end
+
+function Model.load(fileName, normalize)
+    local m = loadObj(fileName)
+
+    if #m.vertices == 0 and normalize then
+        m.vertices = Model.normalize(m.vertices)
+    end
+
+    if #m.normals == 0 then
+        m.normals = Model.computeNormals(m.vertices)
+    end
+
+    return m
+end
+

@@ -101,7 +101,7 @@ code = [[
 function draw()
     background(black)
 
-    if not debugging then
+    if not debugging() then
         local vertex
 
         local pixels = image.surface.pixels

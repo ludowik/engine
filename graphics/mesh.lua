@@ -9,21 +9,6 @@ function Mesh:clear(vertices, colors)
     self.colors = colors or Buffer('color')
 end
 
-function Mesh:buffer(name)
-    if name == 'position' then
-        name = 'vertices'
-        self[name] = Buffer('vec3')
-    elseif name == 'texCoord' then
-        self[name] = Buffer('vec2')
-    elseif name == 'normal' then
-        self[name] = Buffer('vec3')
-    elseif name == 'color' then
-        self[name] = Buffer('color')
-    end
-
-    return self[name]
-end
-
 function Mesh:draw()
     self:render(shaders['default'], gl.GL_TRIANGLES)
 end
@@ -39,7 +24,24 @@ function Mesh:center()
     return self
 end
 
-function Mesh:setColors(clr)
+function Mesh:setColors(...)
+    local clr = Color(...)
+    self.uniformColor = clr
+
+    self.colors = colors or Buffer('color')
+
+    local vertexCount
+    if type(self.vertices[1]) == 'cdata' then
+        vertexCount = #self.vertices
+    else
+        vertexCount = #self.vertices / 3
+    end
+    
+    for i=1,vertexCount do
+        self.colors[i] = clr
+    end
+    
+    return self
 end
 
 function Mesh:vertex(i, v)
@@ -158,4 +160,23 @@ function Mesh:setGradient(clr1, clr2)
         clr.b = clr.b + step.b
         clr.a = clr.a + step.a
     end
+end
+
+function Mesh:buffer(name)
+    if name == 'position' then
+        name = 'vertices'
+        self[name] = self[name] or Buffer('vec3')
+        
+    elseif name == 'texCoord' then
+        self[name] = self[name] or Buffer('vec2')
+        
+    elseif name == 'normal' then
+        self[name] = self[name] or Buffer('vec3')
+        
+    elseif name == 'color' then
+        name = 'verticess'
+        self[name] = self[name] or Buffer('color')
+    end
+
+    return self[name]
 end

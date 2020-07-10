@@ -9,7 +9,7 @@ function setup()
     physicsInstance:add(ground, STATIC, RECT, ground.size.x, ground.size.y)
 
     for i=1,10 do
-        local object = Fizix.Object():setPosition(
+        local object = Object():setPosition(
             math.random(WIDTH),
             math.random(HEIGHT))
 
