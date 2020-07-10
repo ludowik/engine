@@ -78,6 +78,9 @@ function Application:draw()
     resetStyle()
     
     self.scene:draw()
+    self.ui:draw()
+    
+    parameter:draw()
 end
 
 function Application:collide(...)

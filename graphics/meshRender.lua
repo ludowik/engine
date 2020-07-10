@@ -78,6 +78,8 @@ function MeshRender:render(shader, drawMode, img, x, y, w, h)
 
         if img and shader.uniforms.tex0 then
             gl.glUniform1i(shader.uniforms.tex0.uniformLocation, 0)
+            
+            img:update()
             img:use(gl.GL_TEXTURE0)
         end
 

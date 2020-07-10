@@ -309,6 +309,13 @@ function image:get(x, y, clr)
     return clr
 end
 
+function image:update()
+    if self.needUpdate then
+        self.needUpdate = false
+        self:makeTexture()
+    end
+end
+
 function image:copy(x, y, w, h)
     x = x or 0
     y = y or 0

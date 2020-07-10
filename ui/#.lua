@@ -12,6 +12,8 @@ class 'ButtonIconFont' : extends(UI)
 
 class 'CheckBox' : extends(UI)
 
+class 'Slider' : extends(UI)
+
 class 'ColorPicker' : extends(UI)
 
 class 'Editor' : extends(UI)

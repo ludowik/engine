@@ -23,10 +23,10 @@ function Mouse:__tostring()
     return self.x..', '..self.y..' ('..(self.isTouch and 'true' or 'false')..')'
 end
 
-function Mouse:mouseEvent(id, status, x, y, dx, dy, isTouch)
+function Mouse:mouseEvent(id, state, x, y, dx, dy, isTouch)
     mouse.id = id
 
-    mouse.status = status
+    mouse.state = state
 
     mouse.x = x
     mouse.y = H - y

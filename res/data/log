@@ -1,8 +1,8 @@
 /Users/lca/Projets/Lua/engine
-load applications/legacy/sketches3d/sponge
+load applications/default
 release 2 fonts
-memory at init    : 0.73 mo
-memory min        : 0.73 mo
-memory max        : 12.89 mo
-memory variation  : 12.16 mo
-memory at release : 10.21 mo
+memory at init    : 0.74 mo
+memory min        : 0.74 mo
+memory max        : 13.14 mo
+memory variation  : 12.41 mo
+memory at release : 8.24 mo

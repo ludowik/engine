@@ -10,10 +10,10 @@ function variableSetup()
     Grayscale=3
 
     RMode = mColor -- Default rendering mode. 
-                  -- Can also be "Grayscale" or "Binary"
+    -- Can also be "Grayscale" or "Binary"
 
     tileNumber = 100 -- Image resolution. 
-                     -- Try varying this between 50 to 700
+    -- Try varying this between 50 to 700
 
     tilesize = WIDTH/tileNumber
 
@@ -27,8 +27,8 @@ function variableSetup()
     MinIm = -1.35
     MaxIm = 1.35
     Re_factor = (MaxRe-MinRe)/(WIDTH -1) -- Scale factors 
-                                         -- From real to window
-                                        
+    -- From real to window
+
     Im_factor = (MaxIm-MinIm)/(HEIGHT -1)
 
     MaxIterations = 255 -- Max iteration count for membership check
@@ -45,36 +45,35 @@ end
 -- Print the initial instructions, setup the color map
 function setup() 
     variableSetup()
-    
+
     parameter.watch("ManCalcTime")
     parameter.watch("DeltaTime")
-    
+
     parameter.integer("RMode",1, 3,1)
     parameter.integer("Resolution",50,700,200)
-    
+
     print("This program plots an image of the Mandelbrot set using the image() class.\n")
     print("Tap anywhere in the window to zoom in, double-tap to zoom out.\n")
     print("ManCalcTime is the time it takes to calculate the set membership and escape values.\n")
     print("Parameter: RMode sets the type of color map the set is rendered with.\n")
     print("Parameter: Resolution sets the level of image detail.")
     print("Higher resolutions make prettier pictures at the expense of slower update.")
-    
+
     InitColorMap()
     background(0, 0, 0, 255)
     --ManSetCalc()
 end
 
-
 function InitColorMap()
     for i=0,MaxIterations do
         if RMode == Grayscale then -- Grayscale
-        
+
             redArray[i]=255-i*255/MaxIterations
             greenArray[i]=255-i*255/MaxIterations
             blueArray[i]=255-i*255/MaxIterations
-            
+
         elseif RMode == mColor then 
-            
+
             -- Color gradients designed to use their prime
             -- number mulltiples to create a range of varied 
             -- and uniqe color bands, even when MaxIterations
@@ -82,9 +81,9 @@ function InitColorMap()
             redArray[i]=(i*11) % 255
             greenArray[i] = (i*5) % 255
             blueArray[i] = (i * 7) % 255
-            
+
         elseif RMode == Binary then 
-            
+
             -- Alternating black and white
             if (i % 2) == 0 then
                 redArray[i]=255
@@ -99,7 +98,6 @@ function InitColorMap()
     end    
 end
 
-
 function touched(touch)
     if touch.state == ENDED then 
         --only use the final touch event to scale image window  
@@ -107,7 +105,7 @@ function touched(touch)
         dim=MaxIm-MinIm
         gx = MinRe + touch.x/WIDTH * dre
         gy = MinIm + (touch.y)/HEIGHT * dim
-    
+
         TouchTime = os.clock()
         if TouchTime - LastTouchTime < 0.3 then 
             -- zoom out if double tap
@@ -122,10 +120,10 @@ function touched(touch)
             MinIm = gy - dim / 3
             MaxIm = gy + dim / 3
         end
-        
+
         Re_factor = (MaxRe-MinRe)/(WIDTH - 1)
         Im_factor = (MaxIm-MinIm)/(HEIGHT - 1)
-        
+
         LastTouchTime = TouchTime
         count=1   
     end
@@ -137,25 +135,25 @@ function ManSetCalc()
     local imf=Im_factor*tilesize
     local ref=Re_factor*tilesize
     local iterations
-    
+
     -- note each call to ManSetCalc() only updates 
     -- a single line of the image at y=count
     y = myImage.height - count
     c_im = MinIm + y*imf      
-      
+
     for x = 1, tileNumber-1 do
         c_re = MinRe + x*ref
         --check to see if x,y are inside the main 
         --cardioid or period2 bulb
-          
+
         --in which case they are in the set and 
         --no iterative check is necessary
-          
+
         --results in a 5x speedup when zoomed out
         q=(c_re-0.25)*(c_re-0.25) + c_im*c_im
-        
+
         if ( ((c_re+1)*(c_re+1) + c_im * c_im < 0.0625) or 
-              (q*(q+(c_re-0.25))<0.25*c_im*c_im) ) then         
+            (q*(q+(c_re-0.25))<0.25*c_im*c_im) ) then         
             myImage:set(x, y,
                 redArray  [MaxIterations] / 255,
                 greenArray[MaxIterations] / 255,
@@ -168,7 +166,7 @@ function ManSetCalc()
             Z_re = c_re
             Z_im = c_im
             isInside = true
-            
+
             for n=0, MaxIterations, 1 do
                 Z_re2 = Z_re*Z_re
                 Z_im2 = Z_im*Z_im
@@ -182,7 +180,7 @@ function ManSetCalc()
                 Z_im = 2*Z_re*Z_im + c_im
                 Z_re = Z_re2 - Z_im2 + c_re
             end
-             
+
             -- Store the iteration result in the image buffer           
             myImage:set(x, y,
                 redArray  [iterations] / 255,
@@ -191,16 +189,16 @@ function ManSetCalc()
                 1) 
         end
     end 
-    
+
     ManCalcEnd = os.clock()
     ManCalcTime = ManCalcEnd-ManCalcStart
 end
 
 function draw()
     background(black)
-    
+
     smooth() -- noSmooth() if you like a blockier image
-    
+
     -- If RMode iparamter changes reinitialize the colormap
     if RMode ~= LastRMode then 
         InitColorMap()
@@ -211,20 +209,20 @@ function draw()
     if Resolution ~= LastResolution then
         tileNumber=Resolution
         tilesize = WIDTH/tileNumber
-        
+
         -- Redefine image buffer to new resolution
         myImage = image(tileNumber+1,tileNumber+1) 
-        
+
         -- Reset rendering to top of image 
         -- to be sure count is within buffer bounds  
         count=1 
         LastResolution = Resolution
     end
-    
+
     -- Render the image buffer
     spriteMode(CENTER)
     sprite(myImage, WIDTH*0.5, HEIGHT*0.5, WIDTH, HEIGHT) 
-    
+
     -- Calculate and store current line of image data
     ManSetCalc() 
     count = 1 + count % tileNumber
