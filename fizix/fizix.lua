@@ -24,9 +24,8 @@ function Fizix:init()
     self:resume()
 end
 
-function Fizix:gravity(x, y)
-    local v = vec2(x, y)
-    self.g:set(v.x, v.y)
+function Fizix:gravity(...)
+    self.g:set(...)
     return self.g
 end
 
@@ -71,10 +70,10 @@ function Fizix:addItems(items, ...)
 end
 
 function Fizix:setArea(x, y, w, h)
-    self:add(Object(), STATIC, EDGE, vec2(x, y  ), vec2(x+w, y  ))
-    self:add(Object(), STATIC, EDGE, vec2(x, y+h), vec2(x+w, y+h))
-    self:add(Object(), STATIC, EDGE, vec2(x  , y), vec2(x  , y+h))
-    self:add(Object(), STATIC, EDGE, vec2(x+w, y), vec2(x+w, y+h))
+    self:add(Object(), STATIC, EDGE, vec3(x, y  ), vec3(x+w, y  ))
+    self:add(Object(), STATIC, EDGE, vec3(x, y+h), vec3(x+w, y+h))
+    self:add(Object(), STATIC, EDGE, vec3(x  , y), vec3(x  , y+h))
+    self:add(Object(), STATIC, EDGE, vec3(x+w, y), vec3(x+w, y+h))
 end
 
 function Fizix:update(dt)

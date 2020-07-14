@@ -1,28 +1,8 @@
-<<<<<<< HEAD
 /Users/lca/Projets/Lua/engine
-load applications/default
-release 2 fonts
-memory at init    : 0.74 mo
-memory min        : 0.74 mo
-memory max        : 13.14 mo
-memory variation  : 12.41 mo
-memory at release : 8.24 mo
-=======
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/legacy/__shadertoy
-load applications/legacy/appmanager
-load applications/legacy/apps/2048
-load applications/legacy/apps/asteroid
-load applications/legacy/apps/bbtan
-load applications/legacy/apps/calc
-load applications/legacy/apps/freecell
-load applications/legacy/apps/icon
-load applications/default
-load applications/dots
-release 13 fonts
-memory at init    : 0.95 mo
-memory min        : 0.95 mo
-memory max        : 11.80 mo
-memory variation  : 10.85 mo
-memory at release : 10.16 mo
->>>>>>> 9ef30843b0b1a20ac449ed90d3f10ab9b9ab48dc
+load applications/noise/map1
+release 3 fonts
+memory at init    : 0.89 mo
+memory min        : 0.89 mo
+memory max        : 24.20 mo
+memory variation  : 23.31 mo
+memory at release : 14.96 mo

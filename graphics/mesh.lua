@@ -7,6 +7,9 @@ end
 function Mesh:clear(vertices, colors)
     self.vertices = vertices or Buffer('vec3')
     self.colors = colors or Buffer('color')
+    
+    self.texCoords = Buffer('vec2')
+    self.normals = Buffer('vec3')
 end
 
 function Mesh:draw()

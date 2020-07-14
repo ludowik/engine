@@ -14,11 +14,13 @@ function Bind:bind(object, attrib, default, callback)
         }
 
     elseif object and type(object) == 'string' then
-        if object:find('%.') then
-            local words = object:split('.')
+        local i = object:findLast('%.')
+        if i then
+            local obj = object:left(i-1)
+            local attrib = object:mid(i+1)
             self.binding = {
-                object = evalExpression(words[1]),
-                attrib = words[2],
+                object = evalExpression(obj),
+                attrib = attrib,
                 default = value(attrib, 0),
                 callback = default
             }

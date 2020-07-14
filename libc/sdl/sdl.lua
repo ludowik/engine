@@ -1,15 +1,7 @@
-local code, defs = precompile(io.read('./libc/sdl/sdl.c'))
+local code, defs = Library.precompile(io.read('./libc/sdl/sdl.c'))
 ffi.cdef(code)
 
-local lib_path
-if os.name == 'osx' then 
-    lib_path = 'SDL2.framework/SDL2'
-else
---    lib_path = '../../Libraries/bin/SDL2'
-    lib_path = 'SDL2'
-end
-
-class 'Sdl' : extends(Component) : meta(ffi.load(lib_path))
+class 'Sdl' : extends(Component) : meta(Library.load('SDL2'))
 
 function Sdl:initialize()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
@@ -31,11 +23,15 @@ function Sdl:initialize()
         self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
         self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
 
+        local w, h = W_INFO + W, H
+        
         window = self.SDL_CreateWindow('resurection',
             0, 0,
-            W, H,
-            self.SDL_WINDOW_SHOWN +
-            self.SDL_WINDOW_OPENGL)
+            w, h,
+--            self.SDL_WINDOW_SHOWN +
+            self.SDL_WINDOW_OPENGL +
+--            self.SDL_WINDOW_FULLSCREEN +
+            0)
 
         if window then
             local r = ffi.new('SDL_Rect');
@@ -54,7 +50,7 @@ function Sdl:initialize()
                 self.SDL_GL_MakeCurrent(window, context)
                 self.SDL_GL_SetSwapInterval(0)
 
-                self.SDL_SetWindowSize(window, W, H)
+                self.SDL_SetWindowSize(window, w, h)
                 self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
 
                 self.SDL_ShowWindow(window)
@@ -62,15 +58,7 @@ function Sdl:initialize()
         end
     end
 
-    local lib_path_sdl_image
-    if os.name == 'osx' then 
-        lib_path_sdl_image = 'SDL2_image.framework/SDL2_image'
-    else
---    lib_path = '../../Libraries/bin/SDL2_image'
-        lib_path_sdl_image = 'SDL2_image'
-    end
-
-    sdl.image = class 'SdlImage' : meta(ffi.load(lib_path_sdl_image))
+    sdl.image = class 'SdlImage' : meta(Library.load('SDL2_image'))
 end
 
 function Sdl:release()
@@ -90,6 +78,7 @@ function Sdl:scancode2key(event)
         key = ffi.string(self.SDL_GetKeyName(event.key.keysym.sym))
     end
     key = key:lower()
+    key = mapKey(key, true)
     return key
 end
 
@@ -110,34 +99,37 @@ function Sdl:update(dt)
         elseif event.type == sdl.SDL_KEYUP then
             engine:keyup(self:scancode2key(event))
 
-        elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
-            mouse:mouseEvent(
-                tonumber(event.tfinger.touchId),
-                BEGAN,
-                event.button.x, event.button.y,
-                0, 0,
-                1,
-                event.button.clicks)
+    elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
+            if event.button.button == self.SDL_BUTTON_LEFT then
+                mouse:mouseEvent(
+                    0,
+                    BEGAN,
+                    event.button.x, event.button.y,
+                    0, 0,
+                    1,
+                    event.button.clicks)
+            end
 
         elseif event.type == sdl.SDL_MOUSEMOTION then
             local isTouch = bitAND(event.motion.state, self.SDL_BUTTON_LMASK)
-
             if isTouch then
                 mouse:mouseEvent(
-                    tonumber(event.tfinger.touchId),
+                    0,
                     MOVING,
                     event.motion.x, event.motion.y,
                     event.motion.xrel, event.motion.yrel,
-                    isTouch)
+                    1)
             end
 
         elseif event.type == sdl.SDL_MOUSEBUTTONUP then
-            mouse:mouseEvent(
-                tonumber(event.tfinger.touchId),
-                ENDED,
-                event.button.x, event.button.y,
-                0, 0,
-                event.button.button)
+            if event.button.button == self.SDL_BUTTON_LEFT then
+                mouse:mouseEvent(
+                    0,
+                    ENDED,
+                    event.button.x, event.button.y,
+                    0, 0,
+                    0)
+            end
 
         elseif event.type == sdl.SDL_MOUSEWHEEL  then
             mouse:mouseWheel(1, event.wheel.x, event.wheel.y)

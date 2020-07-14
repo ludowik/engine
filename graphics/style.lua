@@ -52,8 +52,8 @@ function popStyle()
     styles = pop('__style')
 
     blendMode(styles.blendMode)
-    cullingMode(styles.cullingMode)
     depthMode(styles.depthMode)
+    cullingMode(styles.cullingMode)
     
     font()
     fontSize()

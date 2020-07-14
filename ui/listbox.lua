@@ -38,8 +38,9 @@ end
 function ListBox:touched(touch)
 end
 
-function ListBox:wheelmoved(id, x, y)
-    y = math.sign(y)*10
+function ListBox:wheelmoved(mouse)
+    local y = math.sign(mouse.deltaY) * 10
+    
     if self.needScrollBar then
         self.dy = self.dy - y
         

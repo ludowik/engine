@@ -2,49 +2,49 @@
 
 -- camera
 function updateCamera(dt)
-    if lca.camera then
+    if engine.camera then
         local dist = 10
         if isDown('up') or isDown('a')  then
             if isDown(KEY_FOR_MOUSE_MOVING) then
-                lca.camera:processKeyboardMovement('up', dt)
+                engine.camera:processKeyboardMovement('up', dt)
             else
-                lca.camera:processKeyboardMovement('forward', dt)
+                engine.camera:processKeyboardMovement('forward', dt)
             end
         end
 
         if isDown('down') or isDown('q') then
             if isDown(KEY_FOR_MOUSE_MOVING) then
-                lca.camera:processKeyboardMovement('down', dt)
+                engine.camera:processKeyboardMovement('down', dt)
             else
-                lca.camera:processKeyboardMovement('backward', dt)
+                engine.camera:processKeyboardMovement('backward', dt)
             end
         end
 
         if isDown('left') then
-            lca.camera:processKeyboardMovement('left', dt)
+            engine.camera:processKeyboardMovement('left', dt)
         end
 
         if isDown('right') then
-            lca.camera:processKeyboardMovement('right', dt)
+            engine.camera:processKeyboardMovement('right', dt)
         end
     end
 end
 
 function processMovementOnCamera(touch)
-    if lca.camera then
-        lca.camera:processMouseMovement(touch)
+    if engine.camera then
+        engine.camera:processMouseMovement(touch)
     end
     --    app.scene.rotation = app.scene.rotation or vec3()
     --    app.scene.rotation = app.scene.rotation + vec3(touch.deltaX, touch.deltaY)
 end
 
 function processWheelMoveOnCamera(x, y)
-    if lca.camera then
+    if engine.camera then
         if isDown(KEY_FOR_MOUSE_MOVING) then
-            lca.camera:moveSideward(x, DeltaTime)
-            lca.camera:moveUp(y, DeltaTime)
+            engine.camera:moveSideward(x, DeltaTime)
+            engine.camera:moveUp(y, DeltaTime)
         else
-            lca.camera:zoom(0, y, DeltaTime)
+            engine.camera:zoom(0, y, DeltaTime)
         end
     end
 end
@@ -67,12 +67,13 @@ function mouseEvent(state, touchId, x, y, dx, dy, istouch, clicks)
     end
 end
 
-Keyboard.on(KEY_FOR_ACCELEROMETER, function(_, _, isrepeat)
-        if not isrepeat then
-            Gravity = vec3(0, -9.8, 0)
-        end
-    end)
+-- TODO
+--Keyboard.on(KEY_FOR_ACCELEROMETER, function(_, _, isrepeat)
+--        if not isrepeat then
+--            Gravity = vec3(0, -9.8, 0)
+--        end
+--    end)
 
-Keyboard.onrelease(KEY_FOR_ACCELEROMETER, function()
-        Gravity = vec3(0, -9.8, 0)
-    end)
+--Keyboard.onrelease(KEY_FOR_ACCELEROMETER, function()
+--        Gravity = vec3(0, -9.8, 0)
+--    end)

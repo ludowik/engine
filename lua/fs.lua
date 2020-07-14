@@ -3,10 +3,11 @@ lfs = require 'lfs'
 fs = {}
 
 function isApp(path)
+    path = 'applications/'..path
+    
     if isFile(path..'.lua') then return true end
-
-    if isFile(path..'/main.lua') then return true end
     if isFile(path..'/#.lua') then return true end
+    if isFile(path..'/main.lua') then return true end
 
     return false
 end

@@ -1,15 +1,16 @@
 --- performanceCheck
 
--- Localize, localize
+-- Localize, localize ---
 -- Avoid table.insert(t, x) => t[i] = x
 -- Avoid ipairs(tab) => i=1,#tab
 -- Avoid unpack()
 
---- Math performance
--- multiplication is faster than division
--- multiplication is faster than exponentiation
--- modulus operator is fast than math.fmod
+--- Math performance ---
+-- Multiplication is faster than division
+-- Multiplication is faster than exponentiation
+-- Modulus operator is fast than math.fmod
 
+-- TODO
 function comparePerf(stopAfter)
     if glm then
         performance("matrix",

@@ -23,6 +23,7 @@ function Reporting:init()
 
             'callers'
         },
+        
         {
             count = formatInteger,
 

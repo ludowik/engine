@@ -20,7 +20,7 @@ function Profiler.setup()
 end
 
 function Profiler.init()
-    Profiler.override(_G)
+    Profiler.override(_G, '_G')
 
     Profiler.level = 0
 
@@ -33,6 +33,39 @@ function Profiler.init()
     local endMemory = mem()
 
     Profiler.defaultMemory = endMemory - startMemory
+end
+
+function Profiler.resetClasses()
+    if not Profiler.running then return end
+
+    local k
+    for i=1,#__classes do
+        k = __classes[i]
+
+        k.nInstancesMin = nil
+        k.nInstancesMax = 0
+
+        k.count = 0
+    end
+end
+
+function Profiler.updateClasses()
+    if not Profiler.running then return end
+
+    Profiler.profiling = false
+    do
+        local k
+        for i=1,#__classes do
+            k = __classes[i]
+
+            if k.count > 1 then
+                k.nInstancesMin = k.nInstancesMin and min(k.nInstancesMin, k.count) or k.count
+                k.nInstancesMax = k.nInstancesMax and max(k.nInstancesMax, k.count) or k.count
+            end
+            k.count = 0
+        end
+    end
+    Profiler.profiling = true
 end
 
 local Stat = class('Stat')
@@ -99,31 +132,29 @@ function Profiler.reset()
 end
 
 function Profiler.override(t, className, name)
+    assert(className)
+    
     if not Profiler.tables[t] then
         Profiler.tables[t] = true
 
         if name then
-            print('override class '..(className or '_G')..' from '..name)
+            print('override class '..className..' from '..name)
         else
-            print('override class '..(className or '_G'))
+            print('override class '..className)
         end
 
         for name,f in pairs(t) do
             local nType = type(name)
             local fType = type(f)
 
-            if nType == 'string'
-            and not name:inList(Profiler.excludeNames)
+            if (nType == 'string' and
+                not name:inList(Profiler.excludeNames))
             then
                 if fType == 'function' then
-                    print(className, name)
-                    
                     local fName = className and (className..'.'..name) or name
                     t[name] = Profiler.overrideFunction(fName, f)
 
-                elseif fType == 'table' and className == nil then
-
-                    if name  == 'fs' then pause() end
+                elseif fType == 'table' and className == '_G' then
                     local className = classnameof(f)
                     if className then
                         Profiler.override(f, className, name)

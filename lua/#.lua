@@ -29,6 +29,7 @@ require 'lua.bit'
 require 'lua.callback'
 require 'lua.attribs'
 require 'lua.enum'
+require 'lua.args'
 
 require 'lua.octree'
 require 'lua.http'
@@ -38,14 +39,6 @@ require 'lua.timer'
 require 'lua.os'
 require 'lua.dev'
 
--- TODO
--- doublon sur les tests de performances
--- require 'lua.dev'
-
--- TODO 
--- doublon avec le module lua/os.lua
-os.name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
-
 function toggle(value, opt1, opt2)
     if value == nil then return opt1 end
 
@@ -54,3 +47,7 @@ function toggle(value, opt1, opt2)
     end
     return opt1
 end
+
+function doNothing()
+end
+

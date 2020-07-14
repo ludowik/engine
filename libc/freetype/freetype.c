@@ -73,8 +73,11 @@ Glyph load_text(FT_Face face, const char* text) {
         return glyph;
 
     FT_GlyphSlot slot = face->glyph;
-
-    int x=0, w=0, h=0, top=0, bottom=0;
+    
+    int H = (face->ascender + face->descender) / 26;
+    
+    int x=0, w=0, h=0, top=0, bottom=0, dy=0;
+    
     int space_width = 5;
 
     size_t len = strlen(text);
@@ -92,8 +95,10 @@ Glyph load_text(FT_Face face, const char* text) {
         top = max(top, bitmap_top);
         bottom = max(bottom, bitmap_rows - bitmap_top);
     }
-
-    h = top + bottom;
+    
+    h = max(top + bottom, H);
+    
+    dy = max(0, H - (top + bottom) - 2) / 2;
 
     int size = w * h * sizeof(GLubyte) * BytesPerPixel;
     GLubyte* pixels = calloc(1, size);
@@ -106,12 +111,12 @@ Glyph load_text(FT_Face face, const char* text) {
 
         int index_bitmap = 0;
         for ( int j = 0; j < bitmap_rows; ++j ) {
-            int index = (h-j-1-top+bitmap_top) * w + x + bitmap_left; // (h - 1 - (j + top - bitmap_top)) * w + x + bitmap_left;
+            int index = (h-1 - (j + top - bitmap_top + dy)) * w + x + bitmap_left;
 
             if (index >= 0 && index < size) {
                 if (BytesPerPixel == 4) {
-                    for ( int j = 0; j < bitmap_width; ++j ) {
-                        pixels[(index+j)*BytesPerPixel+3] = bitmap_buffer[index_bitmap+j];
+                    for ( int i = 0; i < bitmap_width; ++i ) {
+                        pixels[(index+i)*BytesPerPixel+3] = bitmap_buffer[index_bitmap+i];
                     }
                 } else {
                     memcpy(&pixels[index], &bitmap_buffer[index_bitmap], bitmap_width);

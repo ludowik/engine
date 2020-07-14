@@ -1,18 +1,23 @@
-function getOS()
-    local os = ''
+function getOS()    
+    local name = ''
     
     if love then
-        os = love.system.getOS()
+        name = love.system.getOS()
+        
     elseif jit then
-        os = jit.os
+        name = jit.os
+        
     else
-        os = 'osx'
+        name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
     end
     
-    os = os:lower(os):gsub(' ', '')
+    name = name:lower():gsub(' ', '')
     
-    return os
+    return name
 end
 
-osx = getOS() == 'osx'
-windows = getOS() == 'windows'
+os.name = getOS()
+
+osx = os.name == 'osx'
+windows = os.name == 'windows'
+unix = os.name == 'unix'

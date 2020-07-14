@@ -25,10 +25,10 @@ end
 function RectObject:addToPhysics(bodyType)
     local x, y, w, h = self.position.x, self.position.y, self.size.x, self.size.y
     return fizix:add(self, bodyType or DYNAMIC, self.shapeType, {
-            vec2(x, y),
-            vec2(x+w, y),
-            vec2(x+w, y+h),
-            vec2(x, y+h)
+            vec3(x, y),
+            vec3(x+w, y),
+            vec3(x+w, y+h),
+            vec3(x, y+h)
         })
 end
 

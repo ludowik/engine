@@ -1,12 +1,5 @@
-local code, defs = precompile(io.read('./libc/opengl/opengl.c'))
+local code, defs = Library.precompile(io.read('./libc/opengl/opengl.c'))
 ffi.cdef(code)
-
-local lib_path
-if os.name == 'osx' then 
-    lib_path = 'OpenGL.framework/OpenGL'
-else
-    lib_path = 'System32/OpenGL32'
-end
 
 class 'OpenGL' : extends(Component)
 
@@ -120,8 +113,10 @@ function OpenGL:loadProcAdresses()
 
         -- frame & render buffers
         'glGenFramebuffers',
+        'glDeleteFramebuffers',
         'glBindFramebuffer',
         'glGenRenderbuffers',
+        'glDeleteRenderbuffers',
         'glBindRenderbuffer',
         'glRenderbufferStorage',
         'glFramebufferRenderbuffer',
@@ -248,10 +243,9 @@ function OpenGL:initialize()
         return idptr[0]
     end
 
-    -- TODO
-    function gl.glDeleteFramebuffer()
+    function gl.glDeleteFramebuffer(id)
+        idptr[0] = id
         gl.glDeleteFramebuffers(1, idptr)
-        return idptr[0]
     end
 
     function self.glGenRenderbuffer()
@@ -259,7 +253,6 @@ function OpenGL:initialize()
         return idptr[0]
     end
 
-    -- TODO
     function gl.glDeleteRenderbuffer(id)
         idptr[0] = id
         gl.glDeleteRenderbuffers(1, idptr)

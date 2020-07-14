@@ -7,18 +7,24 @@ require 'engine.config'
 require 'engine.mouse'
 require 'engine.keyboard'
 
-require 'engine.objects.component'
-require 'engine.objects.object'
-require 'engine.objects.node'
-require 'engine.objects.scene'
-
 require 'engine.application'
+require 'engine.applicationManager'
+
+require 'engine.component'
 require 'engine.engine'
-require 'engine.frame_time'
-require 'engine.engine_memory'
+
+require 'engine.trackTime'
+require 'engine.trackMemory'
+
+require 'engine.scene.object'
+require 'engine.scene.node'
+require 'engine.scene.scene'
+
 require 'engine.parameter'
 require 'engine.resourceManager'
+
 require 'engine.touchDirection'
+require 'engine.camera'
 
 require 'libc'
 require 'lib.json'

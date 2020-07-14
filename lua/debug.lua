@@ -14,7 +14,7 @@ end
 
 function pause()
     debugger.start()
-    debugger.mob.pause()
+    debugger.pause()
 end
 
 jit.on()

@@ -33,6 +33,7 @@ function Body:init(bodyType, shapeType, ...)
     self.previousPosition = vec3()
     
     self.force = vec3()
+    
     self.move = vec3()
 
     self.linearVelocity = vec3()
@@ -60,7 +61,7 @@ function Body:init(bodyType, shapeType, ...)
 
     self.keepInArea = false -- TODO
 
-    self.points = Buffer('vec2')
+    self.points = Buffer('vec3')
 
     Body[self.shapeType].init(self, ...)
 end
@@ -98,10 +99,10 @@ function Body.rect:init(w, h)
     self.radius = math.sqrt(self.w^2 + self.h^2) / 2
 
     self.points = {
-        vec2(-w/2, -h/2),
-        vec2( w/2, -h/2),
-        vec2( w/2,  h/2),
-        vec2(-w/2,  h/2),
+        vec3(-w/2, -h/2),
+        vec3( w/2, -h/2),
+        vec3( w/2,  h/2),
+        vec3(-w/2,  h/2),
     }
 end
 
@@ -111,7 +112,7 @@ function Body.polygon:init(vertices, ...)
             vertices = {vertices, ...}
         end
         for i,vertex in ipairs(vertices) do
-            self.points:insert(vertex)
+            self.points:add(vertex:tovec3())
         end
     else
         self.points = Model.random.polygon(r or math.random(10, 50))
@@ -125,15 +126,15 @@ function Body.chain:init(loop, ...)
 
     local vertices = {...}
     for i,vertex in ipairs(vertices) do
-        self.points:insert(vertex)
+        self.points:add(vertex:tovec3())
     end
 
     self:computeSize()
 end
 
 function Body.edge:init(v1, v2)
-    self.points:add(v1)
-    self.points:add(v2)
+    self.points:add(v1:tovec3())
+    self.points:add(v2:tovec3())
 
     self:computeSize()
 end
@@ -271,40 +272,7 @@ function Body.rect:draw()
 end
 
 function Body.polygon:draw()
-    assert(#self.points >= 3)
-
-    local vertices = Buffer('vec2')
-
-    local p1, p2, p3 = self.points[1]
-    for i=3,#self.points do
-        p2 = self.points[i-1]
-        p3 = self.points[i]
-
-        table.insert(vertices, p1)
-        table.insert(vertices, p2)
-        table.insert(vertices, p3)
-    end
-
-    local shape = mesh()
-    shape.vertices = vertices
-
-    pushMatrix()
-    do
-        translate(self.position.x, self.position.y)
-        
-        rotate(self.angle, 0, 0, 1)
-        
-        shape:draw()
-
-        for i=2,#self.points do
-            p2 = self.points[i-1]
-            p3 = self.points[i]
-
-            line(p2.x, p2.y, p3.x, p3.y)
-        end
-        line(p3.x, p3.y, p1.x, p1.y)
-    end
-    popMatrix()
+    polygon(self.points)
 end
 
 function Body.edge:draw()

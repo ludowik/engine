@@ -1,10 +1,10 @@
 class('Rect')
 
 function Rect:init(x, y, w, h)
-    self.position = vec2(x, y)
-    self.size = vec2(w, h)
+    self.position = vec3(x, y)
+    self.size = vec3(w, h)
     
-    self.absolutePosition = self.position
+    self.absolutePosition = vec3(x, y)
 end
 
 function Rect:setPosition(x, y)

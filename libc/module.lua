@@ -1,10 +1,17 @@
 class 'Library'
 
--- TODO
--- Générer les header directement
--- "gcc -F"..self.sdk.." -E     '"..stub.."' | grep -v '^#' > '"..cFile.."';"..
--- "gcc -F"..self.sdk.." -dM -E '"..stub.."'                > '"..hFile.."';")
+function Library.precompile(str)
+    local defs = {}
 
+    function define2const(def, value)
+        defs[def] = tonumber(value)
+        return 'static const int '..def..' = '..value..';\r'
+    end
+
+    str = str:gsub("#define%s+(%S+)%s+(%S+)[\r\n]", define2const)
+
+    return str, defs
+end
 
 function Library.compileCode(code, moduleName)
     local params = {
@@ -13,7 +20,7 @@ function Library.compileCode(code, moduleName)
     }
 
     io.write(params.srcName, code)
-    
+
     return Library.compileFile(params.srcName, moduleName)
 end
 
@@ -25,7 +32,7 @@ function Library.compileFile(srcName, moduleName, headers, links)
         headers = headers or '',
         links = links or ''
     }
-    
+
     local command = string.format('gcc -Wall -shared {headers} -o {libName} {srcName} {links}', params)
     local res = os.execute(command)
     assert(res == 0)
@@ -37,19 +44,23 @@ function Library.compileFile(srcName, moduleName, headers, links)
     return ffi.load(params.libName)
 end
 
-function precompile(str)
-    local defs = {}
-    
-    function define2const(def, value)
-        defs[def] = tonumber(value)
-        return 'static const int '..def..' = '..value..';\r'
+function Library.load(libName)
+    local libPath
+    if os.name == 'osx' then 
+        libPath = libName..'.framework/'..libName
+    else
+        libPath = 'System32/'..libName
     end
-
-    str = str:gsub("#define%s+(%S+)%s+(%S+)[\r\n]", define2const)
-
-    return str, defs
+    return ffi.load(libPath)
 end
 
 ffi = require 'ffi'
 
 ffi.NULL = ffi.cast('void*', 0)
+
+-- TODO
+-- Générer les header directement
+-- "gcc -F"..self.sdk.." -E     '"..stub.."' | grep -v '^#' > '"..cFile.."';"..
+-- "gcc -F"..self.sdk.." -dM -E '"..stub.."'                > '"..hFile.."';")
+
+

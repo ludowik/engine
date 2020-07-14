@@ -235,9 +235,13 @@ function sprite(img, x, y, w, h, mode)
     if type(img) == 'string' then        
         img = resourceManager:get('image', img, image)        
     end
+    
     if img and img.surface then
-        x, y = centerFromCorner(mode or spriteMode(), x, y, w or img.surface.w, h or img.surface.h)
-        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, w or img.surface.w, h or img.surface.h, 1)
+        w = w or img.surface.w
+        h = h or img.surface.h
+        
+        x, y = centerFromCorner(mode or spriteMode(), x, y, w, h)
+        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, w, h, 1)
     end
 end
 
@@ -252,14 +256,8 @@ function spriteSize(img)
 end
 
 function text(str, x, y, mode)
-    str = tostring(str)
-
-    x = x or 0
-    y = y or TEXT_NEXT_Y
-
-    if stroke() then
-        -- TODO 
-        -- multilignes        
+    -- TODO 
+    -- multilignes        
 --        for i,line in ipairs(lines) do
 --            local image, lw, lh = ...
 --            ....textRender....
@@ -267,13 +265,28 @@ function text(str, x, y, mode)
 --            h = h + lh
 --        end
 
-        local img = ft:getText(str).img
+    str = tostring(str)
 
-        x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
+    local img = ft:getText(str).img
 
-        meshText:render(meshText.shader, gl.GL_TRIANGLES, img, x, y, 0, img.surface.w, img.surface.h, 1)
+    x = x or 0
+
+    if y then
         TEXT_NEXT_Y = y - img.surface.h
+    else
+        TEXT_NEXT_Y = TEXT_NEXT_Y - img.surface.h
+        y = TEXT_NEXT_Y
     end
+
+    x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
+
+    if fill() then
+        meshText:render(meshText.shader, gl.GL_TRIANGLES, img,
+            x, y, 0,
+            img.surface.w, img.surface.h, 1)
+    end  
+    
+    return img.surface.w, img.surface.h
 end
 
 function textSize(str)
@@ -297,10 +310,9 @@ end
 function plane()
 end
 
-function box(img, w, h, d)
-    if type(img) == 'number' then
-        w, h, d = img, w, h
-        img = nil
+function box(w, h, d, img)
+    if type(w) == 'table' then
+        img = w
     end
 
     w = w or 1

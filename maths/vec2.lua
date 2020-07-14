@@ -35,15 +35,20 @@ function mt:clone()
     return vec2(self)
 end
 
+function mt:tovec3()
+    return vec3(self.x, self.y, 0)
+end
+
 function mt.random(w, h)
-    if w then
+    if w and h then
         return vec2(
             random.range(w),
-            random.range(h or w))
+            random.range(h))
     else
+        w = w or 1
         return vec2(
-            random.random(),
-            random.random())
+            w * (random.random() * 2 - 1),
+            w * (random.random() * 2 - 1))
     end
 end
 

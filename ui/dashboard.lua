@@ -16,16 +16,16 @@ function Dashboard:setSortFunction(f)
     self.sortFunction = f
 end
 
-function Dashboard:wheelmoved(id, x, y)
-    self.offset = self.offset + y * 10
+function Dashboard:wheelmoved(mouse)
+    self.offset = self.offset + mouse.deltaY * 10
 end
 
 function Dashboard:draw()
     local w, h = textSize('Dashboard')
-    graphics2d.NEXTY = HEIGHT - h - self.offset
+    TEXT_NEXT_Y = HEIGHT - h - self.offset
 
     font(DEFAULT_FONT_NAME)
-    fontSize(14)
+    fontSize(10)
 
     fill(white)
 
@@ -45,7 +45,7 @@ function Dashboard:draw()
     end
 
     local x = self.position.x
-    local y = graphics2d.NEXTY
+    local y = TEXT_NEXT_Y
 
     function drawCell(columnName, value)
         value = tostring(value)
@@ -53,10 +53,14 @@ function Dashboard:draw()
         local w, h = textSize(value)
         columnsSize[columnName] = max(columnsSize[columnName] or 0, w)
 
-        line(x, y+h, x+columnsSize[columnName], y+h)
-        line(x, y, x, y+h)
+        if area:contains(x, y) then -- and fData.stat.count > 0 then
+            line(x, y+h, x+columnsSize[columnName], y+h)
+            line(x, y, x, y+h)
 
-        text(value, x+columnsSize[columnName]-w, y)
+            text(value, x+columnsSize[columnName]-w, y)
+        else
+            TEXT_NEXT_Y = y - h
+        end
 
         x = x + columnsSize[columnName]
     end
@@ -69,17 +73,16 @@ function Dashboard:draw()
     end
 
     for _,object in ipairs(self.array) do
-        if object.__base then
+        if attributeof('__bases', object) then
             x = self.position.x
-            y = graphics2d.NEXTY
+            y = TEXT_NEXT_Y
 
-            if object.focusOn then
+            if attributeof('focusOn', object) then
                 fill(orange)
             else
                 fill(white)
             end
 
-            --if area:contains(x, y) then -- and fData.stat.count > 0 then
             for _,columnName in ipairs(columnsName) do
                 local attrPath = columnName:split('.')
                 columnName = attrPath[#attrPath]
@@ -87,7 +90,7 @@ function Dashboard:draw()
                 local value = object
                 for _,v in ipairs(attrPath) do
                     if value == nil then break end
-                    value = value[v]
+                    value = attributeof(v, value)
 --                    if value and type(value) == 'table' and #value > 0 then
 --                        value = value[1]
 --                    end
@@ -98,14 +101,14 @@ function Dashboard:draw()
                         value = columnsConvert[columnName](value)
                     end
 
-
                     if type(value) == 'table' and #value > 0 then
                         for _,info in ipairs(value) do
                             x = columnsSize[columnName]
 
                             drawCell(columnName, info)
-                            y = graphics2d.NEXTY
+                            y = TEXT_NEXT_Y
                         end
+
                     elseif columnName == 'callers' then
                         if Profiler.detail and object.callers then
                             local callers = Table()
@@ -118,7 +121,7 @@ function Dashboard:draw()
 
                             for _,info in ipairs(callers) do
                                 x = columnsSize['name']
-                                y = graphics2d.NEXTY
+                                y = TEXT_NEXT_Y
 
                                 drawCell('count', info.count)
                                 drawCell('caller', info.caller)
@@ -130,6 +133,5 @@ function Dashboard:draw()
                 end
             end
         end
-        --end
     end
 end

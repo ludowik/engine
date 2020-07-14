@@ -1,12 +1,20 @@
-function resetMatrix()
-    __projectionMatrix = matrix()
-    __viewMatrix = matrix()
+class ('Transform')
 
-    __pvMatrix = matrix()
+function Transform.setup()
+    resetMatrix(true)
+end
 
+function resetMatrix(all)
     __modelMatrix = matrix()
 
-    ortho()
+    if all then
+        __projectionMatrix = matrix()
+        __viewMatrix = matrix()
+
+        __pvMatrix = matrix()
+
+        ortho()
+    end
 end
 
 function pushMatrix()
@@ -131,7 +139,10 @@ end
 
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     if type(eye_x) == 'number' then
-        cameraImplem(vec3(eye_x, eye_y, eye_z), vec3(at_x, at_y, at_z), vec3(up_x, up_y, up_z))
+        cameraImplem(
+            eye_x and vec3(eye_x, eye_y, eye_z),
+            at_x and vec3(at_x, at_y, at_z),
+            up_x and vec3(up_x, up_y, up_z))
     else
         cameraImplem(eye_x, eye_y, eye_z)
     end

@@ -2,17 +2,21 @@ class 'Shader'
 
 function Shader:init(name)
     self.name = name
+    
+    self:create()
+end
 
+function Shader:create()
     self.program_id = gl.glCreateProgram()
 
     self.ids = {
-        vertex = self:build(gl.GL_VERTEX_SHADER, name, 'vertex'),
---        geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry'),
-        fragment = self:build(gl.GL_FRAGMENT_SHADER, name, 'fragment'),
+        vertex = self:build(gl.GL_VERTEX_SHADER, self.name, 'vertex'),
+--        geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry'),
+        fragment = self:build(gl.GL_FRAGMENT_SHADER, self.name, 'fragment'),
     }
 
     if config.glMajorVersion >= 4 then
-        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, name, 'geometry')
+        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
     end
 
     gl.glLinkProgram(self.program_id)
@@ -23,7 +27,13 @@ function Shader:init(name)
     end
 
     self:initAttributes()
+
     self:initUniforms()
+end
+
+function Shader:update()
+    self:release()
+    self:create()
 end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
@@ -105,6 +115,10 @@ end
 
 function Shader:use()
     gl.glUseProgram(self.program_id)
+end
+
+function Shader:unuse()
+    gl.glUseProgram(0)
 end
 
 function Shader:initAttributes()
@@ -217,7 +231,7 @@ function Shader:send(k, v)
 end
 
 function Shader:initUniforms()
-    self.uniforms = {}
+    self.uniformsLocations = {}
 
     local uniformName = ffi.new('char[64]')
 
@@ -235,36 +249,8 @@ function Shader:initUniforms()
             type_ptr,
             uniformName)
 
-        self.uniforms[ffi.string(uniformName)] = {
+        self.uniformsLocations[ffi.string(uniformName)] = {
             uniformLocation = gl.glGetUniformLocation(self.program_id, uniformName)
         }
-    end
-end
-
-function Shader:unuse()
-    gl.glUseProgram(0)
-end
-
-class 'ShaderManager' : extends(Component)
-
-function ShaderManager:initialize()
-    shaders = {
-        default  = Shader('default'),
-        point    = Shader('point'),
-        line     = Shader('line'),
-        polyline = Shader('line'),
-        polygon  = Shader('line'),
-        ellipse  = Shader('default'),
-        rect     = Shader('default'),
-        sprite   = Shader('sprite'),
-        text     = Shader('text'),
-        box      = Shader('sprite'),
---        lines2d  = Shader('lines2d'),
-    }
-end
-
-function ShaderManager:release()
-    for shaderName,shader in pairs(shaders) do
-        shader:release()
     end
 end

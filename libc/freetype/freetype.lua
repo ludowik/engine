@@ -1,22 +1,20 @@
-include_dirs = '/Library/Frameworks/FreeType.framework/Headers'
-
 if os.name == 'osx' then
 
     ft = Library.compileFile('libc/freetype/freetype.c',
         'ft',
-        '-I /Library/Frameworks/FreeType.framework/Headers',
-        '/Library/Frameworks/FreeType.framework/FreeType')
+        '-I /Library/Frameworks/FreeType.Framework/Headers',
+        '/Library/Frameworks/FreeType.Framework/FreeType')
 
 else
 
     ft = Library.compileFile('libc/freetype/freetype.c',
         'ft',
-        '-I "'..Path.libraryPath..'/Libraries/freetype/include"',
-        '-L"'..Path.libraryPath..'/Libraries/freetype/win32" -lfreetype')
+        '-I "'..Path.libraryPath..'/FreeType/include"',
+        '-L"'..Path.libraryPath..'/FreeType/win32" -lFreeType')
 
 end
 
-local code, defs = precompile(io.read('./libc/freetype/freetype.h'))
+local code, defs = Library.precompile(io.read('./libc/freetype/freetype.h'))
 ffi.cdef(code)
 
 class 'FreeType' : extends(Component) : meta(ft)

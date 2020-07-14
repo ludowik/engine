@@ -80,7 +80,11 @@ function Audio:load(file)
         assert(false)
     end
 
-    al.alBufferData(self.id, format, wavbuf[0], wavlen[0], wavspec.freq)
+    al.alBufferData(self.id,
+        format,
+        wavbuf[0],
+        wavlen[0],
+        wavspec.freq)
 
     sdl.SDL_FreeWAV(wavbuf[0])
 end
@@ -103,6 +107,7 @@ function Audio:loadBuffer(amplitude, Hz, sampleRate)
 
     -- buffer alimentation
     self:stop()
+    
     al.alBufferData(self.id, -- buffer id
         al.AL_FORMAT_MONO16, -- format
         self.buffer,
@@ -175,6 +180,8 @@ function Audio:loadBufferFromSfxr(f)
 end
 
 function Audio:generateFromTable(sound)
+    self:genBuffer()
+    
     sound = self.sound or sound
 
     local tab, count = sound:generateTable(44100, 0)

@@ -66,7 +66,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
     do
         shader:use()
 
-        self:sendUniforms(shader.uniforms)
+        self:sendUniforms(shader.uniformsLocations)
 
         if config.glMajorVersion >= 4 then
             shader.vao = shader.vao or gl.glGenVertexArray()
@@ -74,50 +74,50 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
         end
 
         local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
-        assert(vertexAttrib, shader.name..':'..#self.vertices)
-
         local colorAttrib = self:sendAttribute('color', self.colors, 4)
         local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
 
-        if img and shader.uniforms.tex0 then
-            if shader.uniforms.useTexture then
-                gl.glUniform1i(shader.uniforms.useTexture.uniformLocation, 1)
+        if img and shader.uniformsLocations.tex0 then
+            if shader.uniformsLocations.useTexture then
+                gl.glUniform1i(shader.uniformsLocations.useTexture.uniformLocation, 1)
             end
             
-            gl.glUniform1i(shader.uniforms.tex0.uniformLocation, 0)
+            gl.glUniform1i(shader.uniformsLocations.tex0.uniformLocation, 0)
             
             img:update()
             img:use(gl.GL_TEXTURE0)
         else
-            if shader.uniforms.useTexture then
-                gl.glUniform1i(shader.uniforms.useTexture.uniformLocation, 0)
+            if shader.uniformsLocations.useTexture then
+                gl.glUniform1i(shader.uniformsLocations.useTexture.uniformLocation, 0)
             end
         end
 
-        if shader.uniforms.matrixPV then
+        forceSend = true
+        
+        if shader.uniformsLocations.matrixPV then
             local matrixPV = pvMatrix()
 
-            if shader.matrixPV ~= matrixPV then
+            if forceSend or shader.matrixPV ~= matrixPV then
                 shader.matrixPV = matrixPV
-                gl.glUniformMatrix4fv(shader.uniforms.matrixPV.uniformLocation, 1, gl.GL_TRUE, matrixPV:tobytes())
+                gl.glUniformMatrix4fv(shader.uniformsLocations.matrixPV.uniformLocation, 1, gl.GL_TRUE, matrixPV:tobytes())
             end
         end
 
-        if shader.uniforms.matrixModel then
+        if shader.uniformsLocations.matrixModel then
             local matrixModel = modelMatrix()
 
-            if shader.matrixModel ~= matrixModel then
+            if forceSend or shader.matrixModel ~= matrixModel then
                 shader.matrixModel = matrixModel
-                gl.glUniformMatrix4fv(shader.uniforms.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
+                gl.glUniformMatrix4fv(shader.uniformsLocations.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
             end
         end
 
-        if shader.uniforms.pos then
-            gl.glUniform3f(shader.uniforms.pos.uniformLocation, x, y, z)
+        if shader.uniformsLocations.pos then
+            gl.glUniform3f(shader.uniformsLocations.pos.uniformLocation, x, y, z)
         end
 
-        if shader.uniforms.size then
-            gl.glUniform3f(shader.uniforms.size.uniformLocation, w, h, d)
+        if shader.uniformsLocations.size then
+            gl.glUniform3f(shader.uniformsLocations.size.uniformLocation, w, h, d)
         end
 
 
@@ -157,7 +157,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
 
         config.wireframe = 'fill'
 
-        if img and shader.uniforms.tex0 or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
+        if img and shader.uniformsLocations.tex0 or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
             gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
             gl.glDrawArrays(drawMode, 0, #self.vertices)
         end
@@ -185,28 +185,28 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
     gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
 end
 
-function MeshRender:sendUniforms(uniforms)
-    if uniforms.stroke and styles.attributes.stroke then
-        gl.glUniform4fv(uniforms.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
+function MeshRender:sendUniforms(uniformsLocations)
+    if uniformsLocations.stroke and styles.attributes.stroke then
+        gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
     end
 
-    if uniforms.strokeWidth and styles.attributes.strokeWidth then
-        gl.glUniform1f(uniforms.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
+    if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
+        gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
     end
 
-    if uniforms.fill and styles.attributes.fill then
-        gl.glUniform4fv(uniforms.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
+    if uniformsLocations.fill and styles.attributes.fill then
+        gl.glUniform4fv(uniformsLocations.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
     end
     
-    if uniforms.tint and styles.attributes.tint then
-        gl.glUniform4fv(uniforms.tint.uniformLocation, 1, styles.attributes.tint:tobytes())
+    if uniformsLocations.tint and styles.attributes.tint then
+        gl.glUniform4fv(uniformsLocations.tint.uniformLocation, 1, styles.attributes.tint:tobytes())
     end
 
-    if uniforms.useColor then
+    if uniformsLocations.useColor then
         if self.colors and #self.colors > 0 then
-            gl.glUniform1i(uniforms.useColor.uniformLocation, 1)
+            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 1)
         else
-            gl.glUniform1i(uniforms.useColor.uniformLocation, 0)
+            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 0)
         end
     end
 end

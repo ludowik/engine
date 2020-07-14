@@ -8,7 +8,7 @@ s={
  };
  duty={
  };
- repeatspeed=0.60032735781254;
+ repeatspeed=0.51095577938383;
  highpass={
  };
  lowpass={
@@ -16,12 +16,12 @@ s={
  volume={
  };
  envelope={
-  decay=0.20712053893566;
-  sustain=0.35849700976245;
+  decay=0.14766130584839;
+  sustain=0.079698475693197;
  };
  frequency={
-  slide=0.46387957774909;
-  start=0.43607826481504;
+  slide=0.36856827889353;
+  start=0.27719120285366;
  };
 };
 return s, "0.0.2"

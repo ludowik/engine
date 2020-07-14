@@ -358,4 +358,6 @@ yellow  = Color(1, 1, 0)
 magenta = Color(1, 0, 1)
 cyan    = Color(0, 1, 1)
 
+brown = Color(165, 42, 42, 255)
+
 transparent = Color(0, 0, 0, 0)

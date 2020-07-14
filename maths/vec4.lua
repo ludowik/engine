@@ -31,8 +31,8 @@ function mt:set(x, y, z, w)
     else
         self.x = x.x
         self.y = x.y
-        self.z = x.z
-        self.w = x.w
+        self.z = x.z or 0
+        self.w = x.w or 0
     end
     return self
 end

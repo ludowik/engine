@@ -20,20 +20,20 @@ function Context.setContext(context)
     if context ~= engine.renderFrame then
         pushMatrix(true)
         resetMatrix(true)
-        
+
     elseif Context.currentContext then
         popMatrix(true)
     end
 
     Context.closeCurrentContext()
-    
+
     Context.currentContext = context
 
     if context.framebufferName == nil then
-        context.framebufferName = Image.createFramebuffer()
-        context.depthrenderbuffer = Image.attachRenderbuffer(context.width, context.height)
+        context.framebufferName = context:createFramebuffer()
+        context.depthrenderbuffer = context:attachRenderbuffer(context.width, context.height)
 
-        Image.attachTexture2D(context.texture_id)
+        context:attachTexture2D(context.texture_id)
 
         if gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) ~= gl.GL_FRAMEBUFFER_COMPLETE then
             assert(false)
@@ -56,14 +56,14 @@ function Context.closeCurrentContext()
 end
 
 function Context.resetContext()
-    if engine.renderFrame then
-        Context.setContext(engine.renderFrame)
-    else
-        Context.noContext()
-    end
-end
+    Context.setContext(engine.renderFrame)
 
-W_INFO = 0
+--    if engine.renderFrame then
+--        Context.setContext(engine.renderFrame)
+--    else
+--        Context.noContext()
+--    end
+end
 
 function Context.noContext()    
     Context.closeCurrentContext()

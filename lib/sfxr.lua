@@ -1379,7 +1379,10 @@ function sfxr.Sound:load(f)
         code = f:read()
     end
 
-    local params, version = assert(loadstring(code))()
+    local func = loadstring(code)
+    assert(func)
+    
+    local params, version = func()
     -- check version compatibility
     assert(version >= sfxr.VERSION, "incompatible version: " .. tostring(version))
 

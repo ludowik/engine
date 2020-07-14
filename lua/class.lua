@@ -1,4 +1,4 @@
-local classes = {}
+__classes = {}
 
 local function defaultInit()
 end
@@ -18,12 +18,12 @@ function class(...)
     k.__index = k
     k.__className = className:lower()
 
-    table.insert(classes, k)
+    table.insert(__classes, k)
 
     k.init = defaultInit
 
     k.extends = function (k, ...)
-        __bases = {...}
+        local __bases = {...}
         assert(#__bases > 0)
 
         if k.init == defaultInit then
@@ -38,7 +38,7 @@ function class(...)
                 end
             end
         end
-        
+
         return k
     end
 
@@ -72,6 +72,10 @@ function class(...)
             end
 
             return mt.__call(_, ...)
+        end,
+
+        __tostring = function ()
+            return k.__className
         end
     }
 
@@ -148,7 +152,7 @@ function callOnObject(fname, object)
 end
 
 function call(fname)
-    for k,object in pairs(classes) do
+    for k,object in pairs(__classes) do
         if callOnObject(fname, object) then
         end
     end

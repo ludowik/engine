@@ -76,7 +76,7 @@ end
 
 function string.findLast(s, txt)
     s = s:reverse()
-    local i = s:find(txt:reverse())
+    local i = s:find(txt)
     if i then
         return s:len() - i + 1
     end
@@ -87,7 +87,11 @@ function string.left(s, n)
 end
 
 function string.mid(s, i, n)
-    return s:sub(i, i+n-1)
+    if n then
+        return s:sub(i, i+n-1)
+    else
+        return s:sub(i)
+    end
 end
 
 function string.right(s, n)

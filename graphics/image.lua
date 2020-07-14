@@ -50,7 +50,7 @@ function Image:create(w, h)
             Rmask = 0xff
         }
     }
-    
+
     surface.size = surface.w * surface.h * 4
 
     surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
@@ -212,6 +212,13 @@ function Image:reversePixels(pixels, w, h, bytesPerPixel)
     debugger.on()
 end
 
+function Image:reverseSurface(surface, bytesPerPixel)
+    if sdl.SDL_LockSurface(surface) == 0 then
+        self:reversePixels(surface.pixels, surface.w, surface.h, bytesPerPixel)
+        sdl.SDL_UnlockSurface(surface)
+    end    
+end
+
 function Image:use(index)
     assert(self.texture_id > 0)
 
@@ -256,7 +263,7 @@ function image:offset(x, y)
 
     local offset = self.width * y + x
     if offset >= 0 and offset < self.width * self.height then
-        return offset
+        return offset * 4
     end
 end
 
@@ -267,10 +274,10 @@ function image:set(x, y, color_r, g, b, a)
         color_r, g, b, a = color_r.r, color_r.g, color_r.b, color_r.a
     end
 
-    local pixels = self:getPixels()
-
     local offset = self:offset(x, y)
     if offset then
+        local pixels = self:getPixels()
+
         pixels[offset  ] = color_r * 255
         pixels[offset+1] = g * 255
         pixels[offset+2] = b * 255
@@ -332,24 +339,28 @@ function image:copy(x, y, w, h)
     return img
 end
 
-function Image.createFramebuffer()
+function Image:createFramebuffer()
     -- The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer
-    local framebufferName = gl.glGenFramebuffer()
-    gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, framebufferName)
-    return framebufferName
+    if self.framebufferName == nil then
+        self.framebufferName = gl.glGenFramebuffer()
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.framebufferName)
+    end
+    return self.framebufferName
 end
 
-function Image.attachRenderbuffer(w, h)
+function Image:attachRenderbuffer(w, h)
     -- The depth buffer
-    local depthrenderbuffer = gl.glGenRenderbuffer()
-    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, depthrenderbuffer)
-    gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT24, w, h)
-    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
-    gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, depthrenderbuffer)
-    return depthrenderbuffer
+    if self.framebufferName == nil then
+        self.depthrenderbuffer = gl.glGenRenderbuffer()
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.depthrenderbuffer)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT24, w, h)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, depthrenderbuffer)
+    end
+    return self.depthrenderbuffer
 end
 
-function Image.attachTexture2D(renderedTexture)
+function Image:attachTexture2D(renderedTexture)
     -- Set "renderedTexture" as our colour attachement #0
     gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, renderedTexture, 0)
 
@@ -358,13 +369,27 @@ function Image.attachTexture2D(renderedTexture)
 end
 
 function Image:release()
-    gl.glDeleteTexture(self.texture_id)
+    if self.texture_id then
+        gl.glDeleteTexture(self.texture_id)
+        self.texture_id = -1
+        self.surface.pixels = nil
+    end
 
-    -- Need to delete surface
-    self.surface.pixels = nil
+    if self.framebufferName then
+        gl.glDeleteFramebuffer(self.framebufferName)
+        self.framebufferName = nil
+    end
+
+    if self.depthrenderbuffer then
+        gl.glDeleteRenderbuffer(self.depthrenderbuffer)
+        self.depthrenderbuffer = -1
+    end
 end
 
--- TODO 
+function Image:freeSurface(surface)
+    sdl.SDL_FreeSurface(surface)
+end
+
 function Image:save(imageName, ext)
     local pixels = self:readPixels()
 

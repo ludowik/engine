@@ -29,7 +29,7 @@ function mt:set(x, y, z)
     else
         self.x = x.x
         self.y = x.y
-        self.z = x.z
+        self.z = x.z or 0
     end
     return self
 end
@@ -38,17 +38,22 @@ function mt:clone()
     return vec3(self)
 end
 
+function mt:tovec3()
+    return self
+end
+
 function mt.random(w, h, d)
-    if w then
+    if w and h and d then
         return vec3(
             random.range(w),
-            random.range(h or w),
-            random.range(d or w))
+            random.range(h),
+            random.range(d))
     else
+        w = w or 1
         return vec3(
-            random.random(),
-            random.random(),
-            random.random())
+            w * (random.random() * 2 - 1),
+            w * (random.random() * 2 - 1),
+            w * (random.random() * 2 - 1))
     end
 end
 
@@ -94,7 +99,7 @@ mt.add = function (self, v, coef)
     coef = coef or 1
     self.x = self.x + v.x * coef
     self.y = self.y + v.y * coef
-    self.z = self.z + v.z * coef
+    self.z = self.z + (v.z or 0) * coef
     return self
 end
 
@@ -106,7 +111,7 @@ mt.sub = function (self, v, coef)
     coef = coef or 1
     self.x = self.x - v.x * coef
     self.y = self.y - v.y * coef
-    self.z = self.z - v.z * coef
+    self.z = self.z - (v.z or 0) * coef
     return self
 end
 

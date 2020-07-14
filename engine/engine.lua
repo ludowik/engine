@@ -1,4 +1,4 @@
-class 'Engine'
+class 'Engine' : extends(ApplicationManager)
 
 function Engine:init()
     assert(engine == nil)
@@ -8,25 +8,29 @@ function Engine:init()
 
     loadConfig()
 
-    ut.run()
-    performance.run()
+    do
+        ut.run()
+        performance.run()
+    end
 
     self.active = 'start'
 
     self.memory = Memory()
     self.frame_time = FrameTime()
 
-    -- modules
+    -- create components
     sdl = Sdl()
     gl = OpenGL()
     al = OpenAL()
     ft = FreeType()
 
     resourceManager = ResourceManager()
+
     shaderManager = ShaderManager()
 
     graphics = Graphics()
 
+    -- add components
     self.components = Node()
     do
         self.components:add(self.memory)
@@ -41,16 +45,22 @@ function Engine:init()
         self.components:add(shaderManager)
         self.components:add(graphics)
 
+        self.components:add(Profiler)
+
+        self.components:add(tween)
+
         tween.setup()
     end
 
-    if getOS() == 'osx' then
-        W = 1600
+    W_INFO = 200
+
+    if os.name == 'osx' then
+        W = 1480
+        H = 1000
     else
         W = 1024
+        H = math.floor(W*9/16)
     end
-    
-    H = math.floor(W*9/16)
 
     WIDTH = W
     HEIGHT = H
@@ -58,24 +68,54 @@ function Engine:init()
     self:initEvents()
 end
 
--- TODO utiliser une callback avec la reférence engine
 function Engine:initEvents()
     self.onEvents = {
         keydown = {
-            ['r'] = Engine.restart,
-            ['escape'] = Engine.quit,
+            ['r'] = callback(engine, Engine.restart),
+            ['escape'] = callback(engine, Engine.quit),
 
-            ['d'] = Engine.defaultApp,
-            ['n'] = Engine.nextApp,
-            ['b'] = Engine.previousApp,
-            ['v'] = Engine.loopApp,
+            ['d'] = callback(engine, Engine.defaultApp),
+            ['a'] = callback(engine, Engine.managerApp),
 
-            ['f1'] = Engine.toggleHelp,
+            ['n'] = callback(engine, Engine.nextApp),
+            ['b'] = callback(engine, Engine.previousApp),
 
-            ['f2'] = Engine.toggleRenderMode,
-            ['f3'] = Engine.toggleRenderVersion,
+            ['v'] = callback(engine, Engine.loopApp, 0),
+            ['c'] = callback(engine, Engine.loopApp, 2),
+
+            ['f1'] = callback(engine, Engine.toggleHelp),
+            ['f2'] = callback(engine, Engine.toggleRenderVersion),
+
+            ['tab'] = function ()
+                if self.app then
+                    self.app.ui:nextFocus()
+                end
+            end,
+
+            [','] = function()
+                Profiler.resetClasses()
+
+                if not Profiler.running then
+                    Profiler.init()
+                    Profiler.start()
+
+                    reporting = Reporting()
+                else
+                    Profiler.stop()
+                end
+            end,
+
+            [KEY_FOR_ACCELEROMETER] = function (_, _, isrepeat)
+                if not isrepeat then
+                    Gravity = vec3(0, -9.8, 0)
+                end
+            end,
         },
+
         keyup = {
+            [KEY_FOR_ACCELEROMETER] = function ()
+                Gravity = vec3(0, -9.8, 0)
+            end,
         }
     }
 end
@@ -85,7 +125,8 @@ function Engine:initialize()
 
     call('setup')
 
-    self:toggleRenderMode()
+    self.renderFrame = Image(W, H)
+
     self:toggleHelp()
 
     self:loadApp(readGlobalData('appName', 'default'))
@@ -93,7 +134,10 @@ end
 
 function Engine:release()
     saveConfig()
+
+    self.renderFrame:release()
     self.components:release()
+
     gc()
 end
 
@@ -108,6 +152,7 @@ function Engine:run(appName)
 
         local deltaTime = 0
         self.fpsTarget = 60
+
         self.frame_time:init()
 
         while self.active == 'running' do
@@ -118,15 +163,15 @@ function Engine:run(appName)
             local maxDeltaTime = 1 / self.fpsTarget
 
             if deltaTime >= maxDeltaTime then
-                deltaTime = deltaTime - maxDeltaTime
+                --                if self.frame_time.delta_time >= maxDeltaTime then
+                --                    self.fpsTarget = self.fpsTarget - 1
+                --                else
+                --                    self.fpsTarget = self.fpsTarget + 1
+                --                end
 
---                if self.frame_time.delta_time >= maxDeltaTime then
---                    self.fpsTarget = self.fpsTarget - 1
---                else
---                    self.fpsTarget = self.fpsTarget + 1
---                end
+                DeltaTime = deltaTime
+                deltaTime = 0 -- deltaTime - maxDeltaTime
 
-                DeltaTime = maxDeltaTime
                 ElapsedTime = self.frame_time.elapsed_time
 
                 self:update(DeltaTime)
@@ -142,24 +187,15 @@ function Engine:run(appName)
 
         self:release()
 
-    until engine.active ~= 'restart'
-end
-
-function Engine:drawHelp()
-    if self.showHelp then
-        fontSize(8)
-        for k,v in pairs(self.onEvents.keydown) do
-            info(k)
-        end
-    end
-end
-
-function Engine:quit()
-    self.active = 'stop'
+    until self.active ~= 'restart'
 end
 
 function Engine:restart()
     self.active = 'restart'
+end
+
+function Engine:quit()
+    self.active = 'stop'
 end
 
 function Engine:toggleRenderVersion()
@@ -169,52 +205,45 @@ function Engine:toggleRenderVersion()
     end
 end
 
-function Engine:toggleRenderMode()
-    self.renderMode = toggle(self.renderMode, 'frame', 'direct')
-
-    if self.renderMode == 'frame' then
-        self.renderFrame = Image(W, H)
-    else
-        self.renderFrame = nil
-    end
-end
-
 function Engine:toggleHelp()
     self.showHelp = toggle(self.showHelp, false, true)
 end
 
 function Engine:update(dt)
-    self.components:update(self.frame_time.delta_time)
+    self.components:update(dt)
 
     if self.action then
-        self:action()
+        self.action()
     end
 
-    engine.app:__update(dt)
+    self.app:__update(dt)
 end
 
 function Engine:preRender()    
-    resetMatrix()
+    resetMatrix(true)
     resetStyle()
 
-    if self.renderFrame then
-        setContext(self.renderFrame)
-    else
-        Context.noContext()
-    end
+    setContext(self.renderFrame)
 end
 
 function Engine:draw()
-    self:preRender()
-
-    engine.app:__draw()
-
-    self:postRender()
-
     --    self:preRender()
 
-    resetMatrix()
-    resetStyle()
+    render(self.renderFrame, function ()
+            self.app:__draw()
+
+            if reporting then
+                reporting:draw()
+            end
+
+            strokeWidth(1)
+            stroke(gray)
+            
+            line(0, H/2, W, H/2)
+            line(W/2, 0, W/2, H)
+        end)
+
+    self:postRender()
 
     fontSize(10)
 
@@ -235,39 +264,45 @@ function Engine:draw()
         info('arch', jit.arch)
         info('jit version', jit.version)
         info('opengl version', config.glMajorVersion)
-        info('render mode', self.renderMode)
         info('res', resourceManager.resources:getnKeys())
     end
 
     self:drawHelp()
 
-    --    self:postRender()
-
     sdl:swap()
 end
 
 function Engine:postRender()
-    if self.renderFrame then
-        Context.noContext()
-        ortho(0, W + W_INFO, 0, H)
+    Context.noContext()
 
-        background(Color(0, 0, 0, 1))
+    background(Color(0, 0, 0, 1))
 
-        resetMatrix()
-        resetStyle()
+    resetMatrix(true)
+    resetStyle()
 
-        blendMode(NORMAL)
-        depthMode(false)
+    ortho(0, W + W_INFO, 0, H)
 
-        self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
-    end
+    blendMode(NORMAL)
+
+    depthMode(false)
+    cullingMode('none')
+
+    self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
 end
 
+function Engine:drawHelp()
+    if self.showHelp then
+        fontSize(8)
+        for k,v in pairs(self.onEvents.keydown) do
+            info(k)
+        end
+    end
+end
 function Engine:keydown(key)
     if self.onEvents.keydown[key] then
-        self.onEvents.keydown[key](self)
+        self.onEvents.keydown[key]()
     else
-        engine.app:__keyboard(key)
+        self.app:__keyboard(key)
     end
 end
 
@@ -278,11 +313,11 @@ function Engine:keyup(key)
 end
 
 function Engine:touched(...)
-    engine.app:__touched(...)
+    self.app:__touched(...)
 end
 
 function Engine:mouseWheel(...)
-    engine.app:__mouseWheel(...)
+    self.app:__mouseWheel(...)
 end
 
 function Engine:dirApps()
@@ -296,6 +331,10 @@ end
 
 function Engine:defaultApp()
     self:loadApp('default')
+end
+
+function Engine:managerApp()
+    self:loadApp('appManager')
 end
 
 function Engine:nextApp()
@@ -332,29 +371,29 @@ function Engine:previousApp()
     self:loadApp(appName)
 end
 
-function Engine:loopApp()
+function Engine:loopApp(delay)
     if self.action then
         self.action = nil
     else
         self.loopAppRef = #self:dirApps()
-        self.loopAppFrames = 10
+        self.loopAppDelay = delay or 0
 
-        self.action = self.loopAppProc
+        self.action = callback(self, Engine.loopAppProc, delay)
     end
 end
 
-function Engine:loopAppProc()
-    if self.loopAppFrames <= 0 then
+function Engine:loopAppProc(delay)
+    if self.loopAppDelay <= 0 then
         self:nextApp()
 
         self.loopAppRef = self.loopAppRef - 1
-        self.loopAppFrames = 10
+        self.loopAppDelay = delay or 0
 
         if self.loopAppRef == 0 then
             self.action = nil
         end
     else
-        self.loopAppFrames = self.loopAppFrames - 1
+        self.loopAppDelay = self.loopAppDelay - DeltaTime
     end
 end
 
@@ -366,7 +405,6 @@ function Engine:loadApp(appName, reloadApp)
         not exists(Path.sourcePath..'/'..self.appPath..'/#.lua') and
         not exists(Path.sourcePath..'/'..self.appPath..'/main.lua'))
     then
-        error(self.appName)
         self.appName = 'default'
         self.appPath = 'applications/'..self.appName
     end
@@ -387,20 +425,19 @@ function Engine:loadApp(appName, reloadApp)
         ___requireReload = false
 
         env.physics = Physics()
+        env.parameter = Parameter()
 
         if env.appClass then
             env.appClass.setup()
 
-            self.app = env.appClass()
+            env.app = env.appClass()
         else
-            self.app = Application()
+            env.app = Application()
 
             if _G.env.setup then
                 _G.env.setup()
             end
         end
-
-        env.app = self.app
 
     else
         print('switch '..self.appPath)
@@ -410,6 +447,8 @@ function Engine:loadApp(appName, reloadApp)
 
         setfenv(0, env)        
     end
+
+    self.app = env.app
 
     for i=1,2 do
         self:preRender()

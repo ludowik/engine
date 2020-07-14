@@ -210,6 +210,12 @@ typedef struct SDL_MouseMotionEvent {
 #define SDL_BUTTON_MMASK 2
 #define SDL_BUTTON_RMASK 4
 
+#define SDL_BUTTON_LEFT 1
+#define SDL_BUTTON_MIDDLE 2
+#define SDL_BUTTON_RIGHT 3
+#define SDL_BUTTON_X1 4
+#define SDL_BUTTON_X2 5
+
 typedef Sint32 SDL_Scancode;
 typedef Sint32 SDL_Keycode;
 
@@ -334,6 +340,8 @@ int SDL_RenderFillRect(SDL_Renderer* renderer, const SDL_Rect* rect);
 
 void SDL_RenderPresent(SDL_Renderer* renderer);
 
+Uint32 SDL_GetMouseState(int *x, int *y);
+                                                              
 typedef struct SDL_Color {
     Uint8 r;
     Uint8 g;
@@ -390,3 +398,20 @@ typedef struct SDL_Surface {
 } SDL_Surface;
 
 SDL_Surface* IMG_Load(const char *file);
+SDL_Surface* SDL_CreateRGBSurfaceFrom(void *pixels,
+    int width,
+    int height,
+    int depth,
+    int pitch,
+    Uint32 Rmask,
+    Uint32 Gmask,
+    Uint32 Bmask,
+    Uint32 Amask);
+
+int SDL_LockSurface(SDL_Surface *surface);
+void SDL_UnlockSurface(SDL_Surface *surface);
+
+void SDL_FreeSurface(SDL_Surface *surface);
+
+int IMG_SavePNG(SDL_Surface *surface, const char *file);
+int IMG_SaveJPG(SDL_Surface *surface, const char *file, int quality);

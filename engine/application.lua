@@ -70,9 +70,10 @@ end
 
 function Application:__update(dt)
     self.scene:update(dt)
-    
+
     if _G.env.update then
         _G.env.update(dt)
+        self:updateCoroutine(dt)
     else
         self:update(dt)
     end
@@ -81,9 +82,14 @@ end
 function Application:__draw()
     if _G.env.draw then
         _G.env.draw()
+
+        resetMatrix()
+        resetStyle()
     else
         self:draw()
     end
+
+    env.parameter:draw()
 end
 
 function Application:__collide(...)
@@ -111,8 +117,8 @@ function Application:__touched(...)
 end
 
 function Application:__mouseWheel(...)
-    if _G.env.mouseWheel then
-        _G.env.mouseWheel(...)
+    if _G.env.wheelmoved then
+        _G.env.wheelmoved(...)
     else
         self:mouseWheel(...)
     end
@@ -122,7 +128,7 @@ function Application:setup()
 end
 
 function Application:update(dt)
-	self:updateCoroutine(dt)
+    self:updateCoroutine(dt)
 
     -- TODO
 --    updateCamera(dt)
@@ -133,15 +139,18 @@ end
 
 function Application:draw()
     background(black)
-    
+
     resetMatrix()
     resetStyle()
-    
+
+    self.scene:layout()
     self.scene:draw()
+
+    resetMatrix()
+    resetStyle()
+
     self.ui:layout()
     self.ui:draw()
-    
-    parameter:draw()
 end
 
 function Application:collide(...)
@@ -164,26 +173,24 @@ end
 function Application:touched(touch)
     if not self.ui:touched(touch) then
         if not self.scene:touched(touch) then
-            parameter:touched(touch)
+            env.parameter:touched(touch)
         end
     end
 
     processMovementOnCamera(touch)
 end
 
-function Application:wheelmoved(id, x, y)
-    self.scene:wheelmoved(id, x, y)
-    self.ui:wheelmoved(id, x, y)
+function Application:mouseWheel(mouse)
+    self.scene:wheelmoved(mouse)
+    self.ui:wheelmoved(mouse)
 
-    processWheelMoveOnCamera(x, y)
+    processWheelMoveOnCamera(mouse.deltaX, mouse.deltaY)
 end
 
 function Application:collide(contact)
 end
 
 function Application:captureImage()
-    if renderFrame == nil then return end
-    
     local w = 256
     local h = floor(w * H / W)
 
@@ -252,11 +259,11 @@ function Sketche:touched(touch)
     end
 end
 
-function Sketche:wheelmoved(id, x, y)
+function Sketche:wheelmoved(mouse)
     if env.wheelmoved then
-        env.wheelmoved(id, x, y)
+        env.wheelmoved(mouse)
     else
-        Application.wheelmoved(self, id, x, y)
+        Application.wheelmoved(self, mouse)
     end
 end
 

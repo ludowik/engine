@@ -1,10 +1,15 @@
 require 'graphics.color'
 require 'graphics.style'
+
 require 'graphics.shader'
+require 'graphics.shaderManager'
+
 require 'graphics.meshRender'
 require 'graphics.mesh'
+
 require 'graphics.model'
 require 'graphics.modelLoader'
+
 require 'graphics.image'
 require 'graphics.shape'
 require 'graphics.context'

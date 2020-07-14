@@ -443,27 +443,15 @@ function Model.ellipseBorder(x, y, w, h)
     return Model.mesh(vertices)
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
 function Model.box(w, h, d)
     local vertices = Buffer('vec3', {
-        f1, f2, f3, f1, f3, f4, -- front
-        b2, b1, b4, b2, b4, b3, -- back
-        f2, b2, b3, f2, b3, f3, -- right
-        b1, f1, f4, b1, f4, b4, -- left
-        f4, f3, b3, f4, b3, b4, -- top
-        b1, b2, f2, b1, f2, f1, -- bottom
-    })
+            f1, f2, f3, f1, f3, f4, -- front
+            b2, b1, b4, b2, b4, b3, -- back
+            f2, b2, b3, f2, b3, f3, -- right
+            b1, f1, f4, b1, f4, b4, -- left
+            f4, f3, b3, f4, b3, b4, -- top
+            b1, b2, f2, b1, f2, f1, -- bottom
+        })
 
     local w = 1/4-1/100
     local h = 1/3-1/100
@@ -754,15 +742,24 @@ function Model.grass(n)
 end
 
 function Model.plane()
-    local face = Model.scaleAndTranslateAndRotate(vertices_face, 0, 0, 0, 1, 1, 1, 90)
+    local vertices_face = Buffer('vec3', {
+        p1,p2,p3,p1,p3,p4
+    })
+
+    local vertices_face_edge = Buffer('vec3', {
+        p1,p2,p3,p4,p1
+    })
+
+    vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, 0, 0, 0, 1, 1, 1, 90)
+    
     return Model.mesh(
-        face,
+        vertices_face,
         texCoords_face,
         Model.computeNormals(face))
 end
 
 function Model.dalle(x, y, z)
-    local vertices = Table()
+    local vertices = Buffer('vec3')
 
     local m = 0.25
     for i = 0, 4 do
@@ -775,7 +772,7 @@ function Model.dalle(x, y, z)
         vertices:addItems(Model.scaleAndTranslateAndRotate(vertices_box, i*10+m, 50+m, 0, 10-m*2, 50-m*2, 2.5))
     end
 
-    Model.scaleAndTranslateAndRotate(vertices, x, y, z)
+    vertices = Model.scaleAndTranslateAndRotate(vertices, x, y, z)
 
     return Model.mesh(
         vertices,
@@ -827,15 +824,15 @@ function Model.skybox(w, h, d)
     w = w or 1
     h = w
     e = w
-    
+
     local vertices = Buffer('vec3', {
-        f1, f2, f3, f1, f3, f4, -- front
-        b2, b1, b4, b2, b4, b3, -- back
-        f2, b2, b3, f2, b3, f3, -- right
-        b1, f1, f4, b1, f4, b4, -- left
-        f4, f3, b3, f4, b3, b4, -- top
-        b1, b2, f2, b1, f2, f1, -- bottom
-    })
+            f1, f2, f3, f1, f3, f4, -- front
+            b2, b1, b4, b2, b4, b3, -- back
+            f2, b2, b3, f2, b3, f3, -- right
+            b1, f1, f4, b1, f4, b4, -- left
+            f4, f3, b3, f4, b3, b4, -- top
+            b1, b2, f2, b1, f2, f1, -- bottom
+        })
 
     return Model.mesh(
         Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, -e),

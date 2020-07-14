@@ -1,14 +1,7 @@
-local lib_path
-if os.name == 'osx' then 
-    lib_path = 'OpenAL.framework/OpenAL'
-else
-    lib_path = 'System32/OpenAL32'
-end
-
-local code, defs = precompile(io.read('./libc/openal/openal.c'))
+local code, defs = Library.precompile(io.read('./libc/openal/openal.c'))
 ffi.cdef(code)
 
-class 'OpenAL' : extends(Component) : meta(ffi.load(lib_path))
+class 'OpenAL' : extends(Component) : meta(Library.load('OpenAL', 'OpenAL32'))
 
 function OpenAL:loadProcAdresses()
     self.defs = {
@@ -26,6 +19,7 @@ function OpenAL:loadProcAdresses()
         'alSourceStop',
 
         -- buffer
+        'alIsBuffer',
         'alGenBuffers',
         'alDeleteBuffers',
         'alBufferData',
