@@ -320,8 +320,17 @@ function Engine:mouseWheel(...)
     self.app:__mouseWheel(...)
 end
 
-function Engine:dirApps()
-    local apps = dir('./applications')
+function Engine:dirApps(path)
+    local apps = dir('./applications'..(path and ('/'..path) or ''))
+    apps:apply(function (app)
+            return app:lower():gsub('%.lua', '')
+        end)
+    apps:sort()
+    return apps
+end
+
+function Engine:dirApps2(path)
+    local apps = dirFile('./applications'..(path and ('/'..path) or ''))
     apps:apply(function (app)
             return app:lower():gsub('%.lua', '')
         end)

@@ -6,7 +6,7 @@ local cos  = math.cos
 local asin  = math.asin
 local acos  = math.acos
 
-function Camera:init()
+function Camera:init(...)
     self.vEye = vec3()
     self.vAt = vec3()
     self.vUp = vec3()
@@ -25,6 +25,8 @@ function Camera:init()
     self.sensitivity = 0.5
 
     self:updateVectors()
+    
+    self:set(...)
 end
 
 function Camera:set(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)

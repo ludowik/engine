@@ -77,6 +77,7 @@ function fs.write(path, content, mode)
     end
 end
 
+-- TODO
 function save(path, content, mode)
     return fs.write(path, content, mode)
 end
@@ -91,6 +92,23 @@ function fs.mkdir(path)
 end
 
 function dir(path, list, subPath)
+    list = list or Array()
+    for file in lfs.dir(path) do
+        if not file:startWith('.') then
+            if (isFile(path..'/'..file) or 
+                isFile(path..'/'..file..'/#.lua') or 
+                isFile(path..'/'..file..'/main.lua'))
+            then
+                table.insert(list, subPath and (subPath..'/'..file) or file)
+            else
+                dir(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
+            end
+        end
+    end
+    return list
+end
+
+function dirFile(path, list, subPath)
     list = list or Array()
     for file in lfs.dir(path) do
         if not file:startWith('.') then

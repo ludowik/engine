@@ -14,7 +14,7 @@ function initMenu(path)
         app.ui:add(Button('..', function (btn) initMenu() end))
     end
 
-    local apps = engine:dirApps()
+    local apps = engine:dirApps2(path)
     for i,appPath in ipairs(apps) do
         local j = appPath:findLast('/')
         local appName = j and appPath:sub(j+1) or appPath
@@ -23,7 +23,6 @@ function initMenu(path)
             app.ui:add(Button(appName, function (btn)
                         initMenu(appPath)
                     end):attribs{bgColor = brown})
-            assert()
 
         else
             app.ui:add(Button(appName, function (btn)

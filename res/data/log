@@ -1,8 +1,8 @@
 /Users/lca/Projets/Lua/engine
-load applications/noise/map1
-release 3 fonts
+load applications/sketches3d/graphics3d
+release 2 fonts
 memory at init    : 0.89 mo
 memory min        : 0.89 mo
-memory max        : 24.20 mo
-memory variation  : 23.31 mo
-memory at release : 14.96 mo
+memory max        : 15.25 mo
+memory variation  : 14.36 mo
+memory at release : 9.12 mo

@@ -48,7 +48,7 @@ function Cube:draw()
     sprite(self.aaa, 0, 0)
     
     perspective()    
-    camera(0, 0, 10)
+    camera(2, 3, 10)
 
     box(1, 1, 1, self.aaa)
 end
