@@ -102,10 +102,6 @@ end
 
 App('appMap')
 
-function appMap:suspend()
-    terrain = mesh()
-end
-
 function appMap:init()
     Application.init(self)
 
@@ -121,14 +117,17 @@ function appMap:init()
     camera(500, 100, 500, -100, 0, -500)
 
     skybox = Model.skybox(100000)
+    skybox.shader = Shader('default')
     skybox.texture = image('documents:skybox')
 
     self.s = 10
     local s = self.s
 
     terrain = Mesh()
+    terrain.shader = Shader('default')
 
-    sea = mesh()
+    sea = Mesh()
+    sea.shader = Shader('default')
 
     local a = vec3(0, 0, 0)
     local b = vec3(s, 0, 0)

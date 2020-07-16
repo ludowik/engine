@@ -22,6 +22,7 @@ Planet.debugSetup = false
 
 function Planet.setup()
     Planet.model = Planet.model or Model.sphere(1)
+    Planet.model.shader = Shader('default')
 end
 Planet.setup()
 

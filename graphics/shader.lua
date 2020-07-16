@@ -6,6 +6,10 @@ function Shader:init(name)
     self:create()
 end
 
+function Shader:tostring()
+    return self .name
+end
+
 function Shader:create()
     self.program_id = gl.glCreateProgram()
 

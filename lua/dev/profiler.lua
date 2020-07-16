@@ -29,7 +29,9 @@ function Profiler.init()
     Profiler.levelRef = {Ref('root')}
 
     local startMemory = mem()
-    local result = { doNothing() }
+    local result = {
+        nilf()
+    }
     local endMemory = mem()
 
     Profiler.defaultMemory = endMemory - startMemory
@@ -133,7 +135,7 @@ end
 
 function Profiler.override(t, className, name)
     assert(className)
-    
+
     if not Profiler.tables[t] then
         Profiler.tables[t] = true
 

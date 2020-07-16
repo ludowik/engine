@@ -36,7 +36,9 @@ function AppMap:init()
         
         for ib=0,n-1 do
             for jb=0,n-1 do
-                local block = mesh()
+                local block = Mesh()
+                block.shader = Shader('default')
+                
                 map:add(block)
 
                 block.vectorsArray = vectorsArray(4*(w+1)*(h+1))

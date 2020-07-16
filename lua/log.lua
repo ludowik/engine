@@ -2,6 +2,17 @@ class 'Log'
 
 function Log.setup()
     save('res/data/log', '', 'w')
+    
+    if debugging() then
+        log = print
+    else
+        log = nilf
+    end
+end
+
+output = class 'Output'
+
+function Output:clear()
 end
 
 decorate('print', 
@@ -13,8 +24,6 @@ decorate('print',
 
         save('res/data/log', str..NL, 'a')
     end)
-
-log = print
 
 decorate('assert',
     function (f, exp, message, level)

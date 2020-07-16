@@ -47,11 +47,16 @@ function sweepHollowCylinderMesh(basePoint, axis, radius, aN, cN)
 
     -- Create the mesh and pre-size its position and normal buffers.
     local m = Mesh()
+    m.shader = shaders['default']
+    
     local bufLen = 6*cN*aN
+    
     local posBuf = m:buffer("position")
     posBuf:resize(bufLen)
+    
     local normBuf = m:buffer("normal")
     normBuf:resize(bufLen)
+    
     -- If radius is given as a length, turn it into a vector orthogonal
     -- to the axis.
     if type(radius) == "number" then
@@ -94,14 +99,14 @@ function sweepHollowCylinderMesh(basePoint, axis, radius, aN, cN)
             posBuf[i+1] = p2
             posBuf[i+2] = p3
             posBuf[i+3] = p2
-            posBuf[i+4] = p3
-            posBuf[i+5] = b2+r2
+            posBuf[i+4] = b2+r2
+            posBuf[i+5] = p3
             normBuf[i] = r1
             normBuf[i+1] = r2
             normBuf[i+2] = r1
             normBuf[i+3] = r2
-            normBuf[i+4] = r1
-            normBuf[i+5] = r2
+            normBuf[i+4] = r2
+            normBuf[i+5] = r1
             i = i + 6
             b1 = b2
         end
@@ -109,7 +114,6 @@ function sweepHollowCylinderMesh(basePoint, axis, radius, aN, cN)
     end
     return m, bufLen
 end
-
 
 function setup()
     basePt = vec3(0, -50, 0)
@@ -128,7 +132,6 @@ function setup()
     camPos = { angle = 0 }
     tween(12, camPos, { angle = 2*math.pi }, { loop = tween.loop.forever})
 end
-
 
 function draw()
     -- Clear screen to black.

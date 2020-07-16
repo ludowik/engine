@@ -31,13 +31,17 @@ function Image:init(w, h)
 
         self.width = self.surface.w
         self.height = self.surface.h
-
+        
         self:reversePixels()
+        
         self:makeTexture()
 
     else
         self:create(100, 100)
     end
+    
+    self.wh = self.width * self.height
+    self.pixels = ffi.cast('GLubyte*', self.surface.pixels)
 end
 
 function Image:create(w, h)
@@ -54,9 +58,6 @@ function Image:create(w, h)
     surface.size = surface.w * surface.h * 4
 
     surface.pixels = ffi.new('GLubyte[?]', surface.size, 0)
-
-    self.width = w
-    self.height = h
 
     self.width = w
     self.height = h
@@ -169,7 +170,7 @@ function Image:readPixels(formatAlpha, formatRGB)
 end
 
 function image:getPixels()
-    return ffi.cast('GLubyte*', self.surface.pixels)
+    return self.pixels
 end
 
 function Image:reversePixels(pixels, w, h, bytesPerPixel)
@@ -257,12 +258,14 @@ function Image:fragment(f)
     self:makeTexture()
 end
 
+local floor = math.floor
+
 function image:offset(x, y)
-    x = tointeger(x-1)
-    y = tointeger(y-1)
+    x = floor(x-1)
+    y = floor(y-1)
 
     local offset = self.width * y + x
-    if offset >= 0 and offset < self.width * self.height then
+    if offset >= 0 and offset < self.wh then
         return offset * 4
     end
 end
@@ -290,10 +293,7 @@ end
 function image:get(x, y, clr)
     clr = clr or Color()
 
---    self:readPixels()
-
     local offset = self:offset(x, y)
-
     if offset then
         local pixels = self:getPixels()
 

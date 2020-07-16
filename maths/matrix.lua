@@ -58,8 +58,14 @@ function mt:transpose()
 end
 
 function mt:__eq(mat)
-    if not self or not mat then return false end
-        
+    if not self or not mat then
+        return false
+    end
+
+    if self.values == mat.values then
+        return true
+    end
+
     for i=0,15 do
         if self[i] ~= mat[i] then
             return false
@@ -251,7 +257,7 @@ function matrix.test()
     assertMatrixIdentity(matrix())
 
     local m = matrix():translate(1, 2, 3)
-    
+
     m = matrix.random()
     assert(m:transpose():transpose() == m)
 end

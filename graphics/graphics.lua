@@ -6,14 +6,14 @@ function Graphics:initialize()
     meshPoint = Mesh()
     meshPoint.vertices = Buffer('vec3', {vec3(0, 0, 0)})
     meshPoint.shader = shaders['point']
-    
+
     meshPoints = Mesh()
     meshPoints.shader = shaders['points']
 
     meshLine = Mesh()
     meshLine.vertices = Buffer('vec3', {vec3(0, 0, 0), vec3(1, 1, 0)})
     meshLine.shader = shaders['line']
-    
+
     meshLines = Mesh()
     meshLines.shader = shaders['lines']
 
@@ -34,7 +34,7 @@ function Graphics:initialize()
 
     meshCircleBorder = Model.ellipseBorder(0, 0, 1, 1)
     meshCircleBorder.shader = shaders['circleBorder']
-    
+
     meshEllipse = Model.ellipse(0, 0, 1, 1)
     meshEllipse.shader = shaders['ellipse']
 
@@ -57,11 +57,11 @@ function Graphics:initialize()
     meshAxesX = Model.cylinder(1, 1, 10000):center()
     meshAxesX:setColors(red)
     meshAxesX.shader = Shader('default')
-    
+
     meshAxesY = Model.cylinder(1, 1, 10000):center()
     meshAxesY:setColors(green)
     meshAxesY.shader = Shader('default')
-    
+
     meshAxesZ = Model.cylinder(1, 1, 10000):center()
     meshAxesZ:setColors(blue)
     meshAxesZ.shader = Shader('default')
@@ -181,7 +181,7 @@ end
 
 function point(x, y)
     if stroke() then
-        meshPoints:render(meshPoints.shader, gl.GL_POINTS, nil, x, y)
+        meshPoints:render(meshPoints.shader, gl.GL_POINTS, nil, x, y, 0)
     end
 end
 

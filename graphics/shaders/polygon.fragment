@@ -1,0 +1,12 @@
+uniform vec4 fill;
+
+uniform int useColor;
+
+in vec4 vColor;
+
+void main() {
+    if (useColor == 1)
+        gl_FragColor = vColor;
+    else
+        gl_FragColor = fill;
+}

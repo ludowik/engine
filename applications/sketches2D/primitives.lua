@@ -2,9 +2,9 @@ App('appPrimitives')
 
 function appPrimitives:init()
     Application.init(self)
-    
+
     supportedOrientations(LANDSCAPE_ANY)
-    
+
     self.primitiveWidth = 60
     self.angle = 0
 
@@ -15,7 +15,9 @@ function appPrimitives:init()
     self.y = (HEIGHT - self.h) / 2
 
     self.vectors = Model.random.polygon(self.primitiveWidth / 2)
+
     self.mesh = mesh(Model.triangulate(self.vectors))
+    self.mesh.shader = Shader('polygon')
 end
 
 function appPrimitives:update(dt)
@@ -88,6 +90,7 @@ styles = {
         self.transformIndex = 1
         return 'stroke(white, 10)\nnofill\nrotate'
     end,
+
     function (self)
         stroke(white)
         strokeWidth(5)
@@ -95,12 +98,14 @@ styles = {
         self.transformIndex = 1
         return 'stroke(white, 5)\nfill(red)\nrotate'
     end,
+
     function (self)
         noStroke()
         fill(blue)
         self.transformIndex = 1
         return 'nostroke\nfill(blue)\nrotate'
     end,
+
     function (self)
         stroke(green)
         strokeWidth(5)
@@ -108,6 +113,7 @@ styles = {
         self.transformIndex = 2
         return 'stroke(green, 5)\nfill(blue)\nscale'
     end,
+
     function (self)
         local c = map(cos(self.angle), -1, 1, 0, 1)
         local s = map(sin(self.angle), -1, 1, 0, 1)
@@ -123,6 +129,7 @@ transforms = {
     function (self)
         rotate(self.angle)
     end,
+    
     function (self)
         scale(
             cos(self.angle),
@@ -134,44 +141,56 @@ primitives = {
     function (self, w, h)
         point(0, 0)
     end,
+    
     function (self, w, h)
         line(-w/2, -h/2, w/2, h/2)
     end,
+    
     function (self, w, h)
         rectMode(CENTER)
         rect(0, 0, w, h)
     end,
+    
     function (self, w, h)
         ellipseMode(CENTER)
         ellipse(0, 0, w, h/2)
     end,
+    
     function (self, w, h)
         ellipseMode(CENTER)
         circle(0, 0, w)
     end,
+    
     function (self, w, h)
         polygon(self.vectors)
     end,
+    
     function (self, w, h)
         self.mesh:draw()
     end,
+    
     function (self, w, h)
         sprite('documents:joconde', 0, 0, w, h)
     end,
+    
     function (self, w, h)
         fontSize(32)
         textMode(CENTER)
         text('hello', 0, 0)
     end,
+    
     function (self, w, h)
         plane(w, h)
     end,
+    
     function (self, w, h)
         box(w)
     end,
+    
     function (self, w, h)
         sphere(w)
     end,
+    
     function (self, w, h)
         pyramid(w)
     end

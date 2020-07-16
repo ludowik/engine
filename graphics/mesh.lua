@@ -13,7 +13,6 @@ function Mesh:clear(vertices, colors)
 end
 
 function Mesh:draw()
-    assert(self.shader)
     self:render(self.shader or shaders['default'], gl.GL_TRIANGLES)
 end
 

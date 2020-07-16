@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "demo/sounds/sounds",
+    ["appName"] = "sketches2d/dithering",
     ["majorVersion"] = 4,
 }

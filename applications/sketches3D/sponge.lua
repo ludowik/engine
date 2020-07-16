@@ -1,6 +1,4 @@
 function setup()
-    camera(0, 0, -20)
-
     boxes = Table()
     boxes:add(Box(0, 0, 0, 3))
 
@@ -9,8 +7,11 @@ end
 
 function draw()
     background()
+
     light(true)
+
     perspective()
+    camera(0, 0, 4)
 
     boxes:draw()
 end
@@ -35,8 +36,10 @@ end
 
 function Box:draw()
     pushMatrix()
-    translate(self.position.x, self.position.y, self.position.z)
-    box(self.size)
+    do
+        translate(self.position.x, self.position.y, self.position.z)
+        box(self.size)
+    end
     popMatrix()
 end
 
@@ -61,4 +64,3 @@ function Box:generate()
     end
     return boxes
 end
-

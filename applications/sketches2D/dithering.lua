@@ -1,10 +1,10 @@
-local old, new, quantificationError
+local old, new, quantificationError, clr
 
 function setup()
     source = image('documents:joconde')
     target = image(source.width, source.height)
-    
-    old, new, quantificationError = color(), color(), color()
+
+    old, new, quantificationError, clr = color(), color(), color(), color()
 end
 
 local grayScale = color.grayScaleAverage
@@ -48,14 +48,13 @@ function draw()
 
             -- report error
             local function reportError(x, y, pct)
-                local clr = target:get(x, y)
-                if clr then
-                    clr.r = clr.r + quantificationError.r * pct
-                    clr.g = clr.g + quantificationError.g * pct
-                    clr.b = clr.b + quantificationError.b * pct
+                target:get(x, y, clr)
 
-                    target:set(x, y, clr)
-                end
+                clr.r = clr.r + quantificationError.r * pct
+                clr.g = clr.g + quantificationError.g * pct
+                clr.b = clr.b + quantificationError.b * pct
+
+                target:set(x, y, clr)
             end
 
             reportError(x+1, y  , pct7)
@@ -66,8 +65,8 @@ function draw()
     end
 
     if WIDTH > HEIGHT then
-        sprite(target, WIDTH/2, 0, WIDTH/2, HEIGHT)
+        sprite(target, W/2, 0, W/2, H)
     else
-        sprite(target, 0, HEIGHT/2, WIDTH, HEIGHT/2)
+        sprite(target, 0, H/2, W, H/2)
     end
 end

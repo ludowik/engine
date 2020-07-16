@@ -48,6 +48,6 @@ function toggle(value, opt1, opt2)
     return opt1
 end
 
-function doNothing()
+function nilf()
 end
 

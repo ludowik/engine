@@ -9,8 +9,6 @@ end
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
     
-    local m = mesh()
-
     local index = 0
 
     local n = debugging() and 20 or 500
@@ -18,6 +16,9 @@ function setup()
     local v = vec3()
     
     local w, h, d = 10, 10, 10
+    
+    local m = mesh()
+    m.shader = Shader('default')
     
     for i=0,n-1 do
         v.x = i*w
