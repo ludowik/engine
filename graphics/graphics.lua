@@ -3,13 +3,19 @@ class 'Graphics' : extends(Component)
 local buf, meshPoints, meshLine, meshPolyline, meshPolygon, meshRect, meshEllipse, meshSprite, meshBox
 
 function Graphics:initialize()
-    buf = Buffer('vec3')
-
+    meshPoint = Mesh()
+    meshPoint.vertices = Buffer('vec3', {vec3(0, 0, 0)})
+    meshPoint.shader = shaders['point']
+    
     meshPoints = Mesh()
-    meshPoints.shader = shaders['point']
+    meshPoints.shader = shaders['points']
 
     meshLine = Mesh()
+    meshLine.vertices = Buffer('vec3', {vec3(0, 0, 0), vec3(1, 1, 0)})
     meshLine.shader = shaders['line']
+    
+    meshLines = Mesh()
+    meshLines.shader = shaders['lines']
 
     meshPolyline = Mesh()
     meshPolyline.shader = shaders['polyline']
@@ -21,13 +27,19 @@ function Graphics:initialize()
     meshRect.shader = shaders['rect']
 
     meshRectBorder = Model.rectBorder(0, 0, 1, 1)
-    meshRectBorder.shader = shaders['line']
+    meshRectBorder.shader = shaders['rectBorder']
 
+    meshCircle = Model.ellipse(0, 0, 1, 1)
+    meshCircle.shader = shaders['circle']
+
+    meshCircleBorder = Model.ellipseBorder(0, 0, 1, 1)
+    meshCircleBorder.shader = shaders['circleBorder']
+    
     meshEllipse = Model.ellipse(0, 0, 1, 1)
     meshEllipse.shader = shaders['ellipse']
 
     meshEllipseBorder = Model.ellipseBorder(0, 0, 1, 1)
-    meshEllipseBorder.shader = shaders['line']
+    meshEllipseBorder.shader = shaders['ellipseBorder']
 
     meshSprite = Model.rect(0, 0, 1, 1)
     meshSprite.shader = shaders['sprite']
@@ -42,7 +54,17 @@ function Graphics:initialize()
 
     meshPyramid = Model.pyramid()
 
-    meshCylinder = Model.cylinder(1, 1, 10000):center()
+    meshAxesX = Model.cylinder(1, 1, 10000):center()
+    meshAxesX:setColors(red)
+    meshAxesX.shader = Shader('default')
+    
+    meshAxesY = Model.cylinder(1, 1, 10000):center()
+    meshAxesY:setColors(green)
+    meshAxesY.shader = Shader('default')
+    
+    meshAxesZ = Model.cylinder(1, 1, 10000):center()
+    meshAxesZ:setColors(blue)
+    meshAxesZ.shader = Shader('default')
 
     self:update()
 end
@@ -158,8 +180,9 @@ local function cornerFromCenter(mode, x, y, w, h)
 end
 
 function point(x, y)
-    buf[1] = vec3(x, y, 0)
-    points(buf)
+    if stroke() then
+        meshPoints:render(meshPoints.shader, gl.GL_POINTS, nil, x, y)
+    end
 end
 
 function points(vertices, ...)
@@ -176,16 +199,15 @@ function line(x1, y1, x2, y2)
 --    local mode = lineCapMode()
 --    ROUND
 --    PROJECT
-
-    buf[1] = vec3(x1, y1, 0)
-    buf[2] = vec3(x2, y2, 0)
-    lines(buf)
+    if stroke() then
+        meshLine:render(meshLine.shader, gl.GL_LINES, nil, x1, y1, 0, x2-x1, y2-y1, 1)
+    end
 end
 
 function lines(vertices)
     if stroke() then
-        meshLine.vertices = vertices
-        meshLine:render(meshLine.shader, gl.GL_LINES)
+        meshLines.vertices = vertices
+        meshLines:render(meshLine.shader, gl.GL_LINES)
     end
 end
 
@@ -216,7 +238,15 @@ function rect(x, y, w, h, mode)
 end
 
 function circle(x, y, r)
-    ellipse(x, y, r*2, r*2, circleMode())
+    local w, h = r*2, r*2
+    x, y = cornerFromCenter(mode or circleMode(), x, y, w, h)
+
+    if fill() then
+        meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
+    end
+    if stroke() then
+        meshCircleBorder:render(meshCircleBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
+    end
 end
 
 function ellipse(x, y, w, h, mode)
@@ -235,11 +265,11 @@ function sprite(img, x, y, w, h, mode)
     if type(img) == 'string' then        
         img = resourceManager:get('image', img, image)        
     end
-    
+
     if img and img.surface then
         w = w or img.surface.w
         h = h or img.surface.h
-        
+
         x, y = centerFromCorner(mode or spriteMode(), x, y, w, h)
         meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, w, h, 1)
     end
@@ -285,7 +315,7 @@ function text(str, x, y, mode)
             x, y, 0,
             img.surface.w, img.surface.h, 1)
     end  
-    
+
     return img.surface.w, img.surface.h
 end
 
@@ -338,16 +368,13 @@ function MeshAxes(x, y, z)
         scale(0.01, 0.01, 0.01)
 
         rotate(90, 0, 1, 0)
-        meshCylinder:setColors(red)
-        meshCylinder:draw()
+        meshAxesX:draw()
 
         rotate(-90, 1, 0, 0)
-        meshCylinder:setColors(green)
-        meshCylinder:draw()
+        meshAxesY:draw()
 
         rotate(90, 0, 1, 0)
-        meshCylinder:setColors(blue)
-        meshCylinder:draw()
+        meshAxesZ:draw()
     end
     popMatrix()
 end

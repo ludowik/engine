@@ -20,7 +20,7 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
             attribute.bufferId = buffer.id
 
             local bytes
-            if type(buffer) == 'table' then
+            if type(buffer) == 'table' then                
                 if type(buffer[1]) == 'number' then
                     buffer = Buffer('float', buffer)
 
@@ -36,7 +36,12 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
                 else
                     error(ffi.typeof(buffer[1]))
                 end
+                
+                log(getFunctionLocation(buffer.id, 2))
+                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)                
             end
+            
+            log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)
 
             gl.glBufferData(gl.GL_ARRAY_BUFFER, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
         end
@@ -73,9 +78,10 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
             gl.glBindVertexArray(shader.vao)
         end
 
-        local vertexAttrib = self:sendAttribute('vertex', self.vertices, 3)
-        local colorAttrib = self:sendAttribute('color', self.colors, 4)
-        local texCoordsAttrib = self:sendAttribute('texCoords', self.texCoords, 2)
+        self:sendAttribute('vertex', self.vertices, 3)
+        self:sendAttribute('color', self.colors, 4)
+        self:sendAttribute('texCoords', self.texCoords, 2)
+        self:sendAttribute('normal', self.normals, 3)
 
         if img and shader.uniformsLocations.tex0 then
             if shader.uniformsLocations.useTexture then
@@ -92,12 +98,10 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
             end
         end
 
-        forceSend = true
-        
         if shader.uniformsLocations.matrixPV then
             local matrixPV = pvMatrix()
 
-            if forceSend or shader.matrixPV ~= matrixPV then
+            if shader.matrixPV ~= matrixPV then
                 shader.matrixPV = matrixPV
                 gl.glUniformMatrix4fv(shader.uniformsLocations.matrixPV.uniformLocation, 1, gl.GL_TRUE, matrixPV:tobytes())
             end
@@ -106,7 +110,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
         if shader.uniformsLocations.matrixModel then
             local matrixModel = modelMatrix()
 
-            if forceSend or shader.matrixModel ~= matrixModel then
+            if shader.matrixModel ~= matrixModel then
                 shader.matrixModel = matrixModel
                 gl.glUniformMatrix4fv(shader.uniformsLocations.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
             end
@@ -207,6 +211,14 @@ function MeshRender:sendUniforms(uniformsLocations)
             gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 1)
         else
             gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 0)
+        end
+    end
+    
+    if uniformsLocations.useLight then
+        if self.normals and #self.normals > 0 then
+            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 1)
+        else
+            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 0)
         end
     end
 end

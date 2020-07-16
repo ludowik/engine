@@ -164,8 +164,12 @@ typedef intptr_t GLsizeiptr;
 #define GL_FRONT_RIGHT 0x0401
 
 #define GL_EQUAL 0x0202
+
 #define GL_LEQUAL 0x0203
 #define GL_LESS 0x0201
+
+#define GL_GEQUAL 0x0206
+#define GL_GREATER 0x0204
 
 #define GL_FILL 0x1B02
 #define GL_LINE 0x1B01

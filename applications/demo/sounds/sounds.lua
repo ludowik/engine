@@ -96,8 +96,8 @@ function AppSound:draw()
     local sampleRate = audio:getSampleRate()
     local sampleCount = audio:getSampleCount()
 
-    local vertices = Table()
-    local verticesFin = Table()
+    local vertices = Buffer('vec3')
+    local verticesFin = Buffer('vec3')
     
     for i=0,sampleCount-1 do
         vertices:add(vec3(#vertices, audio:getSample(i)))

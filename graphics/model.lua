@@ -69,7 +69,7 @@ function Model.mesh(vertices, texCoords, normals, indices)
     m.normals = normals or m.normals
     m.indices = indices or m.indices
 
-    if m.normals == nil then
+    if m.normals == nil or #m.normals == 0 then
         m.normals = Model.computeNormals(m.vertices)
     end
 

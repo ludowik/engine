@@ -238,7 +238,7 @@ function Engine:draw()
 
             strokeWidth(1)
             stroke(gray)
-            
+
             line(0, H/2, W, H/2)
             line(W/2, 0, W/2, H)
         end)
@@ -312,12 +312,20 @@ function Engine:keyup(key)
     end
 end
 
-function Engine:touched(...)
-    self.app:__touched(...)
+function Engine:touched(touch)
+    if not env.parameter:touched(mouse) then
+        if not self.app:__touched(touch) then
+            processMovementOnCamera(touch)
+        end
+    end
 end
 
-function Engine:mouseWheel(...)
-    self.app:__mouseWheel(...)
+function Engine:mouseWheel(touch)
+    if not env.parameter:mouseWheel(touch) then
+        if not self.app:__mouseWheel(touch) then
+            processWheelMoveOnCamera(touch)
+        end
+    end
 end
 
 function Engine:dirApps(path)

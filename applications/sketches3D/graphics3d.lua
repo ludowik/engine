@@ -78,6 +78,8 @@ function setModelName(modelName)
 
     end
 
+    model.shader = shaders['b3d']
+
     setModel(model:normalize(), keepColor)
 
     saveProjectData('modelName', modelName)

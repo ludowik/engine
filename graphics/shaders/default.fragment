@@ -1,20 +1,43 @@
+uniform mat4 matrixModel;
+uniform mat4 matrixPV;
+
 uniform vec4 fill;
 uniform vec4 stroke;
 uniform vec4 tint;
 
+uniform int useLight;
 uniform int useColor;
 uniform int useTexture;
 
 uniform sampler2D tex0;
 
+in vec3 vPosition;
+in vec3 vNormal;
 in vec4 vColor;
 in vec2 vTexCoords;
 
+vec3 cameraPosition = vec3(2., 2., 2.);
+
 void main() {
-    if (useColor == 1)
-        gl_FragColor = vColor;
-    else if (useTexture == 1) 
-        gl_FragColor = texture2D(tex0, vTexCoords) * tint;
-    else
-        gl_FragColor = fill;
+    if (useLight > 0) {
+        vec4 finalColor = vColor;
+        
+        vec3 normal = normalize(transpose(inverse(mat3(matrixModel))) * vNormal);
+        
+        vec3 surfacePos = vPosition;
+        vec4 surfaceColor = vColor;
+        vec3 surfaceToCamera = normalize(cameraPosition - surfacePos);
+        
+        gl_FragColor = finalColor * pow(max(0.0, dot(surfaceToCamera, normal)), 80);
+        
+        gl_FragColor = vec4(dot(surfaceToCamera, normal), 0, 0, 1);
+        
+    } else {    
+        if (useColor == 1)
+            gl_FragColor = vColor;
+        else if (useTexture == 1) 
+            gl_FragColor = texture2D(tex0, vTexCoords) * tint;
+        else
+            gl_FragColor = fill;
+    }
 }

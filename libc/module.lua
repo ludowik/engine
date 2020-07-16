@@ -44,12 +44,12 @@ function Library.compileFile(srcName, moduleName, headers, links)
     return ffi.load(params.libName)
 end
 
-function Library.load(libName)
+function Library.load(libName, libNamewindows)
     local libPath
     if os.name == 'osx' then 
         libPath = libName..'.framework/'..libName
     else
-        libPath = 'System32/'..libName
+        libPath = 'System32/'..(libNamewindows or libName)
     end
     return ffi.load(libPath)
 end

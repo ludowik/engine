@@ -62,7 +62,7 @@ function Shader:build(shaderType, shaderName, shaderExtension)
             #endif
 
             vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
-            vec4 blakc = vec4(0.0, 0.0, 0.0, 1.0);
+            vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
 
             vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
             vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
@@ -70,10 +70,8 @@ function Shader:build(shaderType, shaderName, shaderExtension)
 
             vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
             
-            #line 0
+            #line 1
         ]]
-
-        local includeLen = 9
 
         source = include..source        
 
@@ -85,12 +83,11 @@ function Shader:build(shaderType, shaderName, shaderExtension)
             local errors = gl.glGetShaderInfoLog(shader_id)            
             errors = errors:gsub(':(%d*):',
                 function (line)
-                    line = tonumber(line) - includeLen                    
+                    line = tonumber(line)                    
                     return lfs.currentdir()..'/'..path..' :'..(line)..':'
                 end)
 
-            print(errors)
-            return nil
+            error(errors)
         end
 
         gl.glAttachShader(self.program_id, shader_id)

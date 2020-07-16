@@ -173,18 +173,15 @@ end
 function Application:touched(touch)
     if not self.ui:touched(touch) then
         if not self.scene:touched(touch) then
-            env.parameter:touched(touch)
         end
     end
-
-    processMovementOnCamera(touch)
 end
 
 function Application:mouseWheel(mouse)
-    self.scene:wheelmoved(mouse)
-    self.ui:wheelmoved(mouse)
-
-    processWheelMoveOnCamera(mouse.deltaX, mouse.deltaY)
+    if not self.ui:wheelmoved(mouse) then
+        if not self.scene:wheelmoved(mouse) then
+        end
+    end
 end
 
 function Application:collide(contact)

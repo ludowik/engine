@@ -2,16 +2,33 @@ class 'ShaderManager' : extends(Component)
 
 function ShaderManager:initialize()
     shaders = {
-        default  = Shader('default'),
-        point    = Shader('point'),
-        line     = Shader('line'),
+        default = Shader('default'),
+        
+        point  = Shader('point'),
+        points = Shader('point'),
+        
+        line  = Shader('line'),
+        lines = Shader('line'),
+        
         polyline = Shader('line'),
         polygon  = Shader('line'),
-        ellipse  = Shader('default'),
-        rect     = Shader('default'),
-        sprite   = Shader('sprite'),
-        text     = Shader('text'),
-        box      = Shader('default'),
+        
+        circle = Shader('default'),
+        circleBorder = Shader('line'),
+        
+        ellipse       = Shader('default'),
+        ellipseBorder = Shader('line'),
+        
+        rect       = Shader('default'),
+        rectBorder = Shader('line'),
+        
+        sprite = Shader('sprite'),
+        
+        text = Shader('text'),
+        
+        box = Shader('default'),
+        
+        b3d = Shader('default'),
     }
 end
 

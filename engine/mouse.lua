@@ -15,8 +15,8 @@ function Mouse:init()
     
     self.position = vec2()
 
-    self.deltaX = 0
-    self.deltaY = 0
+    self.deltaX, self.dx = 0, 0
+    self.deltaY, self.dy = 0, 0
 
     self.isTouch = false
     
@@ -37,8 +37,8 @@ function Mouse:mouseEvent(id, state, x, y, dx, dy, isTouch, tapCount)
     
     self.position:set(mouse.x, mouse.y)
 
-    mouse.deltaX = dx
-    mouse.deltaY = dy
+    mouse.deltaX, mouse.dx = dx, dx
+    mouse.deltaY, mouse.dy = dy, dy
 
     mouse.isTouch = isTouch
 
@@ -55,8 +55,8 @@ end
 function Mouse:mouseWheel(id, dx, dy)
     mouse.id = id
 
-    mouse.deltaX = dx
-    mouse.deltaY = dy
+    mouse.deltaX, mouse.dx = dx, dx
+    mouse.deltaY, mouse.dy = dy, dy
     
     engine:mouseWheel(mouse)
 end

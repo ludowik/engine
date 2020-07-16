@@ -11,8 +11,8 @@ in vec3 normal;
 in vec4 color;
 in vec2 texCoord;
 
-out vec3 vPosition;
-out vec3 vNormal;
+out vec3 wPosition;
+out vec3 wNormal;
 out vec4 vColor;
 out vec2 vTexCoord;
 

@@ -159,12 +159,10 @@ function Node:touched(touch)
     for i=1,#self.nodes do
         local node = self.nodes[i]
         if node and node.touched and node:contains(touch) then
-            -- TODO : always return true ?
             local res = node:touched(touch)
-            return true
-            --            if res then
-            --                return res
-            --            end
+            if res then
+                return res
+            end
         end
     end
 end
@@ -172,7 +170,7 @@ end
 function Node:wheelmoved(mouse)
     local who = self:contains(mouse)
     if who and who.wheelmoved then
-        who:wheelmoved(mouse)
+        return who:wheelmoved(mouse)
     end
 end
 
@@ -200,14 +198,14 @@ function Node:root()
     return current
 end
 
--- TODO : to test
 function Node:contains(...)
-    if self.visible == false  then return end
+    if self.visible == false then return end
+
     for i,v in ipairs(self.nodes) do
         if v.visible ~= false and v.contains then
-            local who = v:contains(...)
-            if who then
-                return who
+            local res = v:contains(...)
+            if res then
+                return v
             end
         end
     end    

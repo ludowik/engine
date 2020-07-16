@@ -2,7 +2,7 @@ class('Path')
 
 Path.sourcePath = lfs.currentdir()
 
-Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Perso/Libraries'
+Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries'
     
 function Path.setup()    
     print(Path.sourcePath)

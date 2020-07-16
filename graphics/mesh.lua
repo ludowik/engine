@@ -13,7 +13,8 @@ function Mesh:clear(vertices, colors)
 end
 
 function Mesh:draw()
-    self:render(shaders['default'], gl.GL_TRIANGLES)
+    assert(self.shader)
+    self:render(self.shader or shaders['default'], gl.GL_TRIANGLES)
 end
 
 function Mesh:normalize(norm)
@@ -29,9 +30,8 @@ end
 
 function Mesh:setColors(...)
     local clr = Color(...)
-    self.uniformColor = clr
 
-    self.colors = colors or Buffer('color')
+    self.colors = self.colors or Buffer('color')
 
     local vertexCount
     if type(self.vertices[1]) == 'cdata' then

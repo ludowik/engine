@@ -5,10 +5,10 @@ function loadObj(fileName)
     if content then
         content = content:replace('  ', ' ')
 
-        local indices = {}
-        local vertices, verticesTemp = {}, {}
-        local normals, normalsTemp = {}, {}
-        local texCoords, texCoordsTemp = {}, {}
+        local indices = Buffer('float')
+        local vertices, verticesTemp = Buffer('vec3'), Buffer('vec3')
+        local normals, normalsTemp = Buffer('vec3'), Buffer('vec3')
+        local texCoords, texCoordsTemp = Buffer('vec2'), Buffer('vec2')
 
         local lines = content:split('\n')
         for line=1,#lines do
@@ -27,7 +27,7 @@ function loadObj(fileName)
                 
             elseif typeofRecord == 'v' then
                 -- vertex
-                table.insert(verticesTemp, vec3(
+                verticesTemp:insert(vec3(
                         tonumber(datas[2]),
                         tonumber(datas[3]),
                         tonumber(datas[4])
@@ -35,7 +35,7 @@ function loadObj(fileName)
                 
             elseif typeofRecord == 'vn' then
                 -- normals
-                table.insert(normalsTemp, vec3(
+                normalsTemp:insert(vec3(
                         tonumber(datas[2]),
                         tonumber(datas[3]),
                         tonumber(datas[4])
@@ -43,7 +43,7 @@ function loadObj(fileName)
                 
             elseif typeofRecord == 'vt' then
                 -- texture coordinates
-                table.insert(texCoordsTemp, vec3(
+                texCoordsTemp:insert(vec2(
                         tonumber(datas[2]),
                         tonumber(datas[3])
                     ))

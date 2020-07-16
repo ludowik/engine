@@ -69,3 +69,6 @@ function UI:touched(touch)
     end
     return true
 end
+
+function UI:mouseWheel(touch)
+end

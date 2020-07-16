@@ -30,6 +30,10 @@ function Parameter:touched(touch)
     return env.parameter.ui:touched(touch)
 end
 
+function Parameter:mouseWheel(touch)
+    return env.parameter.ui:mouseWheel(touch)
+end
+
 function Parameter.default(name, min, max, default, notify)
     local value = loadstring('return '..name)()
 

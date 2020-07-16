@@ -31,20 +31,20 @@ function updateCamera(dt)
 end
 
 function processMovementOnCamera(touch)
-    if engine.camera then
-        engine.camera:processMouseMovement(touch)
+    local camera = env.app.scene.camera
+    if camera then
+        camera:processMouseMovement(touch)
     end
-    --    app.scene.rotation = app.scene.rotation or vec3()
-    --    app.scene.rotation = app.scene.rotation + vec3(touch.deltaX, touch.deltaY)
 end
 
-function processWheelMoveOnCamera(x, y)
-    if engine.camera then
+function processWheelMoveOnCamera(touch)
+    local camera = env.app.scene.camera
+    if camera then
         if isDown(KEY_FOR_MOUSE_MOVING) then
-            engine.camera:moveSideward(x, DeltaTime)
-            engine.camera:moveUp(y, DeltaTime)
+            camera:moveSideward(touch.dx, DeltaTime)
+            camera:moveUp(touch.dy, DeltaTime)
         else
-            engine.camera:zoom(0, y, DeltaTime)
+            camera:zoom(0, touch.dy, DeltaTime)
         end
     end
 end

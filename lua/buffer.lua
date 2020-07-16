@@ -16,6 +16,7 @@ function buffer_meta.__init(buffer, buffer_class)
     buffer.ct = buffer_class.ct
     
     buffer.id = id('buffer')
+--    log(getFunctionLocation(buffer.id, 3))
 
     buffer.available = 4
 
