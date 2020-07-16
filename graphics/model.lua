@@ -77,10 +77,10 @@ function Model.mesh(vertices, texCoords, normals, indices)
 end
 
 function Model.add(m1, m2)
-    m1.vertices = Table.__add(m1.vertices, m2.vertices)
-    m1.colors = Table.__add(m1.colors, m2.colors)
-    m1.texCoords = Table.__add(m1.texCoords, m2.texCoords)
-    m1.normals = Table.__add(m1.normals, m2.normals)
+    m1.vertices:addItems(m2.vertices)
+    m1.colors:addItems(m2.colors)
+    m1.texCoords:addItems(m2.texCoords)
+    m1.normals:addItems(m2.normals)
 end
 
 function Model.set(m, p)
