@@ -4,8 +4,10 @@ class('ShaderToy', Shader)
 
 function ShaderToy:init(name, path, header, code, ender)
     self.shaderFilePath = path..'/'..name
+    
+    self.source = header..code..ender
 
-    Shader.init(self, name,
+    Shader.init(self, name, 'applications/shadertoy/shaders',
         {'include.vertex', 'default.vertex'},
         {'include.fragment', header, self.shaderFilePath, ender}
     )
@@ -14,6 +16,30 @@ function ShaderToy:init(name, path, header, code, ender)
     
     self.uniforms.iTime = 0
     self.uniforms.iMouse = vec4()
+end
+
+function ShaderToy:create()
+    self.program_id = gl.glCreateProgram()
+
+    self.ids = {
+        --vertex = self:build(gl.GL_VERTEX_SHADER, self.name, 'vertex'),
+        fragment = self:compile(gl.GL_FRAGMENT_SHADER, self.source, self.shaderFilePath),
+    }
+
+--    if config.glMajorVersion >= 4 then
+--        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
+--    end
+
+    gl.glLinkProgram(self.program_id)
+
+    local status = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
+    if status == gl.GL_FALSE then
+        print(gl.glGetProgramInfoLog(self.program_id))
+    end
+
+    self:initAttributes()
+
+    self:initUniforms()
 end
 
 function setup()
@@ -53,6 +79,9 @@ local defaultUniforms = [[
     uniform sampler2D iChannel3;             // input channel. XX = 2D/Cube
     uniform vec4      iDate;                 // (year, month, day, time in seconds)
     uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
+    
+    attribute vec3 vertex;
+    attribute vec2 texCoords;
 ]]
 
 local appPath = ...
@@ -61,10 +90,10 @@ local shaderChannel = {
 }
 
 function loadShaders(all)
-    local directoryItems = fs.getDirectoryItems(appPath..'/shader')
+    local directoryItems = fs.getDirectoryItems(appPath..'/shaders')
 
     for i,shaderFileName in ipairs(directoryItems) do
-        local shader = loadShader(shaderFileName, appPath..'/shader')
+        local shader = loadShader(shaderFileName, appPath..'/shaders')
         if shader.error == nil then
             initShader(shader, shaderFileName == 'sandbox.fragment')
             shaders:add(shader)
@@ -99,15 +128,9 @@ function loadShader(shaderFileName, path)
             return fragColor;
         }
 
-        #if VERSION >= 300
-            out vec4 fragColor;
-        #elif VERSION > 0
-            #define fragColor gl_FragColor
-        #endif
-
         #if VERSION > 0
         void main() {
-            fragColor = effect(vec4(1.0), iChannel0, vTexCoord, vPosition.xy);
+            fragColor = effect(vec4(1.0), iChannel0, texCoords, vertex.xy);
         }
         #endif
     ]]

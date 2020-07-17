@@ -1,8 +1,9 @@
 class 'Shader'
 
-function Shader:init(name)
+function Shader:init(name, path)
     self.name = name
-    
+    self.path = path or 'graphics/shaders'
+
     self:create()
 end
 
@@ -15,7 +16,6 @@ function Shader:create()
 
     self.ids = {
         vertex = self:build(gl.GL_VERTEX_SHADER, self.name, 'vertex'),
---        geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry'),
         fragment = self:build(gl.GL_FRAGMENT_SHADER, self.name, 'fragment'),
     }
 
@@ -41,18 +41,25 @@ function Shader:update()
 end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
-    local shader_id = gl.glCreateShader(shaderType)
+    local path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
 
-    local path = 'graphics/shaders/'..shaderName..'.'..shaderExtension
     local source = io.read(path)
 
     if source then
-        local include = ''
-        include = 
-        '#version '..gl:getGlslVersion()..NL..
-        '#define VERSION '..gl:getGlslVersion()..NL
+        return self:compile(shaderType, source)
+    end
 
-        include = include..[[
+    return -1
+end
+
+function Shader:compile(shaderType, source, path)
+    local include = ''
+
+    include = (
+        '#version '..gl:getGlslVersion()..NL..
+        '#define VERSION '..gl:getGlslVersion()..NL)
+
+    include = include..[[
             #if VERSION >= 300
                 #define gl_FragColor fragColor
                 out vec4 fragColor;
@@ -77,29 +84,30 @@ function Shader:build(shaderType, shaderName, shaderExtension)
             #line 1
         ]]
 
-        source = include..source        
+    source = include..source
+    
+    print(source)
 
-        gl.glShaderSource(shader_id, source)
-        gl.glCompileShader(shader_id)
+    local shader_id = gl.glCreateShader(shaderType)
 
-        local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
-        if status == gl.GL_FALSE then
-            local errors = gl.glGetShaderInfoLog(shader_id)            
-            errors = errors:gsub(':(%d*):',
-                function (line)
-                    line = tonumber(line)                    
-                    return lfs.currentdir()..'/'..path..' :'..(line)..':'
-                end)
+    gl.glShaderSource(shader_id, source)
+    gl.glCompileShader(shader_id)
 
-            error(errors)
-        end
+    local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
+    if status == gl.GL_FALSE then
+        local errors = gl.glGetShaderInfoLog(shader_id)            
+        errors = errors:gsub(':(%d*):',
+            function (line)
+                line = tonumber(line)                    
+                return lfs.currentdir()..'/'..path..' :'..(line)..':'
+            end)
 
-        gl.glAttachShader(self.program_id, shader_id)
-
-        return shader_id
+        error(errors)
     end
 
-    return -1
+    gl.glAttachShader(self.program_id, shader_id)
+
+    return shader_id
 end
 
 function Shader:release()
