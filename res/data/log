@@ -1,18 +1,2 @@
-/Users/lca/Projets/Lua/engine
-load applications/apps/tetris
-load applications/apps/triomino
-load applications/codea/3d lab
-./graphics/style.lua:250: not implemented : displayMode
-load applications/codea/animation
-A demo showing how to use basic tweens
-1. tween.easing.linear
-2. tween.easing.quadInOut
-3. tween.easing.bounceOut
-load applications/codea/backgammon
-./graphics/style.lua:250: not implemented : displayMode
-release 9 fonts
-memory at init    : 0.90 mo
-memory min        : 0.90 mo
-memory max        : 15.22 mo
-memory variation  : 14.32 mo
-memory at release : 8.66 mo
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/sketches2d/dithering

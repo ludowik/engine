@@ -181,7 +181,7 @@ end
 
 function point(x, y)
     if stroke() then
-        meshPoints:render(meshPoints.shader, gl.GL_POINTS, nil, x, y, 0)
+        meshPoint:render(meshPoints.shader, gl.GL_POINTS, nil, x, y, 0)
     end
 end
 

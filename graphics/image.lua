@@ -44,6 +44,10 @@ function Image:init(w, h)
     self.pixels = ffi.cast('GLubyte*', self.surface.pixels)
 end
 
+function image:getPixels()
+    return self.pixels
+end
+
 function Image:create(w, h)
     local surface = {
         w = max(1, w),
@@ -167,10 +171,6 @@ function Image:readPixels(formatAlpha, formatRGB)
             self.surface.pixels)
     end
     self:unuse()
-end
-
-function image:getPixels()
-    return self.pixels
 end
 
 function Image:reversePixels(pixels, w, h, bytesPerPixel)
