@@ -140,7 +140,7 @@ function depthMode(mode)
 
         if mode then
             gl.glEnable(gl.GL_DEPTH_TEST)
-            gl.glDepthFunc(gl.GL_LESS)
+            gl.glDepthFunc(gl.GL_LEQUAL)
         else
             gl.glDisable(gl.GL_DEPTH_TEST)
         end

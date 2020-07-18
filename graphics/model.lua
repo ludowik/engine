@@ -1,5 +1,12 @@
 class 'Model'
 
+local v = 0.5
+
+local p1 = vec3(-v, -v, 0)
+local p2 = vec3( v, -v, 0)
+local p3 = vec3( v,  v, 0)
+local p4 = vec3(-v,  v, 0)
+
 local f1 = {-1,-1, 1}
 local f2 = { 1,-1, 1}
 local f3 = { 1, 1, 1}
@@ -743,19 +750,19 @@ end
 
 function Model.plane()
     local vertices_face = Buffer('vec3', {
-        p1,p2,p3,p1,p3,p4
-    })
+            p1,p2,p3,p1,p3,p4
+        })
 
     local vertices_face_edge = Buffer('vec3', {
-        p1,p2,p3,p4,p1
-    })
+            p1,p2,p3,p4,p1
+        })
 
     vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, 0, 0, 0, 1, 1, 1, 90)
-    
+
     return Model.mesh(
         vertices_face,
         texCoords_face,
-        Model.computeNormals(face))
+        Model.computeNormals(vertices_face))
 end
 
 function Model.dalle(x, y, z)

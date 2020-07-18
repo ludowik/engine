@@ -19,7 +19,7 @@ function Fizix:init()
     self.g = vec3(0, -9.81)
 
     self.pixelRatio = 32
-    self.debug = false
+    self.debug = true
 
     self:resume()
 end

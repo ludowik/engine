@@ -4,7 +4,7 @@ class('ShaderToy', Shader)
 
 function ShaderToy:init(name, path, header, code, ender)
     self.shaderFilePath = path..'/'..name
-    
+
     self.source = header..code..ender
 
     Shader.init(self, name, 'applications/shadertoy/shaders',
@@ -13,7 +13,7 @@ function ShaderToy:init(name, path, header, code, ender)
     )
 
     self.uniforms = {}
-    
+
     self.uniforms.iTime = 0
     self.uniforms.iMouse = vec4()
 end
@@ -22,7 +22,23 @@ function ShaderToy:create()
     self.program_id = gl.glCreateProgram()
 
     self.ids = {
-        --vertex = self:build(gl.GL_VERTEX_SHADER, self.name, 'vertex'),
+        vertex = self:compile(gl.GL_VERTEX_SHADER, [[
+                attribute vec3 vertex;
+                attribute vec2 texCoords;
+
+                uniform mat4 matrixModel;
+                uniform mat4 matrixPV;
+
+                out vec3 vPosition;
+                out vec2 vTexCoords;
+
+                void main() {
+                    gl_Position = matrixPV * matrixModel * vec4(vertex.xyz, 1.);
+                    
+                    vPosition = vertex;
+                    vTexCoords = texCoords;
+                }
+            ]], 'vertex'),
         fragment = self:compile(gl.GL_FRAGMENT_SHADER, self.source, self.shaderFilePath),
     }
 
@@ -61,7 +77,7 @@ end
 function suspend()
     for i,shader in ipairs(shaders) do
         shader:release()
-    end
+end
 end
 
 local defaultUniforms = [[
@@ -80,8 +96,10 @@ local defaultUniforms = [[
     uniform vec4      iDate;                 // (year, month, day, time in seconds)
     uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
     
-    attribute vec3 vertex;
-    attribute vec2 texCoords;
+    in vec3 vPosition;
+    in vec2 vTexCoords;
+    
+    #define PI 3.14159265359
 ]]
 
 local appPath = ...
@@ -130,7 +148,7 @@ function loadShader(shaderFileName, path)
 
         #if VERSION > 0
         void main() {
-            fragColor = effect(vec4(1.0), iChannel0, texCoords, vertex.xy);
+            fragColor = effect(vec4(1.0), iChannel0, vTexCoords, vPosition.xy);
         }
         #endif
     ]]

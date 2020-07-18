@@ -30,6 +30,8 @@ function ShaderManager:initialize()
         box = Shader('default'),
         
         b3d = Shader('default'),
+        
+        terrain = Shader('terrain')
     }
 end
 

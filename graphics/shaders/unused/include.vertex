@@ -2,9 +2,6 @@
     #define version 0
 #endif
 
-#define highp
-#define precision
-    
 #if VERSION >= 300
     #define attribute
     #define varying
@@ -14,39 +11,39 @@
     #define fragColor gl_FragColor
 #endif
 
-attribute highp vec3 VertexPosition;
-attribute highp vec4 VertexColor;
-attribute highp vec3 VertexNormal;
-attribute highp vec2 VertexTexCoord;
-attribute highp vec2 VertexTranslation;
+attribute vec3 vertex;
+attribute vec4 color;
+attribute vec3 normal;
+attribute vec2 texCoords;
+attribute vec2 VertexTranslation;
 
-uniform highp mat4 modelMatrix;
-uniform highp mat4 pvMatrix;
+uniform mat4 modelMatrix;
+uniform mat4 pvMatrix;
 
-uniform highp vec2 p1;
-uniform highp vec2 p2;
+uniform vec2 p1;
+uniform vec2 p2;
 
-uniform highp vec2 pos;
-uniform highp vec2 size;
+uniform vec2 pos;
+uniform vec2 size;
 
-uniform highp int useLight;
-uniform highp int useTexture;
-uniform highp int useColors;
+uniform int useLight;
+uniform int useTexture;
+uniform int useColors;
 
-uniform highp float strokeWidth;
-uniform highp vec4 strokeColor;
-uniform highp vec4 fillColor;
-uniform highp vec4 tintColor;
+uniform float strokeWidth;
+uniform vec4 strokeColor;
+uniform vec4 fillColor;
+uniform vec4 tintColor;
 
-uniform highp float mode;
+uniform float mode;
 
-uniform highp sampler2D uSampler;
+uniform sampler2D uSampler;
 
-varying highp vec3 vPosition;
-varying highp vec4 vColor;
-varying highp vec2 vTexCoord;
-varying highp vec3 vNormal;
-varying highp vec3 aNormal;
+varying vec3 vPosition;
+varying vec4 vColor;
+varying vec2 vTexCoord;
+varying vec3 vNormal;
+varying vec3 aNormal;
 
 #if VERSION < 400
 float inverse(float m) {

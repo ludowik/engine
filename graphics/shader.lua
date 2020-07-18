@@ -46,7 +46,7 @@ function Shader:build(shaderType, shaderName, shaderExtension)
     local source = io.read(path)
 
     if source then
-        return self:compile(shaderType, source)
+        return self:compile(shaderType, source, path)
     end
 
     return -1
@@ -55,9 +55,14 @@ end
 function Shader:compile(shaderType, source, path)
     local include = ''
 
-    include = (
+    include = include..(
         '#version '..gl:getGlslVersion()..NL..
-        '#define VERSION '..gl:getGlslVersion()..NL)
+        '#define VERSION '..gl:getGlslVersion()..NL
+    )
+
+    include = include..(
+        io.read(self.path..'/noise3D.glsl')..NL
+    )
 
     include = include..[[
             #if VERSION >= 300
@@ -85,8 +90,6 @@ function Shader:compile(shaderType, source, path)
         ]]
 
     source = include..source
-    
-    print(source)
 
     local shader_id = gl.glCreateShader(shaderType)
 
