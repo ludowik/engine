@@ -21,11 +21,16 @@ function setup()
 
     app.scene.camera = Camera(0, 8, 35, 0, 0, 0)
     app.scene:add(physics)
+    
+    physics:draw()
 end
 
 function update(dt)
     app.scene:update(dt)
-    app.scene.camera:rotateY(1)
+    
+    if app.scene.camera then
+        app.scene.camera:rotateY(1)
+    end
 end
 
 function touched(touch)

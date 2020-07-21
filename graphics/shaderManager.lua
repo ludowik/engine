@@ -28,8 +28,9 @@ function ShaderManager:initialize()
         text = Shader('text'),
         
         box = Shader('default'),
+        sphere = Shader('default'),
         
-        b3d = Shader('default'),
+        model3d = Shader('default'),
         
         terrain = Shader('terrain')
     }

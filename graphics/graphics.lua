@@ -51,8 +51,10 @@ function Graphics:initialize()
     meshBox.shader = shaders['box']
 
     meshSphere = Model.sphere()
+    meshBox.shader = shaders['sphere']
 
     meshPyramid = Model.pyramid()
+    meshBox.shader = shaders['model3d']
 
     meshAxesX = Model.cylinder(1, 1, 10000):center()
     meshAxesX:setColors(red)
@@ -352,7 +354,16 @@ function box(w, h, d, img)
     meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, 0, w, h, d)
 end
 
-function sphere()
+function sphere(w, h, d, img)
+    if type(w) == 'table' then
+        img = w
+    end
+
+    w = w or 1
+    h = h or w
+    d = d or w
+
+    meshSphere:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, 0, w, h, d)
 end
 
 function pyramid()
