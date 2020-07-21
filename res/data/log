@@ -1,14 +1,4 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/default
-load applications/demo/animation
-load applications/demo/introspection/introspection
-switch applications/demo/animation
-switch applications/demo/introspection/introspection
-load applications/demo/particles
-load applications/demo/sounds/sounds
-load applications/demo/ui/ui
-new color : color{r=1, g=0, b=0, a=1}
-load applications/fizix
 load applications/noise/map1
 #version 410
 #define VERSION 410
@@ -379,9 +369,3 @@ void main() {
     }
 }
 
-release 3 fonts
-memory at init    : 0.89 mo
-memory min        : 0.89 mo
-memory max        : 19.92 mo
-memory variation  : 19.03 mo
-memory at release : 16.74 mo
