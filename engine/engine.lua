@@ -217,6 +217,7 @@ function Engine:update(dt)
     end
 
     self.app:__update(dt)
+    env.parameter:update(dt)
 end
 
 function Engine:preRender()    
@@ -245,7 +246,7 @@ function Engine:draw()
 
     self:postRender()
 
-    fontSize(10)
+    fontSize(8)
 
     do
         function info(name, value)

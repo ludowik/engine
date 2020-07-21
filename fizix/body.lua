@@ -144,8 +144,7 @@ function Body.sphere:init(radius)
 
     self.w = self.radius * 2
     self.h = self.w
-    
-    self.d = self.d
+    self.d = self.w
 end
 
 function Body:computeSize()

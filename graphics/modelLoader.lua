@@ -1,5 +1,6 @@
 function loadObj(fileName)
     local filePath = getModelPath()..'/'..fileName..'.obj'
+
     local content = fs.read(filePath)
 
     if content then
@@ -10,49 +11,58 @@ function loadObj(fileName)
         local normals, normalsTemp = Buffer('vec3'), Buffer('vec3')
         local texCoords, texCoordsTemp = Buffer('vec2'), Buffer('vec2')
 
+        local v2, v3 = vec2(), vec3()
+
+        local function set2(v, x, y)
+            v.x = x
+            v.y = y
+        end
+
+        local function set3(v, x, y, z)
+            v.x = x
+            v.y = y
+            v.z = z
+        end
+
+        local datas, typeofRecord
+
         local lines = content:split('\n')
         for line=1,#lines do
-            local datas = lines[line]:trim():split(' ')
+            datas = lines[line]:trim():split(' ')
 
-            local typeofRecord = datas[1]
+            typeofRecord = datas[1]
 
-            if typeofRecord == 'o' then
-                -- object name
-                
-            elseif typeofRecord == 'g' then
-                -- group name
-                
-            elseif typeofRecord == 'usemtl' then
-                -- material name
-                
-            elseif typeofRecord == 'v' then
+            if typeofRecord == 'v' then
                 -- vertex
-                verticesTemp:insert(vec3(
-                        tonumber(datas[2]),
-                        tonumber(datas[3]),
-                        tonumber(datas[4])
-                    ))
-                
+                set3(v3,
+                    tonumber(datas[2]),
+                    tonumber(datas[3]),
+                    tonumber(datas[4])
+                )
+                verticesTemp:insert(v3)
+
             elseif typeofRecord == 'vn' then
                 -- normals
-                normalsTemp:insert(vec3(
-                        tonumber(datas[2]),
-                        tonumber(datas[3]),
-                        tonumber(datas[4])
-                    ))
-                
+                set3(v3,
+                    tonumber(datas[2]),
+                    tonumber(datas[3]),
+                    tonumber(datas[4])
+                )
+                normalsTemp:insert(v3)
+
             elseif typeofRecord == 'vt' then
                 -- texture coordinates
-                texCoordsTemp:insert(vec2(
-                        tonumber(datas[2]),
-                        tonumber(datas[3])
-                    ))
-                
+                set2(v2,
+                    tonumber(datas[2]),
+                    tonumber(datas[3])
+                )
+                texCoordsTemp:insert(v2)
+
             elseif typeofRecord == 'f' then
                 -- faces
                 local function vertex(i)
                     assert(tonumber(datas[i][1]), 'line '..line)
-                    
+
                     local n = #vertices+1
                     if #verticesTemp > 0 then
                         vertices[n] = verticesTemp[tonumber(datas[i][1])]
@@ -86,6 +96,16 @@ function loadObj(fileName)
                         face(i, i+1, 2)
                     end
                 end
+
+            elseif typeofRecord == 'o' then
+                -- object name
+
+            elseif typeofRecord == 'g' then
+                -- group name
+
+            elseif typeofRecord == 'usemtl' then
+                -- material name
+
             end
         end
 

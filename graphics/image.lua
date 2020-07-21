@@ -350,12 +350,12 @@ end
 
 function Image:attachRenderbuffer(w, h)
     -- The depth buffer
-    if self.framebufferName == nil then
+    if self.depthrenderbuffer == nil then
         self.depthrenderbuffer = gl.glGenRenderbuffer()
         gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.depthrenderbuffer)
         gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT24, w, h)
         gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
-        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, depthrenderbuffer)
+        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, self.depthrenderbuffer)
     end
     return self.depthrenderbuffer
 end

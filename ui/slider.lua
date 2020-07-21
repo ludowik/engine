@@ -48,10 +48,14 @@ function Slider:draw()
     text(self:getLabel())
 end
 
+function Slider:mouseButtonRight()
+    self:setValue(self.min)
+    tween(5, self, {value = self.max})
+end
+
 function Slider:touched(touch)
     if touch.tapCount > 1 then
-        self:setValue(self.min)
-        tween(5, self, {value = self.max})
+        self:mouseButtonRight()
     else
         local dx = touch.x - self.position.x
         local ratio = dx / self.size.x

@@ -30,8 +30,8 @@ function Context.setContext(context)
     Context.currentContext = context
 
     if context.framebufferName == nil then
-        context.framebufferName = context:createFramebuffer()
-        context.depthrenderbuffer = context:attachRenderbuffer(context.width, context.height)
+        context:createFramebuffer()
+        context:attachRenderbuffer(context.width, context.height)
 
         context:attachTexture2D(context.texture_id)
 
@@ -43,6 +43,7 @@ function Context.setContext(context)
     end
 
     gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, context.framebufferName)
+    
     Context.viewport(0, 0, context.width, context.height)
 
     ortho(0, context.width, 0, context.height)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 load applications/noise/map1
 #version 410
@@ -369,3 +370,13 @@ void main() {
     }
 }
 
+=======
+/Users/lca/Projets/Lua/engine
+load applications/sketches3d/physics3d
+release 2 fonts
+memory at init    : 0.90 mo
+memory min        : 0.90 mo
+memory max        : 14.06 mo
+memory variation  : 13.17 mo
+memory at release : 11.51 mo
+>>>>>>> a3f0ed522e6b37c257611ceb0845abfd1c65047a

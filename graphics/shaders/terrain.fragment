@@ -1,4 +1,6 @@
-varying float elevation;
+in vec4 vColor;
+
+in float elevation;
 
 float minElevation = 2. - 1.75;
 float maxElevation = 2. + 1.75;
