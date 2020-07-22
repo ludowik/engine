@@ -1,9 +1,12 @@
 if os.name == 'osx' then
 
+    local path = '/Library/Frameworks'
+--    local path = '/Users/ludo/Projets/Libraries'
+
     ft = Library.compileFile('libc/freetype/freetype.c',
         'ft',
-        '-I /Library/Frameworks/FreeType.Framework/Headers',
-        '/Library/Frameworks/FreeType.Framework/FreeType')
+        '-I '..path..'/FreeType.Framework/Headers',
+        path..'/FreeType.Framework/FreeType')
 
 else
 

@@ -35,11 +35,11 @@ function Library.compileFile(srcName, moduleName, headers, links)
 
     local command = string.format('gcc -Wall -shared {headers} -o {libName} {srcName} {links}', params)
     local res = os.execute(command)
-    assert(res == 0)
+--    assert(res == 0)
 
     command = string.format('gcc -E -M {headers} -o {headerName} {srcName}', params)
     res = os.execute(command)
-    assert(res == 0)
+--    assert(res == 0)
 
     return ffi.load(params.libName)
 end
@@ -48,6 +48,7 @@ function Library.load(libName, libNamewindows)
     local libPath
     if os.name == 'osx' then 
         libPath = libName..'.framework/'..libName
+        libPath = '/Users/ludo/Projets/Libraries/'..libName..'/'..libPath
     else
         libPath = 'System32/'..(libNamewindows or libName)
     end
