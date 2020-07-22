@@ -6,10 +6,11 @@ function Bullet:init(ship)
     self:addToPhysics()
 
     self.body.position = (
-        vec2(ship.position.x, ship.position.y) +
-        vec2(30,0):rotate(rad(ship.angle)))
+        vec2(ship.position.x, ship.position.y)
+        :add(vec2(30,0)
+            :rotateInPlace(rad(ship.angle))))
 
-    self.body.linearVelocity = vec2(300,0):rotate(rad(ship.angle))
+    self.body.linearVelocity = vec2(300,0):rotateInPlace(rad(ship.angle))
     self.body.linearDamping = 0
 
     self.body.radius = 2

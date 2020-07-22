@@ -10,12 +10,12 @@ Screen.spriteMap = {} -- for fake sprites
 -- this function has no return value
 function Screen.makeSprite(name,func,w,h)
     if Screen.spriteMap[name] then return nil end
-    
+
     local img = image(w,h)
     setContext(img)
     func()
     setContext()
-    
+
     Screen.spriteMap[name] = img
 end
 
@@ -47,11 +47,11 @@ end
 
 function Screen:init()
     Panel.init(self,0,0)
-    
+
     -- meshData maps z-coords to arrays of meshes
     self.meshData = {}
     self.highlights = {}
-    
+
     if DEV_MODE then
         -- screenMode
         local smSprite = "devScreen"
@@ -60,7 +60,7 @@ function Screen:init()
         screenMode.onEnded = function(but,t)
             if displayMode() == FULLSCREEN then displayMode(STANDARD)
             else displayMode(FULLSCREEN) end
-         end       
+        end       
         self:add(screenMode)
         screenMode.alwaysActive = true
         self:doDraw(screenMode,smSprite,1000000)
@@ -71,7 +71,7 @@ end
 function Screen:doDraw(obj,imgName,z,zShadow)
     assert(imgName~=nil,"Adding obj to screen with nil imgName")
     --print("Screen.doDraw",imgName,z)
-    
+
     -- handle shadow objects, which have a different coord for the shadow
     if zShadow ~= nil then
         self:doDraw(obj,imgName,z)
@@ -80,12 +80,12 @@ function Screen:doDraw(obj,imgName,z,zShadow)
         obj:positionShadow()
         return nil
     end
-    
+
     -- handle regular objects
-    
+
     -- in case this was object was already drawn with a different sprite, eg the playB
     self:undoDraw(obj)
-    
+
     z = z or 0
     if not self.meshData[z] then self.meshData[z] = {} end
     if not self.meshData[z][imgName] then
@@ -94,7 +94,7 @@ function Screen:doDraw(obj,imgName,z,zShadow)
         else mesh.texture = imgName end
         self.meshData[z][imgName] = {data={mesh=mesh,pool={},imgName=imgName},elems={}}
     end
-    
+
     table.insert(self.meshData[z][imgName].elems,obj)
     obj:setMesh(self.meshData[z][imgName].data)
 end
@@ -106,7 +106,7 @@ function Screen:highlightObj(obj,dz)
     local zs = {}
     for z,zData in pairs(self.meshData) do table.insert(zs,z) end
     table.sort(zs, function(a,b) return a > b end)
-    
+
     for _,z in ipairs(zs) do
         for imgName,imgData in pairs(self.meshData[z]) do
             for idx,elem in ipairs(imgData.elems) do
@@ -137,7 +137,7 @@ function Screen:undoDraw(obj)
     if obj.shadow then 
         self:undoDraw(obj.shadow) 
     end
-    
+
     local retVal = false
     for z,zData in pairs(self.meshData) do
         for imgName,imgData in pairs(zData) do
@@ -149,10 +149,10 @@ function Screen:undoDraw(obj)
                     table.insert(imgData.data.pool,obj.meshIdx)
                     -- remove from the mesh
                     imgData.data.mesh:setRect(obj.meshIdx,0,0,0,0,0)
-                    
+
                     assert(not retVal,"found multiple copies of obj in screen meshes")
                     retVal = true
-                    
+
                     -- remove from the highlights
                     for idx,highElem in ipairs(self.highlights) do
                         if highElem.obj == obj then
@@ -171,7 +171,7 @@ function Screen:draw()
     local zs = {}
     for z,zData in pairs(self.meshData) do table.insert(zs,z) end
     table.sort(zs, function(a,b) return a < b end)
-    
+
     -- then draw each one
     for _,z in ipairs(zs) do
         for imgName,imgData in pairs(self.meshData[z]) do
@@ -193,12 +193,12 @@ end
 
 function Screen:touched(t)
     if not self.active then return false end
-    
+
     -- first sort the z's in decreasing order
     local zs = {}
     for z,zData in pairs(self.meshData) do table.insert(zs,z) end
     table.sort(zs, function(a,b) return a > b end)
-    
+
     -- then draw each one
     for _,z in ipairs(zs) do
         for imgName,imgData in pairs(self.meshData[z]) do
@@ -210,7 +210,7 @@ function Screen:touched(t)
             end
         end
     end
-    
+
     -- if none of the drawing elems triggered, see if we trigger non drawing elems
     Panel.touched(self,t)
 end

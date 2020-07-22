@@ -2,7 +2,7 @@ Object = class('Object', Rect)
 
 function Object:init(label)
     Rect.init(self)
-    
+
     self.label = label or ''
 
     self.fixedSize = nil
@@ -10,6 +10,9 @@ function Object:init(label)
 end
 
 function Object:update(dt)
+    if self.body then
+        self.position = self.body.position
+    end
 end
 
 function Object:draw()

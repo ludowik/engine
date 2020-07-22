@@ -67,7 +67,7 @@ end
 function Node:update(dt)
     for i,v in self.nodes:items() do
 
-        if v.update then
+        if v.update then            
             v:update(dt)
         end
     end

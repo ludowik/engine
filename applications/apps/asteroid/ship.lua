@@ -60,7 +60,7 @@ end
 
 function Ship:applyForce(force)
     self.body:applyForce(
-        vec2(force,0):rotate(rad(self.body.angle)))
+        vec2(force,0):rotateInPlace(rad(self.body.angle)))
 end
 
 function Ship:applyTorque(torque)
