@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "codea/mandelbrot",
+    ["appName"] = "apps/2048",
     ["majorVersion"] = 4,
 }

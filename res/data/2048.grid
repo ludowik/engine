@@ -1,5 +1,5 @@
 return {
-    ["high_score"] = 1724,
+    ["high_score"] = 1744,
     ["challenge"] = 512,
     ["w"] = 4,
     ["cells"] = {
@@ -13,14 +13,14 @@ return {
     [2] = {
     ["angle"] = 0,
     ["mergeCell"] = false,
-    ["value"] = 4,
+    ["value"] = 8,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
     [3] = {
     ["angle"] = 0,
     ["mergeCell"] = false,
-    ["value"] = 2,
+    ["value"] = 4,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
@@ -33,7 +33,7 @@ return {
     [5] = {
     ["angle"] = 0,
     ["mergeCell"] = false,
-    ["value"] = 2,
+    ["value"] = 4,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
@@ -45,14 +45,14 @@ return {
     ["__formatting"] = true,
 },
     [7] = {
-    ["angle"] = 0,
-    ["mergeCell"] = false,
-    ["scaling"] = 1,
     ["__formatting"] = true,
+    ["angle"] = 0,
+    ["scaling"] = 0.1,
+    ["value"] = 2,
 },
     [8] = {
-    ["angle"] = 0,
     ["mergeCell"] = false,
+    ["angle"] = 0,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
@@ -64,8 +64,8 @@ return {
     ["__formatting"] = true,
 },
     [10] = {
-    ["angle"] = 0,
     ["mergeCell"] = false,
+    ["angle"] = 0,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
@@ -76,23 +76,22 @@ return {
     ["__formatting"] = true,
 },
     [12] = {
-    ["angle"] = 0,
     ["mergeCell"] = false,
+    ["angle"] = 0,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
     [13] = {
-    ["angle"] = 0,
     ["mergeCell"] = false,
-    ["value"] = 2,
+    ["angle"] = 0,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
     [14] = {
-    ["__formatting"] = true,
+    ["mergeCell"] = false,
     ["angle"] = 0,
-    ["scaling"] = 0.1,
-    ["value"] = 2,
+    ["scaling"] = 1,
+    ["__formatting"] = true,
 },
     [15] = {
     ["mergeCell"] = false,
@@ -101,13 +100,13 @@ return {
     ["__formatting"] = true,
 },
     [16] = {
-    ["angle"] = 0,
     ["mergeCell"] = false,
+    ["angle"] = 0,
     ["scaling"] = 1,
     ["__formatting"] = true,
 },
     ["__formatting"] = true,
 },
     ["h"] = 4,
-    ["score"] = 1724,
+    ["score"] = 1744,
 }
