@@ -1,2 +1,29 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/sketches3d/physics3d
+load applications/codea/cargo-bot
+.\graphics\style.lua:250: not implemented : displayMode
+load applications/codea/dungeon roller
+.\graphics\style.lua:250: not implemented : displayMode
+load applications/codea/fixedareabubble
+.\graphics\style.lua:250: not implemented : displayMode
+load applications/codea/gravity
+An example that shows how to use the Gravity vector
+load applications/codea/hammer
+.\graphics\style.lua:250: not implemented : displayMode
+load applications/codea/lines
+load applications/codea/mandelbrot
+This program plots an image of the Mandelbrot set using the image() class.
+
+Tap anywhere in the window to zoom in, double-tap to zoom out.
+
+ManCalcTime is the time it takes to calculate the set membership and escape values.
+
+Parameter: RMode sets the type of color map the set is rendered with.
+
+Parameter: Resolution sets the level of image detail.
+Higher resolutions make prettier pictures at the expense of slower update.
+release 11 fonts
+memory at init    : 0.89 mo
+memory min        : 0.89 mo
+memory max        : 14.84 mo
+memory variation  : 13.95 mo
+memory at release : 12.76 mo

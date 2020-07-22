@@ -81,6 +81,10 @@ end
 
 function Application:__draw()
     if _G.env.draw then
+        if self.scene.camera then
+            self.scene.camera:setViewMatrix()
+        end
+        
         _G.env.draw()
 
         resetMatrix()

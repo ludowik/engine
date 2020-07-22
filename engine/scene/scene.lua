@@ -9,12 +9,16 @@ function Scene:draw()
     do
         if self.camera then
             perspective()
+            
             self.camera:setViewMatrix()    
+            
             light(config.light)
+            
             MeshAxes()
-            depthMode(true)
-            cullingMode(true)
+            
             blendMode(NORMAL)
+            depthMode(true)
+            cullingMode(true)            
         end
 
         if self.parent == nil then

@@ -284,9 +284,8 @@ function Engine:postRender()
     ortho(0, W + W_INFO, 0, H)
 
     blendMode(NORMAL)
-
     depthMode(false)
-    cullingMode('none')
+    cullingMode(false)
 
     self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
 end

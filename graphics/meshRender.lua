@@ -36,11 +36,11 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
                 else
                     error(ffi.typeof(buffer[1]))
                 end
-                
+
                 log(getFunctionLocation(buffer.id, 2))
                 log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)                
             end
-            
+
             log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)
 
             gl.glBufferData(gl.GL_ARRAY_BUFFER, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
@@ -61,12 +61,20 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
     x = x or 0
     y = y or 0
     z = z or 0
-    
+
     w = w or 1
     h = h or 1
     d = d or 1
 
     self.shader = shader
+
+    if self.texture then
+        if type(self.texture) == 'string' then
+            img = resourceManager:get('image', self.texture, image)
+        else
+            img = self.texture
+        end
+    end
 
     do
         shader:use()
@@ -87,9 +95,9 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
             if shader.uniformsLocations.useTexture then
                 gl.glUniform1i(shader.uniformsLocations.useTexture.uniformLocation, 1)
             end
-            
+
             gl.glUniform1i(shader.uniformsLocations.tex0.uniformLocation, 0)
-            
+
             img:update()
             img:use(gl.GL_TEXTURE0)
         else
@@ -201,7 +209,7 @@ function MeshRender:sendUniforms(uniformsLocations)
     if uniformsLocations.fill and styles.attributes.fill then
         gl.glUniform4fv(uniformsLocations.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
     end
-    
+
     if uniformsLocations.tint and styles.attributes.tint then
         gl.glUniform4fv(uniformsLocations.tint.uniformLocation, 1, styles.attributes.tint:tobytes())
     end
@@ -213,7 +221,7 @@ function MeshRender:sendUniforms(uniformsLocations)
             gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 0)
         end
     end
-    
+
     if uniformsLocations.useLight then
         if self.normals and #self.normals > 0 then
             gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 1)

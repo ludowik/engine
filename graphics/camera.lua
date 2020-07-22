@@ -25,11 +25,25 @@ function Camera:init(...)
     self.sensitivity = 0.5
 
     self:updateVectors()
-    
+
     self:set(...)
 end
 
 function Camera:set(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
+    if type(eyeX) ~= 'number' then
+        if eyeZ then
+            upX, upY, upZ = eyeZ.x, eyeZ.y, eyeZ.z
+        end
+        
+        if eyeY then
+            atX, atY, atZ = eyeY.x, eyeY.y, eyeY.z
+        end
+        
+        if eyeX then
+            eyeX, eyeY, eyeZ = eyeX.x, eyeX.y, eyeX.z
+        end
+    end
+
     if atX == nil then
         atX = 0
         atY = 0
@@ -236,3 +250,10 @@ end
 function Camera:setViewMatrix()
     viewMatrix(self:matrix())
 end
+
+
+
+
+
+
+

@@ -138,31 +138,6 @@ function ortho3d(w, h)
 end
 
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
-    if type(eye_x) == 'number' then
-        cameraImplem(
-            eye_x and vec3(eye_x, eye_y, eye_z),
-            at_x and vec3(at_x, at_y, at_z),
-            up_x and vec3(up_x, up_y, up_z))
-    else
-        cameraImplem(eye_x, eye_y, eye_z)
-    end
-end
-
-function cameraImplem(eye, at, up)
-    at = at or vec3()
-    up = up or vec3(0, 1, 0)
-
-    local f, u, s = vec3(), vec3(), vec3()
-
-    f:set(at):sub(eye):normalizeInPlace()
-    u:set(up):normalizeInPlace()
-    s:set(f):crossInPlace(u):normalizeInPlace()
-
-    u:set(s):crossInPlace(f)
-
-    viewMatrix(matrix(
-            s.x, s.y, s.z, -s:dot(eye),
-            u.x, u.y, u.z, -u:dot(eye),
-            -f.x, -f.y, -f.z, f:dot(eye),
-            0, 0, 0, 1))
+    env.app.scene.camera = Camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
+    env.app.scene.camera:setViewMatrix()
 end

@@ -65,7 +65,7 @@ function resetStyle()
     TEXT_NEXT_Y = H
 
     blendMode(NORMAL)
-    depthMode(false)
+    depthMode(true)
     cullingMode(true)
 
     font()

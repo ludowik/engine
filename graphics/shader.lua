@@ -7,8 +7,8 @@ function Shader:init(name, path)
     self:create()
 end
 
-function Shader:tostring()
-    return self .name
+function Shader:__tostring()
+    return self.name
 end
 
 function Shader:create()

@@ -227,7 +227,7 @@ function polygon(vertices)
     end
 end
 
-function rect(x, y, w, h, mode)
+function rect(x, y, w, h, r, mode)
     h = h or w
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
 
@@ -265,7 +265,7 @@ end
 
 function sprite(img, x, y, w, h, mode)
     if type(img) == 'string' then        
-        img = resourceManager:get('image', img, image)        
+        img = resourceManager:get('image', img, image)
     end
 
     if img and img.surface then

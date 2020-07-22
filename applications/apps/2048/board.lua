@@ -21,8 +21,6 @@ function Board2048:draw()
     local l = floor((self.size.x - 2*marge) / n)
     local l2 = max(1, floor(l / 2))
 
-    rectMode(CORNER)
-
     for i=1,m do
         for j=1,n do
             pushMatrix()
@@ -69,7 +67,7 @@ function Board2048:draw()
 
                     local txt = tostring(value)
 
-                    local fontSize = 40
+                    local fontSize = 20
 
                     repeat
                         textStyle(fontSize, hexa2color(st), CENTER)
@@ -77,13 +75,17 @@ function Board2048:draw()
                         fontSize = fontSize - 2
                     until w < l-2*marge or fontSize <= 20
 
+                    textMode(CENTER)
                     text(txt, 0, 0)
                 end
 
                 if cell.new then
                     stroke(blue)
                     strokeWidth(2)
+                    
                     noFill()
+                    
+                    circleMode(CENTER)
                     circle(0, 0, l2/2)
                 end
             end
