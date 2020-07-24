@@ -1,14 +1,2 @@
 /Users/ludo/Projets/Lua/engine
-load applications/default
-switch applications/default
-load applications/appManager
-load applications/apps/2048
-function: 0x0abf8a40
-function: 0x0abf8a40
-function: 0x0abf8a40
-release 3 fonts
-memory at init    : 0.90 mo
-memory min        : 0.90 mo
-memory max        : 14.81 mo
-memory variation  : 13.92 mo
-memory at release : 13.05 mo
+load applications/apps/sudoku
