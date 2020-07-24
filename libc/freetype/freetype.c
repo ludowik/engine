@@ -33,11 +33,11 @@ FT_Face load_font(FT_Library library, const char* font_name, int font_size) {
         return NULL;
         
     FT_Set_Char_Size(
-      face,                 /* handle to face object           */
-      0,                    /* char_width in 1/64th of points  */
-      0.5 * font_size * 64, /* char_height in 1/64th of points */
-      300,                  /* horizontal device resolution    */
-      300 );                /* vertical device resolution      */
+      face,           /* handle to face object           */
+      0,              /* char_width in 1/64th of points  */
+      font_size * 64, /* char_height in 1/64th of points */
+      96,             /* horizontal device resolution    */
+      0);             /* vertical device resolution      */
       
     return (FT_Face)face;
 }

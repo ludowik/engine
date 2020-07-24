@@ -77,6 +77,9 @@ end
 class 'Text'
 
 function Text:init(str)
+    if str:len() > 32 then
+        str = str:left(32)
+    end
     local surface = ft.load_text(ft.hFont, str)
     self.img = Image():makeTexture(surface)
     ft.release_text(surface)

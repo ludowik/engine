@@ -460,7 +460,7 @@ function table.format(t, name, tab_)
                 varName = '["'..k..'"]'
             end
 
-            code = code..NL..tab..varName.." = "..convert(v, k, tab)..","
+            code = code..NL..tab..varName.." = "..table.convert(v, k, tab)..","
         end
     end
 
@@ -469,6 +469,10 @@ function table.format(t, name, tab_)
 end
 
 conversions = {
+    ['nil'] = function (v)
+        return 'nil'
+    end,
+    
     ['table'] = function (v)
         if v.__formatting then return "..." end
 
@@ -497,7 +501,7 @@ conversions = {
     end,
 }
 
-function convert(v)
+function table.convert(v)
     local conversion = conversions[type(v)] or tostring
     return conversion(v)
 end

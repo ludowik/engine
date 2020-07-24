@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "apps/sudoku",
+    ["appName"] = "demo/animation",
     ["majorVersion"] = 4,
 }

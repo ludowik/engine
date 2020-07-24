@@ -31,15 +31,15 @@ function Image:init(w, h)
 
         self.width = self.surface.w
         self.height = self.surface.h
-        
+
         self:reversePixels()
-        
+
         self:makeTexture()
 
     else
         self:create(100, 100)
     end
-    
+
     self.wh = self.width * self.height
     self.pixels = ffi.cast('GLubyte*', self.surface.pixels)
 end
@@ -266,7 +266,7 @@ function image:offset(x, y)
 
     local offset = self.width * y + x
     if offset >= 0 and offset < self.wh then
-        return offset * 4
+        return offset * self.surface.format.BytesPerPixel
     end
 end
 
@@ -281,10 +281,20 @@ function image:set(x, y, color_r, g, b, a)
     if offset then
         local pixels = self:getPixels()
 
-        pixels[offset  ] = color_r * 255
-        pixels[offset+1] = g * 255
-        pixels[offset+2] = b * 255
-        pixels[offset+3] = a * 255
+        if self.surface.format.BytesPerPixel == 1 then
+            pixels[offset  ] = color_r * 255
+
+        elseif self.surface.format.BytesPerPixel == 3 then
+            pixels[offset  ] = color_r * 255
+            pixels[offset+1] = g * 255
+            pixels[offset+2] = b * 255
+
+        elseif self.surface.format.BytesPerPixel == 4 then
+            pixels[offset  ] = color_r * 255
+            pixels[offset+1] = g * 255
+            pixels[offset+2] = b * 255
+            pixels[offset+3] = a * 255
+        end
 
         self.needUpdate = true
     end
@@ -297,10 +307,24 @@ function image:get(x, y, clr)
     if offset then
         local pixels = self:getPixels()
 
-        clr.r = pixels[offset  ] / 255
-        clr.g = pixels[offset+1] / 255
-        clr.b = pixels[offset+2] / 255
-        clr.a = pixels[offset+3] / 255
+        if self.surface.format.BytesPerPixel == 1 then
+            clr.r = pixels[offset  ] / 255
+            clr.g = clr.r
+            clr.b = clr.r
+            clr.a = 1
+
+        elseif self.surface.format.BytesPerPixel == 3 then
+            clr.r = pixels[offset  ] / 255
+            clr.g = pixels[offset+1] / 255
+            clr.b = pixels[offset+2] / 255
+            clr.a = 1
+
+        elseif self.surface.format.BytesPerPixel == 4 then
+            clr.r = pixels[offset  ] / 255
+            clr.g = pixels[offset+1] / 255
+            clr.b = pixels[offset+2] / 255
+            clr.a = pixels[offset+3] / 255
+        end
 
         return clr
     end

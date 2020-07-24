@@ -246,7 +246,7 @@ function Engine:draw()
 
     self:postRender()
 
-    fontSize(8)
+    fontSize(12)
 
     do
         function info(name, value)
@@ -256,16 +256,14 @@ function Engine:draw()
 
         info('fps', self.frame_time.fps)
         info('fps target', self.fpsTarget)
-        info('app', self.appName)
-        info('ram', format_ram(self.memory.ram.current))
+        info('opengl version', config.glMajorVersion)
         info('mouse', mouse)
+        info('ram', format_ram(self.memory.ram.current))
+        info('res', resourceManager.resources:getnKeys())
         info('os', jit.os)
+        info('jit version', jit.version)
         info('debugging', debugging())
         info('compile', jit.status())
-        info('arch', jit.arch)
-        info('jit version', jit.version)
-        info('opengl version', config.glMajorVersion)
-        info('res', resourceManager.resources:getnKeys())
     end
 
     self:drawHelp()
@@ -466,6 +464,8 @@ function Engine:loadApp(appName, reloadApp)
     end
 
     self.app = env.app
+    
+    sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appName)
 
     for i=1,2 do
         self:preRender()

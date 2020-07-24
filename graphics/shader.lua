@@ -61,7 +61,7 @@ function Shader:compile(shaderType, source, path)
     )
 
     include = include..(
-        io.read(self.path..'/noise3D.glsl')..NL
+        io.read('graphics/shaders/noise3D.glsl')..NL
     )
 
     include = include..[[

@@ -14,6 +14,9 @@ function Slider:init(var, min, max, default, integer, callback)
 end
 
 function Slider:computeSize()
+    font(DEFAULT_FONT_NAME)
+    fontSize(14)
+    
     self.size.x, self.size.y = textSize(self:getLabel())    
     self.size.x = 200
 end
@@ -43,9 +46,11 @@ function Slider:draw()
 
     font(DEFAULT_FONT_NAME)
     fontSize(14)
+    
     fill(white)
+    
     textMode(CORNER)
-    text(self:getLabel())
+    text(self:getLabel(), 0, 0)
 end
 
 function Slider:mouseButtonRight()

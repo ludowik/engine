@@ -1,4 +1,3 @@
---------------------------------------------------------------------------------
 class('GridSudoku', Grid)
 
 function GridSudoku:init()
@@ -32,7 +31,13 @@ function GridSudoku:loadFromString(str)
     local index = 1
     for i = 1, self.w do
         for j = 1, self.h do
-            self:set(i, j, tonumber(str:mid(index, 1)))
+            local value = tonumber(str:mid(index, 1))
+            if value >= 1 and value <= 9 then
+                self:set(i, j, value)
+            else
+                self:set(i, j, nil)
+            end
+
             index = index + 1
         end
     end    

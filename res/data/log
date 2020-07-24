@@ -1,2 +1,8 @@
-/Users/ludo/Projets/Lua/engine
-load applications/apps/sudoku
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/demo/animation
+release 2 fonts
+memory at init    : 0.89 mo
+memory min        : 0.89 mo
+memory max        : 7.66 mo
+memory variation  : 6.77 mo
+memory at release : 6.36 mo

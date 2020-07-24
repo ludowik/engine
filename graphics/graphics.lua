@@ -270,7 +270,7 @@ function sprite(img, x, y, w, h, mode)
 
     if img and img.surface then
         w = w or img.surface.w
-        h = h or img.surface.h
+        h = h or w * img.surface.h / img.surface.w
 
         x, y = centerFromCorner(mode or spriteMode(), x, y, w, h)
         meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, w, h, 1)

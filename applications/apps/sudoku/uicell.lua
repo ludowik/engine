@@ -69,7 +69,7 @@ function UI_cell:draw()
     end
 
     -- show possibilities
-    if cell.numbers and readProjectData('app.showPossibilities', true) then
+    if cell.numbers and app.showPossibilities then
         textStyle(12, black, CORNER)
         local _,h = textSize('123456789')
 

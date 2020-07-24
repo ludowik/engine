@@ -25,7 +25,7 @@ function Sdl:initialize()
 
         local w, h = W_INFO + W, H
         
-        window = self.SDL_CreateWindow('resurection',
+        window = self.SDL_CreateWindow('Engine',
             0, 0,
             w, h,
 --            self.SDL_WINDOW_SHOWN +

@@ -4,8 +4,6 @@ function setup()
     atlas = image('Animation:sheep')
 
     function loadSprites(img, ws, hs, n, x, y, ms)
-        img = image(img)
-
         ms = ms or 0
         x = x or 0
         y = y or img.height
@@ -33,7 +31,7 @@ function setup()
         return animation
     end
 
-    animation = loadSprites(atlas, 100, 80, 6, 25, 640)
+    animation = loadSprites(atlas, 101, 84, 6, 25, 640)
 
     n = 0
 end
@@ -93,5 +91,5 @@ function draw(dt)
         dx = dx + animation[i].width
     end
 
-    --    sprite(atlas, 0, 500)
+--    sprite(atlas, 0, 200, 400)
 end

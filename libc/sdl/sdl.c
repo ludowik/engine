@@ -96,6 +96,8 @@ void SDL_SetWindowPosition(SDL_Window* window, int x, int y);
 void SDL_SetWindowSize(SDL_Window* window, int w, int h);
 void SDL_SetWindowTitle(SDL_Window* window, const char* title);
 
+const char* SDL_GetWindowTitle(SDL_Window* window);
+
 void SDL_ShowWindow(SDL_Window* window);
 
 int SDL_GL_LoadLibrary(const char* path);

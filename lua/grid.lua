@@ -122,7 +122,7 @@ function Grid:save()
 end
 
 function Grid:saveValue(cell)
-    return tostring(cell.value) 
+    return cell.value
 end
 
 function Grid:load()
