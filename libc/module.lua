@@ -44,14 +44,22 @@ function Library.compileFile(srcName, moduleName, headers, links)
     return ffi.load(params.libName)
 end
 
-function Library.load(libName, libNamewindows)
+function Library.load(libName, libNamewindows, libDir)
+    if os.name == 'osx' then 
+        libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..libName)
+    else
+        libDir = libDir or ('/Windows/System32')
+    end
+    
     local libPath
     if os.name == 'osx' then 
-        libPath = libName..'.framework/'..libName
-        libPath = '/Users/ludo/Projets/Libraries/'..libName..'/'..libPath
+        libName = libName..'.framework/'..libName
+        libPath = libDir..'/'..libName
     else
-        libPath = 'System32/'..(libNamewindows or libName)
+        libName = libNamewindows or libName
+        libPath = libDir..'/'..libName
     end
+    
     return ffi.load(libPath)
 end
 

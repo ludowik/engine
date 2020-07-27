@@ -1,4 +1,4 @@
-class 'Mouse' : meta(vec2)
+class 'Mouse'
 
 BEGAN = 'began'
 MOVING = 'moving'

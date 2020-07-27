@@ -878,7 +878,7 @@ function Model.triangulate(points)
         local v2 = mypoints[v2i]
         local v3 = mypoints[v3i]
 
-        local da = enclosedAngle(v1, v2, v3)
+        local da = vec2.enclosedAngle(v1, v2, v3)
 
         local reduce = false
         if da >= 0 then
@@ -887,7 +887,7 @@ function Model.triangulate(points)
             -- Check that there's no other point inside.
             for ii = 1, (#mypoints - 3) do
                 local mod_ii = (i + 2 + ii - 1) % #mypoints + 1
-                if isInsideTriangle(mypoints[mod_ii], v1, v2, v3) then
+                if vec2.isInsideTriangle(mypoints[mod_ii], v1, v2, v3) then
                     reduce = false
                 end
             end

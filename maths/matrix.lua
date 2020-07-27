@@ -11,16 +11,16 @@ ffi.cdef [[
 
 local mt = {}
 
-mt.__index = function (matrix, key)
+function mt:__index(key)
     if type(key) == 'number' then
-        return matrix.values[key-1]
+        return self.values[key-1]
     else
         return rawget(mt, key)
     end
 end
 
 -- n rows x m columns
-function mt.__tostring(self)
+function mt:__tostring()
     local str = ''
     local i = 0
     for n=0,3 do
@@ -34,7 +34,7 @@ function mt.__tostring(self)
     return str
 end
 
-function mt.set(self, ...)
+function mt:set(...)
     self.values = {...}
 end
 
@@ -119,11 +119,6 @@ function mt.rotate(...)
             m2x.i9 = s
             m2x.i10 = c
             return m1:__mul(m2x, res)
---            m2:set(
---                1,0,0,0,
---                0,c,-s,0,
---                0,s,c,0,
---                0,0,0,1)
 
         elseif y == 1 then
             m2y.i0 = c
@@ -131,11 +126,6 @@ function mt.rotate(...)
             m2y.i8 = -s
             m2y.i10 = c
             return m1:__mul(m2y, res)
---            m2:set(
---                c,0,s,0,
---                0,1,0,0,
---                -s,0,c,0,
---                0,0,0,1)
 
         else -- z == 1 (default)
             m2z.i0 = c
@@ -143,15 +133,8 @@ function mt.rotate(...)
             m2z.i4 = s
             m2z.i5 = c
             return m1:__mul(m2z, res)
---            m2:set(
---                c,-s,0,0,
---                s,c,0,0,
---                0,0,1,0,
---                0,0,0,1)
 
         end
-
---        return m1:__mul(m2, res)
     end
 
     return mt.rotate(...)
@@ -225,6 +208,7 @@ end
 meta_matrix = ffi.metatype('matrix', mt)
 
 class 'matrix' : meta(meta_matrix)
+
 function matrix:init(i0, ...)
     local mat
     if i0 == nil then

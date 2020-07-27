@@ -12,9 +12,9 @@ ffi.cdef [[
 
 local mt = {}
 
-mt.__index = function (v, key)
+function mt:__index(key)
     if type(key) == 'number' then
-        return v.values[key-1]
+        return self.values[key-1]
     else
         return rawget(mt, key)
     end
@@ -70,70 +70,82 @@ function mt.__eq(v1, v2)
     end
 end
 
-mt.len = function (self)
+function mt:floor()
+    return vec2(
+        floor(self.x),
+        floor(self.y))
+end
+
+function mt:len()
     return math.sqrt(
         self.x^2 +
         self.y^2)
 end
 
-mt.dist = function (self, v)
+function mt:dist(v)
     return math.sqrt(
         (v.x - self.x)^2 +
         (v.y - self.y)^2)
 end
 
-mt.add = function (self, v, coef)
+function mt:add(v, coef)
     coef = coef or 1
     self.x = self.x + v.x * coef
-    self.y = self.y + v.y * coef                
+    self.y = self.y + v.y * coef
     return self
 end
 
-mt.__add = function (self, v)
+function mt:__add(v)
     return self:clone():add(v)
 end
 
-mt.sub = function (self, v, coef)
+function mt:sub(v, coef)
     coef = coef or 1
     self.x = self.x - v.x * coef
-    self.y = self.y - v.y * coef                
+    self.y = self.y - v.y * coef
     return self
 end
 
-mt.__sub = function (self, v)
+function mt:__sub(v)
     return self:clone():sub(v)
 end
 
-mt.__unm = function (self, v)
-    return self:clone():mul(-1)
+function mt:unm()
+    self.x = -self.x
+    self.y = -self.y
+    return self
 end
 
-mt.mul = function (self, coef)
+function mt:__unm()
+    return self:clone():unm()
+end
+
+function mt:mul(coef)
     self.x = self.x * coef
     self.y = self.y * coef
     return self
 end
 
-mt.__mul = function(self, coef)
+function mt:__mul(coef)
     if type(self) == 'number' then
         self, coef = coef, self
     end
     return self:clone():mul(coef)
 end
 
-mt.div = function (self, coef)
+function mt:div(coef)
     return self:mul(1/coef)
 end
 
-mt.__div = function (self, coef)
+function mt:__div(coef)
     return self:__mul(1/coef)
 end
 
-mt.normalize = function (self, coef)
+function mt:normalize(coef)
     return self:clone():normalizeInPlace(coef)
 end
 
-mt.normalizeInPlace = function (self, coef)
+function mt:normalizeInPlace(coef)
     coef = coef or 1
 
     local len = self:len()
@@ -142,6 +154,20 @@ mt.normalizeInPlace = function (self, coef)
         self.y = self.y * coef / len
     end
 
+    return self
+end
+
+function mt:cross(v)
+    return self:clone():crossInPlace(v)
+end
+
+function mt:crossInPlace(v)
+    local x = self.y * v.z - self.z * v.y
+    local y = self.z * v.x - self.x * v.z
+    
+    self.x = x
+    self.y = y
+    
     return self
 end
 
@@ -174,68 +200,56 @@ function mt:angleBetween(other)
     return alpha2 - alpha1
 end
 
-mt.dot = function (self, v)
+function mt:dot(v)
     return (
         self.x * v.x +
         self.y * v.y
     )
 end
 
-function mt:floor()
-    return vec2(
-        floor(self.x),
-        floor(self.y))
+function mt:tobytes()
+    return self.values
 end
 
-function mt:cross(v)
-    return vec2(
-        self.y * v.z - self.z * v.y,
-        self.z * v.x - self.x * v.z)
-end
-
-mt.tobytes = function (v)
-    return v.values
-end
-
-mt.__len = function (v)
+function mt:__len()
     return 2
 end
 
-mt.__ipairs = function (v)
+function mt:__ipairs()
     local i = 0
     local attribs = {'x', 'y'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return i, v[i]
+            return i, self[i]
         end
     end
-    return f, v, nil
+    return f, self, nil
 end
 
-mt.__pairs = function (v)
+function mt:__pairs()
     local i = 0
     local attribs = {'x', 'y'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return attribs[i], v[i]
+            return attribs[i], self[i]
         end
     end
-    return f, v, nil
+    return f, self, nil
 end
 
-mt.unpack = function (v)
-    return v.x, v.y
+function mt:unpack()
+    return self.x, self.y
 end
 
-function mt.draw(v)
-    point(v.x, v.y)
+function mt:draw()
+    point(self.x, self.y)
 end
 
 local ORDER = 'counter-clockwise'
 
-function enclosedAngle(v1, v2, v3)
+function mt.enclosedAngle(v1, v2, v3)
     local a1 = math.atan2(v1.y - v2.y, v1.x - v2.x)
     local a2 = math.atan2(v3.y - v2.y, v3.x - v2.x)
 
@@ -257,24 +271,24 @@ end
 
 -- Determines if a vector |v| is inside a triangle described by the vectors
 -- |v1|, |v2| and |v3|.
-function isInsideTriangle(v, v1, v2, v3)
+function mt.isInsideTriangle(v, v1, v2, v3)
     local a1
     local a2
 
-    a1 = enclosedAngle(v1, v2, v3)
-    a2 = enclosedAngle(v, v2, v3)
+    a1 = mt.enclosedAngle(v1, v2, v3)
+    a2 = mt.enclosedAngle(v, v2, v3)
     if a2 > a1 or a2 < 0 then
         return false 
     end
 
-    a1 = enclosedAngle(v2, v3, v1)
-    a2 = enclosedAngle(v, v3, v1)
+    a1 = mt.enclosedAngle(v2, v3, v1)
+    a2 = mt.enclosedAngle(v, v3, v1)
     if a2 > a1 or a2 < 0 then 
         return false 
     end
 
-    a1 = enclosedAngle(v3, v1, v2)
-    a2 = enclosedAngle(v, v1, v2)
+    a1 = mt.enclosedAngle(v3, v1, v2)
+    a2 = mt.enclosedAngle(v, v1, v2)
     if a2 > a1 or a2 < 0 then
         return false 
     end
@@ -293,6 +307,7 @@ end
 __vec2 = ffi.metatype('vec2', mt)
 
 class 'vec2' : meta(__vec2)
+
 function vec2:init(x, y)
     return __vec2():set(x, y)
 end
