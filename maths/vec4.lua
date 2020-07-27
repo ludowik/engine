@@ -14,9 +14,9 @@ ffi.cdef [[
 
 local mt = {}
 
-mt.__index = function (v, key)
+function mt:__index(key)
     if type(key) == 'number' then
-        return v.values[key-1]
+        return self.values[key-1]
     else
         return rawget(mt, key)
     end
@@ -41,18 +41,23 @@ function mt:clone()
     return vec4(self)
 end
 
+function mt:tovec3()
+    return vec3(self.x, self.y, self.z)
+end
+
 function mt.random(w, h, d)
-    if w then
+    if w and h and d then
         return vec4(
             random.range(w),
-            random.range(h or w),
-            random.range(d or w),
+            random.range(h),
+            random.range(d),
             1)
     else
+        w = w or 1
         return vec4(
-            random.random(),
-            random.random(),
-            random.random(),
+            w * (random.random() * 2 - 1),
+            w * (random.random() * 2 - 1),
+            w * (random.random() * 2 - 1),
             1)
     end
 end
@@ -87,79 +92,82 @@ function mt:floor()
         1)
 end
 
-mt.len = function (self)
-    return math.sqrt(self.x^2 + self.y^2 + self.z^2)
+function mt:len()
+    return math.sqrt(
+        self.x^2 +
+        self.y^2 +
+        self.z^2)
 end
 
-mt.dist = function (self, v)
+function mt:dist(v)
     return math.sqrt(
         (v.x - self.x)^2 +
         (v.y - self.y)^2 +
         (v.z - self.z)^2)
 end
 
-mt.add = function (self, v, coef)
+function mt:add(v, coef)
     coef = coef or 1
     self.x = self.x + v.x * coef
     self.y = self.y + v.y * coef
-    self.z = self.z + v.z * coef
+    self.z = self.z + (v.z or 0) * coef
     return self
 end
 
-mt.__add = function (self, v)
+function mt:__add(v)
     return self:clone():add(v)
 end
 
-mt.sub = function (self, v, coef)
+function mt:sub(v, coef)
     coef = coef or 1
     self.x = self.x - v.x * coef
     self.y = self.y - v.y * coef
-    self.z = self.z - v.z * coef
+    self.z = self.z - (v.z or 0) * coef
     return self
 end
 
-mt.__sub = function (self, v)
+function mt:__sub(v)
     return self:clone():sub(v)
 end
 
-function mt.unm(p)
-    p.x = -p.x
-    p.y = -p.y
-    p.z = -p.z
-    return p
+function mt:unm()
+    self.x = -self.x
+    self.y = -self.y
+    self.z = -self.z
+    return self
 end
 
-mt.__unm = function (self, v)
-    return self:clone():mul(-1)
+function mt:__unm()
+    return self:clone():unm()
 end
 
-mt.mul = function (self, coef)
+function mt:mul(coef)
     self.x = self.x * coef
     self.y = self.y * coef
     self.z = self.z * coef
     return self
 end
 
-mt.__mul = function(self, coef)
+function mt:__mul(coef)
     if type(self) == 'number' then
         self, coef = coef, self
     end
     return self:clone():mul(coef)
 end
 
-mt.div = function (self, coef)
+function mt:div(coef)
     return self:mul(1/coef)
 end
 
-mt.__div = function (self, coef)
+function mt:__div(coef)
     return self:__mul(1/coef)
 end
 
-mt.normalize = function (self, coef)
+function mt:normalize(coef)
     return self:clone():normalizeInPlace(coef)
 end
 
-mt.normalizeInPlace = function (self, coef)
+function mt:normalizeInPlace(coef)
     coef = coef or 1
 
     local len = self:len()
@@ -172,15 +180,15 @@ mt.normalizeInPlace = function (self, coef)
     return self
 end
 
-mt.cross = function (self, v)
+function mt:cross(v)
     return self:clone():crossInPlace(v)
 end
 
-mt.crossInPlace = function (self, v)
+function mt:crossInPlace(v)
     local x = self.y * v.z - self.z * v.y
     local y = self.z * v.x - self.x * v.z
     local z = self.x * v.y - self.y * v.x
-
+    
     self.x = x
     self.y = y
     self.z = z
@@ -188,7 +196,7 @@ mt.crossInPlace = function (self, v)
     return self
 end
 
-mt.dot = function (self, v)
+function mt:dot(v)
     return (
         self.x * v.x +
         self.y * v.y +
@@ -196,62 +204,63 @@ mt.dot = function (self, v)
     )
 end
 
-mt.tobytes = function (v)
-    return v.values
+function mt:tobytes()
+    return self.values
 end
 
-mt.__len = function (v)
+function mt:__len()
     return 4
 end
 
-mt.__ipairs = function (v)
+function mt:__ipairs()
     local i = 0
     local attribs = {'x', 'y', 'z', 'w'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return i, v[i]
+            return i, self[i]
         end
     end
-    return f, v, nil
+    return f, self, nil
 end
 
-mt.__pairs = function (v)
+function mt:__pairs()
     local i = 0
     local attribs = {'x', 'y', 'z', 'w'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return attribs[i], v[i]
+            return attribs[i], self[i]
         end
     end
-    return f, v, nil
+    return f, self, nil
 end
 
-mt.unpack = function (v)
-    return v.x, v.y, v.z, v.w
+function mt:unpack()
+    return self.x, self.y, self.z, self.w
 end
 
-function mt.draw(v)
+function mt:draw()
     pushMatrix()
-    translate(v.x, v.y, v.z)
+    translate(self.x, self.y, self.z)
     sphere(1)
     popMatrix()
+end
+
+function xyzw(x, y, z, w, coef)
+    assert(coef == nil)
+    if type(x) == 'table' or type(x) == 'cdata' then 
+        return x.x, x.y, x.z or 0, x.w or 0, y or 1
+    end
+    return x or 0, y or 0, z or 0, w or 0, coef or 1
 end
 
 __vec4 = ffi.metatype('vec4', mt)
 
 class 'vec4' : meta(__vec4)
+
 function vec4:init(x, y, z, w)
     return __vec4():set(x, y, z, w)
-end
-
-function xywz(x, y, z, w, coef)
-    assert(coef == nil)
-    if type(x) == 'table' or type(x) == 'cdata' then 
-        return x.x, x.y, x.z or 0, x.w or 1, y or 1
-    end
-    return x or 0, y or 0, z or 0, w or 1, coef or 1
 end
 
 function vec4.test()
