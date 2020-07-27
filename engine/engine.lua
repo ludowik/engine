@@ -246,26 +246,7 @@ function Engine:draw()
 
     self:postRender()
 
-    fontSize(12)
-
-    do
-        function info(name, value)
-            local info = name..' : '..tostring(value)
-            text(info)
-        end
-
-        info('fps', self.frame_time.fps)
-        info('fps target', self.fpsTarget)
-        info('opengl version', config.glMajorVersion)
-        info('mouse', mouse)
-        info('ram', format_ram(self.memory.ram.current))
-        info('res', resourceManager.resources:getnKeys())
-        info('os', jit.os)
-        info('jit version', jit.version)
-        info('debugging', debugging())
-        info('compile', jit.status())
-    end
-
+    self:drawInfo()
     self:drawHelp()
 
     sdl:swap()
@@ -286,6 +267,28 @@ function Engine:postRender()
     cullingMode(false)
 
     self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
+end
+
+function Engine:drawInfo()
+    fontSize(12)
+    
+    textMode(CORNER)
+
+    function info(name, value)
+        local info = name..' : '..tostring(value)
+        text(info)
+    end
+
+    info('fps', self.frame_time.fps)
+    info('fps target', self.fpsTarget)
+    info('opengl version', config.glMajorVersion)
+    info('mouse', mouse)
+    info('ram', format_ram(self.memory.ram.current))
+    info('res', resourceManager.resources:getnKeys())
+    info('os', jit.os)
+    info('jit version', jit.version)
+    info('debugging', debugging())
+    info('compile', jit.status())
 end
 
 function Engine:drawHelp()
@@ -464,7 +467,7 @@ function Engine:loadApp(appName, reloadApp)
     end
 
     self.app = env.app
-    
+
     sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appName)
 
     for i=1,2 do

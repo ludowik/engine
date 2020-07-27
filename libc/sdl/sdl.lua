@@ -54,6 +54,14 @@ function Sdl:initialize()
                 self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
 
                 self.SDL_ShowWindow(window)
+                
+                local ddpi, hdpi, vdpi = ffi.new('float[1]'), ffi.new('float[1]'), ffi.new('float[1]')
+                self.SDL_GetDisplayDPI(0,
+                      ddpi,
+                      hdpi,
+                      vdpi)
+                  
+                  print(ddpi[0], hdpi[0], vdpi[0])
             end
         end
     end

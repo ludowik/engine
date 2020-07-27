@@ -238,8 +238,8 @@ end
 
 __vec3 = ffi.metatype('vec3', mt)
 
-class 'vec3' : meta(__vec3)
-function vec3:init(x, y, z)
+class 'test__vec3' : meta(__vec3)
+function vec3(x, y, z)
     return __vec3():set(x, y, z)
 end
 
@@ -251,7 +251,7 @@ function xyz(x, y, z, coef)
     return x or 0, y or 0, z or 0, coef or 1
 end
 
-function vec3.test()
+function test__vec3.test()
     assert(vec3() == vec3(0, 0))
     assert(vec3(1) == vec3(1,0))
     assert(vec3(1,2) == vec3(1,2))

@@ -92,6 +92,11 @@ SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int w, int h, Uint
 SDL_Window* SDL_GL_GetCurrentWindow(void);
 void SDL_DestroyWindow(SDL_Window* window);
 
+int SDL_GetDisplayDPI(int displayIndex,
+    float* ddpi,
+    float* hdpi,
+    float* vdpi);
+
 void SDL_SetWindowPosition(SDL_Window* window, int x, int y);
 void SDL_SetWindowSize(SDL_Window* window, int w, int h);
 void SDL_SetWindowTitle(SDL_Window* window, const char* title);

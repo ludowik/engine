@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "demo/animation",
+    ["appName"] = "demo/particles",
     ["majorVersion"] = 4,
 }

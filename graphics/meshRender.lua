@@ -23,15 +23,19 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
             if type(buffer) == 'table' then                
                 if type(buffer[1]) == 'number' then
                     buffer = Buffer('float', buffer)
+                    nComponents = 1
 
                 elseif ffi.typeof(buffer[1]) == __vec2 then
                     buffer = Buffer('vec2', buffer)
+                    nComponents = 2
 
                 elseif ffi.typeof(buffer[1]) == __vec3 then
                     buffer = Buffer('vec3', buffer)
+                    nComponents = 3
 
                 elseif ffi.typeof(buffer[1]) == __color then
                     buffer = Buffer('color', buffer)
+                    nComponents = 4
 
                 else
                     error(ffi.typeof(buffer[1]))

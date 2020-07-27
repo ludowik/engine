@@ -1,8 +1,151 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+/Users/ludo/Projets/Lua/engine
+load applications/default
 load applications/demo/animation
+load applications/demo/introspection/introspection
+load applications/demo/particles
 release 2 fonts
-memory at init    : 0.89 mo
-memory min        : 0.89 mo
-memory max        : 7.66 mo
-memory variation  : 6.77 mo
-memory at release : 6.36 mo
+memory at init    : 0.90 mo
+memory min        : 0.90 mo
+memory max        : 16.37 mo
+memory variation  : 15.48 mo
+memory at release : 8.53 mo
+====================================
+none
+elapsed time: 0.000493000 (160)
+delta   time: 0.000000493 (0.16)
+nil
+====================================
+create matrix
+elapsed time: 0.000822000 (104960)
+delta   time: 0.000000822 (104.96)
+nil
+====================================
+create and set matrix
+elapsed time: 0.000950000 (200000)
+delta   time: 0.000000950 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.001015000 (108952)
+delta   time: 0.000001015 (108.952)
+nil
+====================================
+none
+elapsed time: 0.000581000 (160)
+delta   time: 0.000000581 (0.16)
+nil
+====================================
+create matrix
+elapsed time: 0.001001000 (104960)
+delta   time: 0.000001001 (104.96)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001110000 (200000)
+delta   time: 0.000001110 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.001243000 (106212)
+delta   time: 0.000001243 (106.212)
+nil
+====================================
+none
+elapsed time: 0.002777000 (160)
+delta   time: 0.000002777 (0.16)
+nil
+====================================
+create matrix
+elapsed time: 0.007502000 (104000)
+delta   time: 0.000007502 (104)
+nil
+====================================
+create and set matrix
+elapsed time: 0.005891000 (200000)
+delta   time: 0.000005891 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.110558000 (360000)
+delta   time: 0.000110558 (360)
+nil
+====================================
+none
+elapsed time: 0.000586000 (160)
+delta   time: 0.000000586 (0.16)
+nil
+====================================
+create matrix
+elapsed time: 0.001261000 (104960)
+delta   time: 0.000001261 (104.96)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001147000 (200160)
+delta   time: 0.000001147 (200.16)
+nil
+====================================
+multiply matrix
+elapsed time: 0.001230000 (105224)
+delta   time: 0.000001230 (105.224)
+nil
+====================================
+none
+elapsed time: 0.000484000 (160)
+delta   time: 0.000000484 (0.16)
+nil
+====================================
+create matrix
+elapsed time: 0.000845000 (104960)
+delta   time: 0.000000845 (104.96)
+nil
+====================================
+create and set matrix
+elapsed time: 0.000888000 (200160)
+delta   time: 0.000000888 (200.16)
+nil
+====================================
+multiply matrix
+elapsed time: 0.000998000 (105144)
+delta   time: 0.000000998 (105.144)
+nil
+====================================
+none
+elapsed time: 0.002842000 (160)
+delta   time: 0.000002842 (0.16)
+nil
+====================================
+create matrix
+elapsed time: 0.006651000 (105032)
+delta   time: 0.000006651 (105.032)
+nil
+====================================
+create and set matrix
+elapsed time: 0.005939000 (200000)
+delta   time: 0.000005939 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.110944000 (360000)
+delta   time: 0.000110944 (360)
+nil
+====================================
+none
+elapsed time: 0.000613000 (160)
+delta   time: 0.000000613 (0.16)
+nil
+====================================
+create matrix
+elapsed time: 0.001049000 (104960)
+delta   time: 0.000001049 (104.96)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001116000 (200160)
+delta   time: 0.000001116 (200.16)
+nil
+====================================
+multiply matrix
+elapsed time: 0.001201000 (105268)
+delta   time: 0.000001201 (105.268)
+nil

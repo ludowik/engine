@@ -16,11 +16,15 @@ function Styles:init()
         tint = white,
 
         rectMode = CORNER,
+        
         ellipseMode = CENTER,
         circleMode = CENTER,
-        textMode = CORNER,
+        
+        textMode = CENTER,
 
-        spriteMode = CORNER,
+        spriteMode = CENTER,
+        
+        lineCapMode = ROUND,
 
         light = false
     }

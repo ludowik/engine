@@ -14,6 +14,7 @@ function Test1:draw()
     pushStyle()
     
     -- This sets the line thickness
+    stroke(white)
     strokeWidth(5)
  
     smooth()

@@ -7,15 +7,11 @@ end
 
 function Node:clear()
     self.nodes = Array()
+    return self
 end
 
 function Node:len()
     return #self.nodes
-end
-
-function Node:clear()
-    self.nodes = Array()
-    return self
 end
 
 function Node:get(i)
@@ -44,6 +40,10 @@ end
 
 function Node:removeItem(item)
     self.nodes:removeItem(item)
+end
+
+function Node:iter()
+    return ipairs(self.nodes)
 end
 
 function Node:initialize()
