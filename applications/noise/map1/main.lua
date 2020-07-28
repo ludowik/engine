@@ -154,9 +154,11 @@ function appMap:init()
     terrain.vertices = Buffer('vec3')
     terrain.vertices:resize(w*h*3)
 
+    local translate = vec3()
+    
     for x=-w/2,w/2 do
         for z=-h/2,h/2 do
-            local translate = vec3(s*(x-1), 0, -s*(z-1))
+            translate:set(s*(x-1), 0, -s*(z-1))
 
             local y = self.hmg:getHeight(x+0.5, z+0.5)
 
@@ -196,14 +198,14 @@ function appMap:init()
             end
 
             meshAddTriangle(sea.vertices,
-                a:add(translate),
-                b:add(translate),
-                c:add(translate))
+                a + translate,
+                b + translate,
+                c + translate)
 
             meshAddTriangle(sea.vertices,
-                a:add(translate),
-                c:add(translate),
-                d:add(translate))
+                a + translate,
+                c + translate,
+                d + translate)
         end
     end
 

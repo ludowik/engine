@@ -202,6 +202,10 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
 end
 
 function MeshRender:sendUniforms(uniformsLocations)
+    if uniformsLocations.cameraPosition and  env.app.scene.camera then
+        gl.glUniform3fv(uniformsLocations.cameraPosition.uniformLocation, 1, env.app.scene.camera.vEye:tobytes())
+    end
+    
     if uniformsLocations.stroke and styles.attributes.stroke then
         gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
     end

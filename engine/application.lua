@@ -84,12 +84,16 @@ function Application:__draw()
         if self.scene.camera then
             self.scene.camera:setViewMatrix()
         end
-        
+
         _G.env.draw()
 
         resetMatrix()
         resetStyle()
     else
+        if self.scene.camera then
+            self.scene.camera:setViewMatrix()
+        end
+
         self:draw()
     end
 

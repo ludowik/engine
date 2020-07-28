@@ -88,7 +88,7 @@ function buffer_meta.__index(buffer, key)
 end
 
 function buffer_meta.insert(buffer, value)
-    buffer[#buffer+1] = value
+    buffer[buffer.n+1] = value
 end
 buffer_meta.add = buffer_meta.insert
 

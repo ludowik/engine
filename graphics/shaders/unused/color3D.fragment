@@ -53,6 +53,7 @@ void main() {
                 // directional light
                 surfaceToLight = normalize(ambientLight[i].position.xyz);
                 attenuation = 1.0; //no attenuation for directional lights
+                
             } else {
                 // point light
                 surfaceToLight = normalize(ambientLight[i].position.xyz - surfacePos);
