@@ -59,7 +59,7 @@ function AppAsteroid:draw()
     Application.draw(self)
 end
 
-function AppAsteroid:keyboard(key)
+function AppAsteroid:keyboard(key, isrepeat)
     if key == 'space' then
         self.ship.bullets:add(Bullet(self.ship))
     end

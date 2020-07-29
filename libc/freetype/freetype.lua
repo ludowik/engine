@@ -25,7 +25,7 @@ ffi.cdef(code)
 class 'FreeType' : extends(Component) : meta(ft)
 
 function FreeType:initialize()
-    self.hLib = self.init_module()
+    self.hLib = self.initModule(sdl.hdpi)
     self.hFont = false
 
     self.hFonts = Table()
@@ -37,9 +37,9 @@ function FreeType:release()
     print('release '..self.hFonts:getnKeys()..' fonts')
 
     for k,hFont in pairs(self.hFonts) do
-        self.release_font(hFont)
+        self.releaseFont(hFont)
     end
-    self.release_module(self.hLib)
+    self.releaseModule(self.hLib)
 end
 
 function FreeType:setFontName(fontName)
@@ -64,7 +64,7 @@ function FreeType:setFont(fontName, fontSize)
     self.fontPath = Path.sourcePath..'/res/fonts/'..self.fontName..'.ttf'
 
     if not self.hFonts[self.fontRef] then
-        self.hFonts[self.fontRef] = self.load_font(self.hLib, self.fontPath, self.fontSize)
+        self.hFonts[self.fontRef] = self.loadFont(self.hLib, self.fontPath, self.fontSize)
 
         if self.hFonts[self.fontRef] == ffi.NULL then
             return self:setFontName()
@@ -80,9 +80,9 @@ function Text:init(str)
     if str:len() > 32 then
         str = str:left(32)
     end
-    local surface = ft.load_text(ft.hFont, str)
+    local surface = ft.loadText(ft.hFont, str)
     self.img = Image():makeTexture(surface)
-    ft.release_text(surface)
+    ft.releaseText(surface)
 end
 
 function Text:get()

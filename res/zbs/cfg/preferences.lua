@@ -28,10 +28,10 @@ editor.saveallonrun = true
 debugger.runonstart = true
 
 -- keymap
-ide.config.keymap[ID.STEPOVER] = "F10"
-ide.config.keymap[ID.STEP]     = "F11"
-ide.config.keymap[ID.STEPOUT]  = "Shift-F11"
-ide.config.keymap[ID.RUNTO]    = "Shift-F10"
+ide.config.keymap[ID.STEPOVER] = 'F10'
+ide.config.keymap[ID.STEP]     = 'F11'
+ide.config.keymap[ID.STEPOUT]  = 'Shift-F11'
+ide.config.keymap[ID.RUNTO]    = 'Shift-F10'
 
 -- font size
 local size
@@ -41,16 +41,22 @@ else
     size = 13
 end
 
-output.fontsize = size
-console.fontsize = size
-filetree.fontsize = size
 editor.fontsize = size
+output.fontsize = size
 
-excludelist["*.obj"] = false
-binarylist["*.obj"] = true
+console.fontsize = size
 
+filetree.fontsize = size
+
+-- exclude files
+binarylist['*.obj'] = true
+
+excludelist['*.obj'] = false
+
+-- interpreter
 if jit.os == 'Windows' then
     path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/LuaJIT-2.0.5/src/luajit.exe'
+    path.love = 'C:/Programes Files (x86)/LOVE/love.exe'
 else
-    path.lua = '/Users/ludo/Projets/Libraries2/luaJIT-2.0.5/src/luajit'
+    path.lua = '/Users/lca/Projets/Libraries/luaJIT-2.0.5/src/luajit'
 end

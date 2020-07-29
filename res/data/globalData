@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "noise/map1",
+    ["appName"] = "default",
     ["majorVersion"] = 4,
 }

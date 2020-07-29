@@ -1,4 +1,4 @@
-// todo: implement sweep amt
+// TO DO : implement sweep amt
 vec2 mouse;
 vec2 omouse;
 ////////////////////////////////////////////////////////////////
@@ -249,7 +249,7 @@ vec3 humanizeBrushStrokeDonut(vec2 uvLine, float radius_, bool clockwise, float 
 }
 
 // there's something about calling an Enso a "donut" that makes me giggle.
-// TODO: sweepAmt is 0 to 1, the amount of the circle to cover by the brush stroke. 1=whole circle. 0=just a point.
+// TO DO : sweepAmt is 0 to 1, the amount of the circle to cover by the brush stroke. 1=whole circle. 0=just a point.
 vec3 colorBrushStrokeDonut(vec2 uv, vec3 inpColor, vec4 brushColor, vec2 o, float radius_, float angleStart, float sweepAmt, float lineWidth, bool clockwise)
 {
 	vec2 uvLine = uv - o;

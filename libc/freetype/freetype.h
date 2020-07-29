@@ -12,11 +12,11 @@ typedef struct {
         } format;
     } Glyph;
 
-Handle init_module();
-void release_module(Handle lib);
+Handle initModule(float dpi);
+void releaseModule(Handle lib);
 
-Handle load_font(Handle lib, const unsigned char* font_name, int font_size);
-void release_font(Handle face);
+Handle loadFont(Handle lib, const unsigned char* font_name, int font_size);
+void releaseFont(Handle face);
 
-Glyph load_text(Handle face, const unsigned char* text);
-void release_text(Glyph glyph);
+Glyph loadText(Handle face, const unsigned char* text);
+void releaseText(Glyph glyph);

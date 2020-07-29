@@ -24,12 +24,16 @@ end
 
 function Parameter:draw()
     noLight()
+    
+    pushMatrix()
     resetMatrix(true)
 
-    ortho()
+    ortho()    
 
     self.ui:layout()
     self.ui:draw()
+    
+    popMatrix()
 end
 
 function Parameter:touched(touch)

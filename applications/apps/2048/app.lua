@@ -43,7 +43,7 @@ function App2048:update(dt)
     end
 end
 
-function App2048:keyboard(key)
+function App2048:keyboard(key, isrepeat)
     self:action(key)
 end
 

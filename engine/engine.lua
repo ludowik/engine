@@ -220,19 +220,12 @@ function Engine:update(dt)
     env.parameter:update(dt)
 end
 
-function Engine:preRender()    
-    resetMatrix(true)
-    resetStyle()
-
-    setContext(self.renderFrame)
-end
-
 function Engine:draw()
-    --    self:preRender()
-
     render(self.renderFrame, function ()
             self.app:__draw()
+        end)
 
+    render(self.renderFrame, function ()
             if reporting then
                 reporting:draw()
             end
@@ -246,8 +239,12 @@ function Engine:draw()
 
     self:postRender()
 
-    self:drawInfo()
-    self:drawHelp()
+    render(nil, function ()
+            ortho(0, W, 0, H)
+
+            self:drawInfo()
+            self:drawHelp()
+        end)
 
     sdl:swap()
 end
@@ -257,7 +254,9 @@ function Engine:postRender()
 
     background(Color(0, 0, 0, 1))
 
+    pushMatrix()
     resetMatrix(true)
+
     resetStyle()
 
     ortho(0, W + W_INFO, 0, H)
@@ -267,11 +266,13 @@ function Engine:postRender()
     cullingMode(false)
 
     self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
+
+    popMatrix()
 end
 
 function Engine:drawInfo()
     fontSize(12)
-    
+
     textMode(CORNER)
 
     function info(name, value)
@@ -299,11 +300,11 @@ function Engine:drawHelp()
         end
     end
 end
-function Engine:keydown(key)
+function Engine:keydown(key, isrepeat)
     if self.onEvents.keydown[key] then
-        self.onEvents.keydown[key]()
+        self.onEvents.keydown[key](self, key, isrepeat)
     else
-        self.app:__keyboard(key)
+        self.app:__keyboard(key, isrepeat)
     end
 end
 
@@ -471,7 +472,7 @@ function Engine:loadApp(appName, reloadApp)
     sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appName)
 
     for i=1,2 do
-        self:preRender()
+        setContext(self.renderFrame)
         background(black)
         self:postRender()
         sdl:swap()

@@ -80,20 +80,13 @@ function Application:__update(dt)
 end
 
 function Application:__draw()
+    if getCamera() then
+        getCamera():setViewMatrix()
+    end
+
     if _G.env.draw then
-        if self.scene.camera then
-            self.scene.camera:setViewMatrix()
-        end
-
         _G.env.draw()
-
-        resetMatrix()
-        resetStyle()
     else
-        if self.scene.camera then
-            self.scene.camera:setViewMatrix()
-        end
-
         self:draw()
     end
 
@@ -138,8 +131,7 @@ end
 function Application:update(dt)
     self:updateCoroutine(dt)
 
-    -- TODO
---    updateCamera(dt)
+    updateCamera(dt)
 
     self.scene:update(dt)
     self.ui:update(dt)
@@ -154,17 +146,20 @@ function Application:draw()
     self.scene:layout()
     self.scene:draw()
 
-    resetMatrix()
+    pushMatrix()
+    resetMatrix(true)
     resetStyle()
 
     self.ui:layout()
     self.ui:draw()
+
+    popMatrix()
 end
 
 function Application:collide(...)
 end
 
-function Application:keyboard(key)
+function Application:keyboard(key, isrepeat)
     if key == 'down' then
         self.ui:nextFocus()
     elseif key == 'up' then
@@ -174,7 +169,7 @@ function Application:keyboard(key)
             self.ui.focus:action()
         end
     else
-        self.ui:keyboard(key)
+        self.ui:keyboard(key, isrepeat)
     end
 end
 
@@ -248,11 +243,11 @@ function Sketche:draw()
     end
 end
 
-function Sketche:keyboard(key)
+function Sketche:keyboard(key, isrepeat)
     if env.keyboard then
-        env.keyboard(key)
+        env.keyboard(key, isrepeat)
     else
-        Application.keyboard(self, key)
+        Application.keyboard(self, key, isrepeat)
     end
 end
 

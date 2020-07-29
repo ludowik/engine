@@ -60,8 +60,8 @@ function touched(touch)
     player:touched(touch)
 end
 
-function keyboard(key)
-    player:keyboard(key)
+function keyboard(key, isrepeat)
+    player:keyboard(key, isrepeat)
 end
 
 function makeTutorial()
@@ -148,7 +148,7 @@ function Player:touched(touch)
     end
 end
 
-function Player:keyboard(key)
+function Player:keyboard(key, isrepeat)
     if self.state ~= "jumping" then
         if key == 'down' and self.state == "middle" then
             self:jumpDown(tile*1.5,"bottom")

@@ -4,7 +4,7 @@ fs = {}
 
 function isApp(path)
     path = 'applications/'..path
-    
+
     if isFile(path..'.lua') then return true end
     if isFile(path..'/#.lua') then return true end
     if isFile(path..'/main.lua') then return true end
@@ -140,7 +140,7 @@ end
 
 function loadFiles(files, filesPath)
     if files == nil then return end
-    
+
     local lines = {}
 
     local code = nil
@@ -180,4 +180,15 @@ function checkFiles(files, filesPath, time)
     end
 
     return time
+end
+
+function fs.splitFilePath(fpath)
+    -- Returns the Path, Filename, and Extension as 3 values
+    if lfs.attributes(fpath, 'mode') == 'directory' then
+        local strPath = fpath:gsub("[\\/]$", "")
+        return strPath.."\\", "", ""
+    end
+
+    fpath = fpath.."."
+    return fpath:match("^(.-)([^\\/]-%.([^\\/%.]-))%.?$")
 end

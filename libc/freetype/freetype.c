@@ -10,21 +10,25 @@ FT_Error error;
 
 typedef unsigned char GLubyte;
 
-FT_Library init_module() {
+float dpi = 96;
+
+FT_Library initModule(float _dpi) {
     FT_Library library;
     
     error = FT_Init_FreeType(&library);
     if (error)
         return NULL;
         
+    dpi = _dpi;
+        
     return (FT_Library)library;
 }
 
-void release_module(FT_Library library) {
+void releaseModule(FT_Library library) {
     FT_Done_FreeType(library);
 }
 
-FT_Face load_font(FT_Library library, const char* font_name, int font_size) {
+FT_Face loadFont(FT_Library library, const char* font_name, int font_size) {
     FT_Face face;
     
     error = FT_New_Face(library, font_name, 0 , &face);
@@ -36,13 +40,13 @@ FT_Face load_font(FT_Library library, const char* font_name, int font_size) {
       face,           /* handle to face object           */
       0,              /* char_width in 1/64th of points  */
       font_size * 64, /* char_height in 1/64th of points */
-      132,             /* horizontal device resolution    */
+      dpi,             /* horizontal device resolution    */
       0);             /* vertical device resolution      */
       
     return (FT_Face)face;
 }
 
-void release_font(FT_Face face) {
+void releaseFont(FT_Face face) {
     FT_Done_Face(face);
 }
 
@@ -67,7 +71,7 @@ typedef struct {
 
 int BytesPerPixel = 4;
 
-Glyph load_text(FT_Face face, const char* text) {
+Glyph loadText(FT_Face face, const char* text) {
     Glyph glyph = {0, 0, 0, NULL, {0, 0}};
     if (face == NULL || text == NULL)
         return glyph;
@@ -147,7 +151,7 @@ Glyph load_text(FT_Face face, const char* text) {
     return glyph;
 }
 
-void release_text(Glyph glyph) {
+void releaseText(Glyph glyph) {
     if (glyph.pixels)
         free(glyph.pixels);
 }

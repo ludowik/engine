@@ -13,8 +13,6 @@ uniform sampler2D tex0;
 
 uniform vec3 cameraPosition;
 
-vec3 lightPosition = vec3(0., 100., 0.);
-
 in vec3 vPosition;
 in vec3 vNormal;
 in vec4 vColor;
@@ -23,25 +21,28 @@ in vec2 vTexCoords;
 struct light {
     vec3 surfaceToLight;
     float attenuation;
+    float coefficient;
 };
 
 // point light
-light pointLight(vec3 ambientLight, float attenuationLight, vec3 surfacePos) {
+light pointLight(vec3 surfacePos, vec3 position, float attenuation) {
     light l;
-    l.surfaceToLight = normalize(ambientLight.xyz - surfacePos);
+    l.surfaceToLight = normalize(position.xyz - surfacePos);
     
-    float distanceToLight = length(ambientLight.xyz - surfacePos);
-    l.attenuation = 1.0 / (1.0 + attenuationLight * pow(distanceToLight, 2));
+    float distanceToLight = length(position.xyz - surfacePos);
+    l.attenuation = 1.0 / (1.0 + attenuation * pow(distanceToLight, 2));
     
     return l;
 }
 
 // directional light
-light directionalLight(vec3 ambientLight, float attenuationLight, vec3 surfacePos) {
+light directionalLight(vec3 surfacePos, vec3 normal, vec3 direction) {
     light l;
     
-    l.surfaceToLight = normalize(ambientLight.xyz);
-    l.attenuation = 1.0; //no attenuation for directional lights
+    l.surfaceToLight = normalize(direction.xyz);
+    l.attenuation = 1.0; // no attenuation for directional lights
+    
+    l.coefficient = max(0.0, dot(normal, l.surfaceToLight));
     
     return l;
 }
@@ -55,20 +56,12 @@ void main() {
         vec3 surfacePos = vPosition;
         vec4 surfaceColor = vColor;
         
-        vec3 surfaceToCamera = normalize(cameraPosition - surfacePos);
-        vec3 surfaceToLight = normalize(lightPosition - surfacePos);
+        vec3 sunPosition = vec3(0., 100., 0.);
         
-        light l = directionalLight(lightPosition, 1., surfacePos);
+        light point = pointLight(surfacePos, vec3(10., 10., 0.), 1.);
+        light directional = directionalLight(surfacePos, normal, sunPosition);
         
-        // diffuse
-        float diffuseCoefficient = max(0.0, dot(normal, l.surfaceToLight));
-        
-        gl_FragColor = finalColor * diffuseCoefficient;
-
-        
-//        gl_FragColor = finalColor * pow(max(0.0, dot(surfaceToCamera, normal)), 80);
-        
-//        gl_FragColor = vec4(1, 1, 1, 1) * dot(surfaceToCamera, normal);
+        gl_FragColor = finalColor * directional.coefficient;
         
     } else {    
         if (useTexture == 1)

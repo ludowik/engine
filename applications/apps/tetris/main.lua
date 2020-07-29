@@ -1,5 +1,17 @@
 App('Tetris')
 
+
+
+
+
+
+
+
+
+
+
+
+
 -- TODO : game over
 
 Tetris.itemSize = floor(WIDTH/30)
@@ -122,7 +134,7 @@ function Tetris:update(dt)
     end
 end
 
-function Tetris:keyboard(key)
+function Tetris:keyboard(key, isrepeat)
     if not self.active then return end
     if key == 'left' then
         self.mino:left()

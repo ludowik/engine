@@ -12,23 +12,23 @@ table.__index = table
 table.push = table.insert
 table.pop = table.remove
 
-function table.add(t, item)
-    table.insert(t, item)
-    return t
+function table:add(item)
+    table.insert(self, item)
+    return self
 end
 
-function table.addItems(t, items)
+function table:addItems(items)
     for _,item in ipairs(items) do
-        table.insert(t, item)
+        table.insert(self, item)
     end
-    return t
+    return self
 end
 
-function table.addKeys(t, items)
+function table:addKeys(items)
     for k,item in pairs(items) do
-        t[k] = item
+        self[k] = item
     end
-    return t
+    return self
 end
 
 function table:get(i)
@@ -55,27 +55,26 @@ function table:clear(value)
     return self
 end
 
-function table.iterator(t)
-    return ipairs(t)
+function table:iterator()
+    return ipairs(self)
 end
 
-function table.attribs(t, vars)
+function table:attribs(vars)
     for var,value in pairs(vars) do
-        t[var] = value
+        self[var] = value
     end
-    return t
+    return self
 end
 
-function table.clone(t)
-    -- TODO : écrire une fonction clone
-    return table.copy(t)
+function table:clone()
+    return table.copy(self, true)
 end
 
-function table.derived(t, mt, override)
+function table:derived(mt, override)
     for k,f in pairs(mt) do
         if k ~= 'setup' then
-            if type(f) == 'function' and (override or t[k] == nil) then
-                t[k] = f
+            if type(f) == 'function' and (override or self[k] == nil) then
+                self[k] = f
             end
         end
     end
@@ -86,11 +85,11 @@ local excludeFunctions = {
     'init'
 }
 
-function table.push2Global(mt)
+function table:push2Global()
     local override = false
-    
+
     local t = _G
-    for k,f in pairs(mt) do
+    for k,f in pairs(self) do
         if not k:inList(excludeFunctions) then
             if type(f) == 'function' and (override or t[k] == nil) then
                 t[k] = f
@@ -99,73 +98,73 @@ function table.push2Global(mt)
     end
 end
 
-function table.log(t)
-    if t == nil then return end
+function table:log()
+    if self == nil then return end
 
-    print(t)
-    for k,v in pairs(t) do
+    print(self)
+    for k,v in pairs(self) do
         print(tostring(k)..' = '..tostring(v))
     end
 end
 
-function table.indexOf(t, item)
-    for i=1,#t do
-        if t[i] == item then
+function table:indexOf(item)
+    for i=1,#self do
+        if self[i] == item then
             return i
         end
     end
 end
 
-function table.first(t, item)
+function table:first(item)
     if item then
-        t.currentItem = t[table.indexOf(t, item) or 1]
+        self.currentItem = self[table.indexOf(self, item) or 1]
     else
-        t.currentItem = t[1]
+        self.currentItem = self[1]
     end
-    return t.currentItem
+    return self.currentItem
 end
 
-function table.last(t)
-    t.currentItem = t[#t]
-    return t.currentItem
+function table:last()
+    self.currentItem = self[#self]
+    return self.currentItem
 end
 
-function table.current(t)
-    return t.currentItem or t[1]
+function table:current()
+    return self.currentItem or self[1]
 end
 
-function table.navigate(t, currentItem, nextIndex, defaultIndex)
-    currentItem = currentItem or t.currentItem
+function table:navigate(currentItem, nextIndex, defaultIndex)
+    currentItem = currentItem or self.currentItem
     nextIndex = nextIndex or 1
     defaultIndex = defaultIndex or 1
 
     local nextItem
     if currentItem == nil then
-        nextItem = t[defaultIndex]
+        nextItem = self[defaultIndex]
     else
         if type(currentItem) == 'table' and currentItem.nodes and #currentItem.nodes > 0 then
             nextItem = currentItem.nodes[1]
         else
-            t = type(currentItem) == 'table' and currentItem.parent and currentItem.parent.nodes or t
-            for i,v in ipairs(t) do
+            self = type(currentItem) == 'table' and currentItem.parent and currentItem.parent.nodes or self
+            for i,v in ipairs(self) do
                 if v == currentItem then
-                    nextItem = t[(i+nextIndex-1)%#t+1] or t[defaultIndex]
+                    nextItem = self[(i+nextIndex-1)%#self+1] or self[defaultIndex]
                     break
                 end
             end
         end
     end
 
-    t.currentItem = nextItem
-    return t.currentItem
+    self.currentItem = nextItem
+    return self.currentItem
 end
 
-function table.next(t, currentItem)
-    return table.navigate(t, currentItem, 1, 1)
+function table:next(currentItem)
+    return table.navigate(self, currentItem, 1, 1)
 end
 
-function table.previous(t, currentItem)
-    return table.navigate(t, currentItem, -1, #t)
+function table:previous(currentItem)
+    return table.navigate(self, currentItem, -1, #self)
 end
 
 function table:findItem(item, caseInsensitive)
@@ -191,11 +190,11 @@ function table:removeItem(item)
     end
 end
 
-function table.call(t, method, ...)
+function table:call(method, ...)
     local object, f
-    for i=1,#t do
-        object = t[i]
-        
+    for i=1,#self do
+        object = self[i]
+
         f = object[method]
         if f then
             f(object, ...)
@@ -203,12 +202,12 @@ function table.call(t, method, ...)
     end
 end
 
-function table.update(t, dt)
-    table.call(t, 'update', dt)
+function table:update(dt)
+    table.call(self, 'update', dt)
 end
 
-function table.draw(t)
-    table.call(t, 'draw')
+function table:draw()
+    table.call(self, 'draw')
 end
 
 table.foreach = nil
@@ -216,7 +215,7 @@ table.foreachi = nil
 
 function table:getnKeys()
     local n = 0
-    for _,_ in pairs(self) do
+    for k,v in pairs(self) do
         n = n + 1
     end
     return n
@@ -338,10 +337,10 @@ function table.load(name)
     return ftables and ftables() or nil
 end
 
-function table.save(t, name)
+function table:save(name)
     assert(name)
 
-    local code = "return "..table.format(t, name)
+    local code = "return "..table.format(self, name)
     local file = fs.write(name, code)
 end
 
@@ -357,11 +356,11 @@ end
 
 local conversions
 
-function table.tostring(t)
-    if t == nil then return 'nil' end
+function table:tostring()
+    if self == nil then return 'nil' end
 
     local code = ""
-    for k,v in pairs(t) do
+    for k,v in pairs(self) do
         local typeIndex = type(k)
         if typeIndex == 'string' then
             code = code..k.." = "..tostring(v)..","..NL
@@ -370,11 +369,11 @@ function table.tostring(t)
     return code
 end
 
-table.random = function (self)
+function table:random()
     return self[random.range(1, #self)]
 end
 
-table.chainIt = function (self)
+function table:chainIt()
     local n = #self
     self[1].previous = self[n]
     self[n].next = self[1]
@@ -386,73 +385,95 @@ table.chainIt = function (self)
 end
 
 -- TODO a refactorer et tester
---function Table:minvar(var)
---    local v = 99999999
+function table:min(var)
+    local v = math.maxinteger
 
---    for i=1,#self do
---        v = min(v, self[i][var])
---    end
+    if var then
+        for i=1,#self do
+            v = min(v, self[i][var])
+        end
+    else
+        for i=1,#self do
+            v = min(v, self[i])
+        end
+    end
 
---    return v
---end
+    return v
+end
 
---function Table:maxvar(var)
---    local v = -99999999
+function table:max(var)
+    local v = math.mininteger
 
---    for i=1,#self do
---        v = max(v, self[i][var])
---    end
+    if var then
+        for i=1,#self do
+            v = max(v, self[i][var])
+        end
+    else
+        for i=1,#self do
+            v = max(v, self[i])
+        end
+    end
 
---    return v
---end
+    return v
+end
 
---function Table:avg(var)
---    local v = 0
---    local n = 0
+function table:avg(var)
+    local v = 0
+    local n = 0
 
---    for i=1,#self do
---        v = v + self[i][var]
---        n = n + 1
---    end
+    if var then
+        for i=1,#self do
+            v = v + self[i][var]
+            n = n + 1
+        end
+    else
+        for i=1,#self do
+            v = v + self[i]
+            n = n + 1
+        end
+    end
 
---    return v / n
---end
+    return v / n
+end
 
---function Table:scan(attr, f, classType, className)
---    self.already_scan = true
---    do
---        local t
---        if attr then 
---            t = self[attr] or self
---        else
---            t = self
---        end
+local scanning = {}
 
---        table.forEach(t,
---            function (v, k, t)
---                local isClassType = (classType == nil or typeOf(v) == classType)
---                local isClassName = (className == nil or left(k, #className) == className)
+function table:scan(attr, f, classType, className)
+    local t
+    if attr then 
+        t = self[attr] or self
+    else
+        t = self
+    end
 
---                if isClassType and isClassName then
---                    f(v, k, t)
---                end
+    if not scanning[t] then
+        scanning[t] = true
 
---                if type(v) == 'table' and v.already_scan == nil then
---                    Table.scan(v, attr, f, classType, className)
---                end
---            end)
---    end
---    self.already_scan = nil
---end
+        table.forEachKey(t,
+            function (v, k, t)
+                local isClassType = (classType == nil or typeOf(v) == classType)
+                local isClassName = (className == nil or left(k, #className) == className)
 
-function table.format(t, name, tab_)
+                if isClassType and isClassName then
+                    f(v, k, t)
+                end
+
+                if type(v) == 'table' and not scanning[v] then
+                    table.scan(v, attr, f, classType, className)
+                end
+            end)
+    end
+    scanning[t] = nil
+end
+
+function table:format(name, tab_)
     local tab = (tab_ or "").."    "
 
     local code = "{"
     local varName
 
-    for k,v in pairs(t) do
-        if v ~= t then
+    for k,v in pairs(self) do
+        if v ~= self then
             local typeIndex = type(k)
             if typeIndex == 'number' then
                 varName = '['..k..']'
@@ -472,7 +493,7 @@ conversions = {
     ['nil'] = function (v)
         return 'nil'
     end,
-    
+
     ['table'] = function (v)
         if v.__formatting then return "..." end
 
@@ -506,7 +527,9 @@ function table.convert(v)
     return conversion(v)
 end
 
-function table.test()
+class('__table')
+
+function __table.test()
     local array = {}
 
     ut.assert('exist', Table)
@@ -522,4 +545,18 @@ function table.test()
     table.remove(t, 1)
 
     assert(#t == 0)
+
+    local t1 = Table{1,2,3,4,0,5,6,7,8,9}
+    local t2 = Table{{a=3},{a=7},{a=2}}
+
+    ut.assertEqual('min 1', t1:min(), 0)
+    ut.assertEqual('min 2', t2:min('a'), 2)
+
+    ut.assertEqual('max 1', t1:max(), 9)
+    ut.assertEqual('max 2', t2:max('a'), 7)
+
+    ut.assertEqual('avg 1', t1:avg(), 4.5)
+    ut.assertEqual('avg 2', t2:avg('a'), 4)
+
+    table.scan(_G, nil, function () end)
 end

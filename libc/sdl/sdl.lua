@@ -32,6 +32,11 @@ function Sdl:initialize()
             self.SDL_WINDOW_OPENGL +
 --            self.SDL_WINDOW_FULLSCREEN +
             0)
+        
+        self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
+        self.SDL_SetWindowSize(window, w, h)
+        
+        self.SDL_ShowWindow(window)
 
         if window then
             local r = ffi.new('SDL_Rect');
@@ -49,11 +54,6 @@ function Sdl:initialize()
 
                 self.SDL_GL_MakeCurrent(window, context)
                 self.SDL_GL_SetSwapInterval(0)
-
-                self.SDL_SetWindowSize(window, w, h)
-                self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
-
-                self.SDL_ShowWindow(window)
                 
                 local ddpi, hdpi, vdpi = ffi.new('float[1]'), ffi.new('float[1]'), ffi.new('float[1]')
                 self.SDL_GetDisplayDPI(0,
@@ -61,7 +61,7 @@ function Sdl:initialize()
                       hdpi,
                       vdpi)
                   
-                  print(ddpi[0], hdpi[0], vdpi[0])
+                self.ddpi, self.hdpi, self.vdpi = ddpi[0], hdpi[0], vdpi[0]
             end
         end
     end
@@ -102,10 +102,10 @@ function Sdl:update(dt)
             end
 
         elseif event.type == self.SDL_KEYDOWN or event.type == sdl.SDL_TEXTINPUT then
-            engine:keydown(self:scancode2key(event))
+            engine:keydown(self:scancode2key(event), event.key.isrepeat)
 
         elseif event.type == sdl.SDL_KEYUP then
-            engine:keyup(self:scancode2key(event))
+            engine:keyup(self:scancode2key(event), event.key.isrepeat)
 
     elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
             if event.button.button == self.SDL_BUTTON_LEFT then

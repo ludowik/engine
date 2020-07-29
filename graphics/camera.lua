@@ -250,10 +250,3 @@ end
 function Camera:setViewMatrix()
     viewMatrix(self:matrix())
 end
-
-
-
-
-
-
-

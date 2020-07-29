@@ -7,7 +7,7 @@ function ut.assert(name, expression, level)
 end
 
 function ut.assertEqual(name, expression, value)
-    ut.assert(name, expression == value, 3)
+    ut.assert(name..': '..tostring(expression)..'<>'..tostring(value), expression == value, 3)
 end
 
 function ut.assertBetween(name, expression, min, max)

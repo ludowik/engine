@@ -7,10 +7,11 @@ end
 function Scene:draw()
     pushMatrix()
     do
-        if self.camera then
+        local camera = self.camera
+        if camera then
             perspective()
             
-            self.camera:setViewMatrix()    
+            camera:setViewMatrix()    
             
             light(config.light)
             

@@ -1,7 +1,8 @@
 function callback(object, f, ...)
     local args1 = Table{...}
     return function (...)
-        local args2 = Table{...} + args1
+--        local args2 = Table{...} + args1
+        local args2 = args1
         if f then
             f(object, unpack(args2))
         elseif object then

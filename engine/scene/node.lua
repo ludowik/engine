@@ -245,9 +245,9 @@ function Node:computeNavigation(previousUpNode, nextUpNode)
     end
 end
 
-function Node:keyboard(key)
+function Node:keyboard(key, isrepeat)
     local who = self:getFocus()
     if who and who.keypressed then
-        who:keyboard(key)
+        who:keyboard(key, isrepeat)
     end
 end

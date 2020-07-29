@@ -17,9 +17,9 @@ end
 
 decorate('print', 
     function (f, str, ...)
-        assert(str ~= '...')
-        
         str = tostring(str)
+        assert(str ~= '96')
+        
         f(str, ...)
 
         save('res/data/log', str..NL, 'a')
@@ -36,6 +36,10 @@ function warning(test, ...)
     if not test then
         warn(getFunctionLocation(...))
     end
+end
+
+function todo(...)
+    error('TODO : ')
 end
 
 function functionNotImplemented()

@@ -223,7 +223,7 @@ function appMap:draw()
     currentMaterial = defaultMaterial
 
     MeshAxes()
---    MeshAxes(lca.camera:at())
+    MeshAxes(self.scene.camera:at())
 
     skybox:draw()
 
