@@ -1,11 +1,4 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 load applications/default
 
-load applications/appManager
-switch applications/default
-release 1 fonts
-memory at init    : 0.90 mo
-memory min        : 0.90 mo
-memory max        : 7.53 mo
-memory variation  : 6.63 mo
-memory at release : 3.74 mo
+

@@ -360,10 +360,9 @@ function table:tostring()
     if self == nil then return 'nil' end
 
     local code = ""
-    for k,v in pairs(self) do
-        local typeIndex = type(k)
-        if typeIndex == 'string' then
-            code = code..k.." = "..tostring(v)..","..NL
+    for _,iter in pairs({pairs, ipairs}) do
+        for k,v in iter(self) do
+            code = code..tostring(k).." = "..tostring(v)..","..NL
         end
     end
     return code

@@ -91,7 +91,7 @@ function fs.mkdir(path)
     lfs.mkdir(fullPath)
 end
 
-function dir(path, list, subPath)
+function dirApp(path, list, subPath)
     list = list or Array()
     for file in lfs.dir(path) do
         if not file:startWith('.') then
@@ -101,7 +101,7 @@ function dir(path, list, subPath)
             then
                 table.insert(list, subPath and (subPath..'/'..file) or file)
             else
-                dir(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
+                dirApp(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
             end
         end
     end
@@ -112,13 +112,10 @@ function dirFile(path, list, subPath)
     list = list or Array()
     for file in lfs.dir(path) do
         if not file:startWith('.') then
-            if (isFile(path..'/'..file) or 
-                isFile(path..'/'..file..'/#.lua') or 
-                isFile(path..'/'..file..'/main.lua'))
-            then
+            if isFile(path..'/'..file) then
                 table.insert(list, subPath and (subPath..'/'..file) or file)
             else
-                dir(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
+                dirFile(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
             end
         end
     end

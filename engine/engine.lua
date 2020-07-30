@@ -331,7 +331,7 @@ function Engine:mouseWheel(touch)
 end
 
 function Engine:dirApps(path)
-    local apps = dir('./applications'..(path and ('/'..path) or ''))
+    local apps = dirApp('./applications'..(path and ('/'..path) or ''))
     apps:apply(function (app)
             return app:lower():gsub('%.lua', '')
         end)
