@@ -146,9 +146,9 @@ function Engine:run(appName)
 
     repeat
 
-        self:initialize()
-
         self.active = 'running'
+        
+        self:initialize()        
 
         local deltaTime = 0
         self.fpsTarget = 60
@@ -196,6 +196,10 @@ end
 
 function Engine:quit()
     self.active = 'stop'
+end
+
+function quit()
+    engine:quit()
 end
 
 function Engine:toggleRenderVersion()

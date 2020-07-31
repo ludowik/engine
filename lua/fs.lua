@@ -145,7 +145,7 @@ function loadFiles(files, filesPath)
         code = ""
         for i,file in ipairs(files) do
             local subcode = loadFile(file, filesPath)
-            code = code..'\n'..subcode
+            code = code..NL..subcode
             lines[#lines+1] = #subcode:split(NL)
         end
     else

@@ -10,15 +10,18 @@ end
 
 function scanTODO()
     local list = dirFile(Path.sourcePath)
-    for i,file in ipairs(list) do
+    for i,file in ipairs(list) do        
         local content = fs.read(file)
-        local n = 0
-        for k,v in content:gfind("TODO[ :](.-)\n") do
-            if n == 0 then
-                print(file)
+        if content then
+            local lines = content:split(NL)
+            if lines then
+                for iline,line in ipairs(lines) do
+                    local i,j,v = line:find("TODO[ :](.*)")
+                    if i then                    
+                        print(file..':'..iline..': '..v)
+                    end
+                end
             end
-            n = n + 1
-            print(k)
         end
     end
     quit()
