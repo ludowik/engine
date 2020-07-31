@@ -15,11 +15,10 @@ function scanTODO()
         local n = 0
         for k,v in content:gfind("TODO[ :](.-)\n") do
             if n == 0 then
-                print(file)
+                print(file..': 1')
             end
             n = n + 1
             print(k)
         end
     end
-    quit()
 end
