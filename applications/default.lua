@@ -9,10 +9,15 @@ function draw()
 end
 
 function scanTODO()
-    local list = dirFile('C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Lua/Engine')
+    local list = dirFile(Path.sourcePath)
     for i,file in ipairs(list) do
         local content = fs.read(file)
-        for k,v in content:gfind("TODO (%.*)\n") do
+        local n = 0
+        for k,v in content:gfind("TODO[ :](.-)\n") do
+            if n == 0 then
+                print(file)
+            end
+            n = n + 1
             print(k)
         end
     end
