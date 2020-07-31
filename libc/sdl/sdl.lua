@@ -95,7 +95,7 @@ function Sdl:update(dt)
     while self.SDL_PollEvent(event) == 1 do
         if event.type == self.SDL_WINDOWEVENT then
             if event.window.event == self.SDL_WINDOWEVENT_CLOSE then
-                engine.quit()
+                engine:quit()
 
             elseif event.window.event == sdl.SDL_WINDOWEVENT_RESIZED then
                 -- TODO

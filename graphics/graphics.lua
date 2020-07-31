@@ -327,7 +327,7 @@ function textSize(str)
     -- TODO 
     -- multilignes
 --    local w, h = 0, 0
---    local lines = tostring(txt):split('\n')
+--    local lines = tostring(txt):split(NL)
 
 --    for i,line in ipairs(lines) do
 --        local lw, lh = .....

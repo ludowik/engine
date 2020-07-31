@@ -26,7 +26,7 @@ function loadObj(fileName)
 
         local datas, typeofRecord
 
-        local lines = content:split('\n')
+        local lines = content:split(NL)
         for line=1,#lines do
             datas = lines[line]:trim():split(' ')
 
