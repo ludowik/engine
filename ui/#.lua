@@ -3,6 +3,7 @@ requireLib(
     'ui',
     'label',
     'expression',
+    'iconsFont',
     'button',
     'checkbox',
     'slider',

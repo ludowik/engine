@@ -7,8 +7,6 @@ function Button:init(label, ...)
     self.action = callback(...)
 end
 
-require 'ui.iconsFont'
-
 class('ButtonIconFont', Button)
 
 function ButtonIconFont:init(label, action)
