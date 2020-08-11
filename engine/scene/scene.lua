@@ -44,8 +44,8 @@ function Scene:layout()
     
     if self.layoutFlow then
         if self.parent == nil then
-            self.position:set(0, 0)
-            self.absolutePosition:set(0, 0)
+            self.position:set(0, 0, 0)
+            self.absolutePosition:set(0, 0, 0)
         end
 
         Node.layout(self)
