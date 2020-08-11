@@ -5,8 +5,6 @@ App('AppCalc')
 function AppCalc:init()
     Application.init(self)
 
-    supportedOrientations(PORTRAIT)
-    
     setupUnit()
 
     self.unites = unites[readLocalData("unite", "devise")] or unites[1]
