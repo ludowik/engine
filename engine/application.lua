@@ -4,6 +4,7 @@ function application(name)
 
     _G.env.appClass = k
 end
+App = application
 
 class 'Application'
 
