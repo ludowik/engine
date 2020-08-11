@@ -11,12 +11,14 @@ function Layout:computeNodeSize(node)
     if node.fixedSize then
         node.size:set(
             node.fixedSize.x,
-            node.fixedSize.y)
+            node.fixedSize.y,
+            0)
         
     elseif node.gridSize then
         node.size:set(
             ws(node.gridSize.x),
-            hs(node.gridSize.y))
+            hs(node.gridSize.y),
+            0)
     end
 end
 
