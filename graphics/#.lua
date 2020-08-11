@@ -1,4 +1,6 @@
 require 'graphics.color'
+require 'graphics.colorConvert'
+
 require 'graphics.style'
 
 require 'graphics.shader'
