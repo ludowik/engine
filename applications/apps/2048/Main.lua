@@ -1,7 +1,7 @@
 function setup()
     -- getFile()
     
-    DEFAULT_FONT_NAME = 'ArialMT'
+    DEFAULT_FONT_NAME = 'Courier'
     DEFAULT_FONT_SIZE = 20
     
     H = HEIGHT
@@ -15,17 +15,29 @@ function setup()
 end
 
 function draw()
-    app.scene:layout()
-    app.scene:draw()
+    app:draw()
 end
 
 function touched(touch)
-    if touch.y < 100 then
-        close()
+    if touch.state == BEGAN then
+        beganPos = touch.pos
     end
     
-    local button = app.scene:touched(touch)
-    if button then
-        
-    end
+    mouse = {
+        id = touch.id,
+    
+        state = touch.state,
+    
+        pos = touch.position,
+    
+        x = touch.x,
+        y = touch.y,
+    
+        deltaX = touch.delta.x,
+        deltaY = touch.delta.y,
+    
+        totalX = touch.x - beganPos.x,
+        totalY = -(touch.y - beganPos.y),
+    }
+    app:touched(mouse)
 end

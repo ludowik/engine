@@ -18,6 +18,12 @@ function App2048:init()
     Button('Nouvelle partie', function ()
         app.grid:reset()
     end),
+    Button('Chargement', function ()
+        app.grid:load()
+    end),
+    Button('Sauvegarde', function ()
+        app.grid:save()
+    end),
     Label('Score'):bind(self.grid, 'score'),
     Label('High Score'):bind(self.grid, 'high_score'),
     Label('Challenge'):bind(self.grid, 'challenge')))
