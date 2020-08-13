@@ -49,7 +49,7 @@ end
 
 function UI:drawLabel()
     if self.hasFocus then
-        fill(red)
+        fill(green)
     else
         fill(white)
     end
