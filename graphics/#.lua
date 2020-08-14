@@ -1,4 +1,5 @@
 require 'graphics.color'
+require 'graphics.colors'
 require 'graphics.colorConvert'
 
 require 'graphics.style'

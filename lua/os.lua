@@ -1,23 +1,37 @@
 function getOS()    
     local name = ''
-    
+
     if love then
         name = love.system.getOS()
-        
+
     elseif jit then
         name = jit.os
-        
+
     else
-        name = os.getenv("HOME") and os.getenv("HOME"):sub(1, 1) == '/' and 'osx' or 'windows'
+        local env = os.getenv('HOME')
+        if env then
+            if env:sub(1, 1) == '/' then
+                if env:find('mobile') then
+                    name = 'ios'
+                else
+                    name = 'osx'
+                end
+            else
+                name = 'windows'
+            end
+        else
+            warning('unknown OS')
+        end
     end
-    
+
     name = name:lower():gsub(' ', '')
-    
+
     return name
 end
 
 os.name = getOS()
 
 osx = os.name == 'osx'
+ios = os.name == 'ios'
 windows = os.name == 'windows'
 unix = os.name == 'unix'
