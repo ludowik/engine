@@ -3,6 +3,6 @@ load applications/apps/bbtan
 release 1 fonts
 memory at init    : 0.90 mo
 memory min        : 0.90 mo
-memory max        : 13.70 mo
-memory variation  : 12.80 mo
-memory at release : 13.67 mo
+memory max        : 14.56 mo
+memory variation  : 13.66 mo
+memory at release : 12.58 mo
