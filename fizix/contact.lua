@@ -17,7 +17,7 @@ function Contact:get(...)
         elseif self.bodyB and classnameof(self.bodyB.info) == className then
             items[i] = self.bodyB.info
         else
-            items[i] = nil
+            items[i] = false
         end
     end
 
