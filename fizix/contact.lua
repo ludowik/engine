@@ -12,10 +12,10 @@ function Contact:get(...)
     
     local items = {}
     for i,className in ipairs(args) do
-        if self.bodyA and classnameof(self.bodyA.item) == className then
-            items[i] = self.bodyA.item
-        elseif self.bodyB and classnameof(self.bodyB.item) == className then
-            items[i] = self.bodyB.item
+        if self.bodyA and classnameof(self.bodyA.info) == className then
+            items[i] = self.bodyA.info
+        elseif self.bodyB and classnameof(self.bodyB.info) == className then
+            items[i] = self.bodyB.info
         end        
     end
 
