@@ -4,7 +4,7 @@ function Button:init(label, ...)
     Label.init(self, label)
     Bind.init(self)
     
-    self.action = callback(...)
+    self.action = callback(self, ...)
 end
 
 class('ButtonIconFont', Button)
