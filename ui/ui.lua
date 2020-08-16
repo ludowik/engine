@@ -2,6 +2,7 @@ class('UI', Object)
 
 function UI.setup()
     UI.bgColor = blue
+    UI.textColor = white
     
     UI.fontName = DEFAULT_FONT_NAME
     UI.fontSize = DEFAULT_FONT_SIZE
@@ -15,6 +16,14 @@ end
 
 function UI:getLabel()
     return tostring(self.label)
+end
+
+function UI:getBgColor()
+    return self.bgColor or UI.bgColor
+end
+
+function UI:getTextColor()
+    return self.textColor or UI.textColor
 end
 
 function UI:contains(v)
@@ -39,7 +48,7 @@ end
 function UI:draw()
     noStroke()
     
-    fill(UI.bgColor)
+    fill(self:getBgColor())
 
     rectMode(CORNER)
     rect(0, 0, self.size.x, self.size.y)
@@ -49,9 +58,9 @@ end
 
 function UI:drawLabel()
     if self.hasFocus then
-        fill(green)
+        fill(red)
     else
-        fill(white)
+        fill(self:getTextColor())
     end
 
     font(UI.fontName)
