@@ -57,32 +57,36 @@ end
 function OpenAL:initialize()
     self:loadProcAdresses()
 
-    intptr = ffi.new('ALint[1]')
-    idptr  = ffi.new('ALuint[1]')
+    self.intptr = ffi.new('ALint[1]')
+    self.idptr  = ffi.new('ALuint[1]')
+    
+    self.nbuffers = 0
 
     function self.alGenBuffer()
-        self.alGenBuffers(1, idptr)
-        return idptr[0]
+        self.nbuffers = self.nbuffers + 1
+        self.alGenBuffers(1, self.idptr)
+        return self.idptr[0]
     end
 
     function self.alDeleteBuffer(buffer)
-        idptr[0] = buffer
-        self.defs.alDeleteBuffers(1, idptr)
+        self.nbuffers = self.nbuffers - 1
+        self.idptr[0] = buffer
+        self.defs.alDeleteBuffers(1, self.idptr)
     end
 
     function self.alGenSource()
-        self.alGenSources(1, idptr)
-        return idptr[0]
+        self.alGenSources(1, self.idptr)
+        return self.idptr[0]
     end
 
     function self.alDeleteSource(source)
-        idptr[0] = source
-        self.defs.alDeleteSources(1, idptr)
+        self.idptr[0] = source
+        self.defs.alDeleteSources(1, self.idptr)
     end
 
     function self.alGetSource(source, param)
-        self.alGetSourcei(source, param, idptr)
-        return idptr[0]
+        self.alGetSourcei(source, param, self.idptr)
+        return self.idptr[0]
     end
     
     -- device opening

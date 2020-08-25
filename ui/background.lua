@@ -2,9 +2,9 @@ class('Background', UI)
 
 function Background:init(clr)
     UI.init(self)
-	self.clr = clr
+	self.bgColor = clr
 end
 
 function Background:draw()
-	background(self.clr)
+	background(self:getBgColor())
 end

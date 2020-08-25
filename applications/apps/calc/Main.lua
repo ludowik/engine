@@ -1,9 +1,4 @@
 function setup()
-    -- getFile()
-    
-    DEFAULT_FONT_NAME = 'Courier'
-    DEFAULT_FONT_SIZE = 20
-    
     H = HEIGHT
     W = WIDTH
     

@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "apps/bbtan",
     ["majorVersion"] = 4,
+    ["appName"] = "default",
 }

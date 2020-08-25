@@ -35,13 +35,15 @@ FT_Face loadFont(FT_Library library, const char* font_name, int font_size) {
     
     if (error)
         return NULL;
-        
+    
+    int char_ratio = 64;
+
     FT_Set_Char_Size(
-      face,           /* handle to face object           */
-      0,              /* char_width in 1/64th of points  */
-      font_size * 64, /* char_height in 1/64th of points */
-      dpi,             /* horizontal device resolution    */
-      0);             /* vertical device resolution      */
+      face,                   /* handle to face object           */
+      0,                      /* char_width in 1/64th of points  */
+      font_size * char_ratio, /* char_height in 1/64th of points */
+      dpi,                    /* horizontal device resolution    */
+      0);                     /* vertical device resolution      */
       
     return (FT_Face)face;
 }
@@ -82,7 +84,7 @@ Glyph loadText(FT_Face face, const char* text) {
     
     int x=0, w=0, h=0, top=0, bottom=0, dy=0;
     
-    int space_width = 5;
+    int space_width = 8;
 
     size_t len = strlen(text);
     for ( size_t n = 0; n < len; ++n ) {

@@ -14,8 +14,8 @@ function Slider:init(var, min, max, default, integer, callback)
 end
 
 function Slider:computeSize()
-    font(DEFAULT_FONT_NAME)
-    fontSize(14)
+    font(self:getFontName())
+    fontSize(self:getFontSize())
     
     self.size.x, self.size.y = textSize(self:getLabel())    
     self.size.x = 200
@@ -44,8 +44,8 @@ function Slider:draw()
     strokeWidth(3)
     line(x, 0, x, self.size.y)
 
-    font(DEFAULT_FONT_NAME)
-    fontSize(14)
+    font(self:getFontName())
+    fontSize(self:getFontSize())
     
     fill(white)
     

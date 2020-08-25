@@ -64,6 +64,9 @@ function GridSudoku:for_cells(f)
     return all, one
 end
 
+function GridSudoku:help()
+end
+
 function GridSudoku:resolve()
     local resolve_cell = false
 

@@ -172,8 +172,6 @@ function mt:crossInPlace(v)
 end
 
 function mt:rotate(phi)
-    assert(config.noOptimization)
-
     local c, s = cos(phi), sin(phi)
     return vec2(
         c * self.x - s * self.y,

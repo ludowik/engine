@@ -20,6 +20,8 @@ function Dialog:init(label)
     self.position = vec3(WIDTH/2, HEIGHT/2)
     
     self.alignment = 'v-center,h-center'
+    
+    self.bgColor = brown
 end
 
 function Dialog:draw()
@@ -27,7 +29,7 @@ function Dialog:draw()
 
     noStroke()
     
-    fill(brown)    
+    fill(self:getBgColor())    
     
     rectMode(CORNER)
     rect(

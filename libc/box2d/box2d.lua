@@ -1,7 +1,5 @@
 -- TODO optim : utiliser des tableaux d'action
 
-local physics
-
 local accum = 0
 
 box2d.userdata = {}
@@ -40,23 +38,23 @@ function box2dRef.setup()
 end
 
 function box2dRef.Physics()
-    physics = ffi.gc(box2d.b2World_new(), destroyPhysics)
-    physics.running = true
+    physicsBox2d = ffi.gc(box2d.b2World_new(), destroyPhysics)
+    physicsBox2d.running = true
 
     local unrefJoin = ffi.cast('unref', unrefJoin)
     box2d.setUnrefJoint(unrefJoin)
 
     -- TODO : vérifier ce que contient Gravity dans codea
-    Gravity = physics.gravity()
-    return physics
+    Gravity = physicsBox2d.gravity()
+    return physicsBox2d
 end
 
 function box2dRef.destroyPhysics(physics)
     box2d.b2World_gc(physics)
 end
 
-function b2Vec2(x, y)
-    return ffi.gc(box2d.b2Vec2_new(x, y), box2d.b2Vec2_gc)
+function b2Vec2(x, y, ratio)
+    return ffi.gc(box2d.b2Vec2_new(x, y, ratio or 1), box2d.b2Vec2_gc)
 end
 
 local b2Vec2_mt = ffi.metatype('b2Vec2', {
@@ -91,7 +89,7 @@ local function collideFunc(cp)
         id = cp.id,
         state = cp.state,
         touching = cp.touching,
-        position = vec3(cp.position.x*mtpRatio, cp.position.y*mtpRatio),
+        position = vec3(cp.position.x, cp.position.y):mul(mtpRatio),
         normal = vec3(cp.normal.x, cp.normal.y),
         normalImpulse = cp.normalImpulse,
         tangentImpulse = cp.tangentImpulse,
@@ -103,14 +101,14 @@ local function collideFunc(cp)
 
     for i=1,cp.pointCount do
         table.add(contact.points,
-            vec3(cp.points[i-1].x*mtpRatio, cp.points[i-1].y*mtpRatio))
+            vec3(cp.points[i-1].x, cp.points[i-1].y):mul(mtpRatio))
     end
 
-    if lca.collide then
-        lca.collide(contact)
+    if engine.app.__collide then
+        engine.app:__collide(contact)
 
         if contact.state ~= ENDED then
-            physics.contacts:add(contact)
+            physicsBox2d.contacts:add(contact)
         end
     end
 end
@@ -140,21 +138,21 @@ end
 local b2World_index = {
     gravity = function (x, y)
         if x == nil and y == nil then
-            local g = box2d.b2World_getGravity(physics)
+            local g = box2d.b2World_getGravity(physicsBox2d)
             return vec3(g.x, g.y)
         else
             if x and y then
-                box2d.b2World_setGravity(physics, b2Vec2(x, y))
+                box2d.b2World_setGravity(physicsBox2d, b2Vec2(x, y))
             elseif x.x then
                 local g = x
-                box2d.b2World_setGravity(physics, b2Vec2(g.x, g.y))
+                box2d.b2World_setGravity(physicsBox2d, b2Vec2(g.x, g.y))
             end
         end
     end,
 
     update = function (dt)
-        physics.contacts = Table()
-        if physics.running then
+        physicsBox2d.contacts = Table()
+        if physicsBox2d.running then
             local timeStep = 0.005 -- 1. / config.framerate
 
             if debugging() then
@@ -163,21 +161,21 @@ local b2World_index = {
                 accum = accum + dt
             end
 
-            box2d.b2World_setAutoClearForces(physics, false)
+            box2d.b2World_setAutoClearForces(physicsBox2d, false)
             
             while (accum >= timeStep) do
                 accum = accum - timeStep
 
-                box2d.b2World_step(physics, timeStep)
+                box2d.b2World_step(physicsBox2d, timeStep)
 
                 -- process contact
                 local collideFunc = ffi.cast('collideFunc', collideFunc)
-                box2d.b2World_processContacts(physics, collideFunc)
+                box2d.b2World_processContacts(physicsBox2d, collideFunc)
                 collideFunc:free()
             end
             
             -- clear forces
-            box2d.b2World_clearForces(physics)
+            box2d.b2World_clearForces(physicsBox2d)
         end
     end,
 
@@ -185,7 +183,7 @@ local b2World_index = {
         noStroke()
         fill(red)
         circleMode(CENTER)
-        for _,contact in ipairs(physics.contacts) do
+        for _,contact in ipairs(physicsBox2d.contacts) do
             for i=1,contact.pointCount do
                 local point = contact.points[i]
                 circle(point.x, point.y, 5)
@@ -194,11 +192,11 @@ local b2World_index = {
     end,
 
     pause = function ()
-        physics.running = false
+        physicsBox2d.running = false
     end,
 
     resume = function ()
-        physics.running = true
+        physicsBox2d.running = true
     end,
 
     clear = function ()
@@ -206,7 +204,7 @@ local b2World_index = {
     end,
 
     body = function (shapeType, ...)
-        local self = physics
+        local self = physicsBox2d
 
         local args = {...}
 
@@ -214,15 +212,15 @@ local b2World_index = {
 
         if shapeType == CIRCLE then
             local radius = args[1] or math.random(10, 50)
-            body = box2d.b2Body_new_circle(self, radius*ptmRatio)
+            body = box2d.b2Body_new_circle(self, radius * ptmRatio)
 
         elseif shapeType == RECT then
             local w, h = args[1] or math.random(20, 100), args[2] or math.random(20, 100)
             local points = ffi.new('b2Vec2[?]', 4)
-            points[0].x, points[0].y = -w/2*ptmRatio, -h/2*ptmRatio
-            points[1].x, points[1].y =  w/2*ptmRatio, -h/2*ptmRatio
-            points[2].x, points[2].y =  w/2*ptmRatio,  h/2*ptmRatio
-            points[3].x, points[3].y = -w/2*ptmRatio,  h/2*ptmRatio
+            points[0].x, points[0].y = -w/2 * ptmRatio, -h/2 * ptmRatio
+            points[1].x, points[1].y =  w/2 * ptmRatio, -h/2 * ptmRatio
+            points[2].x, points[2].y =  w/2 * ptmRatio,  h/2 * ptmRatio
+            points[3].x, points[3].y = -w/2 * ptmRatio,  h/2 * ptmRatio
             body = box2d.b2Body_new_polygon(self, points, 4)
 
         elseif shapeType == POLYGON then
@@ -234,8 +232,8 @@ local b2World_index = {
 
             local points = ffi.new('b2Vec2[?]', #args)
             for i=1,#args do
-                points[i-1].x = args[i].x*ptmRatio
-                points[i-1].y = args[i].y*ptmRatio
+                points[i-1].x = args[i].x * ptmRatio
+                points[i-1].y = args[i].y * ptmRatio
             end
             body = box2d.b2Body_new_polygon(self, points, #args)
 
@@ -245,14 +243,14 @@ local b2World_index = {
 
             local points = ffi.new('b2Vec2[?]', #args)
             for i=1,#args do
-                points[i-1].x = args[i].x*ptmRatio
-                points[i-1].y = args[i].y*ptmRatio
+                points[i-1].x = args[i].x * ptmRatio
+                points[i-1].y = args[i].y * ptmRatio
             end
             body = box2d.b2Body_new_chain(self, points, #args, loop)
 
         elseif shapeType == EDGE then
-            local p1 = b2Vec2(args[1].x*ptmRatio, args[1].y*ptmRatio)
-            local p2 = b2Vec2(args[2].x*ptmRatio, args[2].y*ptmRatio)
+            local p1 = b2Vec2(args[1].x * ptmRatio, args[1].y * ptmRatio)
+            local p2 = b2Vec2(args[2].x * ptmRatio, args[2].y * ptmRatio)
             body = box2d.b2Body_new_edge(self, p1, p2)
         else
             body = box2d.b2Body_new_circle(self, 1)
@@ -263,7 +261,7 @@ local b2World_index = {
         body.previousPosition = body.position:clone()
         
         body.density = 1
-        body.friction = 0.2
+        body.friction = 0.4
         body.sleepingAllowed = true
         body.gravityScale = 1
         
@@ -275,14 +273,14 @@ local b2World_index = {
     end,
 
     joint = function (jointType, bodyA, bodyB, anchorA, anchorB, maxLength)
-        local self = physics
+        local self = physicsBox2d
         self.joints = self.joints or {}
 
         local direction = anchorB
         anchorB = anchorB or vec3()
 
-        anchorA = b2Vec2(anchorA.x*ptmRatio, anchorA.y*ptmRatio)
-        anchorB = b2Vec2(anchorB.x*ptmRatio, anchorB.y*ptmRatio)
+        anchorA = b2Vec2(anchorA.x, anchorA.y, ptmRatio)
+        anchorB = b2Vec2(anchorB.x, anchorB.y, ptmRatio)
 
         maxLength = maxLength or 0
 
@@ -304,16 +302,16 @@ local b2World_index = {
     end,
 
     raycast = function (p1, p2)
-        local self = physics
+        local self = physicsBox2d
 
         local result = box2d.b2World_raycast(self, 
-            b2Vec2(p1.x*ptmRatio, p1.y*ptmRatio),
-            b2Vec2(p2.x*ptmRatio, p2.y*ptmRatio))
+            b2Vec2(p1.x, p1.y, ptmRatio),
+            b2Vec2(p2.x, p2.y, ptmRatio))
 
         if result ~= NULL then
             return {
                 body = result.body,
-                point = vec3(result.point.x*mtpRatio, result.point.y*mtpRatio),
+                point = vec3(result.point.x, result.point.y):mul(mtpRatio),
                 normal = vec3(result.normal.x, result.normal.y),
                 fraction = result.fraction
             }
@@ -321,11 +319,11 @@ local b2World_index = {
     end,
 
     raycastAll = function (p1, p2)
-        local self = physics
+        local self = physicsBox2d
 
         local result = box2d.b2World_raycastAll(self, 
-            b2Vec2(p1.x*ptmRatio, p1.y*ptmRatio),
-            b2Vec2(p2.x*ptmRatio, p2.y*ptmRatio))
+            b2Vec2(p1.x, p1.y, ptmRatio),
+            b2Vec2(p2.x, p2.y, ptmRatio))
 
         local bodies = {}
         if result ~= NULL then
@@ -333,7 +331,7 @@ local b2World_index = {
             while (result[i].body ~= NULL) do
                 table.add(bodies, {
                         body = result[i].body,
-                        point = vec3(result[i].point.x*mtpRatio, result[i].point.y*mtpRatio),
+                        point = vec3(result[i].point.x, result[i].point.y):mul(mtpRatio),
                         normal = vec3(result[i].normal.x, result[i].normal.y),
                         fraction = result[i].fraction
                     })
@@ -344,11 +342,11 @@ local b2World_index = {
     end,
 
     queryAABB = function (p1, p2)
-        local self = physics
+        local self = physicsBox2d
 
         local result = box2d.b2World_queryAABB(self,
-            b2Vec2(p1.x*ptmRatio, p1.y*ptmRatio),
-            b2Vec2(p2.x*ptmRatio, p2.y*ptmRatio))
+            b2Vec2(p1.x, p1.y, ptmRatio),
+            b2Vec2(p2.x, p2.y, ptmRatio))
 
         if result then
             local bodies = {}

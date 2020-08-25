@@ -1,4 +1,4 @@
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 //#include <ConvexDecomposition/b2Polygon.h>
 
 #include <algorithm>
@@ -228,8 +228,8 @@ extern "C" {
 	int32 positionIterations = 2;
 
 	// Vec2
-	EXPORT b2Vec2* b2Vec2_new(float x, float y) {
-		return new b2Vec2(x, y);
+	EXPORT b2Vec2* b2Vec2_new(float x, float y, float ratio) {
+		return new b2Vec2(x * ratio, y * ratio);
 	}
 
 	EXPORT void b2Vec2_gc(b2Vec2* self) {
@@ -420,23 +420,25 @@ extern "C" {
         b2PolygonShape polygon;
         polygon.Set(points, n);
         
-		b2BodyDef bodyDef;
+		/*b2BodyDef bodyDef;
 		bodyDef.type = b2_dynamicBody;
 		bodyDef.position.Set(0.0f, 0.0f);
 		
 		b2Body* body = world->CreateBody(&bodyDef);
 
-		/*if (!polygon.IsCCW()) {
+		if (!polygon.IsCCW()) {
 			ReversePolygon(polygon.x, polygon.y, polygon.nVertices);
 		}
-		*/
         
 		b2FixtureDef fixtureDef;    
 		fixtureDef.density = 1.0f;
 		
-		//DecomposeConvexAndAddTo(&polygon, body, &fixtureDef); 
+		DecomposeConvexAndAddTo(&polygon, body, &fixtureDef); 
 		
 		return body;
+        */
+        
+		return b2Body_new(world, b2_dynamicBody, &polygon);
 	}
 	
 	EXPORT b2Body* b2Body_new_chain(b2World* world, b2Vec2* points, int n, bool loop) {
@@ -456,8 +458,7 @@ extern "C" {
 		if (loop) {
 			chainShape.CreateLoop(points, n);
 		} else {
-			chainShape.CreateLoop(points, n);
-            //chainShape.CreateChain(points, n);
+			chainShape.CreateChain(points, n, points[n-1], points[0]);
 		}
 
 		body->CreateFixture(&fixtureDef);

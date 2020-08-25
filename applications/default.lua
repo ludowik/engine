@@ -1,27 +1,36 @@
 function setup()
-    scanTODO()
 end
 
 function update(dt)
 end
 
 function draw()
+    
+    background(black)
+
+        local code = [[
+function ButtonImage:draw()
+    stroke(white)
+
+    noFill()
+
+    rectMode(CORNER)
+    rect(x, y, self.size.x, self.size.y)
+
+    spriteMode(CORNER)
+    sprite(self.image,
+        0, 0,
+        self.size.x, self.size.y)  
+end
+]]
+
+    textMode(CORNER)
+    text(code, 100, H/2)
+    
+    local w, h = textSize(code)
+    
+    noFill()
+    rect(100, H/2, w, h)
+
 end
 
-function scanTODO()
-    local list = dirFile(Path.sourcePath)
-    for i,file in ipairs(list) do        
-        local content = fs.read(file)
-        if content then
-            local lines = content:split(NL)
-            if lines then
-                for iline,line in ipairs(lines) do
-                    local i,j,v = line:find("TODO[ :](.*)")
-                    if i then                    
-                        print(file..':'..iline..': '..v)
-                    end
-                end
-            end
-        end
-    end
-end

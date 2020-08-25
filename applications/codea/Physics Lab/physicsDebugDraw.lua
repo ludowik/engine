@@ -33,9 +33,10 @@ function PhysicsDebugDraw:clear()
 end
 
 function PhysicsDebugDraw:draw()
-    
     pushStyle()
+    
     smooth()
+    
     strokeWidth(5)
     stroke(128,0,128)
     

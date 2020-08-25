@@ -38,6 +38,7 @@ require 'lua.url'
 require 'lua.timer'
 require 'lua.os'
 require 'lua.dev'
+require 'lua.todo'
 
 function toggle(value, opt1, opt2)
     if value == nil then return opt1 end

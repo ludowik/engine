@@ -14,7 +14,7 @@ function Box:init(level, i, j, itemType)
     self.collision = level
     
     if itemType == CIRCLE then
-        physics:add(self, STATIC, CIRCLE, self.size.x / 2)
+        fizix:add(self, STATIC, CIRCLE, self.size.x / 2)
 
     elseif itemType == POLYGON then
         local triangle = randomInt(1, 4)
@@ -24,10 +24,10 @@ function Box:init(level, i, j, itemType)
             {vec2(-w/2, -h/2), vec2(w/2, -h/2), vec2( w/2, h/2)},
             {vec2( w/2, -h/2), vec2(w/2,  h/2), vec2(-w/2, h/2)}
         } 
-        physics:add(self, STATIC, POLYGON, triangles[triangle])
+        fizix:add(self, STATIC, POLYGON, triangles[triangle])
 
     elseif itemType == RECT then
-        physics:add(self, STATIC, RECT, w, h)
+        fizix:add(self, STATIC, RECT, w, h)
     end
     
     self.body.restitution = 1

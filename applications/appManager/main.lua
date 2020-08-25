@@ -14,7 +14,7 @@ function initMenu(path)
         app.ui:add(Button('..', function (btn) initMenu() end))
     end
 
-    local apps = engine:dirApps2(path)
+    local apps = engine:dirApps(path)
     for i,appPath in ipairs(apps) do
         local j = appPath:findLast('/')
         local appName = j and appPath:sub(j+1) or appPath

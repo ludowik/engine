@@ -82,7 +82,7 @@ function AppCalc:initUI()
     self.result = setProperties(self.uiCalc, "uniteSaisie")
 
     local Button = function (label, textColor, bgColor, w, h, object, f)
-        local button = Button(label, callback(object, f))
+        local button = Button(label, object, f)
         button.bgColor = bgColor
         button.textColor = textColor
         button.textSize = 45
@@ -163,6 +163,9 @@ end
 function AppCalc:sign()
     self.calc:sign()
     self:setResult(self.calc.acc1)
+end
+
+function AppCalc:percent()
 end
 
 function AppCalc:operator(button)

@@ -1,7 +1,6 @@
 if os.name == 'osx' then
 
---    local path = '/Library/Frameworks'
-    local path = '/Users/ludo/Projets/Libraries/FreeType'
+    local path = Path.libraryPath..'/FreeType'
 
     Library.load('freetype')
 
@@ -52,9 +51,6 @@ function FreeType:setFontSize(fontSize)
     return self.fontSize
 end
 
-DEFAULT_FONT_NAME = 'JetBrainsMono-Regular'
-DEFAULT_FONT_SIZE = 12
-
 function FreeType:setFont(fontName, fontSize)
     self.fontName = fontName or DEFAULT_FONT_NAME
     self.fontSize = fontSize or DEFAULT_FONT_SIZE
@@ -76,9 +72,11 @@ end
 
 class 'Text'
 
+local maxStrLen = 64
+
 function Text:init(str)
-    if str:len() > 32 then
-        str = str:left(32)
+    if str:len() > maxStrLen then
+        str = str:left(maxStrLen)
     end
     local surface = ft.loadText(ft.hFont, str)
     self.img = Image():makeTexture(surface)

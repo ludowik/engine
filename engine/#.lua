@@ -26,6 +26,8 @@ require 'engine.resourceManager'
 require 'engine.touchDirection'
 require 'engine.camera'
 
+require 'engine.font'
+
 require 'libc'
 require 'lib.json'
 require 'lib.sfxr'
@@ -52,7 +54,7 @@ function vector(...)
     return v
 end
 
-newPhysics = Fizix
+newPhysics = box2d -- Fizix
 
 math.MAX_INTEGER = math.maxinteger
 math.MIN_INTEGER = math.mininteger

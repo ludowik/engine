@@ -2,8 +2,12 @@ class('Path')
 
 Path.sourcePath = lfs.currentdir()
 
-Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries'
-    
+if windows then
+    Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries'
+else
+    Path.libraryPath = '/Users/ludo/Projets/Libraries'
+end
+
 function Path.setup()    
     print(Path.sourcePath)
 end

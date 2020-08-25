@@ -13,9 +13,11 @@ AREA_HEIGHT = CELL_SIZE * 9
 function setup()
     supportedOrientations(PORTRAIT)
 
-    physics = Fizix(0, 0)
-    physics:gravity(vec2())
-    physics:setArea(0, 0, AREA_WIDTH, AREA_HEIGHT)
+    fizix = Fizix(0, 0)
+    fizix:gravity(vec2())
+    fizix:setArea(0, 0, AREA_WIDTH, AREA_HEIGHT)
+    
+    physics = Physics(fizix)
 
     areaPosition = vec2(
         (WIDTH - AREA_WIDTH) / 2,
@@ -36,7 +38,7 @@ function setup()
     loadGame()
 
     app.scene = Scene()
-    app.scene:add(balls, boxes, bonuses, physics)
+    app.scene:add(balls, boxes, bonuses, fizix)
 
     parameter.watch('#emitter')
     parameter.watch('#emitterCart')
@@ -189,8 +191,6 @@ function saveGame()
 end
 
 function update(dt)
---    physics:update(dt)
-
     if #emitter > 0 and emitter.linearVelocity then
         if emitter.delay == nil or emitter.delay <=0 then
             local ball = emitter:remove(#emitter)
@@ -215,9 +215,9 @@ function draw()
     TEXT_NEXT_Y = HEIGHT / 2
     
     textMode(CORNER)
-    for i,body in ipairs(physics.bodies) do
+    for i,body in ipairs(fizix.bodies) do
         local info = classnameof(body.item)..' '..body.shapeType..' at '..body.position:tostring()
-        text(info, 0, TEXT_NEXT_Y)
+        text(info, 0)
     end
 
     translate(areaPosition.x, areaPosition.y)
@@ -237,13 +237,13 @@ function draw()
             emitter.position.y + linearVelocity.y)
     end
     
-    physics:draw()
+    fizix:draw()
 end
 
 function touched(touch)
     local position = emitter.position
     local direction = vec2(CurrentTouch.x, CurrentTouch.y) - areaPosition
-    linearVelocity = (direction - position):normalize() * AREA_HEIGHT
+    linearVelocity = (direction - position):normalize() * 10 -- AREA_HEIGHT
 
     if touch.state == ENDED then
         if #emitter > 0 then
@@ -272,7 +272,7 @@ function collide(contact)
             box.collision = box.collision - 1
             if box.collision <= 0 then
                 boxes:removeItem(box)
-                physics:removeItem(box)
+                fizix:removeItem(box)
             end
 
         elseif bonus and ball then
@@ -280,7 +280,7 @@ function collide(contact)
                 ballsToAdd = ballsToAdd + 1
 
                 bonuses:removeItem(bonus)
-                physics:removeItem(bonus)
+                fizix:removeItem(bonus)
             end
         end
     end

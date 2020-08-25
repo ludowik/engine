@@ -26,6 +26,14 @@ function UI:getTextColor()
     return self.textColor or UI.textColor
 end
 
+function UI:getFontName()
+    return self.fontName or UI.fontName
+end
+
+function UI:getFontSize()
+    return self.fontSize or UI.fontSize
+end
+
 function UI:contains(v)
     local x = v.x - self.absolutePosition.x
     local y = v.y - self.absolutePosition.y
@@ -46,14 +54,17 @@ function UI:computeSize()
 end
 
 function UI:draw()
+    self:drawBackground()
+    self:drawLabel()
+end
+
+function UI:drawBackground()
     noStroke()
     
     fill(self:getBgColor())
 
     rectMode(CORNER)
     rect(0, 0, self.size.x, self.size.y)
-    
-    self:drawLabel()
 end
 
 function UI:drawLabel()
@@ -63,8 +74,8 @@ function UI:drawLabel()
         fill(self:getTextColor())
     end
 
-    font(UI.fontName)
-    fontSize(UI.fontSize)
+    font(self:getFontName())
+    fontSize(self:getFontSize())
 
     textMode(CENTER)
     text(self:getLabel(), self.size.x / 2, self.size.y / 2)

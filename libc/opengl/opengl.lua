@@ -153,8 +153,8 @@ end
 function OpenGL:initialize()
     self:loadProcAdresses()
 
-    intptr = ffi.new('GLint[1]')
-    idptr  = ffi.new('GLuint[1]')
+    self.intptr = ffi.new('GLint[1]')
+    self.idptr  = ffi.new('GLuint[1]')
 
     -- Smooth
     self.glEnable(gl.GL_LINE_SMOOTH)
@@ -179,8 +179,8 @@ function OpenGL:initialize()
     end
 
     function self.glGetShaderiv(id, flag)
-        self.defs.glGetShaderiv(id, flag, intptr)
-        return intptr[0]
+        self.defs.glGetShaderiv(id, flag, self.intptr)
+        return self.intptr[0]
     end
 
     function self.glGetShaderInfoLog(id)
@@ -194,8 +194,8 @@ function OpenGL:initialize()
     end
 
     function self.glGetProgramiv(id, flag)
-        self.defs.glGetProgramiv(id, flag, intptr)
-        return intptr[0]
+        self.defs.glGetProgramiv(id, flag, self.intptr)
+        return self.intptr[0]
     end
 
     function self.glGetProgramInfoLog(id)
@@ -209,53 +209,53 @@ function OpenGL:initialize()
     end
 
     function self.glGenBuffer()
-        self.defs.glGenBuffers(1, idptr)
-        return idptr[0]
+        self.defs.glGenBuffers(1, self.idptr)
+        return self.idptr[0]
     end
 
     function self.glDeleteBuffer(buffer)
-        idptr[0] = buffer
-        self.defs.glDeleteBuffers(1, idptr)
+        self.idptr[0] = buffer
+        self.defs.glDeleteBuffers(1, self.idptr)
     end
 
     function self.glGenVertexArray()
-        self.defs.glGenVertexArrays(1, idptr)
-        return idptr[0]
+        self.defs.glGenVertexArrays(1, self.idptr)
+        return self.idptr[0]
     end
 
     function self.glDeleteVertexArray(buffer)
-        idptr[0] = buffer
-        self.defs.glDeleteVertexArrays(1, idptr)
+        self.idptr[0] = buffer
+        self.defs.glDeleteVertexArrays(1, self.idptr)
     end
 
     function self.glGenTexture()
-        self.glGenTextures(1, idptr)
-        return idptr[0]
+        self.glGenTextures(1, self.idptr)
+        return self.idptr[0]
     end
 
     function self.glDeleteTexture(id)
-        idptr[0] = id
-        self.glDeleteTextures(1, idptr)
+        self.idptr[0] = id
+        self.glDeleteTextures(1, self.idptr)
     end
 
     function self.glGenFramebuffer()
-        self.glGenFramebuffers(1, idptr)
-        return idptr[0]
+        self.glGenFramebuffers(1, self.idptr)
+        return self.idptr[0]
     end
 
     function gl.glDeleteFramebuffer(id)
-        idptr[0] = id
-        gl.glDeleteFramebuffers(1, idptr)
+        self.idptr[0] = id
+        gl.glDeleteFramebuffers(1, self.idptr)
     end
 
     function self.glGenRenderbuffer()
-        self.glGenRenderbuffers(1, idptr)
-        return idptr[0]
+        self.glGenRenderbuffers(1, self.idptr)
+        return self.idptr[0]
     end
 
     function gl.glDeleteRenderbuffer(id)
-        idptr[0] = id
-        gl.glDeleteRenderbuffers(1, idptr)
+        self.idptr[0] = id
+        gl.glDeleteRenderbuffers(1, self.idptr)
     end
 
     function gl.glGetString(name)

@@ -89,7 +89,7 @@ function ApplicationManager:loadApp(appName, reloadApp)
         require(self.appPath)
         ___requireReload = false
 
-        env.physics = Physics()
+        env.physics = box2dRef.Physics() -- Physics()
         env.parameter = Parameter()
 
         if env.appClass then
@@ -115,8 +115,10 @@ function ApplicationManager:loadApp(appName, reloadApp)
     
     self.app = env.app
 
+    sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appName)
+    
     for i=1,2 do
-        self:preRender()
+        setContext(self.renderFrame)
         background(black)
         self:postRender()
         sdl:swap()

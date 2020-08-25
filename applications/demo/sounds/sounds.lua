@@ -88,6 +88,8 @@ function AppSound:init()
                 audio:loadBuffer(amplitude, hz, sampleRate)
                 audio:play(true)
             end))
+    
+    parameter.watch('al.nbuffers')
 end
 
 function AppSound:draw()

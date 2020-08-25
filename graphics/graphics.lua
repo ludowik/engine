@@ -287,56 +287,57 @@ function spriteSize(img)
     return 0,0
 end
 
-function text(str, x, y, mode)
-    -- TODO 
-    -- multilignes        
---        for i,line in ipairs(lines) do
---            local image, lw, lh = ...
---            ....textRender....
---            w = max(w, lw)
---            h = h + lh
---        end
+function textProc(draw, str, x, y)
+    local w, h = 0, 0
 
-    str = tostring(str)
+    local tw, th
+    if draw then
+        tw, th = textProc(false, str)
 
-    local img = ft:getText(str).img
+        x = x or 0
 
-    x = x or 0
+        if y then
+            TEXT_NEXT_Y = y - th
+        else
+            TEXT_NEXT_Y = TEXT_NEXT_Y - th
+            y = TEXT_NEXT_Y
+        end
 
-    if y then
-        TEXT_NEXT_Y = y - img.surface.h
-    else
-        TEXT_NEXT_Y = TEXT_NEXT_Y - img.surface.h
-        y = TEXT_NEXT_Y
+        x, y = centerFromCorner(mode or textMode(), x, y, tw, th)
+
+        y = y + th
     end
 
-    x, y = centerFromCorner(mode or textMode(), x, y, img.surface.w, img.surface.h)
+    local lines = str:split(NL, false)
+    
+    for i,line in ipairs(lines) do
+        local img = ft:getText(line).img
+        local lw, lh = img.surface.w/2, img.surface.h/2
 
+        if draw then
+            y = y - lh
+            meshText:render(meshText.shader, gl.GL_TRIANGLES, img,
+                x, y, 0,
+                lw, lh, 1)
+        end
+
+        w = max(w, lw)
+        h = h + lh
+    end
+
+    return w, h
+end
+
+function text(str, x, y)
+    str = tostring(str)
     if fill() then
-        meshText:render(meshText.shader, gl.GL_TRIANGLES, img,
-            x, y, 0,
-            img.surface.w, img.surface.h, 1)
-    end  
-
-    return img.surface.w, img.surface.h
+        return textProc(true, str, x, y)
+    end
+    return textProc(false, str)
 end
 
 function textSize(str)
-    str = tostring(str)
-
-    -- TODO 
-    -- multilignes
---    local w, h = 0, 0
---    local lines = tostring(txt):split(NL)
-
---    for i,line in ipairs(lines) do
---        local lw, lh = .....
---        w = max(w, lw)
---        h = h + lh
---    end
-
-    local img = ft:getText(str).img
-    return img.surface.w, img.surface.h
+    return textProc(false, tostring(str))
 end
 
 function plane()

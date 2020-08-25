@@ -2,7 +2,7 @@ typedef struct b2Vec2 {
     float xx, yy;
 } b2Vec2;
 
-b2Vec2* b2Vec2_new(float x, float y);
+b2Vec2* b2Vec2_new(float x, float y, float ratio);
 void b2Vec2_gc(b2Vec2*);
 
 float b2Vec2_x_get(b2Vec2* self);

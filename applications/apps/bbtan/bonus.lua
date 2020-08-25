@@ -7,7 +7,7 @@ function Bonus:init(i, j)
         CELL_SIZE / 2,
         CELL_SIZE / 2)
     
-    physics:add(self, DYNAMIC, CIRCLE, self.size.x / 2)
+    fizix:add(self, DYNAMIC, CIRCLE, self.size.x / 2)
     
     self.body.sensor = true
     self.body.restitution = 1
