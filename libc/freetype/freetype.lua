@@ -1,6 +1,6 @@
-if os.name == 'osx' then
+local path = Path.libraryPath..'/FreeType'
 
-    local path = Path.libraryPath..'/FreeType'
+if osx then
 
     Library.load('freetype')
 
@@ -10,11 +10,12 @@ if os.name == 'osx' then
         path..'/FreeType.Framework/FreeType')
 
 else
-
+    
     ft = Library.compileFile('libc/freetype/freetype.c',
         'ft',
-        '-I "'..Path.libraryPath..'/FreeType/include"',
-        '-L"'..Path.libraryPath..'/FreeType/win32" -lFreeType')
+        '-I "'..path..'/include"',
+        '-L "'..path..'/win32" -l FreeType',
+        '-shared')
 
 end
 

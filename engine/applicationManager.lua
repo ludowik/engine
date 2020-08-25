@@ -89,7 +89,7 @@ function ApplicationManager:loadApp(appName, reloadApp)
         require(self.appPath)
         ___requireReload = false
 
-        env.physics = box2dRef.Physics() -- Physics()
+        env.physics = box2dRef and box2dRef.Physics() or Physics()
         env.parameter = Parameter()
 
         if env.appClass then

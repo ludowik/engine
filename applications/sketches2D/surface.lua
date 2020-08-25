@@ -17,7 +17,7 @@ function setup()
         void mafunction(int w, int h, unsigned char* pixels);
     ]])
 
-    libSurface = Library.compileCode(code, 'surface')
+    libSurface = Library.compileCode(code, 'surface', nil, nil, '-shared')
 
     libSurface.init(W, H)
 end

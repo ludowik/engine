@@ -13,75 +13,81 @@ function Library.precompile(str)
     return str, defs
 end
 
-function Library.compileCode(code, moduleName)
+function Library.compileCode(code, moduleName, headers, links, options)
+    local libExtension = osx and 'so' or 'dll'
+
     local params = {
         srcName = string.format('libc/bin/{moduleName}.c' , {moduleName=moduleName}),
-        libName = string.format('libc/bin/{moduleName}.so', {moduleName=moduleName})
+        libName = string.format('libc/bin/{moduleName}.{libExtension}', {moduleName=moduleName, libExtension=libExtension})
     }
 
     io.write(params.srcName, code)
 
-    return Library.compileFile(params.srcName, moduleName)
+    return Library.compileFile(params.srcName, moduleName, headers, links, options)
 end
 
 function Library.compileFile(srcName, moduleName, headers, links, options)
+    local libExtension = osx and 'so' or 'dll'
+
     local params = {
         srcName = srcName,
         headerName = string.format('libc/bin/{moduleName}.h', {moduleName=moduleName}),
-        libName = string.format('libc/bin/{moduleName}.so', {moduleName=moduleName}),
+        libName = string.format('libc/bin/{moduleName}.{libExtension}', {moduleName=moduleName, libExtension=libExtension}),
         headers = headers or '',
         links = links or '',
         options = options or ''
     }
 
-    local command = string.format('gcc -Wall -shared {options} {headers} -o {libName} {srcName} {links}', params)
+    local command = string.format('gcc -Wall {options} {headers} -o {libName} {srcName} {links}', params)
     local res = os.execute(command)
---    assert(res == 0)
+    assert(res == 0)
 
-    command = string.format('gcc -E -M {headers} -o {headerName} {srcName}', params)
-    res = os.execute(command)
+--    command = string.format('gcc -E -M {headers} -o {headerName} {srcName}', params)
+--    res = os.execute(command)
 --    assert(res == 0)
 
     return ffi.load(params.libName)
 end
 
 function Library.compileFileCPP(srcName, moduleName, headers, links, options)
+    local libExtension = osx and 'so' or 'dll'
+
     local params = {
         srcName = srcName,
         headerName = string.format('libc/bin/{moduleName}.h', {moduleName=moduleName}),
-        libName = string.format('libc/bin/{moduleName}.so', {moduleName=moduleName}),
+        libName = string.format('libc/bin/{moduleName}.{libExtension}', {moduleName=moduleName, libExtension=libExtension}),
         headers = headers or '',
         links = links or '',
         options = options or ''
     }
 
-    local command = string.format('g++ -Wall -shared {options} {headers} -o {libName} {srcName} {links}', params)
+    local command = string.format('g++ -Wall {options} {headers} -o {libName} {srcName} {links}', params)
     local res = os.execute(command)
---    assert(res == 0)
+    assert(res == 0, res)
 
-    command = string.format('g++ -E -M {options} {headers} -o {headerName} {srcName}', params)
-    res = os.execute(command)
---    assert(res == 0)
+--    command = string.format('g++ -E -M {options} {headers} -o {headerName} {srcName}', params)
+--    res = os.execute(command)
+--    assert(res == 0, res)
 
     return ffi.load(params.libName)
 end
 
 function Library.load(libName, libNamewindows, libDir)
-        if os.name == 'osx' then 
+    if osx then 
         libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..libName)
     else
         libDir = libDir or ('/Windows/System32')
     end
-    
+
     local libPath
-    if os.name == 'osx' then 
+    if osx then 
         libName = libName..'.framework/'..libName
         libPath = libDir..'/'..libName
     else
         libName = libNamewindows or libName
         libPath = libDir..'/'..libName
     end
-    
+
     return ffi.load(libPath)
 end
 

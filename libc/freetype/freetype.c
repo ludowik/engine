@@ -107,7 +107,7 @@ Glyph loadText(FT_Face face, const char* text) {
     dy = max(0, H - (top + bottom) - 2) / 2;
 
     int size = w * h * sizeof(GLubyte) * BytesPerPixel;
-    GLubyte* pixels = calloc(1, size);
+    GLubyte* pixels = (GLubyte*)calloc(1, size);
 
     for ( size_t n = 0; n < len; ++n ) {
         error = FT_Load_Char(face, text[n], FT_LOAD_RENDER);

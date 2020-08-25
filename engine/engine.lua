@@ -54,7 +54,7 @@ function Engine:init()
 
     W_INFO = 200
 
-    if os.name == 'osx' then
+    if osx then
         W = 1480
         H = 1000
     else
@@ -222,7 +222,11 @@ function Engine:update(dt)
         self.action()
     end
 
-    env.physics.update(dt)
+    if classnameof(env.physics) == 'physics' then
+        env.physics.update(dt)
+    elseif classnameof(env.physics) == 'fizix' then
+        env.physics:update(dt)
+    end
 
     self.app:__update(dt)
     env.parameter:update(dt)

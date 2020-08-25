@@ -1,11 +1,12 @@
 local code, defs = Library.precompile(io.read('./libc/box2d/box2d.h'))
 ffi.cdef(code)
 
-box2d = class 'box2d' : meta(Library.compileFileCPP('libc/box2d/box2d.cpp',
+local path = Path.libraryPath..'/box2d-master'
+
+box2d = class 'box2d' : meta(Library.compileFileCPP('libc/box2d/box2d.c',
     'box2d',
-    '-I "'..Path.libraryPath..'/box2d-master/include"',
---    '-I "'..Path.libraryPath..'/box2d-master/src"',
-    '-L "'..Path.libraryPath..'/box2d-master/Build/src/Debug" -lbox2d',
+    '-I "'..path..'/include"',
+    '-L "'..path..'/build/src/Debug" -l box2d',
     '-std=c++11'
 ))
 
