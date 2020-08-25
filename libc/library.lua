@@ -24,16 +24,17 @@ function Library.compileCode(code, moduleName)
     return Library.compileFile(params.srcName, moduleName)
 end
 
-function Library.compileFile(srcName, moduleName, headers, links)
+function Library.compileFile(srcName, moduleName, headers, links, options)
     local params = {
         srcName = srcName,
         headerName = string.format('libc/bin/{moduleName}.h', {moduleName=moduleName}),
         libName = string.format('libc/bin/{moduleName}.so', {moduleName=moduleName}),
         headers = headers or '',
-        links = links or ''
+        links = links or '',
+        options = options or ''
     }
 
-    local command = string.format('gcc -Wall -shared {headers} -o {libName} {srcName} {links}', params)
+    local command = string.format('gcc -Wall -shared {options} {headers} -o {libName} {srcName} {links}', params)
     local res = os.execute(command)
 --    assert(res == 0)
 
@@ -44,8 +45,29 @@ function Library.compileFile(srcName, moduleName, headers, links)
     return ffi.load(params.libName)
 end
 
+function Library.compileFileCPP(srcName, moduleName, headers, links, options)
+    local params = {
+        srcName = srcName,
+        headerName = string.format('libc/bin/{moduleName}.h', {moduleName=moduleName}),
+        libName = string.format('libc/bin/{moduleName}.so', {moduleName=moduleName}),
+        headers = headers or '',
+        links = links or '',
+        options = options or ''
+    }
+
+    local command = string.format('g++ -Wall -shared {options} {headers} -o {libName} {srcName} {links}', params)
+    local res = os.execute(command)
+--    assert(res == 0)
+
+    command = string.format('g++ -E -M {options} {headers} -o {headerName} {srcName}', params)
+    res = os.execute(command)
+--    assert(res == 0)
+
+    return ffi.load(params.libName)
+end
+
 function Library.load(libName, libNamewindows, libDir)
-    if os.name == 'osx' then 
+        if os.name == 'osx' then 
         libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..libName)
     else
         libDir = libDir or ('/Windows/System32')
