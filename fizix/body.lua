@@ -274,6 +274,10 @@ function Body.polygon:draw()
     polygon(self.points)
 end
 
+function Body.chain:draw()
+    polyline(self.points)
+end
+
 function Body.edge:draw()
     local p1 = self.points[1]
     local p2 = self.points[2]

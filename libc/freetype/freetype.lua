@@ -7,7 +7,8 @@ if osx then
     ft = Library.compileFile('libc/freetype/freetype.c',
         'ft',
         '-I '..path..'/FreeType.Framework/Headers',
-        path..'/FreeType.Framework/FreeType')
+        path..'/FreeType.Framework/FreeType',
+        '-shared')
 
 else
     

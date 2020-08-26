@@ -5,11 +5,13 @@ end
 function initUI()
     app.ui:setLayoutFlow(Layout.row)
 
+    local t = _G.env
+    
     function addGroup(filterType)
         local group = UIScene(Layout.column)
         app.ui:add(group)
         local typeFilter = 'number'
-        for k,v in pairs(_G) do
+        for k,v in pairs(t) do
             if typeof(v) == filterType then
                 if tostring(k):lower() ~= tostring(v):lower() then
                     group:add(
