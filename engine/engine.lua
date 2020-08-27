@@ -73,7 +73,7 @@ function Engine:initEvents()
         keydown = {
             ['r'] = callback(engine, Engine.restart),
             ['escape'] = callback(engine, Engine.quit),
-            
+
             ['t'] = scanTODO,
 
             ['d'] = callback(engine, Engine.defaultApp),
@@ -149,7 +149,7 @@ function Engine:run(appName)
     repeat
 
         self.active = 'running'
-        
+
         self:initialize()        
 
         local deltaTime = 0
@@ -201,6 +201,14 @@ function Engine:quit()
 end
 
 function quit()
+    engine:quit()
+end
+
+function exit(res)
+    if res then
+        print(res)
+    end
+    
     engine:quit()
 end
 

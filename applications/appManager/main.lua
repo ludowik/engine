@@ -19,7 +19,7 @@ function initMenu(path)
     end
 
     local apps = engine:dirApps(path)
-    for i,appPath in ipairs(apps) do
+    for i,appPath in ipairs(apps) do        
         local j = appPath:findLast('/')
         local appName = j and appPath:sub(j+1) or appPath
         app.ui:add(
@@ -30,16 +30,20 @@ function initMenu(path)
             :attribs{bgColor = gray})
     end
 
-    local directories = engine:dirDirectories(path)
+    local directories = engine:dirDirectories(path, true)
     for i,appPath in ipairs(directories) do
-        local j = appPath:findLast('/')
-        local appName = j and appPath:sub(j+1) or appPath
-        app.ui:add(
-            Button(appPath, -- appName,
-                function (btn)
-                    initMenu(appPath)
-                end)
-            :attribs{bgColor = brown})
+        if not isApp('applications/'..appPath) then
+            print(appPath)
+
+            local j = appPath:findLast('/')
+            local appName = j and appPath:sub(j+1) or appPath
+            app.ui:add(
+                Button(appPath, -- appName,
+                    function (btn)
+                        initMenu(appPath)
+                    end)
+                :attribs{bgColor = brown})
+        end
     end
 end
 

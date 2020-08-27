@@ -100,7 +100,7 @@ function dir(path, checkType, recursivly, list, subPath)
             end
 
             if recursivly and isDirectory(path..'/'..file) then
-                dirApps(path..'/'..file, recursivly, list, subPath and (subPath..'/'..file) or file)
+                dir(path..'/'..file, checkType, recursivly, list, subPath and (subPath..'/'..file) or file)
             end
         end
     end
