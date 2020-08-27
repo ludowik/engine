@@ -290,9 +290,8 @@ end
 function textProc(draw, str, x, y)
     local w, h = 0, 0
 
-    local tw, th
     if draw then
-        tw, th = textProc(false, str)
+        local tw, th = textProc(false, str)
 
         x = x or 0
 
@@ -310,9 +309,12 @@ function textProc(draw, str, x, y)
 
     local lines = str:split(NL, false)
     
+    local ratio = osx and 2 or 1
+    
     for i,line in ipairs(lines) do
         local img = ft:getText(line).img
-        local lw, lh = img.surface.w/2, img.surface.h/2
+        
+        local lw, lh = img.surface.w/ratio, img.surface.h/ratio
 
         if draw then
             y = y - lh

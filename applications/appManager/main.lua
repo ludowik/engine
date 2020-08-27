@@ -11,24 +11,35 @@ function initMenu(path)
     app.ui:clear()
 
     if path then
-        app.ui:add(Button('..', function (btn) initMenu() end))
+        app.ui:add(
+            Button('..',
+                function (btn)
+                    initMenu()
+                end))
     end
 
     local apps = engine:dirApps(path)
     for i,appPath in ipairs(apps) do
         local j = appPath:findLast('/')
         local appName = j and appPath:sub(j+1) or appPath
+        app.ui:add(
+            Button(appPath, -- appName,
+                function (btn)
+                    engine:loadApp(appPath)
+                end)
+            :attribs{bgColor = gray})
+    end
 
-        if not isApp(appPath) then
-            app.ui:add(Button(appName, function (btn)
-                        initMenu(appPath)
-                    end):attribs{bgColor = brown})
-
-        else
-            app.ui:add(Button(appName, function (btn)
-                        engine:loadApp(appPath)
-                    end))
-        end
+    local directories = engine:dirDirectories(path)
+    for i,appPath in ipairs(directories) do
+        local j = appPath:findLast('/')
+        local appName = j and appPath:sub(j+1) or appPath
+        app.ui:add(
+            Button(appPath, -- appName,
+                function (btn)
+                    initMenu(appPath)
+                end)
+            :attribs{bgColor = brown})
     end
 end
 

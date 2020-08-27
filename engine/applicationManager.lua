@@ -1,7 +1,7 @@
 class 'ApplicationManager'
 
 function ApplicationManager:nextApp()
-    local apps = self:dirApps()
+    local apps = self:dirApps(nil, true)
 
     local nextAppIndex = 1
     for i,appName in ipairs(apps) do
@@ -18,7 +18,7 @@ function ApplicationManager:nextApp()
 end
 
 function ApplicationManager:previousApp()
-    local apps = self:dirApps()
+    local apps = self:dirApps(nil, true)
 
     local previousAppIndex = #apps
     for i,appName in ipairs(apps) do
@@ -38,7 +38,7 @@ function ApplicationManager:loopApp(delay)
     if self.action then
         self.action = nil
     else
-        self.loopAppRef = #self:dirApps()
+        self.loopAppRef = #self:dirApps(nil, true)
         self.loopAppDelay = delay or 0
 
         self.action = callback(self, ApplicationManager.loopAppProc, delay)

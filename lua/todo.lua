@@ -1,8 +1,10 @@
 function scanTODO()
     local todoList = Array()
     
-    local list = dirFile(Path.sourcePath)
+    local list = dirFiles(Path.sourcePath, true)
     for i,file in ipairs(list) do
+        print(file)
+        
         local content = fs.read(file)
         if content then
             local lines = content:split(NL)

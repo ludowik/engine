@@ -1,8 +1,55 @@
-/Users/ludo/Projets/Lua/engine
-load applications/demo/introspection/introspection
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/default
+load applications/appManager
+applications/appManager
+applications/apps/2048
+applications/apps/asteroid
+applications/apps/bbtan
+applications/apps/calc
+applications/apps/freeCell
+applications/apps/icon
+applications/apps/sudoku
+applications/apps/tetris
+applications/apps/triomino
+applications/codea/3D Lab
+applications/codea/Animation
+applications/codea/Backgammon
+applications/codea/Basic Physics
+applications/codea/Bezier
+applications/codea/Blend Modes
+applications/codea/Brickout
+applications/codea/Bubbles
+applications/codea/Cargo-Bot
+applications/codea/Dungeon Roller
+applications/codea/FixedAreaBubble
+applications/codea/Gravity
+applications/codea/Hammer
+applications/codea/Lines
+applications/codea/Mandelbrot
+applications/codea/Orbital
+applications/codea/Parameters
+applications/codea/Physics
+applications/codea/Physics Lab
+applications/codea/Roller Coaster
+applications/codea/ScreenSaver
+applications/codea/Voxel
+applications/codea/Web
+applications/demo/particles
+applications/fizix
+applications/noise/map1
+applications/noise/map2
+applications/noise/noise1
+applications/noise/noise2
+applications/shadertoy
+libc/box2d
+lua/dev
+main.lua
+todo
+ui/_bar
+
 release 1 fonts
-memory at init    : 1.20 mo
-memory min        : 1.20 mo
-memory max        : 15.59 mo
-memory variation  : 14.38 mo
-memory at release : 12.81 mo
+memory at init    : 0.90 mo
+memory min        : 0.90 mo
+memory max        : 7.51 mo
+memory variation  : 6.61 mo
+memory at release : 7.44 mo

@@ -342,8 +342,8 @@ function Engine:mouseWheel(touch)
     end
 end
 
-function Engine:dirApps(path)
-    local apps = dirApp('./applications'..(path and ('/'..path) or ''))
+function Engine:dir(path, method, recursivly)
+    local apps = method('./applications'..(path and ('/'..path) or ''), recursivly)
     apps:apply(function (app)
             return app:lower():gsub('%.lua', '')
         end)
@@ -351,13 +351,16 @@ function Engine:dirApps(path)
     return apps
 end
 
-function Engine:dirFile(path)
-    local apps = dirFile('./applications'..(path and ('/'..path) or ''))
-    apps:apply(function (app)
-            return app:lower():gsub('%.lua', '')
-        end)
-    apps:sort()
-    return apps
+function Engine:dirApps(path, recursivly)
+    return self:dir(path, dirApps, recursivly)
+end
+
+function Engine:dirFiles(path, recursivly)
+    return self:dir(path, dirFiles, recursivly)
+end
+
+function Engine:dirDirectories(path, recursivly)
+    return self:dir(path, dirDirectories, recursivly)
 end
 
 function Engine:defaultApp()
