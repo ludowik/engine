@@ -204,6 +204,14 @@ function quit()
     engine:quit()
 end
 
+function exit(res)
+    if res then 
+        print(res)
+    end
+    
+    quit()
+end
+
 function Engine:toggleRenderVersion()
     self.active = function ()
         config.glMajorVersion = toggle(config.glMajorVersion, 2, 4)
@@ -367,3 +375,5 @@ end
 function Engine:managerApp()
     self:loadApp('appManager')
 end
+
+::exit::

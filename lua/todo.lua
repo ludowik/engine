@@ -21,4 +21,6 @@ function scanTODO()
     print(todoText)
     
     fs.write('todo', todoText)
+    
+    exit()
 end

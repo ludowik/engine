@@ -1,7 +1,7 @@
-libc/box2d/body.lua:99: vérifier comment est implémenté cette fonction dans codea
+libc/box2d/body.lua:126: vérifier comment est implémenté cette fonction dans codea
 libc/box2d/box2d.lua:1: optim : utiliser des tableaux d'action
-libc/box2d/box2d.lua:49: : vérifier ce que contient Gravity dans codea
-libc/box2d/box2d.cpp:446: which position
+libc/box2d/box2d.lua:47: : vérifier ce que contient Gravity dans codea
+libc/box2d/box2d.c:448: which position
 lua/log.lua:42: : ')
 lua/table.lua:386: a refactorer et tester
 applications/demo/particles/#.lua:5: : Paramétrer couleur et durée de vie
