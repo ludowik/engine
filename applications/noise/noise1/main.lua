@@ -111,7 +111,7 @@ function AppMap:init()
                     clockCurrent = os.clock()            
                     clockDelay = clockCurrent - clockStart
 
-                    if batchMode and clockDelay > 1/engine.fpsTarget then
+                    if batchMode and clockDelay > 1/engine.frameTime.fpsTarget then
                         coroutine.yield()
                         clockStart = os.clock()
                     end

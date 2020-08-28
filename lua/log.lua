@@ -38,10 +38,6 @@ function warning(test, ...)
     end
 end
 
-function todo(...)
-    error('TODO : ')
-end
-
 function functionNotImplemented()
     print(getFunctionLocation('not implemented :'))
 end

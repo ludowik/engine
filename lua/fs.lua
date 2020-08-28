@@ -2,12 +2,22 @@ lfs = require 'lfs'
 
 fs = {}
 
-function isApp(path)
-    path = 'applications/'..path
+function splitPath(path)
+    local j = path:findLast('/')
 
-    if isFile(path..'.lua') then return true end
-    if isFile(path..'/#.lua') then return true end
-    if isFile(path..'/main.lua') then return true end
+    local name = j and path:sub(j+1) or path
+    local directory = j and path:sub(1, j) or ''
+
+    return name, directory
+end
+
+function isApp(path)
+    if (isFile(path..'.lua') or
+        isFile(path..'/#.lua') or
+        isFile(path..'/main.lua'))
+    then
+        return true
+    end
 
     return false
 end
@@ -91,35 +101,36 @@ function fs.mkdir(path)
     lfs.mkdir(fullPath)
 end
 
-function dirApp(path, list, subPath)
+function dir(path, checkType, recursivly, list, subPath)
+    assert(subPath == nil)
+
     list = list or Array()
     for file in lfs.dir(path) do
         if not file:startWith('.') then
-            if (isFile(path..'/'..file) or 
-                isFile(path..'/'..file..'/#.lua') or 
-                isFile(path..'/'..file..'/main.lua'))
-            then
-                table.insert(list, subPath and (subPath..'/'..file) or file)
-            else
-                dirApp(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
+            if checkType(path..'/'..file) then
+                --                table.insert(list, subPath and (subPath..'/'..file) or file)
+                table.insert(list, path..'/'..file)
+            end
+
+            if recursivly and isDirectory(path..'/'..file) then
+                --                dir(path..'/'..file, checkType, recursivly, list, subPath and (subPath..'/'..file) or file)
+                dir(path..'/'..file, checkType, recursivly, list)
             end
         end
     end
     return list
 end
 
-function dirFile(path, list, subPath)
-    list = list or Array()
-    for file in lfs.dir(path) do
-        if not file:startWith('.') then
-            if isFile(path..'/'..file) then
-                table.insert(list, subPath and (subPath..'/'..file) or file)
-            else
-                dirFile(path..'/'..file, list, subPath and (subPath..'/'..file) or file)
-            end
-        end
-    end
-    return list
+function dirApps(path, recursivly, list, subPath)
+    return dir(path, isApp, recursivly, list, subPath)
+end
+
+function dirFiles(path, recursivly, list, subPath)
+    return dir(path, isFile, recursivly, list, subPath)
+end
+
+function dirDirectories(path, recursivly, list, subPath)
+    return dir(path, isDirectory, recursivly, list, subPath)
 end
 
 function loadFile(file, filesPath)

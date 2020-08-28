@@ -13,8 +13,8 @@ require 'engine.applicationManager'
 require 'engine.component'
 require 'engine.engine'
 
-require 'engine.trackTime'
-require 'engine.trackMemory'
+require 'engine.frameTime'
+require 'engine.memory'
 
 require 'engine.scene.object'
 require 'engine.scene.node'

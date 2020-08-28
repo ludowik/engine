@@ -4,30 +4,45 @@ function setup()
 
     app.index = 0
 
-    initMenu()
+    initMenu('applications')
 end
 
 function initMenu(path)
     app.ui:clear()
 
-    if path then
-        app.ui:add(Button('..', function (btn) initMenu() end))
+    if path and app.previousPath then
+        local previousPath = app.previousPath
+        app.ui:add(
+            Button('..',
+                function (btn)
+                    initMenu(previousPath)
+                end))
+    end
+    
+    app.previousPath = path
+
+    local apps = engine:dirApps(path) + engine:dirFiles(path)
+    for i,appPath in ipairs(apps) do
+        local appName, appDirectory = splitPath(appPath)
+        app.ui:add(
+            Button(appName,
+                function (btn)
+                    engine:loadApp(appPath)
+                end)
+            :attribs{bgColor = gray})
     end
 
-    local apps = engine:dirApps(path)
-    for i,appPath in ipairs(apps) do
-        local j = appPath:findLast('/')
-        local appName = j and appPath:sub(j+1) or appPath
-
+    local directories = engine:dirDirectories(path)
+    for i,appPath in ipairs(directories) do
         if not isApp(appPath) then
-            app.ui:add(Button(appName, function (btn)
+            local j = appPath:findLast('/')
+            local appName = j and appPath:sub(j+1) or appPath
+            app.ui:add(
+                Button(appName,
+                    function (btn)
                         initMenu(appPath)
-                    end):attribs{bgColor = brown})
-
-        else
-            app.ui:add(Button(appName, function (btn)
-                        engine:loadApp(appPath)
-                    end))
+                    end)
+                :attribs{bgColor = brown})
         end
     end
 end

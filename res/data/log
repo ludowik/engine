@@ -1,5 +1,13 @@
-/Users/ludo/Projets/Lua/engine
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/appmanager
+load applications/sketches3d/cube minecraft
+load applications/appManager
+load applications/sketches2d/maze
+switch applications/appManager
+load applications/demo/animation
+switch applications/appManager
 load applications/demo/introspection/introspection
+<<<<<<< HEAD
 libc/box2d/body.lua:126: vérifier comment est implémenté cette fonction dans codea
 libc/box2d/box2d.lua:1: optim : utiliser des tableaux d'action
 libc/box2d/box2d.lua:47: : vérifier ce que contient Gravity dans codea
@@ -23,3 +31,17 @@ memory min        : 1.20 mo
 memory max        : 14.58 mo
 memory variation  : 13.38 mo
 memory at release : 46.51 mo
+=======
+switch applications/appManager
+load applications/demo/ui/ui
+new color : color{r=1, g=0, b=0, a=1}
+switch applications/appManager
+load applications/demo/sounds/sounds
+switch applications/appManager
+release 1 fonts
+memory at init    : 0.89 mo
+memory min        : 0.89 mo
+memory max        : 11.20 mo
+memory variation  : 10.31 mo
+memory at release : 7.55 mo
+>>>>>>> ad3e4cf63c12b12432c6b1eb09bf0f81c712b9da

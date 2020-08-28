@@ -16,7 +16,7 @@ function Engine:init()
     self.active = 'start'
 
     self.memory = Memory()
-    self.frame_time = FrameTime()
+    self.frameTime = FrameTime()
 
     -- create components
     sdl = Sdl()
@@ -73,7 +73,7 @@ function Engine:initEvents()
         keydown = {
             ['r'] = callback(engine, Engine.restart),
             ['escape'] = callback(engine, Engine.quit),
-            
+
             ['t'] = scanTODO,
 
             ['d'] = callback(engine, Engine.defaultApp),
@@ -124,6 +124,7 @@ end
 
 function Engine:initialize()
     self.components:initialize()
+    self.frameTime:init()
 
     call('setup')
 
@@ -131,7 +132,7 @@ function Engine:initialize()
 
     self:toggleHelp()
 
-    self:loadApp(readGlobalData('appName', 'default'))
+    self:loadApp(readGlobalData('appPath', 'applications/default'))
 end
 
 function Engine:release()
@@ -143,43 +144,26 @@ function Engine:release()
     gc()
 end
 
-function Engine:run(appName)
-    self.appName = self.appName or appName
+function Engine:run(appPath)
+    self.appPath = self.appPath or appPath
 
     repeat
 
+        self:initialize()
+
         self.active = 'running'
         
-        self:initialize()        
-
-        local deltaTime = 0
-        self.fpsTarget = 60
-
-        self.frame_time:init()
-
         while self.active == 'running' do
-            self.frame_time:update()
+            self.frameTime:update()
 
-            deltaTime = deltaTime + self.frame_time.delta_time
-
-            local maxDeltaTime = 1 / self.fpsTarget
-
-            if deltaTime >= maxDeltaTime then
-                --                if self.frame_time.delta_time >= maxDeltaTime then
-                --                    self.fpsTarget = self.fpsTarget - 1
-                --                else
-                --                    self.fpsTarget = self.fpsTarget + 1
-                --                end
-
-                DeltaTime = deltaTime
-                deltaTime = 0 -- deltaTime - maxDeltaTime
-
-                ElapsedTime = self.frame_time.elapsed_time
-
+            if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax then
+                DeltaTime = self.frameTime.deltaTimeAccum
+                ElapsedTime = self.frameTime.elapsedTime
+                
                 self:update(DeltaTime)
                 self:draw()
 
-                self.frame_time:draw()
+                self.frameTime:draw()
             end
         end
 
@@ -190,6 +174,8 @@ function Engine:run(appName)
         self:release()
 
     until self.active ~= 'restart'
+
+    debugger.off()
 end
 
 function Engine:restart()
@@ -300,7 +286,7 @@ function Engine:drawInfo()
         text(info)
     end
 
-    info('fps', self.frame_time.fps)
+    info('fps', self.frameTime.fps)
     info('fps target', self.fpsTarget)
     info('opengl version', config.glMajorVersion)
     info('mouse', mouse)
@@ -350,8 +336,8 @@ function Engine:mouseWheel(touch)
     end
 end
 
-function Engine:dirApps(path)
-    local apps = dirApp('./applications'..(path and ('/'..path) or ''))
+function Engine:dir(path, method, recursivly)
+    local apps = method(path or '', recursivly)
     apps:apply(function (app)
             return app:lower():gsub('%.lua', '')
         end)
@@ -359,21 +345,24 @@ function Engine:dirApps(path)
     return apps
 end
 
-function Engine:dirFile(path)
-    local apps = dirFile('./applications'..(path and ('/'..path) or ''))
-    apps:apply(function (app)
-            return app:lower():gsub('%.lua', '')
-        end)
-    apps:sort()
-    return apps
+function Engine:dirApps(path, recursivly)
+    return self:dir(path or 'applications', dirApps, recursivly)
+end
+
+function Engine:dirFiles(path, recursivly)
+    return self:dir(path, dirFiles, recursivly)
+end
+
+function Engine:dirDirectories(path, recursivly)
+    return self:dir(path, dirDirectories, recursivly)
 end
 
 function Engine:defaultApp()
-    self:loadApp('default')
+    self:loadApp('applications/default')
 end
 
 function Engine:managerApp()
-    self:loadApp('appManager')
+    self:loadApp('applications/appManager')
 end
 
 ::exit::

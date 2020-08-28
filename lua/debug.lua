@@ -1,6 +1,6 @@
 debugger = require('mobdebug')
 
-if arg[#arg] == '-debug' then
+local function startDebug()
     debugger.start()
     debugger.on()
     debugger.coro()
@@ -8,16 +8,20 @@ if arg[#arg] == '-debug' then
     debugger.debugging = true
 end
 
+if arg[#arg] == '-debug' then
+    startDebug()
+end
+
 function debugging()
-    return debugger.debugging or (engine.action and true) or false
+    return (
+        (debugger and debugger.debugging) or
+        (engine.action and true))
 end
 
 function pause()
-    debugger.start()
+    startDebug()
     debugger.pause()
 end
-
-jit.on()
 
 function __FILE__(level) return debug.getinfo(level or 1, 'S').short_src end
 function __LINE__(level) return debug.getinfo(level or 1, 'l').currentline end
