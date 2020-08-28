@@ -1,6 +1,5 @@
 function getProjectDataPath(dataType)
-    local appName = engine.appPath:sub(engine.appPath:findLast('/')+1)
-    return getDataPath()..'/'..appName..'.'..dataType
+    return getDataPath()..'/'..engine.appName..'.'..dataType
 end
 
 function getGlobalDataPath(dataType)

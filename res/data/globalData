@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appName"] = "appManager",
+    ["appPath"] = "applications/appManager",
     ["majorVersion"] = 4,
 }

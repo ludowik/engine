@@ -28,16 +28,24 @@ function Sdl:initialize()
         window = self.SDL_CreateWindow('Engine',
             0, 0,
             w, h,
---            self.SDL_WINDOW_SHOWN +
-            self.SDL_WINDOW_OPENGL +
 --            self.SDL_WINDOW_FULLSCREEN +
+--            self.SDL_WINDOW_SHOWN +
+
+            self.SDL_WINDOW_OPENGL +
+            
+--            self.SDL_WINDOW_BORDERLESS +
+--            self.SDL_WINDOW_RESIZABLE +
+--            self.SDL_WINDOW_MAXIMIZED +
+            
             0)
         
-        self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
-        self.SDL_SetWindowSize(window, w, h)
+        self.SDL_MaximizeWindow(window)
         
-        self.SDL_ShowWindow(window)
+        self.SDL_SetWindowSize(window, w, h)
+        self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)        
 
+        self.SDL_ShowWindow(window)
+        
         if window then
             local r = ffi.new('SDL_Rect');
 

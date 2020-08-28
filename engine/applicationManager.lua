@@ -4,8 +4,8 @@ function ApplicationManager:nextApp()
     local apps = self:dirApps(nil, true)
 
     local nextAppIndex = 1
-    for i,appName in ipairs(apps) do
-        if appName == self.appName then
+    for i,appPath in ipairs(apps) do
+        if appPath == self.appPath then
             if i < #apps then
                 nextAppIndex = i + 1
                 break
@@ -13,16 +13,16 @@ function ApplicationManager:nextApp()
         end
     end    
 
-    local appName = apps[nextAppIndex]
-    self:loadApp(appName)
+    local appPath = apps[nextAppIndex]
+    self:loadApp(appPath)
 end
 
 function ApplicationManager:previousApp()
     local apps = self:dirApps(nil, true)
 
     local previousAppIndex = #apps
-    for i,appName in ipairs(apps) do
-        if appName == self.appName then
+    for i,appPath in ipairs(apps) do
+        if appPath == self.appPath then
             if i > 1 then
                 previousAppIndex = i - 1
                 break
@@ -30,8 +30,8 @@ function ApplicationManager:previousApp()
         end
     end    
 
-    local appName = apps[previousAppIndex]
-    self:loadApp(appName)
+    local appPath = apps[previousAppIndex]
+    self:loadApp(appPath)
 end
 
 function ApplicationManager:loopApp(delay)
@@ -60,21 +60,16 @@ function ApplicationManager:loopAppProc(delay)
     end
 end
 
-function ApplicationManager:loadApp(appName, reloadApp)
-    self.appName = appName or self.appName
-    self.appPath = 'applications/'..self.appName
+function ApplicationManager:loadApp(appPath, reloadApp)
+    self.appName, self.appDirectory = splitPath(appPath)
+    self.appPath = appPath
 
-    if (not exists(Path.sourcePath..'/'..self.appPath..'.lua') and
-        not exists(Path.sourcePath..'/'..self.appPath..'/#.lua') and
-        not exists(Path.sourcePath..'/'..self.appPath..'/main.lua'))
-    then
-        assert()
-        
-        self.appName = 'default'
-        self.appPath = 'applications/'..self.appName
+    if not isApp(self.appPath) then
+        print(self.appName, self.appDirectory, self.appPath)        
+        error(false)
     end
 
-    saveGlobalData('appName', self.appName)
+    saveGlobalData('appPath', self.appPath)
 
     if self.envs[self.appPath] == nil or reloadApp then
         print('load '..self.appPath)
@@ -115,7 +110,7 @@ function ApplicationManager:loadApp(appName, reloadApp)
     
     self.app = env.app
 
-    sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appName)
+    sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appPath)
     
     for i=1,2 do
         setContext(self.renderFrame)

@@ -104,6 +104,12 @@ void SDL_SetWindowTitle(SDL_Window* window, const char* title);
 const char* SDL_GetWindowTitle(SDL_Window* window);
 
 void SDL_ShowWindow(SDL_Window* window);
+void SDL_RaiseWindow(SDL_Window* window);
+void SDL_HideWindow(SDL_Window* window);
+
+void SDL_MaximizeWindow(SDL_Window* window);
+void SDL_MinimizeWindow(SDL_Window* window);
+void SDL_RestoreWindow(SDL_Window* window);
 
 int SDL_GL_LoadLibrary(const char* path);
 void* SDL_GL_GetProcAddress(const char* proc);
