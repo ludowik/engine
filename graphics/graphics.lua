@@ -308,14 +308,10 @@ function textProc(draw, str, x, y)
     end
 
     local marge = 2
-    
-<<<<<<< HEAD
-    local lines = str:split(NL, false)
-
-=======
     local ratio = osx and 2 or 1
     
->>>>>>> ad3e4cf63c12b12432c6b1eb09bf0f81c712b9da
+    local lines = str:split(NL, false)
+    
     for i,line in ipairs(lines) do
         local img = ft:getText(line).img
         
@@ -324,7 +320,7 @@ function textProc(draw, str, x, y)
         if draw then
             y = y - lh
             meshText:render(meshText.shader, gl.GL_TRIANGLES, img,
-                x, y + marge, 0,
+                x, y - marge, 0,
                 lw, lh, 1)
         end
 

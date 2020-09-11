@@ -99,7 +99,7 @@ function Sdl:scancode2key(event)
 end
 
 local event = ffi.new('SDL_Event')
-function Sdl:update(dt)
+function Sdl:event()
     while self.SDL_PollEvent(event) == 1 do
         if event.type == self.SDL_WINDOWEVENT then
             if event.window.event == self.SDL_WINDOWEVENT_CLOSE then
