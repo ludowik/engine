@@ -1,8 +1,8 @@
 /Users/Ludo/Projets/Lua/engine
-load applications/noise/map1
+load applications/default
 release 1 fonts
 memory at init    : 1.17 mo
 memory min        : 1.17 mo
-memory max        : 24.94 mo
-memory variation  : 23.77 mo
-memory at release : 19.75 mo
+memory max        : 14.47 mo
+memory variation  : 13.29 mo
+memory at release : 11.85 mo

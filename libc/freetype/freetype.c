@@ -84,7 +84,7 @@ Glyph loadText(FT_Face face, const char* text) {
     
     int x=0, w=0, h=0, top=0, bottom=0, dy=0;
     
-    int space_width = 8;
+    int space_width = 12;
 
     size_t len = strlen(text);
     for ( size_t n = 0; n < len; ++n ) {
