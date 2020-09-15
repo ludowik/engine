@@ -3,11 +3,11 @@ ffi.cdef(code)
 
 local path = Path.libraryPath..'/box2d-master'
 
-box2d = class 'box2d' : meta(Library.compileFileCPP('libc/box2d/box2d.c',
+box2d = class 'box2d' : meta(Library.compileFileCPP('libc/box2d/box2d.cpp',
     'box2d',
     '-I "'..path..'/include"',
-    '-L "'..path..'/build/src/Debug" -l box2d',
-    '-std=c++11'
+    '-L "'..path..'/build/src/release" -l box2d',
+    '-MT -std=c++17'
 ))
 
 pixelToMeterRatio = 32

@@ -38,10 +38,26 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
         options = options or ''
     }
 
-    local command = string.format('gcc -Wall {options} {headers} -o {libName} {srcName} {links}', params)
-    local res = os.execute(command)
-    assert(res == 0)
+    if windows then
+        params.compiler = [[
+            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%
+            clang.exe]]
 
+        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+        io.write('make.bat', command)
+
+        local res = os.execute('make.bat')
+        assert(res == 0)
+    else
+        params.compiler = 'gcc'
+
+        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+
+        local res = os.execute(command)
+        assert(res == 0)
+    end
+
+-- TODEL
 --    command = string.format('gcc -E -M {headers} -o {headerName} {srcName}', params)
 --    res = os.execute(command)
 --    assert(res == 0)
@@ -53,6 +69,7 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
     local libExtension = osx and 'so' or 'dll'
 
     local params = {
+        compiler = 'g++',
         srcName = srcName,
         headerName = string.format('libc/bin/{moduleName}.h', {moduleName=moduleName}),
         libName = string.format('libc/bin/{moduleName}.{libExtension}', {moduleName=moduleName, libExtension=libExtension}),
@@ -61,13 +78,28 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
         options = options or ''
     }
 
-    local command = string.format('g++ -Wall {options} {headers} -o {libName} {srcName} {links}', params)
-    local res = os.execute(command)
-    assert(res == 0, res)
+    if windows then
+        params.compiler = [[
+            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%
+            clang++.exe]]
 
---    command = string.format('g++ -E -M {options} {headers} -o {headerName} {srcName}', params)
---    res = os.execute(command)
---    assert(res == 0, res)
+        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+        io.write('make.bat', command)
+
+        local res = os.execute('make.bat')
+        assert(res == 0)
+    else
+        params.compiler = 'g++'
+
+        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+
+        local res = os.execute(command)
+        assert(res == 0)
+    end
+
+    --    command = string.format('g++ -E -M {options} {headers} -o {headerName} {srcName}', params)
+    --    res = os.execute(command)
+    --    assert(res == 0, res)
 
     return ffi.load(params.libName)
 end

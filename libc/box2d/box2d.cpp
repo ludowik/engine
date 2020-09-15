@@ -13,6 +13,7 @@
 #define CLAMP(x, l, h)  (((x) > (h)) ? (h) : (((x) < (l)) ? (l) : (x)))
 
 extern "C" {
+
     EXPORT int main(int, char**) {
             return 0;
         }
@@ -957,4 +958,5 @@ extern "C" {
 	/*EXPORT int b2World_triangulate(float* trX, float* trY, int n, b2Triangle* triangles) {
 		return TriangulatePolygon(trX, trY, n, triangles);
 	}*/
+    
 }

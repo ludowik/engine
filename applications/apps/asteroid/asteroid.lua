@@ -24,7 +24,7 @@ function Asteroid:init(asteroid, part)
     self:addToPhysics(DYNAMIC)
 
     if asteroid then
-        self.body.position = asteroid.body.position
+        self.body.position:set(asteroid.body.position)
         local dir = asteroid.body.linearVelocity:normalize() * self.radius
         if part == 1 then 
             self.body.linearVelocity = dir *2
@@ -46,6 +46,10 @@ function Asteroid:init(asteroid, part)
     self.keepInArea = true
 end
 
+function Asteroid:update()
+    self.position:set(self.body.position)
+end
+
 function Asteroid:draw()
     stroke(brown)
 
@@ -54,7 +58,7 @@ function Asteroid:draw()
     
     lineCapMode(ROUND)
     
-    rotate(self.body.angle)
+--    rotate(self.body.angle)
 
     polyline(self.vertices)
 end
