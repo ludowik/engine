@@ -12,7 +12,7 @@ if osx then
 
 else
     
-    ft = Library.compileFile('libc/freetype/freetype.c',
+    ft = Library.compileFileCPP('libc/freetype/freetype.cpp',
         'ft',
         '-I "'..path..'/include"',
         '-L "'..path..'/win32" -l FreeType',

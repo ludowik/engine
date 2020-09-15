@@ -1,5 +1,15 @@
 return {
+<<<<<<< HEAD
     ["appPath"] = "applications/default",
     ["majorVersion"] = 4,
     ["minorVersion"] = 1,
+=======
+<<<<<<< HEAD
+    ["appPath"] = "applications/default",
+=======
+    ["minorVersion"] = 1,
+    ["appPath"] = "applications/noise/map1",
+    ["majorVersion"] = 4,
+>>>>>>> 97cde975957069a60c061a85d91db6a18430b196
+>>>>>>> 794ccd6347f48ceafdd37e268c2fc57eb712d19c
 }

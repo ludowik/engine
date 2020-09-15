@@ -54,7 +54,5 @@ function vector(...)
     return v
 end
 
-newPhysics = box2d -- Fizix
-
 math.MAX_INTEGER = math.maxinteger
 math.MIN_INTEGER = math.mininteger
