@@ -55,6 +55,4 @@ end
 function FrameTime:draw()
     self.nframes = self.nframes + 1
     self.deltaFramesBySecond = self.deltaFramesBySecond + 1
-
-    self.deltaTimeAccum = 0
 end

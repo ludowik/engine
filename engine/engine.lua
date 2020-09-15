@@ -68,6 +68,22 @@ function Engine:init()
     self:initEvents()
 end
 
+function Engine:on(event, key, callback)
+    if not self.onEvents[event] then
+        self.onEvents[event] = {}
+    end
+
+    if event == 'keydown' then
+        self.onEvents[event][key] = callback
+
+    elseif event == 'keyup' then
+        self.onEvents[event][key] = callback
+
+    else
+        self.onEvents[event] = key
+    end
+end
+
 function Engine:initEvents()
     self.onEvents = {
         keydown = {
@@ -152,18 +168,29 @@ function Engine:run(appPath)
         self:initialize()
 
         self.active = 'running'
-        
+
         while self.active == 'running' do
+            sdl:event()
+
             self.frameTime:update()
 
             if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax then
                 DeltaTime = self.frameTime.deltaTimeAccum
                 ElapsedTime = self.frameTime.elapsedTime
-                
-                self:update(DeltaTime)
-                self:draw()
 
-                self.frameTime:draw()
+                self:update(DeltaTime)
+
+                if not self.frameTime.squeezeNextFrame then
+                    self:draw()
+                    self.frameTime:draw()
+                end
+                self.frameTime.squeezeNextFrame = false
+
+                self.frameTime.deltaTimeAccum = self.frameTime.deltaTimeAccum - self.frameTime.deltaTimeMax
+
+                if self.frameTime.deltaTimeAccum > self.frameTime.deltaTimeMax then
+                    self.frameTime.squeezeNextFrame = true
+                end
             end
         end
 
@@ -191,11 +218,11 @@ function quit()
 end
 
 function exit(res)
-    if res then
+    if res then 
         print(res)
     end
 
-    engine:quit()
+    quit()
 end
 
 function Engine:toggleRenderVersion()
@@ -211,6 +238,10 @@ end
 
 function Engine:update(dt)
     self.components:update(dt)
+
+    if self.onEvents['update'] then
+        self.onEvents['update'](dt)
+    end
 
     if self.action then
         self.action()
@@ -364,3 +395,5 @@ end
 function Engine:managerApp()
     self:loadApp('applications/appManager')
 end
+
+::exit::

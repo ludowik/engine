@@ -307,9 +307,10 @@ function textProc(draw, str, x, y)
         y = y + th
     end
 
-    local lines = str:split(NL, false)
-    
+    local marge = 2
     local ratio = osx and 2 or 1
+    
+    local lines = str:split(NL, false)
     
     for i,line in ipairs(lines) do
         local img = ft:getText(line).img
@@ -319,9 +320,11 @@ function textProc(draw, str, x, y)
         if draw then
             y = y - lh
             meshText:render(meshText.shader, gl.GL_TRIANGLES, img,
-                x, y, 0,
+                x, y - marge, 0,
                 lw, lh, 1)
         end
+
+        lh = lh + marge * 2
 
         w = max(w, lw)
         h = h + lh

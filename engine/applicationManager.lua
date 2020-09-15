@@ -38,6 +38,8 @@ function ApplicationManager:loopApp(delay)
     if self.action then
         self.action = nil
     else
+        self:managerApp()
+        
         self.loopAppRef = #self:dirApps(nil, true)
         self.loopAppDelay = delay or 0
 
@@ -54,6 +56,7 @@ function ApplicationManager:loopAppProc(delay)
 
         if self.loopAppRef == 0 then
             self.action = nil
+            self:managerApp()
         end
     else
         self.loopAppDelay = self.loopAppDelay - DeltaTime
