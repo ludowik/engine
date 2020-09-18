@@ -174,23 +174,21 @@ function Engine:run(appPath)
 
             self.frameTime:update()
 
+            print(self.frameTime.deltaTimeAccum)
             if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax then
+
                 DeltaTime = self.frameTime.deltaTimeAccum
                 ElapsedTime = self.frameTime.elapsedTime
 
                 self:update(DeltaTime)
 
-                if not self.frameTime.squeezeNextFrame then
-                    self:draw()
-                    self.frameTime:draw()
-                end
-                self.frameTime.squeezeNextFrame = false
+                self:draw()
+                self.frameTime:draw()
 
-                self.frameTime.deltaTimeAccum = self.frameTime.deltaTimeAccum - self.frameTime.deltaTimeMax
+                self.frameTime.deltaTimeAccum = (
+                    self.frameTime.deltaTimeAccum - 
+                    math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
 
-                if self.frameTime.deltaTimeAccum > self.frameTime.deltaTimeMax then
-                    self.frameTime.squeezeNextFrame = true
-                end
             end
         end
 
