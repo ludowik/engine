@@ -1,4 +1,5 @@
-package.path = package.path..';'..'?/#.lua;?/main.lua;'
+package.path = package.path..';./luajit/lualibs/?.lua;;./luajit/lualibs/?/?.lua'..';?/#.lua;?/main.lua'
+package.cpath = package.cpath..';./luajit/clibs/?.dll'
 
 require 'lua'
 require 'maths'
