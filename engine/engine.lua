@@ -174,7 +174,6 @@ function Engine:run(appPath)
 
             self.frameTime:update()
 
-            print(self.frameTime.deltaTimeAccum)
             if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax then
 
                 DeltaTime = self.frameTime.deltaTimeAccum

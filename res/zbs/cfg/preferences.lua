@@ -1,6 +1,6 @@
 --[[--
   Use this file to specify **User** preferences.
-  Review [examples](+C:\Program Files (x86)\ZeroBraneStudio\cfg\user-sample.lua) or check [online documentation](http://studio.zerobrane.com/documentation.html) for details.
+  Review [examples](+C:/Program Files (x86)/ZeroBraneStudio/cfg/user-sample.lua) or check [online documentation](http://studio.zerobrane.com/documentation.html) for details.
 --]]--
 
 -- no TABs stored in the file
@@ -56,7 +56,8 @@ excludelist['*.obj'] = false
 -- interpreter
 if jit.os == 'Windows' then
     path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/LuaJIT-2.0.5/src/luajit.exe'
+    path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/luajit-2.1/src/luajit.exe'
     path.love = 'C:/Programes Files (x86)/LOVE/love.exe'
 else
-    path.lua = '/Users/ludo/Projets/Libraries2/luaJIT-2.0.5/src/luajit'
+    path.lua = '/Users/ludo/Projets/Libraries/luajit-2.1/src/luajit'
 end
