@@ -1,5 +1,10 @@
 return {
     ["majorVersion"] = 4,
+<<<<<<< HEAD
     ["appPath"] = "applications/default",
     ["minorVersion"] = 1,
+=======
+    ["minorVersion"] = 1,
+    ["appPath"] = "applications/apps/freecell",
+>>>>>>> 2bc3736721b58ff7799edc037051ce218443c24c
 }

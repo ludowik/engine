@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /Users/Ludo/Projets/Lua/engine
 load applications/default
 release 1 fonts
@@ -6,3 +7,20 @@ memory min        : 1.17 mo
 memory max        : 14.27 mo
 memory variation  : 13.09 mo
 memory at release : 7.59 mo
+=======
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+load applications/appManager
+load applications/default
+load applications/appmanager
+load applications/apps/2048
+load applications/apps/asteroid
+load applications/apps/bbtan
+load applications/apps/calc
+load applications/apps/freecell
+release 3 fonts
+memory at init    : 0.98 mo
+memory min        : 0.98 mo
+memory max        : 9.41 mo
+memory variation  : 8.44 mo
+memory at release : 9.58 mo
+>>>>>>> 2bc3736721b58ff7799edc037051ce218443c24c
