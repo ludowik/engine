@@ -1,7 +1,7 @@
 local code, defs = Library.precompile(io.read('./libc/sdl/sdl.c'))
 ffi.cdef(code)
 
-class 'Sdl' : extends(Component) : meta(Library.load('SDL2'))
+class 'Sdl' : extends(Component) : meta(ffi.C) -- Library.load('SDL2'))
 
 function Sdl:initialize()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then

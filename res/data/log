@@ -1,8 +1,25 @@
+<<<<<<< HEAD
+/Users/Ludo/Projets/Lua/engine
+load applications/default
+release 1 fonts
+memory at init    : 1.17 mo
+memory min        : 1.17 mo
+memory max        : 14.27 mo
+memory variation  : 13.09 mo
+memory at release : 7.59 mo
+=======
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 load applications/apps/sudoku
 release 2 fonts
 memory at init    : 0.98 mo
 memory min        : 0.98 mo
+<<<<<<< HEAD
 memory max        : 7.44 mo
 memory variation  : 6.46 mo
 memory at release : 5.96 mo
+=======
+memory max        : 9.41 mo
+memory variation  : 8.44 mo
+memory at release : 9.58 mo
+>>>>>>> 2bc3736721b58ff7799edc037051ce218443c24c
+>>>>>>> 4d24ccacafcc77367159eeebfb7568092053a994
