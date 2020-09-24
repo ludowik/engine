@@ -46,7 +46,7 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
         local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
         io.write('make.bat', command)
 
-        local res = os.execute('make.bat')
+        local res = os.execute('make.bat > 0')
         assert(res == 0)
     else
         params.compiler = 'gcc'
@@ -86,7 +86,7 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
         local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
         io.write('make.bat', command)
 
-        local res = os.execute('make.bat')
+        local res = os.execute('make.bat > 0')
         assert(res == 0)
     else
         params.compiler = 'g++'

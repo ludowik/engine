@@ -1,15 +1,8 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/appManager
-load applications/default
-load applications/appmanager
-load applications/apps/2048
-load applications/apps/asteroid
-load applications/apps/bbtan
-load applications/apps/calc
-load applications/apps/freecell
-release 3 fonts
+load applications/apps/sudoku
+release 2 fonts
 memory at init    : 0.98 mo
 memory min        : 0.98 mo
-memory max        : 9.41 mo
-memory variation  : 8.44 mo
-memory at release : 9.58 mo
+memory max        : 7.44 mo
+memory variation  : 6.46 mo
+memory at release : 5.96 mo

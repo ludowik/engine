@@ -24,7 +24,7 @@ function Sdl:initialize()
         self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
 
         local w, h = W_INFO + W, H
-        
+
         window = self.SDL_CreateWindow('Engine',
             0, 0,
             w, h,
@@ -32,20 +32,20 @@ function Sdl:initialize()
 --            self.SDL_WINDOW_SHOWN +
 
             self.SDL_WINDOW_OPENGL +
-            
+
 --            self.SDL_WINDOW_BORDERLESS +
 --            self.SDL_WINDOW_RESIZABLE +
 --            self.SDL_WINDOW_MAXIMIZED +
-            
+
             0)
-        
+
         self.SDL_MaximizeWindow(window)
-        
+
         self.SDL_SetWindowSize(window, w, h)
         self.SDL_SetWindowPosition(window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)        
 
         self.SDL_ShowWindow(window)
-        
+
         if window then
             local r = ffi.new('SDL_Rect');
 
@@ -62,13 +62,13 @@ function Sdl:initialize()
 
                 self.SDL_GL_MakeCurrent(window, context)
                 self.SDL_GL_SetSwapInterval(0)
-                
+
                 local ddpi, hdpi, vdpi = ffi.new('float[1]'), ffi.new('float[1]'), ffi.new('float[1]')
                 self.SDL_GetDisplayDPI(0,
-                      ddpi,
-                      hdpi,
-                      vdpi)
-                  
+                    ddpi,
+                    hdpi,
+                    vdpi)
+
                 self.ddpi, self.hdpi, self.vdpi = ddpi[0], hdpi[0], vdpi[0]
             end
         end
@@ -115,14 +115,14 @@ function Sdl:event()
         elseif event.type == sdl.SDL_KEYUP then
             engine:keyup(self:scancode2key(event), event.key.isrepeat)
 
-    elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
+        elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
             if event.button.button == self.SDL_BUTTON_LEFT then
                 mouse:mouseEvent(
                     0,
                     BEGAN,
                     event.button.x, event.button.y,
                     0, 0,
-                    1,
+                    true,
                     event.button.clicks)
             end
 
@@ -134,7 +134,14 @@ function Sdl:event()
                     MOVING,
                     event.motion.x, event.motion.y,
                     event.motion.xrel, event.motion.yrel,
-                    1)
+                    isTouch)
+            else
+                mouse:mouseMove(
+                    0,
+                    MOVING,
+                    event.motion.x, event.motion.y,
+                    event.motion.xrel, event.motion.yrel,
+                    isTouch)
             end
 
         elseif event.type == sdl.SDL_MOUSEBUTTONUP then
@@ -144,7 +151,7 @@ function Sdl:event()
                     ENDED,
                     event.button.x, event.button.y,
                     0, 0,
-                    0)
+                    false)
             end
 
         elseif event.type == sdl.SDL_MOUSEWHEEL  then

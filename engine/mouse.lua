@@ -30,7 +30,7 @@ function Mouse:__tostring()
     return self.x..', '..self.y..' ('..(self.isTouch and 'true' or 'false')..')'
 end
 
-function Mouse:mouseEvent(id, state, x, y, dx, dy, isTouch, tapCount)
+function Mouse:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
     mouse.id = id
 
     mouse.state = state
@@ -59,7 +59,10 @@ function Mouse:mouseEvent(id, state, x, y, dx, dy, isTouch, tapCount)
         Gravity.x = Gravity.x + dx * 0.1
         Gravity.y = Gravity.y - dy * 0.1
     end
+end
 
+function Mouse:mouseEvent(id, state, x, y, dx, dy, isTouch, tapCount)
+    self:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
     engine:touched(mouse)
 end
 
