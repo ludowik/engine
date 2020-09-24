@@ -40,13 +40,13 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
 
     if windows then
         params.compiler = [[
-            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%
+            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
             clang.exe]]
 
         local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
-        io.write('make.bat', command)
+        io.write('libc/bin/make.bat', command)
 
-        local res = os.execute('make.bat > 0')
+        local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
         assert(res == 0)
     else
         params.compiler = 'gcc'
@@ -80,13 +80,13 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
 
     if windows then
         params.compiler = [[
-            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%
+            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
             clang++.exe]]
 
         local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
-        io.write('make.bat', command)
+        io.write('libc/bin/make.bat', command)
 
-        local res = os.execute('make.bat > 0')
+        local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
         assert(res == 0)
     else
         params.compiler = 'g++'
