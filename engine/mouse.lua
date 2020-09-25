@@ -30,7 +30,7 @@ function Mouse:__tostring()
     return self.x..', '..self.y..' ('..(self.isTouch and 'true' or 'false')..')'
 end
 
-function Mouse:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
+function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
     mouse.id = id
 
     mouse.state = state
@@ -61,8 +61,16 @@ function Mouse:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
     end
 end
 
+function Mouse:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
+    self:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
+    
+    engine:mouseMove(mouse)
+end
+
 function Mouse:mouseEvent(id, state, x, y, dx, dy, isTouch, tapCount)
-    self:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
+    self:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
+    
+    engine:mouseMove(mouse)
     engine:touched(mouse)
 end
 

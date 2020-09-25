@@ -5,6 +5,8 @@ class 'Sdl' : extends(Component) : meta(windows and Library.load('SDL2') or ffi.
 
 function Sdl:initialize()
     if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
+        self:setCursor(sdl.SDL_SYSTEM_CURSOR_WAIT)
+        
         self.SDL_SetThreadPriority(self.SDL_THREAD_PRIORITY_HIGH)
 
         if self.SDL_GL_LoadLibrary(ffi.NULL) == 1 then
@@ -73,8 +75,17 @@ function Sdl:initialize()
             end
         end
     end
-
+    
     sdl.image = class 'SdlImage' : meta(Library.load('SDL2_image'))
+end
+
+function Sdl:setCursor(cursorId)
+    local cursor = sdl.SDL_CreateSystemCursor(cursorId)
+    sdl.SDL_SetCursor(cursor)
+end
+
+function Sdl:toggleWindowDisplayMode()
+    sdl.SDL_SetWindowFullscreen(sdl.window, sdl.SDL_WINDOW_FULLSCREEN)
 end
 
 function Sdl:release()

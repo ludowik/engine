@@ -2,6 +2,8 @@ lfs = require 'lfs'
 
 fs = {}
 
+-- TODO : fs.
+
 function splitPath(path)
     local j = path:findLast('/')
 
@@ -12,7 +14,8 @@ function splitPath(path)
 end
 
 function isApp(path)
-    if (isFile(path..'.lua') or
+    if (isFile(path) or
+        isFile(path..'.lua') or
         isFile(path..'/#.lua') or
         isFile(path..'/main.lua'))
     then

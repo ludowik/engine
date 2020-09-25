@@ -78,6 +78,7 @@ function OpenGL:loadProcAdresses()
         -- draw
         'glPolygonMode',
         'glDrawArrays',
+        'glScissor',
 
         -- uniform
         'glUniform1f',

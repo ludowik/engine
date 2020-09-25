@@ -196,6 +196,8 @@ typedef intptr_t GLsizeiptr;
 
 #define GL_FRAMEBUFFER_COMPLETE 0x8CD5
 
+#define GL_SCISSOR_TEST 0x0C11
+
 GLenum glGetError(void);
 
 void glEnable(GLenum cap);
@@ -311,6 +313,8 @@ void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indic
 void glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
 void glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices, GLsizei instancecount);
 
+void glScissor(GLint x, GLint y, GLsizei width, GLsizei height);
+
 typedef GLenum (*PFN_glGetError)(void);
 
 typedef void (*PFN_glEnable)(GLenum cap);
@@ -425,3 +429,5 @@ typedef void (*PFN_glDrawElements)(GLenum mode, GLsizei count, GLenum type, cons
 
 typedef void (*PFN_glDrawArraysInstanced)(GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
 typedef void (*PFN_glDrawElementsInstanced)(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices, GLsizei instancecount);
+
+typedef void (*PFN_glScissor)(GLint x, GLint y, GLsizei width, GLsizei height);

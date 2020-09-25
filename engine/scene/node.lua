@@ -180,6 +180,11 @@ function Node:setLayoutFlow(layoutFlow, layoutParam)
     return self
 end
 
+function Node:setAlignment(alignment)
+    self.alignment = alignment
+    return self
+end
+
 function Node:layout()
     if self.layoutFlow then
         self.layoutFlow(self, self.layoutParam)

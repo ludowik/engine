@@ -55,11 +55,11 @@ function Engine:init()
     W_INFO = 200
 
     if osx then
-        W = 1480
-        H = 1000
+        W = W or 1480
+        H = H or 1000
     else
-        W = 1024
-        H = math.floor(W*9/16)
+        W = W or 1024
+        H = H or math.floor(W*9/16)
     end
 
     WIDTH = W
@@ -103,6 +103,8 @@ function Engine:initEvents()
 
             ['f1'] = callback(engine, Engine.toggleHelp),
             ['f2'] = callback(engine, Engine.toggleRenderVersion),
+            
+            ['f11'] = Sdl.toggleWindowDisplayMode,
 
             ['tab'] = function ()
                 if self.app then
@@ -136,6 +138,14 @@ function Engine:initEvents()
             end,
         }
     }
+
+    engine:on('keydown', 't',
+        function() 
+            engine:on('update', function() 
+                    mouse:mouseEvent(0, BEGAN, math.random(W), math.random(H), 0, 0, true, false)
+                    mouse:mouseEvent(0, ENDED, math.random(W), math.random(H), 0, 0, false, false)
+                end)
+        end)
 end
 
 function Engine:initialize()
@@ -148,7 +158,9 @@ function Engine:initialize()
 
     self:toggleHelp()
 
-    self:loadApp(readGlobalData('appPath', 'applications/default'))
+    self:loadApp(readGlobalData('appPath', 'applications/main'))
+
+    sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)        
 end
 
 function Engine:release()
@@ -200,6 +212,15 @@ function Engine:run(appPath)
     until self.active ~= 'restart'
 
     debugger.off()
+end
+
+function Engine:resize(w, h, w_info)
+    W = w
+    H = h
+
+    W_INFO = max(0, w_info)
+
+    sdl.SDL_SetWindowSize(sdl.window, W_INFO + W, H)
 end
 
 function Engine:restart()
@@ -265,7 +286,7 @@ function Engine:draw()
             end
 
             strokeWidth(1)
-            stroke(gray)
+            stroke(1, 0.25)
 
             line(0, H/2, W, H/2)
             line(W/2, 0, W/2, H)
@@ -274,11 +295,15 @@ function Engine:draw()
     self:postRender()
 
     render(nil, function ()
-            ortho(0, W, 0, H)
+            ortho(0, W_INFO + W, 0, H)
+
+            clip(0, 0, W_INFO, H)
 
             self:drawInfo()
             self:drawHelp()
         end)
+
+    noClip()
 
     sdl:swap()
 end
@@ -293,7 +318,7 @@ function Engine:postRender()
 
     resetStyle()
 
-    ortho(0, W + W_INFO, 0, H)
+    ortho(0, W_INFO + W, 0, H)
 
     blendMode(NORMAL)
     depthMode(false)
@@ -305,6 +330,8 @@ function Engine:postRender()
 end
 
 function Engine:drawInfo()
+    background(51)
+
     fontSize(DEFAULT_FONT_SIZE)
 
     textMode(CORNER)
@@ -349,10 +376,22 @@ function Engine:keyup(key)
 end
 
 function Engine:touched(touch)
-    if not env.parameter:touched(mouse) then
+    if not env.parameter:touched(touch) then
         if not self.app:__touched(touch) then
             processMovementOnCamera(touch)
         end
+    end
+end
+
+function Engine:mouseMove(touch)
+    if abs(touch.x) <= 5 then
+        sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_SIZEWE)
+    else
+        sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
+    end
+    
+    if touch.isTouch then
+        self:resize(W, H, W_INFO + touch.dx)
     end
 end
 
@@ -386,11 +425,9 @@ function Engine:dirDirectories(path, recursivly)
 end
 
 function Engine:defaultApp()
-    self:loadApp('applications/default')
+    self:loadApp('applications/main')
 end
 
 function Engine:managerApp()
     self:loadApp('applications/appManager')
 end
-
-::exit::

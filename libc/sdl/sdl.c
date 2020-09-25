@@ -92,6 +92,8 @@ SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int w, int h, Uint
 SDL_Window* SDL_GL_GetCurrentWindow(void);
 void SDL_DestroyWindow(SDL_Window* window);
 
+int SDL_SetWindowFullscreen(SDL_Window* window, Uint32 flags);
+
 int SDL_GetDisplayDPI(int displayIndex,
     float* ddpi,
     float* hdpi,
@@ -428,3 +430,24 @@ void SDL_FreeSurface(SDL_Surface *surface);
 
 int IMG_SavePNG(SDL_Surface *surface, const char *file);
 int IMG_SaveJPG(SDL_Surface *surface, const char *file, int quality);
+
+typedef struct SDL_Cursor SDL_Cursor;   /**< Implementation dependent */
+
+typedef enum {
+    SDL_SYSTEM_CURSOR_ARROW,     /**< Arrow */
+    SDL_SYSTEM_CURSOR_IBEAM,     /**< I-beam */
+    SDL_SYSTEM_CURSOR_WAIT,      /**< Wait */
+    SDL_SYSTEM_CURSOR_CROSSHAIR, /**< Crosshair */
+    SDL_SYSTEM_CURSOR_WAITARROW, /**< Small wait cursor (or Wait if not available) */
+    SDL_SYSTEM_CURSOR_SIZENWSE,  /**< Double arrow pointing northwest and southeast */
+    SDL_SYSTEM_CURSOR_SIZENESW,  /**< Double arrow pointing northeast and southwest */
+    SDL_SYSTEM_CURSOR_SIZEWE,    /**< Double arrow pointing west and east */
+    SDL_SYSTEM_CURSOR_SIZENS,    /**< Double arrow pointing north and south */
+    SDL_SYSTEM_CURSOR_SIZEALL,   /**< Four pointed arrow pointing north, south, east, and west */
+    SDL_SYSTEM_CURSOR_NO,        /**< Slashed circle or crossbones */
+    SDL_SYSTEM_CURSOR_HAND,      /**< Hand */
+    SDL_NUM_SYSTEM_CURSORS
+} SDL_SystemCursor;
+
+SDL_Cursor* SDL_CreateSystemCursor(SDL_SystemCursor id);
+void SDL_SetCursor(SDL_Cursor* cursor);

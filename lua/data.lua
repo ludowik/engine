@@ -3,7 +3,7 @@ function getProjectDataPath(dataType)
 end
 
 function getGlobalDataPath(dataType)
-    return getDataPath()..'/'..dataType
+    return getDataPath()..'/_.'..dataType
 end
 
 -- data
@@ -28,41 +28,46 @@ local function clearData(dataPath)
     os.remove(dataPath)
 end
 
+-- paths
+local localDataPath = 'localData'
+local projectDataPath = 'projectData'
+local globalDataPath = 'globalData'
+
 -- local data
 function readLocalData(key, default)
-    return readData(getProjectDataPath('localData'), key, default)
+    return readData(getProjectDataPath(localDataPath), key, default)
 end
 
 function saveLocalData(key, value)
-    return saveData(getProjectDataPath('localData'), key, value)
+    return saveData(getProjectDataPath(localDataPath), key, value)
 end
 
 function clearLocalData()
-    clearData(getProjectDataPath('localData'))
+    clearData(getProjectDataPath(localDataPath))
 end
 
 -- project data
 function readProjectData(key, default)
-    return readData(getProjectDataPath('projectData'), key, default)
+    return readData(getProjectDataPath(projectDataPath), key, default)
 end
 
 function saveProjectData(key, value)
-    return saveData(getProjectDataPath('projectData'), key, value)
+    return saveData(getProjectDataPath(projectDataPath), key, value)
 end
 
 function clearProjectData()
-    clearData(getProjectDataPath('projectData'))
+    clearData(getProjectDataPath(projectDataPath))
 end
 
 -- global data
 function readGlobalData(key, default)
-    return readData(getGlobalDataPath('globalData'), key, default)
+    return readData(getGlobalDataPath(globalDataPath), key, default)
 end
 
 function saveGlobalData(key, value)
-    return saveData(getGlobalDataPath('globalData'), key, value)
+    return saveData(getGlobalDataPath(globalDataPath), key, value)
 end
 
 function clearGlobalData()
-    clearData(getProjectDataPath('globalData'))
+    clearData(getProjectDataPath(globalDataPath))
 end

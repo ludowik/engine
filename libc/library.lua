@@ -26,6 +26,17 @@ function Library.compileCode(code, moduleName, headers, links, options)
     return Library.compileFile(params.srcName, moduleName, headers, links, options)
 end
 
+function Library:checkState(file, lib)
+    local infoFile = fs.getInfo(file)
+    local infoLib = fs.getInfo(lib)
+    
+    if infoLib == nil or infoLib.modification < infoFile.modification then
+        return false
+    end
+
+    return true
+end
+
 function Library.compileFile(srcName, moduleName, headers, links, options)
     local libExtension = osx and 'so' or 'dll'
 
@@ -38,29 +49,30 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
         options = options or ''
     }
 
-    if windows then
-        params.compiler = [[
+    if not Library:checkState(params.srcName, params.libName) then
+        
+        print('compile '..moduleName)
+        
+        if windows then
+            params.compiler = [[
             set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
             clang.exe]]
 
-        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
-        io.write('libc/bin/make.bat', command)
+            local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+            io.write('libc/bin/make.bat', command)
 
-        local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
-        assert(res == 0)
-    else
-        params.compiler = 'gcc'
+            local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
+            assert(res == 0)
+        else
+            params.compiler = 'gcc'
 
-        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+            local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
 
-        local res = os.execute(command)
-        assert(res == 0)
+            local res = os.execute(command)
+            assert(res == 0)
+        end
+        
     end
-
--- TODEL
---    command = string.format('gcc -E -M {headers} -o {headerName} {srcName}', params)
---    res = os.execute(command)
---    assert(res == 0)
 
     return ffi.load(params.libName)
 end
@@ -78,28 +90,30 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
         options = options or ''
     }
 
-    if windows then
-        params.compiler = [[
+    if not Library:checkState(params.srcName, params.libName) then
+        
+        print('compile '..moduleName)
+
+        if windows then
+            params.compiler = [[
             set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
             clang++.exe]]
 
-        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
-        io.write('libc/bin/make.bat', command)
+            local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+            io.write('libc/bin/make.bat', command)
 
-        local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
-        assert(res == 0)
-    else
-        params.compiler = 'g++'
+            local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
+            assert(res == 0)
+        else
+            params.compiler = 'g++'
 
-        local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
+            local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
 
-        local res = os.execute(command)
-        assert(res == 0)
+            local res = os.execute(command)
+            assert(res == 0)
+        end
+
     end
-
-    --    command = string.format('g++ -E -M {options} {headers} -o {headerName} {srcName}', params)
-    --    res = os.execute(command)
-    --    assert(res == 0, res)
 
     return ffi.load(params.libName)
 end

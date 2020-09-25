@@ -134,7 +134,7 @@ function Layout:align()
         self.position.x = self.position.x + (w - self.size.x) / 2
     end
 
-    if alignments:findItem('v-center') then
+    if alignments:findItem('center') or alignments:findItem('v-center') then
         self.position.y = self.position.y + (h - self.size.y) / 2
     end
 end

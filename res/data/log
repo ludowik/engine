@@ -1,2 +1,8 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-default
+load applications/main
+release 1 fonts
+memory at init    : 0.98 mo
+memory min        : 0.98 mo
+memory max        : 7.13 mo
+memory variation  : 6.15 mo
+memory at release : 4.24 mo

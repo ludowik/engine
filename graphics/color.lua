@@ -24,10 +24,37 @@ end
 
 function mt:set(r, g, b, a)
     if r == nil or type(r) == 'number' then
-        self.r = r or 0
-        self.g = g or self.r
-        self.b = b or self.r
-        self.a = a or (self.r > 1 and 255 or 1)
+        if a then
+            self.r = r
+            self.g = g
+            self.b = b
+            self.a = a
+
+        elseif b then
+            self.r = r
+            self.g = g
+            self.b = b
+            self.a = self.r > 1 and 255 or 1
+
+        elseif g then
+            self.r = r
+            self.g = r
+            self.b = r
+            self.a = g
+
+        elseif r then
+            self.r = r
+            self.g = r
+            self.b = r
+            self.a = self.r > 1 and 255 or 1
+
+        else
+            self.r = 0
+            self.g = 0
+            self.b = 0
+            self.a = 1
+        end
+
     else
         self.r = r.r
         self.g = r.g
