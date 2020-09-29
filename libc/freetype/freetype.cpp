@@ -88,7 +88,7 @@ extern "C" {
 
         FT_GlyphSlot slot = face->glyph;
         
-        int H = (face->ascender + face->descender) / 26;
+        int H = (face->size->metrics.ascender - face->size->metrics.descender) >> 6;
         
         int x=0, w=0, h=0, top=0, bottom=0, dy=0;
         
@@ -109,6 +109,9 @@ extern "C" {
             top = max(top, bitmap_top);
             bottom = max(bottom, bitmap_rows - bitmap_top);
         }
+        
+        top = max(top, abs(face->ascender) >> 6);
+        bottom = max(bottom, abs(face->descender) >> 6);
         
         h = max(top + bottom, H);
         

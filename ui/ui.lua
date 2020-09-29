@@ -45,8 +45,8 @@ function UI:contains(v)
 end
 
 function UI:computeSize()
-    font(UI.fontName)
-    fontSize(UI.fontSize)
+    font(self:getFontName())
+    fontSize(self:getFontSize())
 
     self.size.x, self.size.y = textSize(self:getLabel())
     
@@ -83,6 +83,10 @@ end
 
 function UI:touched(touch)
     if touch.state == BEGAN then
+        self.bgColor = red
+        
+    elseif touch.state == ENDED then
+        self.bgColor = nil
         if self.action then
             self.action(self)
         end

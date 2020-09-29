@@ -93,6 +93,7 @@ SDL_Window* SDL_GL_GetCurrentWindow(void);
 void SDL_DestroyWindow(SDL_Window* window);
 
 int SDL_SetWindowFullscreen(SDL_Window* window, Uint32 flags);
+int SDL_SetWindowOpacity(SDL_Window* window, float opacity);
 
 int SDL_GetDisplayDPI(int displayIndex,
     float* ddpi,

@@ -103,7 +103,7 @@ function Engine:initEvents()
 
             ['f1'] = callback(engine, Engine.toggleHelp),
             ['f2'] = callback(engine, Engine.toggleRenderVersion),
-            
+
             ['f11'] = Sdl.toggleWindowDisplayMode,
 
             ['tab'] = function ()
@@ -386,12 +386,12 @@ end
 function Engine:mouseMove(touch)
     if abs(touch.x) <= 5 then
         sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_SIZEWE)
+
+        if touch.isTouch then
+            self:resize(W, H, W_INFO + touch.dx)
+        end
     else
         sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
-    end
-    
-    if touch.isTouch then
-        self:resize(W, H, W_INFO + touch.dx)
     end
 end
 
