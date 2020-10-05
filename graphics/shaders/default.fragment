@@ -30,7 +30,7 @@ light pointLight(vec3 surfacePos, vec3 position, float attenuation) {
     l.surfaceToLight = normalize(position.xyz - surfacePos);
     
     float distanceToLight = length(position.xyz - surfacePos);
-    l.attenuation = 1.0 / (1.0 + attenuation * pow(distanceToLight, 2));
+    l.attenuation = 1.0 / (1.0 + attenuation * pow(distanceToLight, 2.));
     
     return l;
 }

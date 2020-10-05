@@ -29,7 +29,7 @@ void main() {
     mat4 mm = matrixModel;
 
     float d = 0.5; // distance(vertex.xyz, vec3(0.0, 0.0, 0.0));
-    elevation = d * 4
+    elevation = d * 4.0
         + snoise(vertex.xyz*10.) * 0.5
         + snoise(vertex.xyz/2.0) * 0.25
         + snoise(vertex.xyz/4.0) * 0.125;

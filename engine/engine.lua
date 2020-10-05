@@ -57,9 +57,13 @@ function Engine:init()
     if osx then
         W = W or 1480
         H = H or 1000
-    else
+
+    elseif windows then
         W = W or 1024
         H = H or math.floor(W*9/16)
+
+    elseif ios then
+        W, H = love.window.getMode()
     end
 
     WIDTH = W
@@ -154,11 +158,14 @@ function Engine:initialize()
 
     call('setup')
 
-    self.renderFrame = Image(W, H)
+    if not ios then
+        self.renderFrame = Image(W, H)
+    end
 
     self:toggleHelp()
 
-    self:loadApp(readGlobalData('appPath', 'applications/main'))
+    self:loadApp('applications/codea/Bezier')
+--    readGlobalData('appPath', 'applications/main'))
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)        
 end
@@ -182,25 +189,7 @@ function Engine:run(appPath)
         self.active = 'running'
 
         while self.active == 'running' do
-            sdl:event()
-
-            self.frameTime:update()
-
-            if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax then
-
-                DeltaTime = self.frameTime.deltaTimeAccum
-                ElapsedTime = self.frameTime.elapsedTime
-
-                self:update(DeltaTime)
-
-                self:draw()
-                self.frameTime:draw()
-
-                self.frameTime.deltaTimeAccum = (
-                    self.frameTime.deltaTimeAccum - 
-                    math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
-
-            end
+            self:frame()
         end
 
         if type(self.active) == 'function' then
@@ -212,6 +201,28 @@ function Engine:run(appPath)
     until self.active ~= 'restart'
 
     debugger.off()
+end
+
+function Engine:frame(forceDraw)
+    sdl:event()
+
+    self.frameTime:update()
+
+    if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw then
+
+        DeltaTime = self.frameTime.deltaTimeAccum
+        ElapsedTime = self.frameTime.elapsedTime
+
+        self:update(DeltaTime)
+
+        self:draw()
+        self.frameTime:draw()
+
+        self.frameTime.deltaTimeAccum = (
+            self.frameTime.deltaTimeAccum - 
+            math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
+
+    end
 end
 
 function Engine:resize(w, h, w_info)
@@ -275,37 +286,51 @@ function Engine:update(dt)
     env.parameter:update(dt)
 end
 
-function Engine:draw()
-    render(self.renderFrame, function ()
-            self.app:__draw()
-        end)
+if not ios then
+    function Engine:draw()
+        render(self.renderFrame, function ()
+                self.app:__draw()
+            end)
 
-    render(self.renderFrame, function ()
-            if reporting then
-                reporting:draw()
-            end
+        render(self.renderFrame, function ()
+                if reporting then
+                    reporting:draw()
+                end
 
-            strokeWidth(1)
-            stroke(1, 0.25)
+                strokeWidth(1)
+                stroke(1, 0.25)
 
-            line(0, H/2, W, H/2)
-            line(W/2, 0, W/2, H)
-        end)
+                line(0, H/2, W, H/2)
+                line(W/2, 0, W/2, H)
+            end)
 
-    self:postRender()
+        self:postRender()
 
-    render(nil, function ()
-            ortho(0, W_INFO + W, 0, H)
+        render(nil, function ()
+                ortho(0, W_INFO + W, 0, H)
 
-            clip(0, 0, W_INFO, H)
+                clip(0, 0, W_INFO, H)
 
-            self:drawInfo()
-            self:drawHelp()
-        end)
+                self:drawInfo()
+                self:drawHelp()
+            end)
 
-    noClip()
+        noClip()
 
-    sdl:swap()
+        sdl:swap()
+    end
+else
+    function Engine:draw()
+        self.app:__draw()
+
+        strokeWidth(1)
+        stroke(1, 0.25)
+
+        line(0, H/2, W, H/2)
+        line(W/2, 0, W/2, H)
+
+        sdl:swap()
+    end
 end
 
 function Engine:postRender()

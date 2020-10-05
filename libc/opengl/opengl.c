@@ -69,6 +69,12 @@ typedef intptr_t GLsizeiptr;
 #define GL_GEOMETRY_SHADER 0x8DD9
 #define GL_FRAGMENT_SHADER 0x8B30
 
+#define GL_SHADER_BINARY_FORMATS 0x8DF8
+#define GL_SHADER_COMPILER 0x8DFA
+#define GL_SHADER_SOURCE_LENGTH 0x8B88
+#define GL_SHADER_TYPE 0x8B4F
+#define GL_SHADING_LANGUAGE_VERSION 0x8B8C
+
 #define GL_COMPILE_STATUS 0x8B81
 #define GL_INFO_LOG_LENGTH 0x8B84
 
@@ -132,6 +138,8 @@ typedef intptr_t GLsizeiptr;
 
 #define GL_RGBA 0x1908
 #define GL_BGRA 0x80E1
+
+#define GL_RGBA8 0x8058
 
 #define GL_UNPACK_ALIGNMENT 0x0CF5
 
@@ -200,6 +208,8 @@ typedef intptr_t GLsizeiptr;
 
 GLenum glGetError(void);
 
+const GLubyte* glGetString(GLenum name);
+
 void glEnable(GLenum cap);
 void glDisable(GLenum cap);
 
@@ -252,8 +262,12 @@ void glDeleteRenderbuffers(GLsizei n, const GLuint *renderbuffers);
 void glBindRenderbuffer(GLenum target, GLuint renderbuffer);
 void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
 void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+void glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+void glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
 void glFramebufferTexture(GLenum target, GLenum attachment, GLuint texture, GLint level);
 void glDrawBuffer(GLenum buf);
+void glDrawBuffers(GLsizei n, const GLenum *bufs);
 GLenum glCheckFramebufferStatus(GLenum target);
 
 GLint glGetAttribLocation(GLuint program, const GLchar *name);
@@ -294,7 +308,8 @@ void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 void glClear(GLbitfield mask);
 void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void glClearStencil(GLint s);
-void glClearDepth(GLclampd depth);
+void glClearDepth(GLdouble depth);
+void glClearDepthf(GLfloat depth);
 
 void glBlendEquation(GLenum mode);
 void glBlendFunc(GLenum sfactor, GLenum dfactor);
@@ -316,6 +331,7 @@ void glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const GLvo
 void glScissor(GLint x, GLint y, GLsizei width, GLsizei height);
 
 typedef GLenum (*PFN_glGetError)(void);
+typedef const GLubyte *(*PFN_glGetString)(GLenum name);
 
 typedef void (*PFN_glEnable)(GLenum cap);
 typedef void (*PFN_glDisable)(GLenum cap);
@@ -369,8 +385,12 @@ typedef void (*PFN_glDeleteRenderbuffers)(GLsizei n, GLuint *renderbuffers);
 typedef void (*PFN_glBindRenderbuffer)(GLenum target, GLuint renderbuffer);
 typedef void (*PFN_glRenderbufferStorage)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
 typedef void (*PFN_glFramebufferRenderbuffer)(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+typedef void (*PFN_glFramebufferTexture1D)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+typedef void (*PFN_glFramebufferTexture2D)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+typedef void (*PFN_glFramebufferTexture3D)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
 typedef void (*PFN_glFramebufferTexture)(GLenum target, GLenum attachment, GLuint texture, GLint level);
 typedef void (*PFN_glDrawBuffer)(GLenum buf);
+typedef void (*PFN_glDrawBuffers)(GLsizei n, const GLenum *bufs);
 typedef GLenum (*PFN_glCheckFramebufferStatus)(GLenum target);
 
 typedef GLint (*PFN_glGetAttribLocation)(GLuint program, const GLchar *name);
@@ -411,7 +431,8 @@ typedef void (*PFN_glViewport)(GLint x, GLint y, GLsizei width, GLsizei height);
 typedef void (*PFN_glClear)(GLbitfield mask);
 typedef void (*PFN_glClearColor)(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 typedef void (*PFN_glClearStencil)(GLint s);
-typedef void (*PFN_glClearDepth)(GLclampd depth);
+typedef void (*PFN_glClearDepth)(GLdouble depth);
+typedef void (*PFN_glClearDepthf)(GLfloat depth);
 
 typedef void (*PFN_glBlendEquation)(GLenum mode);
 typedef void (*PFN_glBlendFunc)(GLenum sfactor, GLenum dfactor);

@@ -1,8 +1,8 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/appManager
+/Users/Ludo/Projets/Lua/engine
+load applications/codea/Bezier
 release 1 fonts
-memory at init    : 0.98 mo
-memory min        : 0.98 mo
-memory max        : 7.11 mo
-memory variation  : 6.13 mo
-memory at release : 6.87 mo
+memory at init    : 1.17 mo
+memory min        : 1.17 mo
+memory max        : 14.40 mo
+memory variation  : 13.23 mo
+memory at release : 12.85 mo

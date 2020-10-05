@@ -154,7 +154,7 @@ function background(clr, ...)
     clr = Color.args(clr, ...)
 
     gl.glClearColor(clr.r, clr.g, clr.b, clr.a)
-    gl.glClearDepth(1)
+    gl.glClearDepthf(1)
 
     gl.glClear(
         gl.GL_COLOR_BUFFER_BIT +

@@ -2,7 +2,7 @@ function getOS()
     local name = ''
 
     if love then
-        name = love.system.getOS()
+        name = love.system.getOS():lower():gsub(' ', '')
 
     elseif jit then
         name = jit.os

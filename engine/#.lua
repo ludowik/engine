@@ -1,5 +1,12 @@
-package.path = package.path..';./luajit/lualibs/?.lua;;./luajit/lualibs/?/?.lua'..';?/#.lua;?/main.lua'
-package.cpath = package.cpath..';./luajit/clibs/?.dll'
+local luapath = './luajit/lualibs/?.lua;;./luajit/lualibs/?/?.lua'..';?/#.lua;?/main.lua'
+local cpath = './luajit/clibs/?.dll'
+
+package.path = package.path..';'..luapath
+package.cpath = package.cpath..';'..cpath
+
+if love then
+    love.filesystem.setRequirePath(love.filesystem.getRequirePath()..';'..luapath)
+end
 
 require 'lua'
 require 'maths'
@@ -30,9 +37,6 @@ require 'engine.camera'
 require 'engine.font'
 
 require 'libc'
-require 'lib.json'
-require 'lib.sfxr'
-require 'lib.utf8'
 
 require 'graphics'
 require 'ui'

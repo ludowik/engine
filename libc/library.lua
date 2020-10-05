@@ -1,6 +1,8 @@
 class 'Library'
 
 function Library.precompile(str)
+    if str == nil then return '' end
+    
     local defs = {}
 
     function define2const(def, value)
@@ -29,7 +31,7 @@ end
 function Library:checkState(file, lib)
     local infoFile = fs.getInfo(file)
     local infoLib = fs.getInfo(lib)
-    
+
     if infoLib == nil or infoLib.modification < infoFile.modification then
         return false
     end
@@ -41,6 +43,7 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
     local libExtension = osx and 'so' or 'dll'
 
     local params = {
+        compiler = 'gcc',
         srcName = srcName,
         headerName = string.format('libc/bin/{moduleName}.h', {moduleName=moduleName}),
         libName = string.format('libc/bin/{moduleName}.{libExtension}', {moduleName=moduleName, libExtension=libExtension}),
@@ -50,9 +53,9 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
     }
 
     if not Library:checkState(params.srcName, params.libName) then
-        
+
         print('compile '..moduleName)
-        
+
         if windows then
             params.compiler = [[
             set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
@@ -61,19 +64,22 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
             io.write('libc/bin/make.bat', command)
 
-            local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
-            assert(res == 0)
-        else
-            params.compiler = 'gcc'
+            params.res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
 
+        else
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
 
-            local res = os.execute(command)
-            assert(res == 0)
+            params.res = os.execute(command)
         end
-        
+
+        assert(params.res == 0)
+
     end
 
+    if love then
+        params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
+    end
+    
     return ffi.load(params.libName)
 end
 
@@ -91,8 +97,9 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
     }
 
     if not Library:checkState(params.srcName, params.libName) then
-        
+
         print('compile '..moduleName)
+
 
         if windows then
             params.compiler = [[
@@ -102,17 +109,20 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
             io.write('libc/bin/make.bat', command)
 
-            local res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
-            assert(res == 0)
-        else
-            params.compiler = 'g++'
+            params.res = os.execute('"libc\\bin\\make.bat" > libc\\bin\\make.log')
 
+        else
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
 
-            local res = os.execute(command)
-            assert(res == 0)
+            params.res = os.execute(command)
         end
 
+        assert(params.res == 0)
+
+    end
+
+    if love then
+        params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
     end
 
     return ffi.load(params.libName)
@@ -145,5 +155,3 @@ ffi.NULL = ffi.cast('void*', 0)
 -- Générer les header directement
 -- "gcc -F"..self.sdk.." -E     '"..stub.."' | grep -v '^#' > '"..cFile.."';"..
 -- "gcc -F"..self.sdk.." -dM -E '"..stub.."'                > '"..hFile.."';")
-
-

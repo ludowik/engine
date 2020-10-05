@@ -55,9 +55,10 @@ excludelist['*.obj'] = false
 
 -- interpreter
 if jit.os == 'Windows' then
-    path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/LuaJIT-2.0.5/src/luajit.exe'
     path.lua = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/luajit-2.1/src/luajit.exe'
     path.love = 'C:/Programes Files (x86)/LOVE/love.exe'
 else
     path.lua = '/Users/ludo/Projets/Libraries/luajit-2.1/src/luajit'
+    path.lua = '/Users/ludo/Projets/Xcode/Lca/bin/Lca'
+    path.love = '/Applications/love'
 end

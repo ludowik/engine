@@ -174,12 +174,16 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
         config.wireframe = 'fill'
 
         if img and shader.uniformsLocations.tex0 or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
-            gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+            if not ios then
+                gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+            end
             gl.glDrawArrays(drawMode, 0, #self.vertices)
         end
 
         if img == nil and (config.wireframe == 'line' or config.wireframe == 'fill&line') then
-            gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
+            if not ios then
+                gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
+            end
             gl.glDrawArrays(drawMode, 0, #self.vertices)
         end
 
@@ -205,7 +209,7 @@ function MeshRender:sendUniforms(uniformsLocations)
     if uniformsLocations.cameraPosition and getCamera() then
         gl.glUniform3fv(uniformsLocations.cameraPosition.uniformLocation, 1, getCamera().vEye:tobytes())
     end
-    
+
     if uniformsLocations.stroke and styles.attributes.stroke then
         gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
     end

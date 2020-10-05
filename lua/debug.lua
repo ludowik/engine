@@ -1,4 +1,4 @@
-debugger = require('mobdebug')
+debugger = require 'luajit.lualibs.mobdebug.mobdebug'
 
 local function startDebug()
     debugger.start()
@@ -10,6 +10,14 @@ end
 
 if arg[#arg] == '-debug' then
     startDebug()
+end
+
+if ios then
+--    startDebug()
+--    debug.sethook(function (...) 
+--            (__print__ or print)(debug.getinfo(2, 'S').short_src, ...)
+--        end,
+--        'l')
 end
 
 function debugging()

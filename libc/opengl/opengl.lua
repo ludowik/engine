@@ -9,6 +9,7 @@ function OpenGL:loadProcAdresses()
         'glGetError',
 
         -- property
+        'glGetString',
         'glEnable',
         'glDisable',
         'glHint',
@@ -19,6 +20,7 @@ function OpenGL:loadProcAdresses()
         -- clear
         'glClearColor',
         'glClearDepth',
+        'glClearDepthf',
         'glClear',
 
         -- blend
@@ -121,13 +123,20 @@ function OpenGL:loadProcAdresses()
         'glBindRenderbuffer',
         'glRenderbufferStorage',
         'glFramebufferRenderbuffer',
+        'glFramebufferTexture1D',
+        'glFramebufferTexture2D',
+        'glFramebufferTexture3D',
         'glFramebufferTexture',
         'glDrawBuffer',
+        'glDrawBuffers',
         'glCheckFramebufferStatus',
     }
 
     for i,v in ipairs(self.defs) do
-        local f = ffi.cast('PFN_'..v, sdl.SDL_GL_GetProcAddress(v))
+        local procAddr = sdl.SDL_GL_GetProcAddress(v)
+--        local f = ffi.cast('PFN'..v:upper()..'PROC', procAddr)
+        local f = ffi.cast('PFN_'..v, procAddr)
+
         self.defs[v] = f
         self[v] = function (...)
             local res = f(...)
@@ -151,22 +160,26 @@ function OpenGL:loadProcAdresses()
     end
 end
 
-function OpenGL:initialize()
+function OpenGL:initialize()    
     self:loadProcAdresses()
+
+    print('supported '..ffi.string(gl.glGetString(gl.GL_SHADING_LANGUAGE_VERSION)))
 
     self.intptr = ffi.new('GLint[1]')
     self.idptr  = ffi.new('GLuint[1]')
 
-    -- Smooth
-    self.glEnable(gl.GL_LINE_SMOOTH)
-    self.glEnable(gl.GL_POLYGON_SMOOTH)
+    if not ios then
+        -- Smooth
+        self.glEnable(gl.GL_LINE_SMOOTH)
+        self.glEnable(gl.GL_POLYGON_SMOOTH)
 
-    -- Hint
-    self.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST)
-    self.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST)
+        -- Hint
+        self.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST)
+        self.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST)
 
-    -- Multi Sampling
-    self.glEnable(gl.GL_MULTISAMPLE)
+        -- Multi Sampling
+        self.glEnable(gl.GL_MULTISAMPLE)
+    end
 
     -- Disable states
     self.glDisable(gl.GL_DITHER)
@@ -257,6 +270,11 @@ function OpenGL:initialize()
     function gl.glDeleteRenderbuffer(id)
         self.idptr[0] = id
         gl.glDeleteRenderbuffers(1, self.idptr)
+    end
+
+    function gl.glDrawBuffer(id)
+        self.idptr[0] = id
+        gl.glDrawBuffers(1, self.idptr)
     end
 
     function gl.glGetString(name)

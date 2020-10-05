@@ -13,7 +13,7 @@ function Context.setup()
 end
 
 function Context.setContext(context)
-    assert(typeof(context) == 'image')
+    if context == nil then return end
 
     if Context.currentContext == context then return end
 
@@ -31,7 +31,9 @@ function Context.setContext(context)
 
     if context.framebufferName == nil then
         context:createFramebuffer()
-        context:attachRenderbuffer(context.width, context.height)
+        
+--        context:createColorBuffer(context.width, context.height)
+        context:createDepthBuffer(context.width, context.height)
 
         context:attachTexture2D(context.texture_id)
 
@@ -70,6 +72,8 @@ function Context.noContext()
     Context.closeCurrentContext()
 
     gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+    
     Context.viewport(0, 0, W_INFO + W, H, config.highDPI)
 
     ortho(0, W_INFO + W, 0, H)

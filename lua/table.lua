@@ -332,9 +332,10 @@ function table.load(name)
     if fs.getInfo(name) == nil then return end
 
     local content = fs.read(name)
-    local ftables = loadstring(content)
-
-    return ftables and ftables() or nil
+    if content then
+        local ftables = loadstring(content)
+        return ftables and ftables() or nil
+    end
 end
 
 function table:save(name)

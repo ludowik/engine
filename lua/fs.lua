@@ -1,5 +1,3 @@
-lfs = require 'lfs'
-
 fs = {}
 
 -- TODO : fs.
@@ -13,11 +11,11 @@ function splitPath(path)
     return name, directory
 end
 
-function isApp(path)
-    if (isFile(path) or
-        isFile(path..'.lua') or
+function isApp(path)    
+    if (
         isFile(path..'/#.lua') or
-        isFile(path..'/main.lua'))
+        isFile(path..'/main.lua') or
+        isFile(path..'.lua'))
     then
         return true
     end

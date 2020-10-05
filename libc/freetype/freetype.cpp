@@ -24,9 +24,10 @@ extern "C" {
         FT_Library library;
         
         error = FT_Init_FreeType(&library);
-        if (error)
+        if (error) {
             return NULL;
-            
+        }
+        
         dpi = _dpi;
             
         return (FT_Library)library;
@@ -41,8 +42,9 @@ extern "C" {
         
         error = FT_New_Face(library, font_name, 0 , &face);
         
-        if (error)
+        if (error) {
             return NULL;
+        }
         
         int char_ratio = 64;
 
@@ -83,35 +85,36 @@ extern "C" {
 
     EXPORT Glyph loadText(FT_Face face, const char* text) {
         Glyph glyph = {0, 0, 0, NULL, {0, 0}};
-        if (face == NULL || text == NULL)
+        if (face == NULL || text == NULL) {
             return glyph;
-
+        }
+        
         FT_GlyphSlot slot = face->glyph;
         
-        int H = (face->size->metrics.ascender - face->size->metrics.descender) >> 6;
+        int H = (face->size->metrics.ascender - face->size->metrics.descender) / 64;
         
         int x=0, w=0, h=0, top=0, bottom=0, dy=0;
         
-        int space_width = 8;
+        int space_width = 12;
 
         size_t len = strlen(text);
         for ( size_t n = 0; n < len; ++n ) {
             error = FT_Load_Char(face, text[n], FT_LOAD_RENDER);
-            if (error)
-                continue;
-
-            w += bitmap_left;
-            if (text[n] == ' ')
-                w += space_width;
-            else
-                w += bitmap_width;
-
-            top = max(top, bitmap_top);
-            bottom = max(bottom, bitmap_rows - bitmap_top);
+            if (error == 0) {
+                w += bitmap_left;
+                if (text[n] == ' ') {
+                    w += space_width;
+                } else {
+                    w += bitmap_width;
+                }
+                
+                top = max(top, bitmap_top);
+                bottom = max(bottom, bitmap_rows - bitmap_top);
+            }
         }
         
-        top = max(top, abs(face->ascender) >> 6);
-        bottom = max(bottom, abs(face->descender) >> 6);
+        top = max(top, abs(face->ascender) / 64);
+        bottom = max(bottom, abs(face->descender) / 64);
         
         h = max(top + bottom, H);
         
@@ -147,10 +150,11 @@ extern "C" {
             }
 
             x += bitmap_left;
-            if (text[n] == ' ')
+            if (text[n] == ' ') {
                 x += space_width;
-            else
+            } else {
                 x += bitmap_width;
+            }
         }
 
         glyph.w = w;
@@ -165,8 +169,9 @@ extern "C" {
     }
 
     EXPORT void releaseText(Glyph glyph) {
-        if (glyph.pixels)
+        if (glyph.pixels) {
             free(glyph.pixels);
+        }
     }
     
 };

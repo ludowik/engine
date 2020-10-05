@@ -39,7 +39,7 @@ function ApplicationManager:loopApp(delay)
         self.action = nil
     else
         self:managerApp()
-        
+
         self.loopAppRef = #self:dirApps(nil, true)
         self.loopAppDelay = delay or 0
 
@@ -111,15 +111,17 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 
         setfenv(0, env)        
     end
-    
+
     self.app = env.app
 
     sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appPath)
-    
-    for i=1,2 do
-        setContext(self.renderFrame)
-        background(black)
-        self:postRender()
-        sdl:swap()
+
+    if self.renderFrame then
+        for i=1,2 do
+            setContext(self.renderFrame)
+            background(black)
+            self:postRender()
+            sdl:swap()
+        end
     end
 end

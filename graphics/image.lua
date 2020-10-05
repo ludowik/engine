@@ -372,21 +372,34 @@ function Image:createFramebuffer()
     return self.framebufferName
 end
 
-function Image:attachRenderbuffer(w, h)
+function Image:createColorBuffer(w, h)
+    -- The color buffer
+    if self.colorRenderbuffer == nil then
+        self.colorRenderbuffer = gl.glGenRenderbuffer()
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.colorRenderbuffer)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_RGBA8, w, h)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, gl.GL_RENDERBUFFER, self.colorRenderbuffer)
+    end
+    return self.colorRenderbuffer
+end
+
+function Image:createDepthBuffer(w, h)
     -- The depth buffer
-    if self.depthrenderbuffer == nil then
-        self.depthrenderbuffer = gl.glGenRenderbuffer()
-        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.depthrenderbuffer)
+    if self.depthRenderbuffer == nil then
+        self.depthRenderbuffer = gl.glGenRenderbuffer()
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.depthRenderbuffer)
         gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT24, w, h)
         gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
-        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, self.depthrenderbuffer)
+        gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, self.depthRenderbuffer)
     end
-    return self.depthrenderbuffer
+    return self.depthRenderbuffer
 end
 
 function Image:attachTexture2D(renderedTexture)
     -- Set "renderedTexture" as our colour attachement #0
-    gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, renderedTexture, 0)
+    gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, gl.GL_TEXTURE_2D, renderedTexture, 0)
+--    gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, renderedTexture, 0)
 
     -- Set the list of draw buffers
     gl.glDrawBuffer(gl.GL_COLOR_ATTACHMENT0)
@@ -404,9 +417,14 @@ function Image:release()
         self.framebufferName = nil
     end
 
-    if self.depthrenderbuffer then
-        gl.glDeleteRenderbuffer(self.depthrenderbuffer)
-        self.depthrenderbuffer = -1
+    if self.colorRenderbuffer then
+        gl.glDeleteRenderbuffer(self.colorRenderbuffer)
+        self.colorRenderbuffer = -1
+    end
+
+    if self.depthRenderbuffer then
+        gl.glDeleteRenderbuffer(self.depthRenderbuffer)
+        self.depthRenderbuffer = -1
     end
 end
 

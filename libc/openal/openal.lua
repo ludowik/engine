@@ -1,13 +1,13 @@
-local code, defs = Library.precompile(io.read('./libc/openal/openal.c'))
+local code, defs = Library.precompile(io.read('libc/openal/openal.c'))
 ffi.cdef(code)
 
-class 'OpenAL' : extends(Component) : meta(windows and Library.load('OpenAL', 'OpenAL32') or ffi.Cb)
+class 'OpenAL' : extends(Component) : meta(windows and Library.load('OpenAL', 'OpenAL32') or ffi.C)
 
 function OpenAL:loadProcAdresses()
     self.defs = {
         -- error
         'alGetError',
-        
+
         -- source,
         'alGenSources',
         'alDeleteSources',
@@ -23,14 +23,16 @@ function OpenAL:loadProcAdresses()
         'alGenBuffers',
         'alDeleteBuffers',
         'alBufferData',
-        
+
         -- listener
         'alListener3f',
         'alListenerfv',
     }
 
     for i,v in ipairs(self.defs) do
-        local f = ffi.cast('PFN_'..v, al.alGetProcAddress(v))
+        local procAddr = al.alGetProcAddress(v)
+        local f = ffi.cast('PFN_'..v, procAddr)
+
         self.defs[v] = f
         self[v] = function (...)
             local res = f(...)
@@ -59,7 +61,7 @@ function OpenAL:initialize()
 
     self.intptr = ffi.new('ALint[1]')
     self.idptr  = ffi.new('ALuint[1]')
-    
+
     self.nbuffers = 0
 
     function self.alGenBuffer()
@@ -88,13 +90,14 @@ function OpenAL:initialize()
         self.alGetSourcei(source, param, self.idptr)
         return self.idptr[0]
     end
-    
+
     -- device opening
     al.device = al.alcOpenDevice(NULL)
-
-    -- context creation and initialization
-    al.context = al.alcCreateContext(al.device, NULL)
-    al.alcMakeContextCurrent(al.context)
+    if al.device ~= NULL then
+        -- context creation and initialization
+        al.context = al.alcCreateContext(al.device, NULL)    
+        al.alcMakeContextCurrent(al.context)
+    end
 
     -- defining and configuring the listener
     local listenerOri = ffi.new("float[6]", { 0, 0, 1, 0, 1, 0 })

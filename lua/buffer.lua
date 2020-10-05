@@ -14,7 +14,7 @@ buffer_meta = {}
 
 function buffer_meta.__init(buffer, buffer_class)
     buffer.ct = buffer_class.ct
-    
+
     buffer.id = id('buffer')
 --    log(getFunctionLocation(buffer.id, 3))
 
@@ -171,26 +171,33 @@ function Buffer(ct, data, ...)
 
         buffer_class = {
             ct = ct,
+            ctAsType = 'buffer_'..ct:gsub(' ', '_'),
+
             ctype = ffi.typeof(ct..'*'),
             sizeof_ctype = ffi.sizeof(ct),
+
             struct = [[
-            typedef struct buffer_{ct} {
-                const char* ct;
-                int id;
-                int available;
-                int sizeof_ctype;
-                int size;
-                int n;
-                int version;
-                {ct}* data;
-                } buffer_{ct};
+                typedef struct {ctAsType} {
+                    const char* ct;
+                    int id;
+                    int available;
+                    int sizeof_ctype;
+                    int size;
+                    int n;
+                    int version;
+                    {ct}* data;
+                    } {ctAsType};
             ]]
         }
 
-        buffer_class.typed_struct = buffer_class.struct:gsub('{ct}', ct)
+        buffer_class.typed_struct = buffer_class.struct:format({
+                ct = buffer_class.ct,
+                ctAsType = buffer_class.ctAsType
+            })
+
         ffi.cdef(buffer_class.typed_struct)
 
-        buffer_class.meta = ffi.metatype('buffer_'..ct, buffer_meta)
+        buffer_class.meta = ffi.metatype(buffer_class.ctAsType, buffer_meta)
 
         buffer_classes[ct] = buffer_class
 

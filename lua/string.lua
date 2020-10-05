@@ -4,6 +4,9 @@ string.__format = string.format
 
 function string.format(str, args, ...)
     if type(args) == 'table' then
+        for i,v in ipairs(args) do
+            str = str:gsub('{'..i..'}', v)
+        end
         for k,v in pairs(args) do
             str = str:gsub('{'..k..'}', v)
         end

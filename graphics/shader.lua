@@ -27,7 +27,7 @@ function Shader:create()
 
     local status = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
     if status == gl.GL_FALSE then
-        print(gl.glGetProgramInfoLog(self.program_id))
+        error(gl.glGetProgramInfoLog(self.program_id))
     end
 
     self:initAttributes()
@@ -42,26 +42,40 @@ end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
     local path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
-
-    local source = io.read(path)
-
-    if source then
-        return self:compile(shaderType, source, path)
+    if isFile(path) then
+        local source = io.read(path)
+        if source then
+            return self:compile(shaderType, source, path)
+        end
     end
-
     return -1
 end
 
 function Shader:compile(shaderType, source, path)
     local include = ''
+    
+    if ios then
+        include = include..(
+            'precision highp float;'..NL..
+            '#define VERSION '..gl:getGlslVersion()..NL
+        )
+    else
+        include = include..(
+            '#version '..gl:getGlslVersion()..NL..
+            '#define VERSION '..gl:getGlslVersion()..NL
+        )
+    end
 
+    local noise3D = io.read('graphics/shaders/noise3D.glsl')
+    assert(noise3D)
     include = include..(
-        '#version '..gl:getGlslVersion()..NL..
-        '#define VERSION '..gl:getGlslVersion()..NL
+        noise3D..NL
     )
 
+    local includeGlsl = io.read('graphics/shaders/include.glsl')
+    assert(includeGlsl)
     include = include..(
-        io.read('graphics/shaders/noise3D.glsl')..NL
+        includeGlsl..NL
     )
 
     include = include..[[
@@ -90,13 +104,16 @@ function Shader:compile(shaderType, source, path)
         ]]
 
     source = include..source
+    
+    
 
     local shader_id = gl.glCreateShader(shaderType)
+    assert(shader_id > 0)
 
     gl.glShaderSource(shader_id, source)
     gl.glCompileShader(shader_id)
 
-    local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
+    local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)    
     if status == gl.GL_FALSE then
         local errors = gl.glGetShaderInfoLog(shader_id)            
         errors = errors:gsub(':(%d*):',
