@@ -174,6 +174,22 @@ function mt.__eq(clr1, clr2)
     end
 end
 
+function mt.min(a, b)
+    return Color(
+        min(a.r, b.r),
+        min(a.g, b.g),
+        min(a.b, b.b),
+        1)
+end
+
+function mt.max(a, b)
+    return Color(
+        max(a.r, b.r),
+        max(a.g, b.g),
+        max(a.b, b.b),
+        1)
+end
+
 function mt.grayScaleLightness(clr, to)
     local r,g,b = clr.r, clr.g, clr.b
     local c = (max(r,g,b) + min(r,g,b)) / 2
@@ -209,12 +225,21 @@ end
 mt.grayScale = mt.grayScaleLuminosity
 
 function mt.mix(clr1, clr2, dst)
-    local src = 1-dst
+    local src = 1 - dst
+    
     return Color(
-        min(0, clr1.r * src + clr2.r * dst),
-        min(0, clr1.g * src + clr2.g * dst),
-        min(0, clr1.b * src + clr2.b * dst),
-        min(0, clr1.a * src + clr2.a * dst))
+        max(0, clr1.r * src + clr2.r * dst),
+        max(0, clr1.g * src + clr2.g * dst),
+        max(0, clr1.b * src + clr2.b * dst),
+        max(0, clr1.a * src + clr2.a * dst))
+end
+
+function mt.avg(clr1, clr2)
+    return Color(
+        (clr1.r + clr2.r) / 2,
+        (clr1.g + clr2.g) / 2,
+        (clr1.b + clr2.b) / 2,
+        (clr1.a + clr2.a) / 2)
 end
 
 function mt.alpha(clr, a)

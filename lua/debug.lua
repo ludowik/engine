@@ -9,7 +9,9 @@ local function startDebug()
 end
 
 if arg[#arg] == '-debug' then
-    startDebug()
+    if not windows or love then
+        startDebug()
+    end
 end
 
 if ios then

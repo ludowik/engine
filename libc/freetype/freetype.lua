@@ -24,8 +24,11 @@ if ft == nil then
     end
 
 else
---    ftLib = Library.load('freetype')
-    ftLib = ffi.C
+    if windows then
+        ftLib = Library.load('freetype')
+    else
+        ftLib = ffi.C
+    end
 end
 
 local code, defs = Library.precompile(io.read('./libc/freetype/freetype.h'))
@@ -151,7 +154,7 @@ local code, defs = Library.precompile(io.read('./libc/freetype/freetype.h'))
 --        const char* filepathname,
 --        FT_Long face_index,
 --        FT_Face *aface);
-        
+
 --    FT_Error FT_Set_Char_Size(FT_Face face,
 --        FT_F26Dot6 char_width,
 --        FT_F26Dot6 char_height,

@@ -125,3 +125,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         end
     end
 end
+
+function ApplicationManager:package()
+    os.execute('cd /Users/Ludo/Projets/Lua/engine && zip -9 -r -u /Users/Ludo/Projets/Libraries2/love-11.3-ios-source/platform/xcode/applications.love .')
+end

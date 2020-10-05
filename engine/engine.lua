@@ -164,8 +164,11 @@ function Engine:initialize()
 
     self:toggleHelp()
 
-    self:loadApp('applications/codea/Bezier')
---    readGlobalData('appPath', 'applications/main'))
+    if not ios then
+        self:loadApp(readGlobalData('appPath', 'applications/main'))
+    else
+        self:loadApp('applications/codea/Bezier')
+    end
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)        
 end

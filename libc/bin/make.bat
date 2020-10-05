@@ -1,0 +1,2 @@
+            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%PATH%;
+            clang++.exe -Wall -MT -std=c++17 -I "C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/box2d-master/include" -o libc/bin/box2d.dll libc/box2d/box2d.cpp -L "C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries/box2d-master/build/src/release" -l box2d

@@ -27,6 +27,10 @@ abs = math.abs
 math.maxinteger =  2^52
 math.mininteger = -2^52
 
+function math.avg(a, b)
+    return (a + b) / 2
+end
+
 function math.sign(value)
     if value > 0 then
         return 1

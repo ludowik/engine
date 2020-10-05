@@ -121,7 +121,7 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
 
     end
 
-    if love then
+    if love and osx then
         params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
     end
 
@@ -150,6 +150,7 @@ end
 ffi = require 'ffi'
 
 ffi.NULL = ffi.cast('void*', 0)
+NULL = ffi.NULL
 
 -- TODO
 -- Générer les header directement

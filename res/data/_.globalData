@@ -1,5 +1,5 @@
 return {
     ["minorVersion"] = 1,
-    ["appPath"] = "applications/codea/Bezier",
+    ["appPath"] = "applications/sketches2d/dithering",
     ["majorVersion"] = 4,
 }

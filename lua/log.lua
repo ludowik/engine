@@ -2,7 +2,7 @@ class 'Log'
 
 function Log.setup()
     save('res/data/log', '', 'w')
-    
+
     if debugging() then
         log = print
     else
@@ -19,10 +19,18 @@ decorate('print',
     function (f, str, ...)
         str = tostring(str)
         assert(str ~= '96')
-        
+
         f(str, ...)
 
         save('res/data/log', str..NL, 'a')
+    end)
+
+decorate('error',
+    function (f, ...)
+        __error__(...)
+        if ios then
+            ffi.C.exit(0)
+        end
     end)
 
 decorate('assert',
