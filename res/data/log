@@ -1,6 +1,7 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/sketches2d/dithering
+/Users/Ludo/Projets/Lua/engine
+load applications/appManager
 release 1 fonts
+<<<<<<< HEAD
 memory at init    : 1.01 mo
 memory min        : 1.01 mo
 memory max        : 8.00 mo
@@ -226,3 +227,10 @@ multiply matrix
 elapsed time: 0.009000000 (288000)
 delta   time: 0.000009000 (288)
 nil
+=======
+memory at init    : 1.26 mo
+memory min        : 1.26 mo
+memory max        : 14.63 mo
+memory variation  : 13.37 mo
+memory at release : 10.19 mo
+>>>>>>> ca50cd243e38ce7d7c077007f86e63eb52f64e00

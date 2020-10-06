@@ -16,8 +16,7 @@ function Image:init(w, h)
             path = self.getPath(w, 'jpg')
             if fs.getInfo(path) == nil then
                 warning("image doesn't exists", 3)
-                self:create(100, 100)
-                return
+                return self:init(100, 100)
             end
         end
 

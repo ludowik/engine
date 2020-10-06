@@ -41,11 +41,11 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
                     error(ffi.typeof(buffer[1]))
                 end
 
-                log(getFunctionLocation(buffer.id, 2))
-                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)                
+--                log(getFunctionLocation(buffer.id, 2))
+--                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)                
             end
 
-            log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)
+--            log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)
 
             gl.glBufferData(gl.GL_ARRAY_BUFFER, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
         end

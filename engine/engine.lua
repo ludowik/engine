@@ -167,7 +167,7 @@ function Engine:initialize()
     if not ios then
         self:loadApp(readGlobalData('appPath', 'applications/main'))
     else
-        self:loadApp('applications/codea/Bezier')
+        self:loadApp('applications/appManager')
     end
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)        
@@ -434,7 +434,7 @@ end
 function Engine:dir(path, method, recursivly)
     local apps = method(path or '', recursivly)
     apps:apply(function (app)
-            return app:lower():gsub('%.lua', '')
+            return app:gsub('%.lua', '')
         end)
     apps:sort()
     return apps
