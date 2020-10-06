@@ -63,7 +63,12 @@ function Engine:init()
         H = H or math.floor(W*9/16)
 
     elseif ios then
-        H, W = love.window.getMode()
+        if love then
+            H, W = love.window.getMode()
+        else
+            H = 1024
+            W = math.floor(H*9/16)
+        end
     end
 
     WIDTH = W
@@ -91,22 +96,22 @@ end
 function Engine:initEvents()
     self.onEvents = {
         keydown = {
-            ['r'] = callback(engine, Engine.restart),
-            ['escape'] = callback(engine, Engine.quit),
+            ['r'] = callback(self, Engine.restart),
+            ['escape'] = callback(self, Engine.quit),
 
             ['t'] = scanTODO,
 
-            ['d'] = callback(engine, Engine.defaultApp),
-            ['a'] = callback(engine, Engine.managerApp),
+            ['d'] = callback(self, Engine.defaultApp),
+            ['a'] = callback(self, Engine.managerApp),
 
-            ['n'] = callback(engine, Engine.nextApp),
-            ['b'] = callback(engine, Engine.previousApp),
+            ['n'] = callback(self, Engine.nextApp),
+            ['b'] = callback(self, Engine.previousApp),
 
-            ['v'] = callback(engine, Engine.loopApp, 0),
-            ['c'] = callback(engine, Engine.loopApp, 2),
+            ['v'] = callback(self, Engine.loopApp, 0),
+            ['c'] = callback(self, Engine.loopApp, 2),
 
-            ['f1'] = callback(engine, Engine.toggleHelp),
-            ['f2'] = callback(engine, Engine.toggleRenderVersion),
+            ['f1'] = callback(self, Engine.toggleHelp),
+            ['f2'] = callback(self, Engine.toggleRenderVersion),
 
             ['f11'] = Sdl.toggleWindowDisplayMode,
 
@@ -127,6 +132,11 @@ function Engine:initEvents()
                 else
                     Profiler.stop()
                 end
+            end,
+
+            ['m'] = function ()
+                initOS('ios')
+                self:restart()
             end,
 
             [KEY_FOR_ACCELEROMETER] = function (_, _, isrepeat)
@@ -176,7 +186,10 @@ end
 function Engine:release()
     saveConfig()
 
-    self.renderFrame:release()
+    if self.renderFrame then
+        self.renderFrame:release()
+    end
+
     self.components:release()
 
     gc()
@@ -289,72 +302,61 @@ function Engine:update(dt)
     env.parameter:update(dt)
 end
 
-if not ios then
-    function Engine:draw()
-        render(self.renderFrame, function ()
-                self.app:__draw()
-            end)
+function Engine:draw()
+    render(self.renderFrame, function ()
 
-        render(self.renderFrame, function ()
-                if reporting then
-                    reporting:draw()
-                end
+            self.app:__draw()
+        end)
 
-                strokeWidth(1)
-                stroke(1, 0.25)
+    render(self.renderFrame, function ()
+            if reporting then
+                reporting:draw()
+            end
 
-                line(0, H/2, W, H/2)
-                line(W/2, 0, W/2, H)
-            end)
+            strokeWidth(1)
+            stroke(1, 0.25)
 
-        self:postRender()
+            line(0, H/2, W, H/2)
+            line(W/2, 0, W/2, H)
+        end)
 
-        render(nil, function ()
-                ortho(0, W_INFO + W, 0, H)
+    self:postRender()
 
-                clip(0, 0, W_INFO, H)
+    render(nil, function ()
+            ortho(0, W_INFO + W, 0, H)
 
-                self:drawInfo()
-                self:drawHelp()
-            end)
+            clip(0, 0, W_INFO, H)
 
-        noClip()
+            self:drawInfo()
+            self:drawHelp()
+        end)
 
-        sdl:swap()
-    end
-else
-    function Engine:draw()
-        self.app:__draw()
+    noClip()
 
-        strokeWidth(1)
-        stroke(1, 0.25)
-
-        line(0, H/2, W, H/2)
-        line(W/2, 0, W/2, H)
-
-        sdl:swap()
-    end
+    sdl:swap()
 end
 
 function Engine:postRender()
-    Context.noContext()
+    if self.renderFrame then
+        Context.noContext()
 
-    background(Color(0, 0, 0, 1))
+        background(Color(0, 0, 0, 1))
 
-    pushMatrix()
-    resetMatrix(true)
+        pushMatrix()
+        resetMatrix(true)
 
-    resetStyle()
+        resetStyle()
 
-    ortho(0, W_INFO + W, 0, H)
+        ortho(0, W_INFO + W, 0, H)
 
-    blendMode(NORMAL)
-    depthMode(false)
-    cullingMode(false)
+        blendMode(NORMAL)
+        depthMode(false)
+        cullingMode(false)
 
-    self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
+        self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
 
-    popMatrix()
+        popMatrix()
+    end
 end
 
 function Engine:drawInfo()

@@ -103,9 +103,7 @@ function Shader:compile(shaderType, source, path)
             #line 1
         ]]
 
-    source = include..source
-    
-    
+    source = include..source    
 
     local shader_id = gl.glCreateShader(shaderType)
     assert(shader_id > 0)

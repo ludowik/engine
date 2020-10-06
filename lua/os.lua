@@ -29,9 +29,13 @@ function getOS()
     return name
 end
 
-os.name = os.name or getOS()
+function initOS(name)
+    os.name = name or getOS()
 
-osx = os.name == 'osx'
-ios = os.name == 'ios'
-windows = os.name == 'windows'
-unix = os.name == 'unix'
+    osx = os.name == 'osx'
+    ios = os.name == 'ios'
+    windows = os.name == 'windows'
+    unix = os.name == 'unix'
+end
+
+initOS()

@@ -1,4 +1,4 @@
-os.name = 'ios'
+--os.name = 'ios'
 
 require 'engine.#'
 

@@ -58,7 +58,7 @@ function Sdl:initialize()
                 0, 0,
                 w, h,
                 self.SDL_WINDOW_OPENGL +
-                (ios and SDL_WINDOW_ALLOW_HIGHDPI) +
+                (ios and self.SDL_WINDOW_ALLOW_HIGHDPI or 0) +
 --                self.SDL_WINDOW_FULLSCREEN +
 --                self.SDL_WINDOW_SHOWN +
 --                self.SDL_WINDOW_BORDERLESS +
@@ -84,7 +84,7 @@ function Sdl:initialize()
 
         self.SDL_ShowWindow(self.window)
 
-        local r = ffi.new('SDL_Rect');
+        local r = ffi.new('SDL_Rect')
 
         if self.SDL_GetDisplayBounds(0, r) ~= 0 then
             self.SDL_Log("SDL_GetDisplayBounds failed: %s", self.SDL_GetError())
@@ -122,8 +122,11 @@ end
 function Sdl:release()
     if self.context then
         self.SDL_GL_DeleteContext(self.context)
+        self.context = NULL
+        
         if self.window then
             self.SDL_DestroyWindow(self.window)
+            self.window = NULL
         end
         self.SDL_GL_UnloadLibrary()
     end

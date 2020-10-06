@@ -35,7 +35,12 @@ function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
 
     mouse.state = state
 
-    mouse.x = x - W_INFO
+    if ios then
+        mouse.x = x
+    else
+        mouse.x = x - W_INFO
+    end
+
     mouse.y = H - y
 
     self.position:set(mouse.x, mouse.y)
@@ -50,7 +55,7 @@ function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
         self.totalX = self.totalX + dx
         self.totalY = self.totalY + dy
     end
-    
+
     mouse.isTouch = isTouch
 
     mouse.tapCount = tapCount or 1
@@ -63,13 +68,13 @@ end
 
 function Mouse:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
     self:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
-    
+
     engine:mouseMove(mouse)
 end
 
 function Mouse:mouseEvent(id, state, x, y, dx, dy, isTouch, tapCount)
     self:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
-    
+
     engine:mouseMove(mouse)
     engine:touched(mouse)
 end

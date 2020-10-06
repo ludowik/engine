@@ -1,3 +1,5 @@
+require 'libc.freetype.verra'
+
 local dpi
 
 local ft = class('ft')
@@ -23,9 +25,7 @@ function ft.loadFont(library, font_name, font_size)
 
     local error = ftLib.FT_New_Face(library, ffi.string(font_name), 0 , face)
 
-    if error == 1 then
-        require 'libc.freetype.verra'
-        
+    if error == 1 then        
         local addr = ffi.cast('const FT_Byte*', Vera_ttf:tobytes())
         error = ftLib.FT_New_Memory_Face(library,
             addr, -- first byte in memory
