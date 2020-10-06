@@ -14,14 +14,6 @@ if arg[#arg] == '-debug' then
     end
 end
 
-if ios then
---    startDebug()
---    debug.sethook(function (...) 
---            (__print__ or print)(debug.getinfo(2, 'S').short_src, ...)
---        end,
---        'l')
-end
-
 function debugging()
     return (
         (debugger and debugger.debugging) or

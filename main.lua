@@ -4,7 +4,17 @@ ffi.cdef([[
     void exit(int status);
 ]])
 
+
+if ios then
+--    startDebug()
+--    debug.sethook(function (...) 
+--            (__print__ or print)(debug.getinfo(2, 'S').short_src, ...)
+--        end,
+--        'l')
+end
+
 engine = Engine()
+engine:run()
 
 if love then
     love.load = function ()
