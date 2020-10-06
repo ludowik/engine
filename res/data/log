@@ -3,6 +3,226 @@ load applications/sketches2d/dithering
 release 1 fonts
 memory at init    : 1.01 mo
 memory min        : 1.01 mo
-memory max        : 7.99 mo
-memory variation  : 6.98 mo
-memory at release : 5.12 mo
+memory max        : 8.00 mo
+memory variation  : 6.99 mo
+memory at release : 6.32 mo
+====================================
+none
+elapsed time: 0.001000000 (0)
+delta   time: 0.000001000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001000000 (200000)
+delta   time: 0.000001000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.008000000 (288000)
+delta   time: 0.000008000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001000000 (200000)
+delta   time: 0.000001000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001000000 (200000)
+delta   time: 0.000001000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.000000000 (200000)
+delta   time: 0.000000000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.001000000 (72000)
+delta   time: 0.000001000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.000000000 (200000)
+delta   time: 0.000000000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001000000 (200000)
+delta   time: 0.000001000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.001000000 (72000)
+delta   time: 0.000001000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001000000 (200000)
+delta   time: 0.000001000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.008000000 (288000)
+delta   time: 0.000008000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001000000 (200000)
+delta   time: 0.000001000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.001000000 (200000)
+delta   time: 0.000001000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.001000000 (72000)
+delta   time: 0.000001000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.000000000 (200000)
+delta   time: 0.000000000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil
+====================================
+none
+elapsed time: 0.000000000 (0)
+delta   time: 0.000000000 (0)
+nil
+====================================
+create matrix
+elapsed time: 0.000000000 (72000)
+delta   time: 0.000000000 (72)
+nil
+====================================
+create and set matrix
+elapsed time: 0.000000000 (200000)
+delta   time: 0.000000000 (200)
+nil
+====================================
+multiply matrix
+elapsed time: 0.009000000 (288000)
+delta   time: 0.000009000 (288)
+nil

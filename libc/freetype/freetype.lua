@@ -24,6 +24,7 @@ if ft == nil then
     end
 
 else
+    local loaded = pcall(loadstring('local _ = ffi.C.alGetError'))
     if windows then
         ftLib = Library.load('freetype')
     else

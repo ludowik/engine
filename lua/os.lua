@@ -29,7 +29,7 @@ function getOS()
     return name
 end
 
-os.name = getOS()
+os.name = os.name or getOS()
 
 osx = os.name == 'osx'
 ios = os.name == 'ios'

@@ -63,7 +63,7 @@ function Engine:init()
         H = H or math.floor(W*9/16)
 
     elseif ios then
-        W, H = love.window.getMode()
+        H, W = love.window.getMode()
     end
 
     WIDTH = W

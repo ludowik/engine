@@ -1,7 +1,9 @@
 local code, defs = Library.precompile(io.read('libc/openal/openal.c'))
 ffi.cdef(code)
 
-class 'OpenAL' : extends(Component) : meta(windows and Library.load('OpenAL', 'OpenAL32') or ffi.C)
+local loaded = pcall(loadstring('local _ = ffi.C.alGetError'))
+
+class 'OpenAL' : extends(Component) : meta(not loaded and Library.load('OpenAL', 'OpenAL32') or ffi.C)
 
 function OpenAL:loadProcAdresses()
     self.defs = {

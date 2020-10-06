@@ -1,7 +1,9 @@
 local code, defs = Library.precompile(io.read('libc/sdl/sdl.c'))
 ffi.cdef(code)
 
-class 'Sdl' : extends(Component) : meta(windows and Library.load('SDL2') or ffi.C)
+local loaded = pcall(loadstring('local _ = ffi.C.SDL_Init'))
+
+class 'Sdl' : extends(Component) : meta(not loaded and Library.load('SDL2') or ffi.C)
 
 function Sdl:init()
     self.window = NULL
@@ -56,6 +58,7 @@ function Sdl:initialize()
                 0, 0,
                 w, h,
                 self.SDL_WINDOW_OPENGL +
+                (ios and SDL_WINDOW_ALLOW_HIGHDPI) +
 --                self.SDL_WINDOW_FULLSCREEN +
 --                self.SDL_WINDOW_SHOWN +
 --                self.SDL_WINDOW_BORDERLESS +

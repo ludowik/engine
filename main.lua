@@ -1,8 +1,11 @@
+os.name = 'ios'
+
 require 'engine.#'
 
 ffi.cdef([[
     void exit(int status);
 ]])
+
 
 engine = Engine()
 
