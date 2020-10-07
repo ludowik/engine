@@ -7,7 +7,15 @@ typedef signed short Sint16;
 typedef signed int Sint32;
 typedef int64_t Sint64;
 
-static const int SDL_INIT_VIDEO = 0x00000020;
+#define SDL_INIT_TIMER 0x00000001
+#define SDL_INIT_AUDIO 0x00000010
+#define SDL_INIT_VIDEO 0x00000020
+#define SDL_INIT_JOYSTICK 0x00000200
+#define SDL_INIT_HAPTIC 0x00001000
+#define SDL_INIT_GAMECONTROLLER 0x00002000
+#define SDL_INIT_EVENTS 0x00004000
+#define SDL_INIT_NOPARACHUTE 0x00100000
+#define SDL_INIT_EVERYTHING 0x00007231
 
 typedef enum {
     SDL_WINDOW_FULLSCREEN = 0x00000001,
@@ -308,6 +316,18 @@ typedef struct SDL_MouseWheelEvent {
     Uint32 direction;
 } SDL_MouseWheelEvent;
 
+typedef struct SDL_MultiGestureEvent {
+    Uint32 type;
+    Uint32 timestamp;
+    SDL_TouchID touchId;
+    float dTheta;
+    float dDist;
+    float x;
+    float y;
+    Uint16 numFingers;
+    Uint16 padding;
+} SDL_MultiGestureEvent;
+
 typedef union SDL_Event {
     Uint32 type;
     SDL_WindowEvent window;
@@ -316,6 +336,7 @@ typedef union SDL_Event {
     SDL_TouchFingerEvent tfinger;
     SDL_MouseButtonEvent button;
     SDL_MouseWheelEvent wheel;
+    SDL_MultiGestureEvent mgesture;
     Uint8 padding[56];
 } SDL_Event;
 

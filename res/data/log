@@ -1,9 +1,8 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/appManager
+/Users/Ludo/Projets/Lua/engine
+load applications/main
 release 1 fonts
-memory at init    : 1.01 mo
-memory min        : 1.01 mo
-memory max        : 7.25 mo
-memory variation  : 6.23 mo
-memory at release : 6.11 mo
-supported OpenGL ES GLSL ES 3.00 - Build 26.20.100.8141
+memory at init    : 1.26 mo
+memory min        : 1.26 mo
+memory max        : 14.90 mo
+memory variation  : 13.63 mo
+memory at release : 11.29 mo

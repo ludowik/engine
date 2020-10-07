@@ -24,7 +24,7 @@ function Sdl:initialize()
     end
 
     if self.window == NULL then
-        if self.SDL_Init(self.SDL_INIT_VIDEO) == 0 then
+        if self.SDL_Init(self.SDL_INIT_EVERYTHING) == 0 then
             self:setCursor(sdl.SDL_SYSTEM_CURSOR_WAIT)
 
             if self.SDL_GL_LoadLibrary(ffi.NULL) == 1 then                
@@ -58,7 +58,7 @@ function Sdl:initialize()
                 0, 0,
                 w, h,
                 self.SDL_WINDOW_OPENGL +
-                (ios and self.SDL_WINDOW_ALLOW_HIGHDPI or 0) +
+--                (ios and self.SDL_WINDOW_ALLOW_HIGHDPI or 0) +
 --                self.SDL_WINDOW_FULLSCREEN +
 --                self.SDL_WINDOW_SHOWN +
 --                self.SDL_WINDOW_BORDERLESS +
@@ -123,7 +123,7 @@ function Sdl:release()
     if self.context then
         self.SDL_GL_DeleteContext(self.context)
         self.context = NULL
-        
+
         if self.window then
             self.SDL_DestroyWindow(self.window)
             self.window = NULL
@@ -202,6 +202,17 @@ function Sdl:event()
         elseif event.type == sdl.SDL_MOUSEWHEEL  then
             mouse:mouseWheel(1, event.wheel.x, event.wheel.y)
 
+        elseif event.type == sdl.SDL_MULTIGESTURE then
+            assert()
+            if event.mgesture.numFingers == 4 then
+                assert()
+            end
+
+        elseif event.type == sdl.SDL_FINGERDOWN then
+            assert()
+            if event.mgesture.numFingers == 4 then
+                assert()
+            end
         end
     end
 end

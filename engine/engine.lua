@@ -304,7 +304,6 @@ end
 
 function Engine:draw()
     render(self.renderFrame, function ()
-
             self.app:__draw()
         end)
 

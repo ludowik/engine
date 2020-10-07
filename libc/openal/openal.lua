@@ -1,7 +1,7 @@
 local code, defs = Library.precompile(io.read('libc/openal/openal.c'))
 ffi.cdef(code)
 
-local loaded = pcall(loadstring('local _ = ffi.C.alGetError'))
+local loaded = love
 
 class 'OpenAL' : extends(Component) : meta(not loaded and Library.load('OpenAL', 'OpenAL32') or ffi.C)
 
