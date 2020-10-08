@@ -1,5 +1,5 @@
 function setup()
-    app.ui = UIScene(Layout.grid, 2)
+    app.ui = UIScene(Layout.grid, 3)
     app.ui.alignment = 'h-center,v-center'
 
     app.index = 0

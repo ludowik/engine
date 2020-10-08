@@ -1,68 +1,5 @@
 class 'ApplicationManager'
 
-function ApplicationManager:nextApp()
-    local apps = self:dirApps(nil, true)
-
-    local nextAppIndex = 1
-    for i,appPath in ipairs(apps) do
-        if appPath == self.appPath then
-            if i < #apps then
-                nextAppIndex = i + 1
-                break
-            end
-        end
-    end    
-
-    local appPath = apps[nextAppIndex]
-    self:loadApp(appPath)
-end
-
-function ApplicationManager:previousApp()
-    local apps = self:dirApps(nil, true)
-
-    local previousAppIndex = #apps
-    for i,appPath in ipairs(apps) do
-        if appPath == self.appPath then
-            if i > 1 then
-                previousAppIndex = i - 1
-                break
-            end
-        end
-    end    
-
-    local appPath = apps[previousAppIndex]
-    self:loadApp(appPath)
-end
-
-function ApplicationManager:loopApp(delay)
-    if self.action then
-        self.action = nil
-    else
-        self:managerApp()
-
-        self.loopAppRef = #self:dirApps(nil, true)
-        self.loopAppDelay = delay or 0
-
-        self.action = callback(self, ApplicationManager.loopAppProc, delay)
-    end
-end
-
-function ApplicationManager:loopAppProc(delay)
-    if self.loopAppDelay <= 0 then
-        self:nextApp()
-
-        self.loopAppRef = self.loopAppRef - 1
-        self.loopAppDelay = delay or 0
-
-        if self.loopAppRef == 0 then
-            self.action = nil
-            self:managerApp()
-        end
-    else
-        self.loopAppDelay = self.loopAppDelay - DeltaTime
-    end
-end
-
 function ApplicationManager:loadApp(appPath, reloadApp)
     self.appName, self.appDirectory = splitPath(appPath)
     self.appPath = appPath
@@ -123,6 +60,81 @@ function ApplicationManager:loadApp(appPath, reloadApp)
             self:postRender()
             sdl:swap()
         end
+    end
+end
+
+function ApplicationManager:managerApp()
+    self:loadApp('applications/appManager')
+end
+
+function ApplicationManager:lastApp()
+    self:loadApp(readGlobalData('appPath', 'applications/appManager'))
+end
+
+function ApplicationManager:defaultApp()
+    self:loadApp('applications/main')
+end
+
+function ApplicationManager:nextApp()
+    local apps = self:dirApps(nil, true)
+
+    local nextAppIndex = 1
+    for i,appPath in ipairs(apps) do
+        if appPath == self.appPath then
+            if i < #apps then
+                nextAppIndex = i + 1
+                break
+            end
+        end
+    end    
+
+    local appPath = apps[nextAppIndex]
+    self:loadApp(appPath)
+end
+
+function ApplicationManager:previousApp()
+    local apps = self:dirApps(nil, true)
+
+    local previousAppIndex = #apps
+    for i,appPath in ipairs(apps) do
+        if appPath == self.appPath then
+            if i > 1 then
+                previousAppIndex = i - 1
+                break
+            end
+        end
+    end    
+
+    local appPath = apps[previousAppIndex]
+    self:loadApp(appPath)
+end
+
+function ApplicationManager:loopApp(delay)
+    if self.action then
+        self.action = nil
+    else
+        self:managerApp()
+
+        self.loopAppRef = #self:dirApps(nil, true)
+        self.loopAppDelay = delay or 0
+
+        self.action = callback(self, ApplicationManager.loopAppProc, delay)
+    end
+end
+
+function ApplicationManager:loopAppProc(delay)
+    if self.loopAppDelay <= 0 then
+        self:nextApp()
+
+        self.loopAppRef = self.loopAppRef - 1
+        self.loopAppDelay = delay or 0
+
+        if self.loopAppRef == 0 then
+            self.action = nil
+            self:managerApp()
+        end
+    else
+        self.loopAppDelay = self.loopAppDelay - DeltaTime
     end
 end
 

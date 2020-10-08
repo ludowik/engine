@@ -12,13 +12,18 @@ function Path.setup()
     print(Path.sourcePath)
 end
 
-function validatePath(path)
-    local fullPath = getFullPath(path)
+function getFullPath(path, directory)
+    return (directory or lfs.currentdir())..'/'..path
+end
+
+function validatePath(path, directory, absolute)
+    fullPath = getFullPath(path, directory)
 
     if not isDirectory(fullPath) then
         lfs.mkdir(fullPath)
     end
-    return path
+
+    return absolute and fullPath or path
 end
 
 function getSourcePath()
@@ -45,14 +50,23 @@ function getFontPath(fontName, ext)
     return 'res/font/'..fontName..'.'..(ext or 'ttf')
 end
 
-function getFullPath(path)
-    return lfs.currentdir()..'/'..path
-end
-
 function getSavePath(path)
-    return path
+    if ios then
+        return love.filesystem.getSaveDirectory()..'/'..path
+    else
+        return path
+    end
 end
 
 function getReadPath(path)
-    return path
+    if ios then
+        if lfs.attributes(lfs.currentdir()..'/'..path) then
+            return lfs.currentdir()..'/'..path
+            
+        elseif lfs.attributes(love.filesystem.getSaveDirectory()..'/'..path) then
+            return love.filesystem.getSaveDirectory()..'/'..path
+        end
+    else
+        return path
+    end
 end

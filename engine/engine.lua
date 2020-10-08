@@ -178,9 +178,9 @@ function Engine:initialize()
     self:toggleHelp()
 
     if not ios then
-        self:loadApp(readGlobalData('appPath', 'applications/main'))
+        self:lastApp()
     else
-        self:loadApp('applications/appManager')
+        self:managerApp()
     end
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)        
@@ -371,26 +371,31 @@ end
 
 function Engine:drawInfo(alpha)
     if alpha == 0 then return end
-    
+
     blendMode(NORMAL)
-    
+
     depthMode(false)
 
     -- background
     noStroke()
     fill(white:alpha(alpha))
-    rect(0, 0, W_INFO, H)
+--    rect(0, 0, W_INFO, H)
 
     -- infos
-    fill(black:alpha(alpha))
-
     font(DEFAULT_FONT_NAME)
     fontSize(DEFAULT_FONT_SIZE)
 
+    rectMode(CORNER)
     textMode(CORNER)
 
     local function info(name, value)
         local info = name..' : '..tostring(value)
+        local w, h = textSize(info)
+        
+        fill(white:alpha(alpha))
+        rect(0, TEXT_NEXT_Y-h, w, h)
+        
+        fill(black:alpha(alpha))
         text(info)
     end
 
@@ -485,12 +490,4 @@ end
 
 function Engine:dirDirectories(path, recursivly)
     return self:dir(path, dirDirectories, recursivly)
-end
-
-function Engine:defaultApp()
-    self:loadApp('applications/main')
-end
-
-function Engine:managerApp()
-    self:loadApp('applications/appManager')
 end

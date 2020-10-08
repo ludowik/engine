@@ -1,19 +1,8 @@
-<<<<<<< HEAD
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/sketches2D/squaregrid
-release 1 fonts
-memory at init    : 1.01 mo
-memory min        : 1.01 mo
-memory max        : 2.75 mo
-memory variation  : 1.73 mo
-memory at release : 2.29 mo
-=======
-/Users/Ludo/Projets/Lua/engine
-load applications/main
-release 1 fonts
-memory at init    : 1.26 mo
-memory min        : 1.26 mo
-memory max        : 14.90 mo
-memory variation  : 13.63 mo
-memory at release : 11.29 mo
->>>>>>> db587842f2cbb2e22637a0f959f0ad7e7cd53f83
+load applications/apps/freeCell
+release 2 fonts
+memory at init    : 1.02 mo
+memory min        : 1.02 mo
+memory max        : 7.33 mo
+memory variation  : 6.32 mo
+memory at release : 4.56 mo

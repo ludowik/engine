@@ -46,7 +46,7 @@ function exists(path)
 end
 
 function fs.getInfo(path, mode)
-    local info = lfs.attributes(path)
+    local info = lfs.attributes(getReadPath(path))
     if info then
         if mode == nil or mode == info.mode then
             info.type = info.mode
