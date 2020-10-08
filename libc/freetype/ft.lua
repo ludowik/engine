@@ -87,6 +87,7 @@ function ft.loadText(face, text)
     for n=1,len do
         local char = text:sub(n, n)
         local error = ftLib.FT_Load_Char(face, char:byte(1), ftLib.FT_LOAD_RENDER)
+        slot = face.glyph
         if error == 0 then
             w = w + max(0, slot.bitmap_left)
             if char == ' ' then
@@ -107,14 +108,16 @@ function ft.loadText(face, text)
 
     h = max(top + bottom, H)
 
-    dy = max(0, H - (top + bottom) - 2) / 2
+    dy = floor(max(0, H - (top + bottom) - 2) / 2)
 
     local size = w * h * ffi.sizeof('GLubyte') * BytesPerPixel
+    
     local pixels = ffi.new('GLubyte[?]', size)
 
     for n=1,len do
         local char = text:sub(n, n)
         local error = ftLib.FT_Load_Char(face, char:byte(1), ftLib.FT_LOAD_RENDER)
+        slot = face.glyph
         if error == 0 then
             local index_bitmap = 0
             for j=0,slot.bitmap.rows-1 do
