@@ -35,12 +35,7 @@ function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
 
     mouse.state = state
 
-    if ios then
-        mouse.x = x
-    else
-        mouse.x = x - W_INFO
-    end
-
+    mouse.x = x    
     mouse.y = H - y
 
     self.position:set(mouse.x, mouse.y)

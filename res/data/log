@@ -1,9 +1,8 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/appManager
+load applications/sketches2D/squaregrid
 release 1 fonts
 memory at init    : 1.01 mo
 memory min        : 1.01 mo
-memory max        : 7.25 mo
-memory variation  : 6.23 mo
-memory at release : 6.11 mo
-supported OpenGL ES GLSL ES 3.00 - Build 26.20.100.8141
+memory max        : 2.75 mo
+memory variation  : 1.73 mo
+memory at release : 2.29 mo

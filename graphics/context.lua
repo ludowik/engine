@@ -59,13 +59,13 @@ function Context.closeCurrentContext()
 end
 
 function Context.resetContext()
-    Context.setContext(engine.renderFrame)
+--    Context.setContext(engine.renderFrame)
 
---    if engine.renderFrame then
---        Context.setContext(engine.renderFrame)
---    else
---        Context.noContext()
---    end
+    if engine.renderFrame then
+        Context.setContext(engine.renderFrame)
+    else
+        Context.noContext()
+    end
 end
 
 function Context.noContext()    
@@ -74,9 +74,9 @@ function Context.noContext()
     gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
     gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
     
-    Context.viewport(0, 0, W_INFO + W, H, config.highDPI)
+    Context.viewport(0, 0, W, H, config.highDPI)
 
-    ortho(0, W_INFO + W, 0, H)
+    ortho(0, W, 0, H)
 end
 
 function Context.viewport(x, y, w, h, highDPI)

@@ -12,7 +12,7 @@ function Sdl:init()
 end
 
 function Sdl:initialize()
-    local w, h = W_INFO + W, H
+    local w, h = W, H
 
     if love then
         self.window = sdl.SDL_GL_GetCurrentWindow()

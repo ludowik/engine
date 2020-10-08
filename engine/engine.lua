@@ -52,6 +52,9 @@ function Engine:init()
         tween.setup()
     end
 
+    engine.infoAlpha = 0
+    engine.infoHide = true
+
     W_INFO = 200
 
     if osx then
@@ -169,7 +172,7 @@ function Engine:initialize()
     call('setup')
 
     if not ios then
-        self.renderFrame = Image(W, H)
+--        self.renderFrame = Image(W, H)
     end
 
     self:toggleHelp()
@@ -247,7 +250,7 @@ function Engine:resize(w, h, w_info)
 
     W_INFO = max(0, w_info)
 
-    sdl.SDL_SetWindowSize(sdl.window, W_INFO + W, H)
+    sdl.SDL_SetWindowSize(sdl.window, W, H)
 end
 
 function Engine:restart()
@@ -298,13 +301,18 @@ function Engine:update(dt)
         env.physics:update(dt)
     end
 
+    if engine.infoHide then
+        engine.infoAlpha = max(0, engine.infoAlpha - dt / 3)
+    else
+        engine.infoAlpha = 1
+    end
+
     self.app:__update(dt)
     env.parameter:update(dt)
 end
 
 function Engine:draw()
     render(self.renderFrame, function ()
-
             self.app:__draw()
         end)
 
@@ -322,14 +330,16 @@ function Engine:draw()
 
     self:postRender()
 
-    render(nil, function ()
-            ortho(0, W_INFO + W, 0, H)
+    render(self.renderFrame, function ()
+            ortho(0, W, 0, H)
 
             clip(0, 0, W_INFO, H)
 
-            self:drawInfo()
+            self:drawInfo(engine.infoAlpha)
             self:drawHelp()
         end)
+
+    self:postRender()
 
     noClip()
 
@@ -347,26 +357,39 @@ function Engine:postRender()
 
         resetStyle()
 
-        ortho(0, W_INFO + W, 0, H)
+        ortho(0, W, 0, H)
 
         blendMode(NORMAL)
         depthMode(false)
         cullingMode(false)
 
-        self.renderFrame:draw(W_INFO, 0, WIDTH, HEIGHT)
+        self.renderFrame:draw(0, 0, WIDTH, HEIGHT)
 
         popMatrix()
     end
 end
 
-function Engine:drawInfo()
-    background(51)
+function Engine:drawInfo(alpha)
+    if alpha == 0 then return end
+    
+    blendMode(NORMAL)
+    
+    depthMode(false)
 
+    -- background
+    noStroke()
+    fill(white:alpha(alpha))
+    rect(0, 0, W_INFO, H)
+
+    -- infos
+    fill(black:alpha(alpha))
+
+    font(DEFAULT_FONT_NAME)
     fontSize(DEFAULT_FONT_SIZE)
 
     textMode(CORNER)
 
-    function info(name, value)
+    local function info(name, value)
         local info = name..' : '..tostring(value)
         text(info)
     end
@@ -411,17 +434,27 @@ function Engine:touched(touch)
             processMovementOnCamera(touch)
         end
     end
+
+    if touch.state == BEGAN then
+        if abs(touch.x-W_INFO) <= 5 then
+            isSizing = true
+        end
+    elseif touch.state ~= MOVING then
+        isSizing = false
+    end
 end
 
 function Engine:mouseMove(touch)
-    if abs(touch.x) <= 5 then
+    if isSizing or abs(touch.x-W_INFO) <= 5 then
         sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_SIZEWE)
-
-        if touch.isTouch then
-            self:resize(W, H, W_INFO + touch.dx)
-        end
     else
         sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
+    end
+
+    engine.infoHide = touch.x > W_INFO
+
+    if isSizing then
+        self:resize(W, H, W_INFO + touch.dx)
     end
 end
 
