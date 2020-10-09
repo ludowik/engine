@@ -6,12 +6,12 @@ function BaseSelect:init(title)
     Screen.init(self)
     self.title = title
     self.score = 0
-    
+
     -- add the background
     local back = SpriteObj(0,0,WIDTH,HEIGHT)
     self:doDraw(back,"Cargo Bot:Game Lower BG",-12)
 
-    -- add the other background 
+    -- add the other background
     local bottom = SpriteObj(0,0,768,296)
     self:doDraw(bottom,"Cargo Bot:Opening Crates",-11)
     bottom:setTint(color(255,255,255,160))
@@ -23,11 +23,11 @@ function BaseSelect:init(title)
     local titleObj = SpriteObj(WIDTH/2,930,titleW,titleH)
     self:doDraw(titleObj,titleSprite)
     titleObj:setMode(CENTER)
-       
+
     -- the corner star
     local star = SpriteObj(WIDTH-120,HEIGHT-120,95,92)
     self:doDraw(star,"Cargo Bot:Star Filled")
-    
+
     -- credits
     local creditSprite = "credits"
     local w,h = Screen.makeTextSprite(creditSprite,"CREDITS",
@@ -39,7 +39,7 @@ function BaseSelect:init(title)
         transitionScreen:start(self,CreditsScreen(self))
         currentScreen = transitionScreen
     end
-    
+
     -- how this game was made arrow
     local arrow = Button(740,20,13,27)
     self:doDraw(arrow,"Cargo Bot:How Arrow")
@@ -48,7 +48,7 @@ function BaseSelect:init(title)
         transitionScreen:start(self,how)
         currentScreen = transitionScreen
     end
-    
+
     -- how this game was created?
     local howSprite = "howCreatedSprite"
     local w,h = Screen.makeTextSprite(howSprite,"HOW WAS THIS GAME CREATED?",
@@ -61,7 +61,7 @@ end
 
 function BaseSelect:draw()
     Screen.draw(self)
-    
+
     -- the score
     font("Futura-CondensedExtraBold")
     fontSize(30)

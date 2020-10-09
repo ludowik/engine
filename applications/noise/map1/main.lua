@@ -155,7 +155,7 @@ function appMap:init()
     terrain.vertices:resize(w*h*3)
 
     local translate = vec3()
-    
+
     for x=-w/2,w/2 do
         for z=-h/2,h/2 do
             translate:set(s*(x-1), 0, -s*(z-1))

@@ -1,6 +1,6 @@
 -- Register.lua
 -- A register represents a register slot in the user program
--- It can hold one command and one conditional 
+-- It can hold one command and one conditional
 
 Register = class(Panel)
 
@@ -8,9 +8,9 @@ function Register:init(x,y,config,isLast,screen)
     Panel.init(self,x,y)
     self.config = config
     self.screen = screen
-    
+
     self:makeSlot(isLast)
-    
+
     -- w,h so we can determine which register the user has dropped a move into
     -- also used for when the user tries to pick up an existing command
     self.w = config.w
@@ -47,11 +47,11 @@ end
 
 function Register:setCommand(command)
     -- check if we're overwriting an existing command
-    if self.command then 
+    if self.command then
         self:remove(self.command)
         self.screen:undoDraw(self.command)
     end
-    
+
     if command == "" then
         self.command = nil
     else
@@ -64,19 +64,19 @@ function Register:setCommand(command)
             Events.trigger("drag",{but,t})
             Events.trigger("tutorial_register_pickup")
         end
-        
-        self.command:rotate(math.random(0,14)-7) 
+
+        self.command:rotate(math.random(0,14)-7)
         self:add(self.command)
     end
 end
 
 function Register:setConditional(command)
-    if self.conditional then 
+    if self.conditional then
         self:remove(self.conditional)
         self.screen:undoDraw(self.conditional)
     end
-    
-    if command == "" then 
+
+    if command == "" then
         self.conditional = nil
     else
         self.conditional = Command(command,self.config.conditional.x,
@@ -120,7 +120,7 @@ function Register:pulse()
             self.config.command.h*pulseScale)
         self.command:translate(-self.config.command.w*(pulseScale-1)/2,
             -self.config.command.h*(pulseScale-1)/2)
-            
+
         -- move it up a few z-orders so that it draws on top of other stuff
         self.screen:undoDraw(self.command)
         self.screen:doDraw(self.command,Command.spriteMap[self.command.command],5)
@@ -133,7 +133,7 @@ function Register:unpulse()
         self.command:setSize(self.config.command.w,self.config.command.h)
         self.command:translate(self.config.command.w*(pulseScale-1)/2,
             self.config.command.h*(pulseScale-1)/2)
-        
+
         -- move it back down in the z-order
         self.screen:undoDraw(self.command)
         self.screen:doDraw(self.command,Command.spriteMap[self.command.command],2)

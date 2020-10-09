@@ -12,26 +12,26 @@ Level = class(Screen)
 function Level:init(levelData)
     Screen.init(self)
     Music.switch("Tutorial")
-    
+
     self.levelData = levelData
     self.title = levelData.name
     self.starThresholds = levelData.stars
-    
+
     self.wonIt = false
     self.animating = false
-    
+
     self.popovers = {}
     self.highlights = {}
     self.active = true
-    
+
     -- floor
     local obj = SpriteObj(0,359,768,21)
     self:doDraw(obj,"Cargo Bot:Game Area Floor",-7)
-    
+
     -- roof
     local obj = SpriteObj(0,687,768,26)
     self:doDraw(obj,"Cargo Bot:Game Area Roof",-7)
-    
+
     -- lower BG
     local obj = SpriteObj(0,0,768,364)
     self:doDraw(obj,"Cargo Bot:Game Lower BG",-10)
@@ -39,17 +39,17 @@ function Level:init(levelData)
     -- upper BG
     local obj = SpriteObj(0,708,768,364)
     self:doDraw(obj,"Cargo Bot:Game Upper BG",-10)
-    
+
     -- the stage
     local stageState = {piles=levelData.stage,claw=levelData.claw}
     self.stage = Stage(self,stageState)
     self:add(self.stage)
-    
+
     -- the goal
     local goalState = {piles=levelData.goal}
     self.goal = Goal(self,goalState)
     self:add(self.goal)
-    
+
     -- title
     local sprName = "levelTitle"..self.title
     local w,h = Screen.makeTextSprite(sprName,self.title,
@@ -57,19 +57,19 @@ function Level:init(levelData)
     self.titleObj = SpriteObj((WIDTH-w)/2,950,w,h)
     self:doDraw(self.titleObj,sprName)
     self:add(self.titleObj)
-    
+
     -- goal title
     local sprName = "goalTitle"
     local w,h = Screen.makeTextSprite(sprName,"GOAL",{fontSize=25})
     local titleObj = SpriteObj((WIDTH-w)/2,915,w,h)
     self:doDraw(titleObj,sprName)
     self:add(titleObj)
-    
+
     -- play button
     local playSprites = {}
     playSprites[true] = "Cargo Bot:Play Button"
     playSprites[false] = "Cargo Bot:Stop Button"
-    
+
     self.playB = Button(302,0,164,80)
     self:doDraw(self.playB,playSprites[true])
     self:add(self.playB)
@@ -81,29 +81,29 @@ function Level:init(levelData)
         if not self.playing then sounds:play("click_play")
         else sounds:play("click_stop") end
         Events.trigger("play",not self.animating)
-            
+
         if self.animating then Events.trigger("tutorial_play")
         else Events.trigger("tutorial_stop") end
     end
-    
+
     -- menu button
     self.menuB = Button(10,970,99,48)
     self:doDraw(self.menuB,"Cargo Bot:Menu Game Button")
     self:add(self.menuB)
     self.menuB.onEnded = function(but,t)
         Events.trigger("play",false)
-        Events.trigger("levelSelect",self) 
+        Events.trigger("levelSelect",self)
     end
 
     -- the toolbox
     self.toolbox = Toolbox(self,levelData.toolbox)
     self:add(self.toolbox)
-    
+
     -- program
     self.program = Program(self,levelData.funcs)
     self:add(self.program)
-    
-    -- step button    
+
+    -- step button
     self.stepB = Button(685,720,74,37)
     self:doDraw(self.stepB,"Cargo Bot:Step Button")
     self.stepB.onEnded = function(but,t)
@@ -112,7 +112,7 @@ function Level:init(levelData)
     end
     self:add(self.stepB)
     self.stepB:setExtras({left=20,right=20,top=20,bottom=20})
-    
+
     -- fastforward button
     local ffSprites = {}
     ffSprites[true] = "Cargo Bot:Fast Button Active"
@@ -131,7 +131,7 @@ function Level:init(levelData)
     end
     self.ffB:setExtras({left=20,right=20,top=20,bottom=20})
 
-    -- hint button    
+    -- hint button
     local hintB = Button(658,970,100,50)
     self:doDraw(hintB,"Cargo Bot:Hints Button")
     hintB.onEnded = function(but,t)
@@ -148,7 +148,7 @@ function Level:init(levelData)
         end
     end
     self:add(hintB)
-    
+
     local solution = IO.readSolution(self.title)
     if solution then self.program:setSolution(solution) end
 end
@@ -164,12 +164,12 @@ end
 
 function Level:setActive(val)
     Screen.setActive(self,val)
-    if val then 
+    if val then
         Events.bind("shaking",self,self.shaking)
         self.noShake = false
     else
         self.noShake = true
-        Events.unbind(self,"shaking") 
+        Events.unbind(self,"shaking")
     end
 end
 
@@ -195,7 +195,7 @@ function Level:play(val)
     self.wonIt = false
     self.maxSteps = 10000000 -- number of user program steps allowed
     -- dont use events to make sure self.playing is up to date
-    self.playB:setSprite(not self.animating) 
+    self.playB:setSprite(not self.animating)
 end
 
 function Level:fast()
@@ -247,18 +247,18 @@ end
 -- actual level stage
 function Level:run(stage)
     self.stepB:setTint(color(255,255,255,255))
-    
+
     stage = stage or self.stage
-    
+
     if not self.animating then return nil end
-    
+
     if stage.isWaiting then
         if self.maxSteps > 0 then
             if BaseStage.compareStages(stage,self.goal) then
                 Events.trigger("won")
                 return nil
             end
-        
+
             local nextMove = self.program:nextMove(stage.claw.crate)
             if nextMove == "" then Events.trigger("tutorial_nomove") end
             stage:nextMove(nextMove)
@@ -273,7 +273,7 @@ function Level:step()
     local wasPlaying = self.animating
     -- note that this trigger resets maxSteps
     if not self.animating then Events.trigger("play",true) end
-    
+
     -- allow the user to batch up to 5 step calls
     if self.maxSteps < 5 then self.maxSteps = self.maxSteps + 1 end
     -- if we're not in step mode yet
@@ -290,7 +290,7 @@ function Level:wonCallback()
     self.wonIt = true
     self.active = false
     sounds:play("success")
-    
+
     -- stary background
     self.starTexs = {}
     -- bottom
@@ -303,14 +303,14 @@ function Level:wonCallback()
         WIDTH,HEIGHT,4)
     self:add(backTop)
     table.insert(self.starTexs,backTop)
-    
+
     -- tweeners
     local tweener = Tweener(.5,function(p)
         local startB = -HEIGHT
         local endB = startB + 371
         local y = startB * (1-p) + endB * p
         backBottom:translate(0,y - backBottom.y)
-        
+
         local startT = HEIGHT
         local endT = startT - 325
         local y = startT * (1-p) + endT * p
@@ -341,16 +341,16 @@ function Level:shaking()
     if self.resetShowing then return end -- we're already showing the dialog box
     self.resetShowing = true
     Events.trigger("play",false)
-    local box = ChickenBox( (WIDTH - 423)/2, 400, self, 
-        function() 
+    local box = ChickenBox( (WIDTH - 423)/2, 400, self,
+        function()
             -- ok callback
             self.resetShowing = false
             self.program:reset()
             Events.trigger("tutorial_shakeok")
         end,
-        function() 
+        function()
             -- cancel callback
-            self.resetShowing = false 
+            self.resetShowing = false
             Events.trigger("tutorial_shakeok")
         end)
 end
@@ -359,40 +359,40 @@ ChickenBox = class(Panel)
 
 function ChickenBox:init(x,y,screen,okCallback,cancelCallback)
     Panel.init(self,x,y)
-    
+
     screen:setActive(false)
     screen.active = true
-    
+
     -- shade
     local shade = SpriteObj(-x,-y,WIDTH,HEIGHT)
     screen:doDraw(shade,"Cargo Bot:Background Fade",14)
     shade:setTint(color(255,255,255,170))
     self:add(shade)
-    
+
     -- background
     local box = SpriteObj(0,0,423, 206)
     screen:doDraw(box,"Cargo Bot:Dialogue Box",15)
     self:add(box)
-    
+
     -- cancel button
     local cancelBut = Button(23,30,98,48)
     screen:doDraw(cancelBut,"Cargo Bot:Dialogue Button",16)
     self:add(cancelBut)
-    
+
     -- ok button
     local okBut = Button(423-98-23,30,98,48)
     screen:doDraw(okBut,"Cargo Bot:Dialogue Button",16)
     self:add(okBut)
-    
-    -- question  
+
+    -- question
     local qSpr = "levelChickenSpr"
     local w,h = Screen.makeTextSprite(qSpr,"Are you sure you want to clear your work?",
         {fontSize=25,font="Futura-Medium",
         textWrapWidth=400,textAlign=CENTER})
     local qTxt = SpriteObj(30,100,w,h)
     screen:doDraw(qTxt,qSpr,17)
-    self:add(qTxt)  
-    
+    self:add(qTxt)
+
     -- cancel text
     local cancelSpr = "levelCancelSpr"
     local w,h = Screen.makeTextSprite(cancelSpr,"CANCEL",
@@ -400,7 +400,7 @@ function ChickenBox:init(x,y,screen,okCallback,cancelCallback)
     local cancelTxt = SpriteObj(32,36,w,h)
     screen:doDraw(cancelTxt,cancelSpr,17)
     self:add(cancelTxt)
-    
+
     -- ok text
     local clearSpr = "levelClearSpr"
     local w,h = Screen.makeTextSprite(clearSpr,"CLEAR",
@@ -408,16 +408,16 @@ function ChickenBox:init(x,y,screen,okCallback,cancelCallback)
     local clearTxt = SpriteObj(423-98-7,36,w,h)
     screen:doDraw(clearTxt,clearSpr,17)
     self:add(clearTxt)
-    
+
     cancelBut.onEnded = function(but,t)
         screen:setActive(true)
         self:undraw(screen)
         cancelCallback()
     end
-    
+
     okBut.onEnded = function(but,t)
         screen:setActive(true)
         self:undraw(screen)
         okCallback()
-    end      
+    end
 end

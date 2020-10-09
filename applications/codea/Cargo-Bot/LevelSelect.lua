@@ -6,7 +6,7 @@ function LevelSelect:init(name,score)
     BaseSelect.init(self,name)
     self.name = name
     self.score = score
-    
+
     -- back arrow
     local arrow = Button(10,HEIGHT - 37,13,27)
     arrow:flipX()
@@ -15,7 +15,7 @@ function LevelSelect:init(name,score)
     arrow.onEnded = function(obj,t)
         Events.trigger("levelSelect",self,true)
     end
-    
+
     -- back
     local backSprite = "backSprite"
     local w,h = Screen.makeTextSprite(backSprite,"BACK",
@@ -24,7 +24,7 @@ function LevelSelect:init(name,score)
     self:doDraw(backString,backSprite)
     backString.onEnded = arrow.onEnded
     backString:setExtras({left=20,right=20,top=20,bottom=20})
-    
+
     -- find the right pack
     local pack = nil
     local packIdx = nil
@@ -35,9 +35,9 @@ function LevelSelect:init(name,score)
         end
     end
     assert(pack~=nil,"could not find pack "..self.name)
-    
+
     Screen.makeSprite("levelSelectArrow",LevelSelect.makeArrow,60,50)
-    
+
     -- arrow right
     if packIdx < #packs then
         local rightB = Button(WIDTH-55,485,60,50)
@@ -50,7 +50,7 @@ function LevelSelect:init(name,score)
         self:doDraw(rightB,"levelSelectArrow")
         rightB:setTint(color(255,255,255,128))
     end
-    
+
     -- left arrow
     if packIdx > 1 then
         local leftB = Button(50,485,-60,50)
@@ -78,7 +78,7 @@ function LevelSelect:init(name,score)
             end
         end
         assert(levelData~=nil,"Could not find level "..level)
-        
+
         local item = LevelItem(levelData,self)
         local xgrid = (idx-1)%2+1
         local ygrid = math.floor((idx-1)/2) + 1
@@ -111,7 +111,7 @@ function LevelItemStage:config()
     config.shadows = false
     config.maxPiles = 9
     config.crate = {w=10,h=11,borderY=-1,shadows=config.shadows}
-    
+
     -- setup dimensions for the piles
     config.pile = {
         y = 4,
@@ -119,7 +119,7 @@ function LevelItemStage:config()
         crate = config.crate,
         shadows = config.shadows
     }
-    
+
     -- we need pile width to know how far apart to draw the piles
     config.pile.w = math.floor(config.w / config.maxPiles)
     config.pile.h = config.h -- needed for editor mode to know whether a block should be added
@@ -146,12 +146,12 @@ function LevelItem:init(levelData,screen)
     Panel.init(self,0,0)
     self.title = levelData.name
     self.screen = screen
-    
+
     local button = Button(0,0,308,186)
     button.onEnded = function(but,t)
         local level = Level(levelData)
         transitionScreen:start(screen,level)
-        transitionScreen.endCallback = function() 
+        transitionScreen.endCallback = function()
             sounds:play("select_level")
             level:addTutorial()
         end
@@ -162,19 +162,19 @@ function LevelItem:init(levelData,screen)
     -- create the stage
     local stageState = {piles = levelData.stage}
     self.stage = LevelItemStage(screen,stageState)
-    
+
     -- the frame
     local frame = SpriteObj(0,0,308,186)
     screen:doDraw(frame,"Cargo Bot:Level Select Frame",-8)
     self:add(frame)
-    
+
     -- position the stage
     local dx = (frame.w - self.stage.config.w)/2 + 3
     local dy = 23
     self.stage:translate(dx,dy)
     self.stage.background:translate(0,-10)
     self:add(self.stage)
-    
+
     -- title
     local spriteName = "levelItemTitle"..self.title
     local w,h = Screen.makeTextSprite(spriteName,self.title,{fontSize=23})
@@ -195,14 +195,14 @@ function LevelItem:init(levelData,screen)
         screen:doDraw(obj,spr)
         self:add(obj)
         if numStars > 3 then
-            
+
             local starPulse = function(ds)
                 local w,h = obj:getSize()
                 obj:setSize(w+ds,h+ds)
                 local x,y = obj:getPos()
                 obj:translate(-ds/2,-ds/2)
             end
-            
+
             local grow = false
             local tweenerMaker
             tweenerMaker = function()
@@ -211,7 +211,7 @@ function LevelItem:init(levelData,screen)
                     local w,h = obj:getSize()
                     starPulse(35 - w)
                 end
-                
+
                 local count = 0
                 local f = function()
                     count = count + 1
@@ -220,12 +220,12 @@ function LevelItem:init(levelData,screen)
                         if grow then starPulse(2) else starPulse(-2) end
                     end
                 end
-                
+
                 grow = not grow
                 local tweener = Tweener(.4,f,tweenerMaker)
                 Tweener.add(tweener)
             end
-            
+
             tweenerMaker()
         end
     end

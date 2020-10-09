@@ -14,7 +14,7 @@ function setup()
     --  the optional callback at the end simply prints the parameter
     parameter.text("TitleText", "Hello Parameters!", function(t) print(t) end )
 
-    -- This is how you create number parameters 
+    -- This is how you create number parameters
     --  represented by sliders
     parameter.number("X", 0, WIDTH, WIDTH/2, function(n) print("X set to "..n) end )
 
@@ -26,10 +26,10 @@ function setup()
     -- This is a boolean parameter, represented by a switch interface
     --  it defaults to 'true' and we use it to determine whether to draw
     --  a stroke around the circle
-    parameter.boolean("HasStroke", true, 
-        function(b) 
-            print("HasStroke toggled to "..tostring(b)) 
-        end ) 
+    parameter.boolean("HasStroke", true,
+        function(b)
+            print("HasStroke toggled to "..tostring(b))
+        end )
 
     -- This is an action parameter. It is simply a button in the parameter
     --  list that calls the supplied function when clicked
@@ -55,7 +55,7 @@ end
 
 -- This function gets called once every frame
 function draw()
-    -- This sets a dark background color 
+    -- This sets a dark background color
     background(40, 40, 50)
 
     -- Set up a nice large white font

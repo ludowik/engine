@@ -97,7 +97,7 @@ function Stat:computeKPI()
     self.percentMemoryInto = self.memoryInto / self.memory
     self.percentMemoryUnder = self.memoryUnder / self.memory
 
-    self.averageMemory = self.memory / self.count   
+    self.averageMemory = self.memory / self.count
 end
 
 local Ref = class('Ref')
@@ -197,7 +197,7 @@ function Profiler.overrideFunction(name, f)
 
                     collectgarbage('stop')
 
-                    -- profiling 
+                    -- profiling
                     ref.startTime = clock()
                     ref.startMemory = mem()
 
@@ -344,7 +344,7 @@ Profiler.excludeNames = {
 
     'random',
 
-    'tostring', 
+    'tostring',
     'tonumber',
 
     'getFileLocation',

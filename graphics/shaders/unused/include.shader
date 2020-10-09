@@ -35,19 +35,19 @@ uniform int useCelShading = 0;
 uniform int useLight = 0;
 struct Light {
     int on;
-    
+
     vec3 position;
     vec4 color;
     vec3 direction;
-    
+
     float ambientStrength;
     float diffuseStrength;
     float specularStrength;
-    
+
     float constant;
     float linear;
     float quadratic;
-    
+
     float innerCutOff;
     float outerCutOff;
 };
@@ -58,9 +58,9 @@ struct Material {
     float ambientStrength;
     float diffuseStrength;
     float specularStrength;
-    
+
     float shininess;
-    
+
     float alpha;
 };
 uniform Material material;

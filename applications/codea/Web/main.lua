@@ -18,11 +18,11 @@ function draw()
     background(14, 14, 14, 255)
     rectMode(CORNER)
     rect(5,5,270,32)
-    perspective(50, WIDTH/HEIGHT)    -- First arg is FOV, second is aspect    
-    cam:setCam()    
+    perspective(50, WIDTH/HEIGHT)    -- First arg is FOV, second is aspect
+    cam:setCam()
     tuto:update()
-    ortho()                          -- Restore orthographic projection 
-    viewMatrix(matrix())             -- Restore the view matrix to the identity    
+    ortho()                          -- Restore orthographic projection
+    viewMatrix(matrix())             -- Restore the view matrix to the identity
     tuto:draw()
     fps:draw()
 end
@@ -78,11 +78,11 @@ function Sphere:init(input)
     end
 
     -- if a radius is given, warp to a sphere
-    if self.radius then 
+    if self.radius then
         vertices = self:warpVertices({
-                verts=vertices, 
-                xangle=180, 
-                yangle=180 
+                verts=vertices,
+                xangle=180,
+                yangle=180
             })
     end
 
@@ -92,7 +92,7 @@ function Sphere:init(input)
     self.ms.colors = colors
 
     -- add the texture from internet
-    if self.url then 
+    if self.url then
         self:load( self.url ) -- this will not be instantaneous!
     end
     self.ms.texCoords = tc
@@ -139,19 +139,19 @@ function Sphere:simpleMesh(input)
         for x=0,nx-1 do
             vertices[k+1] = vec3( sx*x    , sy*y    , 1) - center
             vertices[k+2] = vec3( sx*(x+1), sy*y    , 1) - center
-            vertices[k+3] = vec3( sx*(x+1), sy*(y+1), 1) - center 
-            vertices[k+4] = vec3( sx*x    , sy*y    , 1) - center 
-            vertices[k+5] = vec3( sx*x    , sy*(y+1), 1) - center 
-            vertices[k+6] = vec3( sx*(x+1), sy*(y+1), 1) - center 
-            colors[k+1] = color1 
-            colors[k+2] = color1 
-            colors[k+3] = color1 
-            colors[k+4] = color2 
-            colors[k+5] = color2 
-            colors[k+6] = color2 
-            k = k + 6    
+            vertices[k+3] = vec3( sx*(x+1), sy*(y+1), 1) - center
+            vertices[k+4] = vec3( sx*x    , sy*y    , 1) - center
+            vertices[k+5] = vec3( sx*x    , sy*(y+1), 1) - center
+            vertices[k+6] = vec3( sx*(x+1), sy*(y+1), 1) - center
+            colors[k+1] = color1
+            colors[k+2] = color1
+            colors[k+3] = color1
+            colors[k+4] = color2
+            colors[k+5] = color2
+            colors[k+6] = color2
+            k = k + 6
         end
-    end   
+    end
     return vertices,colors
 end
 
@@ -177,7 +177,7 @@ function Sphere:optimMesh(input)
         -- number of points on each side of the band
         local nx1 = math.floor( nx * math.abs(math.cos(    ( y*sy-0.5)*2 * math.pi/2)) )
         if nx1<6 then nx1=6 end
-        local nx2 = math.floor( nx * math.abs(math.cos( ((y+1)*sy-0.5)*2 * math.pi/2)) ) 
+        local nx2 = math.floor( nx * math.abs(math.cos( ((y+1)*sy-0.5)*2 * math.pi/2)) )
         if nx2<6 then nx2=6 end
         -- points on each side of the band
         x1,x2 = {},{}
@@ -199,7 +199,7 @@ function Sphere:optimMesh(input)
                 vertices[k+1] = vec3(   x1[i1], sy*y    , 1)  - center
                 vertices[k+2] = vec3( x1[i1+1], sy*y    , 1)  - center
                 vertices[k+3] = vec3(   x2[i2], sy*(y+1), 1)  - center
-                texCoords[k+1] = vec2(   x1[i1]/2, sy*y    ) 
+                texCoords[k+1] = vec2(   x1[i1]/2, sy*y    )
                 texCoords[k+2] = vec2( x1[i1+1]/2, sy*y    )
                 texCoords[k+3] = vec2(   x2[i2]/2, sy*(y+1))
                 if i1<nx1 then i1 = i1 +1 end
@@ -210,7 +210,7 @@ function Sphere:optimMesh(input)
                 texCoords[k+1] = vec2(   x1[i1]/2, sy*y    )
                 texCoords[k+2] = vec2(   x2[i2]/2, sy*(y+1))
                 texCoords[k+3] = vec2( x2[i2+1]/2, sy*(y+1))
-                if i2<nx2 then i2 = i2 +1 end        
+                if i2<nx2 then i2 = i2 +1 end
             end
 
             if self.hflip then
@@ -231,7 +231,7 @@ function Sphere:optimMesh(input)
             n = n + 1
             if n>nMax then continue=false  end -- just in case of infinite loop
         end
-    end   
+    end
     return vertices,colors,texCoords
 end
 
@@ -249,14 +249,14 @@ function Sphere:warpVertices(input)
         vm = m:rotate(xangle*vy,1,0,0):rotate(yangle*vx,0,1,0)
         vx,vy,vz = vm[1],vm[5],vm[9]
         verts[i] = vec3(vx,vy,vz)
-    end    
+    end
     return verts
 end
 
 function Sphere:load(url)
     map = nil
-    http.request(url, 
-        function(theImage, status, head) 
+    http.request(url,
+        function(theImage, status, head)
             self:setTexture(theImage, status, head)
         end
     )
@@ -300,23 +300,23 @@ function Sphere:draw()
     pushStyle()
     self:move()
     translate(self.cx,self.cy,self.cz)
-    rotate(self.az,0,0,1)    
+    rotate(self.az,0,0,1)
     rotate(self.ax,1,0,0)
     rotate(self.ay,0,1,0)
     if self.radius then s = self.radius else s = 100 end
     scale(s,s,s)
-    self.ms:draw()  
+    self.ms:draw()
 
-    if self.lightDir then 
+    if self.lightDir then
         rotate(-self.ay,0,1,0)
         rotate(-self.ax,1,0,0)
-        rotate(-self.az,0,0,1)    
+        rotate(-self.az,0,0,1)
         local s2 = self.shadowRatio
         scale(s2,s2,s2)
-        self.ms2:draw()   
+        self.ms2:draw()
     end
     popStyle()
-    popMatrix()    
+    popMatrix()
 end
 
 --# CameraControl
@@ -371,12 +371,12 @@ function CameraControl:zoom()
         x1,y1,x2,y2 = t[1].x, t[1].y, t[2].x, t[2].y
         delta = vec2(x2-x1,y2-y1):len() +100
         -- to prvent the camera to go too far
-        if self.d0/delta > 1 then 
+        if self.d0/delta > 1 then
             if vec3(self.camX,self.camY,self.camZ):len()>self.maxDist then delta = self.d0 end
         end
         self.camX = self.d0/delta * self.camX
         self.camY = self.d0/delta * self.camY
-        self.camZ = self.d0/delta * self.camZ        
+        self.camZ = self.d0/delta * self.camZ
         self.d0 = delta
         --print(self.camZ)
     end
@@ -427,7 +427,7 @@ function CameraControl:move(touch)
 end
 
 function CameraControl:setCam()
-    camera( self.camX,self.camY,self.camZ, 
+    camera( self.camX,self.camY,self.camZ,
         self.tx ,self.ty ,self.tz,
         self.vx, self.vy, self.vz )
 end
@@ -464,7 +464,7 @@ function Tutorial:init()
     fontSize(28)
     font("AmericanTypewriter-Bold")
 
-    self.nextButton = image(90,50)    
+    self.nextButton = image(90,50)
     setContext(self.nextButton)
     background(COLOR)
     text("next",45,25)
@@ -516,7 +516,7 @@ function Tutorial:step1()
         local color2 = color(255, 255, 0, 128)
         planet1 = Sphere({  nx = 40, ny = 20   ,  -- mesh definition
                 c1 = color1 , c2 = color2 ,   -- mesh colors
-                cx=0, cy=-20, cz=0           -- sphere center    
+                cx=0, cy=-20, cz=0           -- sphere center
             })
         self.ready = true
         --     change camera position
@@ -538,11 +538,11 @@ function Tutorial:step2()
         local color1 = color(255, 0, 0, 128)
         local color2 = color(255, 255, 0, 128)
 
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 40, ny = 20 ,            -- mesh definition
                 c1 = color1 , c2 = color2 ,   -- mesh colors
-                cx=0, cy=-50, cz=0,          -- sphere center    
-                r = 100               -- radius of the sphere                   
+                cx=0, cy=-50, cz=0,          -- sphere center
+                r = 100               -- radius of the sphere
             })
         --     change camera position
         cam.camX, cam.camY, cam.camZ = 0, 200, 300
@@ -564,10 +564,10 @@ function Tutorial:step3()
         self:print("the next screen will take several seconds to appear... be patient!")
         local color1 = color(255, 0, 0, 255)
         local color2 = color(255, 255, 0, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 40, ny = 20 ,    -- mesh definition
                 c1 = color1 , c2 = color2 ,   -- mesh colors
-                cx=0, cy=-50, cz=0,          -- sphere center    
+                cx=0, cy=-50, cz=0,          -- sphere center
                 r = 100    ,           -- radius of the sphere
                 rotTime1 = 10    -- rotation time in s
             })
@@ -587,10 +587,10 @@ function Tutorial:step4()
         self:print("the top ones are really too small compared to middle ones")
         local color1 = color(255, 0, 0, 255)
         local color2 = color(255, 255, 0, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 120, ny = 60 ,    -- mesh definition
                 c1 = color1 , c2 = color2 ,   -- mesh colors
-                cx=0, cy=-50, cz=0,          -- sphere center    
+                cx=0, cy=-50, cz=0,          -- sphere center
                 r = 100    ,           -- radius of the sphere
                 rotTime1 = 10 ,   -- rotation time in s
             })
@@ -608,11 +608,11 @@ function Tutorial:step5()
         self:print("The difficulty is to find which vectors to assemble in triangles, but it is solved now...")
         local color1 = color(255, 0, 0, 255)
         local color2 = color(255, 255, 0, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 40, ny = 20 ,            -- mesh definition
                 meshOptimize = true,           -- optimize mesh for sphere
                 c1 = color1 , c2 = color2 ,    -- mesh colors
-                cx=0, cy=-50, cz=0  ,         -- sphere center    
+                cx=0, cy=-50, cz=0  ,         -- sphere center
                 r = 100      ,         -- radius of the sphere
                 rotTime1 = 10 ,   -- rotation time in s
             })
@@ -631,11 +631,11 @@ function Tutorial:step6()
         self:print("But it means that when back on a flat surface, the triangles are not equal.")
         local color1 = color(255, 0, 0, 255)
         local color2 = color(255, 255, 0, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 40, ny = 20 ,            -- mesh definition
                 meshOptimize = true,           -- optimize mesh for sphere
                 c1 = color1 , c2 = color2 ,    -- mesh colors
-                cx=0, cy=-25, cz=0  ,         -- sphere center    
+                cx=0, cy=-25, cz=0  ,         -- sphere center
             })
         self.ready = true
         --     change camera position
@@ -659,11 +659,11 @@ function Tutorial:step7()
         self:print("the image is right-left inverted, this is to be correct on the sphere, I dont know the reason")
         local color1 = color(255, 255, 255, 255)
         local color2 = color(127, 127, 127, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 40, ny = 20 ,            -- mesh definition
                 meshOptimize = true,           -- optimize mesh for sphere
                 c1 = color1 , c2 = color2 ,    -- mesh colors
-                cx=0, cy=-25, cz=0  ,         -- sphere center    
+                cx=0, cy=-25, cz=0  ,         -- sphere center
                 url = url1,        -- texture image url
                 hflip = true,    -- to flip image horozontally
             })
@@ -686,11 +686,11 @@ function Tutorial:step8()
         self:print("This is a nice earth, but there is not the shadow of the sun...")
 
         local color1 = color(255, 255, 255, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 40, ny = 20 ,            -- mesh definition
                 meshOptimize = true,           -- optimize mesh for sphere
                 c1 = color1 , c2 = color1 ,    -- mesh colors
-                cx=0, cy=-50, cz=0  ,         -- sphere center    
+                cx=0, cy=-50, cz=0  ,         -- sphere center
                 r = 100      ,         -- radius of the sphere
                 rotTime1 = 30 ,   -- rotation time in s
                 url = url1,        -- texture image url
@@ -714,11 +714,11 @@ function Tutorial:step9()
         self:print("This sphere has a larger radius than the planet, to be adjusted to avoid rendering problems")
         self:print("To have a smoother shadow, i have increased the number of tirangles by 4 => I lose a little bit in fps")
         local color1 = color(255, 255, 255, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 80, ny = 40 ,            -- mesh definition
                 meshOptimize = true,           -- optimize mesh for sphere
                 c1 = color1 , c2 = color1 ,    -- mesh colors
-                cx=0, cy=-50, cz=0  ,         -- sphere center    
+                cx=0, cy=-50, cz=0  ,         -- sphere center
                 r = 100      ,         -- radius of the sphere
                 rotTime1 = 30 ,   -- rotation time in s
                 url = url1,        -- texture image url
@@ -743,11 +743,11 @@ function Tutorial:step10()
         self:print("Finally here is a moon to turn around our earth (too fast and too close...)")
 
         local color1 = color(255, 255, 255, 255)
-        planet1 = Sphere({  
+        planet1 = Sphere({
                 nx = 80, ny = 40 ,            -- mesh definition
                 meshOptimize = true,           -- optimize mesh for sphere
                 c1 = color1 , c2 = color1 ,    -- mesh colors
-                cx=0, cy=-50, cz=0  ,         -- sphere center    
+                cx=0, cy=-50, cz=0  ,         -- sphere center
                 r = 100      ,         -- radius of the sphere
                 rotTime1 = 30 ,   -- rotation time in s
                 url = url1,        -- texture image url
@@ -756,11 +756,11 @@ function Tutorial:step10()
                 shadowRatio = 1.02,    -- the ratio of radius of shadow sphere to sphere
             })
         local color2 = color(223, 211, 138, 255)
-        moon1 = Sphere({  
+        moon1 = Sphere({
                 nx = 60, ny = 30 ,            -- mesh definition
                 meshOptimize = true,           -- optimize mesh for sphere
                 c1 = color2 , c2 = color2 ,    -- mesh colors
-                cx=150, cy=0, cz=0  ,         -- sphere center    
+                cx=150, cy=0, cz=0  ,         -- sphere center
                 r = 20      ,         -- radius of the sphere
                 rotTime1 = 30 ,   -- rotation time in s
                 url = url2,
@@ -821,7 +821,7 @@ function Tutorial:draw()
     fontSize(20)
     font("Arial")
     if self.lines>0 then
-        for i=1,self.lines do 
+        for i=1,self.lines do
             text(self.line[i],WIDTH/2,HEIGHT-50-i*20)
         end
     end
@@ -837,8 +837,8 @@ function Tutorial:touched(touch)
         dx = math.abs(touch.x-(WIDTH-150))
         dy = math.abs(touch.y-(HEIGHT-25))
         if dx<50 and dy<50 then ds = -1 end
-        if ds~=0 then 
-            step = self.step + ds  
+        if ds~=0 then
+            step = self.step + ds
             if  step < 0 then step = 0
             elseif step > self.stepMax then step = self.stepMax
             else     self.ready = false     self.step = step  end

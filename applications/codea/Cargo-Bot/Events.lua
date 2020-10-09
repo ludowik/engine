@@ -1,9 +1,9 @@
 -- Events.lua
 
--- Events facilitates message passing between objects. 
+-- Events facilitates message passing between objects.
 -- Mostly for user generated events
 -- but some internal events too like "won" or "died" or "moveDone"
--- Classes that respond to events should define a bindEvents method where all the events 
+-- Classes that respond to events should define a bindEvents method where all the events
 -- are bound so that they can be easily rebinded if needed
 Events = class()
 
@@ -13,11 +13,11 @@ function Events.bind(event,obj,func)
     if not Events.__callbacks[event] then
         Events.__callbacks[event] = {}
     end
-    
+
     if not Events.__callbacks[event][obj] then
         Events.__callbacks[event][obj] = {}
     end
-    
+
     Events.__callbacks[event][obj][func] = 1
 end
 
@@ -36,10 +36,10 @@ end
 
 function Events.trigger(event,...)
     if Events.__callbacks[event] then
-        -- make a clone of the callbacks. This is because callbacks 
+        -- make a clone of the callbacks. This is because callbacks
         -- can bind or unbind events. for example Stage.play can
         -- recreate its state and needs to rebind
-        local arg = {...}        
+        local arg = {...}
         local clone = {}
         for obj,funcs in pairs(Events.__callbacks[event]) do
             clone[obj] = {}
@@ -50,7 +50,7 @@ function Events.trigger(event,...)
 
         for obj,funcs in pairs(clone) do
             for func,dummy in pairs(funcs) do
-                
+
                 local argCopy = TableEx.clone(arg)
                 table.insert(argCopy,1,obj)
                 func(unpack(argCopy))

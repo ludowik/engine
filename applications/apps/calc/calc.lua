@@ -67,7 +67,7 @@ end
 function Calc:test()
     local calc = Calc()
 
-    calc:ac()    
+    calc:ac()
     lib:assert('reset', calc.acc1 == 0)
 
     calc:number(1)

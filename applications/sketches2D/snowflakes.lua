@@ -17,7 +17,7 @@ end
 
 function draw()
     background(brown)
-    
+
     fill(240/255)
     noStroke()
 

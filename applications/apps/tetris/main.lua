@@ -36,7 +36,7 @@ function Tetris:init()
             Label('line'),
             Expression('app.lines'),
             ButtonIconFont('burst_new', callback(self, app.newGame)),
-            ButtonIconFont('pause', function () 
+            ButtonIconFont('pause', function ()
                     if self.active then
                         self:pause()
                     else
@@ -226,7 +226,7 @@ end
 
 function TetrisGrid:loadValue(value)
     if value then
-        if typeof(value) == 'color' then 
+        if typeof(value) == 'color' then
             return value
         end
     end
@@ -276,7 +276,7 @@ function TetrisGrid:draw()
     noFill()
 
     for y=1,self.h do
-        for x=1,self.w do            
+        for x=1,self.w do
             rectMode(CORNER)
             rect(x*size, y*size, size, size)
         end
@@ -409,7 +409,7 @@ function Tetrimino:gravity(n)
     if self:move(0, n) then
         return true
     else
-        app:nextTetrimino()        
+        app:nextTetrimino()
     end
 end
 

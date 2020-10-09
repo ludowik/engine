@@ -7,10 +7,10 @@ end
 function draw()
     noStroke()
     fill(0, 0, 0, 0.02)
-    
+
     rectMode(CORNER)
     rect(0, 0, WIDTH, HEIGHT)
-    
+
     noFill()
 
     local attributes = {
@@ -57,15 +57,15 @@ function primitive(attributes)
     if attributes.position then
         translate(attributes.position.x, attributes.position.y)
     end
-    
+
     if attributes.rotation then
         rotate(attributes.rotation)
     end
-    
+
     fill(color.random())
-    
+
     strokeWidth(randomInt(6))
     stroke(color.random())
-    
+
     primitives[i](attributes)
 end

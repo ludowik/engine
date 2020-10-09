@@ -6,7 +6,7 @@ function setup()
     parameter.number('frequency', 0, 100, 50, function()
             generateImg()
         end)
-    
+
     parameter.number('amplitude', 0, 2, 1, function()
             generateImg()
         end)
@@ -23,7 +23,7 @@ function generateImg()
             r = noise(
                 x / frequency,
                 y / frequency)
-            
+
             img:set(x, y, r, r, r, 1)
         end
     end

@@ -87,7 +87,7 @@ function draw()
 
         local pos = trackFunction(time)
         local tmp
-        tmp = tangent({delta = .1, 
+        tmp = tangent({delta = .1,
                 pathFunction = trackFunction,
                 time = time})
         if not tmp:is_zero() then
@@ -109,7 +109,7 @@ function draw()
     end
     plank:draw()
     stars:draw()
-    
+
     if paused == nil or paused then
         resetMatrix()
         ortho()

@@ -93,7 +93,7 @@ function blendMode(mode)
                 gl.glEnable(gl.GL_BLEND)
                 gl.glBlendEquation(gl.GL_FUNC_ADD)
                 gl.glBlendFuncSeparate(
-                    gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA, 
+                    gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA,
                     gl.GL_ONE, gl.GL_ONE_MINUS_SRC_ALPHA)
 
             elseif mode == ADDITIVE then
@@ -264,7 +264,7 @@ function ellipse(x, y, w, h, mode)
 end
 
 function sprite(img, x, y, w, h, mode)
-    if type(img) == 'string' then        
+    if type(img) == 'string' then
         img = resourceManager:get('image', img, image)
     end
 
@@ -309,12 +309,12 @@ function textProc(draw, str, x, y)
 
     local marge = 2
     local ratio = osx and 2 or 1
-    
+
     local lines = str:split(NL, false)
-    
+
     for i,line in ipairs(lines) do
         local img = ft:getText(line).img
-        
+
         local lw, lh = img.surface.w/ratio, img.surface.h/ratio
 
         if draw then

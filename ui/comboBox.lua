@@ -2,7 +2,7 @@ class('ComboBox', UI)
 
 function ComboBox:ComboBox(label)
     UI.init(self, label)
-    
+
     self.uiValue = UIValue(label)
     self:add(self.uiValue:attribs{
             backgroundColor = blue * 2,
@@ -12,7 +12,7 @@ function ComboBox:ComboBox(label)
     self.uiList = UI('select a value')
     self.uiList.visible = false
 
-    self:add(self.uiList)    
+    self:add(self.uiList)
 end
 
 function ComboBox:list(values, i)
@@ -24,7 +24,7 @@ function ComboBox:list(values, i)
     else
         value = self:getValue()
     end
-    
+
     if value == nil then
         value = values[1]
     end
@@ -45,13 +45,13 @@ function ComboBox:click()
         self.uiList.visible = true
 
         self.uiList:clear()
-        
+
         for i,value in ipairs(self.values) do
             self.uiList:add(Label(value):attribs{
                     click = function(ui)
                         self.uiList.visible = true
-                        
-                        self:setValue(value)                        
+
+                        self:setValue(value)
                         self:onSelectItem(i, value)
                     end})
         end

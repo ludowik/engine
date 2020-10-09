@@ -202,7 +202,7 @@ float GrndHt (vec2 p, int hiRes)
     vyz += v.yz;
     h += w * v.x / (1. + dot (vyz, vyz));
     if (j == 4 && hiRes == 0) break;
-    w *= -0.4;      
+    w *= -0.4;
     q *= mat2 (vRot.x, vRot.y, - vRot.y, vRot.x);
   }
   return h * smoothstep (0., 5., - grDir * p.x) + 0.1 * Noisefv2 (3. * p) - 1.;

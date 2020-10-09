@@ -3,7 +3,7 @@ function setup()
     boxes:add(Box(0, 0, 0, 3))
 
     parameter.watch('#boxes')
-    
+
     camera(0, 0, 10)
 end
 

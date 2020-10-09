@@ -5,14 +5,14 @@ SplashScreen = class(Screen)
 
 function SplashScreen:init()
     Screen.init(self)
-    
+
     Music.startLoading("StartScreen")
-    
+
     -- background
     self.back = SpriteObj(0,0,WIDTH,HEIGHT)
     self:doDraw(self.back,"Cargo Bot:Startup Screen")
     self:add(self.back)
-    
+
     -- loading message
     local w,h = Screen.makeTextSprite("loadingMsg","LOADING",{fontSize=30,
         fill=color(211, 164, 133, 255)})
@@ -20,7 +20,7 @@ function SplashScreen:init()
     self.loading = SpriteObj((WIDTH-w)/2,935,w,h)
     self:doDraw(self.loading,"loadingMsg",2)
     self:add(self.loading)
-    
+
     -- progress bar
     self.bar = ProgressBar((WIDTH)/2,875,w,40,self)
     self.bar:setVal(0)
@@ -35,7 +35,7 @@ function SplashScreen:tick()
     if Music.loadProgress ~= self.bar.val then
         self.bar:setVal(Music.loadProgress)
     end
-    
+
     Music.tick()
 end
 
@@ -64,7 +64,7 @@ function ProgressBar:init(x,y,w,h,screen)
     self.screen = screen
     self.w = w
     self.h = h
-    
+
     local back = SpriteObj(0,0,254,57)
     self:add(back)
     self.screen:doDraw(back,"Cargo Bot:Loading Bar",2)
@@ -80,7 +80,7 @@ function ProgressBar:setVal(val)
             self:remove(block)
         end
     end
-    
+
     self.blocks = {}
 
     -- full blocks

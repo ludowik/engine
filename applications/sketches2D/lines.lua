@@ -36,15 +36,15 @@ end
 
 function draw()
     noStroke()
-    
+
     fill(0, 0, 0, 0.02)
-    
+
     rectMode(CORNER)
     rect(0, 0, WIDTH, HEIGHT)
-    
+
     noFill()
 
-    local function drawLines()        
+    local function drawLines()
         translate(3, 3)
 
         strokeWidth(2)
@@ -54,7 +54,7 @@ function draw()
             stroke(colors[i])
             line(vertices[i].x, vertices[i].y, vertices[i+1].x, vertices[i+1].y)
         end
-        
+
         stroke(colors[n])
         line(vertices[n].x, vertices[n].y, vertices[1].x, vertices[1].y)
     end

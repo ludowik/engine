@@ -36,17 +36,17 @@ function Ball:update()
         self.pos.x = WIDTH - self.radius
         self.vel.x = -self.vel.x
         sound(SOUND_JUMP)
-        
+
     elseif (self.pos.x - self.radius) <= 0 then
         self.pos.x = self.radius
         self.vel.x = -self.vel.x
         sound(SOUND_JUMP)
-        
+
     elseif (self.pos.y + self.radius) >= HEIGHT then
         self.pos.y = HEIGHT - self.radius
         self.vel.y = -self.vel.y
         sound(SOUND_JUMP)
-        
+
     elseif (self.pos.y - self.radius) <= 0 then
         self.pos.y = self.radius
         self.vel.y = -self.vel.y

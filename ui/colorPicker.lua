@@ -3,12 +3,12 @@ class('ColorPicker', UI, Bind)
 function ColorPicker:init(var, clr, ...)
     UI.init(self, var)
     self.clr = Color(clr)
-    
+
     self:bind(var, self.clr, ...)
 end
 
 function ColorPicker:initImage()
-    if self.saturation == nil or self.needUpdate then 
+    if self.saturation == nil or self.needUpdate then
         local width = self.size.x
 
         -- current color
@@ -23,7 +23,7 @@ function ColorPicker:initImage()
                 local sDist = vec2(x, y):dist(vec2(0, 0))
                 local lDist = vec2(x, y):dist(vec2(0, width))
 
-                local clr = hsl(h, 
+                local clr = hsl(h,
                     (sDist)/(maxDist),
                     (lDist)/(maxDist),
                     a)
@@ -33,7 +33,7 @@ function ColorPicker:initImage()
         end
     end
 
-    if self.hue == nil or self.needUpdate then 
+    if self.hue == nil or self.needUpdate then
         local len = self.size.x - 20
 
         self.hue = self.hue or image(len, 20)
@@ -91,21 +91,21 @@ function ColorPicker:touched(touch)
 
             local _, s, l, a = rgb2hsl(self.clr)
             local h = rgb2hsl(self.hue:get(x, y))
-            
+
             self.clr = hsl(h, s, l , a)
-            
+
             self:setValue(self.clr)
-            
+
             self.needUpdate = true
-            
+
         elseif x > 0 and x < width and y > 0 and y < width then
             local x = touch.x - self.absolutePosition.x
             local y = touch.y - self.absolutePosition.y
 
             self.clr = self.saturation:get(x, y)
-            
+
             self:setValue(self.clr)
-            
+
             self.needUpdate = true
         end
     end

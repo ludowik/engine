@@ -10,7 +10,7 @@ uniform sampler2D tex0;
 in vec2 vTexCoords;
 
 void main() {
-    if (useTexture == 1) 
+    if (useTexture == 1)
         gl_FragColor = texture2D(tex0, vTexCoords) * tint;
     else
         gl_FragColor = fill;

@@ -212,7 +212,7 @@ function ModelVoxel:getTouched(touch)
             for i = 1,6 do
                 if bit[i] == 1 then
                     local vec = self.vectors[i]
-                    if (((v*W)+(vec*w))-cam.eye):dot(vec) < 0 then 
+                    if (((v*W)+(vec*w))-cam.eye):dot(vec) < 0 then
                         local pos = vec*w+cen
                         local hit,int = intersectPlane(pos,vec,cam.eye,t)
                         if hit and int:dist(pos) < w then

@@ -112,7 +112,7 @@ function Model.computeIndices(vertices, texCoords, normals)
         find = false
         for j=1,#indices do
             if v[j] == vertices[i] and
-            (not t or t[j] == texCoords[i]) and 
+            (not t or t[j] == texCoords[i]) and
             (not n or n[j] == normals[i]) then
                 find = j
                 break
@@ -187,7 +187,7 @@ function Model.averageNormals(vertices, normals)
         else
             t[ref] = t[ref] + normal
         end
-    end 
+    end
 
     return t
 end
@@ -232,7 +232,7 @@ function Model.center(vertices)
         vertices[i] = vertices[i] - v
     end
 
-    return vertices 
+    return vertices
 end
 
 function Model.normalize(vertices, norm)
@@ -354,7 +354,7 @@ function Model.line(x, y, w, h)
     w = w or 1
     h = h or 1
 
-    local vertices = Buffer('vec3', 
+    local vertices = Buffer('vec3',
         vec3(x, y, 0),
         vec3(x+w, y+h, 0))
 

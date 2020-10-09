@@ -10,16 +10,16 @@ function Scene:draw()
         local camera = self.camera
         if camera then
             perspective()
-            
-            camera:setViewMatrix()    
-            
+
+            camera:setViewMatrix()
+
             light(config.light)
-            
+
             MeshAxes()
-            
+
             blendMode(NORMAL)
             depthMode(true)
-            cullingMode(true)            
+            cullingMode(true)
         end
 
         if self.parent == nil then
@@ -41,11 +41,11 @@ function Scene:layout()
     if self.parent == nil then
         Node.computeNavigation(self, self, self)
     end
-    
+
     if self.layoutFlow then
         if self.parent == nil then
             self.position:set(0, 0, 0)
-            self.absolutePosition:set(0, 0, 0)            
+            self.absolutePosition:set(0, 0, 0)
         end
 
         Node.layout(self)

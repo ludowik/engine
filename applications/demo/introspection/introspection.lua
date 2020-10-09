@@ -6,7 +6,7 @@ function initUI()
     app.ui:setLayoutFlow(Layout.row)
 
     local t = _G.env
-    
+
     function addGroup(filterType)
         local group = UIScene(Layout.column)
         app.ui:add(group)

@@ -2,7 +2,7 @@ function Array2(w, h, default)
     w = w or 100
     h = h or w
     default = default or 0
-    
+
     local array = {}
     for x=1,w do
         sandpiles[w] = {}
@@ -10,7 +10,7 @@ function Array2(w, h, default)
             sandpiles[w][y] = 0
         end
     end
-    
+
     return array
 end
 

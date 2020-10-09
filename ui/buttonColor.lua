@@ -2,7 +2,7 @@ class('ButtonColor', Button)
 
 function ButtonColor:init(label, action)
     Button.init(self, label, action)
-    
+
     self.color = label
 end
 

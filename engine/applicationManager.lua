@@ -5,7 +5,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     self.appPath = appPath
 
     if not isApp(self.appPath) then
-        print(self.appName, self.appDirectory, self.appPath)        
+        print(self.appName, self.appDirectory, self.appPath)
         error(false)
     end
 
@@ -46,7 +46,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         local env = self.envs[self.appPath]
         _G.env = env
 
-        setfenv(0, env)        
+        setfenv(0, env)
     end
 
     self.app = env.app
@@ -86,7 +86,7 @@ function ApplicationManager:nextApp()
                 break
             end
         end
-    end    
+    end
 
     local appPath = apps[nextAppIndex]
     self:loadApp(appPath)
@@ -103,7 +103,7 @@ function ApplicationManager:previousApp()
                 break
             end
         end
-    end    
+    end
 
     local appPath = apps[previousAppIndex]
     self:loadApp(appPath)

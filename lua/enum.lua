@@ -7,7 +7,7 @@ end
 function enum(enumType)
     local enumInstance = class(enumType, Enum)
     return function (constants)
-        enumInstance.constants = constants        
+        enumInstance.constants = constants
         Attribs.attribs(_G, constants)
     end
 end

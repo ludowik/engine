@@ -27,7 +27,7 @@ local performResume, handleReturnValue
 local oldpcall, oldxpcall = pcall, xpcall
 local pack = table.pack or function(...) return {n = select("#", ...), ...} end
 local unpack = table.unpack or unpack
-  
+
 function handleReturnValue(err, co, status, ...)
     if not status then
         return false, err(debug.traceback(co, (...)), ...)

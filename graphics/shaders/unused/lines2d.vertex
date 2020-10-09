@@ -21,17 +21,17 @@ void process(vec3 position, vec3 normal) {
     } else {
         mm = modelMatrixInstance;
     }
-    
+
     vec4 worldPosition = mm * vec4(position, 1.0);
     vec3 worldNormal = (mm * vec4(normal, 0.0)).xyz;
-    
+
     gl_Position = worldPosition;
-    
+
     vPositionG = worldPosition.xyz;
     vNormalG = worldNormal;
-    
+
     vTexCoordG = texCoord;
-    
+
     if (useUniformColor == 2) {
         vColorG = strokeColor;
     } else if (useUniformColor == 1) {
@@ -39,7 +39,7 @@ void process(vec3 position, vec3 normal) {
     } else {
         vColorG = color;
     }
-    
+
     strokeWidthG = widthInstance;
 }
 

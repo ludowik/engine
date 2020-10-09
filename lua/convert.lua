@@ -52,7 +52,7 @@ unitsMemory = {'o', 'ko', 'mo', 'go', 'to'}
 
 function convertMemory(size, index)
     if size == nil then return '?' end
-    
+
     index = index or 1
     while size >= 1024 and index < #unitsMemory do
         size = size / 1024

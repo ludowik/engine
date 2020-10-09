@@ -113,7 +113,7 @@ function GameScene:touchedMoving(touch)
 
         mino.translation = mino.translation + vec3(touch.deltaX, -touch.deltaY)
         mino.scaling = vec3(1, 1)
-        
+
         print(mino.translation + mino.parent.absolutePosition)
 
         local pos = self.grid:inGrid(mino)
@@ -133,7 +133,7 @@ function GameScene:touchedEnded(touch)
         local mino = self:getMino(touch.id)
         mino.translation = mino.translation + vec3(touch.deltaX, -touch.deltaY)
 
-        local pos = self.grid:inGrid(mino)  
+        local pos = self.grid:inGrid(mino)
         if pos and self.grid:isSelectable(pos, mino) then
             self.grid:add(pos, mino)
             self.score = self.score + self.grid:check()
@@ -142,7 +142,7 @@ function GameScene:touchedEnded(touch)
             self:setMino(touch.id, createMino())
 
             self:getMino(touch.id).position = mino.position
-        else     
+        else
             tween(0.2, mino, {translation = vec3()}, tween.easing.linear)
             self:animateMino(mino)
         end
@@ -156,14 +156,14 @@ function GameScene:touchedEnded(touch)
     self.touch[touch.id] = nil
 end
 
-function GameScene:touchedClick(touch)
+function GameScene:touched(touch)    
     if self.touch[touch.id] then
         local i = self.touch[touch.id]
         local mino = self.minos:get(i):get(1)
         local clockwise = touch.x > mino.position.x
         tween(0.2, mino,
-            {angle=clockwise and 90 or -90}, 
-            tween.easing.linear, 
+            {angle=clockwise and 90 or -90},
+            tween.easing.linear,
             function ()
                 local rotatedMino = mino:rotate(clockwise)
                 self.minos[i]:remove(1)
@@ -187,7 +187,7 @@ function GameScene:test()
     for i=1,3 do
         local mino = self.minos:get(i):get(1)
         for n=1,4 do
-            if self.grid:findSelectable(mino) then 
+            if self.grid:findSelectable(mino) then
                 return true
             end
             mino = mino:rotate()

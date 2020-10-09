@@ -5,7 +5,7 @@ Tweener = class()
 _tweeners = {}
 
 function Tweener.add(tweener)
-    table.insert(_tweeners,tweener) 
+    table.insert(_tweeners,tweener)
 end
 
 function Tweener.remove(tweener)
@@ -27,32 +27,32 @@ function Tweener.alphaTransition(dt,startObj,endObj)
     local startW,startH = startObj:getSize()
     local endX,endY = endObj:getPos()
     local endW,endH = endObj:getSize()
-    
+
     local startAlpha = startObj.tint.a
     local endAlpha = endObj.tint.a
-    
+
     local tickFunc = function(tFrac)
         -- translate, setSize
         local newX = startX + tFrac * (endX - startX)
         local newY = startY + tFrac * (endY - startY)
         local newW = startW + tFrac * (endW - startW)
         local newH = startH + tFrac * (endH - startH)
-        
+
         startObj:translate(newX - startObj:getX(),newY - startObj:getY())
         startObj:setSize(newW,newH)
         endObj:translate(newX - endObj:getX(),newY - endObj:getY())
         endObj:setSize(newW,newH)
-        
+
         -- alpha changes
         local newStartAlpha = startAlpha + tFrac^(.25) * (0-startAlpha)
         local oldTint = startObj.tint
         startObj:setTint(color(oldTint.r,oldTint.g,oldTint.b,newStartAlpha))
-        
+
         local newEndAlpha = 0 + tFrac^(0.25) * (endAlpha-0)
         local oldTint = startObj.tint
         endObj:setTint(color(oldTint.r,oldTint.g,oldTint.b,newEndAlpha))
     end
-    
+
     tickFunc(0)
     local tweener = Tweener(dt,tickFunc)
     return tweener
@@ -68,14 +68,14 @@ end
 
 function Tweener:tick()
     if self.tickFunc then
-        self.tickFunc(self.t/self.dt) 
+        self.tickFunc(self.t/self.dt)
     end
     self.t = self.t + DeltaTime
     if self.t >= self.dt then
         if self.tickFunc then
             self.tickFunc(1)
         end
-        self:done() 
+        self:done()
     end
 end
 

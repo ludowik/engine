@@ -7,9 +7,9 @@ function Pile:init(x,y,config,screen)
     Panel.init(self,x,y)
     self.config = config
     self.screen = screen
-    
+
     self.crates = Stack()
-    
+
     -- the base of the pile
     local baseX = math.floor((self.config.w - self.config.base.w)/2)
     local baseW,baseH = self.config.base.w,self.config.base.h
@@ -30,7 +30,7 @@ function Pile:push(args)
     local colStr = args.colStr
     local dx = args.dx or 0
     local inverted = args.inverted or false
-    
+
     --  calculate the coords of the crate
     local y = self.config.base.h + self.config.base.borderY
     y = y + self.crates:size() * (self.config.crate.h + self.config.crate.borderY)
@@ -52,14 +52,14 @@ end
 -- push method for when we already have a crate object
 function Pile:pushCrate(crate,dx)
     crate:addToScreen(self.screen)
-    
+
     --  calculate the coords of the crate
     local y = self.config.base.h + self.config.base.borderY
     y = y + self.crates:size() * (self.config.crate.h + self.config.crate.borderY)
     local x = math.floor((self.config.w - self.config.crate.w)/2)
     x = x + dx
     crate:translate(x - crate.x, y - crate.y)
-    
+
     self:add(crate)
     self.crates:push(crate)
 end

@@ -47,20 +47,20 @@ function setModelName(modelName)
         model = Model.plane()
 
     elseif modelName == 'box' then
-        model = Model.box() 
+        model = Model.box()
 
     elseif modelName == 'sphere' then
         model = Model.sphere()
 
     elseif modelName == 'planet' then
-        model = Model.sphere() 
+        model = Model.sphere()
         model.shader = shaders['terrain']
 
     elseif modelName == 'pyramid' then
-        model = Model.pyramid() 
+        model = Model.pyramid()
 
     elseif modelName == 'tetrahedron' then
-        model = Model.tetrahedron() 
+        model = Model.tetrahedron()
 
     elseif modelName == "rubyk's cube" then
         model = Mesh()

@@ -55,8 +55,6 @@ function Engine:init()
     engine.infoAlpha = 0
     engine.infoHide = true
 
-    W_INFO = 200
-
     if osx then
         W = W or 1480
         H = H or 1000
@@ -157,8 +155,8 @@ function Engine:initEvents()
     }
 
     engine:on('keydown', 't',
-        function() 
-            engine:on('update', function() 
+        function()
+            engine:on('update', function()
                     mouse:mouseEvent(0, BEGAN, math.random(W), math.random(H), 0, 0, true, false)
                     mouse:mouseEvent(0, ENDED, math.random(W), math.random(H), 0, 0, false, false)
                 end)
@@ -183,7 +181,7 @@ function Engine:initialize()
         self:managerApp()
     end
 
-    sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)        
+    sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
 end
 
 function Engine:release()
@@ -238,17 +236,17 @@ function Engine:frame(forceDraw)
         self.frameTime:draw()
 
         self.frameTime.deltaTimeAccum = (
-            self.frameTime.deltaTimeAccum - 
+            self.frameTime.deltaTimeAccum -
             math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
 
     end
 end
 
-function Engine:resize(w, h, w_info)
+function Engine:resize(w, h, valeur)
+    assert(not valeur)
+
     W = w
     H = h
-
-    W_INFO = max(0, w_info)
 
     sdl.SDL_SetWindowSize(sdl.window, W, H)
 end
@@ -266,7 +264,7 @@ function quit()
 end
 
 function exit(res)
-    if res then 
+    if res then
         print(res)
     end
 
@@ -302,7 +300,7 @@ function Engine:update(dt)
     end
 
     if engine.infoHide then
-        engine.infoAlpha = max(0, engine.infoAlpha - dt / 3)
+        engine.infoAlpha = 0 -- max(0, engine.infoAlpha - dt / 3)
     else
         engine.infoAlpha = 1
     end
@@ -314,9 +312,10 @@ end
 function Engine:draw()
     render(self.renderFrame, function ()
             self.app:__draw()
-        end)
-
-    render(self.renderFrame, function ()
+            
+            resetMatrix(true)
+            resetStyle(NORMAL, false, false)
+            
             if reporting then
                 reporting:draw()
             end
@@ -328,43 +327,35 @@ function Engine:draw()
             line(W/2, 0, W/2, H)
         end)
 
-    self:postRender()
+    self:postRender(screen.MARGE_X, screen.MARGE_Y)
 
     render(self.renderFrame, function ()
-            ortho(0, W, 0, H)
-
-            clip(0, 0, W_INFO, H)
-
             self:drawInfo(engine.infoAlpha)
             self:drawHelp()
         end)
 
-    self:postRender()
-
-    noClip()
+    self:postRender(screen.MARGE_X, screen.MARGE_Y)
 
     sdl:swap()
 end
 
-function Engine:postRender()
+function Engine:postRender(x, y, w, h)
     if self.renderFrame then
-        Context.noContext()
-
-        background(Color(0, 0, 0, 1))
-
         pushMatrix()
-        resetMatrix(true)
+        do
+            resetMatrix(true)
+            resetStyle(NORMAL, false, false)
+            
+            Context.noContext()
+            
+            background(Color(0, 0, 0, 1))
 
-        resetStyle()
-
-        ortho(0, W, 0, H)
-
-        blendMode(NORMAL)
-        depthMode(false)
-        cullingMode(false)
-
-        self.renderFrame:draw(0, 0, WIDTH, HEIGHT)
-
+            self.renderFrame:draw(
+                x or 0,
+                y or 0,
+                w or W,
+                h or H)
+        end
         popMatrix()
     end
 end
@@ -379,7 +370,6 @@ function Engine:drawInfo(alpha)
     -- background
     noStroke()
     fill(white:alpha(alpha))
---    rect(0, 0, W_INFO, H)
 
     -- infos
     font(DEFAULT_FONT_NAME)
@@ -391,10 +381,10 @@ function Engine:drawInfo(alpha)
     local function info(name, value)
         local info = name..' : '..tostring(value)
         local w, h = textSize(info)
-        
+
         fill(white:alpha(alpha))
-        rect(0, TEXT_NEXT_Y-h, w, h)
-        
+        rect(0, TEXT_NEXT_Y-h, w+10, h)
+
         fill(black:alpha(alpha))
         text(info)
     end
@@ -440,27 +430,22 @@ function Engine:touched(touch)
         end
     end
 
-    if touch.state == BEGAN then
-        if abs(touch.x-W_INFO) <= 5 then
-            isSizing = true
+    if touch.state == ENDED then
+        if touch.x < 0 then
+            engine.infoHide = not engine.infoHide
+        elseif touch.x > W then
+            if touch.y > H * 2 / 3 then
+                engine:nextApp()
+            elseif touch.y > H * 1 / 3 then
+                engine:previousApp()
+            elseif touch.y > H * 0 / 3 then
+                engine:loopApp()
+            end            
         end
-    elseif touch.state ~= MOVING then
-        isSizing = false
     end
 end
 
 function Engine:mouseMove(touch)
-    if isSizing or abs(touch.x-W_INFO) <= 5 then
-        sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_SIZEWE)
-    else
-        sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
-    end
-
-    engine.infoHide = touch.x > W_INFO
-
-    if isSizing then
-        self:resize(W, H, W_INFO + touch.dx)
-    end
 end
 
 function Engine:mouseWheel(touch)

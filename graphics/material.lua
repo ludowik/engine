@@ -4,9 +4,9 @@ function Material:init()
     self.ambientStrength = 2.5
     self.diffuseStrength = 2
     self.specularStrength = 0.2
-    
+
     self.shininess = 32
-    
+
     self.alpha = 1
 end
 

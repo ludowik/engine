@@ -8,7 +8,7 @@ function Smoke:init(x,y,screen)
 
     self.life = 0
     self.maxLife = 0.3
-    
+
     self.particles = {}
     for i = 1,5 do
         local scl = math.random()+1
@@ -20,8 +20,8 @@ function Smoke:init(x,y,screen)
         self.screen:doDraw(obj,"Cargo Bot:Smoke Particle",10)
         self:add(obj)
         table.insert(self.particles,obj)
-        
-        local c = v 
+
+        local c = v
         obj:rotate(math.random(0,360))
         obj.velocity = vec2(0,1):rotate(math.random(math.pi*2))*150
     end
@@ -35,7 +35,7 @@ function Smoke:tick()
     if l > startFade then
         alpha = 1 - (l - startFade)*(1/startFade)
     end
-    
+
     if alpha > 0 then
         for _,obj in ipairs(self.particles) do
             obj:setSize(obj:getW()+50*DeltaTime,obj:getH()+50*DeltaTime)

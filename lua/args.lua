@@ -15,8 +15,8 @@ function args:get(...)
             table.insert(parameters, paramType[2])
         end
     end
-    
+
     table.insert(parameters, self.args)
-    
+
     return unpack(parameters)
 end

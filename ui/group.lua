@@ -56,10 +56,10 @@ end
 
 function Group:toggleReduce(reduced)
     if reduced == nil then
-        reduced = not self.reduced    
+        reduced = not self.reduced
     end
 
-    self.reduced = reduced    
+    self.reduced = reduced
     saveLocalData('Group.'..self.label..'.reduce', self.reduced)
 end
 

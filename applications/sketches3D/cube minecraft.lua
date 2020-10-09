@@ -13,7 +13,7 @@ end
 
 function Cube:myTexture2()
     self.aaa = image(size*4, size*3)
-    
+
     render(self.aaa, function ()
             noStroke()
             rectMode(CORNER)
@@ -46,8 +46,8 @@ function Cube:draw()
 
     spriteMode(CORNER)
     sprite(self.aaa, 0, 0)
-    
-    perspective()    
+
+    perspective()
     camera(2, 3, 10)
 
     box(1, 1, 1, self.aaa)

@@ -12,6 +12,6 @@ out vec4 vColor;
 void main() {
     vec3 vertexPosition = vertex * size + pos;
     gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
-    
+
     vColor = color;
 }

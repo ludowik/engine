@@ -67,7 +67,7 @@ end
 function Node:update(dt)
     for i,v in self.nodes:items() do
 
-        if v.update then            
+        if v.update then
             v:update(dt)
         end
     end
@@ -140,7 +140,7 @@ function Node:setFocus(newFocus)
     if newFocus then
         newFocus.hasFocus = true
     end
-    self.focus = newFocus   
+    self.focus = newFocus
 end
 
 function Node:getFocus()
@@ -152,7 +152,7 @@ function Node:getFocus()
                 return who
             end
         end
-    end    
+    end
 end
 
 function Node:touched(touch)
@@ -213,7 +213,7 @@ function Node:contains(...)
                 return v
             end
         end
-    end    
+    end
 end
 
 function Node:ui(label, level)
@@ -225,7 +225,7 @@ function Node:ui(label, level)
         end
         if node.ui then
             local subView = node:ui(label, level+1)
-            if subView then 
+            if subView then
                 return subView
             end
         end

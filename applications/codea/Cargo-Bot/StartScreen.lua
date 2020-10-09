@@ -5,30 +5,30 @@ StartScreen = class(Screen)
 
 function StartScreen:init()
     Screen.init(self)
-    
+
     physics.gravity(vec2(0,-1000))
     physics.resume()
 
     self.crateT = -100 -- when elFapsedtime is greater than this, spawn
     self.bodies = {}
     self.unusedPool = {}
-    
+
     local tinyR = 4
-    
+
     -- background
     local background = Button(0,0,WIDTH,HEIGHT)
     self:doDraw(background,"Cargo Bot:Opening Background",-2)
-    background.onEnded = function(obj,t) 
+    background.onEnded = function(obj,t)
         self:stopPhysics()
         local packSelect = PackSelect()
         transitionScreen:start(self,packSelect)
         currentScreen = transitionScreen
     end
-    
+
     -- title
     local title = SpriteObj(35,650,699,150)
     self:doDraw(title,"Cargo Bot:Cargo Bot Title",1)
-    
+
     -- made with codea
     local codea = Button(20,20,186,32)
     self:doDraw(codea,"Cargo Bot:Made With Codea")
@@ -36,7 +36,7 @@ function StartScreen:init()
     codea.onEnded = function(obj,t)
         openURL( "http://twolivesleft.com/Codea" )
     end
-    
+
     -- how this game was made arrow
     local arrow = Button(740,20,13,27)
     self:doDraw(arrow,"Cargo Bot:How Arrow")
@@ -46,7 +46,7 @@ function StartScreen:init()
         transitionScreen:start(self,how)
         currentScreen = transitionScreen
     end
-    
+
     -- how this game was created?
     local howSprite = "howCreatedSprite"
     local w,h = Screen.makeTextSprite(howSprite,"HOW WAS THIS GAME CREATED?",
@@ -55,7 +55,7 @@ function StartScreen:init()
     self:doDraw(howString,howSprite)
     howString.onEnded = arrow.onEnded
     howString:setExtras({left=20,right=40,top=20,bottom=20})
-    
+
     -- the ground
     local y = 300
     local h = 30
@@ -65,7 +65,7 @@ function StartScreen:init()
     ground:setTint(color(0,0,0,255))
     ground:setSizeOff(0,0)
     self.groundY = 330
-    
+
     -- create the physics for the conveyor belt
     local x = -2*tinyR
     while x < WIDTH + 50 do
@@ -91,7 +91,7 @@ function StartScreen:stopPhysics()
             body = nil
         end
     end
-        
+
     physics.pause()
 end
 
@@ -108,11 +108,11 @@ end
 
 function StartScreen:newCrate()
     if ElapsedTime < self.crateT then return nil end
-    
+
     local y = HEIGHT + 100
     local x = 200 + math.random(-50,50)
     local ang = math.random(-30,30)
-    
+
     local obj,body
 
     if #self.unusedPool > 0 then
@@ -120,7 +120,7 @@ function StartScreen:newCrate()
         table.remove(self.unusedPool,1)
         obj = elem.obj
         body = elem.body
-        
+
         obj:translate(x-obj.x,y-obj.y)
         obj:setAngle(ang)
         body.x = x
@@ -153,7 +153,7 @@ function StartScreen:newCrate()
         body.restitution = 0
         body.friction = .3
     end
-    
+
     table.insert(self.bodies,{body=body,obj=obj})
 
     self.crateT = ElapsedTime + math.random()+.1
@@ -185,21 +185,21 @@ function StartScreen:physSimulation()
 
             if body.type == DYNAMIC then
                 local obj = elem.obj
-                obj:setAngle(body.angle) 
-                
+                obj:setAngle(body.angle)
+
                 -- calculate the center of the physics body
                 local bodyCenter = vec2(w,h)/2
                 bodyCenter = bodyCenter:rotate(math.rad(body.angle))
                 bodyCenter = bodyCenter + vec2(body.x,body.y)
-                
+
                 -- calculate the center of the sprite obj
                 local objCenter = vec2(obj:getX(),obj:getY()) +
                     vec2(obj:getW(),obj:getH())/2
-                
+
                 -- translate the obj
                 local dpos = bodyCenter - objCenter
                 obj:translate(dpos.x,dpos.y)
-                
+
                 local grayValue = 90 + 165*(obj.y - self.groundY) / (HEIGHT - self.groundY)
                 --print(obj.x,self.ground.x)
                 obj:setTint(color(grayValue,grayValue,grayValue,255))
@@ -220,7 +220,7 @@ function StartScreen:drawBodies()
         pushMatrix()
         translate(body.x,body.y)
         rotate(body.angle)
-        
+
         if body.shapeType == CIRCLE then
             line(0,0,body.radius-3,0)
             ellipse(0,0,body.radius*2)

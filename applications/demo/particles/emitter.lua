@@ -13,7 +13,7 @@ end
 
 function Emitter:addParticle(n)
     n = n or 0
-    for i=1,n do    
+    for i=1,n do
         self.particles:add(Particle(self))
     end
 end
@@ -21,7 +21,7 @@ end
 function Emitter:update(dt)
     self.particles:update(dt)
 
-    for i=#self.particles,1,-1 do    
+    for i=#self.particles,1,-1 do
         local particle = self.particles[i]
         if particle.life < -10 then
             self.particles:remove(i)

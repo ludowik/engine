@@ -2,7 +2,7 @@ class('ButtonImage', Button)
 
 function ButtonImage:init(label, action)
     Button.init(self, label, action)
-    
+
     self.image = image(label)
 end
 

@@ -83,7 +83,7 @@ function GridWater:draw(w, h)
             if value == -1 then
                 fill(51)
                 rect(i*w, j*h, w, h)
-                
+
             elseif value then
                 fill(0, 0, value)
                 rect(i*w, j*h, w, h)
@@ -91,7 +91,7 @@ function GridWater:draw(w, h)
                 noFill()
                 text(value, i*w, j*h)
             end
-            
+
             noFill()
             rect(i*w, j*h, w, h)
         end

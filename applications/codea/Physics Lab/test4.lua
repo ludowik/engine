@@ -11,7 +11,7 @@ function Test4:setup()
     self.sensor = createCircle(WIDTH/2,HEIGHT/2, 25)
     self.sensor.sensor = true
     self.sensor.type = STATIC
-    
+
     createBox(WIDTH/2, HEIGHT/2 + 100, 20, 20)
 end
 

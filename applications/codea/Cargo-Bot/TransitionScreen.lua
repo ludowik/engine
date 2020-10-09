@@ -7,7 +7,7 @@ TransitionScreen = class(Screen)
 function TransitionScreen:init()
     Screen.init(self)
     self.closeAmount = 1
-    
+
     -- create the walls
     local crateW,crateH = spriteSize("Cargo Bot:Title Large Crate 1")
     self.walls = {{},{}}
@@ -28,7 +28,7 @@ function TransitionScreen:init()
                 local shade = math.min( (crateIdx-1)*20 + math.random(50,90), 255 )
                 obj:setTint(color(shade,shade,shade,255))
                 self.walls[wallIdx][obj] = shade
-                
+
                 obj.closedX = obj.x
                 if wallIdx == 1 then obj.openX = obj.x - WIDTH/2
                 else obj.openX = obj.x + WIDTH/2 end
@@ -70,20 +70,20 @@ end
 function TransitionScreen:start(oldScreen,newScreen,skipCutScene)
     self:bind()
     if oldScreen then oldScreen:unbind() end
-    
+
     if skipCutScene then
         self:unbind()
         currentScreen = newScreen
         currentScreen:bind()
         return nil
     end
-    
+
     self.newScreen = newScreen
     self.background = oldScreen
     self.midCallback = nil
     self.endCallback = nil
     self.openTime = .5
-    
+
     local tweener = Tweener(.7,function(p) self:setCloseAmount(math.min(1,7/5*p)) end,
             function() self:openIt() end )
     Tweener.add(tweener)
@@ -93,7 +93,7 @@ end
 function TransitionScreen:startClosed(oldScreen,newScreen)
     self:bind()
     if oldScreen then oldScreen:unbind() end
-    
+
     self.newScreen = newScreen
     self.background = oldScreen
     self.midCallback = nil
@@ -102,7 +102,7 @@ function TransitionScreen:startClosed(oldScreen,newScreen)
     self:setCloseAmount(1)
     self:setBrightness(0)
     self:setTint(color(0,0,0,255))
-    local tweener = Tweener(1.5,function(p) 
+    local tweener = Tweener(1.5,function(p)
         if p < .5 then self:setBrightness(p/.5) end
     end,function() self:setBrightness(1) self:openIt() end )
     Tweener.add(tweener)
@@ -110,14 +110,14 @@ end
 
 function TransitionScreen:openIt()
     self.background = self.newScreen
-    
+
     self:unbind()
     self.newScreen:bind()
     -- used by winscreen.replay
     if self.midCallback then self.midCallback() end
-    
+
     local tweener = Tweener(self.openTime,function(p) self:setCloseAmount((1-p)) end,
-        function() 
+        function()
             currentScreen = self.newScreen
             -- used for when we select a level, from level select or winscreen.next
             if self.endCallback then self.endCallback() end

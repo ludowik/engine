@@ -5,7 +5,7 @@
 -- Use this function to perform your initial setup
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
-    
+
     parameter.watch("math.floor(fps)")
     initColors()
     boxes = {}
@@ -81,10 +81,10 @@ function Platform:draw()
     pushMatrix()
     translate(x,y)
     rotate(self.body.angle)
-    
+
     rectMode(CORNER)
     rect(-w/2,-h/2,w,h)
-    
+
     popMatrix()
 end
 

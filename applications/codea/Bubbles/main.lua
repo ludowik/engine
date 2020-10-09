@@ -18,9 +18,9 @@ function Bubbles:emit()
         local life = math.random(30, 60)
 
         local bubble = {
-            pos = vec2(self.x, self.y), 
-            dir = dir, 
-            size = size, 
+            pos = vec2(self.x, self.y),
+            dir = dir,
+            size = size,
             life = life
         }
 
@@ -28,7 +28,7 @@ function Bubbles:emit()
         --  dir: direction
         --  size: size of the bubble
         --  life: how many frames the bubble lives
-        --  pos: the initial position of the bubble 
+        --  pos: the initial position of the bubble
         --   (all bubbles start at the emitter position)
 
         -- Add the bubble to our table of bubbles
@@ -93,7 +93,7 @@ end
 
 -- This function gets called once every frame
 function draw()
-    -- This sets a dark background color 
+    -- This sets a dark background color
     background(40, 40, 50)
 
     -- This sets the line thickness

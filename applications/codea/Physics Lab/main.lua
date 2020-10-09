@@ -1,15 +1,15 @@
 supportedOrientations(LANDSCAPE_ANY)
 
 -- Use this function to perform your initial setup
-function setup()    
+function setup()
     lineCapMode(ROUND)
     debugDraw = PhysicsDebugDraw()
-    
+
     -- test classes
-    -- to add your own, make sure to define setup() and cleanup() 
+    -- to add your own, make sure to define setup() and cleanup()
     -- in addition to draw() and touched()
     tests = {Test1(), Test2(), Test3(), Test4(), Test5(), Test6(), Test7(), Test8(), Test9()}
-    
+
     parameter.integer("TestNumber", 1, #tests)
 
     parameter.boolean("UseAccelerometer")
@@ -17,7 +17,7 @@ function setup()
     currentTestIndex = 1
     currentTest = nil
     setTest(currentTestIndex)
-    
+
     defaultGravity = physics.gravity()
 end
 
@@ -28,7 +28,7 @@ function setTest(t)
         end
         cleanup()
     end
-    
+
     currentTestIndex = t
     currentTest = tests[t]
     currentTest:setup()
@@ -79,15 +79,15 @@ function createRandPoly(x,y)
     local a = 0
     local d = 2 * math.pi / count
     local points = {}
-    
+
     assert(count >= 3)
-    
+
     for i = 1,count do
         local v = vec2(r,0):rotateInPlace(a):add(vec2(math.random(-10,10), math.random(-10,10)))
         a = a + d
         table.insert(points, v)
     end
-    
+
     local poly = physics.body(POLYGON, points)
     poly.x = x
     poly.y = y
@@ -106,23 +106,23 @@ end
 function draw()
     -- This sets the background color to black
     background(0, 0, 0)
-    
+
     if TestNumber ~= currentTestIndex then
         setTest(TestNumber)
     end
-    
+
     currentTest:draw()
     debugDraw:draw()
-    
+
     local str = string.format("Test %d - %s", currentTestIndex, currentTest.title)
-    
+
     font("Arial")
     fontSize(22)
     fill(255, 255, 255, 255)
-    
-    
+
+
     text(str, WIDTH/2, HEIGHT - 20)
-    
+
     if UseAccelerometer == true then
         physics.gravity(Gravity)
     else
@@ -140,7 +140,7 @@ function collide(contact)
     if debugDraw then
         debugDraw:collide(contact)
     end
-    
+
     if currentTest and currentTest.collide then
         currentTest:collide(contact)
     end

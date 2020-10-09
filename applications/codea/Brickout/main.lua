@@ -29,8 +29,8 @@ function setup()
     makeBG()
     makeBlocks()
     makeEmitter()
-    print("Tap the bat to lanch the ball.")
-    print("Drag om the screen to move the paddle")
+    print("Tap the bat to launch the ball.")
+    print("Drag om the screen to move the paddle.")
     print("When the game is over tap the screen to restart.")
 end
 
@@ -51,7 +51,7 @@ end
 
 -- Make a particle emitter for effects
 function makeEmitter()
-    emitter = Emitter( { 
+    emitter = Emitter( {
             tex = "Cargo Bot:Star",
             startColor = color(255,255,255,255),
             endColor = color(255,255,0,0),
@@ -148,8 +148,8 @@ function draw()
     end
     -- Check collision with the bat
     if bat:collide(ball) == false then
-        -- Check collision with the blocks 
-        -- no need to do this if ball has hit bat. 
+        -- Check collision with the blocks
+        -- no need to do this if ball has hit bat.
         -- Still does a lot of unecessary checks
         for i = 1, table.maxn(blocks) do
             if blocks[i]:collide(ball) then
@@ -200,9 +200,9 @@ function touched(touch)
         if gameover == false and won == false then
             -- If bat is touched launch ball
             if ballIsMoving == false then
-                if CurrentTouch.x < bat:right() + 10 and 
-                CurrentTouch.x > bat:left() - 10 and 
-                CurrentTouch.y < bat:top() + 20 and 
+                if CurrentTouch.x < bat:right() + 10 and
+                CurrentTouch.x > bat:left() - 10 and
+                CurrentTouch.y < bat:top() + 20 and
                 CurrentTouch.y > bat:bottom() then
                     if ballIsMoving == false then
                         ballIsMoving = true

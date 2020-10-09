@@ -1,6 +1,6 @@
 // [SIG15] Mario World 1-1
 // by Krzysztof Narkowicz @knarkowicz
-// 
+//
 // Intersting findings from original NES Super Mario Bros.:
 // -Clouds and brushes of all sizes are drawn using the same small sprite (32x24)
 // -Hills, clouds and bushes weren't placed manually. Every background object type is repeated after 768 pixels.
@@ -18,14 +18,14 @@ void SpriteBlock( inout vec3 color, float x, float y )
 {
     // black
     float idx = 1.0;
-    
+
     // light orange
     idx = x < y ? 3.0 : idx;
-    
+
     // dark orange
     idx = x > 3.0 && x < 12.0 && y > 3.0 && y < 12.0 ? 2.0 : idx;
     idx = x == 15.0 - y ? 2.0 : idx;
-    
+
     color = RGB( 0, 0, 0 );
 	color = idx == 2.0 ? RGB( 231,  90,  16 ) : color;
 	color = idx == 3.0 ? RGB( 247, 214, 181 ) : color;
@@ -34,11 +34,11 @@ void SpriteBlock( inout vec3 color, float x, float y )
 void SpriteHill( inout vec3 color, float x, float y )
 {
     float idx = 0.0;
-    
+
     // dark green
     idx = ( x > y && 79.0 - x > y ) && y < 33.0 ? 2.0 : idx;
     idx = ( x >= 37.0 && x <= 42.0 ) && y == 33.0 ? 2.0 : idx;
-    
+
     // black
     idx = ( x == y || 79.0 - x == y ) && y < 33.0 ? 1.0 : idx;
     idx = ( x == 33.0 || x == 46.0 ) && y == 32.0 ? 1.0 : idx;
@@ -55,7 +55,7 @@ void SpriteHill( inout vec3 color, float x, float y )
     idx = ( x >= 52.0 && x <= 54.0 ) && ( y >= 11.0 && y <= 14.0 ) ? 1.0 : idx;
     idx = ( x == 29.0 || x == 53.0 ) && ( y >= 10.0 && y <= 15.0 ) ? 1.0 : idx;
     idx = x == 45.0 && ( y >= 26.0 && y <= 31.0 ) ? 1.0 : idx;
-    
+
 	color = idx == 1.0 ? RGB( 0,     0,  0 ) : color;
 	color = idx == 2.0 ? RGB( 0,   173,  0 ) : color;
 }
@@ -66,18 +66,18 @@ void SpritePipe( inout vec3 color, float x, float y, float h )
 
     // light green
 	float idx = 3.0;
-    
+
     // dark green
     idx = ( ( x > 5.0 && x < 8.0 ) || ( x == 13.0 ) || ( x > 15.0 && x < 23.0 ) ) && y < 17.0 + offset ? 2.0 : idx;
-    idx = ( ( x > 4.0 && x < 7.0 ) || ( x == 12.0 ) || ( x > 14.0 && x < 24.0 ) ) && ( y > 17.0 + offset && y < 30.0 + offset ) ? 2.0 : idx;    
+    idx = ( ( x > 4.0 && x < 7.0 ) || ( x == 12.0 ) || ( x > 14.0 && x < 24.0 ) ) && ( y > 17.0 + offset && y < 30.0 + offset ) ? 2.0 : idx;
     idx = ( x < 5.0 || x > 11.0 ) && y == 29.0 + offset ? 2.0 : idx;
-	idx = fract( x * 0.5 + y * 0.5 ) == 0.5 && x > 22.0 && ( ( x < 26.0 && y < 17.0 + offset ) || ( x < 28.0 && y > 17.0 + offset && y < 30.0 + offset ) ) ? 2.0 : idx;    
-    
+	idx = fract( x * 0.5 + y * 0.5 ) == 0.5 && x > 22.0 && ( ( x < 26.0 && y < 17.0 + offset ) || ( x < 28.0 && y > 17.0 + offset && y < 30.0 + offset ) ) ? 2.0 : idx;
+
     // black
     idx = y == 31.0 + offset || x == 0.0 || x == 31.0 || y == 17.0 + offset ? 1.0 : idx;
     idx = ( x == 2.0 || x == 29.0 ) && y < 18.0 + offset ? 1.0 : idx;
-    idx = ( x > 1.0 && x < 31.0 ) && y == 16.0 + offset ? 1.0 : idx;    
-    
+    idx = ( x > 1.0 && x < 31.0 ) && y == 16.0 + offset ? 1.0 : idx;
+
     // transparent
     idx = ( x < 2.0 || x > 29.0 ) && y < 17.0 + offset ? 0.0 : idx;
 
@@ -89,7 +89,7 @@ void SpritePipe( inout vec3 color, float x, float y, float h )
 void SpriteCloud( inout vec3 color, float x, float y, float isBush )
 {
 	float idx = 0.0;
-    
+
 	idx = y == 23.0 ? ( x <= 10.0 ? 0.0 : ( x <= 21.0 ? 5440.0 : 0.0 ) ) : idx;
 	idx = y == 22.0 ? ( x <= 10.0 ? 0.0 : ( x <= 21.0 ? 32720.0 : 0.0 ) ) : idx;
 	idx = y == 21.0 ? ( x <= 10.0 ? 0.0 : ( x <= 21.0 ? 131061.0 : 0.0 ) ) : idx;
@@ -211,18 +211,18 @@ void SpriteGoomba( inout vec3 color, float x, float y, float frame )
 		idx = y == 3.0 ? 43690.0 : idx;
 		idx = y == 2.0 ? ( x <= 7.0 ? 65472.0 : 1023.0 ) : idx;
 		idx = y == 1.0 ? ( x <= 7.0 ? 65280.0 : 255.0 ) : idx;
-		idx = y == 0.0 ? ( x <= 7.0 ? 1364.0 : 5456.0 ) : idx; 
+		idx = y == 0.0 ? ( x <= 7.0 ? 1364.0 : 5456.0 ) : idx;
     }
-    
+
     idx = SPRITE_DEC( x, idx );
-    
+
 	color = idx == 1.0 ? RGB( 0,     0,   0 ) : color;
 	color = idx == 2.0 ? RGB( 153,  75,  12 ) : color;
 	color = idx == 3.0 ? RGB( 255, 200, 184 ) : color;
 }
 
 void SpriteKoopa( inout vec3 color, float x, float y, float frame )
-{    
+{
 	float idx = 0.0;
 
 	if ( frame == 0.0 )
@@ -283,7 +283,7 @@ void SpriteKoopa( inout vec3 color, float x, float y, float frame )
 
 	color = idx == 1.0 ? RGB( 30,  132,   0 ) : color;
 	color = idx == 2.0 ? RGB( 215, 141,  34 ) : color;
-	color = idx == 3.0 ? RGB( 255, 255, 255 ) : color;    
+	color = idx == 3.0 ? RGB( 255, 255, 255 ) : color;
 }
 
 void SpriteQuestion( inout vec3 color, float x, float y, float t )
@@ -341,7 +341,7 @@ void SpriteMushroom( inout vec3 color, float x, float y )
 }
 
 void SpriteGround( inout vec3 color, float x, float y )
-{   
+{
 	float idx = 0.0;
 	idx = y == 15.0 ? ( x <= 7.0 ? 65534.0 : 49127.0 ) : idx;
 	idx = y == 14.0 ? ( x <= 7.0 ? 43691.0 : 27318.0 ) : idx;
@@ -368,7 +368,7 @@ void SpriteGround( inout vec3 color, float x, float y )
 }
 
 void SpriteFlagpoleEnd( inout vec3 color, float x, float y )
-{   
+{
 	float idx = 0.0;
 
 	idx = y == 7.0 ? 1360.0  : idx;
@@ -388,7 +388,7 @@ void SpriteFlagpoleEnd( inout vec3 color, float x, float y )
 }
 
 void SpriteMario( inout vec3 color, float x, float y, float frame )
-{    
+{
     float idx = 0.0;
 
 	if ( frame == 0.0 )
@@ -409,7 +409,7 @@ void SpriteMario( inout vec3 color, float x, float y, float frame )
         idx = y == 1.0 ? ( x <= 7.0 ? 16400.0 : 5.0 ) : idx;
         idx = y == 0.0 ? ( x <= 7.0 ? 16384.0 : 21.0 ) : idx;
 	}
-    else if ( frame == 1.0 ) 
+    else if ( frame == 1.0 )
     {
         idx = y == 15.0 ? ( x <= 7.0 ? 43008.0 : 10.0 ) : idx;
         idx = y == 14.0 ? ( x <= 7.0 ? 43520.0 : 682.0 ) : idx;
@@ -428,7 +428,7 @@ void SpriteMario( inout vec3 color, float x, float y, float frame )
         idx = y == 1.0 ? ( x <= 7.0 ? 21504.0 : 85.0 ) : idx;
         idx = y == 0.0 ? ( x <= 7.0 ? 21504.0 : 1.0 ) : idx;
     }
-    else if ( frame == 2.0 ) 
+    else if ( frame == 2.0 )
     {
         idx = y == 15.0 ? ( x <= 7.0 ? 43008.0 : 10.0 ) : idx;
         idx = y == 14.0 ? ( x <= 7.0 ? 43520.0 : 682.0 ) : idx;
@@ -602,16 +602,16 @@ void SpriteMario( inout vec3 color, float x, float y, float frame )
         idx = y == 2.0 ? ( x <= 7.0 ? 10901.0 : 0.0 ) : idx;
         idx = y == 1.0 ? ( x <= 7.0 ? 5.0 : 0.0 ) : idx;
     }
-    
+
     idx = SPRITE_DEC( x, idx );
-    
+
 	color = idx == 1.0 ? RGB( 106, 107,  4 ) : color;
 	color = idx == 2.0 ? RGB( 177,  52, 37 ) : color;
-	color = idx == 3.0 ? RGB( 227, 157, 37 ) : color;    
+	color = idx == 3.0 ? RGB( 227, 157, 37 ) : color;
 }
 
 void SpriteCoin( inout vec3 color, float x, float y, float frame )
-{    
+{
     float idx = 0.0;
 	if ( frame == 0.0 )
     {
@@ -630,7 +630,7 @@ void SpriteCoin( inout vec3 color, float x, float y, float frame )
         idx = y == 2.0 ? ( x <= 7.0 ? 32768.0 : 1.0 ) : idx;
         idx = y == 1.0 ? ( x <= 7.0 ? 32768.0 : 1.0 ) : idx;
 	}
-    else if ( frame == 1.0 ) 
+    else if ( frame == 1.0 )
     {
         idx = y == 14.0 ? ( x <= 7.0 ? 32768.0 : 2.0 ) : idx;
         idx = y == 13.0 ? ( x <= 7.0 ? 40960.0 : 10.0 ) : idx;
@@ -647,7 +647,7 @@ void SpriteCoin( inout vec3 color, float x, float y, float frame )
         idx = y == 2.0 ? ( x <= 7.0 ? 40960.0 : 10.0 ) : idx;
         idx = y == 1.0 ? ( x <= 7.0 ? 32768.0 : 2.0 ) : idx;;
     }
-    else if ( frame == 2.0 ) 
+    else if ( frame == 2.0 )
     {
         idx = y == 14.0 ? ( x <= 7.0 ? 49152.0 : 1.0 ) : idx;
         idx = y == 13.0 ? ( x <= 7.0 ? 49152.0 : 1.0 ) : idx;
@@ -681,23 +681,23 @@ void SpriteCoin( inout vec3 color, float x, float y, float frame )
         idx = y == 2.0 ? ( x <= 7.0 ? 0.0 : 2.0 ) : idx;
         idx = y == 1.0 ? ( x <= 7.0 ? 0.0 : 2.0 ) : idx;
     }
-    
+
 	idx = SPRITE_DEC( x, idx );
 
 	color = idx == 1.0 ? RGB( 181, 49,   33 ) : color;
 	color = idx == 2.0 ? RGB( 230, 156,  33 ) : color;
-	color = idx == 3.0 ? RGB( 255, 255, 255 ) : color;    
+	color = idx == 3.0 ? RGB( 255, 255, 255 ) : color;
 }
 
 void SpriteBrick( inout vec3 color, float x, float y )
-{    
-	float ymod4 = floor( mod( y, 4.0 ) );    
+{
+	float ymod4 = floor( mod( y, 4.0 ) );
     float xmod8 = floor( mod( x, 8.0 ) );
     float ymod8 = floor( mod( y, 8.0 ) );
-    
+
     // dark orange
     float idx = 2.0;
-   
+
     // black
     idx = ymod4 == 0.0 ? 1.0 : idx;
     idx = xmod8 == ( ymod8 < 4.0 ? 3.0 : 7.0 ) ? 1.0 : idx;
@@ -728,7 +728,7 @@ void DrawCastle( inout vec3 color, float x, float y )
 		idx = x >= 24.0 && x <= 32.0 && y >= 48.0 && y <= 64.0 ? 1.0 : idx;
 		idx = x >= 48.0 && x <= 56.0 && y >= 48.0 && y <= 64.0 ? 1.0 : idx;
 		idx = x >= 32.0 && x <= 47.0 && y <= 25.0 ? 1.0 : idx;
-		idx = xmod8 == ( ymod8 < 4.0 ? 3.0 : 7.0 ) && y <= 72.0 && ( xmod16_3 > 8.0 || y <= 40.0 || y >= 48.0 ) ? 1.0 : idx;  
+		idx = xmod8 == ( ymod8 < 4.0 ? 3.0 : 7.0 ) && y <= 72.0 && ( xmod16_3 > 8.0 || y <= 40.0 || y >= 48.0 ) ? 1.0 : idx;
 
 		// white
 		idx = y == ( xmod16_4 < 8.0 ? 47.0 : 40.0 ) ? 3.0 : idx;
@@ -739,7 +739,7 @@ void DrawCastle( inout vec3 color, float x, float y )
 		// transparent
 		idx = ( x < 16.0 || x >= 64.0 ) && y >= 48.0 ? 0.0 : idx;
 		idx = x >= 4.0  && x <= 10.0 && y >= 41.0 && y <= 47.0 ? 0.0 : idx;
-		idx = x >= 68.0 && x <= 74.0 && y >= 41.0 && y <= 47.0 ? 0.0 : idx;             
+		idx = x >= 68.0 && x <= 74.0 && y >= 41.0 && y <= 47.0 ? 0.0 : idx;
 		idx = y >= 73.0 && xmod16_3 > 8.0 ? 0.0 : idx;
 
 		color = idx == 1.0 ? RGB(   0,   0,   0 ) : color;
@@ -759,7 +759,7 @@ void DrawKoopa( inout vec3 color, float x, float y, float frame )
 void KoopaWalk( inout vec3 color, float worldX, float worldY, float time, float frame, float startX )
 {
     float x = worldX - startX + floor( time * GOOMBA_SPEED );
-    DrawKoopa( color, x, worldY - 16.0, frame );    
+    DrawKoopa( color, x, worldY - 16.0, frame );
 }
 
 void DrawHitQuestion( inout vec3 color, float questionX, float questionY, float time, float questionT, float questionHitTime )
@@ -769,9 +769,9 @@ void DrawHitQuestion( inout vec3 color, float questionX, float questionY, float 
 
     questionY -= floor( t * 8.0 );
     if ( questionX >= 0.0 && questionX <= 15.0 )
-    {            
+    {
     	if ( time >= questionHitTime )
-        {                
+        {
         	SpriteQuestion( color, questionX, questionY, 1.0 );
             if ( questionX >= 3.0 && questionX <= 12.0 && questionY >= 1.0 && questionY <= 15.0 )
             {
@@ -789,7 +789,7 @@ void DrawW( inout vec3 color, float x, float y )
 {
     if ( x >= 0.0 && x < 14.0 && y >= 0.0 && y < 14.0 )
     {
-        if (    ( x <= 3.0 || x >= 10.0 ) 
+        if (    ( x <= 3.0 || x >= 10.0 )
              || ( x >= 4.0 && x <= 5.0 && y >= 2.0 && y <= 7.0 )
              || ( x >= 8.0 && x <= 9.0 && y >= 2.0 && y <= 7.0 )
              || ( x >= 6.0 && x <= 7.0 && y >= 4.0 && y <= 9.0 )
@@ -845,13 +845,13 @@ void DrawL( inout vec3 color, float x, float y )
 }
 
 void DrawD( inout vec3 color, float x, float y )
-{    
+{
     if ( x >= 0.0 && x < 14.0 && y >= 0.0 && y < 14.0 )
     {
-    	color = RGB( 255, 255, 255 );        
-        
-        if (    ( x >= 4.0 && x <= 7.0 && y >= 2.0 && y <= 11.0 ) 
-           	 || ( x >= 8.0 && x <= 9.0 && y >= 4.0 && y <= 9.0 ) 
+    	color = RGB( 255, 255, 255 );
+
+        if (    ( x >= 4.0 && x <= 7.0 && y >= 2.0 && y <= 11.0 )
+           	 || ( x >= 8.0 && x <= 9.0 && y >= 4.0 && y <= 9.0 )
              || ( x >= 12.0 && ( y <= 3.0 || y >= 10.0 ) )
              || ( x >= 10.0 && ( y <= 1.0 || y >= 12.0 ) )
            )
@@ -862,7 +862,7 @@ void DrawD( inout vec3 color, float x, float y )
 }
 
 void Draw1( inout vec3 color, float x, float y )
-{    
+{
     if ( x >= 0.0 && x < 14.0 && y >= 0.0 && y < 14.0 )
     {
         if (    ( y <= 1.0 )
@@ -876,7 +876,7 @@ void Draw1( inout vec3 color, float x, float y )
 }
 
 void DrawM( inout vec3 color, float x, float y )
-{    
+{
     if ( x >= 0.0 && x < 14.0 && y >= 0.0 && y < 14.0 )
     {
         if ( y >= 4.0 && y <= 7.0 )
@@ -889,8 +889,8 @@ void DrawM( inout vec3 color, float x, float y )
 void DrawIntro( inout vec3 color, float x, float y, float screenWidth, float screenHeight )
 {
     color = RGB( 0, 0, 0 );
-        
-    float offset 	= 18.0;     
+
+    float offset 	= 18.0;
     float textX 	= floor( x - ( screenWidth - offset * 8.0 - 7.0 ) / 2.0 );
     float textY 	= floor( y - ( screenHeight - 7.0 ) / 2.0 - 16.0 * 2.0 );
     float marioX	= textX - offset * 4.0;
@@ -904,7 +904,7 @@ void DrawIntro( inout vec3 color, float x, float y, float screenWidth, float scr
     Draw1( color, textX - offset * 6.0, textY );
     DrawM( color, textX - offset * 7.0, textY );
     Draw1( color, textX - offset * 8.0, textY );
-    
+
     if ( marioX >= 0.0 && marioX <= 15.0 )
     {
     	SpriteMario( color, marioX, marioY, 4.0 );
@@ -928,8 +928,8 @@ float GoombaSWalkX( float worldX, float startX, float time, float goombaLifeTime
 
 void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float screenWidth, float screenHeight )
 {
-    float mushroomPauseStart 	= 16.25;    
-    float mushroomPauseLength 	= 2.0;    
+    float mushroomPauseStart 	= 16.25;
+    float mushroomPauseLength 	= 2.0;
     float flagPauseStart		= 38.95;
     float flagPauseLength		= 1.5;
 
@@ -941,7 +941,7 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     float tileX			= floor( worldX / 16.0 );
     float tileY			= floor( worldY / 16.0 );
     float tile2X		= floor( worldX / 32.0 );
-    float tile2Y		= floor( worldY / 32.0 );    
+    float tile2Y		= floor( worldY / 32.0 );
     float worldXMod16	= mod( worldX, 16.0 );
     float worldYMod16 	= mod( worldY, 16.0 );
 
@@ -949,7 +949,7 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     // default background color
     color = RGB( 92, 148, 252 );
 
-    
+
     // draw hills
     float bigHillX 	 = mod( worldX, 768.0 );
     float smallHillX = mod( worldX - 240.0, 768.0 );
@@ -962,10 +962,10 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
 	float sc1CloudX = mod( worldX - 296.0, 768.0 );
     float sc2CloudX = mod( worldX - 904.0, 768.0 );
     float mcCloudX  = mod( worldX - 584.0, 768.0 );
-    float lcCloudX  = mod( worldX - 440.0, 768.0 );    
+    float lcCloudX  = mod( worldX - 440.0, 768.0 );
     float scCloudX  = min( sc1CloudX, sc2CloudX );
     float sbCloudX 	= mod( worldX - 376.0, 768.0 );
-    float mbCloudX  = mod( worldX - 664.0, 768.0 );  
+    float mbCloudX  = mod( worldX - 664.0, 768.0 );
 	float lbCloudX  = mod( worldX - 184.0, 768.0 );
     float cCloudX	= min( min( scCloudX, mcCloudX ), lcCloudX );
     float bCloudX	= min( min( sbCloudX, mbCloudX ), lbCloudX );
@@ -986,26 +986,26 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
         {
         	cloudX = cloudX < 24.0 ? cloudX : ( cloudX < 40.0 ? cloudX - 16.0 : cloudX - 32.0 );
         }
-        
+
     	SpriteCloud( color, cloudX, cloudY, isBush );
     }
 
-    
-    
+
+
     // draw flag pole
-    if ( worldX >= 3175.0 && worldX <= 3176.0 && worldY <= 176.0 )        
+    if ( worldX >= 3175.0 && worldX <= 3176.0 && worldY <= 176.0 )
     {
         color = RGB( 189, 255, 24 );
     }
-    
+
     // draw flag
     float flagX = worldX - 3160.0;
     float flagY = worldY - 159.0 + floor( 122.0 * clamp( ( time - 39.0 ) / 1.0, 0.0, 1.0 ) );
     if ( flagX >= 0.0 && flagX <= 15.0 )
     {
     	SpriteFlag( color, flagX, flagY );
-    }     
-    
+    }
+
     // draw flagpole end
     float flagpoleEndX = worldX - 3172.0;
     float flagpoleEndY = worldY - 176.0;
@@ -1013,25 +1013,25 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     {
     	SpriteFlagpoleEnd( color, flagpoleEndX, flagpoleEndY );
     }
-    
-    
+
+
 
     // draw blocks
    	if (    ( tileX >= 134.0 && tileX < 138.0 && tileX - 132.0 > tileY )
          || ( tileX >= 140.0 && tileX < 144.0 && 145.0 - tileX > tileY )
          || ( tileX >= 148.0 && tileX < 153.0 && tileX - 146.0 > tileY && tileY < 5.0 )
-         || ( tileX >= 155.0 && tileX < 159.0 && 160.0 - tileX > tileY ) 
+         || ( tileX >= 155.0 && tileX < 159.0 && 160.0 - tileX > tileY )
          || ( tileX >= 181.0 && tileX < 190.0 && tileX - 179.0 > tileY && tileY < 9.0 )
          || ( tileX == 198.0 && tileY == 1.0 )
        )
     {
         SpriteBlock( color, worldXMod16, worldYMod16 );
     }
-    
-    
+
+
     // draw pipes
-    float pipeY = worldY - 16.0;  
-    float pipeH	= 0.0;    
+    float pipeY = worldY - 16.0;
+    float pipeH	= 0.0;
     float pipeX = worldX - 179.0 * 16.0;
     if ( pipeX < 0.0 )
     {
@@ -1047,12 +1047,12 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     {
         pipeX = worldX - 46.0 * 16.0;
         pipeH = 2.0;
-    } 
+    }
     if ( pipeX < 0.0 )
     {
         pipeX = worldX - 38.0 * 16.0;
         pipeH = 1.0;
-    }         
+    }
     if ( pipeX < 0.0 )
     {
         pipeX = worldX - 28.0 * 16.0;
@@ -1062,14 +1062,14 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
 	{
 		SpritePipe( color, pipeX, pipeY, pipeH );
 	}
-    
-    
+
+
     // draw mushroom
-    float mushroomStart = 15.7;    
+    float mushroomStart = 15.7;
     if ( time >= mushroomStart && time <= 17.0 )
     {
         float jumpTime = 0.5;
-        
+
         float mushroomX = worldX - 1248.0;
         float mushroomY = worldY - 4.0 * 16.0;
         if ( time >= mushroomStart )
@@ -1084,40 +1084,40 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
         {
             mushroomY = mushroomY + floor( sin( ( ( time - mushroomStart - 0.5 - 0.4 ) ) * 3.14 ) * 4.0 * 16.0 );
         }
-        
+
         if ( mushroomX >= 0.0 && mushroomX <= 15.0 )
         {
         	SpriteMushroom( color, mushroomX, mushroomY );
         }
     }
 
-    
+
     // draw coins
     float coinFrame = floor( mod( time * 12.0, 4.0 ) );
     float coinX 	= worldX - 2720.0;
-    float coinTime 	= 33.9;    
+    float coinTime 	= 33.9;
     float coinY 	= CoinAnimY( worldY, time, coinTime );
     if ( coinX < 0.0 )
     {
     	coinX 		= worldX - 1696.0;
-    	coinTime 	= 22.4;    
-    	coinY 		= CoinAnimY( worldY, time, coinTime );        
+    	coinTime 	= 22.4;
+    	coinY 		= CoinAnimY( worldY, time, coinTime );
     }
     if ( coinX < 0.0 )
     {
     	coinX 		= worldX - 352.0;
-    	coinTime 	= 5.4;    
+    	coinTime 	= 5.4;
     	coinY 		= CoinAnimY( worldY, time, coinTime );
-    } 
-    
+    }
+
     if ( coinX >= 0.0 && coinX <= 15.0 && time >= coinTime + 0.1 )
-    {   
+    {
         SpriteCoin( color, coinX, coinY, coinFrame );
     }
 
-    
+
     // draw questions
-	float questionT = clamp( sin( time * 6.0 ), 0.0, 1.0 );    
+	float questionT = clamp( sin( time * 6.0 ), 0.0, 1.0 );
     if (    ( tileY == 4.0 && ( tileX == 16.0 || tileX == 20.0 || tileX == 109.0 || tileX == 112.0 ) )
          || ( tileY == 8.0 && ( tileX == 21.0 || tileX == 94.0 || tileX == 109.0 ) )
          || ( tileY == 8.0 && ( tileX >= 129.0 && tileX <= 130.0 ) )
@@ -1125,8 +1125,8 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     {
         SpriteQuestion( color, worldXMod16, worldYMod16, questionT );
     }
-    
-    
+
+
     // draw hitted questions
     float questionHitTime 	= 33.9;
     float questionX 		= worldX - 2720.0;
@@ -1144,8 +1144,8 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     {
         questionHitTime = 5.3;
         questionX		= worldX - 352.0;
-    }    
-    questionT		= time >= questionHitTime ? 1.0 : questionT;    
+    }
+    questionT		= time >= questionHitTime ? 1.0 : questionT;
     float questionY = QuestionAnimY( worldY, time, questionHitTime );
     if ( questionX >= 0.0 && questionX <= 15.0 )
     {
@@ -1154,9 +1154,9 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     if ( time >= questionHitTime && questionX >= 3.0 && questionX <= 12.0 && questionY >= 1.0 && questionY <= 15.0 )
     {
         color = RGB( 231, 90, 16 );
-    }    
+    }
 
-    
+
     // draw bricks
    	if (    ( tileY == 4.0 && ( tileX == 19.0 || tileX == 21.0 || tileX == 23.0 || tileX == 77.0 || tileX == 79.0 || tileX == 94.0 || tileX == 118.0 || tileX == 168.0 || tileX == 169.0 || tileX == 171.0 ) )
          || ( tileY == 8.0 && ( tileX == 128.0 || tileX == 131.0 ) )
@@ -1168,9 +1168,9 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
        )
     {
         SpriteBrick( color, worldXMod16, worldYMod16 );
-    }   
-    
-    
+    }
+
+
     // draw castle flag
     float castleFlagX = worldX - 3264.0;
     float castleFlagY = worldY - 64.0 - floor( 32.0 * clamp( ( time - 44.6 ) / 1.0, 0.0, 1.0 ) );
@@ -1178,27 +1178,27 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     {
     	SpriteCastleFlag( color, castleFlagX, castleFlagY );
 	}
-    
+
     DrawCastle( color, worldX - 3232.0, worldY - 16.0 );
 
     // draw ground
     if ( tileY <= 0.0
          && !( tileX >= 69.0  && tileX < 71.0 )
-         && !( tileX >= 86.0  && tileX < 89.0 ) 
-         && !( tileX >= 153.0 && tileX < 155.0 ) 
+         && !( tileX >= 86.0  && tileX < 89.0 )
+         && !( tileX >= 153.0 && tileX < 155.0 )
        )
     {
         SpriteGround( color, worldXMod16, worldYMod16 );
-    }    
-    
+    }
+
 
     // draw Koopa
     float goombaFrame = floor( mod( time * 5.0, 2.0 ) );
     KoopaWalk( color, worldX, worldY, time, goombaFrame, 2370.0 );
-    
-    
+
+
     // draw stomped walking Goombas
-    float goombaY 			= worldY - 16.0;        
+    float goombaY 			= worldY - 16.0;
     float goombaLifeTime 	= 26.3;
     float goombaX 			= GoombaSWalkX( worldX, 2850.0 + 24.0, time, goombaLifeTime );
     if ( goombaX < 0.0 )
@@ -1206,12 +1206,12 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
         goombaLifeTime 	= 25.3;
         goombaX 		= GoombaSWalkX( worldX, 2760.0, time, goombaLifeTime );
     }
-    if ( goombaX < 0.0 ) 
+    if ( goombaX < 0.0 )
     {
 		goombaLifeTime 	= 23.5;
         goombaX 		= GoombaSWalkX( worldX, 2540.0, time, goombaLifeTime );
     }
-    if ( goombaX < 0.0 ) 
+    if ( goombaX < 0.0 )
     {
         goombaLifeTime 	= 20.29;
         goombaX 		= GoombaSWalkX( worldX, 2150.0, time, goombaLifeTime );
@@ -1225,8 +1225,8 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     if ( goombaX >= 0.0 && goombaX <= 15.0 )
     {
         SpriteGoomba( color, goombaX, goombaY, goombaFrame );
-    }    
-    
+    }
+
     // draw walking Goombas
     goombaFrame 		= floor( mod( time * 5.0, 2.0 ) );
     float goombaWalkX 	= worldX + floor( time * GOOMBA_SPEED );
@@ -1243,16 +1243,16 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     {
         SpriteGoomba( color, goombaX, goombaY, goombaFrame );
     }
-    
 
-    
+
+
     // Mario jump
     float marioBigJump1 	= 27.1;
     float marioBigJump2 	= 29.75;
-    float marioBigJump3 	= 35.05;    
+    float marioBigJump3 	= 35.05;
     float marioJumpTime 	= 0.0;
     float marioJumpScale	= 0.0;
-    
+
     if ( time >= 4.2   ) { marioJumpTime = 4.2;   marioJumpScale = 0.45; }
     if ( time >= 5.0   ) { marioJumpTime = 5.0;   marioJumpScale = 0.5;  }
     if ( time >= 6.05  ) { marioJumpTime = 6.05;  marioJumpScale = 0.7;  }
@@ -1276,14 +1276,14 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     if ( time >= marioBigJump1 ) 		{ marioJumpTime = marioBigJump1; 		marioJumpScale = 1.0; }
     if ( time >= marioBigJump1 + 1.0 ) 	{ marioJumpTime = marioBigJump1 + 1.0; 	marioJumpScale = 0.6; }
     if ( time >= marioBigJump2 ) 		{ marioJumpTime = marioBigJump2; 		marioJumpScale = 1.0; }
-    if ( time >= marioBigJump2 + 1.0 ) 	{ marioJumpTime = marioBigJump2 + 1.0;	marioJumpScale = 0.6; }    
+    if ( time >= marioBigJump2 + 1.0 ) 	{ marioJumpTime = marioBigJump2 + 1.0;	marioJumpScale = 0.6; }
     if ( time >= 32.3  ) { marioJumpTime = 32.3;  marioJumpScale = 0.7;  }
     if ( time >= 33.7  ) { marioJumpTime = 33.7;  marioJumpScale = 0.3;  }
     if ( time >= 34.15 ) { marioJumpTime = 34.15; marioJumpScale = 0.45; }
     if ( time >= marioBigJump3 ) 				{ marioJumpTime = marioBigJump3; 				marioJumpScale = 1.0; }
     if ( time >= marioBigJump3 + 1.2 ) 			{ marioJumpTime = marioBigJump3 + 1.2; 			marioJumpScale = 0.89; }
     if ( time >= marioBigJump3 + 1.2 + 0.75 ) 	{ marioJumpTime = marioBigJump3 + 1.2 + 0.75; 	marioJumpScale = 0.5; }
-    
+
     float marioJumpOffset 		= 0.0;
     float marioJumpLength 		= 1.5  * marioJumpScale;
     float marioJumpAmplitude	= 76.0 * marioJumpScale;
@@ -1292,31 +1292,31 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
         float t = ( time - marioJumpTime ) / marioJumpLength;
         marioJumpOffset = floor( sin( t * 3.14 ) * marioJumpAmplitude );
     }
-    
-    
+
+
     // Mario land
     float marioLandTime 	= 0.0;
     float marioLandAplitude = 0.0;
     if ( time >= marioBigJump1 + 1.0 + 0.45 ) 			{ marioLandTime = marioBigJump1 + 1.0 + 0.45; 			marioLandAplitude = 109.0; }
     if ( time >= marioBigJump2 + 1.0 + 0.45 ) 			{ marioLandTime = marioBigJump2 + 1.0 + 0.45; 			marioLandAplitude = 109.0; }
 	if ( time >= marioBigJump3 + 1.2 + 0.75 + 0.375 ) 	{ marioLandTime = marioBigJump3 + 1.2 + 0.75 + 0.375; 	marioLandAplitude = 150.0; }
-    
+
     float marioLandLength = marioLandAplitude / 120.0;
 	if ( time >= marioLandTime && time <= marioLandTime + marioLandLength )
     {
         float t = 0.5 * ( time - marioLandTime ) / marioLandLength + 0.5;
        	marioJumpOffset = floor( sin( t * 3.14 ) * marioLandAplitude );
     }
-    
-    
+
+
     // Mario flag jump
     marioJumpTime 		= flagPauseStart - 0.3;
     marioJumpLength 	= 1.5  * 0.45;
     marioJumpAmplitude	= 76.0 * 0.45;
-    if ( time >= marioJumpTime && time <= marioJumpTime + marioJumpLength + flagPauseLength ) 
+    if ( time >= marioJumpTime && time <= marioJumpTime + marioJumpLength + flagPauseLength )
     {
         float time2 = time;
-        if ( time >= flagPauseStart && time <= flagPauseStart + flagPauseLength ) 
+        if ( time >= flagPauseStart && time <= flagPauseStart + flagPauseLength )
         {
             time2 = flagPauseStart;
         }
@@ -1327,7 +1327,7 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
 		float t = ( time2 - marioJumpTime ) / marioJumpLength;
         marioJumpOffset = floor( sin( t * 3.14 ) * marioJumpAmplitude );
     }
-    
+
 
     // Mario base (ground offset)
     float marioBase = 0.0;
@@ -1338,23 +1338,23 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
     if ( time >= marioBigJump2 + 1.0 && time < marioBigJump2 + 1.0 + 0.45 )
     {
         marioBase = 16.0 * 4.0;
-    }    
+    }
     if ( time >= marioBigJump3 + 1.2 && time < marioBigJump3 + 1.2 + 0.75 )
     {
         marioBase = 16.0 * 3.0;
-    }    
+    }
     if ( time >= marioBigJump3 + 1.2 + 0.75 && time < marioBigJump3 + 1.2 + 0.75 + 0.375 )
     {
         marioBase = 16.0 * 7.0;
     }
 
     float marioX		= pixelX - 112.0;
-    float marioY		= pixelY - 16.0 - 8.0 - marioBase - marioJumpOffset;    
+    float marioY		= pixelY - 16.0 - 8.0 - marioBase - marioJumpOffset;
     float marioFrame 	= marioJumpOffset == 0.0 ? floor( mod( time * 10.0, 3.0 ) ) : 3.0;
     if ( time >= mushroomPauseStart && time <= mushroomPauseStart + mushroomPauseLength )
     {
     	marioFrame = 1.0;
-    }    
+    }
     if ( time > mushroomPauseStart + 0.7 )
     {
         float t = time - mushroomPauseStart - 0.7;
@@ -1363,7 +1363,7 @@ void DrawGame( inout vec3 color, float time, float pixelX, float pixelY, float s
             // super mario offset
             marioFrame += 4.0;
         }
-    }    
+    }
     if ( marioX >= 0.0 && marioX <= 15.0 && cameraX < 3152.0 )
     {
         SpriteMario( color, marioX, marioY, marioFrame );
@@ -1380,7 +1380,7 @@ vec2 CRTCurveUV( vec2 uv )
 }
 
 void DrawVignette( inout vec3 color, vec2 uv )
-{    
+{
     float vignette = uv.x * uv.y * ( 1.0 - uv.x ) * ( 1.0 - uv.y );
     vignette = clamp( pow( 16.0 * vignette, 0.3 ), 0.0, 1.0 );
     color *= vignette;
@@ -1389,7 +1389,7 @@ void DrawVignette( inout vec3 color, vec2 uv )
 void DrawScanline( inout vec3 color, vec2 uv )
 {
     float scanline 	= clamp( 0.95 + 0.05 * cos( 3.14 * ( uv.y + 0.008 * iTime ) * 240.0 * 1.0 ), 0.0, 1.0 );
-    float grille 	= 0.85 + 0.15 * clamp( 1.5 * cos( 3.14 * uv.x * 640.0 * 1.0 ), 0.0, 1.0 );    
+    float grille 	= 0.85 + 0.15 * clamp( 1.5 * cos( 3.14 * uv.x * 640.0 * 1.0 ), 0.0, 1.0 );
     color *= scanline * grille * 1.2;
 }
 
@@ -1399,7 +1399,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     float resMultX  = floor( iResolution.x / 224.0 );
     float resMultY  = floor( iResolution.y / 192.0 );
     float resRcp	= 1.0 / max( min( resMultX, resMultY ), 1.0 );
-    
+
     float time			= iTime;
     float screenWidth	= floor( iResolution.x * resRcp );
     float screenHeight	= floor( iResolution.y * resRcp );
@@ -1411,9 +1411,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     if ( time < INTRO_LENGTH )
     {
         DrawIntro( color, pixelX, pixelY, screenWidth, screenHeight );
-    }    
+    }
 
-    
+
     // CRT effects (curvature, vignette, scanlines and CRT grille)
     vec2 uv    = fragCoord.xy / iResolution.xy;
     vec2 crtUV = CRTCurveUV( uv );
@@ -1423,7 +1423,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     }
     DrawVignette( color, crtUV );
     DrawScanline( color, uv );
-    
+
 	fragColor.xyz 	= color;
     fragColor.w		= 1.0;
 }

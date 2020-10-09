@@ -31,21 +31,21 @@ float y = 0;
 void draw(int car) {
     float xCoords = 0.;
     float yCoords = 0.;
-    
+
     int r = (car) / 16;
     int c = (car) % 16;
-    
+
     float fontSize = size[0] * 2.;
-    
+
     for (int i = 0 ; i < 4 ; ++i) {
         gl_Position = vec4(
             gl_in[0].gl_Position.x + vertices[i].x * fontSize + x,
             gl_in[0].gl_Position.y + vertices[i].y * fontSize + y,
             gl_in[0].gl_Position.z,
             gl_in[0].gl_Position.a);
-        
+
         color = geoColor[0];
-        
+
         xCoords = texCoords[i].x;
         if ( xCoords == 0 )
             xCoords += 0.3;
@@ -61,12 +61,12 @@ void draw(int car) {
         coordTexture = vec2(
             c / 16. + xCoords / 16.,
             r / 16. + yCoords / 16.);
-        
+
         EmitVertex();
     }
-    
+
     x += fontSize;
-    
+
     EndPrimitive();
 }
 

@@ -6,9 +6,9 @@
 -- callback for pile toppled events
 function Stage:pileToppled(crate,dir)
     self.claw:open(20) -- give the crate some extra space
-    
+
     self:startPhysics()
-    
+
     -- apply force to the crate
     for body,info in pairs(self.bodies) do
         if info.obj == crate.obj then
@@ -38,13 +38,13 @@ end
 
 function Stage:clearPhysics()
     if not self.bodies then return nil end
-    
+
     for body,info in pairs(self.bodies) do
         body:destroy()
     end
     self.bodies = nil
     physics.pause()
-    
+
     -- reset the claw arms
     self.claw:repositionArms()
 end
@@ -53,7 +53,7 @@ function Stage:tickPhysics()
     if not self.bodies then return nil end
 
     --self:drawBodies()
-    
+
     for body,info in pairs(self.bodies) do
         local w,h = 0,0
         local points = body.points
@@ -61,20 +61,20 @@ function Stage:tickPhysics()
             w = math.max(w,p.x)
             h = math.max(h,p.y)
         end
-            
+
         if body.type == DYNAMIC then
             local obj = info.obj
-            obj:setAngle(body.angle) 
-            
+            obj:setAngle(body.angle)
+
             -- calculate the center of the physics body
             local bodyCenter = vec2(w,h)/2
             bodyCenter = bodyCenter:rotate(math.rad(body.angle))
             bodyCenter = bodyCenter + vec2(body.x,body.y)
-            
+
             -- calculate the center of the sprite obj
             local objCenter = vec2(obj:getX(),obj:getY()) +
                 vec2(obj:getW(),obj:getH())/2
-            
+
             -- translate the obj
             local dpos = bodyCenter - objCenter
             obj:translate(dpos.x,dpos.y)
@@ -85,16 +85,16 @@ end
 function Stage:collide(contact)
     local a = contact.bodyA
     local b = contact.bodyB
-    
+
     -- this shouldn't happen but codea seems to have a bug and it does happen
     if a==nil or b==nil then return nil end
-    
+
     local infoa = self.bodies[a]
     local infob = self.bodies[b]
-    
+
     -- this shouldnt be needed either but alas
     if infoa == nil or infob == nil then return nil end
-    
+
     if a.type ~= STATIC or b.type ~= STATIC then
         local normal = contact.normalImpulse
         if normal > 0 then
@@ -112,18 +112,18 @@ function Stage:physicsBodies(includeClaw)
         for crate in pile.crates:iter() do
             local w,h = crate.obj:getSize()
             local isInverted = false
-            if w < 0 then 
-                w = -w 
+            if w < 0 then
+                w = -w
                 isInverted = true
             end
             h = h - 2.5
             w = w - 2
             local box = physics.body(POLYGON,vec2(0,0),vec2(w,0),
                 vec2(w,h),vec2(0,h))
-                
+
             box.x = crate.obj:getX()
             if isInverted then box.x = box.x - (w+2) end
-            
+
             box.y = crate.obj:getY()+2
             --box.density = 1
             box.restitution = .6
@@ -131,7 +131,7 @@ function Stage:physicsBodies(includeClaw)
             box.info = {type="crate"}
             bodies[box] = {obj=crate.obj,type="crate"}
         end
-        
+
         -- make the pile bases
         local w,h = pile.base.w - 8,pile.base.h - 2
         local box = physics.body(POLYGON,vec2(0,0),vec2(w,0),
@@ -141,13 +141,13 @@ function Stage:physicsBodies(includeClaw)
         box.type = STATIC
         bodies[box] = {type="base"}
     end
-    
+
     if includeClaw and self.claw.crate then
         local crate = self.claw.crate
         local w,h = crate.obj:getSize()
         local isInverted = false
-        if w < 0 then 
-            w = -w 
+        if w < 0 then
+            w = -w
             isInverted = true
         end
         h = h - 2.5
@@ -177,7 +177,7 @@ function Stage:physicsBodies(includeClaw)
         box.x = arm:getX()
         box.y = arm:getY()
         box.type = STATIC
-        if includeClaw then 
+        if includeClaw then
             box.type = DYNAMIC
             box.restitution = .4
             box.friction = 0.08
@@ -192,7 +192,7 @@ function Stage:physicsBodies(includeClaw)
     box.x = self.claw.beam:getX()
     box.y = self.claw.beam:getY()
     box.type = STATIC
-    if includeClaw then 
+    if includeClaw then
         box.type = DYNAMIC
         box.restitution = .4
         box.friction = 0.08
@@ -207,7 +207,7 @@ function Stage:physicsBodies(includeClaw)
         box.y = wall.y
         box.type = STATIC
         bodies[box] = {type="wall"}
-        
+
         -- base
         local w,h = wall.base:getSize()
         local x,y = wall.base:getPos()
@@ -226,7 +226,7 @@ function Stage:physicsBodies(includeClaw)
     ground.y = self.config.y-20
     ground.type = STATIC
     bodies[ground] = {type="ground"}
-    
+
     return bodies
 end
 

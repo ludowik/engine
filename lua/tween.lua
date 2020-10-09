@@ -20,7 +20,7 @@ function TweenItem:init(time, subject, target, easingAndLoop, callback, ...)
     self.callback = callback
 
     local args = {...}
-    self.callbackParams = #args > 0 and args or nil 
+    self.callbackParams = #args > 0 and args or nil
 
     self:start()
 
@@ -77,8 +77,8 @@ function TweenItem:update(deltaTime)
 
             if self.loopFunction then
                 self.loopFunction(self)
-            end            
-        else        
+            end
+        else
             for key,attribute in pairs(self.target) do
                 self.subject[key] = self.easingFunction(
                     self.timeEllapse,
@@ -104,7 +104,7 @@ function tween.setup()
 end
 
 function tween.delay(delay, callback)
-    return tween(delay, {}, {}, tween.easing.none, callback) 
+    return tween(delay, {}, {}, tween.easing.none, callback)
 end
 
 function tween.sequence(...)
@@ -143,7 +143,7 @@ function tween.resetAll()
         tween:stop()
         tween:reset()
     end
-    
+
     tween.tweens = Table()
 end
 

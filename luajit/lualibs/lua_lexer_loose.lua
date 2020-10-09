@@ -1,10 +1,10 @@
 --[[
  lua_lexer_loose.lua.
  Loose lexing of Lua code.  See README.
- 
+
  WARNING: This code is preliminary and may have errors
  in its current form.
- 
+
  (c) 2013 David Manura. MIT License.
 --]]
 
@@ -118,7 +118,7 @@ function M.lex(code, f, pos)
     local p2, n2, n1, n3 = code:match('^%s*()((%S)(%S?))', pos)
     if not p2 then assert(code:sub(pos):match('^%s*$')); break end
     pos = p2
-    
+
     if sym[n1] then
       local tok = code:match('^'..name, pos)
       assert(tok)

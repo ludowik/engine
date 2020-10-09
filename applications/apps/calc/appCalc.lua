@@ -21,12 +21,12 @@ function AppCalc:init()
 
     self.scene = UIScene()
     self.scene.alignment = 'v-center,h-center'
-    
+
     self.calc = Calc()
 
     self:initUI()
     self:ac()
-    
+
     parameter.watch('app.calc.acc1')
     parameter.watch('app.calc.acc2')
     parameter.watch('app.calc.accOperator')
@@ -56,7 +56,7 @@ function AppCalc:initUI()
         end
 
         local valeur = Label()
-        row:add(valeur)        
+        row:add(valeur)
 
         valeur.fixedSize = size(1, 0.5)
         valeur.alignmentMode = 'right'
@@ -75,7 +75,7 @@ function AppCalc:initUI()
                         self:popScene()
                     end))
         end
-    }    
+    }
     self.uiCalc:add(self.uniteLabel)
 
     self.conversion = setProperties(self.uiCalc, "uniteConvertie")
@@ -94,7 +94,7 @@ function AppCalc:initUI()
     self.uiCalc:add(self.buttons)
 
     local w = WIDTH > HEIGHT and hs(1) or ws(2)
-    
+
     self.buttons:add(
         Button('AC' , white, darkgray, w, w, self, self.ac),
         Button('+/-', white, darkgray, w, w, self, self.sign),
@@ -137,7 +137,7 @@ function AppCalc:setResult(vs)
     self.valeurSaisie = vs
     self.valeurConvertie = vc
 
-    self.uniteLabel.label = self.unites.name 
+    self.uniteLabel.label = self.unites.name
 
     self.result.label = tostring(vs)
     self.result.unite.label = self.unites[us].abrev

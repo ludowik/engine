@@ -18,7 +18,7 @@ function Firework:update(dt)
     end
 
     self.particles:update(dt)
-    
+
     for i=#self.particles,1,-1 do
        local particle = self.particles[i]
        if particle.state == 'dead' then
@@ -42,9 +42,9 @@ function ParticleFirework:init(position, state, clr)
     self.vel = vec2()
 
     self.state = state
-    
+
     self.life = 2
-    
+
     self.clr = clr or Color.random()
 end
 
@@ -56,22 +56,22 @@ function ParticleFirework:update(dt)
     self:applyForce(gravity)
 
     self.vel:add(self.acc, dt)
-    
+
     self.position:add(self.vel)
 
     self.acc:set(0, 0)
-    
+
     if self.state == 'parent' and self.vel.y < 0 then
         self.state = 'dead'
         for i=1,10 do
             local particle = ParticleFirework(self.position:clone(), 'child', self.clr)
-            
+
             local force = vec2.random(100)
             particle:applyForce(force)
 
             app.particles:add(particle)
         end
-        
+
     elseif self.state == 'child' then
         self.life = self.life - dt
         if self.life < 0 then

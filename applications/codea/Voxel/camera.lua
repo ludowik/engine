@@ -25,7 +25,7 @@ function CameraVoxel:draw()
         self.lat =  self:rotatePoint() + self.eye
     end
     camera(self.eye.x, self.eye.y, self.eye.z,self.lat.x, self.lat.y, self.lat.z)
-    self:drawCrosshair() 
+    self:drawCrosshair()
     self.mat = modelMatrix() * viewMatrix() * projectionMatrix()
 end
 

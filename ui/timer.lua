@@ -5,9 +5,9 @@ function UITimer:init(label, time, callback)
 
     self.time = time
     self.delay = time
-    
+
     self.callback = callback
-    
+
     self.active = false
 end
 
@@ -24,7 +24,7 @@ function UITimer:update(dt)
         if self.time > 0 then
             self.time = self.time - dt
             if self.time < 0 then
-                self.time = self.delay                
+                self.time = self.delay
                 self.active = false
                 if self.callback then
                     self.callback()
@@ -40,5 +40,5 @@ end
 
 function UITimer:start()
     self.active = true
-    self.time = self.time + 1 
+    self.time = self.time + 1
 end

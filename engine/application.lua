@@ -229,7 +229,7 @@ end
 
 function Sketche:update(dt)
     if env.update then
-        env.update(dt)        
+        env.update(dt)
         self:updateCoroutine(dt)
     else
         Application.update(self, dt)

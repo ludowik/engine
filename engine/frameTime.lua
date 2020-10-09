@@ -17,7 +17,7 @@ function FrameTime:init()
 
     self.elapsedTime = 0
 
-    self.oneSecond = 0    
+    self.oneSecond = 0
     self.deltaFramesBySecond = 0
 end
 

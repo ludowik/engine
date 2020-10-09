@@ -33,7 +33,7 @@ function Hero:applyDamageFromPoint(point, damage)
         self.health = math.max(self.health - damage, 0)
         local line = (point-self.position):normalizeInPlace(20)
         self.knockVel:add(line)
-        
+
         self.invulnDuration = 0.5
     end
 end
@@ -48,7 +48,7 @@ end
 
 function Hero:damageAtPoint(point)
     if self.currentAttack then
-        dta = self.position:dist(point) 
+        dta = self.position:dist(point)
         if dta < self.currentAttack.currentSize * 0.4 then
             return dta / self.currentAttack.blastSize * 30
         end
@@ -79,7 +79,7 @@ function Hero:draw()
         self.currentAttack:draw()
         if self.currentAttack:isDone() then
             self.currentAttack = nil
-        end    
+        end
     end
 
     stroke(0,0,0,0)

@@ -29,7 +29,7 @@ function AppFreeCell.setup()
         ratio = 1.4
     end
 
-    CARD_WIDTH  = floor(ws(1)*ratio) 
+    CARD_WIDTH  = floor(ws(1)*ratio)
     CARD_HEIGHT = floor(ws(1.52)*ratio)
 
     DESK_MARGE = floor(ws(0.1))
@@ -95,7 +95,7 @@ function AppFreeCell:draw()
 
     self.moves:forEach(function (v)
             v:draw()
-        end)    
+        end)
 end
 
 function AppFreeCell:touchedAddDelta(o, t)
@@ -117,7 +117,7 @@ function AppFreeCell:touchDesk(touch)
     end
 end
 
-function AppFreeCell:move(from, to)    
+function AppFreeCell:move(from, to)
     local i,card = to:canCardsMoveTo(from)
     if i ~= nil then
         from:remove(i)
@@ -233,7 +233,7 @@ function Card:makeImage(x, y)
 
     spriteMode(CENTER)
     sprite('cards:'..suitLabels[self.suit],
-        self:xc()-x, 
+        self:xc()-x,
         self:yc()-y, 25, 25)
 end
 
@@ -279,7 +279,7 @@ function Pile:draw(x, y)
             self.size.x = card:x2() - self:x1()
             self.size.y = card:y2() - self:y1()
         end)
-    
+
     if self.focus then
         local last = self.nodes:last()
         stroke(green)
@@ -333,7 +333,7 @@ end
 function Temp:canCardMoveTo(card)
     if #self.nodes == 0 then
         return true
-    end        
+    end
     return false
 end
 

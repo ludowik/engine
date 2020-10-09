@@ -15,7 +15,7 @@ output = class 'Output'
 function Output:clear()
 end
 
-decorate('print', 
+decorate('print',
     function (f, str, ...)
         str = tostring(str)
         assert(str ~= '96')

@@ -6,7 +6,7 @@
  *
  * Author: Danguafer/Silexars
  */
- 
+
 float beat = 0.;
 float mb(vec2 p1, vec2 p0) { return (0.04+beat)/(pow(p1.x-p0.x,2.)+pow(p1.y-p0.y,2.)); }
 

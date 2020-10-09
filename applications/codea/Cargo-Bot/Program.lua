@@ -24,7 +24,7 @@ end
 function Program:makeFunctions()
     self.registers = {}
     self.labels = {}
-    
+
     local numFuncs = 4 -- this is the maximum num of funcs, so we can calculate y coords
     local regDims = {
         w = 50,
@@ -34,7 +34,7 @@ function Program:makeFunctions()
         conditional = {x = 0, y = 34, w = 50, h = 43},
     }
     local labelW = 50
-    
+
     if #self.numIns > 4 then -- use the small dims
         assert(#self.numIns==5,"too many functions")
         numFuncs = 5
@@ -47,21 +47,21 @@ function Program:makeFunctions()
         }
         labelW = 40
     end
-    
+
     for fi,fIns in ipairs(self.numIns) do
         -- make one function
-        local y = (numFuncs-fi)*(regDims.h+5)        
+        local y = (numFuncs-fi)*(regDims.h+5)
         self.registers[fi] = {}
         for ri = 1,fIns do
             local x = (ri-1) * regDims.w + labelW - 3
-            
-            -- make a slot for one instruction 
+
+            -- make a slot for one instruction
             local register = Register(x,y,regDims,ri==fIns,self.screen)
             register.active = true
             self:add(register)
             self.registers[fi][ri] = register
         end
-        
+
         -- f label
         local labelF = "f"..fi
         local label = Command(labelF,0,y,labelW,regDims.command.h)
@@ -103,38 +103,38 @@ function Program:dragMoving(dragObj)
     self:unselect()
     local objMiddle = vec2(dragObj.x,dragObj.y) + vec2(dragObj.w,dragObj.h)/2
     local register = self:registerAt(objMiddle,dragAnchor)
-    if register then 
+    if register then
         self.selected = register
-        register:select() 
+        register:select()
     end
 end
 
--- callback for when the user drops a command. 
+-- callback for when the user drops a command.
 -- Finds which register to set and set it
 function Program:dropped(dragObj)
     self:unselect()
-    
+
     local objMiddle = vec2(dragObj.x,dragObj.y) + vec2(dragObj.w,dragObj.h)/2
     local register = self:registerAt(objMiddle)
     if register and register.active then
         sounds:play("drop_tile_register")
         local type = Command.type(dragObj.command)
-        if type == "command" then 
+        if type == "command" then
             register:setCommand(dragObj.command)
-        else 
+        else
             register:setConditional(dragObj.command)
         end
-        
+
         Events.trigger("tutorial_register_drop")
-        
+
         -- strictly not needed, but make sure we don't set more than one
-        return nil 
+        return nil
     end
 
     -- if we get here it means the user dropped the command away
     local smoke = Smoke(objMiddle.x-self.x,objMiddle.y-self.y,self.screen)
     self:add(smoke)
-    
+
     sounds:play("drop_tile_smoke")
     Events.trigger("tutorial_smoke_drop")
 end
@@ -192,19 +192,19 @@ end
 function Program:nextMove(clawCrate)
     -- try to increment the pointer within this function
     local count = 0
-    
+
     while(true) do
         count = count + 1
-        if count > 1000 then 
-            return "" 
+        if count > 1000 then
+            return ""
         end
-        
+
         self.pointer.ins = self.pointer.ins + 1
 
         if self.pointer.ins > #self.registers[self.pointer.f] then
             -- reached the end of this instruction
             -- if there's a stack, then pop it
-            if self.stack:size() > 0 then 
+            if self.stack:size() > 0 then
                 self.pointer = self.stack:pop()
             else  -- done executing. need to signal this?
                 self.pointer.ins = self.pointer.ins - 1
@@ -215,8 +215,8 @@ function Program:nextMove(clawCrate)
             local command = reg:getCommand()
             local conditional = reg:getConditional()
 
-            if command ~= "" and 
-                (conditional == "" or 
+            if command ~= "" and
+                (conditional == "" or
                 (conditional=="multi" and clawCrate) or
                 (conditional == "none" and not clawCrate) or
                 (clawCrate and conditional==clawCrate.colStr)) then
@@ -229,17 +229,17 @@ function Program:nextMove(clawCrate)
                     self:unpulse()
                     reg:pulse()
                     self.pulsed = reg
-                    
+
                     self.pulsedLabel = self.labels[self.pointer.f]
                     self.pulsedLabel:setTint(color(255,255,255,255))
-                    
+
                     return command
                 else
                     -- reached a real move
                     self:unpulse()
                     reg:pulse()
                     self.pulsed = reg
-                    
+
                     self.pulsedLabel = self.labels[self.pointer.f]
                     self.pulsedLabel:setTint(color(255,255,255,255))
                     return command
@@ -264,7 +264,7 @@ function Program:unpulse()
         self.pulsed:unpulse()
         self.pulsed = nil
     end
-    
+
     if self.pulsedLabel then
         self.pulsedLabel:setTint(color(150,150,150,255))
         self.pulsedLabel = nil
@@ -286,11 +286,11 @@ end
 function Program:setActiveRegisters(list)
     local retVal = {}
     for idx,regs in ipairs(self.registers) do
-        for _,reg in ipairs(regs) do 
+        for _,reg in ipairs(regs) do
             reg:setActive((list==nil))
         end
     end
-    
+
     if list then
         for idx,regs in ipairs(list) do
             for _,reg in ipairs(regs) do

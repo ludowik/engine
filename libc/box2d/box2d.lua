@@ -162,7 +162,7 @@ local b2World_index = {
             end
 
             box2d.b2World_setAutoClearForces(physicsBox2d, false)
-            
+
             while (accum >= timeStep) do
                 accum = accum - timeStep
 
@@ -173,7 +173,7 @@ local b2World_index = {
                 box2d.b2World_processContacts(physicsBox2d, collideFunc)
                 collideFunc:free()
             end
-            
+
             -- clear forces
             box2d.b2World_clearForces(physicsBox2d)
         end
@@ -257,14 +257,14 @@ local b2World_index = {
         end
 
         box2d.userdata[box2d.b2Body_getId(body)] = {}
-        
+
         body.previousPosition = body.position:clone()
-        
+
         body.density = 1
         body.friction = 0.4
         body.sleepingAllowed = true
         body.gravityScale = 1
-        
+
         return body
     end,
 
@@ -304,7 +304,7 @@ local b2World_index = {
     raycast = function (p1, p2)
         local self = physicsBox2d
 
-        local result = box2d.b2World_raycast(self, 
+        local result = box2d.b2World_raycast(self,
             b2Vec2(p1.x, p1.y, ptmRatio),
             b2Vec2(p2.x, p2.y, ptmRatio))
 
@@ -321,7 +321,7 @@ local b2World_index = {
     raycastAll = function (p1, p2)
         local self = physicsBox2d
 
-        local result = box2d.b2World_raycastAll(self, 
+        local result = box2d.b2World_raycastAll(self,
             b2Vec2(p1.x, p1.y, ptmRatio),
             b2Vec2(p2.x, p2.y, ptmRatio))
 

@@ -29,7 +29,7 @@ float freqs[4];
 
 vec3 mapH( in vec2 pos )
 {
-	vec2 fpos = fract( pos ); 
+	vec2 fpos = fract( pos );
 	vec2 ipos = floor( pos );
 	
     float f = 0.0;	
@@ -47,7 +47,7 @@ vec3 mapH( in vec2 pos )
 
 vec3 map( in vec3 pos )
 {
-	vec2  p = fract( pos.xz ); 
+	vec2  p = fract( pos.xz );
     vec3  m = mapH( pos.xz );
 	float d = dbox( vec3(p.x-0.5,pos.y-0.5*m.x,p.y-0.5), vec3(0.3,m.x*0.5,0.3), 0.1 );
     return vec3( d, m.yz );
@@ -58,7 +58,7 @@ const float surface = 0.001;
 vec3 trace( vec3 ro, in vec3 rd, in float tmin, in float tmax )
 {
     ro += tmin*rd;
-    
+
 	vec2 pos = floor(ro.xz);
     vec3 rdi = 1.0/rd;
     vec3 rda = abs(rdi);
@@ -69,7 +69,7 @@ vec3 trace( vec3 ro, in vec3 rd, in float tmin, in float tmax )
 
     // traverse regular grid (in 2D)
 	vec2 mm = vec2(0.0);
-	for( int i=0; i<28; i++ ) 
+	for( int i=0; i<28; i++ )
 	{
         vec3 cub = mapH( pos );
 
@@ -79,8 +79,8 @@ vec3 trace( vec3 ro, in vec3 rd, in float tmin, in float tmax )
 	        float s = max( mini.x, mini.y );
             if( (tmin+s)>tmax ) break;
         #endif
-        
-        
+
+
         // intersect box
 		vec3  ce = vec3( pos.x+0.5, 0.5*cub.x, pos.y+0.5 );
         vec3  rb = vec3(0.3,cub.x*0.5,0.3);
@@ -95,7 +95,7 @@ vec3 trace( vec3 ro, in vec3 rd, in float tmin, in float tmax )
             float h = 1.0;
             for( int j=0; j<24; j++ )
             {
-                h = dbox( rc+s*rd, rb, 0.1 ); 
+                h = dbox( rc+s*rd, rb, 0.1 );
                 s += h;
                 if( s>tF ) break;
             }
@@ -103,19 +103,19 @@ vec3 trace( vec3 ro, in vec3 rd, in float tmin, in float tmax )
             if( h < (surface*s*2.0) )
             {
                 res = vec3( s, cub.yz );
-                break; 
+                break;
             }
-            
+
 		}
 
         // step to next cell		
-		mm = step( dis.xy, dis.yx ); 
+		mm = step( dis.xy, dis.yx );
 		dis += mm*rda.xz;
         pos += mm*rds;
 	}
 
     res.x += tmin;
-    
+
 	return res;
 }
 
@@ -137,9 +137,9 @@ float softshadow( in vec3 ro, in vec3 rd, in float mint, in float maxt, in float
 vec3 calcNormal( in vec3 pos, in float t )
 {
     vec2 e = vec2(1.0,-1.0)*surface*t;
-    return normalize( e.xyy*map( pos + e.xyy ).x + 
-					  e.yyx*map( pos + e.yyx ).x + 
-					  e.yxy*map( pos + e.yxy ).x + 
+    return normalize( e.xyy*map( pos + e.xyy ).x +
+					  e.yyx*map( pos + e.yyx ).x +
+					  e.yxy*map( pos + e.yxy ).x +
 					  e.xxx*map( pos + e.xxx ).x );
 }
 
@@ -151,14 +151,14 @@ vec2 boundingVlume( vec2 tminmax, in vec3 ro, in vec3 rd )
 {
     float bp = 2.7;
     float tp = (bp-ro.y)/rd.y;
-    if( tp>0.0 ) 
+    if( tp>0.0 )
     {
         if( ro.y>bp ) tminmax.x = max( tminmax.x, tp );
         else          tminmax.y = min( tminmax.y, tp );
     }
     bp = 0.0;
     tp = (bp-ro.y)/rd.y;
-    if( tp>0.0 ) 
+    if( tp>0.0 )
     {
         if( ro.y>bp ) tminmax.y = min( tminmax.y, tp );
     }
@@ -201,7 +201,7 @@ vec3 doLighting( in vec3 col, in float ks,
     col = col*lin;
 
     vec3 spe = ks*lkey*lkat*(0.5+0.5*occ)*5.0*
-               pow( clamp(dot(normalize(ldif-rd), nor),0.0,1.0), 4.0 ) * 
+               pow( clamp(dot(normalize(ldif-rd), nor),0.0,1.0), 4.0 ) *
                (0.04+0.96*pow(clamp(dot(nor,-rd),0.0,1.0),5.0));
 
     col += (0.5+0.5*ks)*0.5*spe*vec3(1.0,0.9,0.7);
@@ -256,7 +256,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	freqs[3] = texture( iChannel0, vec2( 0.30, 0.25 ) ).x;
     //-----------
     float time = 5.0 + 0.2*iTime + 20.0*iMouse.x/iResolution.x;
-    
+
     vec3 tot = vec3(0.0);
     #ifdef ANTIALIAS
     for( int j=0; j<ANTIALIAS; j++ )
@@ -265,7 +265,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         vec2 off = vec2(float(i),float(j))/float(ANTIALIAS);
     #else
         vec2 off = vec2(0.0);
-    #endif        
+    #endif
         vec2 xy = (-iResolution.xy+2.0*(fragCoord+off)) / iResolution.y;
 
         // camera	
@@ -276,18 +276,18 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         // camera tx
         mat3 ca = setLookAt( ro, ta, roll );
         vec3 rd = normalize( ca * vec3(xy.xy,1.75) );
-        
+
         vec3 col = render( ro, rd );
         col = pow( col, vec3(0.4545) );
         col = pow( col, vec3(0.8,0.95,1.0) );
         col = clamp(col,0.0,1.0);
         tot += col;
-        
+
     #ifdef ANTIALIAS
     }
 	tot /= float(ANTIALIAS*ANTIALIAS);
-    #endif    
-    
+    #endif
+
     // vigneting
 	vec2 q = fragCoord.xy/iResolution.xy;
     tot *= 0.2 + 0.8*pow( 16.0*q.x*q.y*(1.0-q.x)*(1.0-q.y), 0.1 );

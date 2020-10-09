@@ -180,7 +180,7 @@ function mt:crossInPlace(v)
     local x = self.y * v.z - self.z * v.y
     local y = self.z * v.x - self.x * v.z
     local z = self.x * v.y - self.y * v.x
-    
+
     self.x = x
     self.y = y
     self.z = z
@@ -241,7 +241,7 @@ end
 
 function xyz(x, y, z, coef)
     assert(coef == nil)
-    if type(x) == 'table' or type(x) == 'cdata' then 
+    if type(x) == 'table' or type(x) == 'cdata' then
         return x.x, x.y, x.z or 0, y or 1
     end
     return x or 0, y or 0, z or 0, coef or 1

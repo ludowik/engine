@@ -23,22 +23,22 @@ function setup()
     end
 
     attractions = Table()
-    
+
     parameter.watch('#attractions')
-    
+
     local xc, yc = 0, 0
-    
+
     function moveTo(x, y)
         xc, yc = x, y
     end
-    
+
     function lineTo(x, y)
         line(xc, yc, x, y)
         xc, yc = x, y
     end
 end
 
-function update(dt)    
+function update(dt)
     local force = 0
     for i=1,#sparrows do
         local s1 = sparrows[i]

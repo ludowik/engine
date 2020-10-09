@@ -58,7 +58,7 @@ function Vec3:is_eq(v)
         return false
     end
     return true
-end        
+end
 
 --[[
 Inner product.
@@ -372,14 +372,14 @@ function Vec3:__eq(v)
 end
 
 function Vec3:__concat(v)
-    if type(v) == "table" 
-        and v:is_a(Vec3) 
+    if type(v) == "table"
+        and v:is_a(Vec3)
         and type(self) == "table"
         and self:is_a(Vec3)
         then
         return self:dot(v)
     else
-        if type(v) == "table" 
+        if type(v) == "table"
         and v:is_a(Vec3) then
             return self .. v:tostring()
         else
@@ -543,7 +543,7 @@ r is the "significant distance"
 --]]
 
 function Vec3.isOverPoint(a,b,c,r,e)
-    
+
     if not e then
         e = Vec3.eye
     end
@@ -561,16 +561,16 @@ function Vec3.isOverPoint(a,b,c,r,e)
     ab = a:dot(b)
     ac = a:dot(c)
     bc = b:dot(c)
-    
+
     if aa * bc < ab * ac then
         return false
     end
     if bb * ac < ab * bc then
         return false
     end
-    
+
     l = math.sqrt((aa * bb - ab * ab) * (aa + bb - 2 * ab))
-    
+
     if (bb - ab) * ac + (aa - ab) * bc < aa * bb - ab * ab + r * l then
         return false
     end

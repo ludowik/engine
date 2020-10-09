@@ -48,7 +48,7 @@ end
 function Octree:test()
     local octree = Octree()
     assert(octree, 'octree')
-    
+
     for i=1,100 do
         local v = vec3.random()
         local value = random()

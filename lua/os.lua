@@ -1,4 +1,4 @@
-function getOS()    
+function getOS()
     local name = ''
 
     if love then

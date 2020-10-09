@@ -31,9 +31,9 @@ function Body:init(bodyType, shapeType, ...)
 
     self.position = vec3()
     self.previousPosition = vec3()
-    
+
     self.force = vec3()
-    
+
     self.move = vec3()
 
     self.linearVelocity = vec3()
@@ -201,7 +201,7 @@ function Body:integration(dt)
     position = position + self.move
     angle = angle + angularVelocity * dt
 
-    self.position = position * self.world.pixelRatio 
+    self.position = position * self.world.pixelRatio
 
     self.linearVelocity = linearVelocity
 
@@ -238,7 +238,7 @@ function Body:draw()
     else
         stroke(yellow)
     end
-    
+
     assert(Body[self.shapeType].draw, self.shapeType)
     Body[self.shapeType].draw(self)
 
@@ -249,7 +249,7 @@ function Body:draw()
     stroke(gray)
     strokeWidth(2)
     noFill()
-    
+
     Body.computeSize(self)
 
     -- bounding circle

@@ -7,9 +7,9 @@ local m, n
 
 function ReactionDiffusion:init()
     Application.init(self)
-    
+
     self.url = "http://www.karlsims.com/rd.html"
-    
+
     n = 100
     m = n
 
@@ -86,7 +86,7 @@ function ReactionDiffusion:draw()
     background(51)
 
     local clr = color()
-    
+
     for i=1,n do
         local line = gridIn[i]
         for j=1,m do
@@ -98,14 +98,14 @@ function ReactionDiffusion:draw()
             renderImage:set(i, j, clr)
         end
     end
-    
+
     renderImage.upToDate = false
-    
+
     spriteMode(CENTER)
     sprite(renderImage, WIDTH/2, HEIGHT/2)
 end
 
-function createGrid(n, m)    
+function createGrid(n, m)
     local grid = {}
     for i=1,n do
         grid[i] = {}

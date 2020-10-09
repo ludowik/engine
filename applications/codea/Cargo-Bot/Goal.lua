@@ -8,7 +8,7 @@ function Goal:config()
     config.shadows = false
     config.maxPiles = 9
     config.crate = {w=21,h=21,borderY=-3,shadows=config.shadows}
-    
+
     -- setup dimensions for the piles
     config.pile = {
         y = 7,
@@ -20,7 +20,7 @@ function Goal:config()
     config.pile.w = math.floor(config.w / config.maxPiles)
     config.pile.h = config.h -- needed for editor mode to know whether a block should be added
     config.pile.base.w = math.floor(config.pile.w*.8)
-    
+
     config.crateSprites = {
         blue = {"Cargo Bot:Crate Goal Blue"},
         red = {"Cargo Bot:Crate Goal Red"},

@@ -1,7 +1,7 @@
 local physics
 function setup()
     physics = Physics2d(0, -10)
-    
+
     local marge = 25
 
     physics:setArea(marge, marge, WIDTH-marge*2, HEIGHT-marge*2)
@@ -11,7 +11,7 @@ function setup()
         ball = Object(150, 250, r, r)
         physics:add(ball, DYNAMIC, CIRCLE)
     end
-    
+
     addBall()
 
     local y = 100 + 10
@@ -26,7 +26,7 @@ function setup()
             }, DYNAMIC, RECT)
 
     parameter.action('add ball', function () addBall() end)
-    
+
 --    app.scene:add(physics)
 end
 

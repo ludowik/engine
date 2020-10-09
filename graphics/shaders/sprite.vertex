@@ -14,6 +14,6 @@ out vec2 vTexCoords;
 void main() {
     vec3 vertexPosition = vertex * size + pos;
     gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
-    
+
     vTexCoords = texCoords;
 }

@@ -46,17 +46,17 @@ end
 
 function Popover:draw()
     if not self.visible then return nil end
-    
+
     pushMatrix()
     pushStyle()
     translate(self.x,self.y)
-    
+
     rectMode(CORNER)
     stroke(0, 0, 0, 255)
     fill(0, 138, 255, 255)
     strokeWidth(5)
     rect(0,0,self.w,self.h)
-    
+
     if self.arrowData then
         spriteMode(CORNER)
         local arrw,arrh = 22,25
@@ -90,7 +90,7 @@ function Popover:draw()
         sprite("Cargo Bot:Play Solution Icon",arrx,arry,arrw,arrh)
         popMatrix()
     end
-    
+
     if self.text then
         fill(255, 255, 255, 255)
         font("Futura-CondensedExtraBold")
@@ -100,7 +100,7 @@ function Popover:draw()
         local w,h = textSize(self.text)
         text(self.text,10,self.h - h - 5)
     end
-     
+
     noTint()
     spriteMode(CORNER)
     for _,icon in ipairs(self.icons) do

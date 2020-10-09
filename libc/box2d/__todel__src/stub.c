@@ -22,9 +22,9 @@
 	
 	bool b2World_getContinuous(b2World* world);
 	void b2World_setContinuous(b2World* world, bool continuous);
-    
+
     void b2World_setAutoClearForces(b2World* self, bool autoClearForces);
-    
+
 	void b2World_step(b2World* self, float dt);
 	
 	void b2World_clearForces(b2World* self);
@@ -52,21 +52,21 @@
 	
 	int b2Body_get_type(b2Body* self);
 	void b2Body_set_type(b2Body* self, int type);
-    
+
 	bool b2Body_get_bullet(b2Body* self);
 	void b2Body_set_bullet(b2Body* self, bool bullet);
-    
+
     int b2Body_get_shape_type(b2Body* self);
 	
 	b2Vec2* b2Body_get_position(b2Body* self);
 	void b2Body_set_position(b2Body* self, b2Vec2* position);
-    
+
     bool b2Body_get_sensor(b2Body* self);
     void b2Body_set_sensor(b2Body* self, bool sensor);
-    
+
     int b2Body_get_categoryBits(b2Body* self);
     void b2Body_set_categoryBits(b2Body* self, int categoryBits);
-    
+
     int b2Body_get_maskBits(b2Body* self);
     void b2Body_set_maskBits(b2Body* self, int maskBits);
 	
@@ -78,7 +78,7 @@
 	
 	float b2Body_get_mass(b2Body* self);	
 	void b2Body_set_mass(b2Body* self, float mass);
-    
+
     float b2Body_get_density(b2Body* self);	
 	void b2Body_set_density(b2Body* self, float density);
 	
@@ -87,7 +87,7 @@
 	
 	float b2Body_get_friction(b2Body* self);	
 	void b2Body_set_friction(b2Body* self, float friction);
-    
+
     bool b2Body_get_fixedRotation(b2Body* self);
     void b2Body_set_fixedRotation(b2Body* self, bool fixedRotation);
 	
@@ -103,10 +103,10 @@
 
 	float b2Body_get_angularVelocity(b2Body* self);
 	void b2Body_set_angularVelocity(b2Body* self, float angle);
-    
+
     float b2Body_get_linearDamping(b2Body* self);
 	void b2Body_set_linearDamping(b2Body* self, float linearDamping);
-    
+
     float b2Body_get_angularDamping(b2Body* self);
 	void b2Body_set_angularDamping(b2Body* self, float angularDamping);
 	
@@ -119,7 +119,7 @@
 	
 	void b2Body_applyForce(b2Body* self, b2Vec2* force, b2Vec2* worldPoint);
 	void b2Body_applyForceToCenter(b2Body* self, b2Vec2* force);
-    
+
     void b2Body_applyLinearImpulse(b2Body* self, b2Vec2* force);
 	
 	void b2Body_applyTorque(b2Body* self, float torque);
@@ -187,9 +187,9 @@
     b2Joint* b2Joint_new_distance (b2World* world, b2Body* bodyA, b2Body* bodyB, b2Vec2* anchorA, b2Vec2* anchorB);
 	b2Joint* b2Joint_new_prismatic(b2World* world, b2Body* bodyA, b2Body* bodyB, b2Vec2* anchorA, b2Vec2* direction);
     b2Joint* b2Joint_new_weld     (b2World* world, b2Body* bodyA, b2Body* bodyB, b2Vec2* anchorA, b2Vec2* direction);
-    
+
 	void b2Joint_gc(b2World* world, b2Joint* joint);
-    
+
     typedef void (*unref)(b2Joint* joint);
 	void setUnrefJoint(unref func);
 	
@@ -198,17 +198,17 @@
 	
     float b2Joint_get_maxMotorTorque(b2Joint* joint_);
     void b2Joint_set_maxMotorTorque(b2Joint* joint_, float maxMotorTorque);
-    
+
     bool b2Joint_get_enableMotor(b2Joint* joint_);
     void b2Joint_set_enableMotor(b2Joint* joint_, bool enableMotor);
-    
+
     float b2Joint_get_motorSpeed(b2Joint* joint_);
     void b2Joint_set_motorSpeed(b2Joint* joint_, float motorSpeed);
 	
 	bool b2Joint_get_enableLimit(b2Joint* joint_);
 	void b2Joint_set_enableLimit(b2Joint* joint_, bool enableLimit);
 	
-	float b2Joint_get_lowerLimit(b2Joint* joint_);    
+	float b2Joint_get_lowerLimit(b2Joint* joint_);
     void b2Joint_set_lowerLimit(b2Joint* joint_, float lowerLimit);
 	
 	float b2Joint_get_upperLimit(b2Joint* joint_);

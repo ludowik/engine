@@ -1,12 +1,12 @@
 -- SpriteObj.lua
 -- Everything that is drawn on the screen is a SpriteObj. At creation time a SpriteObj
 -- doesn't have a mesh yet. setMesh needs to be called on it before any other properties.
--- This is usually accomplished by adding the object to a Screen, which knows how to 
+-- This is usually accomplished by adding the object to a Screen, which knows how to
 -- handle meshes
-    
+
 -- If you'd like to draw things that are not sprites, first make a fake sprite with
 -- Screen.makeSprite
-    
+
 -- A number of getters and setters are defined
 
 SpriteObj = class(RectObj)
@@ -21,7 +21,7 @@ end
 -- .pool: a pool of unused indices in this mesh
 function SpriteObj:setMesh(meshData)
     self.meshData = meshData
-    
+
     if #self.meshData.pool > 0 then
         -- reuse from the pool
         self.meshIdx = self.meshData.pool[1]
@@ -38,7 +38,7 @@ function SpriteObj:setMesh(meshData)
                 self.w,self.h,self.angle)
         end
     end
-    
+
     self.meshData.mesh:setRectColor(self.meshIdx,self.tint)
 end
 

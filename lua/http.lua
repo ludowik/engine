@@ -11,6 +11,6 @@ function http.request(url, success, fail, parameterTable)
     if headers['content-type'] and headers['content-type']:startWith('image') then
         data = image('data')
     end
-    
+
     success(data, code, headers)
 end

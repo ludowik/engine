@@ -15,7 +15,7 @@ function setup()
     parameter.number('rotation', 0, TAU, rotation, function (value)
             nextValue = 1
         end)
-    
+
     parameter.integer('len', 1, 100, 10, function ()
             nextValue = 1
         end)
@@ -25,11 +25,11 @@ function collatz()
     if nextValue == 1 then
         background(0)
     end
-    
+
     if value == 1 then
         nextValue = nextValue + 1
         value = nextValue
-        
+
         clr = color(random(), 0.1)
         clr.a = 0.1
 

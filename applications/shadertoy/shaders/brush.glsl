@@ -20,7 +20,7 @@ float magicBox(vec3 p) {
     // Take p anywhere in space and calculate the corresponding position
     // inside the box, 0<(x,y,z)<1
     p = 1.0 - abs(1.0 - mod(p, 2.0));
-    
+
     float lastLength = length(p);
     float tot = 0.0;
     // This is the fractal.  More iterations gives a more detailed
@@ -59,7 +59,7 @@ float nsin(float a){return .5+.5*sin(a);}
 float ncos(float a){return .5+.5*cos(a);}
 vec3 saturate(vec3 a){return clamp(a,0.,1.);}
 float rand(vec2 co){
-    
+
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
 }
 float rand(float n){
@@ -148,7 +148,7 @@ vec3 colorBrushStroke(vec2 uvLine, vec2 uvPaper, vec2 lineSize, float sdGeometry
 //    return mix(inpColor, dtocolor(inpColor, uvLine.x), dtoa(sdGeometry, 1000.));// reveal X
     	float okthen = 42.;// NOP
     }
-    
+
     // warp the position-in-line, to control the curve of the brush falloff.
     if(posInLineY > 0.)
     {
@@ -176,11 +176,11 @@ vec3 colorBrushStroke(vec2 uvLine, vec2 uvPaper, vec2 lineSize, float sdGeometry
         strokeAlpha *= strokeAlphaBoost;
 
     strokeAlpha = smooth1(strokeAlpha);
-    
+
     // paper bleed effect.
     float paperBleedAmt = 60. + (rand(uvPaper.y) * 30.) + (rand(uvPaper.x) * 30.);
-//    amt = 500.;// disable paper bleed    
-    
+//    amt = 500.;// disable paper bleed
+
     // blotches (per stroke)
     //float blotchAmt = smoothstep(17.,18.5,magicBox(vec3(uvPaper, uvLine.x)));
     //blotchAmt *= 0.4;
@@ -205,7 +205,7 @@ vec3 colorBrushStrokeLine(vec2 uv, vec3 inpColor, vec4 brushColor, vec2 p1_, vec
 
     // make line slightly narrower at end.
     lineWidth *= mix(1., .9, smoothstep(tl.y,br.y,uvLine.y));
-    
+
     // wobble it around, humanize
     float res = min(iResolution.y,iResolution.x);
     uvLine.x += (noise01(uvLine * 1.)-0.5) * 0.02;
@@ -216,9 +216,9 @@ vec3 colorBrushStrokeLine(vec2 uv, vec3 inpColor, vec4 brushColor, vec2 p1_, vec
     // calc distance to geometry. actually just do a straight line, then we will round it out to create the line width.
     float d = sdAxisAlignedRect(uvLine, tl, br) - lineWidth / 2.;
     uvLine = tl - uvLine;
-    
+
     vec2 lineSize = vec2(lineWidth, lineLength);
-    
+
     vec3 ret = colorBrushStroke(vec2(uvLine.x, -uvLine.y), uv, lineSize,
                                 d, inpColor, brushColor);
     return ret;
@@ -230,12 +230,12 @@ vec3 colorBrushStrokeLine(vec2 uv, vec3 inpColor, vec4 brushColor, vec2 p1_, vec
 vec3 humanizeBrushStrokeDonut(vec2 uvLine, float radius_, bool clockwise, float lineLength)
 {
     vec2 humanizedUVLine = uvLine;
-    
+
 	// offsetting the circle along its path creates a twisting effect.
     float twistAmt = .24;
     float linePosY = humanizedUVLine.y / lineLength;// 0 to 1 scale
     humanizedUVLine.x += linePosY * twistAmt;
-    
+
     // perturb radius / x
     float humanizedRadius = radius_;
     float res = min(iResolution.y,iResolution.x);
@@ -244,7 +244,7 @@ vec3 humanizeBrushStrokeDonut(vec2 uvLine, float radius_, bool clockwise, float 
     humanizedUVLine.x += sin(uvLine.x * 30.) * 0.02;// more messin
     humanizedUVLine.x += (noise01(uvLine * 5.)-0.5) * 0.005;// a sort of random waviness like individual strands are moving around
 //    humanizedUVLine.x += (noise01(uvLine * res * 0.18)-0.5) * 0.0035;// HP random noise makes it look less scientific
-    
+
     return vec3(humanizedUVLine, humanizedRadius);
 }
 
@@ -262,10 +262,10 @@ vec3 colorBrushStrokeDonut(vec2 uv, vec3 inpColor, vec4 brushColor, vec2 o, floa
         radius_ - length(uvLine),
         angle / pi2 * lineLength
     );
-    
+
     // make line slightly narrower at end.
     float lineWidth1 = lineWidth * mix(1., .9, smoothstep(0.,lineLength,uvLine.y));
-    
+
     vec3 hu = humanizeBrushStrokeDonut(uvLine, radius_, clockwise, lineLength);
     vec2 humanizedUVLine = hu.xy;
     float humanizedRadius = hu.z;
@@ -275,7 +275,7 @@ vec3 colorBrushStrokeDonut(vec2 uv, vec3 inpColor, vec4 brushColor, vec2 o, floa
     d -= lineWidth1 * 0.5;// round off things just like in the line routine.
 
     vec3 ret = colorBrushStroke(humanizedUVLine, uv, vec2(lineWidth1, lineLength), d, inpColor, brushColor);
-    
+
     // do the same but for before the beginning of the line. distance field is just a single point
     vec3 ret2 = vec3(1);
     if(angle > pi)
@@ -309,10 +309,10 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     mouse = getuv_centerX(iMouse.xy, vec2(-1,-1), vec2(2,2));// (iMouse.xy / iResolution.y * 2.0) - 1.;
 	omouse = getuv_centerX(iMouse.zw, vec2(-1,-1), vec2(2,2));
     vec2 uv = getuv_centerX(fragCoord, vec2(-1,-1), vec2(2,2));// 0-1 centered
-    
+
     vec3 col = vec3(1.,1.,0.875);// bg
     float dist;
-    
+
 	// geometry on display...
 	float yo = sin(-uv.x*pi*0.5)*0.2;
     col = colorBrushStrokeLine(uv, col, vec4(vec3(.5,.1,0),.9),// red fixed line
@@ -335,7 +335,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
                                 0.5,// sweep amt 0-1
                                 0.1,// width
                                 true);// clockwise
-    
+
     col = colorBrushStrokeLine(uv, col, vec4(vec3(.2,1,.2),0.8),// GREEN LINE
                            vec2(-mouse.x, -mouse.y),
                            vec2(-omouse.x, -omouse.y), 0.1);
@@ -345,7 +345,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     blotchAmt = pow(blotchAmt, 3.);// attenuate
     blotchAmt = .7*smoothstep(.2,.4,blotchAmt);// sharpen
     col *= 1.-blotchAmt;
-    
+
 	// signature
     dist = sdAxisAlignedRect(uvSignature, vec2(-0.68), vec2(-0.55));
     float amt = 90. + (rand(uvSignature.y) * 100.) + (rand(uvSignature.x / 4.) * 90.);
@@ -362,6 +362,6 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 uvScreen = (fragCoord / iResolution.xy * 2.)-1.;
 	float vignetteAmt = 1.-dot(uvScreen*0.5,uvScreen* 0.62);
     col *= vignetteAmt;
-    
+
     fragColor = vec4(col, 1.);
 }

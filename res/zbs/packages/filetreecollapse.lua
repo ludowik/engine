@@ -50,9 +50,9 @@ return {
                     "   ss       ,   ",
                     "                "
                 }))
-        
+
         tb:Realize()
-        
+
         tb:SetWindowStyleFlag(tb:GetWindowStyleFlag() + wx.wxTB_TEXT)
         tb:Refresh()
 
@@ -60,7 +60,7 @@ return {
             function ()
                 local tree = ide:GetProjectTree()
                 local root = tree:GetRootItem()
-                
+
                 tree:CollapseAll()
                 tree:EnsureVisible(root)
                 tree:Expand(root)

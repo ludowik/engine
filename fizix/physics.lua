@@ -1,7 +1,7 @@
 class('Physics')
 
 function Physics.setup()
-    Physics.instance = Fizix()  
+    Physics.instance = Fizix()
 end
 
 function Physics:init(instance)

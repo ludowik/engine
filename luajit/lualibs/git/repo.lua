@@ -152,7 +152,7 @@ function Repo:blob(sha)
 	f:close() -- can be reopened in Blob:content()
 
 	assert(typ == 'blob', string.format('%s (%s) is not a blob', sha, typ))
-	return setmetatable({ 
+	return setmetatable({
 		id = sha,
 		len = len,
 		repo = self,

@@ -22,7 +22,7 @@ function ListBox:draw()
 
     local x, y = 0, 0 -- self.position.x, self.position.y
     y = y + self.size.y + self.dy
-    
+
     for i,item in ipairs(self.list) do
         local w, h = textSize(item)
         y = y - h
@@ -40,10 +40,10 @@ end
 
 function ListBox:wheelmoved(mouse)
     local y = math.sign(mouse.deltaY) * 10
-    
+
     if self.needScrollBar then
         self.dy = self.dy - y
-        
+
         self.dy = max(self.dy, 0)
         self.dy = min(self.dy, self.hTot - self.size.y)
     end

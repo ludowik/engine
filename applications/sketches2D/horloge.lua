@@ -43,7 +43,7 @@ function Horloge:aiguille(clr, x, y, a, l, size)
     pushMatrix()
 
     translate(x, y)
-    
+
     rotate(-a, 0, 0, 1)
 
     if self.m == nil then
@@ -56,7 +56,7 @@ function Horloge:aiguille(clr, x, y, a, l, size)
                 vec3(size, 0),
             })
     end
-    
+
     noStroke()
     fill(clr)
 

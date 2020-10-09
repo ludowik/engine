@@ -11,9 +11,9 @@ function Circle:init(x, y, size)
     self.x = x
     self.y = y
     self.size = size or 100
-    
-    self.originalState = { x = self.x, 
-                           y = self.y, 
+
+    self.originalState = { x = self.x,
+                           y = self.y,
                            size = self.size }
 end
 
@@ -25,11 +25,11 @@ end
 
 function Circle:draw()
     pushStyle()
-    
+
     fill(180,10,30)
-    
+
     ellipse(self.x, self.y, self.size)
-    
+
     popStyle()
 end
 

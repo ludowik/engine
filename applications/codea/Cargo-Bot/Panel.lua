@@ -1,5 +1,5 @@
 -- Panel.lua
--- A panel is a container for other panels or objects that can be drawn. Used to form a 
+-- A panel is a container for other panels or objects that can be drawn. Used to form a
 -- hierarchical representation of what's in the screen.
 -- - The leaves of the hierarchy are typically SpriteObjs
 -- - Handles binding and unbinding of events
@@ -40,9 +40,9 @@ end
 
 function Panel:highlight(screen,dz)
     screen:highlightObj(self,dz)
-    TableEx.map(function(x) 
-        if x.highlight then x:highlight(screen,dz) 
-        else screen:highlightObj(x,dz) end 
+    TableEx.map(function(x)
+        if x.highlight then x:highlight(screen,dz)
+        else screen:highlightObj(x,dz) end
     end, self.elems)
 end
 
@@ -57,7 +57,7 @@ end
 -- undraws this and elems recursively from the screen
 function Panel:undraw(screen)
     screen:undoDraw(self)
-    TableEx.map(function(x) 
+    TableEx.map(function(x)
         if x.undraw then x:undraw(screen)
         else screen:undoDraw(x) end
     end, self.elems)
@@ -65,7 +65,7 @@ end
 
 function Panel:touched(t)
     if not self.active then return nil end
-    
+
     local elemsClone = TableEx.clone(self.elems)
     TableEx.map(function(x) if x.touched and x.active then x:touched(t) end end,elemsClone)
 end

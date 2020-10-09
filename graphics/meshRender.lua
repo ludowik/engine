@@ -20,7 +20,7 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
             attribute.bufferId = buffer.id
 
             local bytes
-            if type(buffer) == 'table' then                
+            if type(buffer) == 'table' then
                 if type(buffer[1]) == 'number' then
                     buffer = Buffer('float', buffer)
                     nComponents = 1
@@ -42,7 +42,7 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
                 end
 
 --                log(getFunctionLocation(buffer.id, 2))
---                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)                
+--                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)
             end
 
 --            log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)

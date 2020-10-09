@@ -187,12 +187,12 @@ function mt.tobytes(m1)
 end
 
 function mt.perf()
-    Performance.evaluate('create matrix', 
+    Performance.evaluate('create matrix',
         function (i)
             matrix(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
         end)
 
-    Performance.evaluate('create and set matrix', 
+    Performance.evaluate('create and set matrix',
         function (i, m)
             m:set(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
         end,
@@ -228,7 +228,7 @@ function matrix.test()
     assert(m == m)
     assert(matrix():__eq(matrix()))
 
-    local function assertMatrixIdentity(m)    
+    local function assertMatrixIdentity(m)
         for i=1,16 do
             if i == 1 or i == 6 or i == 11 or i == 16 then
                 assert(m[i] == 1)

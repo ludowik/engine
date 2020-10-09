@@ -7,7 +7,7 @@ UIGroup.minSize = Size(200, 0)
 
 function UIGroup:UIGroup(label)
     UIScene.init(self)
-    
+
     self:setLabel(label)
 
     self.reduced = readLocalData('UIGroup.'..self.label..'.reduce', true)
@@ -47,7 +47,7 @@ end
 
 function UIGroup:update(...)
     UIScene.update(self, ...)
-    
+
     for i=2,#self.nodes do
         local node = self.nodes[i]
         node.visible = not self.reduced
@@ -56,16 +56,16 @@ end
 
 function UIGroup:toggleReduce(reduced)
     if reduced == nil then
-        reduced = not self.reduced    
+        reduced = not self.reduced
     end
 
-    self.reduced = reduced    
+    self.reduced = reduced
     saveLocalData('UIGroup.'..self.label..'.reduce', self.reduced)
 end
 
 function UIGroup:click()
     self:toggleReduce()
-    
+
     if self.reduced == false then
         local root = self:root()
         if root ~= self then

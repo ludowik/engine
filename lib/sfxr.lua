@@ -42,14 +42,14 @@ sfxr.VERSION = "0.0.2"
 -- @field SINE [sine wave](https://en.wikipedia.org/wiki/Sine_wave) (`= 2`)
 -- @field NOISE [white noise](https://en.wikipedia.org/wiki/White_noise) (`= 3`)
 sfxr.WAVEFORM = {
-  SQUARE = 0,
-  [0] = 0,
-  SAW = 1,
-  [1] = 1,
-  SINE = 2,
-  [2] = 2,
-  NOISE = 3,
-  [3] = 3
+    SQUARE = 0,
+    [0] = 0,
+    SAW = 1,
+    [1] = 1,
+    SINE = 2,
+    [2] = 2,
+    NOISE = 3,
+    [3] = 3
 }
 
 --- [Sampling rate](https://en.wikipedia.org/wiki/Sampling_(signal_processing)#Sampling_rate) constants
@@ -58,8 +58,8 @@ sfxr.WAVEFORM = {
 -- @field 22050 22.05 kHz (`= 22050`)
 -- @field 44100 44.1 kHz (`= 44100`)
 sfxr.SAMPLERATE = {
-  [22050] = 22050, --- 22.05 kHz
-  [44100] = 44100 --- 44.1 kHz
+    [22050] = 22050, --- 22.05 kHz
+    [44100] = 44100 --- 44.1 kHz
 }
 
 --- [Bit depth](https://en.wikipedia.org/wiki/Audio_bit_depth) constants
@@ -69,9 +69,9 @@ sfxr.SAMPLERATE = {
 -- @field 8 unsigned 8 bit, 0x00 to 0xFF (`= 8`)
 -- @field 16 unsigned 16 bit, 0x0000 to 0xFFFF (`= 16`)
 sfxr.BITDEPTH = {
-  [0] = 0,
-  [16] = 16,
-  [8] = 8
+    [0] = 0,
+    [16] = 16,
+    [8] = 8
 }
 
 --- [Endianness](https://en.wikipedia.org/wiki/Endianness) constants
@@ -79,10 +79,10 @@ sfxr.BITDEPTH = {
 -- @field LITTLE little endian (`= 0`)
 -- @field BIG big endian (`= 1`)
 sfxr.ENDIANNESS = {
-  LITTLE = 0,
-  [0] = 0,
-  BIG = 1,
-  [1] = 1
+    LITTLE = 0,
+    [0] = 0,
+    BIG = 1,
+    [1] = 1
 }
 
 -- Utilities
@@ -173,38 +173,38 @@ end
 -- @tparam number number a number
 -- @treturn string a binary string
 local function packIEEE754(number)
-	if number == 0 then
-		return string.char(0x00, 0x00, 0x00, 0x00)
-	elseif number ~= number then
-		return string.char(0xFF, 0xFF, 0xFF, 0xFF)
-	else
-		local sign = 0x00
-		if number < 0 then
-			sign = 0x80
-			number = -number
-		end
-		local mantissa, exponent = math.frexp(number)
-		exponent = exponent + 0x7F
-		if exponent <= 0 then
-			mantissa = math.ldexp(mantissa, exponent - 1)
-			exponent = 0
-		elseif exponent > 0 then
-			if exponent >= 0xFF then
-				return string.char(sign + 0x7F, 0x80, 0x00, 0x00)
-			elseif exponent == 1 then
-				exponent = 0
-			else
-				mantissa = mantissa * 2 - 1
-				exponent = exponent - 1
-			end
-		end
-		mantissa = math.floor(math.ldexp(mantissa, 23) + 0.5)
-		return string.char(
-			sign + math.floor(exponent / 2),
-			(exponent % 2) * 0x80 + math.floor(mantissa / 0x10000),
-			math.floor(mantissa / 0x100) % 0x100,
-			mantissa % 0x100)
-	end
+    if number == 0 then
+        return string.char(0x00, 0x00, 0x00, 0x00)
+    elseif number ~= number then
+        return string.char(0xFF, 0xFF, 0xFF, 0xFF)
+    else
+        local sign = 0x00
+        if number < 0 then
+            sign = 0x80
+            number = -number
+        end
+        local mantissa, exponent = math.frexp(number)
+        exponent = exponent + 0x7F
+        if exponent <= 0 then
+            mantissa = math.ldexp(mantissa, exponent - 1)
+            exponent = 0
+        elseif exponent > 0 then
+            if exponent >= 0xFF then
+                return string.char(sign + 0x7F, 0x80, 0x00, 0x00)
+            elseif exponent == 1 then
+                exponent = 0
+            else
+                mantissa = mantissa * 2 - 1
+                exponent = exponent - 1
+            end
+        end
+        mantissa = math.floor(math.ldexp(mantissa, 23) + 0.5)
+        return string.char(
+            sign + math.floor(exponent / 2),
+            (exponent % 2) * 0x80 + math.floor(mantissa / 0x10000),
+            math.floor(mantissa / 0x100) % 0x100,
+            mantissa % 0x100)
+    end
 end
 
 --- Unpack a IEEE754 32-bit big-endian floating point string to a number.
@@ -212,25 +212,25 @@ end
 -- @tparam string packed a binary string
 -- @treturn number a number
 local function unpackIEEE754(packed)
-	local b1, b2, b3, b4 = string.byte(packed, 1, 4)
-	local exponent = (b1 % 0x80) * 0x02 + math.floor(b2 / 0x80)
-	local mantissa = math.ldexp(((b2 % 0x80) * 0x100 + b3) * 0x100 + b4, -23)
-	if exponent == 0xFF then
-		if mantissa > 0 then
-			return 0 / 0
-		else
-			mantissa = math.huge
-			exponent = 0x7F
-		end
-	elseif exponent > 0 then
-		mantissa = mantissa + 1
-	else
-		exponent = exponent + 1
-	end
-	if b1 >= 0x80 then
-		mantissa = -mantissa
-	end
-	return math.ldexp(mantissa, exponent - 0x7F)
+    local b1, b2, b3, b4 = string.byte(packed, 1, 4)
+    local exponent = (b1 % 0x80) * 0x02 + math.floor(b2 / 0x80)
+    local mantissa = math.ldexp(((b2 % 0x80) * 0x100 + b3) * 0x100 + b4, -23)
+    if exponent == 0xFF then
+        if mantissa > 0 then
+            return 0 / 0
+        else
+            mantissa = math.huge
+            exponent = 0x7F
+        end
+    elseif exponent > 0 then
+        mantissa = mantissa + 1
+    else
+        exponent = exponent + 1
+    end
+    if b1 >= 0x80 then
+        mantissa = -mantissa
+    end
+    return math.ldexp(mantissa, exponent - 0x7F)
 end
 
 --- Construct and return a new @{Sound} instance.
@@ -682,15 +682,15 @@ function sfxr.Sound:generate(rate, depth)
                     sample = -0.5
                 end
 
-            -- Sawtooth
+                -- Sawtooth
             elseif self.waveform == sfxr.WAVEFORM.SAWTOOTH then
                 sample = 1 - fp * 2
 
-            -- Sine
+                -- Sine
             elseif self.waveform == sfxr.WAVEFORM.SINE then
                 sample = math.sin(fp * 2 * math.pi)
 
-            -- Pitched white noise
+                -- Pitched white noise
             elseif self.waveform == sfxr.WAVEFORM.NOISE then
                 sample = noisebuffer[trunc(phase * 32 / period) % 32 + 1]
             end
@@ -1212,7 +1212,7 @@ function sfxr.Sound:exportWAV(f, rate, depth)
     end
 
     -- Some utility functions
-    function seek(pos)
+    local function seek(pos)
         if io.type(f) == "file" then
             f:seek("set", pos)
         else
@@ -1220,7 +1220,7 @@ function sfxr.Sound:exportWAV(f, rate, depth)
         end
     end
 
-    function tell()
+    local function tell()
         if io.type(f) == "file" then
             return f:seek()
         else
@@ -1228,7 +1228,7 @@ function sfxr.Sound:exportWAV(f, rate, depth)
         end
     end
 
-    function bytes(num, len)
+    local function bytes(num, len)
         local str = ""
         for i = 1, len do
             str = str .. string.char(num % 256)
@@ -1237,15 +1237,15 @@ function sfxr.Sound:exportWAV(f, rate, depth)
         return str
     end
 
-    function w16(num)
+    local function w16(num)
         f:write(bytes(num, 2))
     end
 
-    function w32(num)
+    local function w32(num)
         f:write(bytes(num, 4))
     end
 
-    function ws(str)
+    local function ws(str)
         f:write(str)
     end
 
@@ -1319,7 +1319,7 @@ function sfxr.Sound:save(f, minify)
     local defaults = sfxr.newSound()
 
     -- this part is pretty awful but it works for now
-    function store(keys, obj)
+    local function store(keys, obj)
         local name = keys[#keys]
 
         if type(obj) == "number" then
@@ -1381,7 +1381,7 @@ function sfxr.Sound:load(f)
 
     local func = loadstring(code)
     assert(func)
-    
+
     local params, version = func()
     -- check version compatibility
     assert(version >= sfxr.VERSION, "incompatible version: " .. tostring(version))
@@ -1406,7 +1406,7 @@ function sfxr.Sound:saveBinary(f)
         close = true
     end
 
-    function writeFloat(x)
+    local function writeFloat(x)
         local packed = packIEEE754(x):reverse()
         assert(packed:len() == 4)
         f:write(packed)

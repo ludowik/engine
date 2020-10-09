@@ -12,7 +12,7 @@ function setup()
 
     -- The stroke width
     parameter.number("width",1,100,10)
-    
+
     -- The line cap type
     parameter.integer("lineCap",0,2,0)
     parameter.boolean("smoothCap")
@@ -38,7 +38,7 @@ function draw()
     stroke(blue)
     lineCapMode(PROJECT)
     line(x1, y1, x2, y2)
-    
+
     stroke(white)
     lineCapMode(lineCap)
     line(x1, y1, x2, y2)

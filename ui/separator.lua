@@ -12,6 +12,6 @@ end
 function Separator:draw()
     strokeWidth(1)
     stroke(white)
-    
+
     line(0, 1, self.size.x, 1)
 end

@@ -26,14 +26,14 @@ code = [[
     #include <float.h>
     #include <math.h>
     #include <stdlib.h>
-    
+
     float min(float a, float b) {
         if (a < b) return a;
         return b;
     }
 
     #define n 10
-    
+
     typedef struct vec2 {
         float x;
         float y;
@@ -118,9 +118,9 @@ function draw()
             libSurface.mafunction(image.surface.w, image.surface.h, image.surface.pixels)
         else
             local i = 0
-            
+
             local dx, dy
-            
+
             for y=1,image.surface.h do
                 for x=1,image.surface.w do
 
@@ -128,12 +128,12 @@ function draw()
 
                     for j=1,n do
                         vertex = vertices[j]
-                        
+
                         dx = x - vertex.x
                         dy = y - vertex.y
-                        
+
                         dist = dx*dx + dy*dy
-                        
+
                         if dist < minDistance then
                             minDistance = dist
                         end

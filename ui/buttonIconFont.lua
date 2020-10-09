@@ -6,7 +6,7 @@ end
 
 function ButtonIconFont:draw()
     local x, y = 0, 0 -- self.position.x, self.position.y
-    
+
     pushStyle()
     do
         noStroke()
@@ -18,7 +18,7 @@ function ButtonIconFont:draw()
 
         textMode(CENTER)
         text(utf8.char(iconsFont[self.label]),
-            x + self.size.x/2, 
+            x + self.size.x/2,
             y + self.size.y/2)
     end
     popStyle()

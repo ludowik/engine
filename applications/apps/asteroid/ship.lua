@@ -78,7 +78,7 @@ function Ship:updateUserAction(dt)
     if app.joystick2:getForce() > 0 and self.countSinceLastBullet > 10 then
         self.bullets:add(Bullet(self))
         self.countSinceLastBullet = 0
-    end    
+    end
 
     if isDown('left') then
         self:applyTorque(4)

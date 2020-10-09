@@ -11,9 +11,15 @@ function Sdl:init()
     return self
 end
 
-function Sdl:initialize()
-    local w, h = W, H
+screen = {
+    MARGE_X = 50,
+    MARGE_Y = 10,
+}
 
+function Sdl:initialize()
+    screen.w = 2 * screen.MARGE_X + W    
+    screen.h = 2 * screen.MARGE_Y + H
+    
     if love then
         self.window = sdl.SDL_GL_GetCurrentWindow()
         if self.window ~= NULL then
@@ -27,7 +33,7 @@ function Sdl:initialize()
         if self.SDL_Init(self.SDL_INIT_EVERYTHING) == 0 then
             self:setCursor(sdl.SDL_SYSTEM_CURSOR_WAIT)
 
-            if self.SDL_GL_LoadLibrary(ffi.NULL) == 1 then                
+            if self.SDL_GL_LoadLibrary(ffi.NULL) == 1 then
                 self.SDL_Log("SDL_GL_LoadLibrary: %s", self.SDL_GetError())
                 error('SDL_GL_LoadLibrary')
             end
@@ -56,7 +62,7 @@ function Sdl:initialize()
 
             window = self.SDL_CreateWindow('Engine',
                 0, 0,
-                w, h,
+                screen.w, screen.h,
                 self.SDL_WINDOW_OPENGL +
 --                self.SDL_WINDOW_ALLOW_HIGHDPI +
 --                self.SDL_WINDOW_FULLSCREEN +
@@ -66,7 +72,7 @@ function Sdl:initialize()
 --                self.SDL_WINDOW_MAXIMIZED +
                 0)
 
-            if window then                
+            if window then
                 context = self.SDL_GL_CreateContext(window)
                 if context then
                     self.window = window
@@ -79,8 +85,8 @@ function Sdl:initialize()
     if self.window ~= NULL then
         self.SDL_MaximizeWindow(self.window)
 
-        self.SDL_SetWindowSize(self.window, w, h)
-        self.SDL_SetWindowPosition(self.window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)        
+        self.SDL_SetWindowSize(self.window, screen.w, screen.h)
+        self.SDL_SetWindowPosition(self.window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
 
         self.SDL_ShowWindow(self.window)
 

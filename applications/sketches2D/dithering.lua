@@ -25,9 +25,9 @@ end
 
 function filters.minmax(filter, source, target, x, y, operation, clr)
     local n = filter.n or 3
-    
+
     local i = floor((n-1)/2)
-    
+
     for xi=x-i,x+i do
         for yi=y-i,y+i do
             clr = operation(clr, source:get(xi, yi) or clr)
@@ -42,14 +42,14 @@ function filters.dithering(filter, source, target, x, y)
     source:get(x, y, filter.old)
 
     -- new
-    grayScale(filter.old, filter.new)            
+    grayScale(filter.old, filter.new)
 
     local n = 4
     filter.new.r = round(filter.new.r * n) / n
     filter.new.g = round(filter.new.g * n) / n
     filter.new.b = round(filter.new.b * n) / n
 
-    -- error 
+    -- error
     filter.quantificationError.r = filter.old.r - filter.new.r
     filter.quantificationError.g = filter.old.g - filter.new.g
     filter.quantificationError.b = filter.old.b - filter.new.b
@@ -89,7 +89,7 @@ function update(dt)
 
             quantificationError = color(),
 
-            clr = color()            
+            clr = color()
         }
 
         filter = {

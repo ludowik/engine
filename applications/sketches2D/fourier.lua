@@ -20,7 +20,7 @@ end
 
 function draw()
     background()
-    
+
     local x = 50 + radius
     local y = HEIGHT / 2
 
@@ -59,7 +59,7 @@ function draw()
     do
         vertex(x, y)
         vertex(50 + radius*3, y)
-        
+
         for i=1,#vertices do
             vertex(50 + radius*3 + i, vertices[i].y)
         end

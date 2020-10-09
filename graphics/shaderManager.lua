@@ -3,35 +3,35 @@ class 'ShaderManager' : extends(Component)
 function ShaderManager:initialize()
     shaders = {
         default = Shader('default'),
-        
+
         point  = Shader('point'),
         points = Shader('point'),
-        
+
         line  = Shader('line'),
         lines = Shader('line'),
-        
+
         polyline = Shader('line'),
-        
+
         polygon  = Shader('line'),
-        
+
         rect       = Shader('polygon'),
         rectBorder = Shader('line'),
-        
+
         circle = Shader('polygon'),
         circleBorder = Shader('line'),
-        
+
         ellipse       = Shader('polygon'),
         ellipseBorder = Shader('line'),
-        
+
         sprite = Shader('sprite'),
-        
+
         text = Shader('text'),
-        
+
         box = Shader('default'),
         sphere = Shader('default'),
-        
+
         model3d = Shader('default'),
-        
+
         terrain = Shader('terrain')
     }
 end

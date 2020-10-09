@@ -2,7 +2,7 @@ class('Cell2048')
 
 function Cell2048:init(value)
     self.value = value
-    
+
     self.scaling = 1
     self.angle = 0
 end

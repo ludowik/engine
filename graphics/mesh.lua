@@ -7,7 +7,7 @@ end
 function Mesh:clear(vertices, colors)
     self.vertices = vertices or Buffer('vec3')
     self.colors = colors or Buffer('color')
-    
+
     self.texCoords = Buffer('vec2')
     self.normals = Buffer('vec3')
 end
@@ -38,11 +38,11 @@ function Mesh:setColors(...)
     else
         vertexCount = #self.vertices / 3
     end
-    
+
     for i=1,vertexCount do
         self.colors[i] = clr
     end
-    
+
     return self
 end
 
@@ -122,7 +122,7 @@ function Mesh:setRectCorner(idx, x, y, w, h)
     self.vertices[idx+2] = vec3(x+w, y  , 0)
     self.vertices[idx+3] = vec3(x  , y+h, 0)
     self.vertices[idx+4] = vec3(x+w, y  , 0)
-    self.vertices[idx+5] = vec3(x+w, y+h, 0)    
+    self.vertices[idx+5] = vec3(x+w, y+h, 0)
 end
 
 function Mesh:setRectTex(idx, s, t, w, h)
@@ -168,13 +168,13 @@ function Mesh:buffer(name)
     if name == 'position' then
         name = 'vertices'
         self[name] = self[name] or Buffer('vec3')
-        
+
     elseif name == 'texCoord' then
         self[name] = self[name] or Buffer('vec2')
-        
+
     elseif name == 'normal' then
         self[name] = self[name] or Buffer('vec3')
-        
+
     elseif name == 'color' then
         name = 'verticess'
         self[name] = self[name] or Buffer('color')

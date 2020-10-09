@@ -18,7 +18,7 @@ function initMenu(path)
                     initMenu(previousPath)
                 end))
     end
-    
+
     app.previousPath = path
 
     local apps = engine:dirApps(path) + engine:dirFiles(path)

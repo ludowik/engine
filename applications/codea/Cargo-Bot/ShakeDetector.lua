@@ -10,7 +10,7 @@ function ShakeDetector.check()
     local xs = ShakeDetector.xs
     local ys = ShakeDetector.ys
     local zs = ShakeDetector.zs
-    
+
     table.insert(xs,UserAcceleration.x)
     table.insert(ys,UserAcceleration.y)
     table.insert(zs,UserAcceleration.z)
@@ -26,6 +26,6 @@ function ShakeDetector.check()
         avg = avg / #arr
         if avg > .3 then numSwitches = numSwitches + 1 end
     end
-        
-    if numSwitches >= 2 then Events.trigger("shaking") end    
+
+    if numSwitches >= 2 then Events.trigger("shaking") end
 end

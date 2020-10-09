@@ -31,7 +31,7 @@ require 'engine.scene.scene'
 require 'engine.parameter'
 require 'engine.resourceManager'
 
-require 'engine.touchDirection'
+require 'engine.gesture'
 require 'engine.camera'
 
 require 'engine.font'

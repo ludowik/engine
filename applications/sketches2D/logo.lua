@@ -46,11 +46,11 @@ function logo.back(n)
 end
 
 function logo.right(n)
-    rotate(n) 
+    rotate(n)
 end
 
 function logo.left(n)
-    logo.right(-n) 
+    logo.right(-n)
 end
 
 function logo.repeatn(n, f)

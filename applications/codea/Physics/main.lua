@@ -35,7 +35,7 @@ end
 -- Use this function to perform your initial setup
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
-    
+
     objects = {}
     local a = generateWorld()
     m = mesh()
@@ -51,13 +51,13 @@ end
 
 -- This function gets called once every frame
 function draw()
-    -- This sets a dark background color 
+    -- This sets a dark background color
     background(40, 40, 50)
 
     -- This sets the line thickness
     noStroke()
     fill(255)
-    
+
     -- Do your drawing here
     m:draw()
     if tId then

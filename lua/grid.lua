@@ -24,7 +24,7 @@ function Grid:clear(value)
         for j=1,self.h do
             for i=1,self.w do
                 self:cell(i, j, self:newCell(i, j, value))
-            end        
+            end
         end
     end
     return self
@@ -75,7 +75,7 @@ function Grid:cell(x, y, cell)
 
         return self.cells[ref]
     end
-end 
+end
 
 function Grid:ipairs()
     local x = 0

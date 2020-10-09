@@ -10,7 +10,7 @@ function Icon:init()
     self.position = vec2(100, 100)
 
     self.ratio = 3
-    self.pixelSize = 4    
+    self.pixelSize = 4
     self.color = white
 
     ui = UIScene()
@@ -36,17 +36,17 @@ function Icon:init()
     end
 
     ui:add(menu, palette)
-    
+
     self.drawing = Drawing()
     ui:add(self.drawing)
-    
+
     self:load('quit')
 end
 
 function Drawing:reset()
     self.drawing.icon = image(ICON_SIZE, ICON_SIZE)
 
-    setContext(self.drawing.icon)    
+    setContext(self.drawing.icon)
     do
         background(self.color)
     end
@@ -97,7 +97,7 @@ function Drawing:draw()
 
     stroke(red)
     noFill()
-    
+
     rectMode(CORNER)
     rect(0, 0, w, h)
 end
@@ -107,21 +107,21 @@ function Icon:touched(touch)
 
     local h = self.drawing.icon.height * app.ratio
     local y = HEIGHT - self.drawing.absolutePosition.y
-    
+
     touch.x = touch.x - self.drawing.absolutePosition.x
     touch.y = touch.y - y
-    
+
     touch = touch.position / app.ratio
 
     local i, j
     i = math.floor(touch.x / self.pixelSize) * self.pixelSize
     j = math.floor(touch.y / self.pixelSize) * self.pixelSize
 
-    setContext(self.drawing.icon)    
+    setContext(self.drawing.icon)
     do
         noStroke()
         fill(self.color)
-        
+
         rectMode(CORNER)
         rect(i, j, self.pixelSize, self.pixelSize)
     end

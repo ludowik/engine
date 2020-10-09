@@ -1,4 +1,4 @@
-#ifndef VERSION 
+#ifndef VERSION
     #define version 0
 #endif
 

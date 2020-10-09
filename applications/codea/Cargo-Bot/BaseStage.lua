@@ -56,7 +56,7 @@ function BaseStage:copyState(other)
         local pile = self.piles[idx]
         -- empty the pile
         while pile:size() > 0 do pile:pop() end
-        
+
         for crate in oPile.crates:iter() do
             local crateCfg = {
                 colStr = crate.colStr,
@@ -73,18 +73,18 @@ end
 function BaseStage:crateRandoms(colStr)
     local imgName = TableEx.random(self.config.crateSprites[colStr])
     local dx = math.random(self.config.crateOffsets.min,self.config.crateOffsets.max)
-    
+
     -- a bit of hack here. If the min crate offset is 0, then don't invert crates
     local inverted = (self.config.crateOffsets.min ~= 0)
     if inverted then inverted = (math.random() > .5) end
-    
+
     return {colStr = colStr,imgName = imgName, dx = dx, inverted = inverted}
 end
 
 -- adds a pile on the right and re-centers the piles
 function BaseStage:addPile(bindPile)
-    assert(#self.piles < self.config.maxPiles,"trying to add too many piles") 
-    
+    assert(#self.piles < self.config.maxPiles,"trying to add too many piles")
+
     local newPile
     if #self.piles == 0 then
         local pileNum = math.floor(self.config.maxPiles/2)
@@ -92,19 +92,19 @@ function BaseStage:addPile(bindPile)
             self.config.pile,self.screen)
     else
         -- shift the piles to left by half
-        for _,pile in ipairs(self.piles) do 
+        for _,pile in ipairs(self.piles) do
             pile:translate(-math.floor(self.config.pile.w/2),0)
         end
         newPile = Pile(self.piles[#self.piles].x - self.x +
             self.config.pile.w,self.config.pile.y,
             self.config.pile,self.screen)
     end
-    
+
     self:add(newPile)
     table.insert(self.piles,newPile)
-    
+
     -- bind pile is used when adding piles in editor mode
-    -- for regular mode we don't need this because the whole 
+    -- for regular mode we don't need this because the whole
     -- level is bound all at once
     if bindPile then newPile:bind() end
 end
@@ -116,10 +116,10 @@ function BaseStage.compareStages(stage1,stage2)
         local p1 = stage1.piles[p]
         local p2 = stage2.piles[p]
         if p1:size() ~= p2:size() then return false end
-        
+
         local p1Iter = p1.crates:iter()
         local p2Iter = p2.crates:iter()
-        
+
         for b = 1,p1:size() do
             local crate1 = p1Iter()
             local crate2 = p2Iter()

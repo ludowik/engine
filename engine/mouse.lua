@@ -35,8 +35,8 @@ function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
 
     mouse.state = state
 
-    mouse.x = x    
-    mouse.y = H - y
+    mouse.x = x - screen.MARGE_X
+    mouse.y = H - y + screen.MARGE_Y
 
     self.position:set(mouse.x, mouse.y)
 

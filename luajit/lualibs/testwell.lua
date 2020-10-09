@@ -197,7 +197,7 @@ function m.is(got, expected, name)
   local vgot, vexp = serpent.line(got, parms), serpent.line(expected, parms)
   local pass = vgot == vexp
   if got == nil then pass = nil end
-  tb:ok(pass, name, not pass and 
+  tb:ok(pass, name, not pass and
       "         got: " .. vgot .. " (" .. tgot .. ")" ..
     "\n    expected: " .. vexp .. " (" .. texp .. ")")
 end
@@ -219,7 +219,7 @@ function m.like(got, pattern, name)
 
   local pass = tostring(got):match(pattern)
   if got == nil then pass = nil end
-  tb:ok(pass, name, not pass and 
+  tb:ok(pass, name, not pass and
       "                  '" .. tostring(got) .. "'" ..
     "\n    doesn't match '" .. pattern .. "'")
 end
@@ -231,7 +231,7 @@ function m.unlike(got, pattern, name)
 
   local pass = not tostring(got):match(pattern)
   if got == nil then pass = nil end
-  tb:ok(pass, name, not pass and 
+  tb:ok(pass, name, not pass and
       "                  '" .. tostring(got) .. "'" ..
     "\n          matches '" .. pattern .. "'")
 end
@@ -253,7 +253,7 @@ function m.cmp_ok(this, op, that, name)
 
   local pass = f(this, that)
   if this == nil then pass = nil end
-  tb:ok(pass, name, not pass and 
+  tb:ok(pass, name, not pass and
       "    " .. tostring(this) ..
     "\n        " .. op ..
     "\n    " .. tostring(that))
@@ -289,7 +289,7 @@ function m.report()
     num, msg = failed, msg .. (#msg > 0 and (skipped > 0 and ", " or " and ") or "")
       .. "failed " .. failed
   end
-  if skipped > 0 then 
+  if skipped > 0 then
     num, msg = skipped, msg .. (#msg > 0 and ((good > 0 and failed > 0 and ',' or '') .." and ") or "")
       .. "skipped " .. skipped
   end

@@ -10,7 +10,7 @@ function Block:init(x, y, col)
     self.size = vec2(60,30)
     self.colour = col
 
-    self.mesh:addRect( self.pos.x, self.pos.y, 
+    self.mesh:addRect( self.pos.x, self.pos.y,
         self.size.x, self.size.y )
 
     local dark = self.colour:mix( color(0,0,0), 0.8 )
@@ -23,11 +23,11 @@ function Block:init(x, y, col)
     self.mesh:color( 6, self.colour )
 
     -- Highlight
-    local idx = self.mesh:addRect( self.pos.x, 
+    local idx = self.mesh:addRect( self.pos.x,
         self.pos.y + self.size.y * 0.5 - 1,
         self.size.x, 2 )
 
-    self.mesh:setRectColor( idx, 255,255,255,90 )                                     
+    self.mesh:setRectColor( idx, 255,255,255,90 )
 end
 
 function Block:draw()

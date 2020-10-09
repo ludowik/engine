@@ -2,13 +2,13 @@ class('Board2048', UI)
 
 function Board2048:init(grid)
     UI.init(self)
-    
+
     self.grid = grid
     self.position = vec3(WIDTH/2, HEIGHT*2/3)
 end
 
 function Board2048:computeSize()
-    self.size.x = min(WIDTH, HEIGHT) / 2
+    self.size.x = min(WIDTH, HEIGHT) * 0.8
     self.size.y = self.size.x
 end
 
@@ -24,7 +24,7 @@ function Board2048:draw()
     for i=1,m do
         for j=1,n do
             pushMatrix()
-            do                
+            do
                 local cell = self.grid:cell(i, j)
                 local value = cell.value
 
@@ -50,7 +50,7 @@ function Board2048:draw()
 
                 scale(cell.scaling)
                 rotate(cell.angle)
-                
+
                 style(0, transparent, s)
 
                 rectMode(CENTER)
@@ -82,9 +82,9 @@ function Board2048:draw()
                 if cell.new then
                     stroke(blue)
                     strokeWidth(2)
-                    
+
                     noFill()
-                    
+
                     circleMode(CENTER)
                     circle(0, 0, l2/2)
                 end

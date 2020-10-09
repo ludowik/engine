@@ -97,7 +97,7 @@ function OpenAL:initialize()
     al.device = al.alcOpenDevice(NULL)
     if al.device ~= NULL then
         -- context creation and initialization
-        al.context = al.alcCreateContext(al.device, NULL)    
+        al.context = al.alcCreateContext(al.device, NULL)
         al.alcMakeContextCurrent(al.context)
     end
 

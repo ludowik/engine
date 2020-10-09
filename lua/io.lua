@@ -7,7 +7,7 @@ io.read = function (fileName)
     end
 end
 
-if love then 
+if love then
     io.read = function(fileName)
         fileName = fileName:gsub('%./', '')
         local contents, size = love.filesystem.read(

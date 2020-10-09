@@ -1,5 +1,5 @@
 function getCamera()
-    return env.app.scene.camera 
+    return env.app.scene.camera
 end
 
 function updateCamera(dt)

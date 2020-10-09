@@ -5,7 +5,7 @@
 
 #define SCREEN_EFFECT 0
 
-// random/hash function              
+// random/hash function
 float hash( float n )
 {
   return fract(cos(n)*41415.92653);
@@ -54,7 +54,7 @@ float fbm( vec3 p )
   f += a*noise( p ); p = m*p*1.51; s += a; a *= .65;
   f += a*noise( p ); p = m*p*1.21; s += a; a *= .35;
   f += a*noise( p ); p = m*p*1.41; s += a; a *= .75;
-  f += a*noise( p ); 
+  f += a*noise( p );
   return f/s;
 }
 
@@ -114,7 +114,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	
 	// Clouds
     vec2 shift = vec2( time*100.0, time*180.0 );
-    vec4 sum = vec4(0,0,0,0); 
+    vec4 sum = vec4(0,0,0,0);
     float c = campos.y / rd.y; // cloud height
     vec3 cpos2 = campos - c*rd;
     float radius = length(cpos2.xz)/1000.0;
@@ -146,14 +146,14 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	  	alpha *= 1.3*pow(smoothstep(1.0, 0.0, radius), 0.3); // fade out disc at edges
 	  	vec3 dustcolor = mix(vec3( 2.0, 1.3, 1.0 ), vec3( 0.1,0.2,0.3 ), pow(radius, .5));
       	vec3 localcolor = mix(dustcolor, shine, alpha); // density color white->gray
-		  
+		
 		float gstar = 2.*pow(noise( cpos*21.40 ), 22.0);
 		float gstar2= 3.*pow(noise( cpos*26.55 ), 34.0);
 		float gholes= 1.*pow(noise( cpos*11.55 ), 14.0);
 		localcolor += vec3(1.0, 0.6, 0.3)*gstar;
 		localcolor += vec3(1.0, 1.0, 0.7)*gstar2;
 		localcolor -= gholes;
-		  
+		
         alpha = (1.0-sum.w)*alpha; // alpha/density saturation (the more a cloud layer\\\'s density, the more the higher layers will be hidden)
         sum += vec4(localcolor*alpha, alpha); // sum up weightened color
 	  }
@@ -181,7 +181,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
       	float alpha = 0.1+smoothstep(0.6, 1.0, fbm( cpos )); // fractal cloud density
 	  	alpha *= 1.2*(pow(smoothstep(1.0, 0.0, radius), 0.72) - pow(smoothstep(1.0, 0.0, radius*1.875), 0.2)); // fade out disc at edges
       	vec3 localcolor = vec3(0.0, 0.0, 0.0); // density color white->gray
-  
+
         alpha = (1.0-sum.w)*alpha; // alpha/density saturation (the more a cloud layer\\\'s density, the more the higher layers will be hidden)
         sum += vec4(localcolor*alpha, alpha); // sum up weightened color
 	  }
@@ -212,7 +212,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         col = mix(col, vec3(1.,1.,1.),c);
     }
 #endif
-    
+
     // Vignetting
 	vec2 xy2 = gl_FragCoord.xy / iResolution.xy;
 	col *= vec3(.5, .5, .5) + 0.25*pow(100.0*xy2.x*xy2.y*(1.0-xy2.x)*(1.0-xy2.y), .5 );	

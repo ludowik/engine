@@ -84,7 +84,7 @@ function Fps:drawCounter(x, y)
 
     font(DEFAULT_FONT_NAME)
     fontSize(self.textSize)
-    
+
     text(fps,
         x + self.size.x / 2,
         y + self.size.y / 2)

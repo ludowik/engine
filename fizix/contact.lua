@@ -9,7 +9,7 @@ end
 
 function Contact:get(...)
     local args = {...}
-    
+
     local items = {}
     for i,className in ipairs(args) do
         if self.bodyA and classnameof(self.bodyA.info) == className then

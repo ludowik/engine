@@ -20,7 +20,7 @@ function setup()
 
     menu = ToolBar(cell2screen(1, 1))
 
-    menu:add(Button('clear', function (btn) grid:clear() end))    
+    menu:add(Button('clear', function (btn) grid:clear() end))
     menu:add(Button('reset', function (btn) grid:reset() end))
 end
 

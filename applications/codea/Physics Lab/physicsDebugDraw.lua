@@ -17,7 +17,7 @@ end
 
 function PhysicsDebugDraw:clear()
     -- deactivate all bodies
-        
+
     for i,body in ipairs(self.bodies) do
         body:destroy()
     end
@@ -25,7 +25,7 @@ function PhysicsDebugDraw:clear()
     for i,joint in ipairs(self.joints) do
         joint:destroy()
     end
-    
+
     self.bodies = {}
     self.joints = {}
     self.contacts = {}
@@ -34,12 +34,12 @@ end
 
 function PhysicsDebugDraw:draw()
     pushStyle()
-    
+
     smooth()
-    
+
     strokeWidth(5)
     stroke(128,0,128)
-    
+
     local gain = 2.0
     local damp = 0.5
     for k,v in pairs(self.touchMap) do
@@ -48,10 +48,10 @@ function PhysicsDebugDraw:draw()
         local diff = touchPoint - worldAnchor
         local vel = v.body:getLinearVelocityFromWorldPoint(worldAnchor)
         v.body:applyForce(diff:mul(gain):sub(vel:mul(damp)), worldAnchor)
-        
+
         line(touchPoint.x, touchPoint.y, worldAnchor.x, worldAnchor.y)
     end
-    
+
     stroke(0,255,0,255)
     strokeWidth(5)
     for k,joint in pairs(self.joints) do
@@ -59,16 +59,16 @@ function PhysicsDebugDraw:draw()
         local b = joint.anchorB
         line(a.x,a.y,b.x,b.y)
     end
-    
+
     stroke(255,255,255,255)
     noFill()
-    
+
     local a, b
     for i,body in ipairs(self.bodies) do
         pushMatrix()
         translate(body.x, body.y)
         rotate(body.angle)
-    
+
         if body.type == STATIC then
             stroke(255,255,255,255)
         elseif body.type == DYNAMIC then
@@ -76,7 +76,7 @@ function PhysicsDebugDraw:draw()
         elseif body.type == KINEMATIC then
             stroke(150,150,255,255)
         end
-    
+
         if body.shapeType == POLYGON then
             strokeWidth(3.0)
             local points = body.points
@@ -92,16 +92,16 @@ function PhysicsDebugDraw:draw()
                 a = points[j]
                 b = points[j+1]
                 line(a.x, a.y, b.x, b.y)
-            end      
+            end
         elseif body.shapeType == CIRCLE then
             strokeWidth(3.0)
-            line(0,0,body.radius-3,0)            
+            line(0,0,body.radius-3,0)
             ellipse(0,0,body.radius*2)
         end
-        
+
         popMatrix()
-    end 
-    
+    end
+
     stroke(255, 0, 0, 255)
     fill(255, 0, 0, 255)
 
@@ -110,7 +110,7 @@ function PhysicsDebugDraw:draw()
             ellipse(n.x, n.y, 10, 10)
         end
     end
-    
+
     popStyle()
 end
 
@@ -119,7 +119,7 @@ function PhysicsDebugDraw:touched(touch)
     if touch.state == BEGAN then
         for i,body in ipairs(self.bodies) do
             if body.type == DYNAMIC and body:testPoint(touchPoint) then
-                self.touchMap[touch.id] = {tp = touchPoint, body = body, anchor = body:getLocalPoint(touchPoint)} 
+                self.touchMap[touch.id] = {tp = touchPoint, body = body, anchor = body:getLocalPoint(touchPoint)}
                 return true
             end
         end

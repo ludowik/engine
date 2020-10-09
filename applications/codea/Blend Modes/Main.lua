@@ -7,13 +7,13 @@ function setup()
     print("The middle uses additive.")
     print()
     print("And the bottom uses multiplicative blending.")
-    
+
     size = HEIGHT/4
 end
 
 function drawEllipsePair( x, y )
     -- Draws two ellipses, overlapping
-    
+
 	ellipse(x - size/6, y, size/2)
     ellipse(x + size/6, y, size/2)
 end
@@ -25,7 +25,7 @@ function draw()
 
     -- This sets the line thickness
     strokeWidth(5)
-    
+
     -- This sets the outline & fill colors
     stroke(206, 179, 179, 255)
     fill(207, 52, 13, 255)
@@ -34,11 +34,11 @@ function draw()
     -- The first with NORMAL blend mode
     blendMode(NORMAL)
     drawEllipsePair(WIDTH/2, size*1)
-    
+
     -- The second with ADDITIVE blend mode
     blendMode(ADDITIVE)
     drawEllipsePair(WIDTH/2, size*2)
-    
+
     -- The last with MULTIPLY blend mode
     blendMode(MULTIPLY)
     drawEllipsePair(WIDTH/2, size*3)

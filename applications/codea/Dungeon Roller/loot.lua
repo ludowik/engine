@@ -15,14 +15,14 @@ function Loot:collect(point)
         self.collected = true
         return true
     end
-    
+
     return false
 end
 
 function Loot:draw()
     -- Codea does not automatically call this method
     sprite("Planet Cute:Gem Green", self.position.x, self.position.y + 15 + self.rise, 50, 80)
-    
+
     if self.collected then
         self.rise = self.rise + 15
     end

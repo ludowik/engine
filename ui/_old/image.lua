@@ -2,7 +2,7 @@ Class('UIImage', Widget)
 
 function UIImage:UIImage(label, img)
     self:Widget(label)
-    
+
     self.image = img or image(20, 20)
 end
 

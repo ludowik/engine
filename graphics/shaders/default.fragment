@@ -28,42 +28,42 @@ struct light {
 light pointLight(vec3 surfacePos, vec3 position, float attenuation) {
     light l;
     l.surfaceToLight = normalize(position.xyz - surfacePos);
-    
+
     float distanceToLight = length(position.xyz - surfacePos);
     l.attenuation = 1.0 / (1.0 + attenuation * pow(distanceToLight, 2.));
-    
+
     return l;
 }
 
 // directional light
 light directionalLight(vec3 surfacePos, vec3 normal, vec3 direction) {
     light l;
-    
+
     l.surfaceToLight = normalize(direction.xyz);
     l.attenuation = 1.0; // no attenuation for directional lights
-    
+
     l.coefficient = max(0.0, dot(normal, l.surfaceToLight));
-    
+
     return l;
 }
 
 void main() {
     if (useLight > 0) {
         vec4 finalColor = vColor;
-        
+
         vec3 normal = normalize(transpose(inverse(mat3(matrixModel))) * vNormal);
-        
+
         vec3 surfacePos = vPosition;
         vec4 surfaceColor = vColor;
-        
+
         vec3 sunPosition = vec3(0., 100., 0.);
-        
+
         light point = pointLight(surfacePos, vec3(10., 10., 0.), 1.);
         light directional = directionalLight(surfacePos, normal, sunPosition);
-        
+
         gl_FragColor = finalColor * directional.coefficient;
-        
-    } else {    
+
+    } else {
         if (useTexture == 1)
             gl_FragColor = texture2D(tex0, vTexCoords) * tint;
         else if (useColor == 1)

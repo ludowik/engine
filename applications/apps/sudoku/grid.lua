@@ -40,7 +40,7 @@ function GridSudoku:loadFromString(str)
 
             index = index + 1
         end
-    end    
+    end
 end
 
 function GridSudoku:first()
@@ -124,7 +124,7 @@ function GridSudoku:check_cell(i, j)
 
     if current_cell.value and current_cell.value > 0 and current_cell.value <= self.w then
         self.numbersCount[current_cell.value] = self.numbersCount[current_cell.value] + 1
-    end 
+    end
 
     if current_cell.value and current_cell.system == true then
         numbers[current_cell.value] = true

@@ -11,16 +11,16 @@ function Test5:setup()
     local box = createBox(WIDTH/2, 100, 50, 50)
     local circle = createCircle(WIDTH/2, 100, 25)
     local box2 = createBox(WIDTH/2, 150, 100, 10)
-    
+
     box.categories = {1}
     box.mask = {0,3}
-    
+
     circle.categories = {2}
     circle.mask = {0,3}
-    
+
     box2.categories = {3}
     box2.mask = {0,1,2}
-    
+
     for k,v in ipairs(box2.categories) do
         print(k,v)
     end

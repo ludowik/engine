@@ -26,7 +26,7 @@ function Sounds:init()
         claw_down5 = "ZgNAdgBBQFFLd0ckIPkgNBzxzD6G1J++QQBnUj5ADGBBESg5",
         claw_down6 = "ZgNAdgBBQFFLd0ckIPkgNA01Az+G1J++QQBnUj5ADGBBESg5"
     }
-    
+
     self.nextT = 0
     self.cachingSpeed = 0 -- in seconds
     self.toCache = {}
@@ -34,13 +34,13 @@ function Sounds:init()
         table.insert(self.toCache,value)
     end
     self.cachedIdx = 0
-    
+
 end
 
 function Sounds:cache()
     -- if we're done caching then do nothing
     if self.cachedIdx >= #self.toCache then return nil end
-    
+
     -- is it time to cache a new sound?
     if ElapsedTime > self.nextT then
         self.cachedIdx = self.cachedIdx + 1

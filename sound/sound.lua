@@ -269,7 +269,7 @@ function music(file, loop, volume, pan)
     Audio(file):play(loop, volume, pan)
 end
 
-do 
+do
     local audio = Audio()
     function sound(name, ...)
         audio = Audio()

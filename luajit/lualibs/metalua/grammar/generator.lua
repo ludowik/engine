@@ -822,7 +822,7 @@ end
 function M.future(module, ...)
     checks('table')
     local path = ... and {...}
-    if path then for _, x in ipairs(path) do 
+    if path then for _, x in ipairs(path) do
         assert(type(x)=='string', "Bad future arg")
     end end
     local self = { __module = module,

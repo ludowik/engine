@@ -9,7 +9,7 @@ end
 class('Context')
 
 function Context.setup()
-    Context.currentContext = nil    
+    Context.currentContext = nil
 end
 
 function Context.setContext(context)
@@ -31,7 +31,7 @@ function Context.setContext(context)
 
     if context.framebufferName == nil then
         context:createFramebuffer()
-        
+
 --        context:createColorBuffer(context.width, context.height)
         context:createDepthBuffer(context.width, context.height)
 
@@ -45,7 +45,7 @@ function Context.setContext(context)
     end
 
     gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, context.framebufferName)
-    
+
     Context.viewport(0, 0, context.width, context.height)
 
     ortho(0, context.width, 0, context.height)
@@ -68,19 +68,19 @@ function Context.resetContext()
     end
 end
 
-function Context.noContext()    
+function Context.noContext()
     Context.closeCurrentContext()
 
     gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
     gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
-    
-    Context.viewport(0, 0, W, H, config.highDPI)
 
-    ortho(0, W, 0, H)
+    Context.viewport(0, 0, screen.w, screen.h, config.highDPI)
+
+    ortho(0, screen.w, 0, screen.h)
 end
 
 function Context.viewport(x, y, w, h, highDPI)
-    if highDPI and osx then
+    if highDPI and ( osx or ios ) then
         gl.glViewport(x, y, w*2, h*2)
     else
         gl.glViewport(x, y, w, h)

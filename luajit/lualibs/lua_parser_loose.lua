@@ -32,11 +32,11 @@ local LEX = require 'lua_lexer_loose'
 --]]
 function PARSE.parse_scope(lx, f, level)
   local cprev = {tag='Eof'}
-  
+
   -- stack of scopes.
   local scopes = {{}}
   for l = 2, (level or 1) do scopes[l] = {} end
-  
+
   local function scope_begin(opt, lineinfo, nobreak)
     scopes[#scopes+1] = {}
     f('Scope', opt, lineinfo, nobreak)
@@ -50,7 +50,7 @@ function PARSE.parse_scope(lx, f, level)
     end
     f('EndScope', opt, lineinfo, inside_local)
   end
-  
+
   local function parse_function_list(has_self, name, pos)
     local c = lx:next(); assert(c[1] == '(')
     f('Statement', c[1], c.lineinfo, true) -- generate Statement for function definition
@@ -75,7 +75,7 @@ function PARSE.parse_scope(lx, f, level)
     end
     for _, var in ipairs(vars) do f(unpack(var)) end
   end
-  
+
   while true do
     local c = lx:next()
 
@@ -102,10 +102,10 @@ function PARSE.parse_scope(lx, f, level)
     end
 
     if c.tag == 'Eof' then break end
-    
+
     -- Process token(s)
     if c.tag == 'Keyword' then
-    
+
       if c[1] == 'local' and lx:peek().tag == 'Keyword' and lx:peek()[1] == 'function' then
         -- local function
         local c = lx:next(); assert(c[1] == 'function')
@@ -217,7 +217,7 @@ function PARSE.parse_scope(lx, f, level)
         end
       end
     end
-    
+
     if c.tag ~= 'Comment' then cprev = c end
   end
 end
@@ -227,7 +227,7 @@ end
 
   lx - lexer stream of Lua tokens.
   f(event...) - callback function to send events to.
-  
+
   Events generated:
     'Id', name, lineinfo, 'local'|'global'
      (plus all events in parse_scope)
@@ -246,7 +246,7 @@ function PARSE.parse_scope_resolve(lx, f, vars)
     newvars[level] = newvars -- reference the current vars table
     return setmetatable(newvars, {__index=vars})
   end
-  
+
   vars = vars or newscope({[0] = 0}, nil, 1)
   vars[NEXT] = false -- vars that come into scope upon next statement
   vars[INSIDE] = false -- vars that come into scope upon entering block
@@ -288,12 +288,12 @@ end
 
 function PARSE.extract_vars(code, f)
   local lx = LEX.lexc(code)
-  
+
   local char0 = 1  -- next char offset to write
   local function gen(char1, nextchar0)
     char0 = nextchar0
   end
-  
+
   PARSE.parse_scope_resolve(lx, function(op, name, lineinfo, other)
     if op == 'Id' then
       f('Id', name, other, lineinfo)

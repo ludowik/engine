@@ -3,7 +3,7 @@ function decorate(functionName, decorator, object)
 
     local decoratedFunction = object[functionName]
     object['__'..functionName..'__'] = decoratedFunction
-    
+
     object[functionName] = function (...)
         return decorator(decoratedFunction, ...)
     end

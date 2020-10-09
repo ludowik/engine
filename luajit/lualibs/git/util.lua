@@ -91,7 +91,7 @@ end
 
 -- Reader class
 -- adapted from Penlight: https://raw.github.com/stevedonovan/Penlight/master/lua/pl/stringio.lua
- 
+
 local SR = {}
 SR.__index = SR
 

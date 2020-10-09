@@ -11,7 +11,7 @@ function Geometry.arc(points, x, y, r, a1, a2, n)
 
     a1 = a1 or 0
     a2 = a2 or pi2
-    
+
     n = n or pi2*.05
 
     points:insert(vec3(x + r * cos(a1), y + r * sin(a1)))
@@ -25,7 +25,7 @@ function Geometry.draw(points, size, strokeColor)
     style(size, strokeColor)
 
     local p1 = points[1]
-    
+
     if #points == 1 then
         circle(p1.x, p1.y, size, size, strokeColor, strokeColor, CENTER)
     else

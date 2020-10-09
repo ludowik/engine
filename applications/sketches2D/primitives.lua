@@ -129,7 +129,7 @@ transforms = {
     function (self)
         rotate(self.angle)
     end,
-    
+
     function (self)
         scale(
             cos(self.angle),
@@ -141,56 +141,56 @@ primitives = {
     function (self, w, h)
         point(0, 0)
     end,
-    
+
     function (self, w, h)
         line(-w/2, -h/2, w/2, h/2)
     end,
-    
+
     function (self, w, h)
         rectMode(CENTER)
         rect(0, 0, w, h)
     end,
-    
+
     function (self, w, h)
         ellipseMode(CENTER)
         ellipse(0, 0, w, h/2)
     end,
-    
+
     function (self, w, h)
         ellipseMode(CENTER)
         circle(0, 0, w)
     end,
-    
+
     function (self, w, h)
         polygon(self.vectors)
     end,
-    
+
     function (self, w, h)
         self.mesh:draw()
     end,
-    
+
     function (self, w, h)
         sprite('documents:joconde', 0, 0, w, h)
     end,
-    
+
     function (self, w, h)
         fontSize(32)
         textMode(CENTER)
         text('hello', 0, 0)
     end,
-    
+
     function (self, w, h)
         plane(w, h)
     end,
-    
+
     function (self, w, h)
         box(w)
     end,
-    
+
     function (self, w, h)
         sphere(w)
     end,
-    
+
     function (self, w, h)
         pyramid(w)
     end

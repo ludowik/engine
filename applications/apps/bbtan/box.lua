@@ -2,17 +2,17 @@ class('Box', Item)
 
 function Box:init(level, i, j, itemType)
     local w, h = CELL_SIZE - CELL_MARGE * 2, CELL_SIZE - CELL_MARGE * 2
-    
+
     Item.init(self, i, j)
 
     self.itemType = itemType
-    
+
     self.size = vec2(
         CELL_SIZE - CELL_MARGE * 2,
         CELL_SIZE - CELL_MARGE * 2)
 
     self.collision = level
-    
+
     if itemType == CIRCLE then
         fizix:add(self, STATIC, CIRCLE, self.size.x / 2)
 
@@ -23,16 +23,16 @@ function Box:init(level, i, j, itemType)
             {vec2(-w/2, -h/2), vec2(w/2,  h/2), vec2(-w/2, h/2)},
             {vec2(-w/2, -h/2), vec2(w/2, -h/2), vec2( w/2, h/2)},
             {vec2( w/2, -h/2), vec2(w/2,  h/2), vec2(-w/2, h/2)}
-        } 
+        }
         fizix:add(self, STATIC, POLYGON, triangles[triangle])
 
     elseif itemType == RECT then
         fizix:add(self, STATIC, RECT, w, h)
     end
-    
+
     self.body.restitution = 1
     self.body.friction = 0
-    
+
     self.body.categories = {0}
     self.body.mask = {1}
 end
@@ -53,12 +53,12 @@ function Box:draw()
     pushMatrix()
     do
         translate(self.position.x, self.position.y)
-        
+
         rotate(self.body.angle)
 
         if self.body.shapeType == POLYGON then
             polygon(self.body.points)
-            
+
         elseif self.body.shapeType == CIRCLE then
             circleMode(CENTER)
             circle(0, 0, self.size.x / 2)

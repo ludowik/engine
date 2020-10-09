@@ -7,7 +7,7 @@ function Toolbox:init(screen,toolStrs)
     Panel.init(self,490,40)
     self.screen = screen
     self.active = true
-    
+
     self:makeBackground()
     self:makeTools(toolStrs)
 end
@@ -24,7 +24,7 @@ function Toolbox:makeTools(tools)
     "blue","red","green","yellow","none","multi"}
     tools = tools or allTools
     self.tools = {}
-    
+
     -- some layout configurations
     local perRow = 4
     local left = 26
@@ -35,13 +35,13 @@ function Toolbox:makeTools(tools)
         command = {w = 50, h = 54},
         conditional = {w = 50, h = 43}
     }
-    
+
     -- variables that we increment in the loop below to keep track of the current position
     local x = left
     local y = self.back.h - top
     local count = 0
     local rowMaxH = 0
-    
+
     for idx,tool in ipairs(tools) do
         count = count + 1
         local thisDims = dims[Command.type(tool)]
@@ -54,7 +54,7 @@ function Toolbox:makeTools(tools)
         self.screen:doDraw(move,Command.spriteMap[tool])
         self:add(move)
         table.insert(self.tools,move)
-        
+
         -- increment the coordinates
         rowMaxH = math.max(rowMaxH,thisDims.h)
         x = x + thisDims.w + horSpacing
@@ -70,13 +70,13 @@ end
 function Toolbox:setActiveTools(tools)
     local retVal = {}
     if tools == nil then
-        for _,tool in ipairs(self.tools) do 
+        for _,tool in ipairs(self.tools) do
             tool.active = true
         end
     else
         local asTable = {}
         for _,tool in ipairs(tools) do asTable[tool] = 1 end
-        
+
         for _,tool in ipairs(self.tools) do
             local val = (asTable[tool.command]~=nil)
             tool.active = val

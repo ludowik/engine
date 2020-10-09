@@ -12,7 +12,7 @@ function AppSound:init()
     Application.init(self)
 
     audio = sound(SOUND_BLIT)
-    
+
     keyNumber = 49
     hz = hzFromKey(keyNumber)
     sampleRate = 44100
@@ -88,23 +88,23 @@ function AppSound:init()
                 audio:loadBuffer(amplitude, hz, sampleRate)
                 audio:play(true)
             end))
-    
+
     parameter.watch('al.nbuffers')
 end
 
 function AppSound:draw()
     background()
-    
+
     local sampleRate = audio:getSampleRate()
     local sampleCount = audio:getSampleCount()
 
     local vertices = Buffer('vec3')
     local verticesFin = Buffer('vec3')
-    
+
     for i=0,sampleCount-1 do
         vertices:add(vec3(#vertices, audio:getSample(i)))
     end
-    
+
     for i=max(0, sampleCount-100),sampleCount-1 do
         verticesFin:add(vec3(#verticesFin, audio:getSample(i)))
     end

@@ -13,7 +13,7 @@
 function setup()
     --supportedOrientations(LANDSCAPE_ANY)
     displayMode(FULLSCREEN)
-    
+
     twoPi   = 2 * math.pi
     epsilon = .0001
     g       = 9.8 * 3 -- Gravity
@@ -55,10 +55,10 @@ function draw()
     background(0)
     fill(255)
     textMode(CORNER)
-    
+
     text("Fixed-area Bubble (with acknowledgements to E W Jordan)",
         200 , HEIGHT - 25)
-    
+
     drawBubble()
     drawTouch()
 end
@@ -90,10 +90,10 @@ end
 function updateTouch(dt)
     local fX = (destX - tX) * k - tvX * drag
     local fY = (destY - tY) * k - tvY * drag
-    
+
     tvX = tvX + fX * dt
     tvY = tvY + fY * dt
-    
+
     tX = tX + tvX * dt
     tY = tY + tvY * dt
 end
@@ -134,10 +134,10 @@ end
 function initBubble()
     x = {}
     y = {}
-    
+
     xLast = {}
     yLast = {}
-    
+
     ax = {}
     ay = {}
 
@@ -148,19 +148,19 @@ function initBubble()
         local a = (i - 1)/n * twoPi
         x[i] = cx + math.sin(a) * bRadius
         y[i] = cy + math.cos(a) * bRadius
-        
+
         xLast[i] = x[i]
         yLast[i] = y[i]
-        
+
         ax[i] = 0
         ay[i] = 0
     end
-    
+
     local dx = x[2] - x[1]
     local dy = y[2] - y[1]
-    
+
     len = math.sqrt(dx * dx + dy * dy)
-    
+
     bubbleAreaTarget = bubbleArea()
 end
 

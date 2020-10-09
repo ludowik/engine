@@ -2,7 +2,7 @@ class 'Library'
 
 function Library.precompile(str)
     if str == nil then return '' end
-    
+
     local defs = {}
 
     function define2const(def, value)
@@ -79,7 +79,7 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
     if love then
         params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
     end
-    
+
     return ffi.load(params.libName)
 end
 
@@ -129,14 +129,14 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
 end
 
 function Library.load(libName, libNamewindows, libDir)
-    if osx then 
+    if osx then
         libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..libName)
     else
         libDir = libDir or ('/Windows/System32')
     end
 
     local libPath
-    if osx then 
+    if osx then
         libName = libName..'.framework/'..libName
         libPath = libDir..'/'..libName
     else

@@ -44,7 +44,7 @@ function draw()
         for x=-radius*4+dx,WIDTH+radius*4,radius*4 do
             fill(red)
             circle(x+xx, y, radius)
-            
+
             fill(green)
             circle(x+yy/2, y+yy, radius)
 

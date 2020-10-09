@@ -3,7 +3,7 @@ all: compile
 path = -I "/users/lca/projets/lua/libraries/box2d-master/box2d/box2d"\
        -I "/users/lca/projets/lua/libraries/box2d-master/box2d"\
        -I "/users/lca/projets/lua/libraries/box2d-master/box2d/box2d/common"
-       
+
 bin = ../bin/osx
 
 pathlib = lib/osx

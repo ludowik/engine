@@ -24,7 +24,7 @@ function ut.test()
     ut.assertEqual('assertEqual', 1, 1)
     ut.assertEqual('assertEqual', nil, nil)
     ut.assertEqual('assertEqual', 'test', 'test')
-    
+
     ut.assertBetween('assertBetween', 1, 1, 3)
     ut.assertBetween('assertBetween', 2, 1, 3)
     ut.assertBetween('assertBetween', 3, 1, 3)

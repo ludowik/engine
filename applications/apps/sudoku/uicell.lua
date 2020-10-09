@@ -9,7 +9,8 @@ function UI_cell:init(grid, i, j)
     self.im = quotient(i, grid.w)
     self.jm = quotient(j, grid.h)
 
-    self.fixedSize = vec2(ws(0.8), ws(0.8))
+    local size = min(ws(), hs())
+    self.fixedSize = vec2(size, size)
 
     self.grid = grid
 end
@@ -20,7 +21,7 @@ function UI_cell:draw()
 
     -- draw border
     style(s1, gray, white)
-    
+
     rectMode(CORNER)
     rect(0, 0, self.size.x, self.size.y)
 
@@ -28,7 +29,7 @@ function UI_cell:draw()
     local clr = white
     if ui_cellSelection and
     (
-        ui_cellSelection == self or 
+        ui_cellSelection == self or
         ui_cellSelection.i == self.i or
         ui_cellSelection.j == self.j or
         (
@@ -53,14 +54,14 @@ function UI_cell:draw()
             clr = red
         end
 
-        local fontSize = hs(0.5)     
+        local fontSize = hs(0.5)
         if ui_cellSelection then
             local cellSelection = grid:cell(ui_cellSelection.i, ui_cellSelection.j)
             if cell.value == cellSelection.value then
                 fontSize = hs(0.65)
                 circle(
                     self.size.x/2, self.size.y/2,
-                    fontSize, s2, mix(clr, red), transparent, CENTER)
+                    fontSize, s2, clr:mix(red), transparent, CENTER)
             end
         end
 
@@ -81,7 +82,7 @@ function UI_cell:draw()
     end
 end
 
-function UI_cell:touchedClick()
+function UI_cell:touched(touch)
     local cell = app.grid:cell(self.i, self.j)
     app.ui.numbers.ui_cell = self
 end

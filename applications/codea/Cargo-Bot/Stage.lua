@@ -9,7 +9,7 @@ function Stage.config()
     config.shadows = true
     config.maxPiles = 9
     config.crate = {w=40,h=40,borderY=-2,shadows=config.shadows}
-    
+
     -- setup dimensions for the piles
     config.pile = {
         y = 0,
@@ -21,7 +21,7 @@ function Stage.config()
     config.pile.w = math.floor(config.w / config.maxPiles)
     config.pile.h = config.h -- needed for editor mode to know whether a block should be added
     config.pile.base.w = math.floor(config.pile.w*.8)
-    
+
     -- setup dimensions for the claw
     config.claw = {
         middleH = 13,  -- height of the horizontal extendible beam
@@ -35,12 +35,12 @@ function Stage.config()
     config.claw.arm = {w=18,h=56,border=4}  -- border is so that the claw touches the crate
     config.claw.base = {w=31,h=9,sprite="Cargo Bot:Claw Base"}
     config.claw.pole = {w=14,minH=5,sprite="Cargo Bot:Claw Arm"}
-    config.claw.crate = config.crate    
+    config.claw.crate = config.crate
     config.claw.minH = config.crate.h+config.claw.middleH+config.claw.base.h+config.claw.pole.minH
     config.claw.maxH = config.h - config.pile.base.h - config.pile.base.borderY
     -- clawLength is diff between the end of the pole and the end of the claw
     config.claw.clawLength = math.floor(config.claw.crate.h*.85 + config.claw.middleH)
-    
+
     config.crateSprites = {
         blue = {"Cargo Bot:Crate Blue 1","Cargo Bot:Crate Blue 2","Cargo Bot:Crate Blue 3"},
         red = {"Cargo Bot:Crate Red 1","Cargo Bot:Crate Red 2","Cargo Bot:Crate Red 3"},
@@ -96,7 +96,7 @@ end
 
 function Stage:copyState(other)
     BaseStage.copyState(self,other)
-    
+
     self.clawPos = other.clawPos
     self:positionClaw()
 end
@@ -126,20 +126,20 @@ function Stage:makeWalls()
         xs[1] = xs[1] + self.config.pile.w*.2
         xs[2] = xs[2] - self.config.pile.w*.2
     end
-    
+
     self.walls = {}
     local wall = StageWall(xs[1],y,w,h,self.screen)
     self:add(wall)
     wall:translate(xs[1]-wall.x+self.x,y-wall.y+self.y)
     table.insert(self.walls,wall)
-    
+
     local wall = StageWall(xs[2],y,w,h,self.screen)
     self:add(wall)
     wall:translate(xs[2]-wall.x+self.x,y-wall.y+self.y)
     table.insert(self.walls,wall)
 end
 
--- doesnt necessarily recreate the claw. if not, then it 
+-- doesnt necessarily recreate the claw. if not, then it
 -- resets the claw position
 function Stage:createClaw()
     local clawY = self.config.h
@@ -151,24 +151,24 @@ end
 
 function Stage:nextMove(move)
     self.move = move
-    if move == "pickup" then 
+    if move == "pickup" then
         self.animation = "lower"
-        
+
         -- calculate dt for the sound library
         local pile = self.piles[self.clawPos]
         local numBlocks = pile.crates:size()
         if self.claw.crate then numBlocks = numBlocks + 1 end
         local maxH = self.claw:maxHeight(numBlocks)
         local dy = maxH - self.claw.h
-        local dt = dy / self.speed * MY_DELTA_TIME        
+        local dt = dy / self.speed * MY_DELTA_TIME
         sounds:play("claw_down",dt)
     elseif move == "right" or move == "left" then
-        
+
         -- check whether there's enough room to move
         local dp = 1
         if move == "left" then dp = -1 end
         self.clawPos = self.clawPos + dp
-        
+
         -- calculate time to destination for the sound library
         local dx = math.abs(self:clawX() - self.claw.x)
         local dt = dx / self.speed * MY_DELTA_TIME
@@ -179,27 +179,27 @@ end
 
 function Stage:tick()
     -- if we're simulating physics
-    if self.bodies then 
+    if self.bodies then
         self:tickPhysics()
         return nil
     end
-    
+
     -- move is nil if we haven't initialized the animation yet
     if self.move == nil then return nil end
-    
+
     -- otheriwse do the numarl simulation
     local speed = math.floor(self.speed*DeltaTime*60)
-    
-    if self.move == "pickup" then 
+
+    if self.move == "pickup" then
         self.isWaiting = self:pickupAnimation(speed)
-    elseif self.move == "left" then 
+    elseif self.move == "left" then
         self.isWaiting = self:moveClawAnimation(-1,speed)
-    elseif self.move == "right" then 
+    elseif self.move == "right" then
         self.isWaiting = self:moveClawAnimation(1,speed)
-    elseif self.move == "" or self.move:sub(1,1) == "f" then 
+    elseif self.move == "" or self.move:sub(1,1) == "f" then
         self.isWaiting = true
-    else 
-        assert(false,"invalid move: "..self.move) 
+    else
+        assert(false,"invalid move: "..self.move)
     end
 end
 
@@ -208,7 +208,7 @@ function Stage:moveClawAnimation(dir,speed)
     local targetX = self:clawX()
     local dx = math.min(speed,(targetX - self.claw.x)*dir)*dir
     self.claw:translate(dx,0)
-    
+
     -- detect toppling a pile
     local oldPos = self.clawPos + dir * (-1)
     self:checkPileToppled(oldPos,dir)
@@ -226,7 +226,7 @@ function Stage:checkPileToppled(oldPos,dir)
         if topCrate.obj:getW() < 0 then
             topX1, topX2 = topX2, topX1
         end
-        
+
         if dir > 0 then
             if self.claw.leftArm:getX() + self.claw.leftArm:getW() > topX1 then
                 self:pileToppled(topCrate,dir)
@@ -264,19 +264,19 @@ function Stage:pickupAnimation(speed)
             self.claw:extend(-dy)
         else -- we finished retracting the claw
             return true
-        end 
+        end
     end
     return false
 end
 
 function Stage:lowerClaw(speed)
-    -- calculate how low the claw can go given the num of blocks 
+    -- calculate how low the claw can go given the num of blocks
     -- in its pile
     local pile = self.piles[self.clawPos]
     local numBlocks = pile.crates:size()
     if self.claw.crate then numBlocks = numBlocks + 1 end
     local maxH = self.claw:maxHeight(numBlocks)
-        
+
     if self.claw.h < maxH then
         -- make the claw longer by self.speed
         dy = math.min(speed,maxH - self.claw.h)
@@ -319,9 +319,9 @@ function Stage:openClaw(speed)
     if self.claw.holeW < self.config.claw.maxHoleW then
         local dx = math.min(speed, self.config.claw.maxHoleW - self.claw.holeW)
         self.claw:open(dx)
-    else 
+    else
         self.animation = "higher"
-            
+
         -- calculate dt for the sound library
         local dy = self.claw.h - self.config.claw.minH
         local dt = dy / self.speed * MY_DELTA_TIME

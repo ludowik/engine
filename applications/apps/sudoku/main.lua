@@ -8,7 +8,7 @@ function AppSudoku:init()
     self.scene = UIScene(Layout.row)
     self.scene.alignment = 'v-center,h-center'
 
-    self.showPossibilities = readProjectData('showPossibilities', true)    
+    self.showPossibilities = readProjectData('showPossibilities', true)
 
     self.grid = GridSudoku('grid', 3)
 
@@ -16,6 +16,7 @@ function AppSudoku:init()
     self.grid:check_grid()
 
     self.ui.toolbar = UIScene()
+    self.ui.toolbar.alignment = 'v-center'
     self.ui.toolbar:add(
         Button('help'    , self.grid, self.grid.help    ),
         Button('resolve' , self.grid, self.grid.resolve ),
@@ -27,9 +28,10 @@ function AppSudoku:init()
         Button('load'    , self.grid, self.grid.load    ),
         Button('options' , self, self.options))
 
-    self.ui.grid = UI_grid(self.grid)    
+    self.ui.grid = UI_grid(self.grid)
 
     self.ui.numbers = UIScene():setLayoutFlow(Layout.grid, 3)
+    self.ui.numbers.alignment = 'v-center'
 
     self.scene:add(
         self.ui.toolbar,
@@ -45,23 +47,23 @@ function AppSudoku:init()
         number.grid = self.grid
 
         self.ui.numbers:add(number)
-    end    
+    end
     self.ui.numbers:add(Button('0', callback(self, self.enter_number))
         :attribs{fixedSize = vec2(size, size)})
 end
 
 function AppSudoku:enter_number(ui_number)
-    if self.ui.numbers.ui_cell and not self.ui.numbers.ui_cell.system then    
+    if self.ui.numbers.ui_cell and not self.ui.numbers.ui_cell.system then
         local cell = self.grid:cell(self.ui.numbers.ui_cell.i, self.ui.numbers.ui_cell.j)
 
         if cell ~= nil and not cell.system then
-            local number = tonumber(ui_number.title)
+            local number = tonumber(ui_number.label)
             self.grid:set(self.ui.numbers.ui_cell.i, self.ui.numbers.ui_cell.j, number, false)
             self.grid:check_grid()
 
             self.grid:save()
         end
-    end    
+    end
 end
 
 function AppSudoku:update(dt)
@@ -75,11 +77,11 @@ function AppSudoku:options()
     local dialog = Dialog()
     dialog.scene:add(
         CheckBox("Show possibilities"):bind(self, 'showPossibilities'))
-    
+
     self:pushScene(dialog)
 end
 
-function AppSudoku:toggleShowPossibilities()    
+function AppSudoku:toggleShowPossibilities()
     self.showPossibilities = not self.showPossibilities
     saveProjectData('showPossibilities', self.showPossibilities)
 end

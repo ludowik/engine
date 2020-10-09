@@ -114,7 +114,7 @@ function saveMesh()
     if SaveAs ~= "" then
         local s = saveMesh()
         saveGlobalData(SaveAs,s)
-        
+
         print('Done, saved to global data using key "'..SaveAs..'"')
         print("Load mesh into a project using...")
         print(

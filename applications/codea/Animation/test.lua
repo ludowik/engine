@@ -29,19 +29,19 @@ end
 function Test:drawTest()
     pushMatrix()
     pushStyle()
-    
+
     background(40, 40, 50)
-    
+
     font("Arial")
     strokeWidth(5)
     fill(210, 219, 224, 255)
     fontSize(38)
-    
+
     textAlign(CENTER)
     text(self.name, WIDTH/2, HEIGHT - 100)
-    
+
     self:draw()
-    
+
     popStyle()
     popMatrix()
 end

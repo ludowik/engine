@@ -13,10 +13,10 @@ end
 function draw()
     local l = 10
     noFill()
-    
+
     stroke(white)
-    
-    local function line(x1, y1, x2, y2) 
+
+    local function line(x1, y1, x2, y2)
         vertex(x1, y1)
         vertex(x2, y2)
     end

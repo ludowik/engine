@@ -34,11 +34,11 @@ function Camera:set(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
         if eyeZ then
             upX, upY, upZ = eyeZ.x, eyeZ.y, eyeZ.z
         end
-        
+
         if eyeY then
             atX, atY, atZ = eyeY.x, eyeY.y, eyeY.z
         end
-        
+
         if eyeX then
             eyeX, eyeY, eyeZ = eyeX.x, eyeX.y, eyeX.z
         end

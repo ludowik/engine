@@ -39,12 +39,12 @@ function draw()
             else
                 noFill()
                 beginShape()
-                for angle = 0, TAU * n, 0.05 do                    
+                for angle = 0, TAU * n, 0.05 do
                     local r = radius * cos(angle * m / n)
                     vertex(
                         x + r * cos(angle),
-                        y + r * sin(angle))                    
-                end            
+                        y + r * sin(angle))
+                end
                 roses[m..n] = endShape(CLOSE)
             end
 

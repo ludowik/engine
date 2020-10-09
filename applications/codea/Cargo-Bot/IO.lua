@@ -20,7 +20,7 @@ function IO.printSolution(name)
         print(sol)
     end
 end
-    
+
 -- where we store the user solutions
 function IO.solutionName(levelName)
     return "level"..levelName.."solution"

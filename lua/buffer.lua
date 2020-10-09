@@ -1,12 +1,12 @@
 ffi = require 'ffi'
 
-ffi.cdef [[   
+ffi.cdef [[
     void* malloc(size_t __size);
     void* realloc(void *__ptr, size_t __size);
-    
+
     void* memmove(void *destination, const void *source, size_t num);
     void* memcpy(void *destination, const void *source, size_t num);
-    
+
     void free(void *__ptr);
 ]]
 

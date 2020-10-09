@@ -34,7 +34,7 @@ function ShaderToy:create()
 
                 void main() {
                     gl_Position = matrixPV * matrixModel * vec4(vertex.xyz, 1.);
-                    
+
                     vPosition = vertex;
                     vTexCoords = texCoords;
                 }
@@ -95,10 +95,10 @@ local defaultUniforms = [[
     uniform sampler2D iChannel3;             // input channel. XX = 2D/Cube
     uniform vec4      iDate;                 // (year, month, day, time in seconds)
     uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
-    
+
     in vec3 vPosition;
     in vec2 vTexCoords;
-    
+
     #define PI 3.14159265359
 ]]
 
@@ -129,7 +129,7 @@ function loadShaders(all)
         elseif not all then
             break
         end
-    end    
+    end
 end
 
 function loadShader(shaderFileName, path)
@@ -229,7 +229,7 @@ function update(dt)
     for i,shader in ipairs(shaders) do
         if shader.active then
             shader:update()
-        end    
+        end
     end
 end
 

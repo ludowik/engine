@@ -127,10 +127,10 @@ void b2Body_applyAngularImpulse(b2Body* self, float impulse);
 
 bool b2Body_testPoint(b2Body* self, b2Vec2* worldPoint);
 bool b2Body_testOverlap(b2Body* bodyA, b2Body* bodyB);
-    
+
 b2Vec2* b2Body_getLocalPoint(b2Body* self, b2Vec2* worldPoint);
 b2Vec2* b2Body_getWorldPoint(b2Body* self, b2Vec2* localPoint);
-        
+
 // The maximum number of contact points between two convex shapes. Do
 // not change this value.
 
@@ -208,7 +208,7 @@ void b2Joint_set_motorSpeed(b2Joint* joint_, float motorSpeed);
 bool b2Joint_get_enableLimit(b2Joint* joint_);
 void b2Joint_set_enableLimit(b2Joint* joint_, bool enableLimit);
 
-float b2Joint_get_lowerLimit(b2Joint* joint_);    
+float b2Joint_get_lowerLimit(b2Joint* joint_);
 void b2Joint_set_lowerLimit(b2Joint* joint_, float lowerLimit);
 
 float b2Joint_get_upperLimit(b2Joint* joint_);

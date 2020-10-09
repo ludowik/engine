@@ -37,10 +37,10 @@ function isDownDirection(direction)
     return false
 end
 
-function touchDirection(touch)
+function gestureDirection(touch)
     local x = touch.totalX
     local y = touch.totalY
-    
+
     if abs(x) < 10 and abs(y) < 10 then
         return DIR_NONE
     end

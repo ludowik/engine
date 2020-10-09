@@ -16,14 +16,14 @@ function Styles:init()
         tint = white,
 
         rectMode = CORNER,
-        
+
         ellipseMode = CENTER,
         circleMode = CENTER,
-        
+
         textMode = CENTER,
 
         spriteMode = CENTER,
-        
+
         lineCapMode = ROUND,
 
         light = false
@@ -58,19 +58,21 @@ function popStyle()
     blendMode(styles.blendMode)
     depthMode(styles.depthMode)
     cullingMode(styles.cullingMode)
-    
+
     font()
     fontSize()
 end
 
-function resetStyle()
+function resetStyle(blend, depth, culling)
     styles = Styles()
 
     TEXT_NEXT_Y = H
 
-    blendMode(NORMAL)
-    depthMode(true)
-    cullingMode(true)
+    blendMode(blend or NORMAL)
+    
+    depthMode(value(depth, true))
+    
+    cullingMode(value(culling, true))
 
     font()
     fontSize()
@@ -205,7 +207,7 @@ end
 function clip(x, y, w, h)
     if x then
         gl.glEnable(gl.GL_SCISSOR_TEST)
-        gl.glScissor(x, y, w, h)        
+        gl.glScissor(x, y, w, h)
     else
         gl.glDisable(gl.GL_SCISSOR_TEST)
     end

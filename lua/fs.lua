@@ -11,7 +11,7 @@ function splitPath(path)
     return name, directory
 end
 
-function isApp(path)    
+function isApp(path)
     if (
         isFile(path..'/#.lua') or
         isFile(path..'/main.lua') or

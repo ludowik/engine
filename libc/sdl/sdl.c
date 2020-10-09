@@ -380,7 +380,7 @@ int SDL_RenderFillRect(SDL_Renderer* renderer, const SDL_Rect* rect);
 void SDL_RenderPresent(SDL_Renderer* renderer);
 
 Uint32 SDL_GetMouseState(int *x, int *y);
-                                                              
+
 typedef struct SDL_Color {
     Uint8 r;
     Uint8 g;

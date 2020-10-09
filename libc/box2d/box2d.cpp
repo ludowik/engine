@@ -7,7 +7,7 @@
 #ifdef _WIN32
     #define EXPORT __declspec(dllexport)
 #else
-    #define EXPORT 
+    #define EXPORT
 #endif
 
 #define CLAMP(x, l, h)  (((x) > (h)) ? (h) : (((x) < (l)) ? (l) : (x)))
@@ -17,7 +17,7 @@ extern "C" {
     EXPORT int main(int, char**) {
             return 0;
         }
-    
+
     typedef struct  {
 		b2Body* body;
 		b2Vec2 point;
@@ -56,7 +56,7 @@ extern "C" {
 	};
 	
 	class QueryCallback : public b2QueryCallback {
-	public:    
+	public:
 		QueryCallback() {
 			m_count = 0;
 			m_bodies[m_count] = NULL;
@@ -150,10 +150,10 @@ extern "C" {
 			cp.touching = contact->IsTouching();
 			
 			b2WorldManifold worldManifold;
-			contact->GetWorldManifold(&worldManifold);            
+			contact->GetWorldManifold(&worldManifold);
 			
 			cp.normal = worldManifold.normal;
-			cp.position = b2Vec2(0,0);        
+			cp.position = b2Vec2(0,0);
 			cp.normalImpulse = 0;
 			cp.tangentImpulse = 0;
 			
@@ -172,8 +172,8 @@ extern "C" {
 			
 			cp.position *= inv;
 			cp.normalImpulse *= inv;
-			cp.tangentImpulse *= inv;        
-		}            
+			cp.tangentImpulse *= inv;
+		}
 	}
 
 	void ContactListener::BeginContact(b2Contact* contact) {
@@ -191,7 +191,7 @@ extern "C" {
 		cp.touching = contact->IsTouching();
 		
 		b2WorldManifold worldManifold;
-		contact->GetWorldManifold(&worldManifold);    
+		contact->GetWorldManifold(&worldManifold);
 		
 		cp.normal = worldManifold.normal;
 		cp.position = b2Vec2(0,0);
@@ -219,7 +219,7 @@ extern "C" {
 		pos = std::find(contacts.begin(), contacts.end(), cp);
 		if (pos != contacts.end()) {
 			(*pos).state = CONTACT_ENDED;
-		}    
+		}
 	}
 
 	// gravity
@@ -258,7 +258,7 @@ extern "C" {
     EXPORT void setUnrefJoint(unref func) {
         unrefJoin = func;
     }
-    
+
     class MyDestructionListener : public b2DestructionListener {
         void SayGoodbye(b2Joint* joint) {
             if (unrefJoin) {
@@ -267,7 +267,7 @@ extern "C" {
         }
         void SayGoodbye(b2Fixture* /*fixture*/) {}
     };
-    
+
 	// World
 	EXPORT b2World* b2World_new() {
 		b2World* world = new b2World(gravity);
@@ -288,14 +288,14 @@ extern "C" {
 	EXPORT void b2World_setGravity(b2World* self, b2Vec2* g) {
 		self->SetGravity(*g);
 	}
-    
+
     EXPORT void b2World_setContinuous(b2World* self, bool continuous) {
         self->SetContinuousPhysics(continuous);
     }
-    
+
     EXPORT bool b2World_getContinuous(b2World* self) {
         return self->GetContinuousPhysics();
-    }    
+    }
 
     EXPORT void b2World_setAutoClearForces(b2World* self, bool autoClearForces) {
 		self->SetAutoClearForces(autoClearForces);
@@ -330,7 +330,7 @@ extern "C" {
                 ++iter;
             } else {
                 ++iter;
-            }            
+            }
         }
 	}
 	
@@ -364,8 +364,8 @@ extern "C" {
 		
 		b2AABB aabb;
         aabb.lowerBound = *p1;
-        aabb.upperBound = *p2;        
-        
+        aabb.upperBound = *p2;
+
         self->QueryAABB(&callback, aabb);
 		
 		return callback.m_bodies;
@@ -384,7 +384,7 @@ extern "C" {
 		b2BodyDef bodyDef;
 
 		bodyDef.type = type;
-        
+
 		bodyDef.position.Set(0.0f, 0.0f);
 		
 		b2Body* body = world->CreateBody(&bodyDef);
@@ -398,7 +398,7 @@ extern "C" {
 		body->CreateFixture(&fixtureDef);
 		body->SetSleepingAllowed(true);
         body->SetGravityScale(1.0f);
-        
+
 		return body;
 	}
 
@@ -420,7 +420,7 @@ extern "C" {
 	EXPORT b2Body* b2Body_new_polygon(b2World* world, b2Vec2* points, int n) {
         b2PolygonShape polygon;
         polygon.Set(points, n);
-        
+
 		/*b2BodyDef bodyDef;
 		bodyDef.type = b2_dynamicBody;
 		bodyDef.position.Set(0.0f, 0.0f);
@@ -430,15 +430,15 @@ extern "C" {
 		if (!polygon.IsCCW()) {
 			ReversePolygon(polygon.x, polygon.y, polygon.nVertices);
 		}
-        
-		b2FixtureDef fixtureDef;    
+
+		b2FixtureDef fixtureDef;
 		fixtureDef.density = 1.0f;
 		
-		DecomposeConvexAndAddTo(&polygon, body, &fixtureDef); 
+		DecomposeConvexAndAddTo(&polygon, body, &fixtureDef);
 		
 		return body;
         */
-        
+
 		return b2Body_new(world, b2_dynamicBody, &polygon);
 	}
 	
@@ -451,7 +451,7 @@ extern "C" {
 		
 		b2Body* body = world->CreateBody(&bodyDef);
 						
-		b2FixtureDef fixtureDef;    
+		b2FixtureDef fixtureDef;
 		fixtureDef.density = 0.0f;
 		
 		b2ChainShape chainShape;
@@ -483,11 +483,11 @@ extern "C" {
 	EXPORT void b2Body_set_type(b2Body* self, int type) {
 		self->SetType((b2BodyType)type);
 	}
-    
+
     EXPORT bool b2Body_get_bullet(b2Body* self) {
 		return (int)self->IsBullet();
 	}
-    
+
     EXPORT void b2Body_set_bullet(b2Body* self, bool bullet) {
 		self->SetBullet(bullet);
 	}
@@ -508,7 +508,7 @@ extern "C" {
 	EXPORT void b2Body_set_position(b2Body* self, b2Vec2* newPosition) {
 		self->SetTransform(*newPosition, self->GetAngle());
 	}
-    
+
     EXPORT bool b2Body_get_sensor(b2Body* self) {
         b2Fixture* f = self->GetFixtureList();
         if (f) {
@@ -516,14 +516,14 @@ extern "C" {
         }
         return false;
     }
-    
+
     EXPORT void b2Body_set_sensor(b2Body* self, bool sensor) {
         b2Fixture* f = self->GetFixtureList();
         for (; f; f = f->GetNext()) {
             f->SetSensor(sensor);
 		}
 	}
-    
+
     EXPORT int b2Body_get_categoryBits(b2Body* self) {
         b2Fixture* f = self->GetFixtureList();
         if (f) {
@@ -531,7 +531,7 @@ extern "C" {
         }
         return false;
     }
-    
+
     EXPORT void b2Body_set_categoryBits(b2Body* self, int categoryBits) {
         b2Fixture* f = self->GetFixtureList();
         for (; f; f = f->GetNext()) {
@@ -540,7 +540,7 @@ extern "C" {
             f->SetFilterData(filter);
 		}
 	}
-    
+
     EXPORT int b2Body_get_maskBits(b2Body* self) {
         b2Fixture* f = self->GetFixtureList();
         if (f) {
@@ -548,7 +548,7 @@ extern "C" {
         }
         return false;
     }
-    
+
     EXPORT void b2Body_set_maskBits(b2Body* self, int maskBits) {
         b2Fixture* f = self->GetFixtureList();
         for (; f; f = f->GetNext()) {
@@ -557,7 +557,7 @@ extern "C" {
             f->SetFilterData(filter);
 		}
 	}
-    
+
 	EXPORT float b2Body_get_angle(b2Body* self) {
 		return self->GetAngle();
 	}
@@ -614,7 +614,7 @@ extern "C" {
 	EXPORT void b2Body_set_angularVelocity(b2Body* self, float angle) {
 		self->SetAngularVelocity(angle);
 	}
-    
+
     EXPORT float b2Body_get_linearDamping(b2Body* self) {
 		return self->GetLinearDamping();
 	}
@@ -622,7 +622,7 @@ extern "C" {
 	EXPORT void b2Body_set_linearDamping(b2Body* self, float linearDamping) {
 		self->SetLinearDamping(linearDamping);
 	}
-    
+
     EXPORT float b2Body_get_angularDamping(b2Body* self) {
 		return self->GetAngularDamping();
 	}
@@ -645,7 +645,7 @@ extern "C" {
 			fixture->SetFriction(friction);
 		}
 	}
-    
+
     EXPORT bool b2Body_get_fixedRotation(b2Body* self) {
         return self->IsFixedRotation();
     }
@@ -707,13 +707,13 @@ extern "C" {
 		}
 		return count;
     }
-    
+
 	EXPORT int b2Body_get_vertex_count(b2Body* self, int j) {
         int count = 0;
         b2Fixture* f = self->GetFixtureList();
         for (; f && count < j; count++, f = f->GetNext()) {
         }
-        
+
         if (f) {
             b2Shape* shape = (b2Shape*)f->GetShape();
             if (shape->m_type == b2Shape::e_polygon) {
@@ -731,7 +731,7 @@ extern "C" {
         b2Fixture* f = self->GetFixtureList();
         for (; f && count < j; count++, f = f->GetNext()) {
         }
-        
+
         if (f) {
             b2Shape* shape = (b2Shape*)f->GetShape();
             if (shape->m_type == b2Shape::e_polygon) {
@@ -770,11 +770,11 @@ extern "C" {
         b2Vec2 center = self->GetPosition();
 		self->ApplyLinearImpulse(*force, center, true);
 	}
-    
+
     EXPORT void b2Body_applyTorque(b2Body* self, float torque) {
         self->ApplyTorque(torque, true);
     }
-    
+
     EXPORT void b2Body_applyAngularImpulse(b2Body* self, float impulse) {
         self->ApplyAngularImpulse(impulse, true);
     }
@@ -799,7 +799,7 @@ extern "C" {
 					test = true;
 					break;
 				}
-			}             
+			}
 			if (test) {
 				break;
 			}
@@ -870,7 +870,7 @@ extern "C" {
 		b2Joint* joint = (b2Joint*)world->CreateJoint(&jointDef);
 		return joint;
 	}
-    
+
     EXPORT b2Joint* b2Joint_new_weld(b2World* world,
         b2Body* bodyA, b2Body* bodyB,
         b2Vec2* anchor)
@@ -894,32 +894,32 @@ extern "C" {
 	EXPORT b2Vec2* b2Joint_get_anchorB(b2Joint* joint) {
 		return new b2Vec2(joint->GetAnchorB());
 	}
-    
+
     EXPORT float b2Joint_get_maxMotorTorque(b2Joint* joint_) {
         b2RevoluteJoint* joint = (b2RevoluteJoint*)joint_;
         return joint->GetMaxMotorTorque();
     }
-    
+
     EXPORT void b2Joint_set_maxMotorTorque(b2Joint* joint_, float maxMotorTorque) {
         b2RevoluteJoint* joint = (b2RevoluteJoint*)joint_;
         joint->SetMaxMotorTorque(maxMotorTorque);
     }
-    
+
     EXPORT bool b2Joint_get_enableMotor(b2Joint* joint_) {
         b2RevoluteJoint* joint = (b2RevoluteJoint*)joint_;
         return joint->IsMotorEnabled();
     }
-    
+
     EXPORT void b2Joint_set_enableMotor(b2Joint* joint_, bool enableMotor) {
         b2RevoluteJoint* joint = (b2RevoluteJoint*)joint_;
         joint->EnableMotor(enableMotor);
     }
-    
+
     EXPORT float b2Joint_get_motorSpeed(b2Joint* joint_) {
         b2RevoluteJoint* joint = (b2RevoluteJoint*)joint_;
         return joint->GetMotorSpeed();
     }
-    
+
     EXPORT void b2Joint_set_motorSpeed(b2Joint* joint_, float motorSpeed) {
         b2RevoluteJoint* joint = (b2RevoluteJoint*)joint_;
         joint->SetMotorSpeed(motorSpeed);
@@ -929,7 +929,7 @@ extern "C" {
         b2PrismaticJoint* joint = (b2PrismaticJoint*)joint_;
         return joint->IsLimitEnabled();
     }
-    
+
     EXPORT void b2Joint_set_enableLimit(b2Joint* joint_, bool enableLimit) {
         b2PrismaticJoint* joint = (b2PrismaticJoint*)joint_;
         joint->EnableLimit(enableLimit);
@@ -939,7 +939,7 @@ extern "C" {
         b2PrismaticJoint* joint = (b2PrismaticJoint*)joint_;
         return joint->GetLowerLimit();
     }
-    
+
     EXPORT void b2Joint_set_lowerLimit(b2Joint* joint_, float lowerLimit) {
         b2PrismaticJoint* joint = (b2PrismaticJoint*)joint_;
         joint->SetLimits(lowerLimit, joint->GetUpperLimit());
@@ -949,7 +949,7 @@ extern "C" {
         b2PrismaticJoint* joint = (b2PrismaticJoint*)joint_;
         return joint->GetUpperLimit();
     }
-    
+
     EXPORT void b2Joint_set_upperLimit(b2Joint* joint_, float upperLimit) {
         b2PrismaticJoint* joint = (b2PrismaticJoint*)joint_;
         joint->SetLimits(joint->GetLowerLimit(), upperLimit);
@@ -958,5 +958,5 @@ extern "C" {
 	/*EXPORT int b2World_triangulate(float* trX, float* trY, int n, b2Triangle* triangles) {
 		return TriangulatePolygon(trX, trY, n, triangles);
 	}*/
-    
+
 }

@@ -160,7 +160,7 @@ function OpenGL:loadProcAdresses()
     end
 end
 
-function OpenGL:initialize()    
+function OpenGL:initialize()
     self:loadProcAdresses()
 
     print('Supported '..ffi.string(gl.glGetString(gl.GL_SHADING_LANGUAGE_VERSION)))

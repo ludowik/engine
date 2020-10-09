@@ -83,7 +83,7 @@ function Grid2048:is_game_over()
 end
 
 function Grid2048:process_move_and_merge(f, k1, k2, inc, only_check)
-    if self.co then return end 
+    if self.co then return end
 
     local merge_or_move = self:move_and_merge(f, k1, k2, inc, only_check)
     if merge_or_move and not self:is_game_over() then
@@ -101,10 +101,6 @@ function Grid2048:process_move_and_merge(f, k1, k2, inc, only_check)
 end
 
 function Grid2048:move_and_merge(f, k1, k2, inc, only_check)
-    if not only_check then
-        print(f, k1, k2, inc, only_check)
-    end
-
     local move_or_merge = false
 
     for i = 1, self.w do

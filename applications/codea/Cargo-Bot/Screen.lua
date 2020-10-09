@@ -60,7 +60,7 @@ function Screen:init()
         screenMode.onEnded = function(but,t)
             if displayMode() == FULLSCREEN then displayMode(STANDARD)
             else displayMode(FULLSCREEN) end
-        end       
+        end
         self:add(screenMode)
         screenMode.alwaysActive = true
         self:doDraw(screenMode,smSprite,1000000)
@@ -126,7 +126,7 @@ function Screen:removeHighlights()
     for _,elem in ipairs(highClone) do
         local wasThere = self:undoDraw(elem.obj)
         if wasThere then
-            self:doDraw(elem.obj,elem.imgName,elem.originalZ) 
+            self:doDraw(elem.obj,elem.imgName,elem.originalZ)
         end
     end
     self.highlights = {}
@@ -134,8 +134,8 @@ end
 
 function Screen:undoDraw(obj)
     -- handle shadow objects
-    if obj.shadow then 
-        self:undoDraw(obj.shadow) 
+    if obj.shadow then
+        self:undoDraw(obj.shadow)
     end
 
     local retVal = false

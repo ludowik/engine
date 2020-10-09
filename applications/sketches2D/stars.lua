@@ -4,7 +4,7 @@ Star.batchRendering = true
 
 function Star:init()
     Object.init(self)
-    
+
     if Star.batchRendering then
         getmetatable(self).draw = nil
     end
@@ -41,7 +41,7 @@ application 'Stars'
 
 function Stars:init()
     Application.init(self)
-    
+
     MAX_STARS = 10000
     MAX_DISTANCE = W / 2 -- vec2(W/2, H/2):len()
 
@@ -79,7 +79,7 @@ end
 
 function Stars:draw()
     background(black)
-    
+
     blendMode(NORMAL)
 
     translate(W/2, H/2)
@@ -88,7 +88,7 @@ function Stars:draw()
 
     if Star.batchRendering then
         self.points:reset()
-        
+
         local ref = 1
         for i,v in self.stars.nodes:items() do
             self.points[ref  ] = v.position.x

@@ -37,9 +37,9 @@ function isDown(key)
 end
 
 function isButtonDown(button)
-    if button == 1 then 
+    if button == 1 then
         button = sdl.SDL_BUTTON_LEFT
-    elseif button == 2 then 
+    elseif button == 2 then
         button = sdl.SDL_BUTTON_RIGHT
     end
     return hasbit(sdl.SDL_GetMouseState(nil, nil), button)

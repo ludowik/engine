@@ -3,7 +3,7 @@
 -- Use this function to perform your initial setup
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
-    
+
     print("Hello Physics!")
 
     print("Touch the screen to make boxes")

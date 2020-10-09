@@ -4,11 +4,11 @@ StageWall = class(Panel)
 
 function StageWall:init(x,y,w,h,screen)
     Panel.init(self,x,y)
-    
+
     -- dimensions needed for the physics
     self.w = w
     self.h = h
-    
+
     -- make the pole
     local obj = ShadowObj(-w/2,8,w,h-16)
     self:add(obj)
@@ -25,7 +25,7 @@ function StageWall:init(x,y,w,h,screen)
     self:add(obj)
     screen:doDraw(obj,"Cargo Bot:Claw Base",0,-8)
     self.base = obj -- needed for the physics
-    
+
     -- so that the sprite shadows show in the correct direction
     if self.x > WIDTH / 2 then self:flipX() end
 end

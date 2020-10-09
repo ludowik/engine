@@ -1,7 +1,7 @@
 function sampleMusic()
     -- An ABC tune is a string with newline characters to denote new lines.
     -- See the many web pages on ABC musical notation to get a tune or an understanding of
-    -- this allegedly human- and machine-readable format.  
+    -- this allegedly human- and machine-readable format.
     -- You could even write your own by hand or use another program to convert a MIDI file.
 
 winTune = 'X:1\n'

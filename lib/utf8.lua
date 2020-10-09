@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --]]
 
 -- ABNF from RFC 3629
--- 
+--
 -- UTF8-octets = *( UTF8-char )
 -- UTF8-char   = UTF8-1 / UTF8-2 / UTF8-3 / UTF8-4
 -- UTF8-1      = %x00-7F
@@ -62,7 +62,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -- UTF8-4      = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
 --               %xF4 %x80-8F 2( UTF8-tail )
 -- UTF8-tail   = %x80-BF
--- 
+--
 
 local byte    = string.byte
 local char    = string.char
@@ -334,7 +334,7 @@ local function utf8char(unicode)
         local Byte2= 0x80 + (code % 0x40);
         code       = math.floor(code / 0x40)
         local Byte1= 0x80 + (code % 0x40);
-        code       = math.floor(code / 0x40)  
+        code       = math.floor(code / 0x40)
         local Byte0= 0xF0 + code;
 
         return char(Byte0, Byte1, Byte2, Byte3);
@@ -356,7 +356,7 @@ utf8unicode = function(str, i, j, byte_pos)
 
     local char,bytes
 
-    if byte_pos then 
+    if byte_pos then
         bytes = utf8charbytes(str,byte_pos)
         char  = sub(str,byte_pos,byte_pos-1+bytes)
     else
@@ -439,7 +439,7 @@ local function classMatchGenerator(class, plain)
     local firstletter = true
     local unmatch = false
 
-    local it = utf8gensub(class) 
+    local it = utf8gensub(class)
 
     local skip
     for c,bs,be in it do
@@ -550,9 +550,9 @@ local function classMatchGenerator(class, plain)
         end
         return false
     end
-    if not unmatch then 
+    if not unmatch then
         return function(charCode)
-            return binsearch(codes, charCode) or inRanges(charCode) 
+            return binsearch(codes, charCode) or inRanges(charCode)
         end, skip
     else
         return function(charCode)
@@ -561,7 +561,7 @@ local function classMatchGenerator(class, plain)
     end
 end
 
--- utf8sub with extra argument, and extra result value 
+-- utf8sub with extra argument, and extra result value
 local function utf8subWithBytes (s, i, j, sb)
     -- argument defaults
     j = j or -1
@@ -621,7 +621,7 @@ local function matcherGenerator(regex, plain)
         cachePlain[regex] = matcher
     end
     local function simple(func)
-        return function(cC) 
+        return function(cC)
             if func(cC) then
                 matcher:nextFunc()
                 matcher:nextStr()
@@ -963,7 +963,7 @@ end
 
 -- string.gmatch
 local function utf8gmatch(str, regex, all)
-    regex = (utf8sub(regex,1,1) ~= '^') and regex or '%' .. regex 
+    regex = (utf8sub(regex,1,1) ~= '^') and regex or '%' .. regex
     local lastChar = 1
     return function()
         local found = {utf8find(str, regex, lastChar)}
@@ -1028,13 +1028,13 @@ local function utf8gsub(str, regex, repl, limit)
         ret = ret .. utf8sub(str, prevEnd, found[1] - 1)
         .. replace(repl, args)
         prevEnd = found[2] + 1
-        n = n + 1 
+        n = n + 1
         found = {it()}
     end
-    return ret .. utf8sub(str, prevEnd), n 
+    return ret .. utf8sub(str, prevEnd), n
 end
 
-local utf8 = {}                                                                                             
+local utf8 = {}
 utf8.len = utf8len
 utf8.sub = utf8sub
 utf8.reverse = utf8reverse
@@ -1045,10 +1045,10 @@ utf8.byte = utf8unicode
 utf8.find    = utf8find
 utf8.match   = utf8match
 utf8.gmatch  = utf8gmatch
-utf8.gsub    = utf8gsub  
-utf8.dump    = dump  
-utf8.format = format 
-utf8.lower = lower      
-utf8.upper = upper      
+utf8.gsub    = utf8gsub
+utf8.dump    = dump
+utf8.format = format
+utf8.lower = lower
+utf8.upper = upper
 utf8.rep     = rep
 return utf8

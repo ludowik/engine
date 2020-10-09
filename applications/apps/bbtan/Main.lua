@@ -16,7 +16,7 @@ function setup()
     fizix = Fizix(0, 0)
     fizix:gravity(vec2())
     fizix:setArea(0, 0, AREA_WIDTH, AREA_HEIGHT)
-    
+
     physics = Physics(fizix)
 
     areaPosition = vec2(
@@ -66,18 +66,18 @@ function addBoxes()
         local free = checkCell(items, i, j)
 
         local box
-        if free then            
+        if free then
             if random() > 0.9 then
                 box = addBox(CIRCLE, i, j)
-                items:add(box)                
+                items:add(box)
 
             elseif random() > 0.9 then
                 box = addBox(POLYGON, i, j)
-                items:add(box)                
+                items:add(box)
 
             elseif random() > 0.5 then
                 box = addBox(RECT, i, j)
-                items:add(box)                
+                items:add(box)
             end
         end
     end
@@ -126,15 +126,15 @@ function pushBall(emitter, ball)
     if #emitter == 0 then
         emitter.position = vec2(ball.body.position.x, CELL_SIZE/2)
     end
-    
+
     ball.body.position = vec2(emitter.position.x, emitter.position.y)
-    
+
     emitter:add(ball)
 end
 
 function addBonus(i, j)
     local bonus = Bonus(i, j)
-    bonuses:add(bonus)            
+    bonuses:add(bonus)
 end
 
 function nextLevel()
@@ -213,7 +213,7 @@ function draw()
     background(51)
 
     TEXT_NEXT_Y = HEIGHT / 2
-    
+
     textMode(CORNER)
     for i,body in ipairs(fizix.bodies) do
         local info = classnameof(body.item)..' '..body.shapeType..' at '..body.position:tostring()
@@ -223,7 +223,7 @@ function draw()
     translate(areaPosition.x, areaPosition.y)
 
     noFill()
-    
+
     rectMode(CORNER)
     rect(0, 0, AREA_WIDTH, AREA_HEIGHT)
 
@@ -236,7 +236,7 @@ function draw()
             emitter.position.x + linearVelocity.x,
             emitter.position.y + linearVelocity.y)
     end
-    
+
     fizix:draw()
 end
 

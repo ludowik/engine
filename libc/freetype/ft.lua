@@ -25,7 +25,7 @@ function ft.loadFont(library, font_name, font_size)
 
     local error = ftLib.FT_New_Face(library, ffi.string(font_name), 0 , face)
 
-    if error == 1 then        
+    if error == 1 then
         local addr = ffi.cast('const FT_Byte*', Vera_ttf:tobytes())
         error = ftLib.FT_New_Memory_Face(library,
             addr, -- first byte in memory
@@ -63,7 +63,7 @@ function ft.loadText(face, text)
 
         size = 0,
 
-        pixels = nil, 
+        pixels = nil,
 
         format = {
             BytesPerPixel = 0,
@@ -111,7 +111,7 @@ function ft.loadText(face, text)
     dy = floor(max(0, H - (top + bottom) - 2) / 2)
 
     local size = w * h * ffi.sizeof('GLubyte') * BytesPerPixel
-    
+
     local pixels = ffi.new('GLubyte[?]', size)
 
     for n=1,len do

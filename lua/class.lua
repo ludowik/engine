@@ -7,7 +7,7 @@ function class(...)
     local args = {...}
 
     local className
-    if #args > 0 and type(args[1]) == 'string' then    
+    if #args > 0 and type(args[1]) == 'string' then
         className = args[1]
         table.remove(args, 1)
     else
@@ -132,10 +132,10 @@ end
 
 function typeof(object)
     local typeof = type(object)
-    if typeof == 'table' then 
+    if typeof == 'table' then
         return classnameof(object) or 'table'
 
-    elseif typeof == 'cdata' then 
+    elseif typeof == 'cdata' then
         return 'cdata'
 
     end

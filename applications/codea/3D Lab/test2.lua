@@ -44,7 +44,7 @@ function Test2:init()
                           vec2(0.97,0.24),
                           vec2(0.03,0.69),
                           vec2(0.97,0.69) }
-                
+
     -- apply the texture coordinates to each triangle
     local cubetexCoords = {
       -- Front
@@ -66,36 +66,36 @@ function Test2:init()
       texvertices[1], texvertices[2], texvertices[4],
       texvertices[1], texvertices[4], texvertices[3],
     }
-    
+
     -- now we make our 3 different block types
     self.ms = mesh()
     self.ms.vertices = cubeverts
     self.ms.texture = "Planet Cute:Stone Block"
     self.ms.texCoords = cubetexCoords
     self.ms:setColors(255,255,255,255)
-    
+
     self.md = mesh()
     self.md.vertices = cubeverts
     self.md.texture = "Planet Cute:Dirt Block"
     self.md.texCoords = cubetexCoords
     self.md:setColors(255,255,255,255)
-    
+
     self.mg = mesh()
     self.mg.vertices = cubeverts
     self.mg.texture = "Planet Cute:Grass Block"
     self.mg.texCoords = cubetexCoords
-    self.mg:setColors(255,255,255,255)   
-    
+    self.mg:setColors(255,255,255,255)
+
     -- currently doesnt work properly without backfaces
     self.mw = mesh()
     self.mw.vertices = cubeverts
     self.mw.texture = "Planet Cute:Water Block"
     self.mw.texCoords = cubetexCoords
     self.mw:setColors(255,255,255,100)
-    
+
     -- stick 'em in a table
     self.blocks = { self.mg, self.md, self.ms }
-    
+
     -- our scene itself
     -- numbers correspond to block positions in the blockTypes table
     --             bottom      middle      top
@@ -107,12 +107,12 @@ end
 function Test2:draw()
     pushMatrix()
     pushStyle()
-    
+
     -- Make a floor
     translate(0,-lSize/2,0)
     rotate(Angle,0,1,0)
     rotate(90,1,0,0)
-    sprite("SpaceCute:Background", 0, 0, 300, 300) 
+    sprite("SpaceCute:Background", 0, 0, 300, 300)
 
     -- render each block in turn
     for zi,zv in ipairs(self.scene) do
@@ -121,20 +121,20 @@ function Test2:draw()
                 -- apply each transform  need - rotate, scale, translate to the correct place
                 resetMatrix()
                 rotate(Angle,0,1,0)
-                
+
                 local s = lSize*0.25
                 scale(s,s,s)
-                
+
                 translate(xi-2, yi-2, zi-2)    -- renders based on corner
                                                -- so -2 fudges it near center
-                
+
                 if xv > 0 then
                     self.blocks[xv]:draw()
                 end
             end
         end
     end
-    
+
     popStyle()
     popMatrix()
 end

@@ -164,10 +164,10 @@ end
 function mt:crossInPlace(v)
     local x = self.y * v.z - self.z * v.y
     local y = self.z * v.x - self.x * v.z
-    
+
     self.x = x
     self.y = y
-    
+
     return self
 end
 
@@ -276,19 +276,19 @@ function mt.isInsideTriangle(v, v1, v2, v3)
     a1 = mt.enclosedAngle(v1, v2, v3)
     a2 = mt.enclosedAngle(v, v2, v3)
     if a2 > a1 or a2 < 0 then
-        return false 
+        return false
     end
 
     a1 = mt.enclosedAngle(v2, v3, v1)
     a2 = mt.enclosedAngle(v, v3, v1)
-    if a2 > a1 or a2 < 0 then 
-        return false 
+    if a2 > a1 or a2 < 0 then
+        return false
     end
 
     a1 = mt.enclosedAngle(v3, v1, v2)
     a2 = mt.enclosedAngle(v, v1, v2)
     if a2 > a1 or a2 < 0 then
-        return false 
+        return false
     end
 
     return true
@@ -296,7 +296,7 @@ end
 
 function xy(x, y, coef)
     assert(coef == nil)
-    if type(x) == 'table' or type(x) == 'cdata' then 
+    if type(x) == 'table' or type(x) == 'cdata' then
         return x.x, x.y, y or 1
     end
     return x or 0, y or 0, coef or 1

@@ -17,7 +17,7 @@ touched_dots = {}
 
 function setup()
     supportedOrientations(PORTRAIT)
-    
+
     for i = 1, STARTING_DOTS do
         table.insert(dots, Dot(math.random(WIDTH), math.random(HEIGHT)))
     end

@@ -10,10 +10,10 @@ function hsl(h, s, l, a)
             var_2 = l * (1 + s)
         else
             var_2 = (l + s) - (s * l)
-        end            
+        end
         var_1 = 2 * l - var_2
 
-        r = hue2rgb(var_1, var_2, h + (1 / 3)) 
+        r = hue2rgb(var_1, var_2, h + (1 / 3))
         g = hue2rgb(var_1, var_2, h)
         b = hue2rgb(var_1, var_2, h - (1 / 3))
     end

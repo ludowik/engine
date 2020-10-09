@@ -152,13 +152,13 @@ function Player:keyboard(key, isrepeat)
     if self.state ~= "jumping" then
         if key == 'down' and self.state == "middle" then
             self:jumpDown(tile*1.5,"bottom")
-            
+
         elseif key == 'down' and self.state == "top" then
             self:jumpUp(tile*3.5,"middle")
-            
+
         elseif key == 'up' and self.state == "middle" then
             self:jumpUp(tile*5.5,"top")
-            
+
         elseif key == 'up' and self.state == "bottom" then
             self:jumpUp(tile*3.5,"middle")
         end
@@ -256,7 +256,7 @@ end
 
 function Block:destroy(points,direction)
     score = score + points
-    if score < 0 then score = 0 end 
+    if score < 0 then score = 0 end
     for i = 1, 4 do
         local s = Shard(i,self.x,self.y,self.width,self.height,direction)
         table.insert(shards,s)

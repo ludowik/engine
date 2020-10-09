@@ -6,7 +6,7 @@ end
 
 function Editor:touched(touch)
     self.focus = not self.focus
-    
+
     if self.focus then
         showKeyboard()
     else

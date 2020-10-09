@@ -39,7 +39,7 @@ local b2Body_index = {
     getLocalPoint = function (self, worldPoint)
         local localPoint = box2d.b2Body_getLocalPoint(self,
             b2Vec2(
-                worldPoint.x, 
+                worldPoint.x,
                 worldPoint.y,
                 ptmRatio))
         return vec3(localPoint):mul(mtpRatio)
@@ -237,7 +237,7 @@ local b2Body_mt = ffi.metatype('b2Body', {
                 for i=0,15 do
                     if bitAND(categoryBits, 2^i) then
                         table.add(categories, i)
-                    end                    
+                    end
                 end
                 return categories
 
@@ -247,7 +247,7 @@ local b2Body_mt = ffi.metatype('b2Body', {
                 for i=0,15 do
                     if bitAND(maskBits, 2^i) then
                         table.add(mask, i)
-                    end                    
+                    end
                 end
                 return mask
 

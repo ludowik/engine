@@ -2,7 +2,7 @@ App('SolarSystem')
 
 function SolarSystem:init()
     Application.init(self)
-    
+
     p = Planet(0, 0, debugging() and 2 or 10)
 end
 

@@ -13,7 +13,7 @@ function Layout:computeNodeSize(node)
             node.fixedSize.x,
             node.fixedSize.y,
             0)
-        
+
     elseif node.gridSize then
         node.size:set(
             ws(node.gridSize.x),
@@ -25,7 +25,7 @@ end
 function Layout:layout(mode, n)
     local outerMarge = self.outerMarge or Layout.outerMarge
     local innerMarge = self.innerMarge or Layout.innerMarge
-    
+
     local position = vec2(outerMarge, outerMarge)
     local size = vec2()
 
@@ -71,10 +71,10 @@ function Layout:layout(mode, n)
                     innerMarge)
 
                 i = i + 1
-            end            
+            end
         end
     end
-    
+
     self.size = size
 end
 

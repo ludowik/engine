@@ -7,19 +7,19 @@
 -- different mesh for each texture in each z-order but obviously could be optimized to
 -- for example uses an atlas
 
--- The various games screens are subclasses of Screen: Level, PackSelect, LevelSelect, 
--- StartScreen, WinScreen. currentScreen is a global variable that corresponds to 
+-- The various games screens are subclasses of Screen: Level, PackSelect, LevelSelect,
+-- StartScreen, WinScreen. currentScreen is a global variable that corresponds to
 -- the screen that is currently showing
 
 -- Screen subclasses Panel. Panels are simple container objects that hold a bunch of
 -- elems and recursively pass on methods to their elements. For example, put a bunch of
--- objects in a panel and by translating the panel you will translate all the elements 
+-- objects in a panel and by translating the panel you will translate all the elements
 -- as well
 
 -- Panels can also contain other other panels of course. So while screens are panels, many
 -- of the objects on a screen are panels themselves. Also note that objects can
--- be added to the screen with add(), which is a panel method, but that doesn't mean that 
--- they will be drawn (say an invisible button). 
+-- be added to the screen with add(), which is a panel method, but that doesn't mean that
+-- they will be drawn (say an invisible button).
 -- You could also have objects that are drawn but not added to the screen, for example, a
 -- drawing that doesn't respond to any type of event ever doesn't necessarily have to be
 -- add()'ed to the screen (but I guess no harm if it was added)
@@ -56,6 +56,6 @@
 -- ============= Events ==============
 -- Events are bound and triggered using the Events class, which is a static class
 -- Note the interaction between the Panel class and Events. When a Panel is bound
--- it calls bindEvents on each of its elems so for each class you have to write 
+-- it calls bindEvents on each of its elems so for each class you have to write
 -- all binding of events into a bindEvents method. This also makes sure that the events
 -- are easy to find and are not mixed with the rest of the code

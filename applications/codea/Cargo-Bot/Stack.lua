@@ -1,6 +1,6 @@
 -- Stack.lua
 
--- a generic stack class. Piles of blocks are stacks. 
+-- a generic stack class. Piles of blocks are stacks.
 -- Also used to keep track of the user program stack
 
 Stack = class()
@@ -35,7 +35,7 @@ end
 function Stack:iter()
     local i = 0
     local n = self:size()
-    return function() 
+    return function()
         i = i + 1
         if i <= n then return self.elems[i] end
     end

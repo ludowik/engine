@@ -170,11 +170,11 @@ end
 function table:findItem(item, caseInsensitive)
     local n = #self
     for i=1,n do
-        local test 
+        local test
         if caseInsensitive then
             test = self[i]:lower() == item:lower()
         else
-            test = self[i] == item 
+            test = self[i] == item
         end
 
         if test then
@@ -440,7 +440,7 @@ local scanning = {}
 
 function table:scan(attr, f, classType, className)
     local t
-    if attr then 
+    if attr then
         t = self[attr] or self
     else
         t = self

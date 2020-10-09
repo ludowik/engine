@@ -8,7 +8,7 @@ else
     Path.libraryPath = '/Users/ludo/Projets/Libraries'
 end
 
-function Path.setup()    
+function Path.setup()
     print(Path.sourcePath)
 end
 

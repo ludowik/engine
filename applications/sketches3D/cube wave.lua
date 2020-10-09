@@ -58,5 +58,5 @@ function appCubeWave:draw()
             box(w, h, w)
         end
         popMatrix()
-    end    
+    end
 end

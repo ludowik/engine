@@ -119,7 +119,7 @@ FT_Error FT_New_Face(FT_Library library,
     const char* filepathname,
     FT_Long face_index,
     FT_Face *aface);
-    
+
 FT_Error FT_Set_Char_Size(FT_Face face,
     FT_F26Dot6 char_width,
     FT_F26Dot6 char_height,

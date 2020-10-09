@@ -33,12 +33,12 @@ function AppMap:init()
 
         local vectorsArray = ffi.typeof('vec3[?]')
         local colorsArray = ffi.typeof('color[?]')
-        
+
         for ib=0,n-1 do
             for jb=0,n-1 do
                 local block = Mesh()
                 block.shader = Shader('default')
-                
+
                 map:add(block)
 
                 block.vectorsArray = vectorsArray(4*(w+1)*(h+1))
@@ -108,7 +108,7 @@ function AppMap:init()
 
                     block.needUpdate = true
 
-                    clockCurrent = os.clock()            
+                    clockCurrent = os.clock()
                     clockDelay = clockCurrent - clockStart
 
                     if batchMode and clockDelay > 1/engine.frameTime.fpsTarget then

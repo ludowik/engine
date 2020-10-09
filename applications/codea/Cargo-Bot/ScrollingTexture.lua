@@ -10,8 +10,8 @@ function ScrollingTexture:init(imgName,screen,x,y,w,h,z)
     local imgW,imgH = spriteSize(imgName)
     local nw = w / imgW
     local nh = h / imgH
-    
-    
+
+
     self.objs = {}
     for x = 1,nw do
         for y = 1,nh do
@@ -34,7 +34,7 @@ function ScrollingTexture:copyToScreen(screen,z)
     for _,obj in ipairs(self.objs) do
         self.screen:undoDraw(obj)
         self.screen:remove(obj)
-        
+
         screen:doDraw(obj,self.imgName,z)
         obj:setRectTex(self.texOffset,self.texOffset,1,1)
     end

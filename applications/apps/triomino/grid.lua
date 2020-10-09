@@ -22,7 +22,7 @@ function TrioGrid:init(w, h, state)
 end
 
 function TrioGrid:reset()
-    self.cells = {}  
+    self.cells = {}
     for r = 1, self.h do
         for c = 1, self.w do
             self:cell(c, r, self:newCell(c, r, self.cellSize, state))

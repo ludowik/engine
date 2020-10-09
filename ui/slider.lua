@@ -16,8 +16,8 @@ end
 function Slider:computeSize()
     font(self:getFontName())
     fontSize(self:getFontSize())
-    
-    self.size.x, self.size.y = textSize(self:getLabel())    
+
+    self.size.x, self.size.y = textSize(self:getLabel())
     self.size.x = 200
 end
 
@@ -46,9 +46,9 @@ function Slider:draw()
 
     font(self:getFontName())
     fontSize(self:getFontSize())
-    
+
     fill(white)
-    
+
     textMode(CORNER)
     text(self:getLabel(), 0, 0)
 end

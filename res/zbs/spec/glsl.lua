@@ -135,9 +135,9 @@ return {
     imageAtomicIncWrap imageAtomicDecWrap imageAtomicAnd
     imageAtomicOr imageAtomixXor imageAtomicExchange
     imageCompSwap
-    
+
     memoryBarrier groupMemoryBarrier memoryBarrierAtomicCounter memoryBarrierShared memoryBarrierBuffer memoryBarrierImage
-    
+
     atomicCounterIncrement atomicCounterDecrement atomicCounter
     atomicMin atomicMax atomicAdd atomicAnd atomicOr atomicXor atomicExchange atomicCompSwap
 

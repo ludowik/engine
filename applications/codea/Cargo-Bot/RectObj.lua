@@ -9,7 +9,7 @@ function RectObj:init(x,y,w,h)
     self.h = h
     self.mode = CORNER
     self.angle = 0 -- in rads
-    
+
 end
 
 ---------------------- SETTERS -----------------------

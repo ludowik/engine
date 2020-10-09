@@ -2,14 +2,14 @@ class('Dialog', UIScene)
 
 function Dialog:init(label)
     UIScene.init(self)
-    
+
 --    self.label = label
-    
+
     self.bar = UIScene()
     self.scene = UIScene()
 
     self:add(self.bar, self.scene)
-    
+
     self.bar:add(
         Label(label),
         Button('OK', function ()
@@ -18,9 +18,9 @@ function Dialog:init(label)
             end))
 
     self.position = vec3(WIDTH/2, HEIGHT/2)
-    
+
     self.alignment = 'v-center,h-center'
-    
+
     self.bgColor = brown
 end
 
@@ -28,9 +28,9 @@ function Dialog:draw()
     resetMatrix()
 
     noStroke()
-    
-    fill(self:getBgColor())    
-    
+
+    fill(self:getBgColor())
+
     rectMode(CORNER)
     rect(
         self.absolutePosition.x,
@@ -51,7 +51,7 @@ class('ChoiceList', Dialog)
 
 function ChoiceList:init(label, list, onChoice)
     Dialog.init(self, label)
-    
+
     self.scene.list = UIScene()
     self.scene:add(self.scene.list)
 
@@ -69,5 +69,5 @@ function ChoiceList:init(label, list, onChoice)
                     function ()
                         onChoice(k, item)
                     end))
-        end)    
+        end)
 end

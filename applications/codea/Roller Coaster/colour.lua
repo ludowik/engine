@@ -45,7 +45,7 @@ The parameter is the percentage of the specified colour.
 --]]
 
 function Colour.tint(c,t)
-   local s,r,g,b,a 
+   local s,r,g,b,a
    s = t / 100
    r = s * c.r + (1 - s) * 255
    g = s * c.g + (1 - s) * 255
@@ -64,7 +64,7 @@ The parameter is the percentage of the specified colour.
 --]]
 
 function Colour.shade(c,t)
-   local s,r,g,b,a 
+   local s,r,g,b,a
    s = t / 100
    r = s * c.r
    g = s * c.g
@@ -83,7 +83,7 @@ The parameter is the percentage of the specified colour.
 --]]
 
 function Colour.tone(c,t)
-   local s,r,g,b,a 
+   local s,r,g,b,a
    s = t / 100
    r = s * c.r + (1 - s) * 127
    g = s * c.g + (1 - s) * 127

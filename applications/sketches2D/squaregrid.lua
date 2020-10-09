@@ -21,10 +21,10 @@ end
 
 function draw()
     background()
-    
+
     noStroke()
     fill(white)
-    
+
     rectMode(CENTER)
 
     translate(0, (HEIGHT-WIDTH)/2)

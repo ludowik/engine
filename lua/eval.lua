@@ -1,5 +1,5 @@
 function evalExpression(expression)
-    local src = 
+    local src =
     "__temp__ = "..expression..NL..
     "return __temp__"
     return evalCode(src)

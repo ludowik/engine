@@ -9,14 +9,14 @@
 
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
-        
+
     allTests = { Basics(), Loops(), Sequence(), Path() }
     currentTest = nil
-    
+
     parameter.integer("TestNumber", 1, #allTests, 1, setTest)
-    
+
     parameter.action("Start / Reset Animation", function() currentTest:startOrResetAnimations() end)
-    
+
     parameter.watch("currentTest.name")
 end
 
@@ -24,7 +24,7 @@ function setTest(index)
     if currentTest ~= nil then
         currentTest:cleanup()
     end
-    
+
     currentTest = allTests[index]
     currentTest:setup()
 end

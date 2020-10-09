@@ -1,9 +1,9 @@
 // "Fractal Cartoon" - former "DE edge detection" by Kali
 
-// Cartoon-like effect using eiffies's edge detection found here: 
+// Cartoon-like effect using eiffies's edge detection found here:
 // https://www.shadertoy.com/view/4ss3WB
 // I used my own method previously but was too complicated and not compiling everywhere.
-// Thanks to the suggestion by WouterVanNifterick. 
+// Thanks to the suggestion by WouterVanNifterick.
 
 // There are no lights and no AO, only color by normals and dark edges.
 
@@ -11,7 +11,7 @@
 
 
 //#define SHOWONLYEDGES
-#define NYAN 
+#define NYAN
 #define WAVES
 #define BORDER
 
@@ -75,7 +75,7 @@ vec3 path(float ti) {
 // Calc normals, and here is edge detection, set to variable "edge"
 
 float edge=0.;
-vec3 normal(vec3 p) { 
+vec3 normal(vec3 p) {
 	vec3 e = vec3(0.0,det*5.,0.0);
 
 	float d1=de(p-e.yxx),d2=de(p+e.yxx);
@@ -128,7 +128,7 @@ vec4 nyan(vec2 p)
 
 // Raymarching and 2D graphics
 
-vec3 raymarch(in vec3 from, in vec3 dir) 
+vec3 raymarch(in vec3 from, in vec3 dir)
 
 {
 	edge=0.;
@@ -140,7 +140,7 @@ vec3 raymarch(in vec3 from, in vec3 dir)
 			p=from+totdist*dir;
 			d=de(p);
 			det=detail*exp(.13*totdist);
-			totdist+=d; 
+			totdist+=d;
 		}
 	}
 	vec3 col=vec3(0.);
@@ -212,7 +212,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	dir.yz*=rot(mouse.y);
 	dir.xz*=rot(mouse.x);
 	vec3 from=origin+move(dir);
-	vec3 color=raymarch(from,dir); 
+	vec3 color=raymarch(from,dir);
 	#ifdef BORDER
 	color=mix(vec3(0.),color,pow(max(0.,.95-length(oriuv*oriuv*oriuv*vec2(1.05,1.1))),.3));
 	#endif

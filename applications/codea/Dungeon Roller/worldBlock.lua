@@ -18,12 +18,12 @@ local ll, ur = vec2(), vec2()
 function WorldBlock:isColliding(point)
     ll:set(self.actualPosition):sub(self.size, 0.5)
     ur:set(self.actualPosition):add(self.size, 0.5)
-    
+
     if point.x > ll.x and point.x < ur.x and
        point.y > ll.y and point.y < ur.y then
         return true
     end
-    
+
     return false
 end
 

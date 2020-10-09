@@ -3,10 +3,10 @@ class('UI', Object)
 function UI.setup()
     UI.bgColor = blue
     UI.textColor = white
-    
+
     UI.fontName = DEFAULT_FONT_NAME
     UI.fontSize = DEFAULT_FONT_SIZE
-    
+
     UI.marge = 5
 end
 
@@ -38,7 +38,7 @@ function UI:contains(v)
     local x = v.x - self.absolutePosition.x
     local y = v.y - self.absolutePosition.y
 
-    if (x >= 0 and x <= self.size.x and 
+    if (x >= 0 and x <= self.size.x and
         y >= 0 and y <= self.size.y) then
         return true
     end
@@ -49,7 +49,7 @@ function UI:computeSize()
     fontSize(self:getFontSize())
 
     self.size.x, self.size.y = textSize(self:getLabel())
-    
+
     self.size.x = self.size.x + UI.marge * 2
 end
 
@@ -60,7 +60,7 @@ end
 
 function UI:drawBackground()
     noStroke()
-    
+
     fill(self:getBgColor())
 
     rectMode(CORNER)
@@ -84,7 +84,7 @@ end
 function UI:touched(touch)
     if touch.state == BEGAN then
         self.bgColor = red
-        
+
     elseif touch.state == ENDED then
         self.bgColor = nil
         if self.action then

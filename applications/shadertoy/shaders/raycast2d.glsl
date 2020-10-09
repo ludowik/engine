@@ -88,8 +88,8 @@ float circleDist(vec2 p, float radius)
 
 float triangleDist(vec2 p, float radius)
 {
-	return max(	abs(p).x * 0.866025 + 
-			   	p.y * 0.5, -p.y) 
+	return max(	abs(p).x * 0.866025 +
+			   	p.y * 0.5, -p.y)
 				-radius * 0.5;
 }
 
@@ -105,7 +105,7 @@ float semiCircleDist(vec2 p, float radius, float angle, float width)
 {
 	width /= 2.0;
 	radius -= width;
-	return substract(pie(p, angle), 
+	return substract(pie(p, angle),
 					 abs(circleDist(p, radius)) - width);
 }
 
@@ -177,17 +177,17 @@ float sceneDist(vec2 p)
 	m = 		merge(m, t1);
 	m = 		merge(m, t2);
 	
-	float b3 = boxDist(		translate(p, vec2(100, sin(iTime * 3.0 + 1.0) * 40.0 + 100.0)), 
+	float b3 = boxDist(		translate(p, vec2(100, sin(iTime * 3.0 + 1.0) * 40.0 + 100.0)),
 					   		vec2(40, 15), 	0.0);
 	float c2 = circleDist(	translate(p, vec2(100, 100)),	30.0);
 	float s = substract(b3, c2);
 	
-	float b4 = boxDist(		translate(p, vec2(200, sin(iTime * 3.0 + 2.0) * 40.0 + 100.0)), 
+	float b4 = boxDist(		translate(p, vec2(200, sin(iTime * 3.0 + 2.0) * 40.0 + 100.0)),
 					   		vec2(40, 15), 	0.0);
 	float c3 = circleDist(	translate(p, vec2(200, 100)), 	30.0);
 	float i = intersect(b4, c3);
 	
-	float b5 = boxDist(		translate(p, vec2(300, sin(iTime * 3.0 + 3.0) * 40.0 + 100.0)), 
+	float b5 = boxDist(		translate(p, vec2(300, sin(iTime * 3.0 + 3.0) * 40.0 + 100.0)),
 					   		vec2(40, 15), 	0.0);
 	float c4 = circleDist(	translate(p, vec2(300, 100)), 	30.0);
 	float a = merge(b5, c4);
@@ -242,9 +242,9 @@ float shadow(vec2 p, vec2 pos, float radius)
 		float sd = sceneDist(p + dir * dt);
 
         // early out when this ray is guaranteed to be full shadow
-        if (sd < -radius) 
+        if (sd < -radius)
             return 0.0;
-        
+
 		// width of cone-overlap at light
 		// 0 in center, so 50% overlap: add one radius outside of loop to get total coverage
 		// should be '(sd / dt) * dl', but '*dl' outside of loop

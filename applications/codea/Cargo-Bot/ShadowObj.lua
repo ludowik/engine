@@ -28,12 +28,12 @@ function ShadowObj:positionShadow()
     -- get the offsets of the corners
     local ox,oy = self:shadowOffset(self.x,self.y)
     local oxw,oyh = self:shadowOffset(self.x+self.w,self.y + self.h)
-    
+
     local sx,sy = self.x+ox,self.y+oy
     local sxw = self.x + self.w + oxw
     local syh = self.y + self.h + oyh
     local sw,sh = sxw - sx + self.sizeOff.x, syh - sy + self.sizeOff.y
-    -- set the location    
+    -- set the location
     self.shadow:translate(sx - self.shadow.x, sy - self.shadow.y)
     -- set the size
     self.shadow:setSize(sw,sh)

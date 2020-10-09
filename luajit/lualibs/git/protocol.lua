@@ -79,9 +79,9 @@ local function git_fetch(host, path, repo, head, supress_progress)
 
 	for sha, ref in pairs(refs) do
 		-- we implicitly want this ref
-		local wantObject = true 
+		local wantObject = true
 		-- unless we ask for a specific head
-		if headsha then         
+		if headsha then
 			if sha ~= headsha then
 				wantObject = false
 			else

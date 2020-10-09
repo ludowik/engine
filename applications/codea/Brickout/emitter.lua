@@ -17,7 +17,7 @@ function Emitter:init(args)
     self.streak = args.streak or false
     self.streakMult = args.streakMult or 2
     self.accel = args.accel or vec2(0,0)
-    self.rAccel = args.rAccel or vec2(0,0) 
+    self.rAccel = args.rAccel or vec2(0,0)
 
     self.particles = {}
     self.pCount = 0
@@ -59,9 +59,9 @@ function Emitter:draw()
 
             p.pos = p.pos + p.vel * DeltaTime
 
-            p.vel = p.vel + (self.accel + 
-                vec2(math.random(-self.rAccel.x, 
-                        self.rAccel.x), 
+            p.vel = p.vel + (self.accel +
+                vec2(math.random(-self.rAccel.x,
+                        self.rAccel.x),
                     math.random(-self.rAccel.y,
                         self.rAccel.y)))
             * DeltaTime
@@ -71,17 +71,17 @@ function Emitter:draw()
             if p.life == 0 then p.dead = true end
             local interp = p.life / p.maxLife
 
-            p.col.r = interp * self.startColor.r + 
+            p.col.r = interp * self.startColor.r +
             (1-interp) * self.endColor.r
-            p.col.g = interp * self.startColor.g + 
+            p.col.g = interp * self.startColor.g +
             (1-interp) * self.endColor.g
-            p.col.b = interp * self.startColor.b + 
+            p.col.b = interp * self.startColor.b +
             (1-interp) * self.endColor.b
-            p.col.a = interp * self.startColor.a + 
+            p.col.a = interp * self.startColor.a +
             (1-interp) * self.endColor.a
 
-            local ind = self.particleMesh:addRect(p.pos.x, 
-                p.pos.y, 
+            local ind = self.particleMesh:addRect(p.pos.x,
+                p.pos.y,
                 p.size, p.size)
             self.particleMesh:setRectColor(ind, p.col)
 
@@ -91,7 +91,7 @@ function Emitter:draw()
                 local pos = (p.pos + p.prevPos) * 0.5
                 local ang = math.atan2(dir.y, dir.x)
 
-                self.particleMesh:setRect(ind, pos.x, pos.y, 
+                self.particleMesh:setRect(ind, pos.x, pos.y,
                     p.size * self.streakMult,
                     p.size, ang)
             end

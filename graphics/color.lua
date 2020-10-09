@@ -164,7 +164,7 @@ end
 
 function mt.__eq(clr1, clr2)
     if (clr1 and
-        clr2 and 
+        clr2 and
         clr1.r == clr2.r and
         clr1.g == clr2.g and
         clr1.b == clr2.b and
@@ -225,8 +225,9 @@ end
 mt.grayScale = mt.grayScaleLuminosity
 
 function mt.mix(clr1, clr2, dst)
+    dst = dst or 0.5
     local src = 1 - dst
-    
+
     return Color(
         max(0, clr1.r * src + clr2.r * dst),
         max(0, clr1.g * src + clr2.g * dst),
@@ -256,7 +257,7 @@ function mt.darken(clr, pct)
 end
 
 function mt.lighten(clr, pct)
-    pct = pct or 50    
+    pct = pct or 50
     local h, s, l, a = rgb2hsl(clr.r, clr.g, clr.b, clr.a)
     l = l + l * pct / 100
     return hsl(h,s,l,a)

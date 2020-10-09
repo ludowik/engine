@@ -19,9 +19,9 @@ function PackSelect:update()
         item:undraw(self)
     end
     self:removeAll()
-    
+
     -- then recreate
-    
+
     -- back arrow
     local arrow = Button(10,HEIGHT - 37,13,27)
     arrow:flipX()
@@ -32,7 +32,7 @@ function PackSelect:update()
         currentScreen = transitionScreen
         --Events.trigger("levelSelect",self,true)
     end
-    
+
     -- back
     local backSprite = "backSprite"
     local w,h = Screen.makeTextSprite(backSprite,"BACK",
@@ -41,7 +41,7 @@ function PackSelect:update()
     self:doDraw(backString,backSprite)
     backString.onEnded = arrow.onEnded
     backString:setExtras({left=20,right=20,top=20,bottom=20})
-    
+
     self.score = IO.totalScore()
 
     -- create each of the pack items
@@ -73,7 +73,7 @@ PackItem = class(Panel)
 function PackItem:init(w,h,name,score,screen)
     Panel.init(self,0,0)
     self.w,self.h = w,h
-    
+
     -- for detecting touches
     local button = Button(0,0,w,h)
     self:add(button)
@@ -89,7 +89,7 @@ function PackItem:init(w,h,name,score,screen)
     local backObj = SpriteObj(0,0,w,h)
     screen:doDraw(backObj,spr,-1)
     self:add(backObj)
-      
+
     -- add the star
     local score = IO.packScore(name)
     local starSpr = "Cargo Bot:Star Empty"
@@ -98,7 +98,7 @@ function PackItem:init(w,h,name,score,screen)
     starObj:setMode(CENTER)
     self:add(starObj)
     screen:doDraw(starObj,starSpr)
-    
+
     -- add the text at the bottom
     local txt = "Tap to Play"
     if score > 0 then txt = score .. " of 18" end

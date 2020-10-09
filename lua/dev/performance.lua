@@ -45,7 +45,7 @@ function Performance.compare(test, f1, f2, ...)
 end
 
 function Performance.test()
-    Performance.evaluate('none', 
+    Performance.evaluate('none',
         function (i)
         end)
 end

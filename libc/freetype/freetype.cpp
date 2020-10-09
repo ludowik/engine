@@ -9,7 +9,7 @@
 #ifdef _WIN32
     #define EXPORT __declspec(dllexport)
 #else
-    #define EXPORT 
+    #define EXPORT
 #endif
 
 FT_Error error;
@@ -22,14 +22,14 @@ extern "C" {
 
     EXPORT FT_Library initModule(float _dpi) {
         FT_Library library;
-        
+
         error = FT_Init_FreeType(&library);
         if (error) {
             return NULL;
         }
-        
+
         dpi = _dpi;
-            
+
         return (FT_Library)library;
     }
 
@@ -39,13 +39,13 @@ extern "C" {
 
     EXPORT FT_Face loadFont(FT_Library library, const char* font_name, int font_size) {
         FT_Face face;
-        
+
         error = FT_New_Face(library, font_name, 0 , &face);
-        
+
         if (error) {
             return NULL;
         }
-        
+
         int char_ratio = 64;
 
         FT_Set_Char_Size(
@@ -54,7 +54,7 @@ extern "C" {
           font_size * char_ratio, /* char_height in 1/64th of points */
           dpi,                    /* horizontal device resolution    */
           0);                     /* vertical device resolution      */
-          
+
         return (FT_Face)face;
     }
 
@@ -88,13 +88,13 @@ extern "C" {
         if (face == NULL || text == NULL) {
             return glyph;
         }
-        
+
         FT_GlyphSlot slot = face->glyph;
-        
+
         int H = (face->size->metrics.ascender - face->size->metrics.descender) / 64;
-        
+
         int x=0, w=0, h=0, top=0, bottom=0, dy=0;
-        
+
         int space_width = 12;
 
         size_t len = strlen(text);
@@ -107,17 +107,17 @@ extern "C" {
                 } else {
                     w += bitmap_width;
                 }
-                
+
                 top = max(top, bitmap_top);
                 bottom = max(bottom, bitmap_rows - bitmap_top);
             }
         }
-        
+
         top = max(top, abs(face->ascender) / 64);
         bottom = max(bottom, abs(face->descender) / 64);
-        
+
         h = max(top + bottom, H);
-        
+
         dy = max(0, H - (top + bottom) - 2) / 2;
 
         int size = w * h * sizeof(GLubyte) * BytesPerPixel;
@@ -173,5 +173,5 @@ extern "C" {
             free(glyph.pixels);
         }
     }
-    
+
 };

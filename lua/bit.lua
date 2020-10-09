@@ -4,7 +4,7 @@ end
 
 -- Typical call:  if hasbit(x, bit(3)) then ...
 function hasbit(x, p)
-    return x % (p + p) >= p       
+    return x % (p + p) >= p
 end
 
 function setbit(x, p)
@@ -47,7 +47,7 @@ function bitOR(a, b)
 end
 
 function bitAND(a, b)
-    local p, c = 1, 0    
+    local p, c = 1, 0
     while a > 0 and b > 0 do
         local ra , rb = a % 2 , b % 2
         if ra + rb > 1 then

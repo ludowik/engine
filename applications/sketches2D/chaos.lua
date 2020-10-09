@@ -48,7 +48,7 @@ function notPreviousOne()
     local point = previousPoint
     repeat
         randomPoint = vertices:random()
-    until randomPoint ~= point 
+    until randomPoint ~= point
     return randomPoint
 end
 
@@ -56,7 +56,7 @@ function notOnePlaceAwayFromThePreviousOne()
     local point = previousPoint.previous
     repeat
         randomPoint = vertices:random()
-    until randomPoint ~= point 
+    until randomPoint ~= point
     return randomPoint
 end
 
@@ -64,7 +64,7 @@ function notTwoPlaceAwayFromThePreviousOne()
     local point = previousPoint.previous.previous
     repeat
         randomPoint = vertices:random()
-    until randomPoint ~= point 
+    until randomPoint ~= point
     return randomPoint
 end
 

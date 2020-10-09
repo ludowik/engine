@@ -40,7 +40,7 @@ function Tree:entries()
 				object = self.repo:blob(entry.id)
 				object.mode = entry.mode
 			elseif entry.type == 'commit' then
-				-- this is possibly a commit in a submodule, 
+				-- this is possibly a commit in a submodule,
 				-- do not retrieve it from current repo
 				object = entry
 			else

@@ -216,7 +216,7 @@ function Image:reverseSurface(surface, bytesPerPixel)
     if sdl.SDL_LockSurface(surface) == 0 then
         self:reversePixels(surface.pixels, surface.w, surface.h, bytesPerPixel)
         sdl.SDL_UnlockSurface(surface)
-    end    
+    end
 end
 
 function Image:use(index)
