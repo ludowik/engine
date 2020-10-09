@@ -1,4 +1,4 @@
-coclass 'Sparrow'
+class 'Sparrow'
 
 function Sparrow:init()
     self.position = vec2.random(W, H)

@@ -1,5 +1,5 @@
 return {
     ["majorVersion"] = 4,
     ["minorVersion"] = 1,
-    ["appPath"] = "applications/apps/freeCell",
+    ["appPath"] = "applications/sketches2D/lines",
 }

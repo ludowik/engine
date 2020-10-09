@@ -1,8 +1,8 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/apps/freeCell
-release 2 fonts
-memory at init    : 1.02 mo
-memory min        : 1.02 mo
-memory max        : 7.33 mo
-memory variation  : 6.32 mo
-memory at release : 4.56 mo
+/Users/Ludo/Projets/Lua/engine
+load applications/sketches2D/lines
+release 1 fonts
+memory at init    : 1.27 mo
+memory min        : 1.27 mo
+memory max        : 14.39 mo
+memory variation  : 13.12 mo
+memory at release : 10.37 mo

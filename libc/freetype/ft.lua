@@ -77,7 +77,7 @@ function ft.loadText(face, text)
 
     local slot = face.glyph
 
-    local H = floor(tonumber(face.size.metrics.ascender - face.size.metrics.descender) / 64)
+    local H = 0; -- floor(tonumber(face.size.metrics.ascender - face.size.metrics.descender) / 64)
 
     local x, w, h, top, bottom, dy = 0, 0, 0, 0, 0, 0
 

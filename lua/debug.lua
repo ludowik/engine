@@ -1,6 +1,6 @@
 debugger = require 'luajit.lualibs.mobdebug.mobdebug'
 
-local function startDebug()
+function startDebug()
     debugger.start()
     debugger.on()
     debugger.coro()

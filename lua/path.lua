@@ -62,11 +62,10 @@ function getReadPath(path)
     if ios then
         if lfs.attributes(lfs.currentdir()..'/'..path) then
             return lfs.currentdir()..'/'..path
-            
+
         elseif lfs.attributes(love.filesystem.getSaveDirectory()..'/'..path) then
             return love.filesystem.getSaveDirectory()..'/'..path
         end
-    else
-        return path
     end
+    return path
 end

@@ -58,7 +58,7 @@ function Sdl:initialize()
                 0, 0,
                 w, h,
                 self.SDL_WINDOW_OPENGL +
---                (ios and self.SDL_WINDOW_ALLOW_HIGHDPI or 0) +
+--                self.SDL_WINDOW_ALLOW_HIGHDPI +
 --                self.SDL_WINDOW_FULLSCREEN +
 --                self.SDL_WINDOW_SHOWN +
 --                self.SDL_WINDOW_BORDERLESS +
@@ -203,16 +203,11 @@ function Sdl:event()
             mouse:mouseWheel(1, event.wheel.x, event.wheel.y)
 
         elseif event.type == sdl.SDL_MULTIGESTURE then
-            assert()
-            if event.mgesture.numFingers == 4 then
-                assert()
+            if event.mgesture.numFingers == 3 then
+                engine:managerApp()
             end
 
         elseif event.type == sdl.SDL_FINGERDOWN then
-            assert()
-            if event.mgesture.numFingers == 4 then
-                assert()
-            end
         end
     end
 end

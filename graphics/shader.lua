@@ -20,7 +20,7 @@ function Shader:create()
     }
 
     if config.glMajorVersion >= 4 then
-        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
+--        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
     end
 
     gl.glLinkProgram(self.program_id)

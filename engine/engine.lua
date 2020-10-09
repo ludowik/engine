@@ -67,7 +67,7 @@ function Engine:init()
 
     elseif ios then
         if love then
-            H, W = love.window.getMode()
+            W, H = love.window.getMode()
         else
             H = 1024
             W = math.floor(H*9/16)
@@ -172,7 +172,7 @@ function Engine:initialize()
     call('setup')
 
     if not ios then
---        self.renderFrame = Image(W, H)
+        self.renderFrame = Image(W, H)
     end
 
     self:toggleHelp()
