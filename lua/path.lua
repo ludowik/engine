@@ -47,7 +47,7 @@ function getModelPath()
 end
 
 function getFontPath(fontName, ext)
-    return 'res/font/'..fontName..'.'..(ext or 'ttf')
+    return 'res/fonts/'..fontName..'.'..(ext or 'ttf')
 end
 
 function getSavePath(path)

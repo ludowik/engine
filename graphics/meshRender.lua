@@ -241,4 +241,18 @@ function MeshRender:sendUniforms(uniformsLocations)
             gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 0)
         end
     end
+
+    if self.shader.uniforms then
+        for k,v in pairs(self.shader.uniforms) do
+            self.shader:send(k, v)
+        end
+    end
+
 end
+
+
+
+
+
+
+

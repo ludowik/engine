@@ -22,10 +22,11 @@ end
 
 function ft.loadFont(library, font_name, font_size)
     local face = ffi.new('FT_Face[1]')
-
+    
     local error = ftLib.FT_New_Face(library, ffi.string(font_name), 0 , face)
 
     if error == 1 then
+        print('Unknown font : use vera font')
         local addr = ffi.cast('const FT_Byte*', Vera_ttf:tobytes())
         error = ftLib.FT_New_Memory_Face(library,
             addr, -- first byte in memory
@@ -77,7 +78,7 @@ function ft.loadText(face, text)
 
     local slot = face.glyph
 
-    local H = 0; -- floor(tonumber(face.size.metrics.ascender - face.size.metrics.descender) / 64)
+    local H = floor(tonumber(face.size.metrics.ascender - face.size.metrics.descender) / 64)
 
     local x, w, h, top, bottom, dy = 0, 0, 0, 0, 0, 0
 

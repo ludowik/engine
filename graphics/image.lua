@@ -376,8 +376,8 @@ function Image:createColorBuffer(w, h)
     if self.colorRenderbuffer == nil then
         self.colorRenderbuffer = gl.glGenRenderbuffer()
         gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.colorRenderbuffer)
-        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_RGBA8, w, h)
-        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+        gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_RGBA, w, h)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, engine.defaultRenderBuffer or 0)
         gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, gl.GL_RENDERBUFFER, self.colorRenderbuffer)
     end
     return self.colorRenderbuffer
@@ -389,7 +389,7 @@ function Image:createDepthBuffer(w, h)
         self.depthRenderbuffer = gl.glGenRenderbuffer()
         gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, self.depthRenderbuffer)
         gl.glRenderbufferStorage(gl.GL_RENDERBUFFER, gl.GL_DEPTH_COMPONENT24, w, h)
-        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+        gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, engine.defaultRenderBuffer or 0)
         gl.glFramebufferRenderbuffer(gl.GL_FRAMEBUFFER, gl.GL_DEPTH_ATTACHMENT, gl.GL_RENDERBUFFER, self.depthRenderbuffer)
     end
     return self.depthRenderbuffer
@@ -432,6 +432,8 @@ function Image:freeSurface(surface)
 end
 
 function Image:save(imageName, ext)
+    if ios then return end
+    
     local pixels = self:readPixels()
 
     local rmask = 0x000000ff

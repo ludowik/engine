@@ -136,6 +136,13 @@ function typeof(object)
         return classnameof(object) or 'table'
 
     elseif typeof == 'cdata' then
+        if ffi.typeof(object) == __vec2 then
+            return 'vec2'
+        elseif ffi.typeof(object) == __vec3 then
+            return 'vec3'
+        elseif ffi.typeof(object) == __vec4 then
+            return 'vec4'
+        end
         return 'cdata'
 
     end

@@ -70,15 +70,13 @@ function FreeType:setFont(fontName, fontSize)
 
     self.fontRef = self.fontName..'.'..self.fontSize
 
-    self.fontPath = Path.sourcePath..'/res/fonts/'..self.fontName..'.ttf'
-    if ios then
-        self.fontPath = '/System/Library/Fonts/Cache/Arial.ttf'
-    end
+    self.fontPath = getFullPath(getFontPath(self.fontName))
 
     if not self.hFonts[self.fontRef] then
         self.hFonts[self.fontRef] = self.loadFont(self.hLib, self.fontPath, self.fontSize)
 
         if self.hFonts[self.fontRef] == ffi.NULL then
+            print('Unknown font : use default')
             return self:setFontName()
         end
     end

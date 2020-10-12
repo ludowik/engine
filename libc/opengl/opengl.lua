@@ -10,6 +10,7 @@ function OpenGL:loadProcAdresses()
 
         -- property
         'glGetString',
+        'glGetIntegerv',
         'glEnable',
         'glDisable',
         'glHint',
@@ -167,6 +168,7 @@ function OpenGL:initialize()
 
     self.intptr = ffi.new('GLint[1]')
     self.idptr  = ffi.new('GLuint[1]')
+    self.floatptr = ffi.new('GLfloat[4]')
 
     if not ios then
         -- Smooth
@@ -184,6 +186,11 @@ function OpenGL:initialize()
     -- Disable states
     self.glDisable(gl.GL_DITHER)
     self.glDisable(gl.GL_STENCIL_TEST)
+
+    function self.glGetInteger(id)
+        gl.glGetIntegerv(id, self.intptr)
+        return self.intptr[0]
+    end
 
     function self.glShaderSource(id, code)
         local s = ffi.new('const GLchar*[1]', {code})
@@ -283,6 +290,37 @@ function OpenGL:initialize()
             return ffi.string(str)
         end
         return nil
+    end
+
+    function gl.glUniform1fv(location, count, data)
+        self.floatptr[0] = data
+        gl.defs.glUniform1fv(location, count, self.floatptr)
+    end
+
+--    function gl.glUniform2fv(location, count, data1, data2)
+--        self.floatptr[0] = data1
+--        self.floatptr[1] = data2
+--        gl.defs.glUniform2fv(location, count, self.floatptr)
+--    end
+
+--    function gl.glUniform3fv(location, count, data1, data2, data3)
+--        self.floatptr[0] = data1
+--        self.floatptr[1] = data2
+--        self.floatptr[2] = data3
+--        gl.defs.glUniform3fv(location, count, self.floatptr)
+--    end
+
+--    function gl.glUniform4fv(location, count, data1, data2, data3, data4)
+--        self.floatptr[0] = data1
+--        self.floatptr[1] = data2
+--        self.floatptr[2] = data3
+--        self.floatptr[3] = data4
+--        gl.defs.glUniform4fv(location, count, self.floatptr)
+--    end
+
+    function gl.glUniform1iv(location, count, data)
+        self.intptr[0] = data
+        gl.defs.glUniform1iv(location, count, self.intptr)
     end
 
     background(black)

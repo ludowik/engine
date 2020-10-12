@@ -42,7 +42,7 @@ decorate('assert',
 
 function warning(test, ...)
     if not test then
-        warn(getFunctionLocation(...))
+        print(getFunctionLocation(...))
     end
 end
 

@@ -1,10 +1,12 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/main
-load applications/appManager
-load applications/sketches2D/mandelbrot
-release 1 fonts
-memory at init    : 1.02 mo
-memory min        : 1.02 mo
-memory max        : 7.73 mo
-memory variation  : 6.71 mo
-memory at release : 6.14 mo
+/Users/Ludo/Projets/Lua/engine
+load applications/shadertoy
+applications/shadertoy
+26
+applications/shadertoy/shaders/androgynous bolt.frag
+send iResolution = vec3{x=87, y=49, z=1}
+send iTime = 0
+send iTimeDelta = 0
+./graphics/shader.lua:255: androgynous bolt.frag : unknown uniform 'iTimeDelta' send
+send iMouse = vec4{x=0, y=0, z=0, w=1}
+send iFrameRate = 60
+send iChannel0 = 0

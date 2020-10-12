@@ -164,14 +164,15 @@ function Engine:initEvents()
 end
 
 function Engine:initialize()
+    DeltaTime = 0
+    ElapsedTime = 0
+    
     self.components:initialize()
     self.frameTime:init()
 
     call('setup')
 
-    if not ios then
-        self.renderFrame = Image(W, H)
-    end
+    self.renderFrame = Image(W, H)
 
     self:toggleHelp()
 
@@ -182,6 +183,8 @@ function Engine:initialize()
     end
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
+    
+    Context.noContext()
 end
 
 function Engine:release()
@@ -221,6 +224,9 @@ function Engine:run(appPath)
 end
 
 function Engine:frame(forceDraw)
+    engine.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
+    engine.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
+
     sdl:event()
 
     self.frameTime:update()
@@ -310,12 +316,14 @@ function Engine:update(dt)
 end
 
 function Engine:draw()
+    background(red)
+
     render(self.renderFrame, function ()
             self.app:__draw()
-            
+
             resetMatrix(true)
             resetStyle(NORMAL, false, false)
-            
+
             if reporting then
                 reporting:draw()
             end
@@ -345,9 +353,9 @@ function Engine:postRender(x, y, w, h)
         do
             resetMatrix(true)
             resetStyle(NORMAL, false, false)
-            
+
             Context.noContext()
-            
+
             background(Color(0, 0, 0, 1))
 
             self.renderFrame:draw(
@@ -432,13 +440,20 @@ function Engine:touched(touch)
 
     if touch.state == ENDED then
         if touch.x < 0 then
-            engine.infoHide = not engine.infoHide
+            if touch.y > H / 2 then
+                engine.infoHide = not engine.infoHide
+            else
+                ffi.C.exit(0)
+            end
+
         elseif touch.x > W then
             if touch.y > H * 2 / 3 then
                 engine:nextApp()
+
             elseif touch.y > H * 1 / 3 then
                 engine:previousApp()
-            elseif touch.y > H * 0 / 3 then
+
+            else
                 engine:loopApp()
             end            
         end

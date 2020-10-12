@@ -200,47 +200,46 @@ function Shader:pushToShader(object, array, i)
 end
 
 function Shader:send(k, v)
-    local uid = self.uniformLocations[k]
+    print('send '..k..' = '..tostring(v))
+    
+    local uid = self.uniformsLocations[k]
     if uid == nil then
-        self.uniformLocations[k] = gl.glGetUniformLocation(self.ids.program, k)
-        uid = self.uniformLocations[k]
+        self.uniformsLocations[k] = gl.glGetUniformLocation(self.program_id, k)
+        uid = self.uniformsLocations[k]
     end
 
     if uid ~= -1 then
-        local utype = self.uniformTypes[k]
+        uid = uid.uniformLocation
+        
+        local utype = self.uniformsTypes[k]
         if utype == nil then
-            self.uniformTypes[k] = typeof(v)
-            utype = self.uniformTypes[k]
+            self.uniformsTypes[k] = typeof(v)
+            utype = self.uniformsTypes[k]
         end
 
         if utype == 'number' then
-            if self.uniformGlslTypes[k] == gl.GL_INT then
+            if self.uniformsGlslTypes[k] == gl.GL_INT then
                 gl.glUniform1i(uid, v)
-            elseif self.uniformGlslTypes[k] == gl.GL_SAMPLER_2D then
+            elseif self.uniformsGlslTypes[k] == gl.GL_SAMPLER_2D then
                 gl.glUniform1i(uid, v)
             else
                 gl.glUniform1fv(uid, 1, v)
             end
 
         elseif utype == 'vec2' then
-            gl.glUniform2fv(uid, 1, v.x, v.y)
+            gl.glUniform2fv(uid, 1, v:tobytes())
 
         elseif utype == 'vec3' then
-            gl.glUniform3fv(uid, 1, v.x, v.y, v.z)
+            gl.glUniform3fv(uid, 1, v:tobytes())
 
         elseif utype == 'vec4' then
-            gl.glUniform4fv(uid, 1, v.x, v.y, v.z, v.w)
+            gl.glUniform4fv(uid, 1, v:tobytes())
 
         elseif utype == 'color' then
-            gl.glUniform4fv(uid, 1, v.r, v.g, v.b, v.a)
+            gl.glUniform4fv(uid, 1, v:tobytes())
 
         elseif utype == 'matrix' or utype == 'cdata' then
-            if matrix == glm_matrix then
-                assert()
-                gl.glUniformMatrix4fv(uid, 1, gl.GL_FALSE, v)
-            else
-                gl.glUniformMatrix4fv(uid, 1, gl.GL_TRUE, v)
-            end
+            gl.glUniformMatrix4fv(uid, 1, gl.GL_TRUE, v:tobytes())
 
         elseif utype == 'boolean' then
             if v == true then
@@ -259,6 +258,8 @@ end
 
 function Shader:initUniforms()
     self.uniformsLocations = {}
+    self.uniformsGlslTypes = {}
+    self.uniformsTypes = {}
 
     local uniformName = ffi.new('char[64]')
 
@@ -279,5 +280,6 @@ function Shader:initUniforms()
         self.uniformsLocations[ffi.string(uniformName)] = {
             uniformLocation = gl.glGetUniformLocation(self.program_id, uniformName)
         }
+        self.uniformsGlslTypes[ffi.string(uniformName)] = type_ptr[0]
     end
 end

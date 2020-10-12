@@ -185,6 +185,23 @@ typedef intptr_t GLsizeiptr;
 #define GL_FRAMEBUFFER 0x8D40
 #define GL_RENDERBUFFER 0x8D41
 
+#define GL_RENDERBUFFER_ALPHA_SIZE 0x8D53
+#define GL_RENDERBUFFER_BINDING 0x8CA7
+#define GL_RENDERBUFFER_BLUE_SIZE 0x8D52
+#define GL_RENDERBUFFER_DEPTH_SIZE 0x8D54
+#define GL_RENDERBUFFER_FREE_MEMORY_ATI 0x87FD
+#define GL_RENDERBUFFER_GREEN_SIZE 0x8D51
+#define GL_RENDERBUFFER_HEIGHT 0x8D43
+#define GL_RENDERBUFFER_INTERNAL_FORMAT 0x8D44
+#define GL_RENDERBUFFER_RED_SIZE 0x8D50
+#define GL_RENDERBUFFER_SAMPLES 0x8CAB
+#define GL_RENDERBUFFER_STENCIL_SIZE 0x8D55
+#define GL_RENDERBUFFER_WIDTH 0x8D42
+
+#define GL_FRAMEBUFFER_BINDING 0x8CA6
+#define GL_FRAMEBUFFER_COMPLETE 0x8CD5
+#define GL_FRAMEBUFFER_DEFAULT 0x8218
+
 #define GL_DEPTH_COMPONENT16 0x81A5
 #define GL_DEPTH_COMPONENT24 0x81A6
 #define GL_DEPTH_COMPONENT32 0x81A7
@@ -202,13 +219,13 @@ typedef intptr_t GLsizeiptr;
 #define GL_COLOR_ATTACHMENT8 0x8CE8
 #define GL_COLOR_ATTACHMENT9 0x8CE9
 
-#define GL_FRAMEBUFFER_COMPLETE 0x8CD5
-
 #define GL_SCISSOR_TEST 0x0C11
 
 GLenum glGetError(void);
 
 const GLubyte* glGetString(GLenum name);
+
+void glGetIntegerv(GLenum pname, GLint *params);
 
 void glEnable(GLenum cap);
 void glDisable(GLenum cap);
@@ -331,7 +348,10 @@ void glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const GLvo
 void glScissor(GLint x, GLint y, GLsizei width, GLsizei height);
 
 typedef GLenum (*PFN_glGetError)(void);
+
 typedef const GLubyte *(*PFN_glGetString)(GLenum name);
+
+typedef void (*PFN_glGetIntegerv)(GLenum pname, GLint *params);
 
 typedef void (*PFN_glEnable)(GLenum cap);
 typedef void (*PFN_glDisable)(GLenum cap);

@@ -6,8 +6,6 @@ function render(context, f)
         resetMatrix(true)
         resetStyle()
 
---        ortho()
-
         if context then
             setContext(context)
         end

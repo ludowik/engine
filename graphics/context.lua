@@ -42,9 +42,10 @@ function Context.setContext(context)
         end
 
         background(transparent)
+        
+    else
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, context.framebufferName)
     end
-
-    gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, context.framebufferName)
 
     Context.viewport(0, 0, context.width, context.height)
 
@@ -59,8 +60,6 @@ function Context.closeCurrentContext()
 end
 
 function Context.resetContext()
---    Context.setContext(engine.renderFrame)
-
     if engine.renderFrame then
         Context.setContext(engine.renderFrame)
     else
@@ -68,11 +67,11 @@ function Context.resetContext()
     end
 end
 
-function Context.noContext()
+function Context.noContext(id)
     Context.closeCurrentContext()
 
-    gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
-    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, 0)
+    gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, engine.defaultFrameBuffer or 0)
+    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, engine.defaultRenderBuffer or 0)
 
     Context.viewport(0, 0, screen.w, screen.h, config.highDPI)
 
