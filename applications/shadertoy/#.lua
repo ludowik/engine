@@ -1,0 +1,2 @@
+requireLib('app',
+    'shader')
