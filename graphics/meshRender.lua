@@ -247,12 +247,4 @@ function MeshRender:sendUniforms(uniformsLocations)
             self.shader:send(k, v)
         end
     end
-
 end
-
-
-
-
-
-
-

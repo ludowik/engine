@@ -30,6 +30,10 @@ function Mouse:__tostring()
     return self.x..', '..self.y..' ('..(self.isTouch and 'true' or 'false')..')'
 end
 
+function Mouse:unpack()
+    return self.x, self.y
+end
+
 function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
     mouse.id = id
 

@@ -1,12 +1,36 @@
-/Users/Ludo/Projets/Lua/engine
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 load applications/shadertoy
 applications/shadertoy
 26
 applications/shadertoy/shaders/androgynous bolt.frag
-send iResolution = vec3{x=87, y=49, z=1}
-send iTime = 0
-send iTimeDelta = 0
-./graphics/shader.lua:255: androgynous bolt.frag : unknown uniform 'iTimeDelta' send
-send iMouse = vec4{x=0, y=0, z=0, w=1}
-send iFrameRate = 60
-send iChannel0 = 0
+applications/shadertoy/shaders/balls.glsl
+applications/shadertoy/shaders/brush.glsl
+applications/shadertoy/shaders/carting.glsl
+applications/shadertoy/shaders/cubescape.frag
+applications/shadertoy/shaders/dancing metalights.frag
+applications/shadertoy/shaders/fansy.glsl
+applications/shadertoy/shaders/fires.glsl
+applications/shadertoy/shaders/flame.frag
+applications/shadertoy/shaders/mario.glsl
+applications/shadertoy/shaders/pegasus.frag
+applications/shadertoy/shaders/raycast2d.glsl
+applications/shadertoy/shaders/sand.glsl
+applications/shadertoy/shaders/sandbox.fragment
+applications/shadertoy/shaders/sea.glsl
+applications/shadertoy/shaders/silexars.frag
+applications/shadertoy/shaders/space.glsl
+applications/shadertoy/shaders/train.glsl
+applications/shadertoy/shaders/tube.glsl
+applications/shadertoy/shaders/tutorial1.frag
+applications/shadertoy/shaders/tutorial2.frag
+applications/shadertoy/shaders/tutorial3.frag
+applications/shadertoy/shaders/tutorial4.frag
+applications/shadertoy/shaders/tutorial5.frag
+applications/shadertoy/shaders/tutorial6.frag
+applications/shadertoy/shaders/tutorial7.frag
+release 2 fonts
+memory at init    : 1.02 mo
+memory min        : 1.02 mo
+memory max        : 37.81 mo
+memory variation  : 36.79 mo
+memory at release : 34.95 mo

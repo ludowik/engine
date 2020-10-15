@@ -12,8 +12,8 @@ function Mesh:clear(vertices, colors)
     self.normals = Buffer('vec3')
 end
 
-function Mesh:draw()
-    self:render(self.shader or shaders['default'], gl.GL_TRIANGLES)
+function Mesh:draw(img, x, y, z, w, h, d)
+    self:render(self.shader or shaders['default'], gl.GL_TRIANGLES, img, x, y, z, w, h, d)
 end
 
 function Mesh:normalize(norm)

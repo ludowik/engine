@@ -32,20 +32,28 @@ function ShaderToy:init(name, path, header, code, ender)
     self.source = header..code..ender
 
     Shader.init(self, name, appPath..'/shaders')
+    -- TODEL
 --    ,
 --        {'include.vertex', 'default.vertex'},
 --        {'include.fragment', header, self.shaderFilePath, ender})
 
-    self.uniforms = {}
-
-    self.uniforms.iTime = 0
-    self.uniforms.iMouse = vec4()
+    self.uniforms = {
+        iResolution = vec2(),
+        
+        iTime = 0,
+        iTimeDelta = 0,
+        
+        iFrame = 0,
+        iFrameRate = 60,
+        
+        iMouse = vec4()
+    }
 end
 
 function ShaderToy:create()
     self.program_id = gl.glCreateProgram()
 
-    self.ids = {
+    self.ids = {        
         vertex = self:compile(gl.GL_VERTEX_SHADER, [[
                 attribute vec3 vertex;
                 attribute vec2 texCoords;
@@ -60,9 +68,11 @@ function ShaderToy:create()
                 out vec2 vTexCoords;
 
                 void main() {
-                    gl_Position = matrixPV * matrixModel * vec4(vertex.xyz, 1.);
+                    vec3 vertexPosition = vertex * size + pos;
+                
+                    gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
 
-                    vPosition = vertex;
+                    vPosition = vertexPosition;
                     vTexCoords = texCoords;
                 }
             ]], 'vertex'),

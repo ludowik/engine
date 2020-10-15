@@ -167,11 +167,11 @@ function spriteMode(mode)
 end
 
 function font(name)
-    return styles:setAttribute('fontName', ft:setFontName(name))
+    return styles:setAttribute('fontName', ft:setFontName(name or styles:setAttribute('fontName')))
 end
 
 function fontSize(size)
-    return styles:setAttribute('fontSize', ft:setFontSize(size))
+    return styles:setAttribute('fontSize', ft:setFontSize(size or styles:setAttribute('fontSize')))
 end
 
 function textMode(mode)

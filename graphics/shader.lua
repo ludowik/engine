@@ -20,6 +20,7 @@ function Shader:create()
     }
 
     if config.glMajorVersion >= 4 then
+        -- TODEL ?
 --        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
     end
 
@@ -36,8 +37,9 @@ function Shader:create()
 end
 
 function Shader:update()
-    self:release()
-    self:create()
+    -- TODO : update if file is newer than last compile time
+--    self:release()
+--    self:create()
 end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
@@ -56,13 +58,14 @@ function Shader:compile(shaderType, source, path)
 
     if ios then
         include = include..(
-            'precision highp float;'..NL..
-            '#define VERSION '..gl:getGlslVersion()..NL
+            '#define VERSION '..gl:getGlslVersion()..NL..
+            'precision highp float;'..NL            
         )
     else
         include = include..(
             '#version '..gl:getGlslVersion()..NL..
-            '#define VERSION '..gl:getGlslVersion()..NL
+            '#define VERSION '..gl:getGlslVersion()..NL..            
+            'precision highp float;'..NL
         )
     end
 
@@ -79,32 +82,32 @@ function Shader:compile(shaderType, source, path)
     )
 
     include = include..[[
-            #if VERSION >= 300
-                #define gl_FragColor fragColor
-                out vec4 fragColor;
+        #if VERSION >= 300
+            #define gl_FragColor fragColor
+            out vec4 fragColor;
 
-                #define attribute in
+            #define attribute in
 
-                #define texture2D texture
-            #else
-                #define in  varying
-                #define out varying
-            #endif
+            #define texture2D texture
+        #else
+            #define in  varying
+            #define out varying
+        #endif
 
-            vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
-            vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
+        vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
+        vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
 
-            vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
-            vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
-            vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
+        vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
+        vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
+        vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
 
-            vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+        vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
 
-            #line 1
+        #line 1
         ]]
 
     source = include..source
-
+    
     local shader_id = gl.glCreateShader(shaderType)
     assert(shader_id > 0)
 
@@ -200,7 +203,7 @@ function Shader:pushToShader(object, array, i)
 end
 
 function Shader:send(k, v)
-    print('send '..k..' = '..tostring(v))
+    log('send '..k..' = '..tostring(v))
     
     local uid = self.uniformsLocations[k]
     if uid == nil then
@@ -223,7 +226,7 @@ function Shader:send(k, v)
             elseif self.uniformsGlslTypes[k] == gl.GL_SAMPLER_2D then
                 gl.glUniform1i(uid, v)
             else
-                gl.glUniform1fv(uid, 1, v)
+                gl.glUniform1f(uid, v)
             end
 
         elseif utype == 'vec2' then
@@ -252,7 +255,7 @@ function Shader:send(k, v)
             assert(false, "shader : unmanaged type "..utype.." for "..k)
         end
     else
-        warning(false, self.name.." : unknown uniform '"..k.."'")
+        log(self.name.." : unknown uniform '"..k.."'")
     end
 end
 

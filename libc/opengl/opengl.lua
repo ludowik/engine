@@ -292,37 +292,6 @@ function OpenGL:initialize()
         return nil
     end
 
-    function gl.glUniform1fv(location, count, data)
-        self.floatptr[0] = data
-        gl.defs.glUniform1fv(location, count, self.floatptr)
-    end
-
---    function gl.glUniform2fv(location, count, data1, data2)
---        self.floatptr[0] = data1
---        self.floatptr[1] = data2
---        gl.defs.glUniform2fv(location, count, self.floatptr)
---    end
-
---    function gl.glUniform3fv(location, count, data1, data2, data3)
---        self.floatptr[0] = data1
---        self.floatptr[1] = data2
---        self.floatptr[2] = data3
---        gl.defs.glUniform3fv(location, count, self.floatptr)
---    end
-
---    function gl.glUniform4fv(location, count, data1, data2, data3, data4)
---        self.floatptr[0] = data1
---        self.floatptr[1] = data2
---        self.floatptr[2] = data3
---        self.floatptr[3] = data4
---        gl.defs.glUniform4fv(location, count, self.floatptr)
---    end
-
-    function gl.glUniform1iv(location, count, data)
-        self.intptr[0] = data
-        gl.defs.glUniform1iv(location, count, self.intptr)
-    end
-
     background(black)
     sdl.SDL_GL_SwapWindow(sdl.window)
     background(black)

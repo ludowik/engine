@@ -1,4 +1,4 @@
-debugger = require 'luajit.lualibs.mobdebug.mobdebug'
+debugger = package.loaded['mobdebug'] or require 'luajit.lualibs.mobdebug.mobdebug'
 
 function startDebug()
     debugger.start()
@@ -9,9 +9,7 @@ function startDebug()
 end
 
 if arg[#arg] == '-debug' then
-    if not windows or love then
-        startDebug()
-    end
+    startDebug()
 end
 
 function debugging()

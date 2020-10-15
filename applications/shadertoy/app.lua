@@ -2,20 +2,25 @@ appPath = 'applications/shadertoy'
 
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
-    
+
     shaders = Table()
 
-    minSize = vec2(16, 9):normalizeInPlace( 100):round()
-    maxSize = vec2(16, 9):normalizeInPlace(1280):round()
-
-    mesh = Model.rect(0, 0, maxSize.x, maxSize.y)
-
---    app.coroutine = coroutine.create(
---        function (dt)
---            loadShaders(true)
---        end)
+    local wmin = ws(1,16)
+    local wmax = ws(1,2)
     
-    loadShaders(true)
+    minSize = vec2(wmin, wmin*9/16):round()
+    maxSize = vec2(wmax, wmax*9/16):round()
+
+    mesh = Model.rect()
+
+    if not debugging() then
+        app.coroutine = coroutine.create(
+            function (dt)
+                loadShaders(true)
+            end)
+    else
+        loadShaders(true)
+    end
 end
 
 function suspend()
@@ -54,8 +59,9 @@ end
 function drawShader(shader, ui)
     setContext(ui.canvas)
     do
+        -- TODEL
 --        translate(ui.size.x/2, ui.size.y/2)
-        
+
         depthMode(false)
 
         mesh.shader = shader
@@ -67,8 +73,11 @@ function drawShader(shader, ui)
 
         shader.uniforms.iTime = shader.uniforms.iTime + DeltaTime
         shader.uniforms.iTimeDelta = DeltaTime
+        
+        shader.uniforms.iFrame = shader.uniforms.iFrame + 1
+        shader.uniforms.iFrameRate = 60
 
-        if false and Rect.contains(ui, mouse) then
+        if Rect.contains(ui, mouse) then
             local x, y = mouse:unpack()
 
             x = x - shader.ui.absolutePosition.x
@@ -83,14 +92,12 @@ function drawShader(shader, ui)
             end
         end
 
-        shader.uniforms.iFrameRate = 60
-
         for k,v in pairs(shaderChannel) do
             shader.texture = shaderChannel[0]
             shader.uniforms.iChannel0 = 0
         end
 
-        mesh:draw()
+        mesh:draw(nil, 0, 0, 0, ui.size.x, ui.size.y, 1)
     end
     setContext()
 end
@@ -136,8 +143,12 @@ function draw()
         rect(x, y - size.y, size.x, size.y)
 
         if not shader.active then
+            fill( red)
+            
+            fontSize(8)
+            
             textMode(CENTER)
-            text(shader.name, x+size.x/2, y-size.y/2)
+            text(shader.name, x+size.x/2, y-size.y-fontSize()/2)
         end
 
         shader.ui.position = vec2(x, y - size.y)
@@ -146,16 +157,18 @@ function draw()
         x = x + size.x
         if x + size.x > WIDTH  then
             x = 0
-            y = y - size.y
+            y = y - size.y - fontSize()
         end
     end
 
     x = 0
-    y = y - minSize.y
+    y = y - minSize.y - fontSize()
 
     if currentActiveShader then
         local size = currentActiveShader.zoom.size
-        currentActiveShader.zoom.canvas:draw(x, y - size.y)
+        
+        spriteMode(CENTER)
+        sprite(currentActiveShader.zoom.canvas, W/2, y-y/2)
     end
 end
 

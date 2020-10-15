@@ -1703,5 +1703,6 @@ mobdebug.output = output
 mobdebug.onexit = os and os.exit or done
 mobdebug.onscratch = nil -- callback
 mobdebug.basedir = function(b) if b then basedir = b end return basedir end
+mobdebug.isrunning = isrunning
 
 return mobdebug
