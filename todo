@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-libc/box2d/body.lua:126: vérifier comment est implémenté cette fonction dans codea
-libc/box2d/box2d.lua:1: optim : utiliser des tableaux d'action
-libc/box2d/box2d.lua:47: : vérifier ce que contient Gravity dans codea
-libc/box2d/box2d.c:448: which position
-lua/log.lua:42: : ')
-lua/table.lua:386: a refactorer et tester
-applications/demo/particles/#.lua:5: : Paramétrer couleur et durée de vie
-applications/demo/particles/#.lua:6: : Spliner les paths
-applications/apps/tetris/main.lua:3: : game over
-=======
->>>>>>> ad3e4cf63c12b12432c6b1eb09bf0f81c712b9da
 applications/apps/bbtan/#.lua:7: : Détecter la perte d'un bonus
 applications/apps/bbtan/#.lua:8: : Gérer la fin de partie
 applications/apps/bbtan/#.lua:9: : Animer le regroupement des balles
@@ -19,11 +7,58 @@ applications/demo/particles/#.lua:5: : Paramétrer couleur et durée de vie
 applications/demo/particles/#.lua:6: : Spliner les paths
 graphics/meshRender.lua:140: gérer les indices
 graphics/meshRender.lua:155: gérer le multi-instances
-graphics/style.lua:240: : exploiter l'orientation pour la création et la mise à jour de la fenêtre
+graphics/shader.lua:40: : update if file is newer than last compile time
+graphics/style.lua:242: : exploiter l'orientation pour la création et la mise à jour de la fenêtre
 libc/box2d/body.lua:126: vérifier comment est implémenté cette fonction dans codea
-libc/box2d/box2d.c:448: which position
+libc/box2d/box2d.cpp:449: which position
 libc/box2d/box2d.lua:1: optim : utiliser des tableaux d'action
 libc/box2d/box2d.lua:47: : vérifier ce que contient Gravity dans codea
-lua/table.lua:386: a refactorer et tester
+lua/#.lua:2: : mettre dans fs
+lua/fs.lua:3: : fs.
+lua/table.lua:387: a refactorer et tester
+luajit/lualibs/copas/copas.lua:139:  do a binary search
+luajit/lualibs/dist/depends.lua:233:  refactor this spaghetti code!
+luajit/lualibs/dist/depends.lua:551:  why not to use 'installed' instead of 'tmp_installed'?
+luajit/lualibs/dist/depends.lua:737:  Won't it be better to add OS-specific 'satisfied_by' metadata in a format like OS-specific 'depends' ?
+luajit/lualibs/dist/init.lua:49:  use 'deploy_dir' argument in manifest functions
+luajit/lualibs/dist/init.lua:79:  Is it good that dep_manifest is deploy_dir-specific?
+luajit/lualibs/dist/init.lua:313:  Is it good that dep_manifest is deploy_dir-specific?
+luajit/lualibs/dist/sys.lua:49:  This seems like a not very nice hack. Why is it needed?
+luajit/lualibs/git/protocol.lua:164:  refactor common code
+luajit/lualibs/lexers/html.lua:24:  performance is terrible on large files.
+luajit/lualibs/lexers/lilypond.lua:3: Embed Scheme; Notes?, Numbers?
+luajit/lualibs/lexers/lilypond.lua:16:  block comment.
+luajit/lualibs/lexers/markdown.lua:106:  l.WHITESPACE causes errors
+luajit/lualibs/lexers/php.lua:30:  interpolated code.
+luajit/lualibs/lexers/python.lua:21:  raw_strs cannot end in single \.
+luajit/lualibs/lexers/rest.lua:38:  '•‣⁃', as lpeg does not support UTF-8
+luajit/lualibs/lexers/ruby.lua:52:  regex_str fails with `obj.method /patt/` syntax.
+luajit/lualibs/lexers/ruby.lua:66:  meta, control, etc. for numeric_literal.
+luajit/lualibs/luacheck/runner.lua:122:  get rid of this, adjust fs.extract_files to avoid leading `./` instead.
+luajit/lualibs/luacheck/runner.lua:329:  make it preserve them?
+luajit/lualibs/luadist.lua:176:  should be deleting the dep_manifest decoupled from refreshing the repository info?
+luajit/lualibs/luainspect/init.lua:600:  handle values with possibly any number of return values, like f()
+luajit/lualibs/luainspect/init.lua:1135: improve?
+luajit/lualibs/luainspect/init.lua:1153:  rename definedglobal to definedfield for clarity
+luajit/lualibs/luainspect/signatures.lua:380: IMPROVE
+luajit/lualibs/metalua/compiler/parser/annot/grammar.lua:41: check lineinfo
+luajit/lualibs/metalua/compiler/parser/annot/grammar.lua:99:  add parsers for statements:
+luajit/lualibs/metalua/compiler/parser/expr.lua:36: move to ext?
+luajit/lualibs/metalua/compiler/parser/expr.lua:37: move to annot
+luajit/lualibs/metalua/compiler/parser/expr.lua:60: lineinfo?
+luajit/lualibs/metalua/compiler/parser/expr.lua:77: move to annot
+luajit/lualibs/metalua/compiler/parser/ext.lua:41: support boolean litterals
+luajit/lualibs/metalua/compiler/parser/ext.lua:77:  no protection against side-effects in LHS vars.
+luajit/lualibs/metalua/compiler/parser/meta.lua:36:  that's not part of the parser
+luajit/lualibs/metalua/compiler/parser/meta.lua:38:  should there be one mlc per splice, or per parser instance?
+luajit/lualibs/metalua/compiler/parser/meta.lua:97: FIXME running a new parser with the old lexer?!
+luajit/lualibs/metalua/compiler/parser/misc.lua:42:  replace splice-aware versions with naive ones, move etensions in ./meta
+luajit/lualibs/metalua/compiler/parser/stat.lua:200:  refactor annotations
+luajit/lualibs/metalua/compiler/parser/table.lua:74: beware, stat and expr use only table.content, this can't be patched.
+luajit/lualibs/metalua/grammar/generator.lua:303:  warn that initial keyword `keyword` is overloaded in multiseq
+luajit/lualibs/metalua/grammar/generator.lua:319:  warn that we try to delete a non-existent entry
+luajit/lualibs/metalua/grammar/lexer.lua:37:  change number parser into something loclae-independent,
+luajit/lualibs/metalua/grammar/lexer.lua:340: quadratic, BAD!
+luajit/lualibs/metalua/grammar/lexer.lua:362:  handle final_short_comment
+luajit/lualibs/metalua/grammar/lexer.lua:517:  is this used anywhere? I think not. a.lineinfo.last may be nil.
 sound/sound.lua:173:  Can also be DATA followed by a base64 string encoding the parameters which is generated by Codea based on the sound picker panel properties and should not be edited'
-ui.proxy/#.lua:3: TODEL

@@ -1,4 +1,4 @@
-class('Asteroid', MeshObject)
+class 'Asteroid' : extends(MeshObject)
 
 function Asteroid:init(asteroid, part)
     MeshObject.init(self)

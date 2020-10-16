@@ -56,7 +56,7 @@ end
 function Shader:compile(shaderType, source, path)
     local include = ''
 
-    if ios then
+    if gles then
         include = include..(
             '#define VERSION '..gl:getGlslVersion()..NL..
             'precision highp float;'..NL            
@@ -83,15 +83,19 @@ function Shader:compile(shaderType, source, path)
 
     include = include..[[
         #if VERSION >= 300
-            #define gl_FragColor fragColor
-            out vec4 fragColor;
-
             #define attribute in
 
             #define texture2D texture
+            
+            #define gl_FragColor fragColor
+            out vec4 fragColor;
         #else
             #define in  varying
             #define out varying
+            
+            #define texture texture2D
+            
+            #define fragColor gl_FragColor
         #endif
 
         vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
@@ -104,7 +108,7 @@ function Shader:compile(shaderType, source, path)
         vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
 
         #line 1
-        ]]
+    ]]
 
     source = include..source
     
@@ -115,7 +119,7 @@ function Shader:compile(shaderType, source, path)
     gl.glCompileShader(shader_id)
 
     local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
-    if status == gl.GL_FALSE then
+    if status == gl.GL_FALSE then        
         local errors = gl.glGetShaderInfoLog(shader_id)
         errors = errors:gsub(':(%d*):',
             function (line)

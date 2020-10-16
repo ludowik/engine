@@ -3,18 +3,23 @@ function scanTODO()
 
     local list = dirFiles(Path.sourcePath, true)
     for i,file in ipairs(list) do
+        
         local content = fs.read(file)
         if content then
+            
             local lines = content:split(NL)
             if lines then
                 for iline,line in ipairs(lines) do
                     local i,j,v = line:find("TODO[ :](.*)")
                     if i then
-                        todoList:insert(file..':'..iline..': '..v)
+                        local ref = file:gsub(Path.sourcePath..'/', '')
+                        todoList:insert(ref..':'..iline..': '..v)
                     end
                 end
             end
+            
         end
+        
     end
 
     local todoText = todoList:concat(NL)

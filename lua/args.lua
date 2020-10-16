@@ -1,4 +1,4 @@
-class('args')
+class 'args'
 
 function args:init(...)
     self.args = {...}

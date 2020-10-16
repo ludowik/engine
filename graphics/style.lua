@@ -242,16 +242,17 @@ function supportedOrientations(mode)
     -- TODO : exploiter l'orientation pour la création et la mise à jour de la fenêtre
     if mode then
         if not bitAND(mode, LANDSCAPE_ANY) then
-            config.orientation = 'portrait'
+            config.orientation = 'portrait'            
+            engine:portrait()
         end
         if not bitAND(mode, PORTRAIT_ANY) then
             config.orientation = 'landscape'
+            engine:landscape()
         end
     end
     return styles:setAttribute('supportedOrientations', mode)
 end
 
--- TODO
-function displayMode()
-    functionNotImplemented()
+function displayMode(mode)
+    assert(mode)
 end

@@ -73,23 +73,13 @@ end
 
 -- TODO : duplicate with io.read
 function fs.read(path)
-    local file = io.open(getReadPath(path), 'r')
-    if file then
-        local content = file:read('*all')
-        file:close()
-        return content
-    end
+    return io.read(getSavePath(path))
 end
 
 function fs.write(path, content, mode)
-    local file = io.open(getSavePath(path), mode or 'w')
-    if file then
-        file:write(content)
-        file:close()
-    end
+    return io.write(getSavePath(path), content, mode)
 end
 
--- TODO
 function save(path, content, mode)
     return fs.write(path, content, mode)
 end
