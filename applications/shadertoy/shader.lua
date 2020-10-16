@@ -18,6 +18,8 @@ local defaultUniforms = [[
     in vec2 vTexCoords;
 
     #define PI 3.14159265359
+    
+    #line 1
 ]]
 
 class('ShaderToy', Shader)
@@ -125,7 +127,7 @@ function loadShader(shaderFileName, path)
 
     local header = defaultUniforms
 
-    local code = load(shaderFilePath)
+    local code = io.read(shaderFilePath)
     if code then
 
         local ender = [[

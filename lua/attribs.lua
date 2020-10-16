@@ -1,4 +1,4 @@
-class('Attribs')
+class 'Attribs'
 
 function Attribs:init()
 end

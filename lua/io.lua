@@ -1,26 +1,34 @@
-io.read = function (fileName)
-    local f = io.open(fileName)
-    if f then
-        local res = f:read('*a')
-        f:close()
-        return res
-    end
-end
-
 if love then
-    io.read = function(fileName)
-        fileName = fileName:gsub('%./', '')
+    function io.read(path)
+        path = path:gsub('%./', '')
         local contents, size = love.filesystem.read(
-            fileName)
+            path)
         return contents
     end
-end
-
-io.write = function (fileName, content)
-    local f = io.open(fileName, "wt")
-    if f then
-        local res = f:write(content)
-        f:close()
+    
+    function io.write(path, content, mode)
+        path = path:gsub('%./', '')
+        local res = love.filesystem.write(
+            path, contents)
         return res
+    end
+    
+else
+    function io.read(path)
+        local file = io.open(path, 'r')
+        if file then
+            local content = file:read('*a')
+            file:close()
+            return content
+        end
+    end
+
+    function io.write(path, content, mode)
+        local file = io.open(path, mode or 'wt')
+        if file then
+            local res = file:write(content)
+            file:close()
+            return res
+        end
     end
 end

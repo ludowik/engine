@@ -228,14 +228,14 @@ vec3 doBumpMap(vec3 p, vec3 nor, float bumpfactor) {
 }
 
 vec4 frame(vec2 fragCoord) {
-    vec4 frag_color = vec4(0);
+    vec4 frag_color = vec4(0.);
 
     // set up global time variable
     time = iTime * SPEED;
 
     // add hash value to create the motion blur effect
     #if MOTION_BLUR
-    time = time + hash(vec3(fragCoord, time)) / iFrameRate * SPEED;
+    time = time + hash(vec3(fragCoord, time)) / float(iFrameRate) * SPEED;
     #endif
 
     // transform screen coordinates
@@ -250,13 +250,13 @@ vec4 frame(vec2 fragCoord) {
     mouse.y = clamp(mouse.y, -.3, .5);
 
     // set up camera position
-    vec3 ro =  vec3(0, 0, -2);
+    vec3 ro =  vec3(0., 0., -2.);
     vec3 rd = normalize(vec3(uv, FOV));
 
     // light position
     vec3 light = vec3(-.4, .3, -1.);
 
-    vec2 rot = vec2(0);
+    vec2 rot = vec2(0.);
     if (iMouse.z > 0.) {
     	// rotate the scene using the mouse
         rot = -mouse;

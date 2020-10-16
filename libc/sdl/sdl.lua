@@ -19,7 +19,7 @@ screen = {
 function Sdl:initialize()
     screen.w = 2 * screen.MARGE_X + W    
     screen.h = 2 * screen.MARGE_Y + H
-    
+
     if love then
         self.window = sdl.SDL_GL_GetCurrentWindow()
         if self.window ~= NULL then
@@ -38,24 +38,33 @@ function Sdl:initialize()
                 error('SDL_GL_LoadLibrary')
             end
 
-            if ios then
+            gles = ios
+
+            if gles then
+                config.glMajorVersion = 3
+                config.glMinorVersion = 0
+
                 sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_ES)
 
-                sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MAJOR_VERSION, 3)
-                sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MINOR_VERSION, 0)
-
-            elseif config.glMajorVersion == 4 then
-                self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_CORE)
-
-                self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, config.glMajorVersion)
-                self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, config.glMinorVersion)
-
             else
-                self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_COMPATIBILITY)
+                config.glMajorVersion = 4
 
-                self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, config.glMajorVersion)
-                self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, config.glMinorVersion)
+                if config.glMajorVersion == 4 then
+                    config.glMajorVersion = 4
+                    config.glMinorVersion = 1
+
+                    self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_CORE)
+
+                else
+                    config.glMajorVersion = 3
+                    config.glMinorVersion = 1
+
+                    self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_COMPATIBILITY)
+                end
             end
+
+            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, config.glMajorVersion)
+            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, config.glMinorVersion)
 
             self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
             self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
@@ -83,12 +92,7 @@ function Sdl:initialize()
     end
 
     if self.window ~= NULL then
-        self.SDL_MaximizeWindow(self.window)
-
-        self.SDL_SetWindowSize(self.window, screen.w, screen.h)
-        self.SDL_SetWindowPosition(self.window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
-
-        self.SDL_ShowWindow(self.window)
+        self:setWindowSize()
 
         local r = ffi.new('SDL_Rect')
 
@@ -114,6 +118,17 @@ function Sdl:initialize()
     end
 
     sdl.image = class 'SdlImage' : meta(windows and Library.load('SDL2_image') or ffi.C)
+end
+
+function Sdl:setWindowSize()
+    self.SDL_HideWindow(self.window)
+    do
+--        self.SDL_MaximizeWindow(self.window)
+
+        self.SDL_SetWindowSize(self.window, screen.w, screen.h)
+        self.SDL_SetWindowPosition(self.window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
+    end    
+    self.SDL_ShowWindow(self.window)
 end
 
 function Sdl:setCursor(cursorId)

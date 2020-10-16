@@ -1,10 +1,10 @@
 class 'Engine' : extends(ApplicationManager)
 
 function Engine:init()
-    assert(engine == nil)
-
+    assert(engine == nil)    
     engine = self
-    engine.envs = engine.envs or {}
+
+    self.envs = {}
 
     loadConfig()
 
@@ -52,8 +52,8 @@ function Engine:init()
         tween.setup()
     end
 
-    engine.infoAlpha = 0
-    engine.infoHide = true
+    self.infoAlpha = 0
+    self.infoHide = true
 
     if osx then
         W = W or 1480
@@ -97,54 +97,60 @@ end
 function Engine:initEvents()
     self.onEvents = {
         keydown = {
-            ['r'] = callback(self, Engine.restart),
-            ['escape'] = callback(self, Engine.quit),
+            ['r'] = callback('restart', self, Engine.restart),
+            ['escape'] = callback('quit', self, Engine.quit),
 
-            ['t'] = scanTODO,
+            ['t'] = callback('todos', self, scanTODO),
 
-            ['d'] = callback(self, Engine.defaultApp),
-            ['a'] = callback(self, Engine.managerApp),
+            ['d'] = callback('default application', self, Engine.defaultApp),
+            ['a'] = callback('applications', self, Engine.managerApp),
 
-            ['n'] = callback(self, Engine.nextApp),
-            ['b'] = callback(self, Engine.previousApp),
+            ['n'] = callback('next application', self, Engine.nextApp),
+            ['b'] = callback('previous application', self, Engine.previousApp),
 
-            ['v'] = callback(self, Engine.loopApp, 0),
-            ['c'] = callback(self, Engine.loopApp, 2),
+            ['v'] = callback('loop 0', self, Engine.loopApp, 0),
+            ['c'] = callback('loop 2', self, Engine.loopApp, 2),
 
-            ['f1'] = callback(self, Engine.toggleHelp),
-            ['f2'] = callback(self, Engine.toggleRenderVersion),
+            ['f'] = callback('flip screen', self, Engine.flip),
 
-            ['f11'] = Sdl.toggleWindowDisplayMode,
+            ['f1'] = callback('help', self, Engine.toggleHelp),
+            ['f2'] = callback('opengl or opengl es', self, Engine.toggleRenderVersion),
 
-            ['tab'] = function ()
-                if self.app then
-                    self.app.ui:nextFocus()
-                end
-            end,
+            ['f11'] = callback('fullscreen', self, Sdl.toggleWindowDisplayMode),
 
-            [','] = function()
-                Profiler.resetClasses()
+            ['tab'] = callback('next focus', self,
+                function ()
+                    if self.app then
+                        self.app.ui:nextFocus()
+                    end
+                end),
 
-                if not Profiler.running then
-                    Profiler.init()
-                    Profiler.start()
+            ['p'] = callback('profiler', self,
+                function()
+                    Profiler.resetClasses()
 
-                    reporting = Reporting()
-                else
-                    Profiler.stop()
-                end
-            end,
+                    if not Profiler.running then
+                        Profiler.init()
+                        Profiler.start()
 
-            ['m'] = function ()
-                initOS('ios')
-                self:restart()
-            end,
+                        reporting = Reporting()
+                    else
+                        Profiler.stop()
+                    end
+                end),
 
-            [KEY_FOR_ACCELEROMETER] = function (_, _, isrepeat)
-                if not isrepeat then
-                    Gravity = vec3(0, -9.8, 0)
-                end
-            end,
+            ['i'] = callback('emulate ios', self,
+                function ()
+                    initOS('ios')
+                    self:restart()
+                end),
+
+            [KEY_FOR_ACCELEROMETER] = callback('emulate accelerometer', self,
+                function (_, _, isrepeat)
+                    if not isrepeat then
+                        Gravity = vec3(0, -9.8, 0)
+                    end
+                end),
         },
 
         keyup = {
@@ -154,19 +160,20 @@ function Engine:initEvents()
         }
     }
 
-    engine:on('keydown', 't',
-        function()
-            engine:on('update', function()
-                    mouse:mouseEvent(0, BEGAN, math.random(W), math.random(H), 0, 0, true, false)
-                    mouse:mouseEvent(0, ENDED, math.random(W), math.random(H), 0, 0, false, false)
-                end)
-        end)
+    engine:on('keydown', 'u',
+        callback('ui test', self,
+            function()
+                engine:on('update', function()
+                        mouse:mouseEvent(0, BEGAN, screen.MARGE_X + math.random(W), math.random(H), 0, 0, true, false)
+                        mouse:mouseEvent(0, ENDED, screen.MARGE_X + math.random(W), math.random(H), 0, 0, false, false)
+                    end)
+            end))
 end
 
 function Engine:initialize()
     DeltaTime = 0
     ElapsedTime = 0
-    
+
     self.components:initialize()
     self.frameTime:init()
 
@@ -183,8 +190,6 @@ function Engine:initialize()
     end
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
-    
-    Context.noContext()
 end
 
 function Engine:release()
@@ -224,8 +229,8 @@ function Engine:run(appPath)
 end
 
 function Engine:frame(forceDraw)
-    engine.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
-    engine.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
+    self.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
+    self.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
 
     sdl:event()
 
@@ -248,13 +253,40 @@ function Engine:frame(forceDraw)
     end
 end
 
-function Engine:resize(w, h, valeur)
-    assert(not valeur)
+function Engine:portrait()
+    self:resize(
+        min(screen.w, screen.h),
+        max(screen.w, screen.h))    
+end
 
-    W = w
-    H = h
+function Engine:landscape()
+    self:resize(
+        max(screen.w, screen.h),
+        min(screen.w, screen.h))
+end
 
-    sdl.SDL_SetWindowSize(sdl.window, W, H)
+function Engine:flip()
+    if screen.w > screen.h then
+        self:portrait()
+    else
+        self:landscape()
+    end
+end
+
+function Engine:resize(w, h)
+    screen.w, screen.h = w, h
+
+    if screen.w > screen.h then
+        W, H = max(W, H), min(W, H)
+    else
+        W, H = min(W, H), max(W, H)
+    end
+
+    sdl:setWindowSize()
+
+    self.renderFrame = Image(W, H)
+
+    self:restart()
 end
 
 function Engine:restart()
@@ -279,13 +311,16 @@ end
 
 function Engine:toggleRenderVersion()
     self.active = function ()
-        config.glMajorVersion = toggle(config.glMajorVersion, 2, 4)
+        assert(false)
         return 'restart'
     end
 end
 
 function Engine:toggleHelp()
     self.showHelp = toggle(self.showHelp, false, true)
+    if self.showHelp then
+        self.infoHide = false
+    end
 end
 
 function Engine:update(dt)
@@ -305,10 +340,10 @@ function Engine:update(dt)
         env.physics:update(dt)
     end
 
-    if engine.infoHide then
-        engine.infoAlpha = 0 -- max(0, engine.infoAlpha - dt / 3)
+    if self.infoHide then
+        self.infoAlpha = 0 -- max(0, self.infoAlpha - dt / 3)
     else
-        engine.infoAlpha = 1
+        self.infoAlpha = 1
     end
 
     self.app:__update(dt)
@@ -338,7 +373,7 @@ function Engine:draw()
     self:postRender(screen.MARGE_X, screen.MARGE_Y)
 
     render(self.renderFrame, function ()
-            self:drawInfo(engine.infoAlpha)
+            self:drawInfo()
             self:drawHelp()
         end)
 
@@ -368,8 +403,19 @@ function Engine:postRender(x, y, w, h)
     end
 end
 
-function Engine:drawInfo(alpha)
-    if alpha == 0 then return end
+local function info(name, value)
+    local info = name..' : '..tostring(value)
+    local w, h = textSize(info)
+
+    fill(white:alpha(engine.infoAlpha))
+    rect(0, TEXT_NEXT_Y-h, w+10, h)
+
+    fill(black:alpha(engine.infoAlpha))
+    text(info)
+end
+
+function Engine:drawInfo()
+    if self.infoAlpha == 0 then return end
 
     blendMode(NORMAL)
 
@@ -377,7 +423,7 @@ function Engine:drawInfo(alpha)
 
     -- background
     noStroke()
-    fill(white:alpha(alpha))
+    fill(white:alpha(self.infoAlpha))
 
     -- infos
     font(DEFAULT_FONT_NAME)
@@ -385,17 +431,6 @@ function Engine:drawInfo(alpha)
 
     rectMode(CORNER)
     textMode(CORNER)
-
-    local function info(name, value)
-        local info = name..' : '..tostring(value)
-        local w, h = textSize(info)
-
-        fill(white:alpha(alpha))
-        rect(0, TEXT_NEXT_Y-h, w+10, h)
-
-        fill(black:alpha(alpha))
-        text(info)
-    end
 
     info('fps', self.frameTime.fps)
     info('fps target', self.fpsTarget)
@@ -410,10 +445,12 @@ function Engine:drawInfo(alpha)
 end
 
 function Engine:drawHelp()
+    if self.infoAlpha == 0 then return end
+
     if self.showHelp then
         fontSize(DEFAULT_FONT_SIZE)
         for k,v in pairs(self.onEvents.keydown) do
-            info(k)
+            info(k, v)
         end
     end
 end
@@ -441,7 +478,7 @@ function Engine:touched(touch)
     if touch.state == ENDED then
         if touch.x < 0 then
             if touch.y > H / 2 then
-                engine.infoHide = not engine.infoHide
+                self.infoHide = not self.infoHide
             else
                 ffi.C.exit(0)
             end

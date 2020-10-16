@@ -24,7 +24,7 @@ DATA = 'data'
 DECODE = 'decode'
 ENCODE = 'encode'
 
-class('Audio')
+class 'Audio'
 
 function Audio.setup()
     local function info(func, code, description)
