@@ -71,6 +71,7 @@ function fs.getDirectoryItems(path)
     return lists
 end
 
+-- TODO : duplicate with io.read
 function fs.read(path)
     local file = io.open(getReadPath(path), 'r')
     if file then

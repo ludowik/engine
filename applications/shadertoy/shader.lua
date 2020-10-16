@@ -125,7 +125,7 @@ function loadShader(shaderFileName, path)
 
     local header = defaultUniforms
 
-    local code = load(shaderFilePath)
+    local code = io.read(shaderFilePath)
     if code then
 
         local ender = [[

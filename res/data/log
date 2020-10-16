@@ -1,4 +1,4 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+/Users/Ludo/Projets/Lua/engine
 load applications/shadertoy
 applications/shadertoy
 26
@@ -21,16 +21,9 @@ applications/shadertoy/shaders/silexars.frag
 applications/shadertoy/shaders/space.glsl
 applications/shadertoy/shaders/train.glsl
 applications/shadertoy/shaders/tube.glsl
-applications/shadertoy/shaders/tutorial1.frag
-applications/shadertoy/shaders/tutorial2.frag
-applications/shadertoy/shaders/tutorial3.frag
-applications/shadertoy/shaders/tutorial4.frag
-applications/shadertoy/shaders/tutorial5.frag
-applications/shadertoy/shaders/tutorial6.frag
-applications/shadertoy/shaders/tutorial7.frag
 release 2 fonts
-memory at init    : 1.02 mo
-memory min        : 1.02 mo
-memory max        : 37.81 mo
-memory variation  : 36.79 mo
-memory at release : 34.95 mo
+memory at init    : 1.27 mo
+memory min        : 1.27 mo
+memory max        : 30.13 mo
+memory variation  : 28.86 mo
+memory at release : 31.64 mo

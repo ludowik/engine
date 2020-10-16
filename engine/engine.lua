@@ -184,7 +184,7 @@ function Engine:initialize()
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
     
-    Context.noContext()
+--    Context.noContext()
 end
 
 function Engine:release()
