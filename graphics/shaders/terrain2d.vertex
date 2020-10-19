@@ -1,0 +1,82 @@
+attribute vec3 vertex;
+attribute vec3 normal;
+attribute vec2 texCoords;
+attribute vec4 color;
+
+uniform mat4 matrixModel;
+uniform mat4 matrixPV;
+
+uniform vec4 fill;
+uniform vec4 stroke;
+uniform vec4 tint;
+
+uniform vec3 pos;
+uniform vec3 size;
+
+uniform int useLight;
+uniform int useColor;
+uniform int useTexture;
+
+uniform float freq1;
+uniform float freq2;
+uniform float freq3;
+
+uniform float octave1;
+uniform float octave2;
+uniform float octave3;
+
+uniform int n;
+
+out vec3 vPosition;
+out vec3 vNormal;
+out vec3 aNormal;
+out vec4 vColor;
+out vec2 vTexCoords;
+
+out float elevation;
+
+out float minElevation;
+out float maxElevation;
+
+void main() {
+    int x = int(gl_InstanceID % n);
+    int z = int(gl_InstanceID / n);
+    
+    vec3 vertex2 = vertex * size + pos;
+
+    vec4 vertexPosition = matrixModel * vec4(
+        vertex2.x + x * size.x,
+        vertex2.y,
+        vertex2.z + z * size.z,
+        1.0);
+
+    float d = 0.;
+    float r = 1.;
+    
+    elevation = d + r * (
+        snoise(vertexPosition.xxz / freq1) * octave1 +
+        snoise(vertexPosition.xxz / freq2) * octave2 +
+        snoise(vertexPosition.xxz / freq3) * octave3);
+    
+    minElevation = d;
+    maxElevation = minElevation + (octave1 + octave2 + octave3) * r;
+
+    vertexPosition = vec4(vertexPosition.x, elevation, vertexPosition.z, 1.0);
+
+    vec4 worldPosition = vertexPosition;
+    vec3 worldNormal = (matrixModel * vec4(normal, 0.0)).xyz;
+
+    vPosition = worldPosition.xyz;
+    vNormal = worldNormal;
+
+    vTexCoords = texCoords.xy;
+    if (useColor > 0) {
+        vColor = color;
+    } else {
+        vColor = stroke;
+    }
+
+    aNormal = mat3(transpose(inverse(matrixModel))) * vNormal;
+
+    gl_Position = matrixPV * vec4(vertexPosition.xyz, 1.0);
+}

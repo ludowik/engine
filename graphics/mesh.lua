@@ -16,6 +16,10 @@ function Mesh:draw(img, x, y, z, w, h, d)
     self:render(self.shader or shaders['default'], gl.GL_TRIANGLES, img, x, y, z, w, h, d)
 end
 
+function Mesh:drawInstanced(nInstances, img, x, y, z, w, h, d)
+    self:render(self.shader or shaders['default'], gl.GL_TRIANGLES, img, x, y, z, w, h, d, nInstances)
+end
+
 function Mesh:normalize(norm)
     norm = norm or 1
     self.vertices = Model.normalize(self.vertices, norm)

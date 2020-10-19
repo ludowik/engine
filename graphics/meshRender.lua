@@ -58,7 +58,7 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
     end
 end
 
-function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
+function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     assert(shader)
     assert(drawMode)
 
@@ -171,20 +171,20 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
         --        gl.glVertexAttribDivisor(LOCATION_INSTANCE_WIDTH, 1)
         --        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_WIDTH)
 
-        config.wireframe = 'fill'
-
+        config.wireframe = config.wireframe or 'fill'
+        
         if img and shader.uniformsLocations.tex0 or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
             if not ios then
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
             end
-            gl.glDrawArrays(drawMode, 0, #self.vertices)
+            gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
         end
 
         if img == nil and (config.wireframe == 'line' or config.wireframe == 'fill&line') then
             if not ios then
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
             end
-            gl.glDrawArrays(drawMode, 0, #self.vertices)
+            gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
         end
 
         if img then
@@ -192,7 +192,8 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d)
         end
 
         for attributeName,attribute in pairs(self.shader.attributes) do
-            gl.glDisableVertexAttribArray(attribute.attribLocation)
+            -- TODO : usable ?
+--            gl.glDisableVertexAttribArray(attribute.attribLocation)
         end
 
         if config.glMajorVersion >= 4 then
@@ -235,7 +236,7 @@ function MeshRender:sendUniforms(uniformsLocations)
     end
 
     if uniformsLocations.useLight then
-        if self.normals and #self.normals > 0 then
+        if self.normals and #self.normals > 0 and styles.attributes.light then
             gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 1)
         else
             gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 0)

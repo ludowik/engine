@@ -1,0 +1,27 @@
+in vec4 vColor;
+
+in float elevation;
+
+in float minElevation;
+in float maxElevation;
+
+vec4 rock = vec4(90./255., 77./255., 65./255., 1.);
+
+vec4 gray = vec4(0.5, 0.5, 0.5, 1.);
+
+void main() {
+    float zNorm = (elevation - minElevation) / (maxElevation - minElevation);
+    
+    vec4 color;
+    if (zNorm < 0.2) {
+        color = blue;
+    } else if (zNorm < 0.5) {
+        color = green;
+    } else if (zNorm < 0.75) {
+        color = rock;
+    } else {
+        color = gray;
+    }
+
+    gl_FragColor = vec4(color.xyz, 1.0);
+}

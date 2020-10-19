@@ -302,7 +302,7 @@ function Model.scaleAndTranslateAndRotate(vertices, x, y, z, w, h, e, ax, ay, az
 
     m5 = m:scale(w, h, e)
 
-    return Model.transform(vertices:clone(), m1*m2*m5)
+    return Model.transform(vertices:clone(), m1*m2*m3*m4*m5)
 end
 
 function meshAddVertex(vertices, v)
@@ -482,7 +482,7 @@ end
 
 function Model.tetrahedron(x, y, z, w, h, d)
     x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
-    
+
     vertices = vertices_tetra
     vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, d, 90)
     return Model.mesh(vertices,
@@ -750,7 +750,21 @@ function Model.grass(n)
         vertices, texCoords, normals)
 end
 
-function Model.plane()
+function Model.ground(n)
+    local dec = -(n+1)/2
+    
+    local ground = mesh()
+    for x=1,n do
+        for z=1,n do
+            Model.add(ground, Model.plane(dec+x, 0, dec+z, 1, 1, 1))
+        end
+    end
+    return ground
+end
+
+function Model.plane(x, y, z, w, h, d)
+    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
+
     local vertices_face = Buffer('vec3', {
             p1,p2,p3,p1,p3,p4
         })
@@ -759,7 +773,7 @@ function Model.plane()
             p1,p2,p3,p4,p1
         })
 
-    vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, 0, 0, 0, 1, 1, 1, 90)
+    vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, x, y, z, w, h, d, -90)
 
     return Model.mesh(
         vertices_face,
@@ -960,4 +974,3 @@ function Model.load(fileName, normalize)
         return m
     end
 end
-

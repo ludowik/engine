@@ -140,4 +140,6 @@ end
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     env.app.scene.camera = Camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     env.app.scene.camera:setViewMatrix()
+    
+    return env.app.scene.camera
 end

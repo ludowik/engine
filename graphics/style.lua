@@ -125,7 +125,7 @@ end
 
 -- TODO
 function light(mode)
-    return styles:setAttribute('light', mode)
+    return styles:setAttribute('light', mode or true)
 end
 
 -- TODO

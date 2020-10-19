@@ -20,7 +20,7 @@ function appCubeWave:draw()
 
     line(WIDTH/2, 0, WIDTH/2, HEIGHT)
 
-    light(true)
+--    light(true)
 
     isometric(self.zoom)
 

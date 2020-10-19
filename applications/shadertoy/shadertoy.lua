@@ -82,7 +82,7 @@ function ShaderToy:create()
                     vPosition = vertexPosition;
                     vTexCoords = texCoords;
                 }
-            ]], 'vertex'),
+            ]]),
         fragment = self:compile(gl.GL_FRAGMENT_SHADER, self.source, self.shaderFilePath),
     }
 

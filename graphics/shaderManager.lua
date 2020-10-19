@@ -32,7 +32,8 @@ function ShaderManager:initialize()
 
         model3d = Shader('default'),
 
-        terrain = Shader('terrain')
+        terrain = Shader('terrain'),
+        terrain2d = Shader('terrain2d')
     }
 end
 

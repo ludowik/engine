@@ -50,7 +50,8 @@ end
 
 function Shader:check(shaderType, shaderName, shaderExtension)
     local path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
-    if fs.getInfo(path).modification > self.modifications[shaderType] then
+    local info = fs.getInfo(path)
+    if info and info.modification > self.modifications[shaderType] then
         return false
     end
     return true
@@ -72,6 +73,7 @@ function Shader:compile(shaderType, source, path)
 
     if opengles then
         include = include..(
+            '#version 300 es'..NL..
             '#define VERSION '..gl:getGlslVersion()..NL..
             'precision highp float;'..NL            
         )
@@ -146,8 +148,12 @@ function Shader:compile(shaderType, source, path)
         error(errors)
     end
 
-    self.modifications[shaderType] = fs.getInfo(path).modification
-
+    if path then
+        self.modifications[shaderType] = fs.getInfo(path).modification
+    else
+        self.modifications[shaderType] = 0
+    end
+    
     gl.glAttachShader(self.program_id, shader_id)
 
     return shader_id
