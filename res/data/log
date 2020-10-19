@@ -6,3 +6,4 @@ memory min        : 1.03 mo
 memory max        : 7.16 mo
 memory variation  : 6.13 mo
 memory at release : 5.93 mo
+compile box2d
