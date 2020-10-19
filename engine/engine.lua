@@ -65,7 +65,7 @@ function Engine:init()
 
     elseif ios then
         if love then
-            W, H = love.window.getMode()
+            screen.w, screen.h = love.window.getMode()
         else
             H = 1024
             W = math.floor(H*9/16)
@@ -190,11 +190,6 @@ function Engine:initialize()
     end
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
-<<<<<<< HEAD
-    
---    Context.noContext()
-=======
->>>>>>> 9385246aa105c927207bb200cf744bc6833ef03a
 end
 
 function Engine:release()
@@ -482,8 +477,12 @@ function Engine:touched(touch)
 
     if touch.state == ENDED then
         if touch.x < 0 then
-            if touch.y > H / 2 then
+            if touch.y > H * 2 / 3 then
                 self.infoHide = not self.infoHide
+
+            elseif touch.y > H * 1 / 3 then
+                engine:managerApp()
+
             else
                 ffi.C.exit(0)
             end

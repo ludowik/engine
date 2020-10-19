@@ -17,6 +17,14 @@ uniform int useLight;
 uniform int useColor;
 uniform int useTexture;
 
+uniform float freq1;
+uniform float freq2;
+uniform float freq3;
+
+uniform float octave1;
+uniform float octave2;
+uniform float octave3;
+
 out vec3 vPosition;
 out vec3 vNormal;
 out vec3 aNormal;
@@ -25,16 +33,23 @@ out vec2 vTexCoords;
 
 out float elevation;
 
+out float minElevation;
+out float maxElevation;
+
 void main() {
     mat4 mm = matrixModel;
 
-    float d = 0.5; // distance(vertex.xyz, vec3(0.0, 0.0, 0.0));
-    elevation = d * 4.0
-        + snoise(vertex.xyz*10.) * 0.5
-        + snoise(vertex.xyz/2.0) * 0.25
-        + snoise(vertex.xyz/4.0) * 0.125;
+    float d = distance(vertex.xyz , vec3(0.0, 0.0, 0.0));
+    elevation = d + 100. * (
+        0.1 + snoise(vertex.xyz / freq1) * octave1 +
+        snoise(vertex.xyz * freq2) * octave2 +
+        snoise(vertex.xyz * freq3) * octave3
+    );
+    
+    minElevation = d;
+    maxElevation = d + (octave1 + octave2 + octave3) * 100.;
 
-    vec4 position = vec4(vertex.xyz * elevation, 1.0);
+    vec4 position = vec4(normalize(vertex.xyz) * elevation, 1.0);
 
     vec4 worldPosition = mm * vec4(position.xyz, 1.0);
     vec3 worldNormal = (mm * vec4(normal, 0.0)).xyz;

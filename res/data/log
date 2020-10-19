@@ -1,49 +1,9 @@
-<<<<<<< HEAD
 /Users/Ludo/Projets/Lua/engine
-load applications/shadertoy
-applications/shadertoy
-26
-applications/shadertoy/shaders/androgynous bolt.frag
-applications/shadertoy/shaders/balls.glsl
-applications/shadertoy/shaders/brush.glsl
-applications/shadertoy/shaders/carting.glsl
-applications/shadertoy/shaders/cubescape.frag
-applications/shadertoy/shaders/dancing metalights.frag
-applications/shadertoy/shaders/fansy.glsl
-applications/shadertoy/shaders/fires.glsl
-applications/shadertoy/shaders/flame.frag
-applications/shadertoy/shaders/mario.glsl
-applications/shadertoy/shaders/pegasus.frag
-applications/shadertoy/shaders/raycast2d.glsl
-applications/shadertoy/shaders/sand.glsl
-applications/shadertoy/shaders/sandbox.fragment
-applications/shadertoy/shaders/sea.glsl
-applications/shadertoy/shaders/silexars.frag
-applications/shadertoy/shaders/space.glsl
-applications/shadertoy/shaders/train.glsl
-applications/shadertoy/shaders/tube.glsl
-release 2 fonts
-memory at init    : 1.27 mo
-memory min        : 1.27 mo
-memory max        : 30.13 mo
-memory variation  : 28.86 mo
-memory at release : 31.64 mo
-=======
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-A demo showing how to use basic tweens
-1. tween.easing.linear
-2. tween.easing.quadInOut
-3. tween.easing.bounceOut
-This test shows the three looping varieties
-1. tween.loop.once
-2. tween.loop.forever
-3. tween.loop.pingpong
-Sequences allow you to chain multiple tweens together
-tween.sequence( t1, t2, ... tN )
-Path allows you to pass an array of target values, which are interpolated with a spline
-tween.path( duration, subject, targetArray, options, callback )
-1
-switch applications/noise/map1
-load applications/noise/map2
+switch applications/codea/Basic Physics
 release 1 fonts
->>>>>>> 9385246aa105c927207bb200cf744bc6833ef03a
+memory at init    : 1.42 mo
+memory min        : 1.42 mo
+memory max        : 14.98 mo
+memory variation  : 13.57 mo
+memory at release : 10.81 mo
+compile box2d

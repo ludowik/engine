@@ -460,8 +460,8 @@ function Model.box(w, h, d)
             b1, b2, f2, b1, f2, f1, -- bottom
         })
 
-    local w = 1/4-1/100
-    local h = 1/3-1/100
+    local wt = 1/4-1/100
+    local ht = 1/3-1/100
     local texCoords = Buffer('vec2')
 
     function add(coords, dx, dy)
@@ -470,19 +470,21 @@ function Model.box(w, h, d)
         end
     end
 
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 3/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 2/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 0/4, 1/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 2/3)
-    add({0,0, w,0, w,h, 0,0, w,h, 0,h}, 1/4, 0/3)
+    add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 1/4, 1/3)
+    add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 3/4, 1/3)
+    add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 2/4, 1/3)
+    add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 0/4, 1/3)
+    add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 1/4, 2/3)
+    add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 1/4, 0/3)
 
     return Model.mesh(vertices, texCoords)
 end
 
-function Model.tetrahedron()
+function Model.tetrahedron(x, y, z, w, h, d)
+    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
+    
     vertices = vertices_tetra
-    vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, 1, 1, 1, 90)
+    vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, d, 90)
     return Model.mesh(vertices,
         nil,
         Model.computeNormals(vertices_tetra))
@@ -538,7 +540,7 @@ function Model.sphere(x, y, z, w, h, d)
     end
 
     local faces = 0
-    local delta = 10 -- 0.5
+    local delta = 2
 
     local v1, v2, v3, v4
     for theta = 0, 360-delta, delta do
@@ -946,15 +948,16 @@ end
 
 function Model.load(fileName, normalize)
     local m = loadObj(fileName)
+    if m then
+        if #m.vertices == 0 and normalize then
+            m.vertices = Model.normalize(m.vertices)
+        end
 
-    if #m.vertices == 0 and normalize then
-        m.vertices = Model.normalize(m.vertices)
+        if #m.normals == 0 then
+            m.normals = Model.computeNormals(m.vertices)
+        end
+
+        return m
     end
-
-    if #m.normals == 0 then
-        m.normals = Model.computeNormals(m.vertices)
-    end
-
-    return m
 end
 

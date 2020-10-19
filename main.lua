@@ -8,7 +8,7 @@ ffi.cdef([[
 
 
 if ios then
---    startDebug()
+    startDebug()
 --    debug.sethook(function (...)
 --            (__print__ or print)(debug.getinfo(2, 'S').short_src, ...)
 --        end,

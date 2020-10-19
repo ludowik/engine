@@ -94,14 +94,6 @@ function Application:__draw()
     env.parameter:draw()
 end
 
-function Application:__collide(...)
-    if _G.env.collide then
-        _G.env.collide(...)
-    else
-        self:collide(...)
-    end
-end
-
 function Application:__keyboard(...)
     if _G.env.keyboard then
         _G.env.keyboard(...)
@@ -123,6 +115,14 @@ function Application:__mouseWheel(...)
         _G.env.wheelmoved(...)
     else
         self:mouseWheel(...)
+    end
+end
+
+function Application:__collide(...)
+    if _G.env.collide then
+        _G.env.collide(...)
+    else
+        self:collide(...)
     end
 end
 
@@ -155,9 +155,6 @@ function Application:draw()
     self.ui:draw()
 
     popMatrix()
-end
-
-function Application:collide(...)
 end
 
 function Application:keyboard(key, isrepeat)

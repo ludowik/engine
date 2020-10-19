@@ -4,6 +4,8 @@ function Shader:init(name, path)
     self.name = name
     self.path = path or 'graphics/shaders'
 
+    self.modifications = {}
+
     self:create()
 end
 
@@ -37,9 +39,21 @@ function Shader:create()
 end
 
 function Shader:update()
-    -- TODO : update if file is newer than last compile time
---    self:release()
---    self:create()
+    if (not self:check(gl.GL_VERTEX_SHADER, self.name, 'vertex') or 
+        not self:check(gl.GL_FRAGMENT_SHADER, self.name, 'fragment'))
+    then
+        self:unuse()
+        self:release()
+        self:create()
+    end
+end
+
+function Shader:check(shaderType, shaderName, shaderExtension)
+    local path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
+    if fs.getInfo(path).modification > self.modifications[shaderType] then
+        return false
+    end
+    return true
 end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
@@ -56,7 +70,7 @@ end
 function Shader:compile(shaderType, source, path)
     local include = ''
 
-    if gles then
+    if opengles then
         include = include..(
             '#define VERSION '..gl:getGlslVersion()..NL..
             'precision highp float;'..NL            
@@ -83,19 +97,19 @@ function Shader:compile(shaderType, source, path)
 
     include = include..[[
         #if VERSION >= 300
-            #define attribute in
+        #define attribute in
 
-            #define texture2D texture
-            
-            #define gl_FragColor fragColor
-            out vec4 fragColor;
+        #define texture2D texture
+
+        #define gl_FragColor fragColor
+        out vec4 fragColor;
         #else
-            #define in  varying
-            #define out varying
-            
-            #define texture texture2D
-            
-            #define fragColor gl_FragColor
+        #define in  varying
+        #define out varying
+
+        #define texture texture2D
+
+        #define fragColor gl_FragColor
         #endif
 
         vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
@@ -106,12 +120,14 @@ function Shader:compile(shaderType, source, path)
         vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
 
         vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+        
+        vec4 brown = vec4(165./255., 42./255., 42./255., 1.0);
 
         #line 1
     ]]
 
     source = include..source
-    
+
     local shader_id = gl.glCreateShader(shaderType)
     assert(shader_id > 0)
 
@@ -129,6 +145,8 @@ function Shader:compile(shaderType, source, path)
 
         error(errors)
     end
+
+    self.modifications[shaderType] = fs.getInfo(path).modification
 
     gl.glAttachShader(self.program_id, shader_id)
 
@@ -208,7 +226,7 @@ end
 
 function Shader:send(k, v)
     log('send '..k..' = '..tostring(v))
-    
+
     local uid = self.uniformsLocations[k]
     if uid == nil then
         self.uniformsLocations[k] = gl.glGetUniformLocation(self.program_id, k)
@@ -217,7 +235,7 @@ function Shader:send(k, v)
 
     if uid ~= -1 then
         uid = uid.uniformLocation
-        
+
         local utype = self.uniformsTypes[k]
         if utype == nil then
             self.uniformsTypes[k] = typeof(v)

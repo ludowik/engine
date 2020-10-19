@@ -4,6 +4,31 @@ function Scene:init()
     Node.init(self)
 end
 
+function Scene:layout()
+    if self.parent == nil then
+        Node.computeNavigation(self, self, self)
+    end
+
+    if self.layoutFlow then
+        if self.parent == nil then
+            self.position:set(0, 0, 0)
+            self.absolutePosition:set(0, 0, 0)
+        end
+
+        Node.layout(self)
+
+        if self.alignment then
+            Layout.align(self)
+        end
+
+        Layout.computeAbsolutePosition(self)
+
+        if self.parent == nil then
+            Layout.reverse(self)
+        end
+    end
+end
+
 function Scene:draw()
     pushMatrix()
     do
@@ -35,29 +60,4 @@ function Scene:draw()
         end
     end
     popMatrix()
-end
-
-function Scene:layout()
-    if self.parent == nil then
-        Node.computeNavigation(self, self, self)
-    end
-
-    if self.layoutFlow then
-        if self.parent == nil then
-            self.position:set(0, 0, 0)
-            self.absolutePosition:set(0, 0, 0)
-        end
-
-        Node.layout(self)
-
-        if self.alignment then
-            Layout.align(self)
-        end
-
-        Layout.computeAbsolutePosition(self)
-
-        if self.parent == nil then
-            Layout.reverse(self)
-        end
-    end
 end

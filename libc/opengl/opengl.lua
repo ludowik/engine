@@ -170,7 +170,7 @@ function OpenGL:initialize()
     self.idptr  = ffi.new('GLuint[1]')
     self.floatptr = ffi.new('GLfloat[4]')
 
-    if not gles then
+    if not opengles then
         -- Smooth
         self.glEnable(gl.GL_LINE_SMOOTH)
         self.glEnable(gl.GL_POLYGON_SMOOTH)

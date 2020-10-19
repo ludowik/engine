@@ -13,7 +13,7 @@ function setup()
 
     mesh = Model.rect()
 
-    if not debugging() then
+    if not debugging() and not ios then
         app.coroutine = coroutine.create(
             function (dt)
                 loadShaders(true)

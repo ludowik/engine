@@ -1,2 +1,2 @@
 requireLib('app',
-    'shader')
+    'shadertoy')

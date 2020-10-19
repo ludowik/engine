@@ -155,14 +155,23 @@ function Node:getFocus()
     end
 end
 
+function Node:keyboard(key, isrepeat)
+    local who = self:getFocus()
+    if who and who.keypressed then
+        who:keyboard(key, isrepeat)
+    end
+end
+
 function Node:touched(touch)
     for i=1,#self.nodes do
         local node = self.nodes[i]
         if node and node.touched and node:contains(touch) then
-            local res = node:touched(touch)
-            if res then
-                return res
-            end
+            node:touched(touch)
+            return true
+--            local res = node:touched(touch)
+--            if res then
+--                return res
+--            end
         end
     end
 end
@@ -247,12 +256,5 @@ function Node:computeNavigation(previousUpNode, nextUpNode)
         else
             currentNode.next = nextNode
         end
-    end
-end
-
-function Node:keyboard(key, isrepeat)
-    local who = self:getFocus()
-    if who and who.keypressed then
-        who:keyboard(key, isrepeat)
     end
 end

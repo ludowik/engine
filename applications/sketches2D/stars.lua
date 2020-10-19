@@ -56,9 +56,9 @@ function Stars:init()
 end
 
 function Stars:update(dt)
-    local distance = engine.frame_time.fps - 60
+    local distance = engine.frameTime.fps - 60
     if distance ~= 60 then
-        MAX_STARS = MAX_STARS + distance -- * 10
+        MAX_STARS = MAX_STARS + distance -- * 10n
     end
 
     self:addStars()

@@ -1,15 +1,15 @@
 if love then
     function io.read(path)
         path = path:gsub('%./', '')
-        local contents, size = love.filesystem.read(
+        local content, size = love.filesystem.read(
             path)
-        return contents
+        return content
     end
     
     function io.write(path, content, mode)
         path = path:gsub('%./', '')
         local res = love.filesystem.write(
-            path, contents)
+            path, content)
         return res
     end
     

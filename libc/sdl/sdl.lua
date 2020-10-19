@@ -17,8 +17,26 @@ screen = {
 }
 
 function Sdl:initialize()
-    screen.w = 2 * screen.MARGE_X + W    
-    screen.h = 2 * screen.MARGE_Y + H
+    opengles = ios
+
+    if ios then
+        W = screen.w - 2 * screen.MARGE_X
+        H = screen.h - 2 * screen.MARGE_Y
+
+        WIDTH = W
+        HEIGHT = H
+    else
+        screen.w = 2 * screen.MARGE_X + W
+        screen.h = 2 * screen.MARGE_Y + H
+    end
+
+    if opengles then
+        config.glMajorVersion = 3
+        config.glMinorVersion = 0
+    else
+        config.glMajorVersion = 4
+        config.glMinorVersion = 1
+    end
 
     if love then
         self.window = sdl.SDL_GL_GetCurrentWindow()
@@ -38,21 +56,11 @@ function Sdl:initialize()
                 error('SDL_GL_LoadLibrary')
             end
 
-            gles = ios
-
-            if gles then
-                config.glMajorVersion = 3
-                config.glMinorVersion = 0
-
+            if opengles then
                 sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_ES)
 
             else
-                config.glMajorVersion = 4
-
                 if config.glMajorVersion == 4 then
-                    config.glMajorVersion = 4
-                    config.glMinorVersion = 1
-
                     self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_CORE)
 
                 else
@@ -73,12 +81,12 @@ function Sdl:initialize()
                 0, 0,
                 screen.w, screen.h,
                 self.SDL_WINDOW_OPENGL +
---                self.SDL_WINDOW_ALLOW_HIGHDPI +
---                self.SDL_WINDOW_FULLSCREEN +
---                self.SDL_WINDOW_SHOWN +
---                self.SDL_WINDOW_BORDERLESS +
---                self.SDL_WINDOW_RESIZABLE +
---                self.SDL_WINDOW_MAXIMIZED +
+                --                self.SDL_WINDOW_ALLOW_HIGHDPI +
+                --                self.SDL_WINDOW_FULLSCREEN +
+                --                self.SDL_WINDOW_SHOWN +
+                --                self.SDL_WINDOW_BORDERLESS +
+                --                self.SDL_WINDOW_RESIZABLE +
+                --                self.SDL_WINDOW_MAXIMIZED +
                 0)
 
             if window then
@@ -123,7 +131,7 @@ end
 function Sdl:setWindowSize()
     self.SDL_HideWindow(self.window)
     do
---        self.SDL_MaximizeWindow(self.window)
+        --        self.SDL_MaximizeWindow(self.window)
 
         self.SDL_SetWindowSize(self.window, screen.w, screen.h)
         self.SDL_SetWindowPosition(self.window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)

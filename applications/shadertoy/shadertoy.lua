@@ -19,6 +19,11 @@ local defaultUniforms = [[
 
     #define PI 3.14159265359
     
+    #undef in
+    #undef out
+    
+    #undef fragColor
+    
     #line 1
 ]]
 
@@ -131,10 +136,10 @@ function loadShader(shaderFileName, path)
     if code then
 
         local ender = [[
-            vec4 effect(vec4 fragColor, sampler2D texture, vec2 texture_coords, vec2 pixel_coords) {
-                vec2 fragCoord = texture_coords * iResolution.xy;
-                mainImage(fragColor, fragCoord);
-                return fragColor;
+            vec4 effect(vec4 frag_color, sampler2D texture, vec2 texture_coords, vec2 pixel_coords) {
+                vec2 frag_coord = texture_coords * iResolution.xy;
+                mainImage(frag_color, frag_coord);
+                return frag_color;
             }
 
             #if VERSION > 0

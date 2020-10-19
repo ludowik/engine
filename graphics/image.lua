@@ -3,7 +3,7 @@ image = class 'Image'
 function Image.getPath(imageName, ext)
     local path = getImagePath()
     path = path..'/'..imageName:replace(':', '/')..'.'..(ext or 'png')
-    return getFullPath(path)
+    return path -- getFullPath(path)
 end
 
 function Image:init(w, h)

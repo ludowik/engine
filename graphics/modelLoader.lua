@@ -1,7 +1,7 @@
 function loadObj(fileName)
     local filePath = getModelPath()..'/'..fileName..'.obj'
 
-    local content = fs.read(filePath)
+    local content = io.read(filePath)
 
     if content then
         content = content:replace('  ', ' ')
