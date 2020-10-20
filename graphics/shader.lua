@@ -85,6 +85,12 @@ function Shader:compile(shaderType, source, path)
         )
     end
 
+    local noise2D = io.read('graphics/shaders/noise2D.glsl')
+    assert(noise2D)
+    include = include..(
+        noise2D..NL
+    )
+
     local noise3D = io.read('graphics/shaders/noise3D.glsl')
     assert(noise3D)
     include = include..(
@@ -99,19 +105,19 @@ function Shader:compile(shaderType, source, path)
 
     include = include..[[
         #if VERSION >= 300
-        #define attribute in
+            #define attribute in
 
-        #define texture2D texture
+            #define texture2D texture
 
-        #define gl_FragColor fragColor
-        out vec4 fragColor;
+            #define gl_FragColor fragColor
+            out vec4 fragColor;
         #else
-        #define in  varying
-        #define out varying
+            #define in  varying
+            #define out varying
 
-        #define texture texture2D
+            #define texture texture2D
 
-        #define fragColor gl_FragColor
+            #define fragColor gl_FragColor
         #endif
 
         vec4 white = vec4(1.0, 1.0, 1.0, 1.0);

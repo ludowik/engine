@@ -51,12 +51,12 @@ void main() {
         1.0);
 
     float d = 0.;
-    float r = 1.;
-    
+    float r = 10.;
+
     elevation = d + r * (
-        snoise(vertexPosition.xxz / freq1) * octave1 +
-        snoise(vertexPosition.xxz / freq2) * octave2 +
-        snoise(vertexPosition.xxz / freq3) * octave3);
+        snoise(vertexPosition.xz * freq1) * octave1 +
+        snoise(vertexPosition.xz / freq2) * octave2 +
+        snoise(vertexPosition.xz / freq3) * octave3);
     
     minElevation = d;
     maxElevation = minElevation + (octave1 + octave2 + octave3) * r;

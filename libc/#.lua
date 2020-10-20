@@ -5,6 +5,6 @@ require 'libc.opengl.opengl'
 require 'libc.openal.openal'
 require 'libc.freetype.freetype'
 
-if windows or ios or osx then
+if windows then
     require 'libc.box2d'
 end

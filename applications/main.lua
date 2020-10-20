@@ -1,5 +1,5 @@
 function setup()
-    cam = camera(0, 5, 5)
+    cam = camera(0, 25, 0)
 
     model = Model.plane()
 
