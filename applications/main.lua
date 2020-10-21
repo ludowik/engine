@@ -1,19 +1,17 @@
 function setup()
-    cam = camera(0, 25, 0)
-
     model = Model.plane()
 
     uniforms = {}
 
-    parameter.number('uniforms.freq1', 1, 100, 80)
-    parameter.number('uniforms.freq2', 1, 100, 50)
-    parameter.number('uniforms.freq3', 1, 100, 20)
+    parameter.number('uniforms.freq1', 5, 50, 10)
+    parameter.number('uniforms.freq2', 1, 1000, 50)
+    parameter.number('uniforms.freq3', 1, 1000, 20)
 
     parameter.number('uniforms.octave1', 0, 1, 1)
-    parameter.number('uniforms.octave2', 0, 1, 0.5)
-    parameter.number('uniforms.octave3', 0, 1, 0.25)
+    parameter.number('uniforms.octave2', 0, 1, 0)
+    parameter.number('uniforms.octave3', 0, 1, 0)
 
-    parameter.number('uniforms.n', 1, 1000, 256)
+    cam = camera(0, 100, 10, 0, 0, -200)
 end
 
 function draw()
@@ -54,6 +52,8 @@ function draw()
                 N = 2
             end
             
+            N = 128
+            
             n = w / N
             
             model.shader.uniforms.n = N
@@ -61,9 +61,9 @@ function draw()
             model:drawInstanced(
                 N^2,
                 nil,
-                dx*w + x - w/2,
+                dx*w + x,-- - w/2,
                 0,
-                dz*w + z - w/2,
+                dz*w + z,-- - w/2,
                 n,
                 n,
                 n)

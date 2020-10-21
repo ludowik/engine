@@ -38,6 +38,39 @@ out float elevation;
 out float minElevation;
 out float maxElevation;
 
+float lerp(float a, float b, float t) {
+    return a + (b - a) * t;
+}
+
+float quadIn(float a, float b, float t) {
+    return a + (b - a) * pow(t, 2);
+}
+
+float noise(vec2 v) {
+    int e = 10;
+    
+    ivec2 vnorm = ivec2(floor(v/e)) * e;
+    
+    ivec2 va = ivec2(vnorm.x  , vnorm.y  );
+    ivec2 vb = ivec2(vnorm.x  , vnorm.y+e);
+    ivec2 vc = ivec2(vnorm.x+e, vnorm.y  );
+    ivec2 vd = ivec2(vnorm.x+e, vnorm.y+e);
+    
+    float a = snoise(va);
+    float b = snoise(vb);
+    float c = snoise(vc);
+    float d = snoise(vd);
+    
+    v = (v - vnorm) / e;
+    
+    a = quadIn(a, b, v.y);
+    c = quadIn(c, d, v.y);
+    
+    c = quadIn(a, c, v.x);
+    
+    return (c + 1.) / 2.;
+}
+
 void main() {
     int x = int(gl_InstanceID % n);
     int z = int(gl_InstanceID / n);
@@ -51,13 +84,13 @@ void main() {
         1.0);
 
     float d = 0.;
-    float r = 10.;
+    float r = 100.;
 
     elevation = d + r * (
-        snoise(vertexPosition.xz * freq1) * octave1 +
-        snoise(vertexPosition.xz / freq2) * octave2 +
-        snoise(vertexPosition.xz / freq3) * octave3);
-    
+        noise(vertexPosition.xz / freq1) * octave1 +
+        noise(vertexPosition.xz / freq2) * octave2 +
+        noise(vertexPosition.xz / freq3) * octave3);
+        
     minElevation = d;
     maxElevation = minElevation + (octave1 + octave2 + octave3) * r;
 

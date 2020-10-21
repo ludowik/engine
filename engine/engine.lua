@@ -113,6 +113,8 @@ function Engine:initEvents()
 
             ['f'] = callback('flip screen', self, Engine.flip),
 
+            ['w'] = callback('wireframe', self, Engine.wireframe),
+
             ['f1'] = callback('help', self, Engine.toggleHelp),
             ['f2'] = callback('opengl or opengl es', self, Engine.toggleRenderVersion),
 
@@ -271,6 +273,10 @@ function Engine:flip()
     else
         self:landscape()
     end
+end
+
+function Engine:wireframe()
+    config.wireframe = config.wireframe == 'line' and 'fill' or 'line'
 end
 
 function Engine:resize(w, h)
