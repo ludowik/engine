@@ -1,6 +1,7 @@
 class 'Mesh' : extends(MeshRender)
 
 function Mesh:init(vertices, colors)
+    MeshRender.init(self)
     self:clear(vertices, colors)
 end
 

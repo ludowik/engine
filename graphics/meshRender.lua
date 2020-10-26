@@ -2,6 +2,10 @@ class 'MeshRender'
 
 local sizeofFloat = 4 -- ffi.sizeof('GLfloat')
 
+function MeshRender:init()
+    config.wireframe = config.wireframe or 'fill'
+end
+
 function MeshRender:sendAttribute(attributeName, buffer, nComponents)
     local attribute = self.shader.attributes[attributeName]
 
@@ -171,8 +175,6 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         --        gl.glVertexAttribDivisor(LOCATION_INSTANCE_WIDTH, 1)
         --        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_WIDTH)
 
-        config.wireframe = config.wireframe or 'fill'
-        
         if img and shader.uniformsLocations.tex0 or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
             if not ios then
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)

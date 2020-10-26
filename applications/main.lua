@@ -12,6 +12,13 @@ function setup()
     parameter.number('uniforms.octave3', 0, 1, 0)
 
     cam = camera(0, 100, 10, 0, 0, -200)
+    
+    for x=1,1000 do
+        for z=1,1000 do
+            noise(x, z)
+        end
+    end
+    
 end
 
 function draw()
@@ -20,8 +27,6 @@ function draw()
     perspective()
 
     noLight()
-
---    config.wireframe = 'line'
 
     model.shader = shaders['terrain2d']
     model.shader.uniforms = model.shader.uniforms or {}

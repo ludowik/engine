@@ -276,7 +276,15 @@ function Engine:flip()
 end
 
 function Engine:wireframe()
-    config.wireframe = config.wireframe == 'line' and 'fill' or 'line'
+    if config.wireframe == 'fill' then
+        config.wireframe = 'line'
+        
+    elseif config.wireframe == 'line' then
+        config.wireframe = 'fill&line'
+        
+    else
+        config.wireframe = 'fill'
+    end
 end
 
 function Engine:resize(w, h)

@@ -1,8 +1,8 @@
-/Users/Ludo/Projets/Lua/engine
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 load applications/main
 release 1 fonts
-memory at init    : 1.28 mo
-memory min        : 1.28 mo
-memory max        : 14.51 mo
-memory variation  : 13.23 mo
-memory at release : 13.26 mo
+memory at init    : 1.03 mo
+memory min        : 1.03 mo
+memory max        : 7.06 mo
+memory variation  : 6.03 mo
+memory at release : 6.78 mo
