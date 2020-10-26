@@ -1,14 +1,22 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/main
+load applications/apps/2048
 shader.vao: 1
 shader.vao: 2
 shader.vao: 3
 shader.vao: 4
 shader.vao: 5
+load applications/appManager
+switch applications/apps/2048
+load applications/apps/asteroid
 shader.vao: 6
-release 1 fonts
+shader.vao: 7
+shader.vao: 8
+load applications/apps/bbtan
+load applications/apps/calc
+switch applications/apps/bbtan
+release 2 fonts
 memory at init    : 1.03 mo
 memory min        : 1.03 mo
-memory max        : 7.18 mo
-memory variation  : 6.15 mo
-memory at release : 6.76 mo
+memory max        : 9.22 mo
+memory variation  : 8.19 mo
+memory at release : 7.18 mo

@@ -14,7 +14,7 @@ end
 screen = {
     MARGE_X = 50,
     MARGE_Y = 10,
-    
+
     ratio = 1
 }
 
@@ -133,14 +133,15 @@ end
 function Sdl:setWindowSize()
     self.SDL_HideWindow(self.window)
     do
-        --        self.SDL_MaximizeWindow(self.window)
+--        self.SDL_MaximizeWindow(self.window)
 
         self.SDL_SetWindowSize(self.window,
             screen.w * screen.ratio,
             screen.h * screen.ratio)
-        
-        self.SDL_SetWindowPosition(self.window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
-    end    
+
+        self.SDL_SetWindowPosition(self.window, 100, 100) --sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
+    end
+
     self.SDL_ShowWindow(self.window)
 end
 

@@ -56,7 +56,7 @@ function Context.closeCurrentContext()
     if Context.currentContext and Context.currentContext ~= engine.renderFrame then
         Context.currentContext:readPixels()
     end
-    Context.currentContext  = nil
+    Context.currentContext = nil
 end
 
 function Context.resetContext()

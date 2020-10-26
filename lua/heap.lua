@@ -13,5 +13,6 @@ function push(heapName, value)
 end
 
 function pop(heapName)
+    assert(#heaps[heapName] > 0)
     return table.remove(heaps[heapName])
 end

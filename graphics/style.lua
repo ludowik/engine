@@ -239,14 +239,13 @@ PORTRAIT_ANY = PORTRAIT + PORTRAIT_UPSIDE_DOWN
 ANY = LANDSCAPE_ANY + PORTRAIT_ANY
 
 function supportedOrientations(mode)
-    -- TODO : exploiter l'orientation pour la création et la mise à jour de la fenêtre
     if mode then
+        env.app.orientation = mode
+        
         if not bitAND(mode, LANDSCAPE_ANY) then
-            config.orientation = 'portrait'            
             engine:portrait()
         end
         if not bitAND(mode, PORTRAIT_ANY) then
-            config.orientation = 'landscape'
             engine:landscape()
         end
     end

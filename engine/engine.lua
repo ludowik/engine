@@ -74,7 +74,7 @@ function Engine:init()
 
     WIDTH = W
     HEIGHT = H
-    
+
     self:initEvents()
 end
 
@@ -96,7 +96,7 @@ end
 
 function Engine:initEvents()
     self.onEvents = {
-        keydown = {
+        keyup = {
             ['r'] = callback('restart', self, Engine.restart),
             ['escape'] = callback('quit', self, Engine.quit),
 
@@ -153,9 +153,7 @@ function Engine:initEvents()
                         Gravity = vec3(0, -9.8, 0)
                     end
                 end),
-        },
 
-        keyup = {
             [KEY_FOR_ACCELEROMETER] = function ()
                 Gravity = vec3(0, -9.8, 0)
             end,
@@ -256,12 +254,16 @@ function Engine:frame(forceDraw)
 end
 
 function Engine:portrait()
+    config.orientation = 'portrait'
+    
     self:resize(
         min(screen.w, screen.h),
         max(screen.w, screen.h))    
 end
 
 function Engine:landscape()
+    config.orientation = 'landscape'
+    
     self:resize(
         max(screen.w, screen.h),
         min(screen.w, screen.h))
@@ -278,10 +280,10 @@ end
 function Engine:wireframe()
     if config.wireframe == 'fill' then
         config.wireframe = 'line'
-        
+
     elseif config.wireframe == 'line' then
         config.wireframe = 'fill&line'
-        
+
     else
         config.wireframe = 'fill'
     end
@@ -298,9 +300,12 @@ function Engine:resize(w, h)
 
     sdl:setWindowSize()
 
+    Context.noContext()
+    if self.renderFrame then
+        self.renderFrame:release()
+    end
+    
     self.renderFrame = Image(W, H)
-
-    self:restart()
 end
 
 function Engine:restart()
@@ -456,6 +461,7 @@ function Engine:drawInfo()
     info('jit version', jit.version)
     info('debugging', debugging())
     info('compile', jit.status())
+    info('wireframe', config.wireframe)
 end
 
 function Engine:drawHelp()

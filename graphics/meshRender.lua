@@ -43,17 +43,19 @@ function MeshRender:sendAttribute(attributeName, buffer, nComponents)
                     error(ffi.typeof(buffer[1]))
                 end
 
---                log(getFunctionLocation(buffer.id, 2))
---                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)
+                log(getFunctionLocation(buffer.id, 2))
+                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)
             end
 
---            log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)
+            log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)
 
             gl.glBufferData(gl.GL_ARRAY_BUFFER, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
         end
 
         gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
         gl.glEnableVertexAttribArray(attribute.attribLocation)
+
+        attribute.enable = true
 
         return attribute
 
@@ -141,7 +143,9 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
             gl.glUniform3f(shader.uniformsLocations.size.uniformLocation, w, h, d)
         end
 
-        self.shader.uniforms.time = ElapsedTime;
+        if shader.uniformsLocations.time then
+            self.shader.uniforms.time = ElapsedTime
+        end
 
         -- TODO gérer les indices
         --        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.buffers.indices)
@@ -177,27 +181,39 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         --        gl.glVertexAttribDivisor(LOCATION_INSTANCE_WIDTH, 1)
         --        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_WIDTH)
 
-        if img and shader.uniformsLocations.tex0 or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
-            if not ios then
+        if not ios then
+            if img or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+                gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
             end
-            gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
-        end
 
-        if img == nil and (config.wireframe == 'line' or config.wireframe == 'fill&line') then
-            if not ios then
+            if img then
+                img:unuse()
+            end
+
+            if config.wireframe == 'line' or config.wireframe == 'fill&line' then
+                if self.shader.uniformsLocations.stroke then
+                    gl.glUniform4fv(self.shader.uniformsLocations.stroke.uniformLocation, 1, red:tobytes())
+                end
+                if self.shader.uniformsLocations.fill then
+                    gl.glUniform4fv(self.shader.uniformsLocations.fill.uniformLocation, 1, red:tobytes())
+                end
+
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
+                gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
             end
+        else
             gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
-        end
 
-        if img then
-            img:unuse()
+            if img then
+                img:unuse()
+            end
         end
 
         for attributeName,attribute in pairs(self.shader.attributes) do
-            -- TODO : usable ?
---            gl.glDisableVertexAttribArray(attribute.attribLocation)
+            if attribute.enable then
+                gl.glDisableVertexAttribArray(attribute.attribLocation)
+            end
         end
 
         if config.glMajorVersion >= 4 then

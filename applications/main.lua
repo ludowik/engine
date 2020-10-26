@@ -32,14 +32,14 @@ function draw()
 
     local w = 256
     
-    local b = 20
+    local b = 10
+    
+    local n, N, dist
     for dx = -b,b do
-        for dz = -b,b do
-            local N, n
+        for dz = -b,b do            
+            dist = math.sqrt(dx^2 + dz^2)
             
-            local dist = math.abs(dx) + math.abs(dz)
-            
-            n = max(2, 2^floor(dist / 2))
+            n = max(1, 2^floor(dist))
             N = w / n
             
             model.shader.uniforms.n = N

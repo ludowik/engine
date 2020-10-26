@@ -52,6 +52,12 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     self.app = env.app
 
     sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appPath)
+    
+    if env.app.orientation then
+        supportedOrientations(env.app.orientation)
+    else
+        supportedOrientations(LANDSCAPE_ANY)
+    end
 
 --    if self.renderFrame and not ios then
 --        for i=1,2 do
