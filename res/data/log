@@ -1,8 +1,14 @@
 /Users/Ludo/Projets/Lua/engine
 load applications/main
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+shader.vao: 5
+shader.vao: 6
 release 1 fonts
 memory at init    : 1.28 mo
 memory min        : 1.28 mo
-memory max        : 14.51 mo
-memory variation  : 13.23 mo
-memory at release : 13.26 mo
+memory max        : 14.53 mo
+memory variation  : 13.25 mo
+memory at release : 11.47 mo

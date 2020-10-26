@@ -74,7 +74,7 @@ function Engine:init()
 
     WIDTH = W
     HEIGHT = H
-
+    
     self:initEvents()
 end
 
@@ -402,8 +402,8 @@ function Engine:postRender(x, y, w, h)
             self.renderFrame:draw(
                 x or 0,
                 y or 0,
-                w or W,
-                h or H)
+                (w or W) * screen.ratio,
+                (h or H) * screen.ratio)
         end
         popMatrix()
     end

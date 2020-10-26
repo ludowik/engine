@@ -11,7 +11,7 @@ function setup()
     parameter.number('uniforms.octave2', 0, 1, 0)
     parameter.number('uniforms.octave3', 0, 1, 0)
 
-    cam = camera(0, 100, 10, 0, 0, -200)
+    cam = camera(0, 250, 10, 0, 200, 0)
 end
 
 function draw()
@@ -30,40 +30,29 @@ function draw()
 
     model.shader:update()
 
-    local x, z = tointeger(cam.vEye.x), tointeger(cam.vEye.z)
+    local x, y, z = tointeger(cam.vEye.x), tointeger(cam.vEye.y), tointeger(cam.vEye.z)
 
-    local w = 128
+    local w = 256
     
-    local b = 10
+    local b = 20
     for dx = -b,b do
         for dz = -b,b do
             local N, n
             
             local dist = math.abs(dx) + math.abs(dz)
-            if dist == 0 then
-                N = w
-            elseif dist < 2 then                
-                N = w/2
-            elseif dist < 4 then
-                N = w/4
-            elseif dist < 8 then
-                N = w/8
-            else
-                N = 2
-            end
             
-            N = 128
-            
-            n = w / N
+            n = max(2, 2^floor(dist / 2))
+            n = 64
+            N = w / n
             
             model.shader.uniforms.n = N
             
             model:drawInstanced(
                 N^2,
                 nil,
-                dx*w + x,-- - w/2,
+                dx*w + x - w/2,
                 0,
-                dz*w + z,-- - w/2,
+                dz*w + z - w/2,
                 n,
                 n,
                 n)

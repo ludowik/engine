@@ -148,12 +148,12 @@ function OpenGL:loadProcAdresses()
             if err ~= self.GL_NO_ERROR then
                 for k,v in pairs(self) do
                     if v == err then
-                        errAsString = k
+                        errCode = k
                         break
                     end
                 end
-                local error_name = string.format('OpenGL Error %s : 0x%x %s', v, err, errAsString)
-                assert(false, error_name)
+                local errDescription = string.format('OpenGL Error %s : 0x%x %s', v, err, errCode)
+                assert(false, errDescription)
             end
             return res
         end

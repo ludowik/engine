@@ -3,8 +3,9 @@ class 'Shader'
 function Shader:init(name, path)
     self.name = name
     self.path = path or 'graphics/shaders'
-
+    
     self.modifications = {}
+    self.uniforms = {}
 
     self:create()
 end
@@ -159,13 +160,19 @@ function Shader:compile(shaderType, source, path)
     else
         self.modifications[shaderType] = 0
     end
-    
+
     gl.glAttachShader(self.program_id, shader_id)
 
     return shader_id
 end
 
 function Shader:release()
+    -- TODO : associate with renderer
+    if self.vao and gl.glIsVertexArray(self.vao) == gl.GL_TRUE then
+        gl.glDeleteVertexArray(self.vao)
+        self.vao = nil
+    end
+
     if gl.glIsProgram(self.program_id) == gl.GL_TRUE then
         for _,id in pairs(self.ids) do
             if gl.glIsShader(id) == gl.GL_TRUE then
@@ -209,6 +216,34 @@ function Shader:initAttributes()
             attribLocation = gl.glGetAttribLocation(self.program_id, attributeName),
             id = gl.glGenBuffer()
         }
+    end
+end
+
+function Shader:initUniforms()
+    self.uniformsLocations = {}
+    self.uniformsGlslTypes = {}
+    self.uniformsTypes = {}
+
+    local uniformName = ffi.new('char[64]')
+
+    local length_ptr = ffi.new('GLsizei[1]')
+    local size_ptr = ffi.new('GLint[1]')
+    local type_ptr = ffi.new('GLenum[1]')
+
+    local activeUniforms = gl.glGetProgramiv(self.program_id, gl.GL_ACTIVE_UNIFORMS)
+    for i=1,activeUniforms do
+        gl.glGetActiveUniform(self.program_id,
+            i-1,
+            64,
+            length_ptr,
+            size_ptr,
+            type_ptr,
+            uniformName)
+
+        self.uniformsLocations[ffi.string(uniformName)] = {
+            uniformLocation = gl.glGetUniformLocation(self.program_id, uniformName)
+        }
+        self.uniformsGlslTypes[ffi.string(uniformName)] = type_ptr[0]
     end
 end
 
@@ -290,33 +325,5 @@ function Shader:send(k, v)
         end
     else
         log(self.name.." : unknown uniform '"..k.."'")
-    end
-end
-
-function Shader:initUniforms()
-    self.uniformsLocations = {}
-    self.uniformsGlslTypes = {}
-    self.uniformsTypes = {}
-
-    local uniformName = ffi.new('char[64]')
-
-    local length_ptr = ffi.new('GLsizei[1]')
-    local size_ptr = ffi.new('GLint[1]')
-    local type_ptr = ffi.new('GLenum[1]')
-
-    local activeUniforms = gl.glGetProgramiv(self.program_id, gl.GL_ACTIVE_UNIFORMS)
-    for i=1,activeUniforms do
-        gl.glGetActiveUniform(self.program_id,
-            i-1,
-            64,
-            length_ptr,
-            size_ptr,
-            type_ptr,
-            uniformName)
-
-        self.uniformsLocations[ffi.string(uniformName)] = {
-            uniformLocation = gl.glGetUniformLocation(self.program_id, uniformName)
-        }
-        self.uniformsGlslTypes[ffi.string(uniformName)] = type_ptr[0]
     end
 end
