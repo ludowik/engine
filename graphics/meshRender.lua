@@ -1,7 +1,5 @@
 class 'MeshRender'
 
-local sizeofFloat = 4 -- ffi.sizeof('GLfloat')
-
 function MeshRender:init()
     config.wireframe = config.wireframe or 'fill'
 end
@@ -90,7 +88,10 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         self:sendUniforms(shader.uniformsLocations)
 
         if config.glMajorVersion >= 4 then
-            shader.vao = shader.vao or gl.glGenVertexArray()
+            if shader.vao == nil then
+                shader.vao = gl.glGenVertexArray()
+                print('shader.vao: '..shader.vao)
+            end
             gl.glBindVertexArray(shader.vao)
         end
 
@@ -140,6 +141,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
             gl.glUniform3f(shader.uniformsLocations.size.uniformLocation, w, h, d)
         end
 
+        self.shader.uniforms.time = ElapsedTime;
 
         -- TODO gérer les indices
         --        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.buffers.indices)

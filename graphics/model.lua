@@ -773,7 +773,7 @@ function Model.plane(x, y, z, w, h, d)
             p1,p2,p3,p4,p1
         })
 
-    vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, x, y, z, w, h, d, -90)
+    vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, x+0.5, y+0.5, z+0.5, w, h, d, -90)
 
     return Model.mesh(
         vertices_face,

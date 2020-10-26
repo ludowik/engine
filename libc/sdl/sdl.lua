@@ -14,6 +14,8 @@ end
 screen = {
     MARGE_X = 50,
     MARGE_Y = 10,
+    
+    ratio = 1
 }
 
 function Sdl:initialize()
@@ -79,7 +81,7 @@ function Sdl:initialize()
 
             window = self.SDL_CreateWindow('Engine',
                 0, 0,
-                screen.w, screen.h,
+                0, 0,
                 self.SDL_WINDOW_OPENGL +
                 --                self.SDL_WINDOW_ALLOW_HIGHDPI +
                 --                self.SDL_WINDOW_FULLSCREEN +
@@ -133,7 +135,10 @@ function Sdl:setWindowSize()
     do
         --        self.SDL_MaximizeWindow(self.window)
 
-        self.SDL_SetWindowSize(self.window, screen.w, screen.h)
+        self.SDL_SetWindowSize(self.window,
+            screen.w * screen.ratio,
+            screen.h * screen.ratio)
+        
         self.SDL_SetWindowPosition(self.window, sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
     end    
     self.SDL_ShowWindow(self.window)

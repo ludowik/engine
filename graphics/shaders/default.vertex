@@ -20,11 +20,11 @@ void main() {
     vec4 worldPosition = matrixModel * vec4(vertexPosition.xyz, 1.);
     vec4 worldNormal = matrixModel * vec4(normal, 0.0);
 
-    gl_Position = matrixPV * worldPosition;
-
     vPosition = worldPosition.xyz;
     vNormal = worldNormal.xyz;
 
     vColor = color;
     vTexCoords = texCoords;
+
+    gl_Position = matrixPV * worldPosition;
 }

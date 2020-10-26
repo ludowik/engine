@@ -42,12 +42,12 @@ function OpenAL:loadProcAdresses()
             if err ~= self.AL_NO_ERROR then
                 for k,v in pairs(self) do
                     if v == err then
-                        errAsString = k
+                        errName = k
                         break
                     end
                 end
-                local error_name = string.format('OpenAL Error %s : 0x%x %s', v, err, errAsString)
-                assert(false, error_name)
+                local errDescription = string.format('OpenAL Error %s : 0x%x %s', v, err, errName)
+                assert(false, errDescription)
             end
             return res
         end
