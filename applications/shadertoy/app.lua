@@ -85,7 +85,7 @@ function drawShader(shader, ui)
 
             shader.uniforms.iMouse.x, shader.uniforms.iMouse.y = x, y
 
-            if isButtonDown(1) then
+            if isButtonDown(BUTTON_LEFT) then
                 shader.uniforms.iMouse.z, shader.uniforms.iMouse.w = x, y
             else
                 shader.uniforms.iMouse.z, shader.uniforms.iMouse.w = -1, -1

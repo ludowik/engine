@@ -3,7 +3,7 @@ function getProjectDataPath(dataType)
 end
 
 function getGlobalDataPath(dataType)
-    return getDataPath()..'/_.'..dataType
+    return getDataPath()..'/.'..dataType
 end
 
 -- data

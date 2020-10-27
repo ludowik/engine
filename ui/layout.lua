@@ -31,10 +31,13 @@ function Layout:layout(mode, n)
 
     self.rowSize = self.rowSize or {}
     self.colSize = self.colSize or {}
+    
+    self.nodeSize = self.nodeSize or vec2()
 
     local i, j = 1, 1
     for index=1,#self.nodes do
         local node = self.nodes[index]
+        
         node.position.x = position.x
         node.position.y = position.y
 
@@ -43,33 +46,41 @@ function Layout:layout(mode, n)
         size.x = max(size.x, position.x + node.size.x + outerMarge)
         size.y = max(size.y, position.y + node.size.y + outerMarge)
 
+        self.colSize[i] = self.colSize[i] or vec2()
+        self.rowSize[j] = self.rowSize[j] or vec2()
+        
+        self.colSize[i].x = max(self.colSize[i].x, node.size.x)
+        self.colSize[i].y = max(self.colSize[i].y, node.size.y)
+
+        self.rowSize[j].x = max(self.rowSize[j].x, node.size.x)
+        self.rowSize[j].y = max(self.rowSize[j].y, node.size.y)
+        
+        self.nodeSize.x = max(self.nodeSize.x, node.size.x)
+        self.nodeSize.y = max(self.nodeSize.y, node.size.y)
+
         if mode == 'row' then
             position.x = position.x + node.size.x + innerMarge
+            i = i + 1
 
         elseif mode == 'column' then
             position.y = position.y + node.size.y + innerMarge
+            j =j + 1
 
         elseif mode == 'grid' then
-            self.colSize[i] = self.colSize[i] or vec2()
-            self.colSize[i].x = max(self.colSize[i].x, node.size.x)
-
-            self.rowSize[j] = self.rowSize[j] or vec2()
-            self.rowSize[j].y = max(self.rowSize[j].y, node.size.y)
-
+            node.size.x = self.nodeSize.x
             if i == n then
                 position.x = outerMarge
                 i = 1
 
                 position.y = (position.y +
-                    max(node.size.y, self.colSize[i].y) +
+                    self.nodeSize.y +
                     innerMarge)
-
                 j = j + 1
+
             else
                 position.x = (position.x +
-                    max(node.size.x, self.colSize[i].x) +
+                    self.nodeSize.x +
                     innerMarge)
-
                 i = i + 1
             end
         end

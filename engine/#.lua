@@ -20,6 +20,8 @@ require 'engine.applicationManager'
 
 require 'engine.component'
 require 'engine.engine'
+require 'engine.events'
+require 'engine.introspection'
 
 require 'engine.frameTime'
 require 'engine.memory'

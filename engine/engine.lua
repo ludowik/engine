@@ -74,8 +74,6 @@ function Engine:init()
 
     WIDTH = W
     HEIGHT = H
-
-    self:initEvents()
 end
 
 function Engine:on(event, key, callback)
@@ -94,82 +92,6 @@ function Engine:on(event, key, callback)
     end
 end
 
-function Engine:initEvents()
-    self.onEvents = {
-        keyup = {
-            ['r'] = callback('restart', self, Engine.restart),
-            ['escape'] = callback('quit', self, Engine.quit),
-
-            ['t'] = callback('todos', self, scanTODO),
-
-            ['d'] = callback('default application', self, Engine.defaultApp),
-            ['a'] = callback('applications', self, Engine.managerApp),
-
-            ['n'] = callback('next application', self, Engine.nextApp),
-            ['b'] = callback('previous application', self, Engine.previousApp),
-
-            ['v'] = callback('loop 0', self, Engine.loopApp, 0),
-            ['c'] = callback('loop 2', self, Engine.loopApp, 2),
-
-            ['f'] = callback('flip screen', self, Engine.flip),
-
-            ['w'] = callback('wireframe', self, Engine.wireframe),
-
-            ['f1'] = callback('help', self, Engine.toggleHelp),
-            ['f2'] = callback('opengl or opengl es', self, Engine.toggleRenderVersion),
-
-            ['f11'] = callback('fullscreen', self, Sdl.toggleWindowDisplayMode),
-
-            ['tab'] = callback('next focus', self,
-                function ()
-                    if self.app then
-                        self.app.ui:nextFocus()
-                    end
-                end),
-
-            ['p'] = callback('profiler', self,
-                function()
-                    Profiler.resetClasses()
-
-                    if not Profiler.running then
-                        Profiler.init()
-                        Profiler.start()
-
-                        reporting = Reporting()
-                    else
-                        Profiler.stop()
-                    end
-                end),
-
-            ['i'] = callback('emulate ios', self,
-                function ()
-                    initOS('ios')
-                    self:restart()
-                end),
-
-            [KEY_FOR_ACCELEROMETER] = callback('emulate accelerometer', self,
-                function (_, _, isrepeat)
-                    if not isrepeat then
-                        Gravity = vec3(0, -9.8, 0)
-                    end
-                end),
-
-            [KEY_FOR_ACCELEROMETER] = function ()
-                Gravity = vec3(0, -9.8, 0)
-            end,
-        }
-    }
-
-    engine:on('keydown', 'u',
-        callback('ui test', self,
-            function()
-                engine:on('update', function()
-                        mouse:mouseEvent(0, BEGAN, screen.MARGE_X + math.random(W), math.random(H), 0, 0, true, false)
-                        mouse:mouseEvent(0, ENDED, screen.MARGE_X + math.random(W), math.random(H), 0, 0, false, false)
-                    end)
-            end))
-end
-
 function Engine:initialize()
     DeltaTime = 0
     ElapsedTime = 0
@@ -178,6 +100,8 @@ function Engine:initialize()
     self.frameTime:init()
 
     call('setup')
+
+    self:initEvents()
 
     self.renderFrame = Image(W, H)
 
@@ -254,16 +178,20 @@ function Engine:frame(forceDraw)
 end
 
 function Engine:portrait()
+    if config.orientation == 'portrait' then return end
+
     config.orientation = 'portrait'
-    
+
     self:resize(
         min(screen.w, screen.h),
         max(screen.w, screen.h))    
 end
 
-function Engine:landscape()
+function Engine:landscape()    
+    if config.orientation == 'landscape' then return end
+
     config.orientation = 'landscape'
-    
+
     self:resize(
         max(screen.w, screen.h),
         min(screen.w, screen.h))
@@ -304,7 +232,7 @@ function Engine:resize(w, h)
     if self.renderFrame then
         self.renderFrame:release()
     end
-    
+
     self.renderFrame = Image(W, H)
 end
 
@@ -474,6 +402,7 @@ function Engine:drawHelp()
         end
     end
 end
+
 function Engine:keydown(key, isrepeat)
     if self.onEvents.keydown[key] then
         self.onEvents.keydown[key]()
@@ -484,7 +413,25 @@ end
 
 function Engine:keyup(key)
     if self.onEvents.keyup[key] then
-        self.onEvents.keyup[key](self)
+        self.onEvents.keyup[key]()
+    end
+end
+
+function Engine:buttondown(button)
+    if self.onEvents['buttondown'] then
+        local f = self.onEvents['buttondown'][button]
+        if f then
+            f()
+        end
+    end
+end
+
+function Engine:buttonup(button)
+    if self.onEvents['buttonup'] then
+        local f = self.onEvents['buttonup'][button]
+        if f then
+            f()
+        end
     end
 end
 

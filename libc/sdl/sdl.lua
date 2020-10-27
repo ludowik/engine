@@ -204,6 +204,8 @@ function Sdl:event()
                     0, 0,
                     true,
                     event.button.clicks)
+            else
+                engine:buttondown(event.button.button)
             end
 
         elseif event.type == sdl.SDL_MOUSEMOTION then
@@ -232,6 +234,8 @@ function Sdl:event()
                     event.button.x, event.button.y,
                     0, 0,
                     false)
+            else
+                engine:buttonup(event.button.button)
             end
 
         elseif event.type == sdl.SDL_MOUSEWHEEL  then

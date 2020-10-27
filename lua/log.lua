@@ -1,7 +1,7 @@
 class 'Log'
 
 function Log.setup()
-    save('res/data/log', '', 'w')
+    save(getDataPath()..'/.log', '', 'w')
 
     if debugging() then
         log = print
@@ -22,7 +22,7 @@ decorate('print',
 
         f(str, ...)
 
-        save('res/data/log', str..NL, 'a')
+        save(getDataPath()..'/.log', str..NL, 'a')
     end)
 
 decorate('error',

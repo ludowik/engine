@@ -10,6 +10,12 @@ function Keys.setup()
     for k,v in pairs(mapKeys) do
         mapKeysReverse[v] = k
     end
+
+    BUTTON_LEFT = sdl.SDL_BUTTON_LEFT
+    BUTTON_MIDDLE = sdl.SDL_BUTTON_MIDDLE
+    BUTTON_RIGHT = sdl.SDL_BUTTON_RIGHT
+    BUTTON_X1 = sdl.SDL_BUTTON_X1
+    BUTTON_X2 = sdl.SDL_BUTTON_X2
 end
 
 local keysState
@@ -37,10 +43,5 @@ function isDown(key)
 end
 
 function isButtonDown(button)
-    if button == 1 then
-        button = sdl.SDL_BUTTON_LEFT
-    elseif button == 2 then
-        button = sdl.SDL_BUTTON_RIGHT
-    end
-    return hasbit(sdl.SDL_GetMouseState(nil, nil), button)
+    return hasbit(sdl.SDL_GetMouseState(nil, nil), 2^(button-1))
 end

@@ -1,28 +1,28 @@
 class 'ApplicationManager'
 
 function ApplicationManager:loadApp(appPath, reloadApp)
-    self.appName, self.appDirectory = splitPath(appPath)
-    self.appPath = appPath
-
-    if not isApp(self.appPath) then
-        print(self.appName, self.appDirectory, self.appPath)
-        error(false)
+    if not isApp(appPath) then
+        error(appPath)
     end
 
-    saveGlobalData('appPath', self.appPath)
+    self.appPath = appPath
+    self.appName, self.appDirectory = splitPath(appPath)
 
-    if self.envs[self.appPath] == nil or reloadApp then
-        print('load '..self.appPath)
+    saveGlobalData('appPath', appPath)
+
+    sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..appPath)
+
+    if self.envs[appPath] == nil or reloadApp then
+        print('load '..appPath)
 
         local env = {}
-        self.envs[self.appPath] = env
+        self.envs[appPath] = env
         _G.env = env
 
         setfenv(0, setmetatable(env, {__index=_G}))
 
-        ___requireReload = true
-        require(self.appPath)
-        ___requireReload = false
+        package.loaded[appPath] = nil
+        require(appPath)
 
 --        env.physics = box2dRef and box2dRef.Physics() or Physics()
         env.physics = Physics()
@@ -40,25 +40,24 @@ function ApplicationManager:loadApp(appPath, reloadApp)
             end
         end
 
-    else
-        print('switch '..self.appPath)
+        if not env.app.orientation then
+            supportedOrientations(LANDSCAPE_ANY)
+        end
 
-        local env = self.envs[self.appPath]
+    else
+        print('switch '..appPath)
+
+        local env = self.envs[appPath]
         _G.env = env
 
         setfenv(0, env)
+
+        supportedOrientations(env.app.orientation or LANDSCAPE_ANY)
     end
 
     self.app = env.app
 
-    sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..self.appPath)
-    
-    if env.app.orientation then
-        supportedOrientations(env.app.orientation)
-    else
-        supportedOrientations(LANDSCAPE_ANY)
-    end
-
+-- TODO : TODEL ?
 --    if self.renderFrame and not ios then
 --        for i=1,2 do
 --            setContext(self.renderFrame)

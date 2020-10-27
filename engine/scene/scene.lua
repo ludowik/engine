@@ -1,7 +1,7 @@
 class 'Scene' : extends(Node)
 
-function Scene:init()
-    Node.init(self)
+function Scene:init(label)
+    Node.init(self, label)
 end
 
 function Scene:layout()
@@ -54,10 +54,6 @@ function Scene:draw()
         end
 
         Node.draw(self)
-
-        if self.label ~= "" then
-            UI.drawLabel(self)
-        end
     end
     popMatrix()
 end

@@ -12,6 +12,12 @@ function setup()
     parameter.number('uniforms.octave3', 0, 1, 0)
 
     cam = camera(0, 250, 10, 0, 200, 0)
+    
+    parameter.watch('isButtonDown(1)')
+    parameter.watch('isButtonDown(2)')
+    parameter.watch('isButtonDown(3)')
+    parameter.watch('isButtonDown(4)')
+    parameter.watch('isButtonDown(5)')
 end
 
 function draw()

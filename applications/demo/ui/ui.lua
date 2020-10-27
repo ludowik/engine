@@ -2,8 +2,8 @@ function setup()
     parameter.watch('parameter')
     parameter.watch('yesno')
 
-    parameter.watch('isButtonDown(1)')
-    parameter.watch('isButtonDown(2)')
+    parameter.watch('isButtonDown(BUTTON_LEFT)')
+    parameter.watch('isButtonDown(BUTTON_RIGHT)')
 
     parameter.watch('Couleur')
 

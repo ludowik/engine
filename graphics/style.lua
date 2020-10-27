@@ -240,7 +240,7 @@ ANY = LANDSCAPE_ANY + PORTRAIT_ANY
 
 function supportedOrientations(mode)
     if mode then
-        env.app.orientation = mode
+        env.__orientation = mode
         
         if not bitAND(mode, LANDSCAPE_ANY) then
             engine:portrait()
@@ -253,5 +253,6 @@ function supportedOrientations(mode)
 end
 
 function displayMode(mode)
+    -- TODO : implement displayMode
     assert(mode)
 end

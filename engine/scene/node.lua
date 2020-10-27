@@ -1,7 +1,7 @@
 class('Node', Object)
 
-function Node:init()
-    Object.init(self)
+function Node:init(label)
+    Object.init(self, label)
     self:clear()
 end
 
@@ -116,7 +116,7 @@ function Node:draw()
     if self.hasFocus then
         stroke(red)
     else
-        stroke(white)
+        stroke(51)
     end
 
     noFill()

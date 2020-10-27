@@ -78,7 +78,7 @@ function ColorPicker:draw()
 end
 
 function ColorPicker:touched(touch)
-    if isButtonDown(1) then
+    if isButtonDown(BUTTON_LEFT) then
         local x = touch.x - self.absolutePosition.x
         local y = touch.y - self.absolutePosition.y
 
