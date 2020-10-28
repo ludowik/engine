@@ -1,13 +1,148 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/appManager
+/Users/Ludo/Projets/Lua/engine
+load applications/main
 shader.vao: 1
 shader.vao: 2
 shader.vao: 3
 shader.vao: 4
 shader.vao: 5
-release 1 fonts
-memory at init    : 1.03 mo
-memory min        : 1.03 mo
-memory max        : 7.13 mo
-memory variation  : 6.10 mo
-memory at release : 5.57 mo
+shader.vao: 6
+load applications/appManager
+switch applications/appManager
+switch applications/appManager
+load applications/apps/2048
+load applications/apps/asteroid
+shader.vao: 7
+shader.vao: 8
+shader.vao: 9
+load applications/apps/bbtan
+shader.vao: 10
+load applications/apps/calc
+load applications/apps/freeCell
+load applications/apps/icon
+load applications/apps/sudoku
+load applications/apps/tetris
+load applications/apps/triomino
+load applications/codea/3D Lab
+shader.vao: 11
+load applications/codea/Animation
+A demo showing how to use basic tweens
+1. tween.easing.linear
+2. tween.easing.quadInOut
+3. tween.easing.bounceOut
+shader.vao: 12
+shader.vao: 13
+load applications/codea/Backgammon
+load applications/codea/Basic Physics
+Hello Physics!
+Touch the screen to make boxes
+load applications/codea/Bezier
+load applications/codea/Blend Modes
+This demonstrates blending modes. Blend modes determine how drawing operations blend together on-screen.
+nil
+The top pair of ellipses uses normal blending.
+nil
+The middle uses additive.
+nil
+And the bottom uses multiplicative blending.
+load applications/codea/Brickout
+Tap the bat to launch the ball.
+Drag om the screen to move the paddle.
+When the game is over tap the screen to restart.
+load applications/codea/Bubbles
+load applications/codea/Cargo-Bot
+load applications/codea/Dungeon Roller
+load applications/codea/FixedAreaBubble
+load applications/codea/Gravity
+An example that shows how to use the Gravity vector
+load applications/codea/Hammer
+load applications/codea/Lines
+load applications/codea/Orbital
+load applications/codea/Parameters
+Hello Parameters!
+X set to 740
+color{r=1, g=0.5, b=0, a=0.5}
+HasStroke toggled to true
+load applications/codea/Physics
+load applications/codea/Physics Lab
+load applications/codea/Roller Coaster
+load applications/codea/ScreenSaver
+load applications/codea/Voxel
+load applications/codea/Web
+load applications/demo/fizix
+load applications/demo/particles
+load applications/noise/map1
+shader.vao: 14
+shader.vao: 15
+shader.vao: 16
+shader.vao: 17
+shader.vao: 18
+shader.vao: 19
+shader.vao: 20
+load applications/noise/map2
+shader.vao: 21
+load applications/noise/noise1
+shader.vao: 22
+load applications/noise/noise2
+load applications/shadertoy
+applications/shadertoy
+26
+applications/shadertoy/shaders/androgynous bolt.frag
+shader.vao: 23
+applications/shadertoy/shaders/balls.glsl
+shader.vao: 24
+applications/shadertoy/shaders/brush.glsl
+shader.vao: 25
+applications/shadertoy/shaders/carting.glsl
+shader.vao: 26
+applications/shadertoy/shaders/cubescape.frag
+shader.vao: 27
+applications/shadertoy/shaders/dancing metalights.frag
+shader.vao: 28
+applications/shadertoy/shaders/fansy.glsl
+shader.vao: 29
+applications/shadertoy/shaders/fires.glsl
+shader.vao: 30
+applications/shadertoy/shaders/flame.frag
+shader.vao: 31
+applications/shadertoy/shaders/mario.glsl
+shader.vao: 32
+applications/shadertoy/shaders/pegasus.frag
+shader.vao: 33
+applications/shadertoy/shaders/raycast2d.glsl
+shader.vao: 34
+applications/shadertoy/shaders/sand.glsl
+shader.vao: 35
+applications/shadertoy/shaders/sandbox.fragment
+shader.vao: 36
+applications/shadertoy/shaders/sea.glsl
+shader.vao: 37
+applications/shadertoy/shaders/silexars.frag
+shader.vao: 38
+applications/shadertoy/shaders/space.glsl
+shader.vao: 39
+applications/shadertoy/shaders/train.glsl
+shader.vao: 40
+applications/shadertoy/shaders/tube.glsl
+shader.vao: 41
+applications/shadertoy/shaders/tutorial1.frag
+shader.vao: 42
+applications/shadertoy/shaders/tutorial2.frag
+shader.vao: 43
+applications/shadertoy/shaders/tutorial3.frag
+shader.vao: 44
+applications/shadertoy/shaders/tutorial4.frag
+shader.vao: 45
+applications/shadertoy/shaders/tutorial5.frag
+shader.vao: 46
+applications/shadertoy/shaders/tutorial6.frag
+shader.vao: 47
+applications/shadertoy/shaders/tutorial7.frag
+shader.vao: 48
+switch applications/appManager
+switch applications/appManager
+release 28 fonts
+memory at init    : 1.28 mo
+memory min        : 1.28 mo
+memory max        : 109.44 mo
+memory variation  : 108.16 mo
+memory at release : 85.77 mo

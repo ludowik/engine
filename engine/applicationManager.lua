@@ -1,5 +1,13 @@
 class 'ApplicationManager'
 
+function ApplicationManager:pushSize()
+    _G.env.W = screen.W
+    _G.env.H = screen.H
+
+    _G.env.WIDTH  = screen.W
+    _G.env.HEIGHT = screen.H
+end
+
 function ApplicationManager:loadApp(appPath, reloadApp)
     if not isApp(appPath) then
         error(appPath)
@@ -17,10 +25,12 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 
         local env = {}
         self.envs[appPath] = env
-        _G.env = env
+        _G.env = env        
 
         setfenv(0, setmetatable(env, {__index=_G}))
 
+        self:pushSize()
+        
         package.loaded[appPath] = nil
         require(appPath)
 
@@ -42,6 +52,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 
         if not env.app.orientation then
             supportedOrientations(LANDSCAPE_ANY)
+            self:pushSize()
         end
 
     else
@@ -53,6 +64,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         setfenv(0, env)
 
         supportedOrientations(env.app.orientation or LANDSCAPE_ANY)
+        self:pushSize()
     end
 
     self.app = env.app
