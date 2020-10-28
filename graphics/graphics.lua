@@ -11,7 +11,9 @@ function Graphics:initialize()
     meshPoints.shader = shaders['points']
 
     meshLine = Mesh()
-    meshLine.vertices = Buffer('vec3', {vec3(0, 0, 0), vec3(1, 1, 0)})
+    meshLine.vertices = Buffer('vec3', {
+            vec3(0, 0, 0), vec3(1, 1, 0), vec3(1, 1, 0),
+            vec3(0, 0, 0), vec3(1, 1, 0), vec3(0, 0, 0)})
     meshLine.shader = shaders['line']
 
     meshLines = Mesh()
@@ -202,7 +204,12 @@ function line(x1, y1, x2, y2)
 --    ROUND
 --    PROJECT
     if stroke() then
-        meshLine:render(meshLine.shader, gl.GL_LINES, nil, x1, y1, 0, x2-x1, y2-y1, 1)
+        meshLine:render(meshLine.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, x2-x1, y2-y1, 1)
+        if lineCapMode() == ROUND then
+            local r = strokeWidth()
+            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, r, r, 1)
+            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x2, y2, 0, r, r, 1)
+        end
     end
 end
 
@@ -239,7 +246,7 @@ function rect(x, y, w, h, r, mode)
     end
 end
 
-function circle(x, y, r)
+function circle(x, y, r, mode)
     local w, h = r*2, r*2
     x, y = cornerFromCenter(mode or circleMode(), x, y, w, h)
 
@@ -273,7 +280,7 @@ function sprite(img, x, y, w, h, mode)
         h = h or img.surface.h * w / img.surface.w
 
         x, y = centerFromCorner(mode or spriteMode(), x, y, w, h)
-        
+
         meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, w, h, 1)
     end
 end

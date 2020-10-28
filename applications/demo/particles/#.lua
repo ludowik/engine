@@ -1,4 +1,5 @@
-requireLib('main',
+requireLib(
+    'main',
     'emitter',
     'particle')
 

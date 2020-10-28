@@ -1,3 +1,4 @@
-requireLib('appCalc',
+requireLib(
+    'appCalc',
     'calc',
     'unit')

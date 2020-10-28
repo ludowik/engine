@@ -540,7 +540,7 @@ function Model.sphere(x, y, z, w, h, d)
     end
 
     local faces = 0
-    local delta = 2
+    local delta = (debugging() and 45) or 2
 
     local v1, v2, v3, v4
     for theta = 0, 360-delta, delta do

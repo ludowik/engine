@@ -1,0 +1,3 @@
+requireLib(
+    'main',
+    'heightMap')

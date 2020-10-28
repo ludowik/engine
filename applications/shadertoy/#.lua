@@ -1,2 +1,3 @@
-requireLib('app',
+requireLib(
+    'app',
     'shadertoy')

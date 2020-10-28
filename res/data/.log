@@ -1,13 +1,12 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-load applications/appManager
+load applications/prim
 shader.vao: 1
 shader.vao: 2
 shader.vao: 3
 shader.vao: 4
-shader.vao: 5
 release 1 fonts
 memory at init    : 1.03 mo
 memory min        : 1.03 mo
-memory max        : 7.13 mo
-memory variation  : 6.10 mo
-memory at release : 5.57 mo
+memory max        : 7.10 mo
+memory variation  : 6.08 mo
+memory at release : 6.16 mo

@@ -7,12 +7,12 @@ end
 function args:get(...)
     local parameters = {}
 
-    for _,paramType in ipairs({...}) do
-        if typeof(self.args[1]) == paramType[1] then
-            table.insert(parameters, self.args[1])
+    for i,paramType in ipairs({...}) do
+        if type(self.args[1]) == paramType[1] then
+            parameters[i] = self.args[1]
             table.remove(self.args, 1)
         else
-            table.insert(parameters, paramType[2])
+            parameters[i] = paramType[2]
         end
     end
 

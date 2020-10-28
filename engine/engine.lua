@@ -390,6 +390,7 @@ function Engine:drawInfo()
     info('debugging', debugging())
     info('compile', jit.status())
     info('wireframe', config.wireframe)
+    info('light', config.light)
 end
 
 function Engine:drawHelp()

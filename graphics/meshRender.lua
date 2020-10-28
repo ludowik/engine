@@ -234,6 +234,10 @@ function MeshRender:sendUniforms(uniformsLocations)
     if uniformsLocations.stroke and styles.attributes.stroke then
         gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
     end
+    
+    if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
+        gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
+    end
 
     if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
         gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
@@ -256,7 +260,7 @@ function MeshRender:sendUniforms(uniformsLocations)
     end
 
     if uniformsLocations.useLight then
-        if self.normals and #self.normals > 0 and styles.attributes.light then
+        if self.normals and #self.normals > 0 and styles.attributes.light and config.light then
             gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 1)
         else
             gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 0)

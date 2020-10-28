@@ -40,7 +40,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
             end
         end
 
-        if not env.app.orientation then
+        if not env.__orientation then
             supportedOrientations(LANDSCAPE_ANY)
         end
 
@@ -52,7 +52,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 
         setfenv(0, env)
 
-        supportedOrientations(env.app.orientation or LANDSCAPE_ANY)
+        supportedOrientations(env.__orientation or LANDSCAPE_ANY)
     end
 
     self.app = env.app

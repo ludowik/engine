@@ -9,6 +9,14 @@ uniform mat4 matrixPV;
 uniform vec3 pos;
 uniform vec3 size;
 
+uniform vec4 fill;
+uniform vec4 stroke;
+uniform vec4 tint;
+
+uniform int useLight;
+uniform int useColor;
+uniform int useTexture;
+
 out vec3 vPosition;
 out vec3 vNormal;
 out vec4 vColor;
@@ -23,7 +31,11 @@ void main() {
     vPosition = worldPosition.xyz;
     vNormal = worldNormal.xyz;
 
-    vColor = color;
+    if (useColor > 0) {
+        vColor = color;
+    } else {
+        vColor = stroke;
+    }
     vTexCoords = texCoords;
 
     gl_Position = matrixPV * worldPosition;

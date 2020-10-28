@@ -32,22 +32,22 @@ end
 function Scene:draw()
     pushMatrix()
     do
-        local camera = self.camera
-        if camera then
-            perspective()
-
-            camera:setViewMatrix()
-
-            light(config.light)
-
-            MeshAxes()
-
-            blendMode(NORMAL)
-            depthMode(true)
-            cullingMode(true)
-        end
-
         if self.parent == nil then
+            local camera = self.camera
+            if camera then
+                perspective()
+
+                camera:setViewMatrix()
+
+                light(true)
+
+                MeshAxes()
+
+                blendMode(NORMAL)
+                depthMode(true)
+                cullingMode(true)
+            end
+            
             if self.position then
                 translate(self.position.x, self.position.y)
             end
