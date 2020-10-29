@@ -1,4 +1,5 @@
-requireLib('camera',
+requireLib(
+    'camera',
     'model',
     'ui',
     'main')

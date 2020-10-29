@@ -1,4 +1,5 @@
-requireLib('app',
+requireLib(
+    'app',
     'asteroid',
     'ship',
     'bullet')

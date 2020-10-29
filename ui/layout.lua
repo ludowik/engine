@@ -43,9 +43,6 @@ function Layout:layout(mode, n)
 
         Layout.computeNodeSize(self, node)
 
-        size.x = max(size.x, position.x + node.size.x + outerMarge)
-        size.y = max(size.y, position.y + node.size.y + outerMarge)
-
         self.colSize[i] = self.colSize[i] or vec2()
         self.rowSize[j] = self.rowSize[j] or vec2()
         
@@ -79,11 +76,14 @@ function Layout:layout(mode, n)
 
             else
                 position.x = (position.x +
-                    self.nodeSize.x +
+                    node.size.x +
                     innerMarge)
                 i = i + 1
             end
         end
+        
+        size.x = max(size.x, position.x + node.size.x + outerMarge)
+        size.y = max(size.y, position.y + node.size.y + outerMarge)
     end
 
     self.size = size

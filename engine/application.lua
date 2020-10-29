@@ -141,19 +141,19 @@ end
 function Application:draw()
     background(black)
 
-    resetMatrix()
-    resetStyle()
+    self:render(self.scene)
+    self:render(self.ui)
+end
 
-    self.scene:layout()
-    self.scene:draw()
-
+function Application:render(scene)
     pushMatrix()
-    resetMatrix(true)
-    resetStyle()
+    do
+        resetMatrix(true)
+        resetStyle()
 
-    self.ui:layout()
-    self.ui:draw()
-
+        scene:layout()
+        scene:draw()
+    end
     popMatrix()
 end
 

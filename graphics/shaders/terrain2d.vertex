@@ -45,7 +45,7 @@ float lerp(float a, float b, float t) {
 }
 
 float quadIn(float a, float b, float t) {
-    return a + (b - a) * pow(t, 2);
+    return a + (b - a) * pow(t, 2.);
 }
 
 float noise(vec2 v) {
@@ -63,7 +63,7 @@ float noise(vec2 v) {
     float c = snoise(vc);
     float d = snoise(vd);
     
-    v = (v - vnorm) / e;
+    v = (v - vec2(vnorm)) / float(e);
     
     a = lerp(a, b, v.y);
     c = lerp(c, d, v.y);
@@ -93,8 +93,8 @@ const float landMaxElevation = 150.;
 vec4 rock = vec4(90./255., 77./255., 65./255., 1.);
 
 void main() {
-    int x = int(floor(gl_InstanceID % n));
-    int z = int(floor(gl_InstanceID / n));
+    float x = float(gl_InstanceID % n);
+    float z = float(gl_InstanceID / n);
     
     vec3 vertex2 = vertex * size + pos + vec3(x * size.x, 0., z * size.z);
 

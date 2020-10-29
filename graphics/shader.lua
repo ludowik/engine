@@ -3,7 +3,7 @@ class 'Shader'
 function Shader:init(name, path)
     self.name = name
     self.path = path or 'graphics/shaders'
-    
+
     self.modifications = {}
     self.uniforms = {}
 
@@ -70,72 +70,37 @@ function Shader:build(shaderType, shaderName, shaderExtension)
 end
 
 function Shader:compile(shaderType, source, path)
-    local include = ''
+    local include
 
     if opengles then
-        include = include..(
+        include = (
             '#version 300 es'..NL..
-            '#define VERSION '..gl:getGlslVersion()..NL..
-            'precision highp float;'..NL            
-        )
+            '#define VERSION '..gl:getGlslVersion()..NL)
     else
-        include = include..(
+        include = (
             '#version '..gl:getGlslVersion()..NL..
-            '#define VERSION '..gl:getGlslVersion()..NL..            
-            'precision highp float;'..NL
-        )
+            '#define VERSION '..gl:getGlslVersion()..NL)
     end
 
-    local noise2D = io.read('graphics/shaders/noise2D.glsl')
-    assert(noise2D)
-    include = include..(
-        noise2D..NL
-    )
-
-    local noise3D = io.read('graphics/shaders/noise3D.glsl')
-    assert(noise3D)
-    include = include..(
-        noise3D..NL
-    )
-
-    local includeGlsl = io.read('graphics/shaders/include.glsl')
-    assert(includeGlsl)
-    include = include..(
-        includeGlsl..NL
-    )
-
     include = include..[[
-        #if VERSION >= 300
-            #define attribute in
-
-            #define texture2D texture
-
-            #define gl_FragColor fragColor
-            out vec4 fragColor;
-        #else
-            #define in  varying
-            #define out varying
-
-            #define texture texture2D
-
-            #define fragColor gl_FragColor
-        #endif
-
-        vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
-        vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
-
-        vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
-        vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
-        vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
-
-        vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+        #include "_include.glsl"
         
-        vec4 brown = vec4(165./255., 42./255., 42./255., 1.0);
-
-        #line 1
+//        #include "_math.glsl"
+        
+        #include "_noise2D.glsl"
+        #include "_noise3D.glsl"
     ]]
+    
+    local includes = {}
 
-    source = include..source
+    include = include:gsub('\n[%s]*#include[%s]+"([a-zA-Z0-9%._]+)"', function (file, a, b, c)
+            local path = 'graphics/shaders'
+            includes[#includes+1] = path..'/'..file
+            return NL..'#line 0 '..#includes..NL..io.read(includes[#includes])
+        end)
+    includes[#includes+1] = path
+    
+    source = include..NL..'#line 0 '..#includes..NL..source
 
     local shader_id = gl.glCreateShader(shaderType)
     assert(shader_id > 0)
@@ -146,10 +111,11 @@ function Shader:compile(shaderType, source, path)
     local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
     if status == gl.GL_FALSE then        
         local errors = gl.glGetShaderInfoLog(shader_id)
-        errors = errors:gsub(':(%d*):',
-            function (line)
-                line = tonumber(line)
-                return lfs.currentdir()..'/'..path..' :'..(line)..':'
+        errors = errors:gsub('(%d+):(%d+):',
+            function (ifile, iline)
+                ifile = tonumber(ifile)
+                iline = tonumber(iline)
+                return lfs.currentdir()..'/'..includes[ifile]..' :'..(iline)..':'
             end)
 
         error(errors)

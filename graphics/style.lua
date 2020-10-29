@@ -123,12 +123,10 @@ function noStroke()
     return styles:setAttribute('stroke', nil, true)
 end
 
--- TODO
-function light(mode)
-    return styles:setAttribute('light', mode or true)
+function light(...)
+    return styles:setAttribute('light', ...)
 end
 
--- TODO
 function noLight()
     return styles:setAttribute('light', nil, true)
 end

@@ -26,7 +26,7 @@ function Engine:initEvents()
             ['f'] = callback('flip screen', self, Engine.flip),
 
             ['w'] = callback('wireframe', self, Engine.wireframe),
-            
+
             [','] = callback('introspection', self, Engine.introspection),
 
             ['f1'] = callback('help', self, Engine.toggleHelp),
@@ -53,6 +53,10 @@ function Engine:initEvents()
                     else
                         Profiler.stop()
                     end
+                end),
+
+            ['l'] = callback('light', function ()
+                    config.light = not config.light
                 end),
 
             ['i'] = callback('emulate ios', self,

@@ -1,4 +1,5 @@
-requireLib('ball',
+requireLib(
+    'ball',
     'bat',
     'block',
     'emitter',

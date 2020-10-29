@@ -20,7 +20,7 @@ function createUILight(reset)
 
     menuLights:add(Button('light',
             function (btn)
-                light(not light())
+                config.light = not config.light
             end))
 
     menuLights:add(Button('reset',

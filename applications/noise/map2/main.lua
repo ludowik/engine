@@ -11,7 +11,7 @@ function setup()
 
     local index = 0
 
-    local n = debugging() and 20 or 500
+    local n = (debugging() and 20) or 50 -- 500
 
     local v = vec3()
 
@@ -41,11 +41,8 @@ function setup()
     fill(white)
 
     app.scene.camera = Camera(50, 200, -50, 100, 0, 100)
-
+    
     app.scene:add(MeshObject(m))
-
-    m.normals = Model.computeNormals(m.vertices)
-    assert(m.normals)
 
     index = 0
     for i=0,n-1 do
@@ -64,4 +61,7 @@ function setup()
             index = index + 6
         end
     end
+    
+    m.normals = Model.computeNormals(m.vertices)
+    assert(m.normals)
 end

@@ -30,7 +30,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         setfenv(0, setmetatable(env, {__index=_G}))
 
         self:pushSize()
-        
+
         package.loaded[appPath] = nil
         require(appPath)
 
@@ -50,7 +50,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
             end
         end
 
-        if not env.app.orientation then
+        if not env.__orientation then
             supportedOrientations(LANDSCAPE_ANY)
             self:pushSize()
         end
@@ -63,7 +63,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 
         setfenv(0, env)
 
-        supportedOrientations(env.app.orientation or LANDSCAPE_ANY)
+        supportedOrientations(env.__orientation or LANDSCAPE_ANY)
         self:pushSize()
     end
 

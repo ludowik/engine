@@ -48,27 +48,27 @@ light directionalLight(vec3 surfacePos, vec3 normal, vec3 direction) {
 }
 
 void main() {
+    vec4 finalColor;
+    if (useTexture == 1)
+        finalColor = texture2D(tex0, vTexCoords) * tint;
+    else if (useColor == 1)
+        finalColor = vColor;
+    else
+        finalColor = fill;
+            
     if (useLight > 0) {
-        vec4 finalColor = vColor;
-
         vec3 normal = normalize(transpose(inverse(mat3(matrixModel))) * vNormal);
-
+        
         vec3 surfacePos = vPosition;
         vec4 surfaceColor = vColor;
 
-        vec3 sunPosition = vec3(0., 100., 0.);
+        vec3 sunPosition = vec3(0., 1000000., 0.);
 
         light point = pointLight(surfacePos, vec3(10., 10., 0.), 1.);
         light directional = directionalLight(surfacePos, normal, sunPosition);
 
         gl_FragColor = finalColor * directional.coefficient;
-
     } else {
-        if (useTexture == 1)
-            gl_FragColor = texture2D(tex0, vTexCoords) * tint;
-        else if (useColor == 1)
-            gl_FragColor = vColor;
-        else
-            gl_FragColor = fill;
+        gl_FragColor = finalColor;
     }
 }

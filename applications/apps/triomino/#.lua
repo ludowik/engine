@@ -1,4 +1,5 @@
-requireLib('main',
+requireLib(
+    'main',
     'grid',
     'gameScene',
     'cell',

@@ -1,4 +1,5 @@
-requireLib('main',
+requireLib(
+    'main',
     'physicsDebugDraw',
     'test1',
     'test2',

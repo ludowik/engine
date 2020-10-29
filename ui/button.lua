@@ -4,5 +4,7 @@ function Button:init(label, ...)
     Label.init(self, label)
     Bind.init(self)
 
-    self.action = callback(...)
+    if #{...} > 0 then
+        self.action = callback(...)
+    end
 end
