@@ -309,6 +309,10 @@ function OpenGL:getOpenGLVersion()
 end
 
 function OpenGL:getGlslVersion()
+    if opengles then
+        return 300
+    end
+    
     local glVersion = self:getOpenGLVersion()
     if glVersion == 200 then
         return 110

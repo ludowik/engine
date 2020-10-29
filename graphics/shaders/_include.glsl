@@ -1,3 +1,6 @@
+precision highp int;
+precision highp float;
+
 #if VERSION >= 300
     #define attribute in
 
@@ -13,8 +16,6 @@
 
     #define fragColor gl_FragColor
 #endif
-
-precision highp float;
 
 vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
 vec4 black = vec4(0.0, 0.0, 0.0, 1.0);

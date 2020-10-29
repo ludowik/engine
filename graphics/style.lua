@@ -66,7 +66,7 @@ end
 function resetStyle(blend, depth, culling)
     styles = Styles()
 
-    TEXT_NEXT_Y = H
+    TEXT_NEXT_Y = screen.H
 
     blendMode(blend or NORMAL)
     

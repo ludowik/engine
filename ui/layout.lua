@@ -102,9 +102,9 @@ function Layout:grid(n)
 end
 
 function Layout:reverse()
-    local h = self.parent == nil and H or self.parent.size.y
+    local h = self.parent == nil and screen.H or self.parent.size.y
     self.position.y = h - self.position.y - self.size.y
-    self.absolutePosition.y = H - self.absolutePosition.y - self.size.y
+    self.absolutePosition.y = screen.H - self.absolutePosition.y - self.size.y
 
     if self.nodes and self.layoutFlow then
         for i,v in ipairs(self.nodes) do
@@ -137,8 +137,8 @@ function Layout:computeAbsolutePosition(x, y)
 end
 
 function Layout:align()
-    local w = self.parent == nil and WIDTH  or self.parent.size.x
-    local h = self.parent == nil and HEIGHT or self.parent.size.y
+    local w = self.parent == nil and screen.W  or self.parent.size.x
+    local h = self.parent == nil and screen.H or self.parent.size.y
 
     local alignments = self.alignment:split(',')
     if alignments:findItem('center') or alignments:findItem('h-center') then

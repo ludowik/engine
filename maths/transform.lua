@@ -74,10 +74,10 @@ end
 
 function ortho(left, right, bottom, top, near, far)
     local l = left or 0
-    local r = right or W
+    local r = right or screen.W
 
     local b = bottom or 0
-    local t = top or H
+    local t = top or screen.H
 
     local n = near or -1000
     local f = far or 1000
@@ -92,7 +92,7 @@ end
 function perspective(fovy, aspect, near, far)
     fovy = fovy or 45
 
-    aspect = aspect or (W / H)
+    aspect = aspect or (screen.W / screen.H)
 
     near = near or 0.1
     far = far or 100000
@@ -115,7 +115,7 @@ end
 function isometric(n)
     ortho()
 
-    translate(WIDTH/2, HEIGHT/2)
+    translate(screen.W/2, screen.H/2)
 
     local alpha = deg(atan(1/sqrt(2)))
     local beta = 45
@@ -129,8 +129,8 @@ function isometric(n)
 end
 
 function ortho3d(w, h)
-    w = w or WIDTH
-    h = h or HEIGHT
+    w = w or screen.W
+    h = h or screen.H
 
     camera(w/2, h/2, w, w/2, h/2, 0)
 

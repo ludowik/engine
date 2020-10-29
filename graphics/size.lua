@@ -1,7 +1,7 @@
 local N = 16
 
 local function NW()
-    if W > H then
+    if screen.W > screen.H then
         return N
     else
         return N/16*9
@@ -9,7 +9,7 @@ local function NW()
 end
 
 local function NH()
-    if W > H then
+    if screen.W > screen.H then
         return N/16*9
     else
         return N
@@ -19,13 +19,13 @@ end
 function ws(i, n)
     i = i or 1
     n = n or NW()
-    return floor( W / n * i )
+    return floor( screen.W / n * i )
 end
 
 function hs(i, n)
     i = i or 1
     n = n  or NH()
-    return floor( H / n * i )
+    return floor( screen.H / n * i )
 end
 
 function size(i, j)

@@ -55,25 +55,30 @@ function Engine:init()
     self.infoAlpha = 0
     self.infoHide = true
 
+    local function w2h(w)
+        return math.floor(w * 9/16)
+    end
+    
+    local W, H
     if osx then
         W = W or 1480
-        H = H or 1000
+        H = H or w2h(W)
 
     elseif windows then
         W = W or 1024
-        H = H or math.floor(W*9/16)
+        H = H or w2h(W)
 
     elseif ios then
         if love then
             screen.w, screen.h = love.window.getMode()
         else
             H = 1024
-            W = math.floor(H*9/16)
+            W = w2h(W)
         end
     end
-
-    WIDTH = W
-    HEIGHT = H
+    
+    screen.W = W
+    screen.H = H
 end
 
 function Engine:on(event, key, callback)
@@ -221,9 +226,9 @@ function Engine:resize(w, h)
     screen.w, screen.h = w, h
 
     if screen.w > screen.h then
-        W, H = max(W, H), min(W, H)
+        screen.W, screen.H = max(screen.W, screen.H), min(screen.W, screen.H)
     else
-        W, H = min(W, H), max(W, H)
+        screen.W, screen.H = min(screen.W, screen.H), max(screen.W, screen.H)
     end
 
     sdl:setWindowSize()
@@ -233,7 +238,7 @@ function Engine:resize(w, h)
         self.renderFrame:release()
     end
 
-    self.renderFrame = Image(W, H)
+    self.renderFrame = Image(screen.W, screen.H)
 end
 
 function Engine:restart()
@@ -313,8 +318,8 @@ function Engine:draw()
             strokeWidth(1)
             stroke(1, 0.25)
 
-            line(0, H/2, W, H/2)
-            line(W/2, 0, W/2, H)
+            line(0, screen.H/2, screen.W, screen.H/2)
+            line(screen.W/2, 0, screen.W/2, screen.H)
         end)
 
     self:postRender(screen.MARGE_X, screen.MARGE_Y)
@@ -343,8 +348,8 @@ function Engine:postRender(x, y, w, h)
             self.renderFrame:draw(
                 x or 0,
                 y or 0,
-                (w or W) * screen.ratio,
-                (h or H) * screen.ratio)
+                (w or screen.W) * screen.ratio,
+                (h or screen.H) * screen.ratio)
         end
         popMatrix()
     end
@@ -445,21 +450,21 @@ function Engine:touched(touch)
 
     if touch.state == ENDED then
         if touch.x < 0 then
-            if touch.y > H * 2 / 3 then
+            if touch.y > screen.H * 2 / 3 then
                 self.infoHide = not self.infoHide
 
-            elseif touch.y > H * 1 / 3 then
+            elseif touch.y > screen.H * 1 / 3 then
                 engine:managerApp()
 
             else
                 ffi.C.exit(0)
             end
 
-        elseif touch.x > W then
-            if touch.y > H * 2 / 3 then
+        elseif touch.x > screen.W then
+            if touch.y > screen.H * 2 / 3 then
                 engine:nextApp()
 
-            elseif touch.y > H * 1 / 3 then
+            elseif touch.y > screen.H * 1 / 3 then
                 engine:previousApp()
 
             else

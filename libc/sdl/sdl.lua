@@ -22,14 +22,14 @@ function Sdl:initialize()
     opengles = ios
 
     if ios then
-        W = screen.w - 2 * screen.MARGE_X
-        H = screen.h - 2 * screen.MARGE_Y
+        screen.W = screen.w - 2 * screen.MARGE_X
+        screen.H = screen.h - 2 * screen.MARGE_Y
 
-        WIDTH = W
-        HEIGHT = H
+        WIDTH = screen.W
+        HEIGHT = screen.H
     else
-        screen.w = 2 * screen.MARGE_X + W
-        screen.h = 2 * screen.MARGE_Y + H
+        screen.w = 2 * screen.MARGE_X + screen.W
+        screen.h = 2 * screen.MARGE_Y + screen.H
     end
 
     if opengles then

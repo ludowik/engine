@@ -22,7 +22,7 @@ end
 
 function Dashboard:draw()
     local w, h = textSize('Dashboard')
-    TEXT_NEXT_Y = HEIGHT - h - self.offset
+    TEXT_NEXT_Y = screen.H - h - self.offset
 
     font(DEFAULT_FONT_NAME)
     fontSize(10)

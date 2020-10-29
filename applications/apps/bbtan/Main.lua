@@ -212,7 +212,7 @@ end
 function draw()
     background(51)
 
-    TEXT_NEXT_Y = HEIGHT / 2
+    TEXT_NEXT_Y = H / 2
 
     textMode(CORNER)
     for i,body in ipairs(fizix.bodies) do

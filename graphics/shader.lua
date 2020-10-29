@@ -85,7 +85,7 @@ function Shader:compile(shaderType, source, path)
     include = include..[[
         #include "_include.glsl"
         
-        #include "_math.glsl"
+//        #include "_math.glsl"
         
         #include "_noise2D.glsl"
         #include "_noise3D.glsl"
@@ -93,8 +93,9 @@ function Shader:compile(shaderType, source, path)
     
     local includes = {}
 
-    include = include:gsub('#include[%s]+"([a-zA-Z0-9%._]+)"', function (file, a, b, c)
-            includes[#includes+1] = self.path..'/'..file
+    include = include:gsub('\n[%s]*#include[%s]+"([a-zA-Z0-9%._]+)"', function (file, a, b, c)
+            local path = 'graphics/shaders'
+            includes[#includes+1] = path..'/'..file
             return NL..'#line 0 '..#includes..NL..io.read(includes[#includes])
         end)
     includes[#includes+1] = path
