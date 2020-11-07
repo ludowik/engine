@@ -158,8 +158,6 @@ function Engine:run(appPath)
 end
 
 function Engine:frame(forceDraw)
-    pause()
-    
     self.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
     self.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
 
