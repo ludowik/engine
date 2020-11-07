@@ -54,6 +54,8 @@ Could not connect to localhost:8172: connection refused
 shader.vao: 1
 shader.vao: 2
 shader.vao: 3
+<<<<<<< HEAD
+=======
 shader.vao: 4
 shader.vao: 5
 shader.vao: 6
@@ -1116,6 +1118,13 @@ shader.vao: 20
 release 27 fonts
 memory at init    : 1.28 mo
 memory min        : 1.28 mo
+<<<<<<< HEAD
 memory max        : 36.40 mo
 memory variation  : 35.11 mo
 memory at release : 23.55 mo
+=======
+memory max        : 12.72 mo
+memory variation  : 11.44 mo
+memory at release : 8.59 mo
+>>>>>>> ea19a397673f95d85a7e0ab3aeba0e0acef9c82d
+>>>>>>> 313ce667cf4e028e41cf45755d6f3f50c47f23c3
