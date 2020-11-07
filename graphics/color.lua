@@ -14,9 +14,9 @@ ffi.cdef [[
 
 local mt = {}
 
-mt.__index = function (v, key)
+function mt:__index(key)
     if type(key) == 'number' then
-        return v.values[key-1]
+        return self.values[key-1]
     else
         return rawget(mt, key)
     end
@@ -85,40 +85,40 @@ function mt:__tostring()
 end
 mt.tostring = mt.__tostring
 
-mt.tobytes = function (clr)
-    return clr.values
+function mt:tobytes()
+    return self.values
 end
 
-mt.__len = function (v)
+function mt:__len()
     return 4
 end
 
-mt.__ipairs = function (v)
+function mt:__ipairs()
     local i = 0
     local attribs = {'r', 'g', 'b', 'a'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return i, v[i]
+            return i, self[i]
         end
     end
-    return f, v, nil
+    return f, self, nil
 end
 
-mt.__pairs = function (v)
+function mt:__pairs()
     local i = 0
     local attribs = {'r', 'g', 'b', 'a'}
     local f = function ()
         if i < #attribs then
             i = i + 1
-            return attribs[i], v[i]
+            return attribs[i], self[i]
         end
     end
-    return f, v, nil
+    return f, self, nil
 end
 
-mt.unpack = function (v)
-    return v.r, v.g, v.b, v.a
+function mt:unpack()
+    return self.r, self.g, self.b, self.a
 end
 
 function mt.random()

@@ -198,23 +198,39 @@ function points(vertices, ...)
     end
 end
 
+-- TODO : draw width line
 function line(x1, y1, x2, y2)
     -- TODO
 --    local mode = lineCapMode()
 --    ROUND
 --    PROJECT
     if stroke() then
-        meshLine:render(meshLine.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, x2-x1, y2-y1, 1)
-        if lineCapMode() == ROUND then
-            local r = strokeWidth()
-            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, r, r, 1)
-            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x2, y2, 0, r, r, 1)
-        end
+        meshLine.vertices = meshLine.vertices or Buffer('vec3')
+        meshLine.vertices:set{
+            vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x2, y2, 0),
+            vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x1, y1, 0)}
+        
+        meshLine:render(meshLine.shader, gl.GL_TRIANGLES)
+        
+--        meshLine:render(meshLine.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, x2-x1, y2-y1, 1)
+--        if lineCapMode() == ROUND then
+--            local r = strokeWidth()
+--            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, r, r, 1)
+--            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x2, y2, 0, r, r, 1)
+--        end
     end
 end
 
 function lines(vertices)
     if stroke() then
+        meshLines.vertices = Buffer('vec3')
+        for i=1,#vertices/2 do
+            local x1, y1 = 
+            meshLines.vertices:insert(
+                vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x2, y2, 0),
+                vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x1, y1, 0))
+        end
+    
         meshLines.vertices = vertices
         meshLines:render(meshLine.shader, gl.GL_LINES)
     end

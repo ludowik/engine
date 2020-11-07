@@ -107,11 +107,6 @@ Uint32 SDL_GetWindowFlags(SDL_Window* window);
 int SDL_SetWindowFullscreen(SDL_Window* window, Uint32 flags);
 int SDL_SetWindowOpacity(SDL_Window* window, float opacity);
 
-int SDL_GetDisplayDPI(int displayIndex,
-    float* ddpi,
-    float* hdpi,
-    float* vdpi);
-
 void SDL_SetWindowPosition(SDL_Window* window, int x, int y);
 void SDL_SetWindowSize(SDL_Window* window, int w, int h);
 void SDL_SetWindowTitle(SDL_Window* window, const char* title);
@@ -365,7 +360,10 @@ typedef struct SDL_Rect {
 } SDL_Rect;
 
 int SDL_GetNumVideoDisplays(void);
+
 int SDL_GetDisplayBounds(int displayIndex, SDL_Rect* rect);
+int SDL_GetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
+const char* SDL_GetDisplayName(int displayIndex);
 
 int SDL_PollEvent(SDL_Event* event);
 

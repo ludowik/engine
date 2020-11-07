@@ -68,16 +68,6 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     end
 
     self.app = env.app
-
--- TODO : TODEL ?
---    if self.renderFrame and not ios then
---        for i=1,2 do
---            setContext(self.renderFrame)
---            background(black)
---            self:postRender()
---            sdl:swap()
---        end
---    end
 end
 
 function ApplicationManager:managerApp()

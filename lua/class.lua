@@ -142,6 +142,8 @@ function typeof(object)
             return 'vec3'
         elseif ffi.typeof(object) == __vec4 then
             return 'vec4'
+        elseif ffi.typeof(object) == __color then
+            return 'color'
         end
         return 'cdata'
 

@@ -43,7 +43,7 @@ function Image:init(w, h)
     self.pixels = ffi.cast('GLubyte*', self.surface.pixels)
 end
 
-function image:getPixels()
+function Image:getPixels()
     return self.pixels
 end
 
@@ -220,10 +220,12 @@ function Image:reverseSurface(surface, bytesPerPixel)
 end
 
 function Image:use(index)
-    assert(self.texture_id > 0)
-
-    gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture_id)
-    gl.glActiveTexture(index or gl.GL_TEXTURE0)
+    if gl.glIsTexture(self.texture_id) == gl.GL_TRUE then
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture_id)
+        gl.glActiveTexture(index or gl.GL_TEXTURE0)
+    else
+        error('no valid texture')
+    end
 end
 
 function Image:unuse()
@@ -259,7 +261,7 @@ end
 
 local floor = math.floor
 
-function image:offset(x, y)
+function Image:offset(x, y)
     x = floor(x-1)
     y = floor(y-1)
 
@@ -269,7 +271,7 @@ function image:offset(x, y)
     end
 end
 
-function image:set(x, y, color_r, g, b, a)
+function Image:set(x, y, color_r, g, b, a)
     a = a or 1
 
     if type(color_r) == 'cdata' then
@@ -299,7 +301,7 @@ function image:set(x, y, color_r, g, b, a)
     end
 end
 
-function image:get(x, y, clr)
+function Image:get(x, y, clr)
     clr = clr or Color()
 
     local offset = self:offset(x, y)
@@ -332,14 +334,14 @@ function image:get(x, y, clr)
     return clr
 end
 
-function image:update()
+function Image:update()
     if self.needUpdate then
         self.needUpdate = false
         self:makeTexture()
     end
 end
 
-function image:copy(x, y, w, h)
+function Image:copy(x, y, w, h)
     x = x or 0
     y = y or 0
 
@@ -405,7 +407,7 @@ function Image:attachTexture2D(renderedTexture)
 end
 
 function Image:release()
-    if self.texture_id then
+    if gl.glIsTexture(self.texture_id) == gl.GL_TRUE then
         gl.glDeleteTexture(self.texture_id)
         self.texture_id = -1
         self.surface.pixels = nil
@@ -433,7 +435,7 @@ end
 
 function Image:save(imageName, ext)
     if ios then return end
-    
+
     local pixels = self:readPixels()
 
     local rmask = 0x000000ff

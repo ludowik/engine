@@ -211,10 +211,10 @@ function OpenGL:initialize()
         local len = self.glGetShaderiv(id, self.GL_INFO_LOG_LENGTH)
         len = len > 0 and len or 128
 
-        local log = ffi.new('GLchar[?]', len or 1)
-        self.defs.glGetShaderInfoLog(id, len, nil, log)
+        local info = ffi.new('GLchar[?]', len or 1)
+        self.defs.glGetShaderInfoLog(id, len, nil, info)
 
-        return ffi.string(log, len - 1):gsub('ERROR: 0', '')
+        return ffi.string(info, len - 1):gsub('ERROR: 0', '')
     end
 
     function self.glGetProgramiv(id, flag)
@@ -226,10 +226,10 @@ function OpenGL:initialize()
         local len = self.glGetProgramiv(id, self.GL_INFO_LOG_LENGTH)
         len = len > 0 and len or 128
 
-        local log = ffi.new('GLchar[?]', len or 1)
-        self.defs.glGetProgramInfoLog(id, len, nil, log)
+        local info = ffi.new('GLchar[?]', len or 1)
+        self.defs.glGetProgramInfoLog(id, len, nil, info)
 
-        return ffi.string(log, len - 1)
+        return ffi.string(info, len - 1)
     end
 
     function self.glGenBuffer()

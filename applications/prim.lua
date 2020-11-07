@@ -16,9 +16,14 @@ function draw()
 
     lineCapMode(ROUND)
 --    line(0, 0, 100, 100)
-
-    polyline({
+    
+    lines({
             vec3(0, 0),
             vec3(100, 100)
         })
+
+--    polyline({
+--            vec3(0, 0),
+--            vec3(100, 100)
+--        })
 end

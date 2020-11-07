@@ -6,7 +6,7 @@ function loadObj(fileName)
     if content then
         content = content:replace('  ', ' ')
 
-        local indices = Buffer('float')
+        local indices = Buffer('unsigned short')
         local vertices, verticesTemp = Buffer('vec3'), Buffer('vec3')
         local normals, normalsTemp = Buffer('vec3'), Buffer('vec3')
         local texCoords, texCoordsTemp = Buffer('vec2'), Buffer('vec2')

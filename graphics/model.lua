@@ -80,6 +80,10 @@ function Model.mesh(vertices, texCoords, normals, indices)
         m.normals = Model.computeNormals(m.vertices)
     end
 
+    if m.indices == nil or #m.indices == 0 then
+        m.vertices, m.texCoords, m.normals, m.indices = Model.computeIndices(m.vertices, m.texCoords, m.normals)
+    end
+
     return m
 end
 
@@ -101,42 +105,46 @@ function Model.computeIndices(vertices, texCoords, normals)
     local t = texCoords and Buffer('vec2')
     local n = normals and Buffer('vec3')
 
-    local indices = Buffer('float')
-
-    local nb = 1
-
-    local find
-
+    local indices = Buffer('unsigned short')
+    local verticesIndices = {}
+    local nbIndices = 1
+    
     for i=1,#vertices do
+        local find = false
 
-        find = false
-        for j=1,#indices do
-            if v[j] == vertices[i] and
-            (not t or t[j] == texCoords[i]) and
-            (not n or n[j] == normals[i]) then
-                find = j
-                break
+        local key = string.format('%f;%f;%f', vertices[i].x, vertices[i].y, vertices[i].z)
+        if verticesIndices[key] then
+            for _j=1,#verticesIndices[key] do
+                local j = verticesIndices[key][_j]
+                if ((v[j] == vertices[i] ) and
+                    (texCoords == nil or t[j] == texCoords[i]) and
+                    (normals   == nil or n[j] == normals[i]))
+                then
+                    find = j
+                    indices[i] = find-1
+                    break
+                end
             end
-        end
-
-        if find then
-            indices[i] = find-1
         else
-            v[nb] = vertices[i]
-
-            if texCoords then
-                t[nb] = texCoords[i]
-            end
-
-            if normals then
-                n[nb] = normals[i]
-            end
-
-            indices[i] = nb-1
-
-            nb = nb + 1
+            verticesIndices[key] = Table()
         end
+
+        if not find then
+            v[nbIndices] = vertices[i]
+            if texCoords then
+                t[nbIndices] = texCoords[i]
+            end
+            if normals then
+                n[nbIndices] = normals[i]
+            end
+
+            indices[i] = nbIndices-1            
+            verticesIndices[key]:add(nbIndices)
+            nbIndices = nbIndices + 1
+        end        
     end
+    
+    log(string.format('Generate {indices} indices for {vertices} vertices', {indices=#v, vertices=#vertices}))
 
     return v, t, n, indices
 end
@@ -752,7 +760,7 @@ end
 
 function Model.ground(n)
     local dec = -(n+1)/2
-    
+
     local ground = mesh()
     for x=1,n do
         for z=1,n do

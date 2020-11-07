@@ -4,67 +4,12 @@ function MeshRender:init()
     config.wireframe = config.wireframe or 'fill'
 end
 
-function MeshRender:sendAttribute(attributeName, buffer, nComponents)
-    local attribute = self.shader.attributes[attributeName]
-
-    if attribute and buffer and #buffer > 0 then
-
-        gl.glBindBuffer(gl.GL_ARRAY_BUFFER, attribute.id)
-
-        local n = #buffer
-
-        if (attribute.sent == nil or attribute.sent ~= n or
-            buffer.id == nil or buffer.id ~= attribute.bufferId or
-            buffer.version == nil or buffer.version ~= attribute.bufferVersion)
-        then
-            attribute.sent = n
-            attribute.bufferVersion = buffer.version
-            attribute.bufferId = buffer.id
-
-            local bytes
-            if type(buffer) == 'table' then
-                if type(buffer[1]) == 'number' then
-                    buffer = Buffer('float', buffer)
-                    nComponents = 1
-
-                elseif ffi.typeof(buffer[1]) == __vec2 then
-                    buffer = Buffer('vec2', buffer)
-                    nComponents = 2
-
-                elseif ffi.typeof(buffer[1]) == __vec3 then
-                    buffer = Buffer('vec3', buffer)
-                    nComponents = 3
-
-                elseif ffi.typeof(buffer[1]) == __color then
-                    buffer = Buffer('color', buffer)
-                    nComponents = 4
-
-                else
-                    error(ffi.typeof(buffer[1]))
-                end
-
-                log(getFunctionLocation(buffer.id, 2))
-                log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)
-            end
-
-            log('send '..buffer.id..' ('..buffer.version..') to shader '..self.shader.name)
-
-            gl.glBufferData(gl.GL_ARRAY_BUFFER, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
-        end
-
-        gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
-        gl.glEnableVertexAttribArray(attribute.attribLocation)
-
-        attribute.enable = true
-
-        return attribute
-
-    end
-end
-
 function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     assert(shader)
     assert(drawMode)
+    
+    self.shader = shader
+    self.img = img
 
     x = x or 0
     y = y or 0
@@ -74,7 +19,8 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     h = h or 1
     d = d or 1
 
-    self.shader = shader
+    self.pos = vec3(x, y, z)
+    self.size = vec3(w, h, d)
 
     if self.texture then
         if type(self.texture) == 'string' then
@@ -87,80 +33,22 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     do
         shader:use()
 
-        self:sendUniforms(shader.uniformsLocations)
-
         if config.glMajorVersion >= 4 then
             if shader.vao == nil then
                 shader.vao = gl.glGenVertexArray()
-                print('shader.vao: '..shader.vao)
+                log('shader.vao: '..shader.vao)
             end
             gl.glBindVertexArray(shader.vao)
         end
 
-        self:sendAttribute('vertex', self.vertices, 3)
-        self:sendAttribute('color', self.colors, 4)
-        self:sendAttribute('texCoords', self.texCoords, 2)
-        self:sendAttribute('normal', self.normals, 3)
+        self:sendAttributes('vertex', self.vertices, 3)
+        self:sendAttributes('color', self.colors, 4)
+        self:sendAttributes('texCoords', self.texCoords, 2)
+        self:sendAttributes('normal', self.normals, 3)
 
-        if img and shader.uniformsLocations.tex0 then
-            if shader.uniformsLocations.useTexture then
-                gl.glUniform1i(shader.uniformsLocations.useTexture.uniformLocation, 1)
-            end
+        self:sendIndices('indice', self.indices, 1)            
 
-            gl.glUniform1i(shader.uniformsLocations.tex0.uniformLocation, 0)
-
-            img:update()
-            img:use(gl.GL_TEXTURE0)
-        else
-            if shader.uniformsLocations.useTexture then
-                gl.glUniform1i(shader.uniformsLocations.useTexture.uniformLocation, 0)
-            end
-        end
-
-        if shader.uniformsLocations.matrixPV then
-            local matrixPV = pvMatrix()
-
-            if shader.matrixPV ~= matrixPV then
-                shader.matrixPV = matrixPV
-                gl.glUniformMatrix4fv(shader.uniformsLocations.matrixPV.uniformLocation, 1, gl.GL_TRUE, matrixPV:tobytes())
-            end
-        end
-
-        if shader.uniformsLocations.matrixModel then
-            local matrixModel = modelMatrix()
-
-            if shader.matrixModel ~= matrixModel then
-                shader.matrixModel = matrixModel
-                gl.glUniformMatrix4fv(shader.uniformsLocations.matrixModel.uniformLocation, 1, gl.GL_TRUE, matrixModel:tobytes())
-            end
-        end
-
-        if shader.uniformsLocations.pos then
-            gl.glUniform3f(shader.uniformsLocations.pos.uniformLocation, x, y, z)
-        end
-
-        if shader.uniformsLocations.size then
-            gl.glUniform3f(shader.uniformsLocations.size.uniformLocation, w, h, d)
-        end
-
-        if shader.uniformsLocations.time then
-            self.shader.uniforms.time = ElapsedTime
-        end
-
-        -- TODO gérer les indices
-        --        gl.glBindBuffer(gl.GL_ELEMENT_ARRAY_BUFFER, self.buffers.indices)
-        --        gl.bufferData(gl.GL_ELEMENT_ARRAY_BUFFER,
-        --            self:bufferData(
-        --                Uint16Array,
-        --                'indices',
-        --                1),
-        --            gl.GL_STATIC_DRAW)
-
-        --        vertexCount = #self.indices
-        --        dataType = gl.GL_UNSIGNED_SHORT
-        --        offset = 0
-
-        --        gl.glDrawElementsInstanced(self.drawMode, vertexCount, dataType, gl.glBufferOffset(offset), 1)
+        self:sendUniforms(shader.uniformsLocations)
 
         -- TODO gérer le multi-instances
         --        local offset = 0
@@ -184,7 +72,12 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         if not ios then
             if img or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
-                gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
+
+                if self.indices then
+                    gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
+                else
+                    gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
+                end
             end
 
             if img then
@@ -192,15 +85,19 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
             end
 
             if config.wireframe == 'line' or config.wireframe == 'fill&line' then
-                if self.shader.uniformsLocations.stroke then
-                    gl.glUniform4fv(self.shader.uniformsLocations.stroke.uniformLocation, 1, red:tobytes())
+                if shader.uniformsLocations.stroke then
+                    gl.glUniform4fv(shader.uniformsLocations.stroke.uniformLocation, 1, red:tobytes())
                 end
-                if self.shader.uniformsLocations.fill then
-                    gl.glUniform4fv(self.shader.uniformsLocations.fill.uniformLocation, 1, red:tobytes())
+                if shader.uniformsLocations.fill then
+                    gl.glUniform4fv(shader.uniformsLocations.fill.uniformLocation, 1, red:tobytes())
                 end
 
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
-                gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
+                if self.indices then
+                    gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
+                else
+                    gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
+                end
             end
         else
             gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
@@ -210,7 +107,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
             end
         end
 
-        for attributeName,attribute in pairs(self.shader.attributes) do
+        for attributeName,attribute in pairs(shader.attributes) do
             if attribute.enable then
                 gl.glDisableVertexAttribArray(attribute.attribLocation)
             end
@@ -222,49 +119,144 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
 
         shader:unuse()
     end
+end
 
-    gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
+function MeshRender:sendAttributes(attributeName, buffer, nComponents, bufferType)
+    bufferType = bufferType or gl.GL_ARRAY_BUFFER
+
+    local attribute = self.shader.attributes[attributeName]
+    if attribute and buffer and #buffer > 0 then
+        self:sendBuffer(attributeName, attribute, buffer, nComponents, bufferType)
+
+        gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
+        gl.glEnableVertexAttribArray(attribute.attribLocation)
+
+        attribute.enable = true
+
+        return attribute
+    end
+end
+
+function MeshRender:sendIndices(attributeName, buffer, nComponents, bufferType)
+    bufferType = bufferType or gl.GL_ELEMENT_ARRAY_BUFFER
+
+    local attribute = self.shader.attributes[attributeName]
+    if attribute and buffer and #buffer > 0 then        
+        self:sendBuffer(attributeName, attribute, buffer, nComponents, bufferType)
+    end
+end
+
+function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bufferType)
+    gl.glBindBuffer(bufferType, attribute.id)
+
+    local n = #buffer
+
+    if (attribute.sent == nil or attribute.sent ~= n or
+        buffer.id == nil or buffer.id ~= attribute.bufferId or
+        buffer.version == nil or buffer.version ~= attribute.bufferVersion)
+    then
+        attribute.sent = n
+        attribute.bufferVersion = buffer.version
+        attribute.bufferId = buffer.id
+
+        local bytes
+        if type(buffer) == 'table' then
+            if type(buffer[1]) == 'number' then
+                buffer = Buffer('float', buffer)
+                nComponents = 1
+
+            elseif ffi.typeof(buffer[1]) == __vec2 then
+                buffer = Buffer('vec2', buffer)
+                nComponents = 2
+
+            elseif ffi.typeof(buffer[1]) == __vec3 then
+                buffer = Buffer('vec3', buffer)
+                nComponents = 3
+
+            elseif ffi.typeof(buffer[1]) == __color then
+                buffer = Buffer('color', buffer)
+                nComponents = 4
+
+            else
+                error(ffi.typeof(buffer[1]))
+            end
+
+            log(getFunctionLocation(buffer.id, 2))
+            log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)
+        end
+
+        log(string.format('send buffer {attributeName} (id:{id}, version:{version}) to shader {shaderName}', {
+                    attributeName = attributeName,
+                    id = buffer.id,
+                    version = buffer.version,
+                    shaderName = self.shader.name}))
+
+        gl.glBufferData(bufferType, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
+    end
 end
 
 function MeshRender:sendUniforms(uniformsLocations)
+    local shader = self.shader
+    local img = self.img
+    
+    if img then
+        img:update()
+        img:use(gl.GL_TEXTURE0)
+        
+        shader.uniforms.useTexture = 1
+        shader.uniforms.tex0 = 0
+    else
+        shader.uniforms.useTexture = 0
+    end
+
+    shader.uniforms.matrixPV = pvMatrix()
+    shader.uniforms.matrixModel = modelMatrix()
+
+    shader.uniforms.pos = self.pos
+    shader.uniforms.size = self.size
+
+    shader.uniforms.time = ElapsedTime
+
     if uniformsLocations.cameraPosition and getCamera() then
         gl.glUniform3fv(uniformsLocations.cameraPosition.uniformLocation, 1, getCamera().vEye:tobytes())
     end
 
     if uniformsLocations.stroke and styles.attributes.stroke then
-        gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
-    end
-    
-    if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
-        gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
+        shader.uniforms.stroke = styles.attributes.stroke
+        --gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
     end
 
     if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
-        gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
+        shader.uniforms.strokeWidth = styles.attributes.strokeWidth
+--        gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
     end
 
     if uniformsLocations.fill and styles.attributes.fill then
-        gl.glUniform4fv(uniformsLocations.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
+        shader.uniforms.fill = styles.attributes.fill
+--        gl.glUniform4fv(uniformsLocations.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
     end
 
     if uniformsLocations.tint and styles.attributes.tint then
-        gl.glUniform4fv(uniformsLocations.tint.uniformLocation, 1, styles.attributes.tint:tobytes())
+        shader.uniforms.tint = styles.attributes.tint
+--        gl.glUniform4fv(uniformsLocations.tint.uniformLocation, 1, styles.attributes.tint:tobytes())
     end
 
     if uniformsLocations.useColor then
-        if self.colors and #self.colors > 0 then
-            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 1)
-        else
-            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 0)
-        end
+        shader.uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
+--        if self.colors and #self.colors > 0 then
+--            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 1)
+--        else
+--            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 0)
+--        end
     end
 
     if uniformsLocations.useLight then
-        if self.normals and #self.normals > 0 and styles.attributes.light and config.light then
-            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 1)
-        else
-            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 0)
-        end
+        shader.uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
+--        if self.normals and #self.normals > 0 and styles.attributes.light and config.light then
+--            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 1)
+--        else
+--            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 0)
+--        end
     end
 
     if self.shader.uniforms then

@@ -12,11 +12,10 @@ ffi.cdef [[
 
 buffer_meta = {}
 
-function buffer_meta.__init(buffer, buffer_class)
+function buffer_meta.__init(buffer, buffer_class, data, ...)
     buffer.ct = buffer_class.ct
 
     buffer.id = id('buffer')
---    log(getFunctionLocation(buffer.id, 3))
 
     buffer.available = 4
 
@@ -27,8 +26,24 @@ function buffer_meta.__init(buffer, buffer_class)
 
     buffer.n = 0
     buffer.version = 0
-
+    
+    if data then
+        buffer:set(data, ...)
+    end
+    
     return buffer
+end
+
+function buffer_meta:set(data, ...)
+    if data then
+        if type(data) == 'number' or type(data) == 'cdata' then
+            data = {data, ...}
+        end
+
+        for i,v in ipairs(data) do
+            self[i] = v
+        end
+    end
 end
 
 function buffer_meta.clone(buffer)
@@ -203,17 +218,5 @@ function Buffer(ct, data, ...)
 
     end
 
-    local buffer = buffer_class.meta():__init(buffer_class)
-
-    if data then
-        if type(data) == 'number' or type(data) == 'cdata' then
-            data = {data, ...}
-        end
-
-        for i,v in ipairs(data) do
-            buffer[i] = v
-        end
-    end
-
-    return buffer
+    return buffer_class.meta():__init(buffer_class, data, ...)
 end

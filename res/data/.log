@@ -1,17 +1,12 @@
-/Users/Ludo/Projets/Lua/engine
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+1
+Generic PnP Monitor
+Supported 4.10 - Build 26.20.100.8141
+load applications/codea/Roller Coaster
 load applications/appManager
-shader.vao: 1
-shader.vao: 2
-shader.vao: 3
-<<<<<<< HEAD
-=======
-shader.vao: 4
-shader.vao: 5
-shader.vao: 6
 release 1 fonts
-memory at init    : 1.28 mo
-memory min        : 1.28 mo
-memory max        : 12.72 mo
-memory variation  : 11.44 mo
-memory at release : 8.59 mo
->>>>>>> ea19a397673f95d85a7e0ab3aeba0e0acef9c82d
+memory at init    : 2.23 mo
+memory min        : 2.23 mo
+memory max        : 9.26 mo
+memory variation  : 7.03 mo
+memory at release : 4.54 mo

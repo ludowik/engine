@@ -1,7 +1,5 @@
 App('Tetris')
 
--- TODO : game over
-
 Tetris.itemSize = floor(WIDTH/30)
 Tetris.gridSize = vec2(10, 12)
 

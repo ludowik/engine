@@ -5,7 +5,15 @@ function Shader:init(name, path)
     self.path = path or 'graphics/shaders'
 
     self.modifications = {}
+
+    self.attributes = {}
+
     self.uniforms = {}
+    self.uniformsSent = {}
+
+    self.uniformsLocations = {}
+    self.uniformsGlslTypes = {}
+    self.uniformsTypes = {}
 
     self:create()
 end
@@ -24,7 +32,7 @@ function Shader:create()
 
     if config.glMajorVersion >= 4 then
         -- TODEL ?
-        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
+--        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
     end
 
     gl.glLinkProgram(self.program_id)
@@ -90,7 +98,7 @@ function Shader:compile(shaderType, source, path)
         #include "_noise2D.glsl"
         #include "_noise3D.glsl"
     ]]
-    
+
     local includes = {}
 
     include = include:gsub('\n[%s]*#include[%s]+"([a-zA-Z0-9%._]+)"', function (file, a, b, c)
@@ -99,7 +107,7 @@ function Shader:compile(shaderType, source, path)
             return NL..'#line 0 '..#includes..NL..io.read(includes[#includes])
         end)
     includes[#includes+1] = path
-    
+
     source = include..NL..'#line 0 '..#includes..NL..source
 
     local shader_id = gl.glCreateShader(shaderType)
@@ -159,8 +167,6 @@ function Shader:unuse()
 end
 
 function Shader:initAttributes()
-    self.attributes = {}
-
     local attributeNameLen = 64
     local attributeName = ffi.new('char[?]', attributeNameLen)
 
@@ -183,13 +189,14 @@ function Shader:initAttributes()
             id = gl.glGenBuffer()
         }
     end
+
+    self.attributes['indice'] = {
+        attribLocation = -1,
+        id = gl.glGenBuffer()
+    }
 end
 
 function Shader:initUniforms()
-    self.uniformsLocations = {}
-    self.uniformsGlslTypes = {}
-    self.uniformsTypes = {}
-
     local uniformName = ffi.new('char[64]')
 
     local length_ptr = ffi.new('GLsizei[1]')
@@ -238,16 +245,20 @@ function Shader:pushToShader(object, array, i)
 end
 
 function Shader:send(k, v)
-    log('send '..k..' = '..tostring(v))
-
-    local uid = self.uniformsLocations[k]
-    if uid == nil then
-        self.uniformsLocations[k] = gl.glGetUniformLocation(self.program_id, k)
-        uid = self.uniformsLocations[k]
+    if self.uniformsSent[k] == v then
+        return
     end
 
-    if uid ~= -1 then
-        uid = uid.uniformLocation
+    local location = self.uniformsLocations[k]
+    if location == nil then
+        self.uniformsLocations[k] = gl.glGetUniformLocation(self.program_id, k)
+        location = self.uniformsLocations[k]
+    end
+
+    if location ~= -1 then
+        local uid = location.uniformLocation
+
+        log(string.format('send uniform {k} with value {v}', {k=k, v=v}))
 
         local utype = self.uniformsTypes[k]
         if utype == nil then
@@ -258,8 +269,10 @@ function Shader:send(k, v)
         if utype == 'number' then
             if self.uniformsGlslTypes[k] == gl.GL_INT then
                 gl.glUniform1i(uid, v)
+
             elseif self.uniformsGlslTypes[k] == gl.GL_SAMPLER_2D then
                 gl.glUniform1i(uid, v)
+
             else
                 gl.glUniform1f(uid, v)
             end
@@ -287,8 +300,11 @@ function Shader:send(k, v)
             end
 
         else
-            assert(false, "shader : unmanaged type "..utype.." for "..k)
+            error("shader : unmanaged type "..utype.." for "..k)
         end
+
+        self.uniformsSent[k] = v
+
     else
         log(self.name.." : unknown uniform '"..k.."'")
     end

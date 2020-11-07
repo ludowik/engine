@@ -24,14 +24,14 @@ function mt:__tostring()
     local str = ''
     local i = 0
     for n=0,3 do
-        str = str..'n'..n..':'
+        str = str..n..':'
         for m=0,3 do
-            str = str..self.values[i]..','
+            str = str..formatNumber(self.values[i])..','
             i = i + 1
         end
         str = str..NL
-    end
-    return str
+    end    
+    return str:trim(NL):trim(',')
 end
 
 function mt:set(...)
@@ -173,7 +173,7 @@ end
 local res
 function mt:mulVector(b)
     res = res or matrix()
-    
+
     b = matrix(
         b.x, 0, 0, 0,
         b.y, 0, 0, 0,
@@ -193,22 +193,26 @@ function mt.tobytes(m1)
 end
 
 function mt.perf()
-    Performance.evaluate('create matrix',
-        function (i)
-            matrix(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
-        end)
+--    Performance.evaluate('none',
+--        function (i)
+--        end)
 
-    Performance.evaluate('create and set matrix',
-        function (i, m)
-            m:set(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
-        end,
-        matrix())
+--    Performance.evaluate('create matrix',
+--        function (i)
+--            matrix(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+--        end)
 
-    Performance.evaluate('multiply matrix',
-        function (i, m1, m2)
-            local m = m1 * m2
-        end,
-        matrix(), matrix())
+--    Performance.evaluate('create and set matrix',
+--        function (i, m)
+--            m:set(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
+--        end,
+--        matrix())
+
+--    Performance.evaluate('multiply matrix',
+--        function (i, m1, m2)
+--            local m = m1 * m2
+--        end,
+--        matrix(), matrix())
 end
 
 meta_matrix = ffi.metatype('matrix', mt)

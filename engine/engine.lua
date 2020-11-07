@@ -4,8 +4,6 @@ function Engine:init()
     assert(engine == nil)    
     engine = self
 
-    self.envs = {}
-
     loadConfig()
 
     do
@@ -101,16 +99,18 @@ function Engine:initialize()
     DeltaTime = 0
     ElapsedTime = 0
 
+    call('setup')
+    
     self.components:initialize()
     self.frameTime:init()
-
-    call('setup')
 
     self:initEvents()
 
     self.renderFrame = Image(W, H)
 
     self:toggleHelp()
+    
+    self.envs = {}
 
     if not ios then
         self:lastApp()
