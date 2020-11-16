@@ -12,6 +12,8 @@ function Application:init()
     _G.env.app = self
 
     self.scene = Scene()
+    self.scene.bgColor = color(51)
+
     self.ui = UIScene()
 end
 
@@ -139,8 +141,6 @@ function Application:update(dt)
 end
 
 function Application:draw()
-    background(black)
-
     self:render(self.scene)
     self:render(self.ui)
 end
@@ -192,7 +192,7 @@ function Application:captureImage()
     local w = 256
     local h = floor(w * H / W)
 
-    renderFrame:save(config.appPath:replace('/', '.'))
+    self.renderFrame:save(config.appPath:replace('/', '.'))
 end
 
 function Application:help()

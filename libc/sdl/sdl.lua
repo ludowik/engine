@@ -15,7 +15,7 @@ screen = {
     MARGE_X = 50,
     MARGE_Y = 10,
 
-    ratio = 0.5
+    ratio = 0.75
 }
 
 function Sdl:initialize()
@@ -28,8 +28,8 @@ function Sdl:initialize()
         WIDTH = screen.W
         HEIGHT = screen.H
     else
-        screen.w = 2 * screen.MARGE_X + screen.W
-        screen.h = 2 * screen.MARGE_Y + screen.H
+        screen.w = 2 * screen.MARGE_X + screen.W * screen.ratio
+        screen.h = 2 * screen.MARGE_Y + screen.H * screen.ratio
     end
 
     if opengles then
@@ -108,9 +108,9 @@ function Sdl:initialize()
         if self.SDL_GetDisplayBounds(displayIndex, r) ~= 0 then
             self.SDL_Log("SDL_GetDisplayBounds failed: %s", self.SDL_GetError())
         end
-        
+
         print(ffi.string(sdl.SDL_GetDisplayName(displayIndex)))
-        
+
         self:setWindowSize(r.w, r.h)
 
         if self.context ~= NULL then
@@ -139,8 +139,8 @@ function Sdl:setWindowSize(dx, dy)
 --        self.SDL_MaximizeWindow(self.window)
 
         self.SDL_SetWindowSize(self.window,
-            screen.w * screen.ratio,
-            screen.h * screen.ratio)
+            screen.w,
+            screen.h)
 
         self.SDL_SetWindowPosition(self.window,
             100,

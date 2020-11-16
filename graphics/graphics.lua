@@ -4,8 +4,9 @@ local buf, meshPoints, meshLine, meshPolyline, meshPolygon, meshRect, meshEllips
 
 function Graphics:initialize()
     meshPoint = Mesh()
-    meshPoint.vertices = Buffer('vec3', {vec3(0, 0, 0)})
-    meshPoint.shader = shaders['point']
+    meshPoint.vertices = Buffer('vec3', {
+            vec3(), vec3(), vec3(), vec3()})
+    meshPoint.shader = shaders['circle']
 
     meshPoints = Mesh()
     meshPoints.shader = shaders['points']
@@ -31,17 +32,21 @@ function Graphics:initialize()
     meshRectBorder = Model.rectBorder(0, 0, 1, 1)
     meshRectBorder.shader = shaders['rectBorder']
 
-    meshCircle = Model.ellipse(0, 0, 1, 1)
+    meshCircle = Mesh() -- Model.ellipse(0, 0, 1, 1)
     meshCircle.shader = shaders['circle']
+    meshCircle.vertices = Buffer('vec3', {
+            vec3(), vec3(), vec3(), vec3()})
 
-    meshCircleBorder = Model.ellipseBorder(0, 0, 1, 1)
-    meshCircleBorder.shader = shaders['circleBorder']
+--    meshCircleBorder = Model.ellipseBorder(0, 0, 1, 1)
+--    meshCircleBorder.shader = shaders['circleBorder']
 
-    meshEllipse = Model.ellipse(0, 0, 1, 1)
+    meshEllipse = Mesh() -- Model.ellipse(0, 0, 1, 1)
     meshEllipse.shader = shaders['ellipse']
+    meshEllipse.vertices = Buffer('vec3', {
+            vec3(), vec3(), vec3(), vec3()})
 
-    meshEllipseBorder = Model.ellipseBorder(0, 0, 1, 1)
-    meshEllipseBorder.shader = shaders['ellipseBorder']
+--    meshEllipseBorder = Model.ellipseBorder(0, 0, 1, 1)
+--    meshEllipseBorder.shader = shaders['ellipseBorder']
 
     meshSprite = Model.rect(0, 0, 1, 1)
     meshSprite.shader = shaders['sprite']
@@ -183,10 +188,17 @@ local function cornerFromCenter(mode, x, y, w, h)
     return x, y
 end
 
-function point(x, y)
-    if stroke() then
-        meshPoint:render(meshPoints.shader, gl.GL_POINTS, nil, x, y, 0)
+local Z
+function zLevel(z)
+    if z then 
+        Z = z
     end
+    return Z
+end
+
+function point(x, y)
+    local r = max(strokeWidth(), 0)
+    meshPoint:render(meshPoint.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, r, r, 1, 0)
 end
 
 function points(vertices, ...)
@@ -201,36 +213,36 @@ end
 -- TODO : draw width line
 function line(x1, y1, x2, y2)
     -- TODO
---    local mode = lineCapMode()
---    ROUND
---    PROJECT
+    --    local mode = lineCapMode()
+    --    ROUND
+    --    PROJECT
     if stroke() then
-        meshLine.vertices = meshLine.vertices or Buffer('vec3')
-        meshLine.vertices:set{
-            vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x2, y2, 0),
-            vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x1, y1, 0)}
-        
-        meshLine:render(meshLine.shader, gl.GL_TRIANGLES)
-        
---        meshLine:render(meshLine.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, x2-x1, y2-y1, 1)
---        if lineCapMode() == ROUND then
---            local r = strokeWidth()
---            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x1, y1, 0, r, r, 1)
---            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x2, y2, 0, r, r, 1)
---        end
+        --        meshLine.vertices = meshLine.vertices or Buffer('vec3')
+        --        meshLine.vertices:set{
+        --            vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x2, y2, 0),
+        --            vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x1, y1, 0)}
+
+        --        meshLine:render(meshLine.shader, gl.GL_TRIANGLES)
+
+        meshLine:render(meshLine.shader, gl.GL_TRIANGLES, nil, x1, y1, Z, x2-x1, y2-y1, 1)
+        --        if lineCapMode() == ROUND then
+        --            local r = strokeWidth()
+        --            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x1, y1, Z, r, r, 1)
+        --            meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x2, y2, Z, r, r, 1)
+        --        end
     end
 end
 
 function lines(vertices)
     if stroke() then
-        meshLines.vertices = Buffer('vec3')
-        for i=1,#vertices/2 do
-            local x1, y1 = 
-            meshLines.vertices:insert(
-                vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x2, y2, 0),
-                vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x1, y1, 0))
-        end
-    
+        --        meshLines.vertices = Buffer('vec3')
+        --        for i=1,#vertices/2 do
+        --            local x1, y1 = 
+        --            meshLines.vertices:insert(
+        --                vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x2, y2, 0),
+        --                vec3(x1, y1, 0), vec3(x2, y2, 0), vec3(x1, y1, 0))
+        --        end
+
         meshLines.vertices = vertices
         meshLines:render(meshLine.shader, gl.GL_LINES)
     end
@@ -255,10 +267,10 @@ function rect(x, y, w, h, r, mode)
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
 
     if fill() then
-        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
+        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, Z, w, h, 1)
     end
     if stroke() then
-        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
+        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
     end
 end
 
@@ -266,24 +278,24 @@ function circle(x, y, r, mode)
     local w, h = r*2, r*2
     x, y = cornerFromCenter(mode or circleMode(), x, y, w, h)
 
-    if fill() then
-        meshCircle:render(meshCircle.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
-    end
-    if stroke() then
-        meshCircleBorder:render(meshCircleBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
-    end
+--    if fill() then
+        meshCircle:render(meshCircle.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+--    end
+--    if stroke() then
+        --        meshCircleBorder:render(meshCircleBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
+--    end
 end
 
 function ellipse(x, y, w, h, mode)
     h = h or w
     x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
 
-    if fill() then
-        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLES, nil, x, y, 0, w, h, 1)
-    end
-    if stroke() then
-        meshEllipseBorder:render(meshEllipseBorder.shader, gl.GL_LINE_LOOP, nil, x, y, 0, w, h, 1)
-    end
+--    if fill() then
+        meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+--    end
+--    if stroke() then
+        --        meshEllipseBorder:render(meshEllipseBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
+--    end
 end
 
 function sprite(img, x, y, w, h, mode)
@@ -297,7 +309,7 @@ function sprite(img, x, y, w, h, mode)
 
         x, y = centerFromCorner(mode or spriteMode(), x, y, w, h)
 
-        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, 0, w, h, 1)
+        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, Z, w, h, 1)
     end
 end
 
@@ -344,7 +356,7 @@ function textProc(draw, str, x, y)
         if draw then
             y = y - lh
             meshText:render(meshText.shader, gl.GL_TRIANGLES, img,
-                x, y - marge, 0,
+                x, y - marge, Z,
                 lw, lh, 1)
         end
 
@@ -381,7 +393,7 @@ function box(w, h, d, img)
     h = h or w
     d = d or w
 
-    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, 0, w, h, d)
+    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
 end
 
 function sphere(w, h, d, img)
@@ -393,7 +405,7 @@ function sphere(w, h, d, img)
     h = h or w
     d = d or w
 
-    meshSphere:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, 0, w, h, d)
+    meshSphere:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
 end
 
 function pyramid()

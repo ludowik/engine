@@ -9,4 +9,5 @@ uniform vec3 size;
 void main() {
     vec3 vertexPosition = vertex * size + pos;
     gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
+    gl_PointSize = 15;
 }

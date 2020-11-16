@@ -9,6 +9,10 @@ function random.range(min, max)
     if not max then
         min, max = 1, min
     end
+    if min > max then
+        return 0
+    end
+    
     return math.floor(random.random() * max ^ 2) % (max - min + 1) + min
 end
 

@@ -1,9 +1,12 @@
-math.tau = 2 * math.pi
-math.TAU = 2 * math.pi
-
 math.PI = math.pi
 
+math.tau = 2 * math.pi
+math.TAU = math.tau
+
 PI = math.pi
+PI2 = math.pi / 2
+PI4 = math.pi / 4
+
 TAU = math.tau
 
 cos = math.cos

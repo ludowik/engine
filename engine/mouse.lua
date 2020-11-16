@@ -35,18 +35,12 @@ function Mouse:unpack()
 end
 
 function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
-    x = x / screen.ratio
-    y = y / screen.ratio
-    
-    dx = dx / screen.ratio
-    dy = dy / screen.ratio
-    
     mouse.id = id
 
     mouse.state = state
 
-    mouse.x = x - screen.MARGE_X
-    mouse.y = screen.H - y + screen.MARGE_Y
+    mouse.x = x
+    mouse.y = screen.h - y
 
     self.position:set(mouse.x, mouse.y)
 

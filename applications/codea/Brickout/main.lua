@@ -2,24 +2,25 @@
 -- Main game functions --
 -------------------------
 
-supportedOrientations(PORTRAIT_ANY)
-
-bg = mesh()
-bat = nil
-ball = nil
-blocks = {}
-emitter = nil
-score = 0
-lives = 3
-ballIsMoving = false
-lastDelta = 0
-gameover = false
-won = false
-level = 1
-maxlevel = table.maxn(levels)
 
 -- Use this function to perform your initial setup
 function setup()
+    supportedOrientations(PORTRAIT_ANY)
+
+    bg = mesh()
+    bat = nil
+    ball = nil
+    blocks = {}
+    emitter = nil
+    score = 0
+    lives = 3
+    ballIsMoving = false
+    lastDelta = 0
+    gameover = false
+    won = false
+    level = 1
+    maxlevel = table.maxn(levels)
+
     -- Hide the sidebar in portrait mode
     displayMode(FULLSCREEN)
 
