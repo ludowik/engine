@@ -240,6 +240,9 @@ typedef intptr_t GLsizeiptr;
 
 #define GL_SCISSOR_TEST 0x0C11
 
+#define GL_PROGRAM_POINT_SIZE 0x8642
+#define GL_VERTEX_PROGRAM_POINT_SIZE 0x8642
+
 GLenum glGetError(void);
 
 const GLubyte* glGetString(GLenum name);
@@ -356,6 +359,8 @@ void glDepthFunc(GLenum func);
 void glCullFace(GLenum mode);
 void glFrontFace(GLenum mode);
 
+void glLineWidth(GLfloat width);
+void glPointSize(GLfloat size);
 void glPolygonMode(GLenum face, GLenum mode);
 
 void glDrawArrays(GLenum mode, GLint first, GLsizei count);
@@ -482,6 +487,8 @@ typedef void (*PFN_glDepthFunc)(GLenum func);
 typedef void (*PFN_glCullFace)(GLenum mode);
 typedef void (*PFN_glFrontFace)(GLenum mode);
 
+typedef void (*PFN_glLineWidth)(GLfloat width);
+typedef void (*PFN_glPointSize)(GLfloat size);
 typedef void (*PFN_glPolygonMode)(GLenum face, GLenum mode);
 
 typedef void (*PFN_glDrawArrays)(GLenum mode, GLint first, GLsizei count);

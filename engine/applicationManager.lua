@@ -10,7 +10,8 @@ end
 
 function ApplicationManager:loadApp(appPath, reloadApp)
     if not isApp(appPath) then
-        error(appPath)
+        self:managerApp()
+        return
     end
 
     self.appPath = appPath
@@ -42,8 +43,11 @@ function ApplicationManager:loadApp(appPath, reloadApp)
             env.appClass.setup()
 
             env.app = env.appClass()
+            self.app = env.app
+            
         else
             env.app = Application()
+            self.app = env.app
 
             if _G.env.setup then
                 _G.env.setup()
@@ -63,11 +67,11 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 
         setfenv(0, env)
 
+        self.app = env.app
+    
         supportedOrientations(env.__orientation or LANDSCAPE_ANY)
         self:pushSize()
     end
-
-    self.app = env.app
 end
 
 function ApplicationManager:managerApp()

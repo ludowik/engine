@@ -1,18 +1,18 @@
 function setup()
-    app.scene = UIScene(Layout.grid, 4)
-    app.scene.alignment = 'h-center,v-center'
-
+    app.ui = UIScene(Layout.grid, 4)
+    app.ui.alignment = 'h-center,v-center'
+    
     app.index = 0
 
     initMenu('applications')
 end
 
 function initMenu(path)
-    app.scene:clear()
+    app.ui:clear()
 
     if path and app.previousPath then
         local previousPath = app.previousPath
-        app.scene:add(
+        app.ui:add(
             Button('..',
                 function (btn)
                     initMenu(previousPath)
@@ -24,7 +24,7 @@ function initMenu(path)
     local apps = engine:dirApps(path) + engine:dirFiles(path)
     for i,appPath in ipairs(apps) do
         local appName, appDirectory = splitPath(appPath)
-        app.scene:add(
+        app.ui:add(
             Button(appName,
                 function (btn)
                     engine:loadApp(appPath)
@@ -37,7 +37,7 @@ function initMenu(path)
         if not isApp(appPath) then
             local j = appPath:findLast('/')
             local appName = j and appPath:sub(j+1) or appPath
-            app.scene:add(
+            app.ui:add(
                 Button(appName,
                     function (btn)
                         initMenu(appPath)
@@ -48,5 +48,5 @@ function initMenu(path)
 end
 
 function touched(touch)
-    app.scene:touched(touch)
+    app.ui:touched(touch)
 end

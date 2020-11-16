@@ -15,9 +15,11 @@ end
 function Context.setContext(context)
     if context == nil then return end
 
-    if Context.currentContext == context then return end
+    if context == Context.currentContext then return end
 
-    if context ~= engine.renderFrame then
+    local renderFrame = getRenderFrame()
+
+    if context ~= renderFrame then
         pushMatrix(true)
         resetMatrix(true)
 
@@ -53,15 +55,17 @@ function Context.setContext(context)
 end
 
 function Context.closeCurrentContext()
-    if Context.currentContext and Context.currentContext ~= engine.renderFrame then
+    local renderFrame = getRenderFrame()
+    if Context.currentContext and Context.currentContext ~= renderFrame then
         Context.currentContext:readPixels()
     end
     Context.currentContext = nil
 end
 
 function Context.resetContext()
-    if engine.renderFrame then
-        Context.setContext(engine.renderFrame)
+    local renderFrame = getRenderFrame()
+    if renderFrame then
+        Context.setContext(renderFrame)
     else
         Context.noContext()
     end

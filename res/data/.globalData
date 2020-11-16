@@ -1,3 +1,7 @@
 return {
+<<<<<<< HEAD
     ["appPath"] = "applications/apps/asteroid",
+=======
+    ["appPath"] = "applications/pi",
+>>>>>>> 3c022e7cb12762ee42216605766661dfcd29a2d9
 }

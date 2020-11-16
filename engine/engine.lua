@@ -50,13 +50,15 @@ function Engine:init()
         tween.setup()
     end
 
-    self.infoAlpha = 0
     self.infoHide = true
+    self.infoAlpha = 0
+
+    self.showHelp = false
 
     local function w2h(w)
         return math.floor(w * 9/16)
     end
-    
+
     local W, H
     if osx then
         W = W or 1480
@@ -74,7 +76,7 @@ function Engine:init()
             W = w2h(W)
         end
     end
-    
+
     screen.W = W
     screen.H = H
 end
@@ -100,16 +102,12 @@ function Engine:initialize()
     ElapsedTime = 0
 
     call('setup')
-    
+
     self.components:initialize()
     self.frameTime:init()
 
     self:initEvents()
 
-    self.renderFrame = Image(W, H)
-
-    self:toggleHelp()
-    
     self.envs = {}
 
     if not ios then
@@ -124,9 +122,9 @@ end
 function Engine:release()
     saveConfig()
 
-    if self.renderFrame then
-        self.renderFrame:release()
-    end
+--    if self.renderFrame then
+--        self.renderFrame:release()
+--    end
 
     self.components:release()
 
@@ -157,13 +155,33 @@ function Engine:run(appPath)
     debugger.off()
 end
 
+function loop()
+    env.app.drawFrame = nil
+end
+
+function redraw()
+    env.app.drawFrame = 1
+end
+
+function noLoop()
+    env.app.drawFrame = 1
+end
+
 function Engine:frame(forceDraw)
-    pause()
-    
+    sdl:event()
+
+    if env.app.drawFrame then
+        if env.app.drawFrame <= 0 then
+            return
+        end
+
+        env.app.drawFrame = env.app.drawFrame - 1
+
+        forceDraw = true
+    end
+
     self.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
     self.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
-
-    sdl:event()
 
     self.frameTime:update()
 
@@ -229,18 +247,32 @@ function Engine:resize(w, h)
 
     if screen.w > screen.h then
         screen.W, screen.H = max(screen.W, screen.H), min(screen.W, screen.H)
+        screen.MARGE_X, screen.MARGE_Y = max(screen.MARGE_X, screen.MARGE_Y), min(screen.MARGE_X, screen.MARGE_Y)
+        screen.ratio = 0.75
     else
         screen.W, screen.H = min(screen.W, screen.H), max(screen.W, screen.H)
+        screen.MARGE_X, screen.MARGE_Y = min(screen.MARGE_X, screen.MARGE_Y), max(screen.MARGE_X, screen.MARGE_Y)
+        screen.ratio = 0.5
     end
+
+    screen.w = 2 * screen.MARGE_X + screen.W * screen.ratio
+    screen.h = 2 * screen.MARGE_Y + screen.H * screen.ratio
 
     sdl:setWindowSize()
 
     Context.noContext()
+
     if self.renderFrame then
         self.renderFrame:release()
     end
-
     self.renderFrame = Image(screen.W, screen.H)
+
+    if self.app then
+        if self.app.renderFrame then
+            self.app.renderFrame:release()
+        end
+        self.app.renderFrame = Image(screen.W, screen.H)
+    end
 end
 
 function Engine:restart()
@@ -277,6 +309,19 @@ function Engine:toggleHelp()
     end
 end
 
+function getRenderFrame()
+--    if engine.app then
+--        if not engine.app.renderFrame then
+--            engine.app.renderFrame = Image(screen.W, screen.H)
+--            print('create renderFrame')
+--        end
+
+--        return engine.app.renderFrame
+--    end
+
+    return engine.renderFrame
+end
+
 function Engine:update(dt)
     self.components:update(dt)
 
@@ -305,9 +350,13 @@ function Engine:update(dt)
 end
 
 function Engine:draw()
-    background(red)
+--    background(red)
 
-    render(self.renderFrame, function ()
+    local renderFrame = getRenderFrame()
+
+    render(renderFrame, function ()
+            zLevel(0)
+
             self.app:__draw()
 
             resetMatrix(true)
@@ -326,7 +375,7 @@ function Engine:draw()
 
     self:postRender(screen.MARGE_X, screen.MARGE_Y)
 
-    render(self.renderFrame, function ()
+    render(renderFrame, function ()
             self:drawInfo()
             self:drawHelp()
         end)
@@ -337,7 +386,9 @@ function Engine:draw()
 end
 
 function Engine:postRender(x, y, w, h)
-    if self.renderFrame then
+    local renderFrame = getRenderFrame()
+
+    if renderFrame then
         pushMatrix()
         do
             resetMatrix(true)
@@ -347,7 +398,7 @@ function Engine:postRender(x, y, w, h)
 
             background(Color(0, 0, 0, 1))
 
-            self.renderFrame:draw(
+            renderFrame:draw(
                 x or 0,
                 y or 0,
                 (w or screen.W) * screen.ratio,
@@ -443,35 +494,51 @@ function Engine:buttonup(button)
     end
 end
 
-function Engine:touched(touch)
-    if not env.parameter:touched(touch) then
-        if not self.app:__touched(touch) then
-            processMovementOnCamera(touch)
+function Engine:touched(_touch)
+    if (_touch.x >= screen.MARGE_X and _touch.x <= screen.MARGE_X + screen.W * screen.ratio and
+        _touch.y >= screen.MARGE_Y and _touch.y <= screen.MARGE_Y + screen.H * screen.ratio)
+    then
+        local touch = _touch:clone()
+
+        touch.x = touch.x - screen.MARGE_X
+        touch.y = touch.y - screen.MARGE_Y
+
+        touch.x = touch.x / screen.ratio
+        touch.y = touch.y / screen.ratio
+
+        if not env.parameter:touched(touch) then
+            if not self.app:__touched(touch) then
+                processMovementOnCamera(touch)
+            end
         end
     end
 
-    if touch.state == ENDED then
-        if touch.x < 0 then
-            if touch.y > screen.H * 2 / 3 then
-                self.infoHide = not self.infoHide
+    do
+        local touch = _touch:clone()
 
-            elseif touch.y > screen.H * 1 / 3 then
-                engine:managerApp()
+        if touch.state == ENDED then
+            if touch.x < screen.MARGE_X then
+                if touch.y > screen.h * 2 / 3 then
+                    self.infoHide = not self.infoHide
 
-            else
-                ffi.C.exit(0)
+                elseif touch.y > screen.h * 1 / 3 then
+                    engine:managerApp()
+
+                else
+                    ffi.C.exit(0)
+                end
+
+            elseif touch.x > screen.w - screen.MARGE_X then
+                if touch.y > screen.h * 2 / 3 then
+                    engine:nextApp()
+
+                elseif touch.y > screen.h * 1 / 3 then
+                    engine:previousApp()
+
+                else
+                    engine:loopApp()
+                end            
             end
-
-        elseif touch.x > screen.W then
-            if touch.y > screen.H * 2 / 3 then
-                engine:nextApp()
-
-            elseif touch.y > screen.H * 1 / 3 then
-                engine:previousApp()
-
-            else
-                engine:loopApp()
-            end            
         end
     end
 end

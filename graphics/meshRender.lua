@@ -4,16 +4,16 @@ function MeshRender:init()
     config.wireframe = config.wireframe or 'fill'
 end
 
-function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
+function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, strokeWidth, nInstances)
     assert(shader)
     assert(drawMode)
-    
+
     self.shader = shader
     self.img = img
 
     x = x or 0
     y = y or 0
-    z = z or 0
+    z = z or zLevel()
 
     w = w or 1
     h = h or 1
@@ -21,6 +21,8 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
 
     self.pos = vec3(x, y, z)
     self.size = vec3(w, h, d)
+
+    self.shader.uniforms.strokeWidth = strokeWidth
 
     if self.texture then
         if type(self.texture) == 'string' then
@@ -198,11 +200,11 @@ end
 function MeshRender:sendUniforms(uniformsLocations)
     local shader = self.shader
     local img = self.img
-    
+
     if img then
         img:update()
         img:use(gl.GL_TEXTURE0)
-        
+
         shader.uniforms.useTexture = 1
         shader.uniforms.tex0 = 0
     else
@@ -224,16 +226,20 @@ function MeshRender:sendUniforms(uniformsLocations)
     if uniformsLocations.stroke and styles.attributes.stroke then
         shader.uniforms.stroke = styles.attributes.stroke
         --gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
-    end
 
-    if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
-        shader.uniforms.strokeWidth = styles.attributes.strokeWidth
+        if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
+            shader.uniforms.strokeWidth = shader.uniforms.strokeWidth or styles.attributes.strokeWidth
 --        gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
+        end
+    else
+        shader.uniforms.strokeWidth = 0
     end
 
     if uniformsLocations.fill and styles.attributes.fill then
         shader.uniforms.fill = styles.attributes.fill
 --        gl.glUniform4fv(uniformsLocations.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
+    else
+        shader.uniforms.fill = transparent
     end
 
     if uniformsLocations.tint and styles.attributes.tint then

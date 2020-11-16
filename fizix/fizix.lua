@@ -81,6 +81,9 @@ function Fizix:update(dt)
 
     self:setProperties()
 
+    -- TODO : trouver un autre moyen
+    dt = min(dt, 1)
+    
     while dt > 0 do
         local t = math.min(0.001, dt)
         self:step(t)
@@ -160,7 +163,7 @@ function Fizix:collision()
             end
         end
 
-        engine.app:__collide(contact)
+        env.app:__collide(contact)
 
         response(bodyA)
         response(bodyB)

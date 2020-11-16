@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 Generic PnP Monitor
 Supported 4.10 - Build 26.20.100.8141
@@ -10,3 +11,15 @@ switch applications/appManager
 load applications/apps/2048
 Could not connect to localhost:8172: timeout
 load applications/apps/asteroid
+=======
+/Users/Ludo/Projets/Lua/engine
+Color LCD
+Supported 4.10
+load applications/pi
+release 1 fonts
+memory at init    : 4.27 mo
+memory min        : 4.27 mo
+memory max        : 22.56 mo
+memory variation  : 18.29 mo
+memory at release : 13.25 mo
+>>>>>>> 3c022e7cb12762ee42216605766661dfcd29a2d9

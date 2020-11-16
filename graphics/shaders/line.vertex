@@ -12,8 +12,9 @@ uniform vec3 size;
 void main() {
     vec3 vertexPosition = vertex * size + pos;
     
-    vec3 perpendicular = vec3(-size.y, size.x, 0.);
-    vec3 normal = normalize(perpendicular) * strokeWidth / 2.;
+    vec3 sizeNorm = normalize(size);
+    vec3 perpendicular = vec3(-sizeNorm.y, sizeNorm.x, 0.);
+    vec3 normal = perpendicular * (strokeWidth + 2) / 2.;
     
     switch (gl_VertexID%6) {
         case 0:

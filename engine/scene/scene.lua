@@ -51,6 +51,10 @@ function Scene:draw()
             if self.position then
                 translate(self.position.x, self.position.y)
             end
+            
+            if self.bgColor then
+                background(self.bgColor)
+            end
         end
 
         Node.draw(self)

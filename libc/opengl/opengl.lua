@@ -79,6 +79,8 @@ function OpenGL:loadProcAdresses()
         'glGetActiveUniformName',
 
         -- draw
+        'glLineWidth',
+        'glPointSize',
         'glPolygonMode',
         'glDrawArrays',
         'glDrawArraysInstanced',

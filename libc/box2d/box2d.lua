@@ -104,8 +104,8 @@ local function collideFunc(cp)
             vec3(cp.points[i-1].x, cp.points[i-1].y):mul(mtpRatio))
     end
 
-    if engine.app.__collide then
-        engine.app:__collide(contact)
+    if env.app.__collide then
+        env.app:__collide(contact)
 
         if contact.state ~= ENDED then
             physicsBox2d.contacts:add(contact)
