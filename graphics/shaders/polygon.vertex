@@ -1,6 +1,9 @@
 attribute vec3 vertex;
 attribute vec4 color;
 
+attribute vec3 inst_pos;
+attribute vec3 inst_size;
+
 uniform mat4 matrixModel;
 uniform mat4 matrixPV;
 
@@ -10,7 +13,7 @@ uniform vec3 size;
 out vec4 vColor;
 
 void main() {
-    vec3 vertexPosition = vertex * size + pos;
+    vec3 vertexPosition = vertex * inst_size + inst_pos;
     gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
 
     vColor = color;

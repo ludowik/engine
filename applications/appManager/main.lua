@@ -48,5 +48,5 @@ function initMenu(path)
 end
 
 function touched(touch)
-    app.ui:touched(touch)
+    return app.ui:touched(touch)
 end

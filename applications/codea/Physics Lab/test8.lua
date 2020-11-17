@@ -15,7 +15,7 @@ function Test8:draw()
     end
 end
 
-function Test8:setup()
+function Test8:setupTest()
     physics.pause()
     self.box = createBox(WIDTH/2, HEIGHT/2, 100, 25)
     self.circle = createCircle(WIDTH/2, HEIGHT/2, 25)

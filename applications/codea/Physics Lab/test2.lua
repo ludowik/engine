@@ -6,7 +6,7 @@ function Test2:init()
     self.title = "basic joints"
 end
 
-function Test2:setup()
+function Test2:setupTest()
     createGround()
 
     local circle = createCircle(WIDTH/2, HEIGHT/2, 25)

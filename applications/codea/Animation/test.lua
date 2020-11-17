@@ -5,7 +5,7 @@ function Test:init(title)
     self.name = title or "Untitled"
 end
 
-function Test:setup()
+function Test:setupTest()
     self.animationsStarted = false
 end
 

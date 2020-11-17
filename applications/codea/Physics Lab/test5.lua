@@ -6,7 +6,7 @@ function Test5:init()
     self.title = "filtering"
 end
 
-function Test5:setup()
+function Test5:setupTest()
     createGround()
     local box = createBox(WIDTH/2, 100, 50, 50)
     local circle = createCircle(WIDTH/2, 100, 25)

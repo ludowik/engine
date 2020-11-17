@@ -10,7 +10,7 @@ function Test9:draw()
     -- Codea does not automatically call this method
 end
 
-function Test9:setup()
+function Test9:setupTest()
     --createGround()
 
     local points = {}

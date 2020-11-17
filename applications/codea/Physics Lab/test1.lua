@@ -5,7 +5,7 @@ function Test1:init()
     self.title = "basic bodies (tap to create)"
 end
 
-function Test1:setup()
+function Test1:setupTest()
     createGround()
     createBox(WIDTH/2, 100, 30, 30)
     createCircle(WIDTH/2 + 50, 110, 30)

@@ -6,8 +6,8 @@ function Path:init()
     Test.init(self, "Path")
 end
 
-function Path:setup()
-    Test.setup(self)
+function Path:setupTest()
+    Test.setupTest(self)
 
     print("Path allows you to pass an array of target values, which are interpolated with a spline")
 

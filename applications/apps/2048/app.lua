@@ -1,8 +1,5 @@
 App('App2048')
 
-function App2048.setup()
-end
-
 function App2048:init()
     Application.init(self)
 

@@ -17,7 +17,7 @@ function Context.setContext(context)
 
     if context == Context.currentContext then return end
 
-    local renderFrame = getRenderFrame()
+    local renderFrame = RenderFrame.getRenderFrame()
 
     if context ~= renderFrame then
         pushMatrix(true)
@@ -55,7 +55,7 @@ function Context.setContext(context)
 end
 
 function Context.closeCurrentContext()
-    local renderFrame = getRenderFrame()
+    local renderFrame = RenderFrame.getRenderFrame()
     if Context.currentContext and Context.currentContext ~= renderFrame then
         Context.currentContext:readPixels()
     end
@@ -63,7 +63,7 @@ function Context.closeCurrentContext()
 end
 
 function Context.resetContext()
-    local renderFrame = getRenderFrame()
+    local renderFrame = RenderFrame.getRenderFrame()
     if renderFrame then
         Context.setContext(renderFrame)
     else

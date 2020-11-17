@@ -8,7 +8,6 @@ function Shader:init(name, path)
 
     self.attributes = {}
 
-    self.uniforms = {}
     self.uniformsSent = {}
 
     self.uniformsLocations = {}
@@ -101,11 +100,13 @@ function Shader:compile(shaderType, source, path)
 
     local includes = {}
 
-    include = include:gsub('\n[%s]*#include[%s]+"([a-zA-Z0-9%._]+)"', function (file, a, b, c)
+    include = include:gsub('\n[%s]*#include[%s]+"([a-zA-Z0-9%._]+)"',
+        function (file, a, b, c)
             local path = 'graphics/shaders'
             includes[#includes+1] = path..'/'..file
             return NL..'#line 0 '..#includes..NL..io.read(includes[#includes])
         end)
+    
     includes[#includes+1] = path
 
     source = include..NL..'#line 0 '..#includes..NL..source
@@ -220,27 +221,11 @@ function Shader:initUniforms()
     end
 end
 
--- TODO
-function Shader:pushTableToShader(table, name, option)
-    local t = {}
-    t[option] = #table
-
-    self:pushToShader(t)
-    for i,item in ipairs(table) do
-        self:pushToShader(item, name, i-1)
-    end
-end
-
-function Shader:pushToShader(object, array, i)
-    for k,v in pairs(object) do
-        if array then
-            if i then
-                k = array.."["..i.."]".."."..k
-            else
-                k = array.."."..k
-            end
+function Shader:sendUniforms(uniforms)
+    if uniforms then
+        for k,v in pairs(uniforms) do
+            self:send(k, v)
         end
-        self:send(k, v)
     end
 end
 
@@ -307,5 +292,29 @@ function Shader:send(k, v)
 
     else
         log(self.name.." : unknown uniform '"..k.."'")
+    end
+end
+
+-- TODO
+function Shader:pushTableToShader(table, name, option)
+    local t = {}
+    t[option] = #table
+
+    self:pushToShader(t)
+    for i,item in ipairs(table) do
+        self:pushToShader(item, name, i-1)
+    end
+end
+
+function Shader:pushToShader(object, array, i)
+    for k,v in pairs(object) do
+        if array then
+            if i then
+                k = array.."["..i.."]".."."..k
+            else
+                k = array.."."..k
+            end
+        end
+        self:send(k, v)
     end
 end

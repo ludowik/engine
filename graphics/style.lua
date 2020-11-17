@@ -6,6 +6,15 @@ for i = 2, 20 do
     _G['s'..i] = i
 end
 
+function Styles.setup()
+    CENTER = 'center'
+    CORNER = 'corner'
+    
+    SQUARE = 0
+    ROUND = 1
+    PROJECT = 2
+end
+
 function Styles:init()
     self.attributes = {
         fill = white,
@@ -70,9 +79,9 @@ function resetStyle(blend, depth, culling)
 
     blendMode(blend or NORMAL)
     
-    depthMode(value(depth, true))
+    depthMode(value(depth, false))
     
-    cullingMode(value(culling, true))
+    cullingMode(value(culling, false))
 
     font()
     fontSize()
@@ -144,9 +153,6 @@ end
 function strokeWidth(width)
     return styles:setAttribute('strokeWidth', width)
 end
-
-CENTER = 'center'
-CORNER = 'corner'
 
 function rectMode(mode)
     return styles:setAttribute('rectMode', mode)

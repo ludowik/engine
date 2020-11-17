@@ -92,39 +92,41 @@ function Application:__draw()
     else
         self:draw()
     end
+end
 
+function Application:__drawParameter()
     env.parameter:draw()
 end
 
 function Application:__keyboard(...)
     if _G.env.keyboard then
-        _G.env.keyboard(...)
+        return _G.env.keyboard(...)
     else
-        self:keyboard(...)
+        return self:keyboard(...)
     end
 end
 
 function Application:__touched(...)
     if _G.env.touched then
-        _G.env.touched(...)
+        return _G.env.touched(...)
     else
-        self:touched(...)
+        return self:touched(...)
     end
 end
 
 function Application:__mouseWheel(...)
     if _G.env.wheelmoved then
-        _G.env.wheelmoved(...)
+        return _G.env.wheelmoved(...)
     else
-        self:mouseWheel(...)
+        return self:mouseWheel(...)
     end
 end
 
 function Application:__collide(...)
     if _G.env.collide then
-        _G.env.collide(...)
+        return _G.env.collide(...)
     else
-        self:collide(...)
+        return self:collide(...)
     end
 end
 
@@ -192,7 +194,7 @@ function Application:captureImage()
     local w = 256
     local h = floor(w * H / W)
 
-    self.renderFrame:save(config.appPath:replace('/', '.'))
+    getRenderFrame():save(config.appPath:replace('/', '.'))
 end
 
 function Application:help()

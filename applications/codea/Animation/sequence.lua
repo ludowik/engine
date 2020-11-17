@@ -6,8 +6,8 @@ function Sequence:init()
     Test.init(self, "Sequences")
 end
 
-function Sequence:setup()
-    Test.setup(self)
+function Sequence:setupTest()
+    Test.setupTest(self)
 
     print("Sequences allow you to chain multiple tweens together")
 

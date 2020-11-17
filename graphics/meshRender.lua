@@ -1,10 +1,14 @@
 class 'MeshRender'
 
-function MeshRender:init()
+function MeshRender.setup()
     config.wireframe = config.wireframe or 'fill'
 end
 
-function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, strokeWidth, nInstances)
+function MeshRender:init()
+    self.uniforms = {}
+end
+
+function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     assert(shader)
     assert(drawMode)
 
@@ -21,8 +25,6 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, strokeWidth,
 
     self.pos = vec3(x, y, z)
     self.size = vec3(w, h, d)
-
-    self.shader.uniforms.strokeWidth = strokeWidth
 
     if self.texture then
         if type(self.texture) == 'string' then
@@ -48,7 +50,14 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, strokeWidth,
         self:sendAttributes('texCoords', self.texCoords, 2)
         self:sendAttributes('normal', self.normals, 3)
 
-        self:sendIndices('indice', self.indices, 1)            
+        self:sendIndices('indice', self.indices, 1)
+
+        if shader.attributes.inst_pos then
+            self:sendAttributes('inst_pos', self.inst_pos or {self.pos}, 3, nil, true)
+        end
+        if shader.attributes.inst_size then
+            self:sendAttributes('inst_size', self.inst_size or {self.size}, 3, nil, true)
+        end
 
         self:sendUniforms(shader.uniformsLocations)
 
@@ -123,14 +132,20 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, strokeWidth,
     end
 end
 
-function MeshRender:sendAttributes(attributeName, buffer, nComponents, bufferType)
+function MeshRender:sendAttributes(attributeName, buffer, nComponents, bufferType, instancedBuffer)
     bufferType = bufferType or gl.GL_ARRAY_BUFFER
 
     local attribute = self.shader.attributes[attributeName]
     if attribute and buffer and #buffer > 0 then
-        self:sendBuffer(attributeName, attribute, buffer, nComponents, bufferType)
+        buffer = self:sendBuffer(attributeName, attribute, buffer, nComponents, bufferType)
 
-        gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
+        if instancedBuffer then
+            gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, buffer.sizeof_ctype, ffi.NULL)
+            gl.glVertexAttribDivisor(attribute.attribLocation, 1)
+        else
+            gl.glVertexAttribPointer(attribute.attribLocation, nComponents, gl.GL_FLOAT, gl.GL_FALSE, 0, ffi.NULL)
+        end
+
         gl.glEnableVertexAttribArray(attribute.attribLocation)
 
         attribute.enable = true
@@ -195,79 +210,64 @@ function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bu
 
         gl.glBufferData(bufferType, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
     end
+
+    return buffer
 end
 
 function MeshRender:sendUniforms(uniformsLocations)
-    local shader = self.shader
     local img = self.img
 
     if img then
         img:update()
         img:use(gl.GL_TEXTURE0)
 
-        shader.uniforms.useTexture = 1
-        shader.uniforms.tex0 = 0
+        self.uniforms.useTexture = 1
+        self.uniforms.tex0 = 0
     else
-        shader.uniforms.useTexture = 0
+        self.uniforms.useTexture = 0
     end
 
-    shader.uniforms.matrixPV = pvMatrix()
-    shader.uniforms.matrixModel = modelMatrix()
+    self.uniforms.matrixPV = pvMatrix()
+    self.uniforms.matrixModel = modelMatrix()
 
-    shader.uniforms.pos = self.pos
-    shader.uniforms.size = self.size
+    self.uniforms.pos = self.pos
+    self.uniforms.size = self.size
 
-    shader.uniforms.time = ElapsedTime
+    self.uniforms.time = ElapsedTime
 
     if uniformsLocations.cameraPosition and getCamera() then
+--        self.uniforms.cameraPosition = getCamera().vEye:tobytes()
         gl.glUniform3fv(uniformsLocations.cameraPosition.uniformLocation, 1, getCamera().vEye:tobytes())
     end
 
     if uniformsLocations.stroke and styles.attributes.stroke then
-        shader.uniforms.stroke = styles.attributes.stroke
-        --gl.glUniform4fv(uniformsLocations.stroke.uniformLocation, 1, styles.attributes.stroke:tobytes())
+        self.uniforms.stroke = styles.attributes.stroke
 
         if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
-            shader.uniforms.strokeWidth = shader.uniforms.strokeWidth or styles.attributes.strokeWidth
---        gl.glUniform1f(uniformsLocations.strokeWidth.uniformLocation, styles.attributes.strokeWidth)
+            self.uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth
+            self.uniforms.lineCapMode = styles.attributes.lineCapMode
         end
     else
-        shader.uniforms.strokeWidth = 0
+        self.uniforms.strokeWidth = 0
     end
 
     if uniformsLocations.fill and styles.attributes.fill then
-        shader.uniforms.fill = styles.attributes.fill
---        gl.glUniform4fv(uniformsLocations.fill.uniformLocation, 1, styles.attributes.fill:tobytes())
+        self.uniforms.fill = styles.attributes.fill
     else
-        shader.uniforms.fill = transparent
+        self.uniforms.fill = transparent
     end
 
     if uniformsLocations.tint and styles.attributes.tint then
-        shader.uniforms.tint = styles.attributes.tint
---        gl.glUniform4fv(uniformsLocations.tint.uniformLocation, 1, styles.attributes.tint:tobytes())
+        self.uniforms.tint = styles.attributes.tint
     end
 
     if uniformsLocations.useColor then
-        shader.uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
---        if self.colors and #self.colors > 0 then
---            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 1)
---        else
---            gl.glUniform1i(uniformsLocations.useColor.uniformLocation, 0)
---        end
+        self.uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
     end
 
     if uniformsLocations.useLight then
-        shader.uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
---        if self.normals and #self.normals > 0 and styles.attributes.light and config.light then
---            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 1)
---        else
---            gl.glUniform1i(uniformsLocations.useLight.uniformLocation, 0)
---        end
+        self.uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
     end
 
-    if self.shader.uniforms then
-        for k,v in pairs(self.shader.uniforms) do
-            self.shader:send(k, v)
-        end
-    end
+    self.shader:sendUniforms(self.uniforms)
 end

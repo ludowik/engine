@@ -11,17 +11,13 @@ function ShaderManager:initialize()
         lines = Shader('line'),
 
         polyline = Shader('line'),
-
         polygon  = Shader('line'),
 
         rect       = Shader('polygon'),
         rectBorder = Shader('line'),
 
         circle = Shader('circle'),
---        circleBorder = Shader('line'),
-
-        ellipse       = Shader('circle'),
---        ellipseBorder = Shader('line'),
+        ellipse = Shader('circle'),
 
         sprite = Shader('sprite'),
 

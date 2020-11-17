@@ -10,7 +10,7 @@ function Test6:draw()
     -- Codea does not automatically call this method
 end
 
-function Test6:setup()
+function Test6:setupTest()
     local ground = createGround()
     ground.friction = 1
 

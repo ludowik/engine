@@ -13,11 +13,16 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         self:managerApp()
         return
     end
-
-    self.appPath = appPath
-    self.appName, self.appDirectory = splitPath(appPath)
+    
+    if _G.env and _G.env.app then
+        _G.env.app.renderFrame = RenderFrame.getRenderFrame()
+        engine.renderFrame = nil
+    end
 
     saveGlobalData('appPath', appPath)
+    
+    self.appPath = appPath
+    self.appName, self.appDirectory = splitPath(appPath)
 
     sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..appPath)
 
@@ -40,18 +45,16 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         env.parameter = Parameter()
 
         if env.appClass then
-            env.appClass.setup()
+            self:draw(env.appClass.setup)
 
             env.app = env.appClass()
             self.app = env.app
-            
+
         else
             env.app = Application()
             self.app = env.app
 
-            if _G.env.setup then
-                _G.env.setup()
-            end
+            self:draw(_G.env.setup)
         end
 
         if not env.__orientation then
@@ -68,13 +71,15 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         setfenv(0, env)
 
         self.app = env.app
-    
+        RenderFrame.renderFrame = env.app.renderFrame
+
         supportedOrientations(env.__orientation or LANDSCAPE_ANY)
         self:pushSize()
     end
 end
 
 function ApplicationManager:managerApp()
+    self.action = nil
     self:loadApp('applications/appManager')
 end
 
@@ -83,6 +88,7 @@ function ApplicationManager:lastApp()
 end
 
 function ApplicationManager:defaultApp()
+    self.action = nil
     self:loadApp('applications/main')
 end
 

@@ -1,4 +1,7 @@
 attribute vec3 vertex;
+attribute vec2 texCoords;
+attribute vec4 color;
+attribute vec3 normal;
 
 uniform mat4 matrixModel;
 uniform mat4 matrixPV;
@@ -6,8 +9,48 @@ uniform mat4 matrixPV;
 uniform vec3 pos;
 uniform vec3 size;
 
+uniform vec4 fill;
+uniform vec4 stroke;
+uniform vec4 tint;
+
+uniform int useLight;
+uniform int useColor;
+uniform int useTexture;
+
+out vec3 vPosition;
+out vec3 vNormal;
+out vec4 vColor;
+out vec2 vTexCoords;
+
 void main() {
-    vec3 vertexPosition = vertex * size + pos;
-    gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
-    gl_PointSize = 15;
+    vec3 vertexPosition = vertex + pos;
+    
+    switch (gl_VertexID % 4) {
+        case 0:
+            vTexCoords = vec2( 1, -1);
+            break;
+        case 1:
+            vTexCoords = vec2( 1,  1);
+            break;
+        case 2:
+            vTexCoords = vec2(-1, -1);
+            break;
+        case 3:
+            vTexCoords = vec2(-1,  1);
+            break;
+    }
+    
+    vertexPosition += size * vec3(vTexCoords, 0.) / 2.;
+
+    vec4 worldPosition = matrixModel * vec4(vertexPosition.xyz, 1.);
+    
+    vPosition = worldPosition.xyz;
+
+    if (useColor > 0) {
+        vColor = color;
+    } else {
+        vColor = stroke;
+    }
+        
+    gl_Position = matrixPV * worldPosition;
 }

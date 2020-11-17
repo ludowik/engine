@@ -242,7 +242,7 @@ function Tri:draw()
 
     if (self.selected) then
         self.m:setColors(color(0,255,0,255))
-        -- zLevel(100)
+        zLevel(100)
     else
         self.m:setColors(self.c)
     end
@@ -253,7 +253,7 @@ function Tri:draw()
     popMatrix()
 
     pushMatrix()
-    --zLevel(1)
+    zLevel(1)
     translate(self.pos.x, self.pos.y)
     if self.down then
         scale(1,-1)

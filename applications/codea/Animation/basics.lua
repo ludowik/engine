@@ -6,8 +6,8 @@ function Basics:init()
     Test.init(self, "Basics")
 end
 
-function Basics:setup()
-    Test.setup(self)
+function Basics:setupTest()
+    Test.setupTest(self)
 
     print("A demo showing how to use basic tweens")
 

@@ -7,8 +7,8 @@ function Loops:init()
     Test.init(self, "Loops")
 end
 
-function Loops:setup()
-    Test.setup(self)
+function Loops:setupTest()
+    Test.setupTest(self)
 
     print("This test shows the three looping varieties")
 

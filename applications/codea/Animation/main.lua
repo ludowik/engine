@@ -26,7 +26,7 @@ function setTest(index)
     end
 
     currentTest = allTests[index]
-    currentTest:setup()
+    currentTest:setupTest()
 end
 
 -- This function gets called once every frame

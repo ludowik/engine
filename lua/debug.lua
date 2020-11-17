@@ -1,10 +1,11 @@
---if package.loaded['mobdebug'] then
---    debugger = package.loaded['mobdebug']
---    debugger.debugging = true
---else
---    debugger = require 'luajit.lualibs.mobdebug.mobdebug'
---end
-debugger = require 'mobdebug'
+if package.loaded['mobdebug'] then
+    debugger = package.loaded['mobdebug']
+    debugger.debugging = true
+else
+    debugger = require 'luajit.lualibs.mobdebug.mobdebug'
+end
+
+jit.on()
 
 function startDebug()
     debugger.start()

@@ -6,7 +6,7 @@ function Test4:init()
     self.title = "sensors"
 end
 
-function Test4:setup()
+function Test4:setupTest()
     createGround()
     self.sensor = createCircle(WIDTH/2,HEIGHT/2, 25)
     self.sensor.sensor = true

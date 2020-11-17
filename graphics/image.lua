@@ -7,8 +7,8 @@ function Image.getPath(imageName, ext)
 end
 
 function Image:init(w, h)
-    if type(w) == 'number' and h then
-        self:create(w, h)
+    if type(w) == 'number' then
+        self:create(w, h or w)
 
     elseif type(w) == 'string' then
         local path = self.getPath(w)
@@ -262,11 +262,13 @@ end
 local floor = math.floor
 
 function Image:offset(x, y)
-    x = floor(x-1)
-    y = floor(y-1)
+    x = round(x-1)
+    y = round(y-1)
 
     local offset = self.width * y + x
-    if offset >= 0 and offset < self.wh then
+    if (offset >= 0 and
+        offset < self.wh)
+    then
         return offset * self.surface.format.BytesPerPixel
     end
 end
@@ -330,8 +332,7 @@ function Image:get(x, y, clr)
         return clr
     end
 
-    clr:set()
-    return clr
+    return clr:set()
 end
 
 function Image:update()

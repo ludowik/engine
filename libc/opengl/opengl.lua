@@ -68,6 +68,7 @@ function OpenGL:loadProcAdresses()
 
         -- attribute
         'glVertexAttribPointer',
+        'glVertexAttribDivisor',
         'glEnableVertexAttribArray',
         'glDisableVertexAttribArray',
         'glGetAttribLocation',

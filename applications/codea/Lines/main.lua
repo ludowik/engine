@@ -3,18 +3,18 @@ function setup()
     -- Expose parameters to control our line
 
     -- The start point
-    parameter.number("x1",0,WIDTH,100)
-    parameter.number("y1",0,HEIGHT,100)
+    parameter.number("x1", 0, W, 100)
+    parameter.number("y1", 0, H, 100)
 
     -- The end point
-    parameter.number("x2",0,WIDTH,WIDTH/2)
-    parameter.number("y2",0,HEIGHT,HEIGHT/2)
+    parameter.number("x2", 0, W, W/2)
+    parameter.number("y2", 0, H, H/2)
 
     -- The stroke width
-    parameter.number("width",1,100,10)
+    parameter.number("width",1, 100, 10)
 
     -- The line cap type
-    parameter.integer("lineCap",0,2,0)
+    parameter.integer("lineCap", 0, 2, SQUARE)
     parameter.boolean("smoothCap")
 end
 

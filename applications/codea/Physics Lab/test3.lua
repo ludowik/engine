@@ -5,7 +5,7 @@ function Test3:init()
     self.title = "gravity scale"
 end
 
-function Test3:setup()
+function Test3:setupTest()
     createGround()
     local circle1 = createCircle(50, HEIGHT/2, 25)
 

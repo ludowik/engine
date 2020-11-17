@@ -48,7 +48,7 @@ function Test7:draw()
     popStyle()
 end
 
-function Test7:setup()
+function Test7:setupTest()
     createGround()
     createBox(WIDTH/2,HEIGHT - 50,25,25)
     createCircle(50, 50, 25)

@@ -4,9 +4,25 @@ function Log.setup()
     save(getDataPath()..'/.log', '', 'w')
 
     if debugging() then
-        log = print
+        log = Log.log
+        Log.logs = {}
     else
         log = nilf
+    end
+end
+
+function Log.log(...)
+    local str = ""
+    
+    local args = {...}    
+    for _,v in ipairs(args) do
+        str = str..tostring(v)
+    end
+    
+    Log.logs[str] = (Log.logs[str] or 0) + 1
+    
+    if Log.logs[str] == 1 then
+        print(str)
     end
 end
 

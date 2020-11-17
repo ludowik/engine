@@ -31,7 +31,7 @@ function setTest(t)
 
     currentTestIndex = t
     currentTest = tests[t]
-    currentTest:setup()
+    currentTest:setupTest()
 end
 
 function nextTest()

@@ -1,3 +1,31 @@
+class 'RenderFrame'
+
+function RenderFrame.getRenderFrame()
+    engine.renderFrame = RenderFrame.aRenderFrame(engine.renderFrame)
+    engine.renderFrameInfo = RenderFrame.aRenderFrame(engine.renderFrameInfo)
+
+    return engine.renderFrame
+end
+
+function RenderFrame.aRenderFrame(renderFrame)
+    if renderFrame == nil then
+        renderFrame = Image(screen.W, screen.H)
+
+    elseif renderFrame.width ~= screen.W then
+        renderFrame:release()
+        renderFrame:create(screen.W, screen.H)
+    end
+
+    return renderFrame
+end
+
+function RenderFrame.release()
+    if engine.renderFrame then
+        engine.renderFrame:release()
+        engine.renderFrame = nil
+    end
+end
+
 class 'Engine' : extends(ApplicationManager)
 
 function Engine:init()
@@ -42,6 +70,7 @@ function Engine:init()
         self.components:add(resourceManager)
         self.components:add(shaderManager)
         self.components:add(graphics)
+        self.components:add(RenderFrame)
 
         self.components:add(Profiler)
 
@@ -121,10 +150,6 @@ end
 
 function Engine:release()
     saveConfig()
-
---    if self.renderFrame then
---        self.renderFrame:release()
---    end
 
     self.components:release()
 
@@ -243,6 +268,8 @@ function Engine:wireframe()
 end
 
 function Engine:resize(w, h)
+    Context.noContext()
+
     screen.w, screen.h = w, h
 
     if screen.w > screen.h then
@@ -259,20 +286,6 @@ function Engine:resize(w, h)
     screen.h = 2 * screen.MARGE_Y + screen.H * screen.ratio
 
     sdl:setWindowSize()
-
-    Context.noContext()
-
-    if self.renderFrame then
-        self.renderFrame:release()
-    end
-    self.renderFrame = Image(screen.W, screen.H)
-
-    if self.app then
-        if self.app.renderFrame then
-            self.app.renderFrame:release()
-        end
-        self.app.renderFrame = Image(screen.W, screen.H)
-    end
 end
 
 function Engine:restart()
@@ -309,19 +322,6 @@ function Engine:toggleHelp()
     end
 end
 
-function getRenderFrame()
---    if engine.app then
---        if not engine.app.renderFrame then
---            engine.app.renderFrame = Image(screen.W, screen.H)
---            print('create renderFrame')
---        end
-
---        return engine.app.renderFrame
---    end
-
-    return engine.renderFrame
-end
-
 function Engine:update(dt)
     self.components:update(dt)
 
@@ -349,15 +349,35 @@ function Engine:update(dt)
     env.parameter:update(dt)
 end
 
-function Engine:draw()
---    background(red)
+function Engine:render(f, renderFrame, resetBackground, sortir)
+    if f == nil then return end
 
-    local renderFrame = getRenderFrame()
+    setContext()
 
-    render(renderFrame, function ()
+    if renderFrame then
+        setContext(renderFrame)
+        background(transparent)
+        setContext()
+    end
+
+    renderFrame = renderFrame or RenderFrame.getRenderFrame()
+    render(renderFrame, f)
+
+    if sortir then return end
+
+    self:postRender(renderFrame, resetBackground)
+end
+
+function Engine:draw(f)
+    self:render(
+        function ()
             zLevel(0)
 
-            self.app:__draw()
+            if f then
+                f()
+            else
+                self.app:__draw()
+            end
 
             resetMatrix(true)
             resetStyle(NORMAL, false, false)
@@ -371,22 +391,26 @@ function Engine:draw()
 
             line(0, screen.H/2, screen.W, screen.H/2)
             line(screen.W/2, 0, screen.W/2, screen.H)
-        end)
+        end,
+        nil,
+        true)
 
-    self:postRender(screen.MARGE_X, screen.MARGE_Y)
+    self:render(
+        function ()
+            if not f then
+                self.app:__drawParameter()
+            end
 
-    render(renderFrame, function ()
             self:drawInfo()
             self:drawHelp()
-        end)
-
-    self:postRender(screen.MARGE_X, screen.MARGE_Y)
+        end,
+        engine.renderFrameInfo)
 
     sdl:swap()
 end
 
-function Engine:postRender(x, y, w, h)
-    local renderFrame = getRenderFrame()
+function Engine:postRender(renderFrame, resetBackground)
+    renderFrame = renderFrame or RenderFrame.getRenderFrame()
 
     if renderFrame then
         pushMatrix()
@@ -396,13 +420,15 @@ function Engine:postRender(x, y, w, h)
 
             Context.noContext()
 
-            background(Color(0, 0, 0, 1))
+            if resetBackground then
+                background(transparent)
+            end
 
             renderFrame:draw(
-                x or 0,
-                y or 0,
-                (w or screen.W) * screen.ratio,
-                (h or screen.H) * screen.ratio)
+                screen.MARGE_X,
+                screen.MARGE_Y,
+                screen.W * screen.ratio,
+                screen.H * screen.ratio)
         end
         popMatrix()
     end
@@ -422,10 +448,6 @@ end
 function Engine:drawInfo()
     if self.infoAlpha == 0 then return end
 
-    blendMode(NORMAL)
-
-    depthMode(false)
-
     -- background
     noStroke()
     fill(white:alpha(self.infoAlpha))
@@ -437,16 +459,15 @@ function Engine:drawInfo()
     rectMode(CORNER)
     textMode(CORNER)
 
-    info('fps', self.frameTime.fps)
-    info('fps target', self.fpsTarget)
-    info('opengl version', config.glMajorVersion)
-    info('mouse', mouse)
-    info('ram', format_ram(self.memory.ram.current))
-    info('res', resourceManager.resources:getnKeys())
+    info('fps', self.frameTime.fps..' / '..self.frameTime.fpsTarget)
     info('os', jit.os)
     info('jit version', jit.version)
     info('debugging', debugging())
     info('compile', jit.status())
+    info('ram', format_ram(self.memory.ram.current))
+    info('res', resourceManager.resources:getnKeys())
+    info('mouse', mouse)
+    info('opengl version', config.glMajorVersion)
     info('wireframe', config.wireframe)
     info('light', config.light)
 end
@@ -506,11 +527,15 @@ function Engine:touched(_touch)
         touch.x = touch.x / screen.ratio
         touch.y = touch.y / screen.ratio
 
-        if not env.parameter:touched(touch) then
-            if not self.app:__touched(touch) then
-                processMovementOnCamera(touch)
-            end
+        if env.parameter:touched(touch) then
+            return
         end
+
+        if self.app:__touched(touch) then
+            return
+        end
+
+        processMovementOnCamera(touch)
     end
 
     do
