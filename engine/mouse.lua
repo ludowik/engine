@@ -34,6 +34,18 @@ function Mouse:unpack()
     return self.x, self.y
 end
 
+function Mouse:transform()
+    local touch = self:clone()
+
+    touch.x = touch.x - screen.MARGE_X
+    touch.y = touch.y - screen.MARGE_Y
+
+    touch.x = touch.x / screen.ratio
+    touch.y = touch.y / screen.ratio
+    
+    return touch
+end
+
 function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
     mouse.id = id
 
