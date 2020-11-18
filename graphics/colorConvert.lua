@@ -13,14 +13,14 @@ function hsl(h, s, l, a)
         end
         var_1 = 2 * l - var_2
 
-        r = hue2rgb(var_1, var_2, h + (1 / 3))
-        g = hue2rgb(var_1, var_2, h)
-        b = hue2rgb(var_1, var_2, h - (1 / 3))
+        r = __hue2rgb(var_1, var_2, h + (1 / 3))
+        g = __hue2rgb(var_1, var_2, h)
+        b = __hue2rgb(var_1, var_2, h - (1 / 3))
     end
     return Color(r, g, b, a or 1)
 end
 
-function hue2rgb(v1, v2, vH)
+function __hue2rgb(v1, v2, vH)
     if vH < 0 then
         vH = vH + 1
     end

@@ -1,13 +1,15 @@
 ffi = require 'ffi'
 
 ffi.cdef [[
-    void* malloc(size_t __size);
-    void* realloc(void *__ptr, size_t __size);
-
+    void* malloc(size_t num);
+    void* realloc(void *ptr, size_t num);
+    
+    void* memset(void *ptr, int value, size_t num);
+    
     void* memmove(void *destination, const void *source, size_t num);
     void* memcpy(void *destination, const void *source, size_t num);
 
-    void free(void *__ptr);
+    void free(void *ptr);
 ]]
 
 buffer_meta = {}
@@ -22,7 +24,11 @@ function buffer_meta.__init(buffer, buffer_class, data, ...)
     buffer.sizeof_ctype = buffer_class.sizeof_ctype
     buffer.size = buffer_class.sizeof_ctype * buffer.available
 
-    buffer.data = ffi.cast(buffer_class.ctype, ffi.C.malloc(buffer.size))
+    buffer.data = ffi.cast(buffer_class.ctype,
+        ffi.C.malloc(
+            buffer.size))
+    
+    ffi.C.memset(buffer.data, 0, buffer.size)
 
     buffer.n = 0
     buffer.version = 0
@@ -64,6 +70,9 @@ end
 
 function buffer_meta.resize(buffer, n)
     if buffer.available < n then
+        local previousAvailable = buffer.available
+        local previousSize = buffer.size
+        
         buffer.available = n
         buffer.size = buffer.available * buffer.sizeof_ctype
 
@@ -71,6 +80,8 @@ function buffer_meta.resize(buffer, n)
             ffi.C.realloc(
                 buffer.data,
                 buffer.size))
+        
+        ffi.C.memset(buffer.data+previousAvailable, 0, buffer.size-previousSize)
 
         assert(buffer.data)
     end

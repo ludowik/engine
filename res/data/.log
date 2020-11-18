@@ -1,18 +1,10 @@
-/Users/Ludo/Projets/Lua/engine
-Color LCD
-Supported 4.10
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+Generic PnP Monitor
+Supported 4.10 - Build 26.20.100.8141
 load applications/waves
 release 1 fonts
-<<<<<<< HEAD
-memory at init    : 1.60 mo
-memory min        : 1.60 mo
-memory max        : 12.53 mo
-memory variation  : 10.93 mo
-memory at release : 7.73 mo
-=======
-memory at init    : 1.80 mo
-memory min        : 1.80 mo
-memory max        : 25.23 mo
-memory variation  : 23.43 mo
-memory at release : 21.04 mo
->>>>>>> 015e48c0661284e6cd2346488b3beb8cc2bf5608
+memory at init    : 1.13 mo
+memory min        : 1.13 mo
+memory max        : 20.64 mo
+memory variation  : 19.51 mo
+memory at release : 20.11 mo

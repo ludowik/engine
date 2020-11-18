@@ -1,44 +1,61 @@
 function setup()
-    size = 500
+    size = W
+
+    buf1 = Buffer('float'):resize(size^2)
+    buf2 = Buffer('float'):resize(size^2)
 
     damping = 0.9
 
-    buf1 = Buffer('float'):resize(size*size)
-    buf2 = Buffer('float'):resize(size*size)
-
     img = Image(size, size)
+    img:background(black)
 end
 
 function update(dt)
-    local r, offset, pixels
+    pixels = img:getPixels(true)
 
-    pixels = img:getPixels()
-
-    for x=2,size-1 do
-        for y=2,size-1 do
-            offset = (x-1) + (y-1) * size
-
-            r = (
-                buf1[offset-1] +
-                buf1[offset+1] +
-                buf1[offset-size] +
-                buf1[offset+size]
-                ) / 2 - buf2[offset]
-
-            r = r * damping
-
-            buf2[offset] = r
-
-            pixels[offset*4+0] = r * 255            
-            pixels[offset*4+1] = r * 255
-            pixels[offset*4+2] = r * 255
-            pixels[offset*4+3] = 255
-        end
+    for i=1,2 do
+        step()
     end
 
-    img:update(true)
+    waterDrop(random(size), random(size))
+end
+
+function step()
+    local index, offset, value, brigthness
+
+    index = getOffset(2, 2-1)
+
+    for y=2,size-1 do        
+        for x=2,size-1 do
+            value = (
+                buf1[index-1] +
+                buf1[index+1] +
+                buf1[index-size] +
+                buf1[index+size]
+                ) * 0.5 - buf2[index]
+
+            value = value * damping
+            
+            buf2[index] = value
+
+            brigthness = 128 + value * 128
+            
+            offset = (index -1) * 4
+            pixels[offset  ] = brigthness
+            pixels[offset+1] = brigthness
+            pixels[offset+2] = brigthness
+
+            index = index + 1
+        end
+
+        index = index + 2
+    end
 
     buf1, buf2 = buf2, buf1
+end
+
+function getOffset(x, y)
+    return round(x) + round(y) * size
 end
 
 function draw()
@@ -54,6 +71,10 @@ function draw()
 end
 
 function touched(touch)
-    local offset = floor(touch.x + touch.y * size)
+    waterDrop(touch.x, touch.y)
+end
+
+function waterDrop(x, y)
+    local offset = getOffset(x, y)
     buf1[offset] = 255
 end

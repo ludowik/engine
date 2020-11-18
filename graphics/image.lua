@@ -43,7 +43,8 @@ function Image:init(w, h)
     self.pixels = ffi.cast('GLubyte*', self.surface.pixels)
 end
 
-function Image:getPixels()
+function Image:getPixels(needUpdate)
+    self.needUpdate = needUpdate or false
     return self.pixels
 end
 
@@ -230,6 +231,12 @@ end
 
 function Image:unuse()
     gl.glBindTexture(gl.GL_TEXTURE_2D, 0)
+end
+
+function Image:background(...)
+    setContext(self)
+    background(...)
+    setContext()    
 end
 
 function Image:draw(x, y, w, h)

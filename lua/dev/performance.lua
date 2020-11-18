@@ -1,6 +1,6 @@
 performance = class 'Performance'
 
-function Performance.evaluate(test, f, ...)
+function Performance.timeit(test, f, ...)
     local infos = {
         n = 1000,
         elapsedTime = 0,
@@ -34,14 +34,13 @@ function Performance.evaluate(test, f, ...)
     print(test)
     print(string.format('elapsed time: %.9f (%s)', infos.elapsedTime, infos.totalRam))
     print(string.format('delta   time: %.9f (%s)', infos.deltaTime, infos.deltaRam))
-    print()
 
     return infos
 end
 
 function Performance.compare(test, f1, f2, ...)
-    Performance.evaluate(test, f1, ...)
-    Performance.evaluate(test, f2, ...)
+    Performance.timeit(test, f1, ...)
+    Performance.timeit(test, f2, ...)
 end
 
 function Performance.test()
@@ -49,4 +48,22 @@ end
 
 function Performance.run()
     call('perf')
+end
+
+class 'perf_div2'
+function perf_div2:perf()
+    print('divide by 2 vs mul by 0.5')
+
+    local a, b
+    b = random() * 10^26
+
+    Performance.timeit('divide by 2',
+        function () 
+            a = b / 2
+        end)
+    
+    Performance.timeit('mul by 0.5',
+        function () 
+            a = b * 0.5
+        end)
 end
