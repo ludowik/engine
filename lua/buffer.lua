@@ -74,6 +74,7 @@ function buffer_meta.resize(buffer, n)
 
         assert(buffer.data)
     end
+    return buffer
 end
 
 local max = math.max

@@ -170,8 +170,7 @@ end
 
 function call(fname)
     for k,object in pairs(__classes) do
-        if callOnObject(fname, object) then
-        end
+        callOnObject(fname, object)
     end
 end
 

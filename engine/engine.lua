@@ -466,7 +466,7 @@ function Engine:drawInfo()
     info('compile', jit.status())
     info('ram', format_ram(self.memory.ram.current))
     info('res', resourceManager.resources:getnKeys())
-    info('mouse', mouse)
+    info('mouse', mouse:transform())
     info('opengl version', config.glMajorVersion)
     info('wireframe', config.wireframe)
     info('light', config.light)
@@ -519,13 +519,7 @@ function Engine:touched(_touch)
     if (_touch.x >= screen.MARGE_X and _touch.x <= screen.MARGE_X + screen.W * screen.ratio and
         _touch.y >= screen.MARGE_Y and _touch.y <= screen.MARGE_Y + screen.H * screen.ratio)
     then
-        local touch = _touch:clone()
-
-        touch.x = touch.x - screen.MARGE_X
-        touch.y = touch.y - screen.MARGE_Y
-
-        touch.x = touch.x / screen.ratio
-        touch.y = touch.y / screen.ratio
+        local touch = _touch:transform()
 
         if env.parameter:touched(touch) then
             return

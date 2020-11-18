@@ -67,7 +67,7 @@ function mt:__eq(mat)
     end
 
     for i=0,15 do
-        if self[i] ~= mat[i] then
+        if self.values[i] ~= mat.values[i] then
             return false
         end
     end

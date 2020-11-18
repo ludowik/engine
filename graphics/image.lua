@@ -335,8 +335,8 @@ function Image:get(x, y, clr)
     return clr:set()
 end
 
-function Image:update()
-    if self.needUpdate then
+function Image:update(needUpdate)
+    if self.needUpdate or needUpdate then
         self.needUpdate = false
         self:makeTexture()
     end
