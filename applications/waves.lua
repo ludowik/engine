@@ -4,7 +4,7 @@ function setup()
     buf1 = Buffer('float'):resize(size^2)
     buf2 = Buffer('float'):resize(size^2)
 
-    damping = 0.9
+    damping = 0.95
 
     img = Image(size, size)
     img:background(black)
@@ -17,7 +17,7 @@ function update(dt)
         step()
     end
 
-    waterDrop(random(size), random(size))
+    waterDrop(random(size), random(size), random(100, 1000))
 end
 
 function step()
@@ -74,7 +74,7 @@ function touched(touch)
     waterDrop(touch.x, touch.y)
 end
 
-function waterDrop(x, y)
+function waterDrop(x, y, h)
     local offset = getOffset(x, y)
-    buf1[offset] = 255
+    buf1[offset] = h
 end

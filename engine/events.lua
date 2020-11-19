@@ -26,7 +26,7 @@ function Engine:initEvents()
             ['f'] = callback('flip screen', self, Engine.flip),
 
             ['w'] = callback('wireframe', self, Engine.wireframe),
-            
+
             ['m'] = callback('portrait/landscape', self, Engine.flip),
 
             [','] = callback('introspection', self, Engine.introspection),
@@ -41,6 +41,11 @@ function Engine:initEvents()
                     if self.app then
                         self.app.ui:nextFocus()
                     end
+                end),
+
+            ['f2'] = callback('timeit', self,
+                function ()
+                    call('perf')
                 end),
 
             ['p'] = callback('profiler', self,
