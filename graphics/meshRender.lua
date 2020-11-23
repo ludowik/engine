@@ -254,14 +254,14 @@ function MeshRender:sendUniforms(uniformsLocations)
         self.uniforms.cameraPosition = getCamera().vEye:tobytes()
     end
 
-    self.uniforms.fill = styles.attributes.fill
+    self.uniforms.fill = styles.attributes.fill or transparent
     
-    self.uniforms.stroke = styles.attributes.stroke
-    self.uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth
+    self.uniforms.stroke = styles.attributes.stroke or transparent
+    self.uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth or 0
     
-    self.uniforms.tint = styles.attributes.tint
+    self.uniforms.tint = styles.attributes.tint or transparent
     
-    self.uniforms.lineCapMode = styles.attributes.lineCapMode    
+    self.uniforms.lineCapMode = styles.attributes.lineCapMode   
 
     self.uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
     

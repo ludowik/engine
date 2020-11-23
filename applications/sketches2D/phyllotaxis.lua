@@ -1,31 +1,46 @@
 function setup()    
-    parameter.integer('c', 2, 20, 8, reset)
+    parameter.integer('spacing', 2, 20, 4)
+    parameter.number('theta', 130, 145, 137.5)
 
-    reset()
+    local function setTheta(btn)
+        theta = tonumber(btn.label)
+    end
+
+    parameter.action('137.3', setTheta)
+    parameter.action('137.5', setTheta)
+    parameter.action('137.7', setTheta)
+    
+    parameter.action('https://thecodingtrain.com/CodingChallenges/030-phyllotaxis.html',
+        function (btn)
+            openURL(btn.label)
+        end)
+
+    n = 0
 end
 
-function reset()
-    resetDrawing = true
-end
+local cos, sin, deg, rad, sqrt = math.cos, math.sin, math.deg, math.rad, math.sqrt
 
 function draw()
-    if resetDrawing then
-        resetDrawing = false
-        background(51)
-        n = 0
+    background(51)
+
+    translate(W/2, H/2)
+    rotate(n/10)
+
+    local size = spacing - 1
+
+    for i=0,n-1 do
+        local radius = spacing * sqrt(i)
+
+        local angle = i * rad(theta)
+
+        local x = radius * cos(angle)
+        local y = radius * sin(angle)
+
+        strokeWidth(size*2)    
+        stroke(hsl(((deg(angle)-radius)%360)*255/360, 255, 128))
+
+        point(x, y)
     end
-    
-    local a = n * 137.5
-    local r = c * math.sqrt(n)
 
-    local x = r * math.cos(math.rad(a)) + W/2
-    local y = r * math.sin(math.rad(a)) + H/2
-
-    strokeWidth(c)
-    
-    stroke(hsl((a-r)%255, 255, 128))
-
-    point(x, y)
-
-    n = n + 1
+    n = n + 10
 end

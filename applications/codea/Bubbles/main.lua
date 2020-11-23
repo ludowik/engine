@@ -21,7 +21,8 @@ function Bubbles:emit()
             pos = vec2(self.x, self.y),
             dir = dir,
             size = size,
-            life = life
+            life = life,
+            clr = color.random()
         }
 
         -- Bubbles have the following properties
@@ -29,6 +30,7 @@ function Bubbles:emit()
         --  size: size of the bubble
         --  life: how many frames the bubble lives
         --  pos: the initial position of the bubble
+        --  clr: the color of the bubble
         --   (all bubbles start at the emitter position)
 
         -- Add the bubble to our table of bubbles
@@ -41,17 +43,18 @@ end
 
 -- This function updates all the bubbles in the system
 function Bubbles:update()
+    local dt = DeltaTime * 60
     -- Loop through bubbles
     for k,v in pairs(self.bubbles) do
         -- Add direction of bubble to its
         --  position, to generate new position
-        v.pos:add(v.dir)
+        v.pos:add(v.dir * dt)
 
         -- Subtract one from its life
-        v.life = v.life - 1
+        v.life = v.life - dt
 
         -- If this bubble's life is 0
-        if v.life == 0 then
+        if v.life <= 0 then
             -- Remove it from the table
             self.bubbles[k] = nil
 
@@ -69,13 +72,14 @@ function Bubbles:draw()
 
     -- Set up our bubble style
     ellipseMode(CENTER)
+    
     stroke(255)
     strokeWidth(4)
-    fill(153, 197, 210, 100)
-
+    
     -- Loop through bubbles and draw them
     for k,v in pairs(self.bubbles) do
-        ellipse(v.pos.x, v.pos.y, v.size, v.size)
+        fill(v.clr)
+        circle(v.pos.x, v.pos.y, v.size/2)
     end
 
     -- Restore original style
