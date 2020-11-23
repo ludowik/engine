@@ -13,8 +13,8 @@ function ShaderManager:initialize()
         polyline = Shader('line'),
         polygon  = Shader('line'),
 
-        rect       = Shader('polygon'),
-        rectBorder = Shader('line'),
+        rect       = Shader('rect'),
+--        rectBorder = Shader('line'),
 
         circle = Shader('circle'),
         ellipse = Shader('circle'),

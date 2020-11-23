@@ -1,3 +1,7 @@
 return {
+<<<<<<< HEAD
     ["appPath"] = "applications/sketches2D/phyllotaxis",
+=======
+    ["appPath"] = "applications/primitives",
+>>>>>>> bfd1d96bb94a23c3b6e06512556246b1fd8d1b90
 }
