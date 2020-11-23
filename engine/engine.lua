@@ -1,43 +1,12 @@
-class 'RenderFrame'
-
-function RenderFrame.getRenderFrame()
-    engine.renderFrame = RenderFrame.aRenderFrame(engine.renderFrame)
-    engine.renderFrameInfo = RenderFrame.aRenderFrame(engine.renderFrameInfo)
-
-    return engine.renderFrame
-end
-
-function RenderFrame.aRenderFrame(renderFrame)
-    if renderFrame == nil then
-        renderFrame = Image(screen.W, screen.H)
-
-    elseif renderFrame.width ~= screen.W then
-        renderFrame:release()
-        renderFrame:create(screen.W, screen.H)
-    end
-
-    return renderFrame
-end
-
-function RenderFrame.release()
-    if engine.renderFrame then
-        engine.renderFrame:release()
-        engine.renderFrame = nil
-    end
-end
-
 class 'Engine' : extends(ApplicationManager)
 
 function Engine:init()
-    assert(engine == nil)    
+    assert(engine == nil)
     engine = self
 
     loadConfig()
 
-    do
-        ut.run()
-        performance.run()
-    end
+    ut.run()
 
     self.active = 'start'
 
@@ -51,13 +20,12 @@ function Engine:init()
     ft = FreeType()
 
     resourceManager = ResourceManager()
-
     shaderManager = ShaderManager()
 
     graphics = Graphics()
 
     -- add components
-    self.components = Node()
+    self.components = ComponentManager()
     do
         self.components:add(self.memory)
         self.components:add(Path())
@@ -79,35 +47,13 @@ function Engine:init()
         tween.setup()
     end
 
+    -- TODO : A deplacer dans une autre classe
     self.infoHide = true
     self.infoAlpha = 0
 
     self.showHelp = false
 
-    local function w2h(w)
-        return math.floor(w * 9/16)
-    end
-
-    local W, H
-    if osx then
-        W = W or 1480
-        H = H or w2h(W)
-
-    elseif windows then
-        W = W or 1024
-        H = H or w2h(W)
-
-    elseif ios then
-        if love then
-            screen.w, screen.h = love.window.getMode()
-        else
-            H = 1024
-            W = w2h(W)
-        end
-    end
-
-    screen.W = W
-    screen.H = H
+    screen = Screen(W, H)
 end
 
 function Engine:on(event, key, callback)
@@ -159,6 +105,8 @@ end
 function Engine:run(appPath)
     self.appPath = self.appPath or appPath
 
+    counterutype = Array()
+
     repeat
 
         self:initialize()
@@ -176,6 +124,11 @@ function Engine:run(appPath)
         self:release()
 
     until self.active ~= 'restart'
+    
+    counterutype:sort(function (a, b) return a <= b end)
+    for k,v in pairs(counterutype) do
+        print(k..'='..v)
+    end
 
     debugger.off()
 end
@@ -270,22 +223,9 @@ end
 function Engine:resize(w, h)
     Context.noContext()
 
-    screen.w, screen.h = w, h
+    screen:resize(w, h)
 
-    if screen.w > screen.h then
-        screen.W, screen.H = max(screen.W, screen.H), min(screen.W, screen.H)
-        screen.MARGE_X, screen.MARGE_Y = max(screen.MARGE_X, screen.MARGE_Y), min(screen.MARGE_X, screen.MARGE_Y)
-        screen.ratio = 0.75
-    else
-        screen.W, screen.H = min(screen.W, screen.H), max(screen.W, screen.H)
-        screen.MARGE_X, screen.MARGE_Y = min(screen.MARGE_X, screen.MARGE_Y), max(screen.MARGE_X, screen.MARGE_Y)
-        screen.ratio = 0.5
-    end
-
-    screen.w = 2 * screen.MARGE_X + screen.W * screen.ratio
-    screen.h = 2 * screen.MARGE_Y + screen.H * screen.ratio
-
-    sdl:setWindowSize()
+    sdl:setWindowSize(screen)
 end
 
 function Engine:restart()
@@ -325,16 +265,20 @@ end
 function Engine:update(dt)
     self.components:update(dt)
 
+    -- TODO : à gerer dans ComponentsManager
     if self.onEvents['update'] then
         self.onEvents['update'](dt)
     end
 
+    -- TODO : à gerer dans ComponentsManager ?
     if self.action then
         self.action()
     end
 
+    -- TODO : à gerer dans ComponentsManager
     if classnameof(env.physics) == 'physics' then
         env.physics.update(dt)
+
     elseif classnameof(env.physics) == 'fizix' then
         env.physics:update(dt)
     end

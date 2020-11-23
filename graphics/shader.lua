@@ -106,7 +106,7 @@ function Shader:compile(shaderType, source, path)
             includes[#includes+1] = path..'/'..file
             return NL..'#line 0 '..#includes..NL..io.read(includes[#includes])
         end)
-    
+
     includes[#includes+1] = path
 
     source = include..NL..'#line 0 '..#includes..NL..source
@@ -221,12 +221,32 @@ function Shader:initUniforms()
     end
 end
 
-function Shader:sendUniforms(uniforms)
-    if uniforms then
-        for k,v in pairs(uniforms) do
-            self:send(k, v)
+function Shader:needByShader(uniforms)
+    for k,v in pairs(self.uniformsLocations) do
+        if uniforms[k] then
+            self:send(k, uniforms[k])
+        else
+            --log(self.name.." : miss uniform '"..k.."'")
         end
     end
+end
+
+function Shader:pushByRender(uniforms)
+    for k,v in pairs(uniforms) do
+        if self.uniformsLocations[k] then
+            self:send(k, v)
+        else
+            --log(self.name.." : unknown uniform '"..k.."'")
+        end
+    end
+end
+
+function Shader:sendUniforms(uniforms)
+    self:needByShader(uniforms)
+    
+--    Performance.compare('need by shader or push by renderer',
+--        function () self:needByShader(uniforms) end,
+--        function () self:pushByRender(uniforms) end)
 end
 
 function Shader:send(k, v)
@@ -235,15 +255,16 @@ function Shader:send(k, v)
     end
 
     local location = self.uniformsLocations[k]
-    if location == nil then
+    if location == nil then        
         self.uniformsLocations[k] = gl.glGetUniformLocation(self.program_id, k)
         location = self.uniformsLocations[k]
+        assert(location == -1)
     end
 
     if location ~= -1 then
         local uid = location.uniformLocation
 
-        log(string.format('send uniform {k} with value {v}', {k=k, v=v}))
+--        log(string.format('send uniform {k} with value {v}', {k=k, v=v}))
 
         local utype = self.uniformsTypes[k]
         if utype == nil then
@@ -251,7 +272,24 @@ function Shader:send(k, v)
             utype = self.uniformsTypes[k]
         end
 
-        if utype == 'number' then
+        counterutype[utype] = (counterutype[utype] or 0) + 1
+
+        if utype == 'matrix' or utype == 'cdata' then
+            gl.glUniformMatrix4fv(uid, 1, gl.GL_TRUE, v:tobytes())
+
+        elseif utype == 'vec3' then
+            gl.glUniform3fv(uid, 1, v:tobytes())
+
+        elseif utype == 'color' then
+            gl.glUniform4fv(uid, 1, v:tobytes())
+
+        elseif utype == 'vec2' then
+            gl.glUniform2fv(uid, 1, v:tobytes())
+
+        elseif utype == 'vec4' then
+            gl.glUniform4fv(uid, 1, v:tobytes())
+
+        elseif utype == 'number' then
             if self.uniformsGlslTypes[k] == gl.GL_INT then
                 gl.glUniform1i(uid, v)
 
@@ -261,21 +299,6 @@ function Shader:send(k, v)
             else
                 gl.glUniform1f(uid, v)
             end
-
-        elseif utype == 'vec2' then
-            gl.glUniform2fv(uid, 1, v:tobytes())
-
-        elseif utype == 'vec3' then
-            gl.glUniform3fv(uid, 1, v:tobytes())
-
-        elseif utype == 'vec4' then
-            gl.glUniform4fv(uid, 1, v:tobytes())
-
-        elseif utype == 'color' then
-            gl.glUniform4fv(uid, 1, v:tobytes())
-
-        elseif utype == 'matrix' or utype == 'cdata' then
-            gl.glUniformMatrix4fv(uid, 1, gl.GL_TRUE, v:tobytes())
 
         elseif utype == 'boolean' then
             if v == true then
@@ -295,12 +318,12 @@ function Shader:send(k, v)
     end
 end
 
--- TODO
 function Shader:pushTableToShader(table, name, option)
     local t = {}
     t[option] = #table
 
     self:pushToShader(t)
+    
     for i,item in ipairs(table) do
         self:pushToShader(item, name, i-1)
     end

@@ -73,9 +73,11 @@ function setModelName(modelName)
         end
         keepColor = true
 
-    else
+    elseif modelName then
         model = Model.load(modelName, true) or Model.box()
-
+        
+    else
+        model = Model.box()
     end
 
     model.shader = model.shader or shaders['model3d']

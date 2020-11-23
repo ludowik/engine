@@ -16,12 +16,16 @@ end
 function callback(...) -- description, object, f, ...)
     --if not description and not object and not f then return end
 
-    --local args
+    local args = args(...)
     
-    local description, object, f = args(...):get(
+    local description, object, f = args:get(
         {'string', '???'},
-        {'table', nil},
-        {'function', nil})
+        {'table', niltable},
+        {'function', nilf})
+    
+    if object == niltable then
+        object = nil
+    end
 
 --    if typeof(description) == 'action' then
 --        return description

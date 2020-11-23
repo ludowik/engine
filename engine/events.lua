@@ -45,7 +45,7 @@ function Engine:initEvents()
 
             ['f2'] = callback('timeit', self,
                 function ()
-                    call('perf')
+                    Performance.run()
                 end),
 
             ['p'] = callback('profiler', self,

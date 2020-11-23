@@ -57,21 +57,6 @@ function Styles:getAttribute(attribute_name)
     return self.attributes[attribute_name]
 end
 
-function pushStyle()
-    push('__style', styles:clone())
-end
-
-function popStyle()
-    styles = pop('__style')
-
-    blendMode(styles.blendMode)
-    depthMode(styles.depthMode)
-    cullingMode(styles.cullingMode)
-
-    font()
-    fontSize()
-end
-
 function resetStyle(blend, depth, culling)
     styles = Styles()
 
@@ -82,6 +67,21 @@ function resetStyle(blend, depth, culling)
     depthMode(value(depth, false))
     
     cullingMode(value(culling, false))
+
+    font()
+    fontSize()
+end
+
+function pushStyle()
+    push('__style', styles:clone())
+end
+
+function popStyle()
+    styles = pop('__style')
+
+    blendMode(styles.blendMode)
+    depthMode(styles.depthMode)
+    cullingMode(styles.cullingMode)
 
     font()
     fontSize()

@@ -67,6 +67,10 @@ function class(...)
     k.attribs = table.attribs
     k.clone = table.clone
 
+    k.__tostring = function ()
+        return k.__className
+    end
+
     local mt
     mt = {
         __call = function (_, ...)

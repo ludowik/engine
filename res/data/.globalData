@@ -1,3 +1,3 @@
 return {
-    ["appPath"] = "applications/waves",
+    ["appPath"] = "applications/sketches2D/phyllotaxis",
 }

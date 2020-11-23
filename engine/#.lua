@@ -14,21 +14,25 @@ require 'maths'
 require 'engine.config'
 require 'engine.mouse'
 require 'engine.keyboard'
+require 'engine.screen'
 
 require 'engine.application'
 require 'engine.applicationManager'
 
-require 'engine.component'
 require 'engine.engine'
 require 'engine.events'
 require 'engine.introspection'
-
-require 'engine.frameTime'
-require 'engine.memory'
+require 'engine.renderFrame'
 
 require 'engine.scene.object'
 require 'engine.scene.node'
 require 'engine.scene.scene'
+
+require 'engine.component'
+require 'engine.componentManager'
+
+require 'engine.frameTime'
+require 'engine.memory'
 
 require 'engine.parameter'
 require 'engine.resourceManager'

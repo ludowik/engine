@@ -13,16 +13,21 @@ uniform sampler2D tex0;
 
 uniform vec3 cameraPosition;
 
+struct light {
+    int on;
+    
+    vec3 surfaceToLight;
+    
+    float attenuation;
+    float coefficient;
+};
+
+uniform light lights[10];
+
 in vec3 vPosition;
 in vec3 vNormal;
 in vec4 vColor;
 in vec2 vTexCoords;
-
-struct light {
-    vec3 surfaceToLight;
-    float attenuation;
-    float coefficient;
-};
 
 // point light
 light pointLight(vec3 surfacePos, vec3 position, float attenuation) {
@@ -68,6 +73,12 @@ void main() {
         light directional = directionalLight(surfacePos, normal, sunPosition);
 
         gl_FragColor = finalColor * directional.coefficient;
+        
+        for (int i=0 ; i<10 ; ++i) {
+            if (lights[i].on == 1) {
+                gl_FragColor = gl_FragColor * lights[i].coefficient;
+            }
+        }
     } else {
         gl_FragColor = finalColor;
     }

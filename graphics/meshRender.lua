@@ -53,10 +53,23 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         self:sendIndices('indice', self.indices, 1)
 
         if shader.attributes.inst_pos then
-            self:sendAttributes('inst_pos', self.inst_pos or {self.pos}, 3, nil, true)
+            if self.inst_pos then
+                self:sendAttributes('inst_pos', self.inst_pos, 3, nil, true)
+            else
+                shader.buffPos = shader.buffPos or Buffer('vec3')
+                shader.buffPos[1] = self.pos
+                self:sendAttributes('inst_pos', shader.buffPos, 3, nil, true)
+            end
         end
+
         if shader.attributes.inst_size then
-            self:sendAttributes('inst_size', self.inst_size or {self.size}, 3, nil, true)
+            if self.inst_size then
+                self:sendAttributes('inst_size', self.inst_size, 3, nil, true)
+            else
+                shader.buffSize = shader.buffSize or Buffer('vec3')
+                shader.buffSize[1] = self.size
+                self:sendAttributes('inst_size', shader.buffSize, 3, nil, true)
+            end
         end
 
         self:sendUniforms(shader.uniformsLocations)
@@ -178,21 +191,21 @@ function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bu
 
         local bytes
         if type(buffer) == 'table' then
-            if type(buffer[1]) == 'number' then
-                buffer = Buffer('float', buffer)
-                nComponents = 1
-
-            elseif ffi.typeof(buffer[1]) == __vec2 then
-                buffer = Buffer('vec2', buffer)
-                nComponents = 2
-
-            elseif ffi.typeof(buffer[1]) == __vec3 then
+            if ffi.typeof(buffer[1]) == __vec3 then
                 buffer = Buffer('vec3', buffer)
                 nComponents = 3
 
             elseif ffi.typeof(buffer[1]) == __color then
                 buffer = Buffer('color', buffer)
                 nComponents = 4
+
+            elseif ffi.typeof(buffer[1]) == __vec2 then
+                buffer = Buffer('vec2', buffer)
+                nComponents = 2
+
+            elseif type(buffer[1]) == 'number' then
+                buffer = Buffer('float', buffer)
+                nComponents = 1
 
             else
                 error(ffi.typeof(buffer[1]))
@@ -235,38 +248,27 @@ function MeshRender:sendUniforms(uniformsLocations)
 
     self.uniforms.time = ElapsedTime
 
-    if uniformsLocations.cameraPosition and getCamera() then
---        self.uniforms.cameraPosition = getCamera().vEye:tobytes()
-        gl.glUniform3fv(uniformsLocations.cameraPosition.uniformLocation, 1, getCamera().vEye:tobytes())
+    self.uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
+    
+    if getCamera() then
+        self.uniforms.cameraPosition = getCamera().vEye:tobytes()
     end
 
-    if uniformsLocations.stroke and styles.attributes.stroke then
-        self.uniforms.stroke = styles.attributes.stroke
+    self.uniforms.fill = styles.attributes.fill
+    
+    self.uniforms.stroke = styles.attributes.stroke
+    self.uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth
+    
+    self.uniforms.tint = styles.attributes.tint
+    
+    self.uniforms.lineCapMode = styles.attributes.lineCapMode    
 
-        if uniformsLocations.strokeWidth and styles.attributes.strokeWidth then
-            self.uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth
-            self.uniforms.lineCapMode = styles.attributes.lineCapMode
-        end
-    else
-        self.uniforms.strokeWidth = 0
-    end
+    self.uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
+    
+    self.uniforms.lights = lights
 
-    if uniformsLocations.fill and styles.attributes.fill then
-        self.uniforms.fill = styles.attributes.fill
-    else
-        self.uniforms.fill = transparent
-    end
-
-    if uniformsLocations.tint and styles.attributes.tint then
-        self.uniforms.tint = styles.attributes.tint
-    end
-
-    if uniformsLocations.useColor then
-        self.uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
-    end
-
-    if uniformsLocations.useLight then
-        self.uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
+    if uniformsLocations['lights[0].on'] then
+        self.shader:pushTableToShader(lights, 'lights', 'useLights')
     end
 
     self.shader:sendUniforms(self.uniforms)

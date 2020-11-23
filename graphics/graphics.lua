@@ -78,15 +78,12 @@ function Graphics:initialize()
     meshAxesZ:setColors(blue)
     meshAxesZ.shader = Shader('default')
 
-    self:update()
+    -- TODO : intialiser dans un contexte plus logique
+    resetStyle()
 end
 
 function Graphics:release()
-end
-
-function Graphics:update()
-    resetMatrix()
-    resetStyle()
+    -- TODO : libérer les mesh
 end
 
 -- blend mode

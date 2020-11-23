@@ -11,26 +11,8 @@ function Sdl:init()
     return self
 end
 
-screen = {
-    MARGE_X = 50,
-    MARGE_Y = 10,
-
-    ratio = 0.75
-}
-
 function Sdl:initialize()
     opengles = ios
-
-    if ios then
-        screen.W = screen.w - 2 * screen.MARGE_X
-        screen.H = screen.h - 2 * screen.MARGE_Y
-
-        WIDTH = screen.W
-        HEIGHT = screen.H
-    else
-        screen.w = 2 * screen.MARGE_X + screen.W * screen.ratio
-        screen.h = 2 * screen.MARGE_Y + screen.H * screen.ratio
-    end
 
     if opengles then
         config.glMajorVersion = 3
@@ -102,16 +84,17 @@ function Sdl:initialize()
     end
 
     if self.window ~= NULL then
-        local r = ffi.new('SDL_Rect')
+        local size = ffi.new('SDL_Rect')
         local displayIndex = 0
 
-        if self.SDL_GetDisplayBounds(displayIndex, r) ~= 0 then
+        if self.SDL_GetDisplayBounds(displayIndex, size) ~= 0 then
             self.SDL_Log("SDL_GetDisplayBounds failed: %s", self.SDL_GetError())
         end
 
         print(ffi.string(sdl.SDL_GetDisplayName(displayIndex)))
 
-        self:setWindowSize(r.w, r.h)
+        -- TODEL
+--        self:setWindowSize(screen)
 
         if self.context ~= NULL then
             local res = self.SDL_GL_MakeCurrent(self.window, self.context)
@@ -133,7 +116,7 @@ function Sdl:initialize()
     sdl.image = class 'SdlImage' : meta(windows and Library.load('SDL2_image') or ffi.C)
 end
 
-function Sdl:setWindowSize(dx, dy)
+function Sdl:setWindowSize(screen)
     self.SDL_HideWindow(self.window)
     do
 --        self.SDL_MaximizeWindow(self.window)

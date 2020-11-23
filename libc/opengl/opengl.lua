@@ -141,7 +141,6 @@ function OpenGL:loadProcAdresses()
 
     for i,v in ipairs(self.defs) do
         local procAddr = sdl.SDL_GL_GetProcAddress(v)
---        local f = ffi.cast('PFN'..v:upper()..'PROC', procAddr)
         local f = ffi.cast('PFN_'..v, procAddr)
 
         self.defs[v] = f

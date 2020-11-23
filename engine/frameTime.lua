@@ -42,6 +42,7 @@ function FrameTime:update()
 
         self.startTime = self.endTime
 
+        -- TODO : auto update fps target
 --        if self.deltaTime >= self.deltaTimeMax then
 --            self.fpsTarget = self.fpsTarget - 1
 --        else

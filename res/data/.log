@@ -1,35 +1,14 @@
-/Users/Ludo/Projets/Lua/engine
-Color LCD
-Supported 4.10
-load applications/waves
-divide by 2 vs mul by 0.5
-====================================
-divide by 2
-elapsed time: 0.001030000 (0)
-delta   time: 0.000001030 (0)
-====================================
-mul by 0.5
-elapsed time: 0.000861000 (0)
-delta   time: 0.000000861 (0)
-====================================
-none
-elapsed time: 0.000906000 (0)
-delta   time: 0.000000906 (0)
-====================================
-create matrix
-elapsed time: 0.001180000 (80000)
-delta   time: 0.000001180 (80)
-====================================
-create and set matrix
-elapsed time: 0.001329000 (232000)
-delta   time: 0.000001329 (232)
-====================================
-multiply matrix
-elapsed time: 0.001892000 (128000)
-delta   time: 0.000001892 (128)
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
+Generic PnP Monitor
+Supported 4.10 - Build 26.20.100.8141
+load applications/sketches2D/phyllotaxis
 release 1 fonts
-memory at init    : 1.40 mo
-memory min        : 1.40 mo
-memory max        : 21.86 mo
-memory variation  : 20.45 mo
-memory at release : 21.89 mo
+memory at init    : 4.17 mo
+memory min        : 4.17 mo
+memory max        : 18.78 mo
+memory variation  : 14.60 mo
+memory at release : 18.79 mo
+color=3071
+cdata=2463
+vec3=6141
+number=1234

@@ -1,25 +1,27 @@
 function setup()
-    app.ui = UIScene(Layout.grid, 4)
-    app.ui.alignment = 'h-center,v-center'
-    
-    app.index = 0
-
     initMenu('applications')
 end
 
-function initMenu(path)
-    app.ui:clear()
+function initUI()
+    app.ui = UIScene(Layout.grid, 4)
+    app.ui.alignment = 'h-center,v-center'
+end
 
-    if path and app.previousPath then
-        local previousPath = app.previousPath
+function initMenu(path)
+    if app.currentPath then
+        local ui = app.ui
+
+        initUI()
         app.ui:add(
             Button('..',
                 function (btn)
-                    initMenu(previousPath)
+                    app.ui = ui
                 end))
+    else
+        initUI()
     end
 
-    app.previousPath = path
+    app.currentPath = path
 
     local apps = engine:dirApps(path) + engine:dirFiles(path)
     for i,appPath in ipairs(apps) do

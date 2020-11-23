@@ -91,3 +91,4 @@ end
 function nilf()
 end
 
+niltable = {}

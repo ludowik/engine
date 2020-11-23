@@ -1,12 +1,20 @@
 performance = class 'Performance'
 
 function Performance.timeit(test, f, ...)
+    return Performance.__timeit(test, true, f, ...)
+end
+
+function Performance.__timeit(test, output, f, ...)
     local infos = {
-        n = 1000,
+        n = 10^3,
         elapsedTime = 0,
         totalRam = 0
     }
 
+    -- white call
+    f(0, ...)
+
+    gc()
     collectgarbage('stop')
 
     do
@@ -30,20 +38,21 @@ function Performance.timeit(test, f, ...)
     infos.deltaTime = infos.elapsedTime / infos.n
     infos.deltaRam = infos.totalRam / infos.n
 
-    print('====================================')
-    print(test)
-    print(string.format('elapsed time: %.9f (%s)', infos.elapsedTime, infos.totalRam))
-    print(string.format('delta   time: %.9f (%s)', infos.deltaTime, infos.deltaRam))
+    if output then
+        print('====================================')
+        print(test)
+        print(string.format('elapsed time: %.9f (%s)', infos.elapsedTime, infos.totalRam))
+        print(string.format('delta   time: %.9f (%s)', infos.deltaTime, infos.deltaRam))
+    end
 
     return infos
 end
 
 function Performance.compare(test, f1, f2, ...)
-    Performance.timeit(test, f1, ...)
-    Performance.timeit(test, f2, ...)
-end
-
-function Performance.test()
+    local info1 = Performance.__timeit(test, false, f1, ...)
+    local info2 = Performance.__timeit(test, false, f2, ...)
+    print(info1.deltaTime < info2.deltaTime and 'first is the best' or 'second is the best')
+    return info1.deltaTime < info2.deltaTime
 end
 
 function Performance.run()
@@ -61,7 +70,7 @@ function perf_div2:perf()
         function () 
             a = b / 2
         end)
-    
+
     Performance.timeit('mul by 0.5',
         function () 
             a = b * 0.5
