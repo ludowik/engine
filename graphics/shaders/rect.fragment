@@ -9,34 +9,28 @@ in vec3 vPosition;
 in vec2 vTexCoords;
 
 void main() {
-    float distance = length(vTexCoords);
-    if (distance > 1.) {
-        discard;
-    }
-    
-    float width = strokeWidth + 2.;
+    float dx = abs(vTexCoords.x);
+    float dy = abs(vTexCoords.y);
 
     gl_FragColor = fill;
-    
+ 
 //    vec2 vSize = normalize(vTexCoords);
 //    vSize.x *= size.x;
 //    vSize.y *= size.y;
     
-    float vLen = length(size);
+//    vec2 vLen = abs(vSize);
     
     if (strokeWidth > 0.) {
         float sEdge = smoothstep(
-            vLen - width - 2.,
-            vLen - width,
-            vLen * distance
+            size.x - strokeWidth - 2.,
+            size.x - strokeWidth,
+            size.x * dx
+        ) + smoothstep(
+            size.y - strokeWidth - 2.,
+            size.y - strokeWidth,
+            size.y * dy
         );
         
         gl_FragColor = (stroke * sEdge) + ((1.0 - sEdge) * gl_FragColor);
     }
-
-    gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(
-        vLen - 2.0,
-        vLen,
-        vLen * distance
-    ));
 }

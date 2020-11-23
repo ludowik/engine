@@ -35,11 +35,13 @@ function Graphics:initialize()
             vec3(0, 0, 0), vec3(1, 1, 0), vec3(0, 0, 0)})
     meshPolygon.shader = shaders['polygon']
 
-    meshRect = Model.rect(0, 0, 1, 1)
+    meshRect = Mesh() -- Model.rect(0, 0, 1, 1)
     meshRect.shader = shaders['rect']
+    meshRect.vertices = Buffer('vec3', {
+            vec3(1,0), vec3(1,1), vec3(0,0), vec3(0,1)})
 
-    meshRectBorder = Model.rectBorder(0, 0, 1, 1)
-    meshRectBorder.shader = shaders['rectBorder']
+--    meshRectBorder = Model.rectBorder(0, 0, 1, 1)
+--    meshRectBorder.shader = shaders['rectBorder']
 
     meshCircle = Mesh() -- Model.ellipse(0, 0, 1, 1)
     meshCircle.shader = shaders['circle']
@@ -270,7 +272,7 @@ function polygon(vertices)
             meshPolygon.inst_pos:add(vertices[i])
             meshPolygon.inst_size:add(vertices[i+1]-vertices[i])
         end
-        
+
         meshPolygon.inst_pos:add(vertices[#vertices])
         meshPolygon.inst_size:add(vertices[1]-vertices[#vertices])
 
@@ -282,12 +284,12 @@ function rect(x, y, w, h, r, mode)
     h = h or w
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
 
-    if fill() then
-        meshRect:render(meshRect.shader, gl.GL_TRIANGLES, nil, x, y, Z, w, h, 1)
-    end
-    if stroke() then
-        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
-    end
+--    if fill() then
+    meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+--    end
+--    if stroke() then
+--        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
+--    end
 end
 
 function circle(x, y, r, mode)
