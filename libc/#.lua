@@ -8,3 +8,7 @@ require 'libc.freetype.freetype'
 if windows then
     require 'libc.box2d'
 end
+
+ffi.cdef [[
+    void exit(int status);
+]]

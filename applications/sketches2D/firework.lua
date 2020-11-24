@@ -33,7 +33,7 @@ function Firework:draw()
     self.particles:draw()
 end
 
-ParticleFirework = class('ParticleFirework')
+class 'ParticleFirework'
 
 function ParticleFirework:init(position, state, clr)
     self.position = position

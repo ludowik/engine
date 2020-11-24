@@ -1,110 +1,265 @@
-local old, new, quantificationError, clr
+local grayScale = color.grayScaleAverage
 
 function setup()
     source = image('documents:joconde')
     target = image(source.width, source.height)
 
-    needUpdate = true
+    parameter.action('Reset',
+        function ()
+            source = image('documents:joconde')
+        end)
+
+    parameter.action('Flip image',
+        function ()
+            source, target = target, source
+        end)
+
+    parameter.action('Iso', function () setFilter(Image.Filter) end)
+    parameter.action('Min', function () setFilter(Image.Filter.Min) end)
+    parameter.action('Max', function () setFilter(Image.Filter.Max) end)
+    parameter.action('Average', function () setFilter(Image.Filter.Avg) end)
+    parameter.action('Grayscale', function () setFilter(Image.Filter.Grayscale) end)
+    parameter.action('Sort', function () setFilter(Image.Filter.Sort) end)
+    parameter.action('Hue', function () setFilter(Image.Filter.Hue) end)
+    parameter.action('Dithering', function () setFilter(Image.Filter.Dithering) end)
+    parameter.action('Edge', function () setFilter(Image.Filter.Edge) end)
+
+    setFilter(Image.Filter.Sort)
 end
 
-local grayScale = color.grayScaleAverage
+class 'Image.Filter'
 
-local filters = {}
+function Image.Filter:run(source, target)
+    self.source = source
+    self.target = target
 
-function filters.min(filter, source, target, x, y)
-    return filters.minmax(filter, source, target, x, y, Color.min, white)
+    for y=1,source.height do
+        for x=1,source.width do
+            local res = self:fragment(x, y, self.source:get(x, y))
+            if res then
+                self.target:set(x, y, res)
+            end
+        end
+        if y % 10 == 0 then
+            coroutine.yield()
+        end
+    end
 end
 
-function filters.max(filter, source, target, x, y)
-    return filters.minmax(filter, source, target, x, y, Color.max, black)
+function Image.Filter:fragment(x, y, clr)
+    return clr
 end
 
-function filters.avg(filter, source, target, x, y)
-    return filters.minmax(filter, source, target, x, y, Color.avg, gray)
+class 'Image.Filter.MinMax' : extends(Image.Filter)
+
+function Image.Filter.MinMax:init()
+    Image.Filter.init(self)
+    self.n = 5
 end
 
-function filters.minmax(filter, source, target, x, y, operation, clr)
-    local n = filter.n or 3
+function Image.Filter.MinMax:minmax(x, y, operation, clr)
+    local n = self.n or 3
 
     local i = floor((n-1)/2)
 
     for xi=x-i,x+i do
         for yi=y-i,y+i do
-            clr = operation(clr, source:get(xi, yi) or clr)
+            clr = operation(clr, self.source:get(xi, yi) or clr)
         end
     end
 
-    target:set(x, y, clr)
+    self.target:set(x, y, clr)
 end
 
-function filters.dithering(filter, source, target, x, y)
+class 'Image.Filter.Min' : extends(Image.Filter.MinMax)
+
+function Image.Filter.Min:init()
+    Image.Filter.MinMax.init(self)
+end
+
+function Image.Filter.Min:fragment(x, y)
+    self:minmax(x, y, Color.min, white)
+end
+
+class 'Image.Filter.Max' : extends(Image.Filter.MinMax)
+
+function Image.Filter.Max:init()
+    Image.Filter.MinMax.init(self)
+end
+
+function Image.Filter.Max:fragment(x, y)
+    self:minmax(x, y, Color.max, black)
+end
+
+class 'Image.Filter.Avg' : extends(Image.Filter.MinMax)
+
+function Image.Filter.Avg:init()
+    Image.Filter.MinMax.init(self)
+end
+
+function Image.Filter.Avg:fragment(x, y)
+    self:minmax(x, y, Color.avg, white)
+end
+
+class 'Image.Filter.Dithering' : extends(Image.Filter)
+
+function Image.Filter.Dithering:init()
+    self.pct7 = 7 / 16
+    self.pct3 = 3 / 16
+    self.pct5 = 5 / 16
+    self.pct1 = 1 / 16
+
+    self.old = color()
+    self.new = color()
+
+    self.quantificationError = color()
+
+    self.clr = color()
+end
+
+function Image.Filter.Dithering:fragment(x, y)
     -- old
-    source:get(x, y, filter.old)
+    self.source:get(x, y, self.old)
 
     -- new
-    grayScale(filter.old, filter.new)
+    grayScale(self.old, self.new)
 
     local n = 4
-    filter.new.r = round(filter.new.r * n) / n
-    filter.new.g = round(filter.new.g * n) / n
-    filter.new.b = round(filter.new.b * n) / n
+    self.new.r = round(self.new.r * n) / n
+    self.new.g = round(self.new.g * n) / n
+    self.new.b = round(self.new.b * n) / n
 
     -- error
-    filter.quantificationError.r = filter.old.r - filter.new.r
-    filter.quantificationError.g = filter.old.g - filter.new.g
-    filter.quantificationError.b = filter.old.b - filter.new.b
+    self.quantificationError.r = self.old.r - self.new.r
+    self.quantificationError.g = self.old.g - self.new.g
+    self.quantificationError.b = self.old.b - self.new.b
 
     -- set color
-    target:set(x, y, filter.new)
+    self.target:set(x, y, self.new)
 
     -- report error
     local function reportError(x, y, pct)
-        target:get(x, y, filter.clr)
+        self.target:get(x, y, self.clr)
 
-        filter.clr.r = filter.clr.r + filter.quantificationError.r * pct
-        filter.clr.g = filter.clr.g + filter.quantificationError.g * pct
-        filter.clr.b = filter.clr.b + filter.quantificationError.b * pct
+        self.clr.r = self.clr.r + self.quantificationError.r * pct
+        self.clr.g = self.clr.g + self.quantificationError.g * pct
+        self.clr.b = self.clr.b + self.quantificationError.b * pct
 
-        target:set(x, y, filter.clr)
+        self.target:set(x, y, self.clr)
     end
 
-    reportError(x+1, y  , filter.pct7)
-    reportError(x-1, y+1, filter.pct3)
-    reportError(x  , y+1, filter.pct5)
-    reportError(x+1, y+1, filter.pct1)
+    reportError(x+1, y  , self.pct7)
+    reportError(x-1, y+1, self.pct3)
+    reportError(x  , y+1, self.pct5)
+    reportError(x+1, y+1, self.pct1)
+end
+
+class 'Image.Filter.Hue' : extends(Image.Filter)
+
+function Image.Filter.Hue:fragment(x, y)
+    local clr = self.source:get(x, y)
+
+    self.target:set(x, y, hsl(rgb2hsl(clr), 0.5, 0.25))
+end
+
+class 'Image.Filter.Grayscale' : extends(Image.Filter)
+
+function Image.Filter.Grayscale:fragment(x, y, clr)
+    return grayScale(clr)
+end
+
+class 'Image.Filter.Edge' : extends(Image.Filter)
+
+local function clr2vec(clr)
+    return vec3(clr.r, clr.g, clr.b)
+end
+
+local function vec2clr(vec)
+    return color(vec.x, vec.y, vec.z)
+end
+
+function Image.Filter.Edge:fragment(x, y)
+    local v = (
+        clr2vec(self.source:get(x-1, y+1))*(-1) +
+        clr2vec(self.source:get(x  , y+1))*( 0) + 
+        clr2vec(self.source:get(x+1, y+1))*( 1) + 
+        clr2vec(self.source:get(x-1, y  ))*(-1) +
+        clr2vec(self.source:get(x  , y  ))*( 0) + 
+        clr2vec(self.source:get(x+1, y  ))*( 1) + 
+        clr2vec(self.source:get(x-1, y-1))*(-1) +
+        clr2vec(self.source:get(x  , y-1))*( 0) + 
+        clr2vec(self.source:get(x+1, y-1))*( 1))
+
+    self.target:set(x, y,  vec2clr(v))
+end
+
+class 'Image.Filter.Sort' : extends(Image.Filter)
+
+function Image.Filter.Sort:init()
+    Image.Filter.init(self)
+
+    self.paletteByColor = Table()
+    self.paletteByIndex = Table()
+end
+
+function Image.Filter.Sort:run(source, target)
+    for y=1,source.height do
+        for x=1,source.width do
+            local clr = source:get(x, y)
+            local clrKey = tostring(clr)
+
+            if self.paletteByColor[clrKey] == nil then
+                self.paletteByColor[clrKey] = {
+                    clr = clr,
+                    clrKey = clrKey,
+                    n = 0}
+            end
+
+            self.paletteByColor[clrKey].n = self.paletteByColor[clrKey].n + 1
+        end
+    end
+
+    for k,v in pairs(self.paletteByColor) do
+        self.paletteByIndex:add(v)
+    end
+    self.paletteByIndex:sort(
+        function (a, b)
+            local ha, sa, la = rgb2hsl(a.clr)
+            local hb, sb, lb = rgb2hsl(b.clr)
+
+            if round(ha) == round(hb) then
+                if round(sa) == round(sb) then
+                    return la < lb
+                else
+                    return sa < sb
+                end
+            else
+                return ha < hb
+            end
+        end)
+
+    Image.Filter.run(self, source, target)
+end
+
+function Image.Filter.Sort:fragment(x, y)
+    local clrRef = self.paletteByIndex[1]
+
+    self.target:set(x, y, hsl(rgb2hsl(clrRef.clr), 1, 0.5))
+
+    clrRef.n = clrRef.n - 1
+    if clrRef.n == 0 then
+        self.paletteByIndex:remove(1)
+    end
+end
+
+function setFilter(filter)
+    app.coroutine = coroutine.create(
+        function ()
+            filter():run(source, target)
+        end)
 end
 
 function update(dt)
-    if needUpdate then
-        filter = {
-            f = filters.dithering,
-
-            pct7 = 7 / 16,
-            pct3 = 3 / 16,
-            pct5 = 5 / 16,
-            pct1 = 1 / 16,
-
-            old = color(),
-            new = color(),
-
-            quantificationError = color(),
-
-            clr = color()
-        }
-
-        filter = {
-            f = filters.min,
-            n = 5
-        }
-
-        for y=1,source.height do
-            for x=1,source.width do
-                filter.f(filter, source, target, x, y)
-            end
-        end
-
-        needUpdate = false
-    end
 end
 
 function draw()

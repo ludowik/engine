@@ -40,6 +40,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         package.loaded[appPath] = nil
         require(appPath)
 
+        -- TODEL
 --        env.physics = box2dRef and box2dRef.Physics() or Physics()
         env.physics = Physics()
         env.parameter = Parameter()

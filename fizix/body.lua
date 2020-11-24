@@ -1,7 +1,5 @@
 local Body = class('Fizix.Body')
 
-Fizix.Body = Body
-
 function Body.setup()
     DYNAMIC = DYNAMIC or 'dynamic'
     KINEMATIC = KINEMATIC or 'kinematic'

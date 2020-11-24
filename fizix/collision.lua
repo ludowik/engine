@@ -1,7 +1,5 @@
 local Collision = class('Fizix.Collision')
 
-Fizix.Collision = Collision
-
 function Collision.collide(obj1, obj2)
     if obj1.shapeType == RECT or obj2.shapeType == RECT then
         return Collision.rect2rect(obj1, obj2)

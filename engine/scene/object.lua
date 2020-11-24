@@ -1,4 +1,4 @@
-Object = class('Object', Rect)
+class 'Object' : extends(Rect)
 
 function Object:init(label)
     Rect.init(self)

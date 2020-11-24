@@ -414,6 +414,8 @@ function Engine:drawInfo()
     info('opengl version', config.glMajorVersion)
     info('wireframe', config.wireframe)
     info('light', config.light)
+    
+    info('bodies', #env.physics.bodies)
 end
 
 function Engine:drawHelp()

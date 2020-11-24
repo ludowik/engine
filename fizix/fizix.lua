@@ -80,18 +80,17 @@ function Fizix:update(dt)
     if not self.running then return end
 
     self:setProperties()
-
-    -- TODO : trouver un autre moyen
-    dt = min(dt, 1)
-    
-    while dt > 0 do
-        local t = math.min(0.001, dt)
-        self:step(t)
-        dt = dt - t
+    do
+        ds = 0.015
+        while dt > 0 do
+            self:step(ds)
+            dt = dt - ds
+        end
+        self:step(-dt)
+        
+        -- TODO : collision each step, no ?
+        self:collision()
     end
-
-    self:collision()
-
     self:updateProperties()
 end
 

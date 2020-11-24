@@ -1,4 +1,4 @@
-logo = class('Logo')
+local logo = class('Logo')
 
 function logo.reset()
     logo.home()

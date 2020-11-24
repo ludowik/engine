@@ -1,6 +1,4 @@
---- calc
-
-Calc = class('calc')
+class 'Calc'
 
 function Calc:init()
     self:ac()

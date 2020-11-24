@@ -2,11 +2,6 @@
 
 require 'engine.#'
 
-ffi.cdef([[
-    void exit(int status);
-]])
-
-
 if ios then
 --    startDebug()
 --    debug.sethook(function (...)

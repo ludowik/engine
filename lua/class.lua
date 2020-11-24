@@ -1,5 +1,7 @@
 __classes = {}
 
+_G.files = {}
+
 local function defaultInit()
 end
 
@@ -11,7 +13,7 @@ function class(...)
         className = args[1]
         table.remove(args, 1)
     else
-        className = 'file.'..scriptName()..id(scriptName())
+        className = 'files.'..scriptName()..id(scriptName())
     end
 
     local k = {}
@@ -93,7 +95,22 @@ function class(...)
 
     setmetatable(k, mt)
 
-    rawset(_G, className, k)
+    local classNamePath = {}
+    for path in string.gmatch(className, "(.-)%.") do
+        table.insert(classNamePath, path)
+    end
+
+    if #classNamePath == 0 then
+        rawset(_G, className, k)
+    else
+        local classNameFinal = className
+        local store = _G
+        for i,v in ipairs(classNamePath) do
+            store = store[v]
+            classNameFinal = classNameFinal:gsub(v..'.', '')
+        end
+        store[classNameFinal] = k
+    end
 
     if #args > 0 then
         k:extends(unpack(args))
@@ -184,18 +201,18 @@ function __class:test()
     assert(class, 'exist')
     assert(class(), 'new')
 
-    local t1 = class("class.test1")
+    local t1 = class("__class.test1")
     function t1:f() end
-    assert(t1.__className == 'class.test1', 'className.class')
-    assert(t1().__className == 'class.test1', 'className.instance')
+    assert(t1.__className == '__class.test1', 'className.class')
+    assert(t1().__className == '__class.test1', 'className.instance')
     assert(t1().f == t1.f, 'className.f1')
 
-    local t2 = class("class.test2", t1)
+    local t2 = class("__class.test2", t1)
     function t2:f() end
-    assert(t2.__className == 'class.test2', 'className.derived.class')
-    assert(t2().__className == 'class.test2', 'className.derived.instance')
+    assert(t2.__className == '__class.test2', 'className.derived.class')
+    assert(t2().__className == '__class.test2', 'className.derived.instance')
     assert(t2().f == t2.f, 'className.f2')
 
-    local t3 = class('class.test3', t1)
+    local t3 = class('__class.test3', t1)
     assert(t3().f == t1.f, 'className.f3')
 end
