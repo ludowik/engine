@@ -28,7 +28,7 @@ local primitives = {
     function (attributes)
         local position, size, width, rotation = attributes.position, attributes.size, attributes.width, attributes.rotation
         strokeWidth(width)
-        points(0, 0)
+        pointa(0, 0)
     end,
     function (attributes)
         local position, size, width, rotation = attributes.position, attributes.size, attributes.width, attributes.rotation

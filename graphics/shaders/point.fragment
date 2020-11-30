@@ -1,48 +1,31 @@
-attribute vec3 vertex;
-attribute vec2 texCoords;
-attribute vec4 color;
-attribute vec3 normal;
-
-uniform mat4 matrixModel;
-uniform mat4 matrixPV;
-
-uniform vec3 pos;
 uniform vec3 size;
 
 uniform vec4 fill;
 uniform vec4 stroke;
-uniform vec4 tint;
-
-uniform int useLight;
-uniform int useColor;
-uniform int useTexture;
 
 uniform float strokeWidth;
 
-in vec3 vPosition;
-in vec3 vNormal;
-in vec4 vColor;
 in vec2 vTexCoords;
 
 void main() {
-
     float distance = length(vTexCoords);
     if (distance > 1.) {
         discard;
     }
+    
+    float width = strokeWidth + 2.;
 
-    gl_FragColor = stroke;
+    gl_FragColor = fill;
 
     vec2 vSize = normalize(vTexCoords);
     vSize.x *= size.x;
     vSize.y *= size.y;
     
-    float vLen = length(vSize);
+    float vLen = length(size);
     
     gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(
         vLen - 2.0,
         vLen,
         vLen * distance
     ));
-
 }
