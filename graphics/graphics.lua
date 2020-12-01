@@ -9,6 +9,8 @@ function Graphics:initialize()
     meshPoint.shader = shaders['point']
 
     meshPoints = Mesh()
+    meshPoints.vertices = Buffer('vec3', {
+            vec3(), vec3(), vec3(), vec3()})
     meshPoints.shader = shaders['points']
 
     meshLine = Mesh()
@@ -200,16 +202,18 @@ end
 
 function point(x, y)
     local diameter = max(strokeWidth(), 0)
-    meshPoint.strokeWidth = 0
-    meshPoint:render(meshPoint.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, diameter, diameter, 1)
+--    meshPoint.strokeWidth = 0
+    meshPoint.inst_pos = Buffer('vec3', {vec3(x,y)})
+    meshPoint:render(meshPoint.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
 end
 
 function points(vertices, ...)
     if type(vertices) == 'number' then vertices = {vertices, ...} end
 
     if stroke() then
-        meshPoints.vertices = vertices
-        meshPoints:render(meshPoints.shader, gl.GL_POINTS)
+        local diameter = max(strokeWidth(), 0)
+        meshPoints.inst_pos = vertices
+        meshPoints:render(meshPoints.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1, #meshPoints.inst_pos)
     end
 end
 
@@ -281,12 +285,12 @@ function rect(x, y, w, h, r, mode)
     h = h or w
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
 
---    if fill() then
+    --    if fill() then
     meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
---    end
---    if stroke() then
---        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
---    end
+    --    end
+    --    if stroke() then
+    --        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
+    --    end
 end
 
 function circle(x, y, r, mode)

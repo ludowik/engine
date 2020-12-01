@@ -2,8 +2,6 @@ function setup()
     H = HEIGHT
     W = WIDTH
 
-    call('setup')
-
     displayMode(FULLSCREEN_NO_BUTTONS)
 
     app = AppCalc()

@@ -5,7 +5,6 @@ uniform vec4 stroke;
 
 uniform float strokeWidth;
 
-in vec3 vPosition;
 in vec2 vTexCoords;
 
 void main() {
@@ -19,8 +18,8 @@ void main() {
     gl_FragColor = fill;
     
 //    vec2 vSize = normalize(vTexCoords);
-//    vSize.x *= size.x;
-//    vSize.y *= size.y;
+//    vSize.x *= inst_size.x;
+//    vSize.y *= inst_size.y;
     
     float vLen = length(size);
     

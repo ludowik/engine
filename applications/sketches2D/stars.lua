@@ -9,12 +9,12 @@ function Star:init()
         getmetatable(self).draw = nil
     end
 
-    self.position = vec2()
+    self.position = vec3()
 
     self.r = random.random(5)
 
     local angle = random.random(math.tau)
-    self.velocity = vec2(
+    self.velocity = vec3(
         math.cos(angle),
         math.sin(angle)):mul(random.random(40, 50))
 
@@ -33,8 +33,9 @@ function Star:update(dt)
 end
 
 function Star:draw()
+    stroke(white)
     strokeWidth(math.floor(self.r * self.position:len() / MAX_DISTANCE))
-    points(self.position)
+    point(self.position)
 end
 
 application 'Stars'
@@ -50,7 +51,7 @@ function Stars:init()
     self.stars = Node()
     self.scene:add(self.stars)
 
-    self.points = Buffer('float')
+    self.points = Buffer('vec3')
 
     self:addStars()
 end
@@ -85,16 +86,17 @@ function Stars:draw()
     translate(W/2, H/2)
 
     stroke(white)
+    strokeWidth(5)
 
     if Star.batchRendering then
         self.points:reset()
 
         local ref = 1
         for i,v in self.stars.nodes:items() do
-            self.points[ref  ] = v.position.x
-            self.points[ref+1] = v.position.y
-            ref = ref + 2
+            self.points[ref] = v.position
+            ref = ref + 1
         end
+        
         points(self.points)
     end
 

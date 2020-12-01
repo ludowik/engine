@@ -17,14 +17,14 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         self:managerApp()
         return
     end
-    
+
     if _G.env and _G.env.app then
         _G.env.app.renderFrame = RenderFrame.getRenderFrame()
         engine.renderFrame = nil
     end
 
     saveGlobalData('appPath', appPath)
-    
+
     self.appPath = appPath
     self.appName, self.appDirectory = splitPath(appPath)
 
@@ -48,6 +48,8 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 --        env.physics = box2dRef and box2dRef.Physics() or Physics()
         env.physics = Physics()
         env.parameter = Parameter()
+
+        call('setup', env)
 
         if env.appClass then
             engine:draw(env.appClass.setup)

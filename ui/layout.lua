@@ -82,8 +82,8 @@ function Layout:layout(mode, n)
             end
         end
         
-        size.x = max(size.x, position.x + node.size.x + outerMarge)
-        size.y = max(size.y, position.y + node.size.y + outerMarge)
+        size.x = max(size.x, node.position.x + node.size.x + outerMarge)
+        size.y = max(size.y, node.position.y + node.size.y + outerMarge)
     end
 
     self.size = size

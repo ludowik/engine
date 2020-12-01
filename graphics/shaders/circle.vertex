@@ -1,19 +1,16 @@
 attribute vec3 vertex;
 
-
-
-
 uniform mat4 matrixModel;
 uniform mat4 matrixPV;
 
-uniform vec3 pos;
-uniform vec3 size;
+attribute vec3 inst_pos;
+attribute vec3 inst_size;
 
-out vec3 vPosition;
+//out vec3 vPosition;
 out vec2 vTexCoords;
 
 void main() {
-    vec3 vertexPosition = vertex + pos;
+    vec3 vertexPosition = vertex + inst_pos;
     
     switch (gl_VertexID % 4) {
         case 0:
@@ -30,11 +27,11 @@ void main() {
             break;
     }
     
-    vertexPosition += size * vec3(vTexCoords, 0.) / 2.;
+    vertexPosition += inst_size * vec3(vTexCoords, 0.) / 2.;
 
     vec4 worldPosition = matrixModel * vec4(vertexPosition.xyz, 1.);
     
-    vPosition = worldPosition.xyz;
+    //vPosition = worldPosition.xyz;
 
     gl_Position = matrixPV * worldPosition;
 }
