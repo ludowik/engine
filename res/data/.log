@@ -1,14 +1,17 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 Generic PnP Monitor
 Supported 4.10 - Build 26.20.100.8141
-load applications/sketches2D/dithering
-release 1 fonts
+load applications/sketches2D/dots
+load applications/appManager
+load applications/apps/2048
+load applications/apps/asteroid
+switch applications/appManager
 memory at init    : 4.19 mo
 memory min        : 4.19 mo
-memory max        : 35.66 mo
-memory variation  : 31.47 mo
-memory at release : 22.23 mo
-number=7
-color=2078
-cdata=12833
-vec3=14372
+memory max        : 37.89 mo
+memory variation  : 33.70 mo
+memory at release : 37.92 mo
+cdata=6758
+color=33844
+number=255
+vec3=9

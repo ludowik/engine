@@ -4,8 +4,8 @@ function Engine:initEvents()
         },
 
         buttonup = {
-            [BUTTON_X1] = callback('next application', self, Engine.nextApp),
-            [BUTTON_X2] = callback('previous application', self, Engine.previousApp),
+            [BUTTON_X1] = callback('next application', applicationManager, ApplicationManager.nextApp),
+            [BUTTON_X2] = callback('previous application', applicationManager, ApplicationManager.previousApp),
         },
 
         keyup = {
@@ -14,14 +14,14 @@ function Engine:initEvents()
 
             ['t'] = callback('todos', self, scanTODO),
 
-            ['d'] = callback('default application', self, Engine.defaultApp),
-            ['a'] = callback('applications', self, Engine.managerApp),
+            ['d'] = callback('default application', applicationManager, ApplicationManager.defaultApp),
+            ['a'] = callback('applications', applicationManager, ApplicationManager.managerApp),
 
-            ['n'] = callback('next application', self, Engine.nextApp),
-            ['b'] = callback('previous application', self, Engine.previousApp),
+            ['n'] = callback('next application', applicationManager, ApplicationManager.nextApp),
+            ['b'] = callback('previous application', applicationManager, ApplicationManager.previousApp),
 
-            ['v'] = callback('loop 0', self, Engine.loopApp, 0),
-            ['c'] = callback('loop 2', self, Engine.loopApp, 2),
+            ['v'] = callback('loop 0', applicationManager, ApplicationManager.loopApp, 0),
+            ['c'] = callback('loop 2', applicationManager, ApplicationManager.loopApp, 2),
 
             ['f'] = callback('flip screen', self, Engine.flip),
 

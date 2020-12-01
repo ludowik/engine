@@ -1,4 +1,4 @@
-class 'Engine' : extends(ApplicationManager)
+class 'Engine'
 
 function Engine:init()
     assert(engine == nil)
@@ -21,6 +21,7 @@ function Engine:init()
 
     resourceManager = ResourceManager()
     shaderManager = ShaderManager()
+    applicationManager = ApplicationManager()
 
     graphics = Graphics()
 
@@ -83,12 +84,10 @@ function Engine:initialize()
 
     self:initEvents()
 
-    self.envs = {}
-
     if not ios then
-        self:lastApp()
+        applicationManager:lastApp()
     else
-        self:managerApp()
+        applicationManager:managerApp()
     end
 
     sdl:setCursor(sdl.SDL_SYSTEM_CURSOR_ARROW)
@@ -96,6 +95,8 @@ end
 
 function Engine:release()
     saveConfig()
+    
+    self.envs = {}
 
     self.components:release()
 
@@ -124,7 +125,7 @@ function Engine:run(appPath)
         self:release()
 
     until self.active ~= 'restart'
-    
+
     counterutype:sort(function (a, b) return a <= b end)
     for k,v in pairs(counterutype) do
         print(k..'='..v)
@@ -271,7 +272,9 @@ function Engine:update(dt)
     end
 
     -- TODO : à gerer dans ComponentsManager ?
-    if self.action then
+    if applicationManager.action then
+        applicationManager.action()
+    elseif self.action then
         self.action()
     end
 
@@ -293,27 +296,10 @@ function Engine:update(dt)
     env.parameter:update(dt)
 end
 
-function Engine:render(f, renderFrame, resetBackground, sortir)
-    if f == nil then return end
-
-    setContext()
-
-    if renderFrame then
-        setContext(renderFrame)
-        background(transparent)
-        setContext()
-    end
-
-    renderFrame = renderFrame or RenderFrame.getRenderFrame()
-    render(renderFrame, f)
-
-    if sortir then return end
-
-    self:postRender(renderFrame, resetBackground)
-end
-
 function Engine:draw(f)
-    self:render(
+    self:preRender()
+
+    self:postRender(
         function ()
             zLevel(0)
 
@@ -322,10 +308,11 @@ function Engine:draw(f)
             else
                 self.app:__draw()
             end
-
-            resetMatrix(true)
-            resetStyle(NORMAL, false, false)
-
+        end,
+        RenderFrame.getRenderFrame())
+    
+    self:postRender(
+        function ()
             if reporting then
                 reporting:draw()
             end
@@ -335,47 +322,47 @@ function Engine:draw(f)
 
             line(0, screen.H/2, screen.W, screen.H/2)
             line(screen.W/2, 0, screen.W/2, screen.H)
-        end,
-        nil,
-        true)
-
-    self:render(
-        function ()
+            
             if not f then
                 self.app:__drawParameter()
             end
+        end,
+        RenderFrame.getRenderFrame())
 
+    self:postRender(
+        function ()
             self:drawInfo()
             self:drawHelp()
         end,
-        engine.renderFrameInfo)
+        engine.renderFrameInfo,
+        true)
 
     sdl:swap()
 end
 
-function Engine:postRender(renderFrame, resetBackground)
-    renderFrame = renderFrame or RenderFrame.getRenderFrame()
+function Engine:preRender()
+    Context.noContext()
+    background(transparent)
+end
 
-    if renderFrame then
-        pushMatrix()
-        do
-            resetMatrix(true)
-            resetStyle(NORMAL, false, false)
+function Engine:postRender(f, renderFrame, resetBackground)
+    assert(renderFrame)
 
-            Context.noContext()
-
-            if resetBackground then
-                background(transparent)
-            end
-
-            renderFrame:draw(
-                screen.MARGE_X,
-                screen.MARGE_Y,
-                screen.W * screen.ratio,
-                screen.H * screen.ratio)
-        end
-        popMatrix()
+    if resetBackground then
+        renderFrame:background(transparent)
     end
+
+    renderFunction(f, renderFrame)
+    
+    resetMatrix(true)
+
+    Context.noContext()
+    
+    renderFrame:draw(
+        screen.MARGE_X,
+        screen.MARGE_Y,
+        screen.W * screen.ratio,
+        screen.H * screen.ratio)
 end
 
 local function info(name, value)
@@ -404,6 +391,7 @@ function Engine:drawInfo()
     textMode(CORNER)
 
     info('fps', self.frameTime.fps..' / '..self.frameTime.fpsTarget)
+    info('fizix', formatPercent(env.physics.elapsedTime / ElapsedTime))
     info('os', jit.os)
     info('jit version', jit.version)
     info('debugging', debugging())
@@ -414,7 +402,7 @@ function Engine:drawInfo()
     info('opengl version', config.glMajorVersion)
     info('wireframe', config.wireframe)
     info('light', config.light)
-    
+
     info('bodies', #env.physics.bodies)
 end
 
@@ -517,25 +505,4 @@ function Engine:mouseWheel(touch)
             processWheelMoveOnCamera(touch)
         end
     end
-end
-
-function Engine:dir(path, method, recursivly)
-    local apps = method(path or '', recursivly)
-    apps:apply(function (app)
-            return app:gsub('%.lua', '')
-        end)
-    apps:sort()
-    return apps
-end
-
-function Engine:dirApps(path, recursivly)
-    return self:dir(path or 'applications', dirApps, recursivly)
-end
-
-function Engine:dirFiles(path, recursivly)
-    return self:dir(path, dirFiles, recursivly)
-end
-
-function Engine:dirDirectories(path, recursivly)
-    return self:dir(path, dirDirectories, recursivly)
 end

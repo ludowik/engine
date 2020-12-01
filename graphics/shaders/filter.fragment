@@ -1,0 +1,30 @@
+uniform vec4 fill;
+uniform vec4 stroke;
+uniform vec4 tint;
+
+uniform vec3 size;
+
+uniform int useColor;
+uniform int useTexture;
+
+uniform sampler2D tex0;
+
+in vec2 vTexCoords;
+
+void main() {
+    vec3 invSize = 1. / size;
+    
+    vec4 clr =
+        texture2D(tex0, vTexCoords) +
+        texture2D(tex0, vTexCoords + vec2(-invSize.x, -invSize.y) ) +
+        texture2D(tex0, vTexCoords + vec2(0.        , -invSize.y) ) +
+        texture2D(tex0, vTexCoords + vec2(+invSize.x, -invSize.y) ) +
+        texture2D(tex0, vTexCoords + vec2(-invSize.x, 0) ) +
+        texture2D(tex0, vTexCoords + vec2(0.        , 0) ) +
+        texture2D(tex0, vTexCoords + vec2(+invSize.x, 0) ) + 
+        texture2D(tex0, vTexCoords + vec2(-invSize.x, +invSize.y) ) +
+        texture2D(tex0, vTexCoords + vec2(0.        , +invSize.y) ) +
+        texture2D(tex0, vTexCoords + vec2(+invSize.x, +invSize.y) );
+    
+    gl_FragColor = vec4(clr.xyz/9., 1.);
+}

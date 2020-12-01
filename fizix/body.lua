@@ -24,7 +24,7 @@ function Body:init(bodyType, shapeType, ...)
     assert(bodyType)
     assert(shapeType)
 
-    self.bodyType = bodyType
+    self.type = bodyType
     self.shapeType = shapeType
 
     self.position = vec3()
@@ -71,7 +71,7 @@ function Body.properties.set:x(x) self.position.x = x end
 function Body.properties.set:y(y) self.position.y = y end
 
 function Body:setMass(mass)
-    if self.bodyType == STATIC then
+    if self.type == STATIC then
         self.mass = 0
         self.invMass = 0
     else
@@ -148,6 +148,7 @@ end
 function Body:computeSize()
     local left, right = math.maxinteger, -math.maxinteger
     local bottom, top = math.maxinteger, -math.maxinteger
+    
     for i,vertex in ipairs(self.points) do
         left = min(left, vertex.x)
         right = max(right, vertex.x)
@@ -159,7 +160,7 @@ function Body:computeSize()
     self.w = right - left
     self.h = top - bottom
 
-    self.radius = self.w
+    self.radius = self.w / 2
 end
 
 function Body:destroy()
@@ -199,8 +200,9 @@ function Body:integration(dt)
     position = position + self.move
     angle = angle + angularVelocity * dt
 
+    self.previousPosition:set(self.position)
     self.position = position * self.world.pixelRatio
-
+    
     self.linearVelocity = linearVelocity
 
     angularVelocity = angularVelocity - (1 - self.angularDamping) * angularVelocity * dt

@@ -46,8 +46,6 @@ function FreeType:initialize()
 end
 
 function FreeType:release()
-    print('release '..self.hFonts:getnKeys()..' fonts')
-
     for k,hFont in pairs(self.hFonts) do
         self.releaseFont(hFont)
     end

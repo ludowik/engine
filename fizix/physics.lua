@@ -44,6 +44,14 @@ function Physics:init(instance)
 
 end
 
+function Physics.properties.get:deltaTime()
+    return self.instance.deltaTime
+end
+
+function Physics.properties.get:elapsedTime()
+    return self.instance.elapsedTime
+end
+
 function Physics.properties.get:bodies()
     return self.instance.bodies
 end

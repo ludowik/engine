@@ -26,13 +26,17 @@ function Parameter:draw()
     noLight()
 
     pushMatrix()
+    pushStyle()
+    
     resetMatrix(true)
+    resetStyle(NORMAL, false, false)
 
     ortho()
 
     self.ui:layout()
     self.ui:draw()
 
+    popStyle()
     popMatrix()
 end
 
@@ -102,4 +106,11 @@ end
 
 function Parameter.action(label, action)
     env.parameter.add(Button(label, action))
+end
+
+function Parameter.link(label, url)
+    env.parameter.add(Button(label, 
+            function ()
+                openURL(url or label)
+            end))
 end

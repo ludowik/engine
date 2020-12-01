@@ -35,6 +35,10 @@ function Image:init(w, h)
 
         self:makeTexture()
 
+    elseif typeof(w) == 'image' then
+        self:create(w.width, w.height)
+        self:loadSubPixels(w.surface.pixels, w.formatRGB, 0, 0, w.width, w.height)
+
     else
         self:create(100, 100)
     end
@@ -43,9 +47,19 @@ function Image:init(w, h)
     self.pixels = ffi.cast('GLubyte*', self.surface.pixels)
 end
 
-function Image:getPixels(needUpdate)
-    self.needUpdate = needUpdate or false
+function Image:copy()
+    local copy = Image(self.width, self.height)
+    copy:makeTexture(self.surface)
+    return copy
+end
+
+function Image:getPixels()
     return self.pixels
+end
+
+function Image:setPixels(pixels)
+    self.needUpdate = true
+    self.pixels = pixels
 end
 
 function Image:create(w, h)
@@ -80,41 +94,41 @@ function Image:makeTexture(surface)
 
     gl.glBindTexture(gl.GL_TEXTURE_2D, self.texture_id)
 
-    local internalFormat = gl.GL_RGBA
-    local formatRGB = gl.GL_RGBA
+    self.internalFormat = gl.GL_RGBA
+    self.formatRGB = gl.GL_RGBA
 
     if self.surface.format.BytesPerPixel == 1 then
         if config.glMajorVersion >= 4 then
-            internalFormat = gl.GL_ALPHA
-            formatRGB = gl.GL_ALPHA
+            self.internalFormat = gl.GL_ALPHA
+            self.formatRGB = gl.GL_ALPHA
         else
-            internalFormat = gl.GL_ALPHA
-            formatRGB = gl.GL_ALPHA
+            self.internalFormat = gl.GL_ALPHA
+            self.formatRGB = gl.GL_ALPHA
         end
 
     elseif self.surface.format.BytesPerPixel == 3 then
-        internalFormat = gl.GL_RGB
+        self.internalFormat = gl.GL_RGB
         if self.surface.format.Rmask == 0xff then
-            formatRGB = gl.GL_RGB
+            self.formatRGB = gl.GL_RGB
         else
-            formatRGB = gl.GL_BGR
+            self.formatRGB = gl.GL_BGR
         end
 
     elseif self.surface.format.BytesPerPixel == 4 then
-        internalFormat = gl.GL_RGBA
+        self.internalFormat = gl.GL_RGBA
         if self.surface.format.Rmask == 0xff then
-            formatRGB = gl.GL_RGBA
+            self.formatRGB = gl.GL_RGBA
         else
-            formatRGB = gl.GL_BGRA
+            self.formatRGB = gl.GL_BGRA
         end
     end
 
     gl.glTexImage2D(gl.GL_TEXTURE_2D,
         0, -- level
-        internalFormat,
+        self.internalFormat,
         self.surface.w, self.surface.h,
         0, -- border
-        formatRGB, gl.GL_UNSIGNED_BYTE,
+        self.formatRGB, gl.GL_UNSIGNED_BYTE,
         self.surface.pixels)
 
     gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1)
@@ -132,18 +146,18 @@ end
 
 -- TODO
 function Image:loadSubPixels(pixels, formatRGB, x, y, w, h, texParam, texClamp)
-    texParam = texParam or getTexParam() or gl.GL_LINEAR
-    texClamp = texClamp or getTexClamp() or gl.GL_CLAMP_TO_EDGE
+    texParam = texParam or gl.GL_LINEAR
+    texClamp = texClamp or gl.GL_CLAMP_TO_EDGE
 
     self:use()
     do
-        formatRGB = formatRGB or gl.GL_RGBA
+        self.formatRGB = formatRGB or gl.GL_RGBA
 
         gl.glTexSubImage2D(gl.GL_TEXTURE_2D,
             0, -- level
             x, y,
             w, h,
-            formatRGB, gl.GL_UNSIGNED_BYTE,
+            self.formatRGB, gl.GL_UNSIGNED_BYTE,
             pixels)
 
         gl.glPixelStorei(gl.GL_UNPACK_ALIGNMENT, 1)
@@ -160,14 +174,13 @@ function Image:loadSubPixels(pixels, formatRGB, x, y, w, h, texParam, texClamp)
 end
 
 function Image:readPixels(formatAlpha, formatRGB)
-    formatRGB = formatRGB or gl.GL_RGBA
+    self.formatRGB = formatRGB or gl.GL_RGBA
 
     self:use()
     do
         gl.glGetTexImage(gl.GL_TEXTURE_2D,
             0,
-            formatRGB,
-            gl.GL_UNSIGNED_BYTE,
+            self.formatRGB, gl.GL_UNSIGNED_BYTE,
             self.surface.pixels)
     end
     self:unuse()
@@ -289,21 +302,24 @@ function Image:set(x, y, color_r, g, b, a)
 
     local offset = self:offset(x, y)
     if offset then
-        local pixels = self:getPixels()
+        local pixels = self.pixels -- self:getPixels()
 
-        if self.surface.format.BytesPerPixel == 1 then
+        if self.surface.format.BytesPerPixel == 4 then
             pixels[offset  ] = color_r * 255
+            pixels[offset+1] = g * 255
+            pixels[offset+2] = b * 255
+            pixels[offset+3] = a * 255
 
         elseif self.surface.format.BytesPerPixel == 3 then
             pixels[offset  ] = color_r * 255
             pixels[offset+1] = g * 255
             pixels[offset+2] = b * 255
 
-        elseif self.surface.format.BytesPerPixel == 4 then
+        elseif self.surface.format.BytesPerPixel == 1 then
             pixels[offset  ] = color_r * 255
-            pixels[offset+1] = g * 255
-            pixels[offset+2] = b * 255
-            pixels[offset+3] = a * 255
+
+        else
+            assert()
         end
 
         self.needUpdate = true
@@ -315,25 +331,30 @@ function Image:get(x, y, clr)
 
     local offset = self:offset(x, y)
     if offset then
-        local pixels = self:getPixels()
+        local pixels = self.pixels -- self:getPixels()
 
-        if self.surface.format.BytesPerPixel == 1 then
-            clr.r = pixels[offset  ] / 255
+        local scale = 1 / 255
+
+        if self.surface.format.BytesPerPixel == 4 then
+            clr.r = pixels[offset  ] * scale
+            clr.g = pixels[offset+1] * scale
+            clr.b = pixels[offset+2] * scale
+            clr.a = pixels[offset+3] * scale
+
+        elseif self.surface.format.BytesPerPixel == 3 then
+            clr.r = pixels[offset  ] * scale
+            clr.g = pixels[offset+1] * scale
+            clr.b = pixels[offset+2] * scale
+            clr.a = 1
+
+        elseif self.surface.format.BytesPerPixel == 1 then
+            clr.r = pixels[offset  ] * scale
             clr.g = clr.r
             clr.b = clr.r
             clr.a = 1
 
-        elseif self.surface.format.BytesPerPixel == 3 then
-            clr.r = pixels[offset  ] / 255
-            clr.g = pixels[offset+1] / 255
-            clr.b = pixels[offset+2] / 255
-            clr.a = 1
-
-        elseif self.surface.format.BytesPerPixel == 4 then
-            clr.r = pixels[offset  ] / 255
-            clr.g = pixels[offset+1] / 255
-            clr.b = pixels[offset+2] / 255
-            clr.a = pixels[offset+3] / 255
+        else
+            assert()
         end
 
         return clr
@@ -408,7 +429,7 @@ end
 function Image:attachTexture2D(renderedTexture)
     -- Set "renderedTexture" as our colour attachement #0
     gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, gl.GL_TEXTURE_2D, renderedTexture, 0)
---    gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, renderedTexture, 0)
+    --    gl.glFramebufferTexture(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, renderedTexture, 0)
 
     -- Set the list of draw buffers
     gl.glDrawBuffer(gl.GL_COLOR_ATTACHMENT0)

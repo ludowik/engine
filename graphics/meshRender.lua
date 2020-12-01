@@ -6,6 +6,9 @@ end
 
 function MeshRender:init()
     self.uniforms = {}
+    
+    self.pos = vec3()
+    self.size = vec3()
 end
 
 function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
@@ -23,8 +26,8 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     h = h or 1
     d = d or 1
 
-    self.pos = vec3(x, y, z)
-    self.size = vec3(w, h, d)
+    self.pos:set(x, y, z)
+    self.size:set(w, h, d)
 
     if self.texture then
         if type(self.texture) == 'string' then
@@ -228,48 +231,50 @@ function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bu
 end
 
 function MeshRender:sendUniforms(uniformsLocations)
+    local shader = self.shader
+    local uniforms = self.uniforms
     local img = self.img
 
     if img then
         img:update()
         img:use(gl.GL_TEXTURE0)
 
-        self.uniforms.useTexture = 1
-        self.uniforms.tex0 = 0
+        uniforms.useTexture = 1
+        uniforms.tex0 = 0
     else
-        self.uniforms.useTexture = 0
+        uniforms.useTexture = 0
     end
 
-    self.uniforms.matrixPV = pvMatrix()
-    self.uniforms.matrixModel = modelMatrix()
+    uniforms.matrixPV = pvMatrix()
+    uniforms.matrixModel = modelMatrix()
 
-    self.uniforms.pos = self.pos
-    self.uniforms.size = self.size
+    uniforms.pos = self.pos
+    uniforms.size = self.size
 
-    self.uniforms.time = ElapsedTime
+    uniforms.time = ElapsedTime
 
-    self.uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
+    uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
     
     if getCamera() then
-        self.uniforms.cameraPosition = getCamera().vEye:tobytes()
+        uniforms.cameraPosition = getCamera().vEye:tobytes()
     end
 
-    self.uniforms.fill = styles.attributes.fill or transparent
+    uniforms.fill = styles.attributes.fill or transparent
     
-    self.uniforms.stroke = styles.attributes.stroke or transparent
-    self.uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth or 0
+    uniforms.stroke = styles.attributes.stroke or transparent
+    uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth or 0
     
-    self.uniforms.tint = styles.attributes.tint or transparent
+    uniforms.tint = styles.attributes.tint or transparent
     
-    self.uniforms.lineCapMode = styles.attributes.lineCapMode   
+    uniforms.lineCapMode = styles.attributes.lineCapMode   
 
-    self.uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
+    uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
     
-    self.uniforms.lights = lights
+    uniforms.lights = lights
 
     if uniformsLocations['lights[0].on'] then
-        self.shader:pushTableToShader(lights, 'lights', 'useLights')
+        shader:pushTableToShader(lights, 'lights', 'useLights')
     end
 
-    self.shader:sendUniforms(self.uniforms)
+    shader:sendUniforms(uniforms)
 end

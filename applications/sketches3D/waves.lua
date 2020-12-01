@@ -11,13 +11,15 @@ function setup()
 end
 
 function update(dt)
-    pixels = img:getPixels(true)
+    pixels = img:getPixels()
 
     for i=1,2 do
         step()
     end
 
     waterDrop(random(size), random(size), random(100, 1000))
+    
+    img:setPixels(pixels)
 end
 
 function step()

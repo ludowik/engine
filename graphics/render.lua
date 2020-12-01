@@ -1,10 +1,11 @@
-function render(context, f)
+function renderFunction(f, context)
     pushMatrix()
+    pushStyle()
     do
         noLight()
 
         resetMatrix(true)
-        resetStyle()
+        resetStyle(NORMAL, false, false)
 
         if context then
             setContext(context)
@@ -16,5 +17,6 @@ function render(context, f)
             setContext()
         end
     end
+    popStyle()
     popMatrix()
 end

@@ -1,5 +1,9 @@
 class 'ApplicationManager'
 
+function ApplicationManager:init()
+    self.envs = {}
+end
+
 function ApplicationManager:pushSize()
     _G.env.W = screen.W
     _G.env.H = screen.H
@@ -46,16 +50,16 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         env.parameter = Parameter()
 
         if env.appClass then
-            self:draw(env.appClass.setup)
+            engine:draw(env.appClass.setup)
 
             env.app = env.appClass()
-            self.app = env.app
+            engine.app = env.app
 
         else
             env.app = Application()
-            self.app = env.app
+            engine.app = env.app
 
-            self:draw(_G.env.setup)
+            engine:draw(_G.env.setup)
         end
 
         if not env.__orientation then
@@ -71,7 +75,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
 
         setfenv(0, env)
 
-        self.app = env.app
+        engine.app = env.app
         RenderFrame.renderFrame = env.app.renderFrame
 
         supportedOrientations(env.__orientation or LANDSCAPE_ANY)
@@ -94,7 +98,7 @@ function ApplicationManager:defaultApp()
 end
 
 function ApplicationManager:nextApp()
-    local apps = self:dirApps(nil, true)
+    local apps = applicationManager:dirApps(nil, true)
 
     local nextAppIndex = 1
     for i,appPath in ipairs(apps) do
@@ -111,7 +115,7 @@ function ApplicationManager:nextApp()
 end
 
 function ApplicationManager:previousApp()
-    local apps = self:dirApps(nil, true)
+    local apps = applicationManager:dirApps(nil, true)
 
     local previousAppIndex = #apps
     for i,appPath in ipairs(apps) do
@@ -133,7 +137,7 @@ function ApplicationManager:loopApp(delay)
     else
         self:managerApp()
 
-        self.loopAppRef = #self:dirApps(nil, true)
+        self.loopAppRef = #applicationManager:dirApps(nil, true)
         self.loopAppDelay = delay or 0
 
         self.action = callback(self, ApplicationManager.loopAppProc, delay)
@@ -158,4 +162,25 @@ end
 
 function ApplicationManager:package()
     os.execute('cd /Users/Ludo/Projets/Lua/engine && zip -9 -r -u /Users/Ludo/Projets/Libraries2/love-11.3-ios-source/platform/xcode/applications.love .')
+end
+
+function ApplicationManager:dir(path, method, recursivly)
+    local apps = method(path or '', recursivly)
+    apps:apply(function (app)
+            return app:gsub('%.lua', '')
+        end)
+    apps:sort()
+    return apps
+end
+
+function ApplicationManager:dirApps(path, recursivly)
+    return self:dir(path or 'applications', dirApps, recursivly)
+end
+
+function ApplicationManager:dirFiles(path, recursivly)
+    return self:dir(path, dirFiles, recursivly)
+end
+
+function ApplicationManager:dirDirectories(path, recursivly)
+    return self:dir(path, dirDirectories, recursivly)
 end

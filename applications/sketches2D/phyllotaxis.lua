@@ -1,19 +1,16 @@
 function setup()    
+    parameter.link('CodingChallenges #30', 'https://thecodingtrain.com/CodingChallenges/030-phyllotaxis.html')
+    
     parameter.integer('spacing', 2, 20, 4)
     parameter.number('theta', 130, 145, 137.5)
 
     local function setTheta(btn)
         theta = tonumber(btn.label)
     end
-
+    
     parameter.action('137.3', setTheta)
     parameter.action('137.5', setTheta)
     parameter.action('137.7', setTheta)
-    
-    parameter.action('https://thecodingtrain.com/CodingChallenges/030-phyllotaxis.html',
-        function (btn)
-            openURL(btn.label)
-        end)
 
     n = 0
 end

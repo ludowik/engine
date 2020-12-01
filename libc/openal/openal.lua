@@ -136,4 +136,7 @@ function OpenAL:release()
 
     -- close device
     al.alcCloseDevice(device)
+    
+    self.intptr = nil
+    self.idptr  = nil
 end

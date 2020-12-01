@@ -1,4 +1,4 @@
-local grayScale = color.grayScaleAverage
+local grayScale = color.grayScaleIntensity
 
 function setup()
     source = image('documents:joconde')
@@ -17,14 +17,19 @@ function setup()
     parameter.action('Iso', function () setFilter(Image.Filter) end)
     parameter.action('Min', function () setFilter(Image.Filter.Min) end)
     parameter.action('Max', function () setFilter(Image.Filter.Max) end)
-    parameter.action('Average', function () setFilter(Image.Filter.Avg) end)
+    parameter.action('Average', function () setFilter(Image.Filter.Average) end)
     parameter.action('Grayscale', function () setFilter(Image.Filter.Grayscale) end)
     parameter.action('Sort', function () setFilter(Image.Filter.Sort) end)
     parameter.action('Hue', function () setFilter(Image.Filter.Hue) end)
     parameter.action('Dithering', function () setFilter(Image.Filter.Dithering) end)
     parameter.action('Edge', function () setFilter(Image.Filter.Edge) end)
+    parameter.action('Shader', function () setFilter(Image.Filter.Shader) end)
+    parameter.action('Compose', function () setFilter(Image.Filter.Compose) end)
+    parameter.action('Copy', function () setFilter(Image.Filter.Copy) end)
+    
+    parameter.link('Url', 'https://medium.com/@aryamansharda/how-image-edge-detection-works-b759baac01e2')
 
-    setFilter(Image.Filter.Sort)
+    setFilter(Image.Filter.Shader)
 end
 
 class 'Image.Filter'
@@ -57,14 +62,15 @@ function Image.Filter.MinMax:init()
     self.n = 5
 end
 
-function Image.Filter.MinMax:minmax(x, y, operation, clr)
+function Image.Filter.MinMax:minmax(x, y, operation, ref)
     local n = self.n or 3
 
     local i = floor((n-1)/2)
 
+    local clr = color(ref)
     for xi=x-i,x+i do
         for yi=y-i,y+i do
-            clr = operation(clr, self.source:get(xi, yi) or clr)
+            clr = operation(clr, self.source:get(xi, yi) or ref)
         end
     end
 
@@ -91,13 +97,13 @@ function Image.Filter.Max:fragment(x, y)
     self:minmax(x, y, Color.max, black)
 end
 
-class 'Image.Filter.Avg' : extends(Image.Filter.MinMax)
+class 'Image.Filter.Average' : extends(Image.Filter.MinMax)
 
-function Image.Filter.Avg:init()
+function Image.Filter.Average:init()
     Image.Filter.MinMax.init(self)
 end
 
-function Image.Filter.Avg:fragment(x, y)
+function Image.Filter.Average:fragment(x, y)
     self:minmax(x, y, Color.avg, white)
 end
 
@@ -250,6 +256,44 @@ function Image.Filter.Sort:fragment(x, y)
     if clrRef.n == 0 then
         self.paletteByIndex:remove(1)
     end
+end
+
+class 'Image.Filter.Shader' : extends(Image.Filter)
+
+function Image.Filter.Shader:init(name)
+    self.shader = Shader(name or 'filter')
+    self.mesh = Model.rect()
+end
+
+function Image.Filter.Shader:run(source, target)
+    setContext(target)
+    self.mesh:render(self.shader, gl.GL_TRIANGLES, source, 0, 0, 0, source.width, source.height, 1)
+end
+
+class 'Image.Filter.Compose' : extends(Image.Filter)
+
+function Image.Filter.Compose:init()
+    self.filters = {
+        Image.Filter.Grayscale,
+        Image.Filter.Dithering,
+        Image.Filter.Average
+    }
+end
+
+function Image.Filter.Compose:run(source, target)
+    for i,filter in ipairs(self.filters) do
+        filter():run(source, target)
+        source = target:copy()
+    end
+end
+
+class 'Image.Filter.Copy' : extends(Image.Filter)
+
+function Image.Filter.Copy:init()
+end
+
+function Image.Filter.Copy:run(source, _)
+    target = Image(source)
 end
 
 function setFilter(filter)

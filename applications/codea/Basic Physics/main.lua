@@ -84,6 +84,7 @@ function drawBody(body)
             b = points[(j % #points)+1]
             line(a.x, a.y, b.x, b.y)
         end
+        
     elseif body.shapeType == CHAIN or body.shapeType == EDGE then
         strokeWidth(3.0)
         local points = body.points
@@ -92,12 +93,13 @@ function drawBody(body)
             b = points[j+1]
             line(a.x, a.y, b.x, b.y)
         end
+        
     elseif body.shapeType == CIRCLE then
         strokeWidth(3.0)
-        line(0,0,body.radius-3,0)
-        ellipse(0,0,body.radius*2)
+        line(0, 0, body.radius-3, 0)
+        ellipse(0, 0, body.radius*2)
     end
-
+    
     -- Restore style and transform
     popMatrix()
     popStyle()

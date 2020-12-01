@@ -1,7 +1,7 @@
 local Collision = class('Fizix.Collision')
 
 function Collision.collide(obj1, obj2)
-    if obj1.shapeType == RECT or obj2.shapeType == RECT then
+    if obj1.shapeType == POLYGON or obj2.shapeType == POLYGON then
         return Collision.rect2rect(obj1, obj2)
     else
         return Collision.circle2circle(obj1, obj2)

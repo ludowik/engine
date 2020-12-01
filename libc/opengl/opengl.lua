@@ -117,6 +117,7 @@ function OpenGL:loadProcAdresses()
         'glBindTexture',
         'glActiveTexture',
         'glTexImage2D',
+        'glTexSubImage2D',
         'glPixelStorei',
         'glTexParameteri',
         'glGetTexImage',

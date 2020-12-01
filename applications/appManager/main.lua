@@ -23,18 +23,18 @@ function initMenu(path)
 
     app.currentPath = path
 
-    local apps = engine:dirApps(path) + engine:dirFiles(path)
+    local apps = applicationManager:dirApps(path) + applicationManager:dirFiles(path)
     for i,appPath in ipairs(apps) do
         local appName, appDirectory = splitPath(appPath)
         app.ui:add(
             Button(appName,
                 function (btn)
-                    engine:loadApp(appPath)
+                    applicationManager:loadApp(appPath)
                 end)
             :attribs{bgColor = rgb(0, 123, 255)})
     end
 
-    local directories = engine:dirDirectories(path)
+    local directories = applicationManager:dirDirectories(path)
     for i,appPath in ipairs(directories) do
         if not isApp(appPath) then
             local j = appPath:findLast('/')

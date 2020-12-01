@@ -1,5 +1,5 @@
 function getProjectDataPath(dataType)
-    return getDataPath()..'/'..engine.appName..'.'..dataType
+    return getDataPath()..'/'..applicationManager.appName..'.'..dataType
 end
 
 function getGlobalDataPath(dataType)

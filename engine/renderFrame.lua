@@ -24,4 +24,9 @@ function RenderFrame.release()
         engine.renderFrame:release()
         engine.renderFrame = nil
     end
+    
+    if engine.renderFrameInfo then
+        engine.renderFrameInfo:release()
+        engine.renderFrameInfo = nil
+    end
 end
