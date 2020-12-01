@@ -189,8 +189,8 @@ function callOnObject(fname, object)
     end
 end
 
-function call(fname)
-    for k,object in pairs(__classes) do
+function call(fname, env)
+    for k,object in pairs(env or __classes) do
         callOnObject(fname, object)
     end
 end
