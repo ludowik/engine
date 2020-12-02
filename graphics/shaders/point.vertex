@@ -4,11 +4,9 @@ uniform mat4 matrixModel;
 uniform mat4 matrixPV;
 
 attribute vec3 inst_pos;
-//attribute vec3 inst_size;
 
 uniform vec3 size;
 
-//out vec3 vPosition;
 out vec2 vTexCoords;
 
 void main() {
@@ -33,7 +31,5 @@ void main() {
 
     vec4 worldPosition = matrixModel * vec4(vertexPosition.xyz, 1.);
     
-    //vPosition = worldPosition.xyz;
-
     gl_Position = matrixPV * worldPosition;
 }

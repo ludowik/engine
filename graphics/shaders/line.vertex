@@ -14,7 +14,9 @@ uniform mat4 matrixPV;
 const int SQUARE  = 0;
 const int ROUND   = 1;
 const int PROJECT = 2;
-    
+
+out vec2 vTexCoords;
+
 void main() {
     vec3 vertexPosition = vertex * inst_size + inst_pos;
     
@@ -24,26 +26,47 @@ void main() {
     vec3 normal = perpendicular * (strokeWidth + 1) / 2.;
     vec3 projection = direction * (strokeWidth + 1) / 2.;
     
-    int id = gl_VertexID % 6;
+    int id = gl_VertexID % 2;
     
     switch (id) {
-        case 0: case 1: case 3:
+        case 0:
             vertexPosition = vertexPosition - normal;
             break;
-        case 2: case 4: case 5:
+        case 1:
             vertexPosition = vertexPosition + normal;
             break;
     }
-    
-    if (lineCapMode == PROJECT) {    
-        switch (id) {
-            case 0: case 3: case 5:
-                vertexPosition = vertexPosition - projection;
-                break;
-            case 1: case 2: case 4:
+
+    if (lineCapMode == PROJECT || lineCapMode == ROUND) {        
+        switch (gl_VertexID) {
+            case 0: case 1:
                 vertexPosition = vertexPosition + projection;
                 break;
+            case 6: case 7:
+                vertexPosition = vertexPosition - projection;
+                break;
         }
+    }
+    
+    switch (gl_VertexID) {
+        case 0:
+            vTexCoords = vec2( 1, -1);
+            break;
+        case 1:
+            vTexCoords = vec2( 1,  1);
+            break;
+        case 2: case 4:
+            vTexCoords = vec2( 0, -1);
+            break;
+        case 3: case 5:
+            vTexCoords = vec2( 0,  1);
+            break;
+        case 6:
+            vTexCoords = vec2(-1, -1);
+            break;
+        case 7:
+            vTexCoords = vec2(-1,  1);
+            break;
     }
     
     gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);

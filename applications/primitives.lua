@@ -38,9 +38,9 @@ function draw()
 --        line(x+10, y+10, x+80, y+80)
 
         y = y + h
-        polygon{
+        polygon {
             vec3(x+10, y+10), vec3(x+80, y+80),
-            vec3(x+10, y+80),
+            vec3(x+10, y+80), vec3(x+10, y+80)
         }
 
         x = x + i * 2

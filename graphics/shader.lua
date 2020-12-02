@@ -29,11 +29,6 @@ function Shader:create()
         fragment = self:build(gl.GL_FRAGMENT_SHADER, self.name, 'fragment'),
     }
 
-    if config.glMajorVersion >= 4 then
-        -- TODEL ?
---        self.ids.geometry = self:build(gl.GL_GEOMETRY_SHADER, self.name, 'geometry')
-    end
-
     gl.glLinkProgram(self.program_id)
 
     local status = gl.glGetProgramiv(self.program_id, gl.GL_LINK_STATUS)
@@ -250,9 +245,9 @@ function Shader:sendUniforms(uniforms)
 end
 
 function Shader:send(k, v)
-    if self.uniformsSent[k] == v then
-        return
-    end
+--    if self.uniformsSent[k] == v then
+--        return
+--    end
 
     local location = self.uniformsLocations[k]
     if location == nil then        

@@ -13,14 +13,14 @@ function setup()
 
     mesh = Model.rect()
 
-    if not debugging() and not ios then
+--    if not debugging() and not ios then
         app.coroutine = coroutine.create(
             function (dt)
                 loadShaders(true)
             end)
-    else
-        loadShaders(true)
-    end
+--    else
+--        loadShaders(true)
+--    end
 end
 
 function suspend()
@@ -59,9 +59,6 @@ end
 function drawShader(shader, ui)
     setContext(ui.canvas)
     do
-        -- TODEL
---        translate(ui.size.x/2, ui.size.y/2)
-
         depthMode(false)
 
         mesh.shader = shader
@@ -77,8 +74,9 @@ function drawShader(shader, ui)
         shader.uniforms.iFrame = shader.uniforms.iFrame + 1
         shader.uniforms.iFrameRate = 60
 
-        if Rect.contains(ui, mouse) then
-            local x, y = mouse:unpack()
+        local touch = mouse:transform()
+        if Rect.contains(ui, touch) then
+            local x, y = touch:unpack()
 
             x = x - shader.ui.absolutePosition.x
             y = y - shader.ui.absolutePosition.y
@@ -96,6 +94,8 @@ function drawShader(shader, ui)
             shader.texture = shaderChannel[0]
             shader.uniforms.iChannel0 = 0
         end
+        
+        mesh.uniforms = shader.uniforms
 
         mesh:draw(nil, 0, 0, 0, ui.size.x, ui.size.y, 1)
     end

@@ -1,25 +1,10 @@
-<<<<<<< HEAD
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 Generic PnP Monitor
 Supported 4.10 - Build 26.20.100.8141
-load applications/sketches2D/dots
+load applications/codea/Lines
+load applications/codea/Orbital
 load applications/appManager
-load applications/apps/2048
-load applications/apps/asteroid
 switch applications/appManager
-memory at init    : 4.19 mo
-memory min        : 4.19 mo
-memory max        : 37.89 mo
-memory variation  : 33.70 mo
-memory at release : 37.92 mo
-cdata=6758
-color=33844
-number=255
-vec3=9
-=======
-/Users/Ludo/Projets/Lua/engine
-Color LCD
-Supported 4.10
 load applications/apps/2048
 load applications/apps/asteroid
 load applications/apps/bbtan
@@ -36,19 +21,6 @@ A demo showing how to use basic tweens
 2. tween.easing.quadInOut
 3. tween.easing.bounceOut
 load applications/codea/Backgammon
-load applications/appManager
-switch applications/apps/2048
-switch applications/apps/asteroid
-switch applications/apps/bbtan
-switch applications/apps/calc
-switch applications/apps/freeCell
-switch applications/apps/icon
-switch applications/apps/sudoku
-switch applications/apps/tetris
-switch applications/apps/triomino
-switch applications/codea/3D Lab
-switch applications/codea/Animation
-switch applications/codea/Backgammon
 load applications/codea/Basic Physics
 Hello Physics!
 Touch the screen to make boxes
@@ -72,11 +44,11 @@ load applications/codea/FixedAreaBubble
 load applications/codea/Gravity
 An example that shows how to use the Gravity vector
 load applications/codea/Hammer
-load applications/codea/Lines
-load applications/codea/Orbital
+switch applications/codea/Lines
+switch applications/codea/Orbital
 load applications/codea/Parameters
 Hello Parameters!
-X set to 416
+X set to 288
 color{r=1, g=0.5, b=0, a=0.5}
 HasStroke toggled to true
 load applications/codea/Physics
@@ -96,42 +68,16 @@ load applications/shadertoy
 applications/shadertoy
 26
 applications/shadertoy/shaders/androgynous bolt.frag
-applications/shadertoy/shaders/balls.glsl
-applications/shadertoy/shaders/brush.glsl
-applications/shadertoy/shaders/carting.glsl
-applications/shadertoy/shaders/cubescape.frag
-applications/shadertoy/shaders/dancing metalights.frag
-applications/shadertoy/shaders/fansy.glsl
-applications/shadertoy/shaders/fires.glsl
-applications/shadertoy/shaders/flame.frag
-applications/shadertoy/shaders/mario.glsl
-applications/shadertoy/shaders/pegasus.frag
-applications/shadertoy/shaders/raycast2d.glsl
-applications/shadertoy/shaders/sand.glsl
-applications/shadertoy/shaders/sandbox.fragment
-applications/shadertoy/shaders/sea.glsl
-applications/shadertoy/shaders/silexars.frag
-applications/shadertoy/shaders/space.glsl
-applications/shadertoy/shaders/train.glsl
-applications/shadertoy/shaders/tube.glsl
-applications/shadertoy/shaders/tutorial1.frag
-applications/shadertoy/shaders/tutorial2.frag
-applications/shadertoy/shaders/tutorial3.frag
-applications/shadertoy/shaders/tutorial4.frag
-applications/shadertoy/shaders/tutorial5.frag
-applications/shadertoy/shaders/tutorial6.frag
-applications/shadertoy/shaders/tutorial7.frag
 switch applications/appManager
 switch applications/appManager
-release 28 fonts
-memory at init    : 2.08 mo
-memory min        : 2.08 mo
-memory max        : 287.33 mo
-memory variation  : 285.26 mo
-memory at release : 287.37 mo
-number=22013
-vec3=235708
-color=170481
-cdata=114128
-boolean=50
->>>>>>> 6e12f089a6c1ae01652a8f8a6c23b6807a73bfa9
+memory at init    : 4.19 mo
+memory min        : 4.19 mo
+memory max        : 158.21 mo
+memory variation  : 154.02 mo
+memory at release : 158.24 mo
+number=23530
+vec4=2
+boolean=500
+color=29197
+cdata=39242
+vec3=26758

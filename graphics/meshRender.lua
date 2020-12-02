@@ -6,7 +6,7 @@ end
 
 function MeshRender:init()
     self.uniforms = {}
-    
+
     self.pos = vec3()
     self.size = vec3()
 end
@@ -58,9 +58,11 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         if shader.attributes.inst_pos then
             if self.inst_pos then
                 self:sendAttributes('inst_pos', self.inst_pos, 3, nil, true)
-            else
-                shader.buffPos = shader.buffPos or Buffer('vec3')
-                shader.buffPos[1] = self.pos
+            else                
+                if shader.buffPos == nil then
+                    shader.buffPos = Buffer('vec3')
+                end
+                shader.buffPos[1] = self.pos                
                 self:sendAttributes('inst_pos', shader.buffPos, 3, nil, true)
             end
         end
@@ -69,32 +71,15 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
             if self.inst_size then
                 self:sendAttributes('inst_size', self.inst_size, 3, nil, true)
             else
-                shader.buffSize = shader.buffSize or Buffer('vec3')
+                if shader.buffSize == nil then
+                    shader.buffSize = Buffer('vec3')
+                end
                 shader.buffSize[1] = self.size
                 self:sendAttributes('inst_size', shader.buffSize, 3, nil, true)
             end
         end
 
         self:sendUniforms(shader.uniformsLocations)
-
-        -- TODO gérer le multi-instances
-        --        local offset = 0
-        --        for i=0,3 do
-        --            gl.glVertexAttribPointer(LOCATION_INSTANCE_MODEL_MATRIX+i, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
-        --            gl.glVertexAttribDivisor(LOCATION_INSTANCE_MODEL_MATRIX+i, 1)
-        --            gl.glEnableVertexAttribArray(LOCATION_INSTANCE_MODEL_MATRIX+i)
-
-        --            offset = offset + floatSize4
-        --        end
-
-        --        gl.glVertexAttribPointer(LOCATION_INSTANCE_COLORS, 4, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
-        --        gl.glVertexAttribDivisor(LOCATION_INSTANCE_COLORS, 1)
-        --        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_COLORS)
-        --        offset = offset + floatSize4
-
-        --        gl.glVertexAttribPointer(LOCATION_INSTANCE_WIDTH, 1, gl.GL_FLOAT, gl.GL_FALSE, sizeStruct, offset)
-        --        gl.glVertexAttribDivisor(LOCATION_INSTANCE_WIDTH, 1)
-        --        gl.glEnableVertexAttribArray(LOCATION_INSTANCE_WIDTH)
 
         if not ios then
             if img or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
@@ -254,22 +239,22 @@ function MeshRender:sendUniforms(uniformsLocations)
     uniforms.time = ElapsedTime
 
     uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
-    
+
     if getCamera() then
         uniforms.cameraPosition = getCamera().vEye:tobytes()
     end
 
     uniforms.fill = styles.attributes.fill or transparent
-    
+
     uniforms.stroke = styles.attributes.stroke or transparent
     uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth or 0
-    
+
     uniforms.tint = styles.attributes.tint or transparent
-    
+
     uniforms.lineCapMode = styles.attributes.lineCapMode   
 
     uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
-    
+
     uniforms.lights = lights
 
     if uniformsLocations['lights[0].on'] then

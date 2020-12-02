@@ -1,15 +1,15 @@
+class('Context')
+
+function Context.setup()
+    Context.currentContext = nil
+end
+
 function setContext(context)
     if context then
         Context.setContext(context)
     else
         Context.resetContext()
     end
-end
-
-class('Context')
-
-function Context.setup()
-    Context.currentContext = nil
 end
 
 function Context.setContext(context)

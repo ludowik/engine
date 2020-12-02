@@ -39,11 +39,8 @@ function ShaderToy:init(name, path, header, code, ender)
     self.source = header..code..ender
 
     Shader.init(self, name, appPath..'/shaders')
-    -- TODEL
---    ,
---        {'include.vertex', 'default.vertex'},
---        {'include.fragment', header, self.shaderFilePath, ender})
 
+    -- TODO : uniforms au bon endroit ? propriété du mesh ou du shader
     self.uniforms = {
         iResolution = vec2(),
         

@@ -3,47 +3,39 @@ class 'Graphics' : extends(Component)
 local buf, meshPoints, meshLine, meshPolyline, meshPolygon, meshRect, meshEllipse, meshSprite, meshBox
 
 function Graphics:initialize()
-    meshPoint = Mesh()
-    meshPoint.vertices = Buffer('vec3', {
-            vec3(), vec3(), vec3(), vec3()})
-    meshPoint.shader = shaders['point']
-
     meshPoints = Mesh()
     meshPoints.vertices = Buffer('vec3', {
             vec3(), vec3(), vec3(), vec3()})
     meshPoints.shader = shaders['points']
 
-    meshLine = Mesh()
-    meshLine.vertices = Buffer('vec3', {
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(1, 1, 0),
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(0, 0, 0)})
-    meshLine.shader = shaders['line']
-
     meshLines = Mesh()
     meshLines.vertices = Buffer('vec3', {
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(1, 1, 0),
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(0, 0, 0)})
+            vec3(1, 1), vec3(1, 1),
+            vec3(1, 1), vec3(1, 1),
+            vec3(0, 0), vec3(0, 0),
+            vec3(0, 0), vec3(0, 0)})
     meshLines.shader = shaders['lines']
 
     meshPolyline = Mesh()
     meshPolyline.vertices = Buffer('vec3', {
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(1, 1, 0),
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(0, 0, 0)})
+            vec3(1, 1), vec3(1, 1),
+            vec3(1, 1), vec3(1, 1),
+            vec3(0, 0), vec3(0, 0),
+            vec3(0, 0), vec3(0, 0)})
     meshPolyline.shader = shaders['polyline']
 
     meshPolygon = Mesh()
     meshPolygon.vertices = Buffer('vec3', {
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(1, 1, 0),
-            vec3(0, 0, 0), vec3(1, 1, 0), vec3(0, 0, 0)})
+            vec3(1, 1), vec3(1, 1),
+            vec3(1, 1), vec3(1, 1),
+            vec3(0, 0), vec3(0, 0),
+            vec3(0, 0), vec3(0, 0)})
     meshPolygon.shader = shaders['polygon']
 
     meshRect = Mesh() -- Model.rect(0, 0, 1, 1)
     meshRect.shader = shaders['rect']
     meshRect.vertices = Buffer('vec3', {
             vec3(1,0), vec3(1,1), vec3(0,0), vec3(0,1)})
-
---    meshRectBorder = Model.rectBorder(0, 0, 1, 1)
---    meshRectBorder.shader = shaders['rectBorder']
 
     meshCircle = Mesh() -- Model.ellipse(0, 0, 1, 1)
     meshCircle.shader = shaders['circle']
@@ -200,11 +192,18 @@ function zLevel(z)
     return Z
 end
 
-function point(x, y)
-    local diameter = max(strokeWidth(), 0)
---    meshPoint.strokeWidth = 0
-    meshPoint.inst_pos = Buffer('vec3', {vec3(x,y)})
-    meshPoint:render(meshPoint.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
+function point(...)
+    meshPoint = Mesh()
+    meshPoint.vertices = Buffer('vec3', {vec3(), vec3(), vec3(), vec3()})
+    meshPoint.shader = shaders['point']
+
+    point = function(x, y)
+        local diameter = max(strokeWidth(), 0)
+        meshPoint.inst_pos = Buffer('vec3', {vec3(x,y)})
+        meshPoint:render(meshPoint.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
+    end
+
+    point(...)
 end
 
 function points(vertices, ...)
@@ -217,80 +216,82 @@ function points(vertices, ...)
     end
 end
 
-function line(x1, y1, x2, y2)
-    if stroke() then
-        meshLine:render(meshLine.shader, gl.GL_TRIANGLES, nil, x1, y1, Z, x2-x1, y2-y1, 1)
-        if meshLine.uniforms.lineCapMode == ROUND then
-            point(x1, y1)
-            point(x2, y2)
-        end
+function primitive(name, setup, draw)
+    _G[name] = function (...)
+        setup()
+        _G[name] = draw
+        draw(...)
     end
 end
 
+primitive('line',
+    function ()
+        meshLine = Mesh()
+        meshLine.vertices = Buffer('vec3', {
+                vec3(1, 1), vec3(1, 1),
+                vec3(1, 1), vec3(1, 1),
+                vec3(0, 0), vec3(0, 0),
+                vec3(0, 0), vec3(0, 0)})
+        meshLine.shader = shaders['line']
+    end,
+
+    function (x1, y1, x2, y2)
+        meshLine:render(meshLine.shader, gl.GL_TRIANGLE_STRIP, nil, x1, y1, Z, x2-x1, y2-y1, 1)
+    end)
+
 function lines(vertices)
-    if stroke() then
-        meshLines.inst_pos = meshLines.inst_pos or Buffer('vec3')
-        meshLines.inst_size = meshLines.inst_size or Buffer('vec3')
+    meshLines.inst_pos = meshLines.inst_pos or Buffer('vec3')
+    meshLines.inst_size = meshLines.inst_size or Buffer('vec3')
 
-        meshLines.inst_pos:reset()
-        meshLines.inst_size:reset()
+    meshLines.inst_pos:reset()
+    meshLines.inst_size:reset()
 
-        for i=1,#vertices,2 do
-            meshLines.inst_pos:add(vertices[i])
-            meshLines.inst_size:add(vertices[i+1]-vertices[i])
-        end
-
-        meshLines:render(meshLines.shader, gl.GL_TRIANGLES, nil, 0, 0, Z, 1, 1, 1, #meshLines.inst_pos)
+    for i=1,#vertices,2 do
+        meshLines.inst_pos:add(vertices[i])
+        meshLines.inst_size:add(vertices[i+1]-vertices[i])
     end
+
+    meshLines:render(meshLines.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshLines.inst_pos)
 end
 
 function polyline(vertices)
-    if stroke() then
-        meshPolyline.inst_pos = meshPolyline.inst_pos or Buffer('vec3')
-        meshPolyline.inst_size = meshPolyline.inst_size or Buffer('vec3')
+    meshPolyline.inst_pos = meshPolyline.inst_pos or Buffer('vec3')
+    meshPolyline.inst_size = meshPolyline.inst_size or Buffer('vec3')
 
-        meshPolyline.inst_pos:reset()
-        meshPolyline.inst_size:reset()
+    meshPolyline.inst_pos:reset()
+    meshPolyline.inst_size:reset()
 
-        for i=1,#vertices-1 do
-            meshPolyline.inst_pos:add(vertices[i])
-            meshPolyline.inst_size:add(vertices[i+1]-vertices[i])
-        end
-
-        meshPolyline:render(meshPolyline.shader, gl.GL_TRIANGLES, nil, 0, 0, Z, 1, 1, 1, #meshPolyline.inst_pos)
+    for i=1,#vertices-1 do
+        meshPolyline.inst_pos:add(vertices[i])
+        meshPolyline.inst_size:add(vertices[i+1]-vertices[i])
     end
+
+    meshPolyline:render(meshPolyline.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshPolyline.inst_pos)
 end
 
 function polygon(vertices)
-    if stroke() then
-        meshPolygon.inst_pos = meshPolygon.inst_pos or Buffer('vec3')
-        meshPolygon.inst_size = meshPolygon.inst_size or Buffer('vec3')
+    meshPolygon.inst_pos = meshPolygon.inst_pos or Buffer('vec3')
+    meshPolygon.inst_size = meshPolygon.inst_size or Buffer('vec3')
 
-        meshPolygon.inst_pos:reset()
-        meshPolygon.inst_size:reset()
+    meshPolygon.inst_pos:reset()
+    meshPolygon.inst_size:reset()
 
-        for i=1,#vertices-1 do
-            meshPolygon.inst_pos:add(vertices[i])
-            meshPolygon.inst_size:add(vertices[i+1]-vertices[i])
-        end
-
-        meshPolygon.inst_pos:add(vertices[#vertices])
-        meshPolygon.inst_size:add(vertices[1]-vertices[#vertices])
-
-        meshPolygon:render(meshPolygon.shader, gl.GL_TRIANGLES, nil, 0, 0, Z, 1, 1, 1, #meshPolygon.inst_pos)
+    for i=1,#vertices-1 do
+        meshPolygon.inst_pos:add(vertices[i])
+        meshPolygon.inst_size:add(vertices[i+1]-vertices[i])
     end
+
+    meshPolygon.inst_pos:add(vertices[#vertices])
+    meshPolygon.inst_size:add(vertices[1]-vertices[#vertices])
+
+    meshPolygon:render(meshPolygon.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshPolygon.inst_pos)
 end
 
 function rect(x, y, w, h, r, mode)
     h = h or w
     x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
 
-    --    if fill() then
-    meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
-    --    end
-    --    if stroke() then
-    --        meshRectBorder:render(meshRectBorder.shader, gl.GL_LINE_LOOP, nil, x, y, Z, w, h, 1)
-    --    end
+    meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)    --    end
 end
 
 function circle(x, y, r, mode)

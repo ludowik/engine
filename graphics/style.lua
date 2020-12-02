@@ -192,7 +192,6 @@ function textAlign(mode)
     return styles:setAttribute('textAlign', mode)
 end
 
--- TODO
 function lineCapMode(mode)
     return styles:setAttribute('lineCapMode', mode)
 end

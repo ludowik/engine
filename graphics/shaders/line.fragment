@@ -1,6 +1,50 @@
-uniform vec4 fill;
 uniform vec4 stroke;
+uniform float strokeWidth;
+
+uniform int lineCapMode;
+
+const int SQUARE  = 0;
+const int ROUND   = 1;
+const int PROJECT = 2;
+
+in vec2 vTexCoords;
 
 void main() {
-    gl_FragColor = stroke;
+    switch (gl_PrimitiveID) {
+        case 2: case 3:
+            gl_FragColor = stroke;
+            break;
+            
+        case 0: case 1: case 4: case 5:
+            
+            if (lineCapMode == ROUND) {
+                float distance = length(vTexCoords);
+                if (distance > 1.) {
+                    discard;
+                }
+            
+                float width = strokeWidth + 2.;
+
+                /*switch (gl_PrimitiveID) {
+                    
+                    case 0: case 1:
+                        gl_FragColor = green;
+                        break;
+                    case 4: case 5:
+                        gl_FragColor = red;
+                        break;
+                }*/
+                
+                gl_FragColor = stroke;
+                
+                gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(
+                    width - 2.0,
+                    width,
+                    width * distance
+                ));
+            } else {
+                gl_FragColor = stroke;
+            }    
+            break;
+    }
 }

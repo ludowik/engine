@@ -1,31 +1,50 @@
 function scanTODO()
-    local todoList = Array()
+    local function scan(todos)
+        local todoLists = {}
+        for _,todoName in ipairs(todos) do
+            todoLists[todoName] = Array()
+        end
 
-    local list = dirFiles(Path.sourcePath, true)
-    for i,file in ipairs(list) do
-        
-        local content = fs.read(file)
-        if content then
-            
-            local lines = content:split(NL)
-            if lines then
-                for iline,line in ipairs(lines) do
-                    local i,j,v = line:find("TODO[ :](.*)")
-                    if i then
-                        local ref = file:gsub(Path.sourcePath..'/', '')
-                        todoList:insert(ref..':'..iline..': '..v)
+        local list = dirFiles(Path.sourcePath, true)
+        for i,file in ipairs(list) do
+
+            local content = fs.read(file)
+            if content then
+
+                local lines = content:split(NL)
+                if lines then
+                    for iline,line in ipairs(lines) do
+
+                        for _,todoName in ipairs(todos) do
+                            local i,j,v = line:find('('..todoName..'[ :].*)')
+                            if i then
+                                local ref = file:gsub(Path.sourcePath..'/', '')
+                                todoLists[todoName]:insert(ref..':'..iline..': '..v)
+                            end
+                        end
+
                     end
                 end
+
             end
-            
         end
-        
+
+        for _,todoName in ipairs(todos) do
+            local data = todoLists[todoName]:concat(NL)..NL
+            print(data)
+
+            -- TOFIX
+            fs.write('todo', data, 'at')
+        end
     end
 
-    local todoText = todoList:concat(NL)
-    print(todoText)
+    fs.write('todo', '', 'wt')
 
-    fs.write('todo', todoText)
+    scan{
+        'TODO',
+        'TODEL',
+        'TOFIX'
+    }
 
     exit()
 end

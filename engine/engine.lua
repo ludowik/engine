@@ -95,7 +95,7 @@ end
 
 function Engine:release()
     saveConfig()
-    
+
     self.envs = {}
 
     self.components:release()
@@ -159,26 +159,28 @@ function Engine:frame(forceDraw)
         forceDraw = true
     end
 
-    self.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
-    self.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
+    if ios then
+        self.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
+        self.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
+    end
 
     self.frameTime:update()
 
-    if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw then
+    --if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw then
 
-        DeltaTime = self.frameTime.deltaTimeAccum
-        ElapsedTime = self.frameTime.elapsedTime
+    DeltaTime = self.frameTime.deltaTimeAccum
+    ElapsedTime = self.frameTime.elapsedTime
 
-        self:update(DeltaTime)
+    self:update(DeltaTime)
 
-        self:draw()
-        self.frameTime:draw()
+    self:draw()
+    self.frameTime:draw()
 
-        self.frameTime.deltaTimeAccum = (
-            self.frameTime.deltaTimeAccum -
-            math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
+    self.frameTime.deltaTimeAccum = (
+        self.frameTime.deltaTimeAccum -
+        math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
 
-    end
+    --end
 end
 
 function Engine:portrait()
@@ -310,9 +312,11 @@ function Engine:draw(f)
             end
         end,
         RenderFrame.getRenderFrame())
-    
+
     self:postRender(
         function ()
+            if f then return end
+
             if reporting then
                 reporting:draw()
             end
@@ -322,20 +326,20 @@ function Engine:draw(f)
 
             line(0, screen.H/2, screen.W, screen.H/2)
             line(screen.W/2, 0, screen.W/2, screen.H)
-            
-            if not f then
-                self.app:__drawParameter()
-            end
-        end,
-        RenderFrame.getRenderFrame())
 
-    self:postRender(
-        function ()
+            self.app:__drawParameter()
+
             self:drawInfo()
             self:drawHelp()
         end,
         engine.renderFrameInfo,
         true)
+
+    local w, h = textSize(self.frameTime.fps)
+    textMode(CENTER)
+    text(self.frameTime.fps,
+        screen.MARGE_X/2,
+        screen.h - screen.MARGE_Y - h/2)
 
     sdl:swap()
 end
@@ -353,11 +357,11 @@ function Engine:postRender(f, renderFrame, resetBackground)
     end
 
     renderFunction(f, renderFrame)
-    
+
     resetMatrix(true)
 
     Context.noContext()
-    
+
     renderFrame:draw(
         screen.MARGE_X,
         screen.MARGE_Y,
@@ -496,10 +500,12 @@ function Engine:touched(_touch)
     end
 end
 
-function Engine:mouseMove(touch)
+function Engine:mouseMove(_touch)
+    local touch = _touch:transform()
 end
 
-function Engine:mouseWheel(touch)
+function Engine:mouseWheel(_touch)
+    local touch = _touch:transform()
     if not env.parameter:mouseWheel(touch) then
         if not self.app:__mouseWheel(touch) then
             processWheelMoveOnCamera(touch)

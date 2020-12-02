@@ -11,10 +11,10 @@ function setup()
     parameter.number("y2", 0, H, H/2)
 
     -- The stroke width
-    parameter.number("width",1, 100, 10)
+    parameter.number("width",1, 100, 25)
 
     -- The line cap type
-    parameter.integer("lineCap", 0, 2, SQUARE)
+    parameter.integer("lineCap", 0, 2, ROUND)
     parameter.boolean("smoothCap")
 end
 
