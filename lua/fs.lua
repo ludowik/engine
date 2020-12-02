@@ -182,13 +182,12 @@ function checkFiles(files, filesPath, time)
     return time
 end
 
-function fs.splitFilePath(fpath)
+function fs.splitFilePath(strFilename)
     -- Returns the Path, Filename, and Extension as 3 values
-    if lfs.attributes(fpath, 'mode') == 'directory' then
-        local strPath = fpath:gsub("[\\/]$", "")
-        return strPath.."\\", "", ""
-    end
-
-    fpath = fpath.."."
-    return fpath:match("^(.-)([^\\/]-%.([^\\/%.]-))%.?$")
+	if lfs.attributes(strFilename,"mode") == "directory" then
+		local strPath = strFilename:gsub("[\\/]$","")
+		return strPath.."\\","",""
+	end
+	strFilename = strFilename.."."
+	return strFilename:match("^(.-)([^\\/]-)%.([^\\/%.]-)%.?$")
 end

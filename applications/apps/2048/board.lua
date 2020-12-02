@@ -67,7 +67,7 @@ function Board2048:draw()
 
                     local txt = tostring(value)
 
-                    local fontSize = 20
+                    local fontSize = 30
 
                     repeat
                         textStyle(fontSize, hexa2color(st), CENTER)

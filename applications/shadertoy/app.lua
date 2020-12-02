@@ -5,22 +5,18 @@ function setup()
 
     shaders = Table()
 
-    local wmin = ws(1,16)
-    local wmax = ws(1,2)
-    
+    local wmin = ws(1, 16)
+    local wmax = ws(8, 12)
+
     minSize = vec2(wmin, wmin*9/16):round()
     maxSize = vec2(wmax, wmax*9/16):round()
 
     mesh = Model.rect()
 
---    if not debugging() and not ios then
-        app.coroutine = coroutine.create(
-            function (dt)
-                loadShaders(true)
-            end)
---    else
---        loadShaders(true)
---    end
+    app.coroutine = coroutine.create(
+        function (dt)
+            loadShaders(true)
+        end)
 end
 
 function suspend()
@@ -70,7 +66,7 @@ function drawShader(shader, ui)
 
         shader.uniforms.iTime = shader.uniforms.iTime + DeltaTime
         shader.uniforms.iTimeDelta = DeltaTime
-        
+
         shader.uniforms.iFrame = shader.uniforms.iFrame + 1
         shader.uniforms.iFrameRate = 60
 
@@ -94,7 +90,7 @@ function drawShader(shader, ui)
             shader.texture = shaderChannel[0]
             shader.uniforms.iChannel0 = 0
         end
-        
+
         mesh.uniforms = shader.uniforms
 
         mesh:draw(nil, 0, 0, 0, ui.size.x, ui.size.y, 1)
@@ -123,6 +119,8 @@ function draw()
     local currentActiveShader, nextActiveShader
 
     local x, y = 0, HEIGHT
+    local w, h = textSize()
+
     for i,shader in ipairs(shaders) do
         if shader.active then
             currentActiveShader = shader
@@ -142,14 +140,13 @@ function draw()
         rectMode(CORNER)
         rect(x, y - size.y, size.x, size.y)
 
-        if not shader.active then
-            fill( red)
-            
-            fontSize(8)
-            
-            textMode(CENTER)
-            text(shader.name, x+size.x/2, y-size.y-fontSize()/2)
-        end
+        fill(white)
+
+        fontSize(8)
+
+        local path, name, ext = fs.splitFilePath(shader.name)
+        textMode(CENTER)
+        text(name, x+size.x/2, y-size.y-h/2)
 
         shader.ui.position = vec2(x, y - size.y)
         shader.ui.absolutePosition = shader.ui.position
@@ -157,16 +154,16 @@ function draw()
         x = x + size.x
         if x + size.x > WIDTH  then
             x = 0
-            y = y - size.y - fontSize()
+            y = y - size.y - h
         end
     end
 
     x = 0
-    y = y - minSize.y - fontSize()
+    y = y - minSize.y - h
 
     if currentActiveShader then
         local size = currentActiveShader.zoom.size
-        
+
         spriteMode(CENTER)
         sprite(currentActiveShader.zoom.canvas, W/2, y-y/2)
     end
