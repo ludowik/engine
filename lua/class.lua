@@ -100,11 +100,12 @@ function class(...)
         table.insert(classNamePath, path)
     end
 
+    local store = _G.env or _G
+        
     if #classNamePath == 0 then
-        rawset(_G, className, k)
+        rawset(store, className, k)
     else
         local classNameFinal = className
-        local store = _G
         for i,v in ipairs(classNamePath) do
             store = store[v]
             classNameFinal = classNameFinal:gsub(v..'.', '')

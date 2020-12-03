@@ -5,6 +5,7 @@ function ComponentManager:init(...)
     
     self.componentsToInitialize = Array()
     self.componentsToUpdate = Array()
+    self.componentsToDraw = Array()
 end
 
 function ComponentManager:add(component)
@@ -17,6 +18,10 @@ function ComponentManager:add(component)
     if attributeof('update', component) then
         self.componentsToUpdate:add(component)
     end
+    
+    if attributeof('draw', component) then
+        self.componentsToDraw:add(component)
+    end
 end
 
 function ComponentManager:initialize(dt)
@@ -28,5 +33,5 @@ function ComponentManager:update(dt)
 end
 
 function ComponentManager:draw()
-    assert()
+    self.componentsToDraw:call('draw', dt)
 end

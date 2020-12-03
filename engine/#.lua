@@ -33,6 +33,7 @@ require 'engine.componentManager'
 
 require 'engine.frameTime'
 require 'engine.memory'
+require 'engine.info'
 
 require 'engine.parameter'
 require 'engine.resourceManager'

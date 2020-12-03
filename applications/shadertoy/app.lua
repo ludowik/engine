@@ -11,7 +11,18 @@ function setup()
     minSize = vec2(wmin, wmin*9/16):round()
     maxSize = vec2(wmax, wmax*9/16):round()
 
-    mesh = Model.rect()
+    mesh = Model.rect()    
+    mesh.uniforms = {
+        iResolution = vec2(),
+
+        iTime = 0,
+        iTimeDelta = 0,
+
+        iFrame = 0,
+        iFrameRate = 60,
+
+        iMouse = vec4()
+    }
 
     app.coroutine = coroutine.create(
         function (dt)
@@ -59,16 +70,16 @@ function drawShader(shader, ui)
 
         mesh.shader = shader
 
-        shader.uniforms.iResolution = vec3(
+        mesh.uniforms.iResolution = vec3(
             ui.size.x,
             ui.size.y,
             1)
 
-        shader.uniforms.iTime = shader.uniforms.iTime + DeltaTime
-        shader.uniforms.iTimeDelta = DeltaTime
+        mesh.uniforms.iTime = mesh.uniforms.iTime + DeltaTime
+        mesh.uniforms.iTimeDelta = DeltaTime
 
-        shader.uniforms.iFrame = shader.uniforms.iFrame + 1
-        shader.uniforms.iFrameRate = 60
+        mesh.uniforms.iFrame = mesh.uniforms.iFrame + 1
+        mesh.uniforms.iFrameRate = 60
 
         local touch = mouse:transform()
         if Rect.contains(ui, touch) then
@@ -77,21 +88,19 @@ function drawShader(shader, ui)
             x = x - shader.ui.absolutePosition.x
             y = y - shader.ui.absolutePosition.y
 
-            shader.uniforms.iMouse.x, shader.uniforms.iMouse.y = x, y
+            mesh.uniforms.iMouse.x, mesh.uniforms.iMouse.y = x, y
 
             if isButtonDown(BUTTON_LEFT) then
-                shader.uniforms.iMouse.z, shader.uniforms.iMouse.w = x, y
+                mesh.uniforms.iMouse.z, mesh.uniforms.iMouse.w = x, y
             else
-                shader.uniforms.iMouse.z, shader.uniforms.iMouse.w = -1, -1
+                mesh.uniforms.iMouse.z, mesh.uniforms.iMouse.w = -1, -1
             end
         end
 
         for k,v in pairs(shaderChannel) do
             shader.texture = shaderChannel[0]
-            shader.uniforms.iChannel0 = 0
+            mesh.uniforms.iChannel0 = 0
         end
-
-        mesh.uniforms = shader.uniforms
 
         mesh:draw(nil, 0, 0, 0, ui.size.x, ui.size.y, 1)
     end

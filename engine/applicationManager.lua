@@ -37,18 +37,17 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         self.envs[appPath] = env
         _G.env = env        
 
-        setfenv(0, setmetatable(env, {__index=_G}))
+        setmetatable(env, {__index=_G})
+        setfenv(0, env)
 
         self:pushSize()
 
         package.loaded[appPath] = nil
         require(appPath)
 
-        -- TODEL
---        env.physics = box2dRef and box2dRef.Physics() or Physics()
         env.physics = Physics()
         env.parameter = Parameter()
-
+        
         call('setup', env)
 
         if env.appClass then

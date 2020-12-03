@@ -34,7 +34,7 @@ function mt:set(r, g, b, a)
             self.r = r
             self.g = g
             self.b = b
-            self.a = self.r > 1 and 255 or 1
+            self.a = (self.r > 1 or self.g > 1 or self.b > 1) and 255 or 1
 
         elseif g then
             self.r = r
@@ -46,7 +46,7 @@ function mt:set(r, g, b, a)
             self.r = r
             self.g = r
             self.b = r
-            self.a = self.r > 1 and 255 or 1
+            self.a = (self.r > 1 or self.g > 1 or self.b > 1) and 255 or 1
 
         else
             self.r = 0

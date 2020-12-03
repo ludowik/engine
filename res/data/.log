@@ -1,29 +1,14 @@
-<<<<<<< HEAD
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 Generic PnP Monitor
 Supported 4.10 - Build 26.20.100.8141
-load applications/apps/2048
-memory at init    : 4.19 mo
-memory min        : 4.19 mo
-memory max        : 13.23 mo
-memory variation  : 9.05 mo
-memory at release : 11.91 mo
-vec3=37894
-cdata=70454
-number=36413
-color=67197
-=======
-/Users/Ludo/Projets/Lua/engine
-Color LCD
-Supported 4.10
-load applications/apps/2048
-memory at init    : 1.95 mo
-memory min        : 1.95 mo
-memory max        : 25.24 mo
-memory variation  : 23.28 mo
-memory at release : 17.89 mo
-number=188779
-vec3=230988
-cdata=346698
-color=281347
->>>>>>> 4163a5a8d00cff7eed445cf5ea41312e316dcfb7
+load applications/sketches3D/solar system
+memory at init    : 4.20 mo
+memory min        : 4.20 mo
+memory max        : 7.41 mo
+memory variation  : 3.21 mo
+memory at release : 7.44 mo
+boolean=3120
+number=2405
+color=2357
+vec3=1686
+cdata=1926

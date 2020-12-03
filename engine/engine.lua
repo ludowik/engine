@@ -25,6 +25,8 @@ function Engine:init()
 
     graphics = Graphics()
 
+    self.info = Info()
+
     -- add components
     self.components = ComponentManager()
     do
@@ -42,17 +44,12 @@ function Engine:init()
         self.components:add(RenderFrame)
 
         self.components:add(Profiler)
+        self.components:add(self.info)
 
         self.components:add(tween)
 
         tween.setup()
     end
-
-    -- TODO : A deplacer dans une autre classe
-    self.infoHide = true
-    self.infoAlpha = 0
-
-    self.showHelp = false
 
     screen = Screen(W, H)
 end
@@ -80,7 +77,7 @@ function Engine:initialize()
     call('setup')
 
     self.components:initialize()
-    self.frameTime:init()
+    self.frameTime:init() -- TODO : by components ? 
 
     self:initEvents()
 
@@ -166,21 +163,21 @@ function Engine:frame(forceDraw)
 
     self.frameTime:update()
 
-    --if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw then
+    if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw then
 
-    DeltaTime = self.frameTime.deltaTimeAccum
-    ElapsedTime = self.frameTime.elapsedTime
+        DeltaTime = self.frameTime.deltaTimeAccum
+        ElapsedTime = self.frameTime.elapsedTime
 
-    self:update(DeltaTime)
+        self:update(DeltaTime)
 
-    self:draw()
-    self.frameTime:draw()
+        self:draw()
+        self.frameTime:draw() -- -- TODO : by components ? 
 
-    self.frameTime.deltaTimeAccum = (
-        self.frameTime.deltaTimeAccum -
-        math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
+        self.frameTime.deltaTimeAccum = (
+            self.frameTime.deltaTimeAccum -
+            math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
 
-    --end
+    end
 end
 
 function Engine:portrait()
@@ -259,10 +256,7 @@ function Engine:toggleRenderVersion()
 end
 
 function Engine:toggleHelp()
-    self.showHelp = toggle(self.showHelp, false, true)
-    if self.showHelp then
-        self.infoHide = false
-    end
+    self.info:toggleHelp()
 end
 
 function Engine:update(dt)
@@ -286,12 +280,6 @@ function Engine:update(dt)
 
     elseif classnameof(env.physics) == 'fizix' then
         env.physics:update(dt)
-    end
-
-    if self.infoHide then
-        self.infoAlpha = 0 -- max(0, self.infoAlpha - dt / 3)
-    else
-        self.infoAlpha = 1
     end
 
     self.app:__update(dt)
@@ -331,6 +319,8 @@ function Engine:draw(f)
 
             self:drawInfo()
             self:drawHelp()
+
+            self.components:draw()
         end,
         engine.renderFrameInfo,
         true)
@@ -369,56 +359,12 @@ function Engine:postRender(f, renderFrame, resetBackground)
         screen.H * screen.ratio)
 end
 
-local function info(name, value)
-    local info = name..' : '..tostring(value)
-    local w, h = textSize(info)
-
-    fill(white:alpha(engine.infoAlpha))
-    rect(0, TEXT_NEXT_Y-h, w+10, h)
-
-    fill(black:alpha(engine.infoAlpha))
-    text(info)
-end
-
 function Engine:drawInfo()
-    if self.infoAlpha == 0 then return end
-
-    -- background
-    noStroke()
-    fill(white:alpha(self.infoAlpha))
-
-    -- infos
-    font(DEFAULT_FONT_NAME)
-    fontSize(DEFAULT_FONT_SIZE)
-
-    rectMode(CORNER)
-    textMode(CORNER)
-
-    info('fps', self.frameTime.fps..' / '..self.frameTime.fpsTarget)
-    info('fizix', formatPercent(env.physics.elapsedTime / ElapsedTime))
-    info('os', jit.os)
-    info('jit version', jit.version)
-    info('debugging', debugging())
-    info('compile', jit.status())
-    info('ram', format_ram(self.memory.ram.current))
-    info('res', resourceManager.resources:getnKeys())
-    info('mouse', mouse:transform())
-    info('opengl version', config.glMajorVersion)
-    info('wireframe', config.wireframe)
-    info('light', config.light)
-
-    info('bodies', #env.physics.bodies)
+    self.info:drawInfo()
 end
 
 function Engine:drawHelp()
-    if self.infoAlpha == 0 then return end
-
-    if self.showHelp then
-        fontSize(DEFAULT_FONT_SIZE)
-        for k,v in pairs(self.onEvents.keydown) do
-            info(k, v)
-        end
-    end
+    self.info:drawHelp()
 end
 
 function Engine:keydown(key, isrepeat)
@@ -476,7 +422,7 @@ function Engine:touched(_touch)
         if touch.state == ENDED then
             if touch.x < screen.MARGE_X then
                 if touch.y > screen.h * 2 / 3 then
-                    self.infoHide = not self.infoHide
+                    self.info.infoHide = not self.info.infoHide
 
                 elseif touch.y > screen.h * 1 / 3 then
                     engine:managerApp()

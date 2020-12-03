@@ -39,19 +39,6 @@ function ShaderToy:init(name, path, header, code, ender)
     self.source = header..code..ender
 
     Shader.init(self, name, appPath..'/shaders')
-
-    -- TODO : uniforms au bon endroit ? propriété du mesh ou du shader
-    self.uniforms = {
-        iResolution = vec2(),
-
-        iTime = 0,
-        iTimeDelta = 0,
-
-        iFrame = 0,
-        iFrameRate = 60,
-
-        iMouse = vec4()
-    }
 end
 
 function ShaderToy:create()

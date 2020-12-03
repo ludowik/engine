@@ -24,8 +24,6 @@ function Planet.setup()
     Planet.model = Planet.model or Model.sphere(1)
     Planet.model.shader = Shader('default')
 end
--- TODO : a appeler automatiquement après le chargement
-Planet.setup()
 
 function Planet:init(x, y, r, level)
     level = (level or 0) + 1

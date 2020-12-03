@@ -21,6 +21,25 @@ function Board2048:draw()
     local l = floor((self.size.x - 2*marge) / n)
     local l2 = max(1, floor(l / 2))
 
+    rectMode(CENTER)
+    
+    pushMatrix()
+    do
+        translate(
+            x + m/2 * l,
+            y + n/2 * l)
+        
+        fill(gray)
+        
+        rect(0, 0,
+            l*m + marge*2,
+            l*n + marge*2,
+            marge)
+        
+        
+    end
+    popMatrix()
+
     for i=1,m do
         for j=1,n do
             pushMatrix()
@@ -30,7 +49,7 @@ function Board2048:draw()
 
                 local s = tile_colors[value]
                 if s == nil then
-                    s = gray
+                    s = lightgray
                 else
                     s = hexa2color(s)
                 end
@@ -53,7 +72,6 @@ function Board2048:draw()
 
                 style(0, transparent, s)
 
-                rectMode(CENTER)
                 rect(0, 0,
                     (l-2*marge),
                     (l-2*marge),
