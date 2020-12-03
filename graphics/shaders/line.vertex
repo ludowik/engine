@@ -23,8 +23,8 @@ void main() {
     vec3 direction = normalize(inst_size);    
     vec3 perpendicular = vec3(-direction.y, direction.x, direction.z);
     
-    vec3 normal = perpendicular * (strokeWidth + 1) / 2.;
-    vec3 projection = direction * (strokeWidth + 1) / 2.;
+    vec3 normal = perpendicular * (strokeWidth + 1.) / 2.;
+    vec3 projection = direction * (strokeWidth + 1.) / 2.;
     
     int id = gl_VertexID % 2;
     

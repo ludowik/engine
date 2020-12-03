@@ -43,7 +43,8 @@ function scanTODO()
     scan{
         'TODO',
         'TODEL',
-        'TOFIX'
+        'TOFIX',
+        'TOTEST'
     }
 
     exit()

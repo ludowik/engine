@@ -463,7 +463,7 @@ function Image:freeSurface(surface)
 end
 
 function Image:save(imageName, ext)
-    if ios then return end
+    if ios and love then return end
 
     local pixels = self:readPixels()
 

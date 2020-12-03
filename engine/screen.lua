@@ -15,7 +15,7 @@ function Screen:init()
             self.w, self.h = love.window.getMode()
         else
             H = 1024
-            W = self:w2h(W)
+            W = self:w2h(H)
         end
     end
 

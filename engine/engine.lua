@@ -159,7 +159,7 @@ function Engine:frame(forceDraw)
         forceDraw = true
     end
 
-    if ios then
+    if ios and love then
         self.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
         self.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
     end

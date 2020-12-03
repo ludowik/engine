@@ -30,7 +30,7 @@ function getOS()
 end
 
 function initOS(name)
-    os.name = name or getOS()
+    os.name = name or os.name or getOS()
 
     osx = os.name == 'osx'
     ios = os.name == 'ios'

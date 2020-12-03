@@ -32,11 +32,6 @@ function Graphics:initialize()
             vec3(0, 0), vec3(0, 0)})
     meshPolygon.shader = shaders['polygon']
 
-    meshRect = Mesh() -- Model.rect(0, 0, 1, 1)
-    meshRect.shader = shaders['rect']
-    meshRect.vertices = Buffer('vec3', {
-            vec3(1,0), vec3(1,1), vec3(0,0), vec3(0,1)})
-
     meshCircle = Mesh() -- Model.ellipse(0, 0, 1, 1)
     meshCircle.shader = shaders['circle']
     meshCircle.vertices = Buffer('vec3', {
@@ -287,11 +282,34 @@ function polygon(vertices)
     meshPolygon:render(meshPolygon.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshPolygon.inst_pos)
 end
 
-function rect(x, y, w, h, r, mode)
-    h = h or w
-    x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
+function rect(...)
+    meshRect = Mesh()
+    meshRect.shader = shaders['rect']
+    meshRect.vertices = Buffer('vec3', {
+            vec3(1,0), vec3(1,1),
+            vec3(0,0), vec3(0,1)})
 
-    meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)    --    end
+    rect = function (x, y, w, h, r, mode)
+        h = h or w
+        x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
+
+        if r then
+            meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y+r, Z, w, h-2*r, 1)
+            meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x+r, y, Z, w-2*r, h, 1)
+            circle(x  +r+0.5, y  +r+0.5, r)
+            circle(x+w-r-0.5, y  +r+0.5, r)
+            circle(x  +r+0.5, y+h-r-0.5, r)
+            circle(x+w-r-0.5, y+h-r-0.5, r)
+        else
+            meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+        end
+    end
+
+    rect(...)
+end
+
+function roundrect(x, y, w, h, r, mode)
+    rect(x, y, w, h, r, mode)
 end
 
 function circle(x, y, r, mode)

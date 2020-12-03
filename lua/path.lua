@@ -51,7 +51,7 @@ function getFontPath(fontName, ext)
 end
 
 function getSavePath(path)
-    if ios then
+    if ios and love then
         return love.filesystem.getSaveDirectory()..'/'..path
     else
         return path
@@ -66,7 +66,7 @@ function getReadPath(path)
         elseif lfs.attributes(lfs.currentdir()..'/'..path) then
             return lfs.currentdir()..'/'..path
 
-        elseif lfs.attributes(love.filesystem.getSaveDirectory()..'/'..path) then
+        elseif love and lfs.attributes(love.filesystem.getSaveDirectory()..'/'..path) then
             return love.filesystem.getSaveDirectory()..'/'..path
         end
     end

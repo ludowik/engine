@@ -16,7 +16,7 @@ function Sdl:initialize()
 
     if opengles then
         config.glMajorVersion = 3
-        config.glMinorVersion = 0
+        config.glMinorVersion = 2
     else
         config.glMajorVersion = 4
         config.glMinorVersion = 1

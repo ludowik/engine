@@ -3,11 +3,17 @@
 require 'engine.#'
 
 if ios then
---    startDebug()
---    debug.sethook(function (...)
---            (__print__ or print)(debug.getinfo(2, 'S').short_src, ...)
---        end,
---        'l')
+    startDebug()
+end
+
+if hook then
+    debug.sethook(function (...)
+            local n = debug.getinfo(2, 'nfSlu');
+            if n then
+                (__print__ or print)(string.sub(n.source, 2)..':'..n.linedefined..':'..' ' ..(n.name or ''), ...)
+            end
+        end,
+        'l')
 end
 
 engine = Engine()

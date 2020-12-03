@@ -7,20 +7,16 @@ function setup()
 
     local wmin = ws(1,16)
     local wmax = ws(1,2)
-    
+
     minSize = vec2(wmin, wmin*9/16):round()
     maxSize = vec2(wmax, wmax*9/16):round()
 
     mesh = Model.rect()
 
---    if not debugging() and not ios then
-        app.coroutine = coroutine.create(
-            function (dt)
-                loadShaders(true)
-            end)
---    else
---        loadShaders(true)
---    end
+    app.coroutine = coroutine.create(
+        function (dt)
+            loadShaders(true)
+        end)
 end
 
 function suspend()
@@ -70,7 +66,7 @@ function drawShader(shader, ui)
 
         shader.uniforms.iTime = shader.uniforms.iTime + DeltaTime
         shader.uniforms.iTimeDelta = DeltaTime
-        
+
         shader.uniforms.iFrame = shader.uniforms.iFrame + 1
         shader.uniforms.iFrameRate = 60
 
@@ -94,7 +90,7 @@ function drawShader(shader, ui)
             shader.texture = shaderChannel[0]
             shader.uniforms.iChannel0 = 0
         end
-        
+
         mesh.uniforms = shader.uniforms
 
         mesh:draw(nil, 0, 0, 0, ui.size.x, ui.size.y, 1)
@@ -144,9 +140,9 @@ function draw()
 
         if not shader.active then
             fill( red)
-            
+
             fontSize(8)
-            
+
             textMode(CENTER)
             text(shader.name, x+size.x/2, y-size.y-fontSize()/2)
         end
@@ -166,7 +162,7 @@ function draw()
 
     if currentActiveShader then
         local size = currentActiveShader.zoom.size
-        
+
         spriteMode(CENTER)
         sprite(currentActiveShader.zoom.canvas, W/2, y-y/2)
     end

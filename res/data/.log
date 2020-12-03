@@ -1,83 +1,13 @@
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 Generic PnP Monitor
 Supported 4.10 - Build 26.20.100.8141
-load applications/codea/Lines
-load applications/codea/Orbital
-load applications/appManager
-switch applications/appManager
 load applications/apps/2048
-load applications/apps/asteroid
-load applications/apps/bbtan
-load applications/apps/calc
-load applications/apps/freeCell
-load applications/apps/icon
-load applications/apps/sudoku
-load applications/apps/tetris
-load applications/apps/triomino
-load applications/codea/3D Lab
-load applications/codea/Animation
-A demo showing how to use basic tweens
-1. tween.easing.linear
-2. tween.easing.quadInOut
-3. tween.easing.bounceOut
-load applications/codea/Backgammon
-load applications/codea/Basic Physics
-Hello Physics!
-Touch the screen to make boxes
-load applications/codea/Bezier
-load applications/codea/Blend Modes
-This demonstrates blending modes. Blend modes determine how drawing operations blend together on-screen.
-nil
-The top pair of ellipses uses normal blending.
-nil
-The middle uses additive.
-nil
-And the bottom uses multiplicative blending.
-load applications/codea/Brickout
-Tap the bat to launch the ball.
-Drag om the screen to move the paddle.
-When the game is over tap the screen to restart.
-load applications/codea/Bubbles
-load applications/codea/Cargo-Bot
-load applications/codea/Dungeon Roller
-load applications/codea/FixedAreaBubble
-load applications/codea/Gravity
-An example that shows how to use the Gravity vector
-load applications/codea/Hammer
-switch applications/codea/Lines
-switch applications/codea/Orbital
-load applications/codea/Parameters
-Hello Parameters!
-X set to 288
-color{r=1, g=0.5, b=0, a=0.5}
-HasStroke toggled to true
-load applications/codea/Physics
-load applications/codea/Physics Lab
-load applications/codea/Roller Coaster
-load applications/codea/ScreenSaver
-load applications/codea/Voxel
-load applications/codea/Web
-load applications/demo/fizix
-load applications/demo/particles
-load applications/noise/map1
-load applications/noise/map2
-load applications/noise/map3
-load applications/noise/noise1
-load applications/noise/noise2
-load applications/shadertoy
-applications/shadertoy
-26
-applications/shadertoy/shaders/androgynous bolt.frag
-switch applications/appManager
-switch applications/appManager
 memory at init    : 4.19 mo
 memory min        : 4.19 mo
-memory max        : 158.21 mo
-memory variation  : 154.02 mo
-memory at release : 158.24 mo
-number=23530
-vec4=2
-boolean=500
-color=29197
-cdata=39242
-vec3=26758
+memory max        : 13.23 mo
+memory variation  : 9.05 mo
+memory at release : 11.91 mo
+vec3=37894
+cdata=70454
+number=36413
+color=67197

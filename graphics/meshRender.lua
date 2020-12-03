@@ -82,6 +82,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         self:sendUniforms(shader.uniformsLocations)
 
         if not ios then
+            -- TODO : simplifier cette partie
             if img or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
                 gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
 
