@@ -58,7 +58,7 @@ randomInt = random.range
 -- TOFIX : legacy
 App = application
 
---- TOFIX : legacy
+-- TOFIX : legacy
 mesh = Mesh
 color = Color
 
