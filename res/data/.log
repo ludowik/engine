@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
 Generic PnP Monitor
 Supported 4.10 - Build 26.20.100.8141
@@ -11,3 +12,18 @@ vec3=37894
 cdata=70454
 number=36413
 color=67197
+=======
+/Users/Ludo/Projets/Lua/engine
+Color LCD
+Supported 4.10
+load applications/apps/2048
+memory at init    : 1.95 mo
+memory min        : 1.95 mo
+memory max        : 25.24 mo
+memory variation  : 23.28 mo
+memory at release : 17.89 mo
+number=188779
+vec3=230988
+cdata=346698
+color=281347
+>>>>>>> 4163a5a8d00cff7eed445cf5ea41312e316dcfb7

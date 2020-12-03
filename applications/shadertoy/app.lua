@@ -5,8 +5,8 @@ function setup()
 
     shaders = Table()
 
-    local wmin = ws(1,16)
-    local wmax = ws(1,2)
+    local wmin = ws(1, 16)
+    local wmax = ws(8, 12)
 
     minSize = vec2(wmin, wmin*9/16):round()
     maxSize = vec2(wmax, wmax*9/16):round()
@@ -119,6 +119,8 @@ function draw()
     local currentActiveShader, nextActiveShader
 
     local x, y = 0, HEIGHT
+    local w, h = textSize()
+
     for i,shader in ipairs(shaders) do
         if shader.active then
             currentActiveShader = shader
@@ -138,14 +140,13 @@ function draw()
         rectMode(CORNER)
         rect(x, y - size.y, size.x, size.y)
 
-        if not shader.active then
-            fill( red)
+        fill(white)
 
-            fontSize(8)
+        fontSize(8)
 
-            textMode(CENTER)
-            text(shader.name, x+size.x/2, y-size.y-fontSize()/2)
-        end
+        local path, name, ext = fs.splitFilePath(shader.name)
+        textMode(CENTER)
+        text(name, x+size.x/2, y-size.y-h/2)
 
         shader.ui.position = vec2(x, y - size.y)
         shader.ui.absolutePosition = shader.ui.position
@@ -153,12 +154,12 @@ function draw()
         x = x + size.x
         if x + size.x > WIDTH  then
             x = 0
-            y = y - size.y - fontSize()
+            y = y - size.y - h
         end
     end
 
     x = 0
-    y = y - minSize.y - fontSize()
+    y = y - minSize.y - h
 
     if currentActiveShader then
         local size = currentActiveShader.zoom.size

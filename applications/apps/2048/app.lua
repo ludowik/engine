@@ -6,6 +6,8 @@ function App2048:init()
     self.scene = UIScene(Layout.row):attribs{
         alignment = 'h-center,v-center'
     }
+    self.scene.bgColor = color(51)
+
     self.sceneGame = self.scene
 
     self.grid = Grid2048()

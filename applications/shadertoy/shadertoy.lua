@@ -43,13 +43,13 @@ function ShaderToy:init(name, path, header, code, ender)
     -- TODO : uniforms au bon endroit ? propriété du mesh ou du shader
     self.uniforms = {
         iResolution = vec2(),
-        
+
         iTime = 0,
         iTimeDelta = 0,
-        
+
         iFrame = 0,
         iFrameRate = 60,
-        
+
         iMouse = vec4()
     }
 end
@@ -104,7 +104,7 @@ function loadShaders(all)
     for i,shaderFileName in ipairs(directoryItems) do
         local shader = loadShader(shaderFileName, appPath..'/shaders')
         if shader and shader.error == nil then
-            initShader(shader, shaderFileName == 'sandbox.fragment')
+            initShader(shader)
             shaders:add(shader)
         end
 
