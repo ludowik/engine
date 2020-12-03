@@ -52,7 +52,7 @@ require 'sound'
 
 require 'fizix'
 
--- legacy
+-- TOFIX : legacy
 randomInt = random.range
 
 App = application
