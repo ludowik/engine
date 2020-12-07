@@ -51,22 +51,3 @@ require 'ui'
 require 'sound'
 
 require 'fizix'
-
--- TOFIX : legacy
-randomInt = random.range
-
--- TOFIX : legacy
-App = application
-
---- TOFIX : legacy
-mesh = Mesh
-color = Color
-
-function vector(...)
-    local v = {}
-    setmetatable(v, {__index=vec2(...)})
-    return v
-end
-
-math.MAX_INTEGER = math.maxinteger
-math.MIN_INTEGER = math.mininteger

@@ -9,7 +9,7 @@ end
 function Styles.setup()
     CENTER = 'center'
     CORNER = 'corner'
-    
+
     SQUARE = 0
     ROUND = 1
     PROJECT = 2
@@ -63,13 +63,14 @@ function resetStyle(blend, depth, culling)
     TEXT_NEXT_Y = screen.H
 
     blendMode(blend or NORMAL)
-    
     depthMode(value(depth, false))
-    
+
     cullingMode(value(culling, false))
 
     font()
     fontSize()
+
+    noClip()
 end
 
 function pushStyle()
@@ -81,10 +82,13 @@ function popStyle()
 
     blendMode(styles.blendMode)
     depthMode(styles.depthMode)
+
     cullingMode(styles.cullingMode)
 
     font()
     fontSize()
+
+    noClip()
 end
 
 function style(size, clr1, clr2)
@@ -116,6 +120,22 @@ function textStyle(size, clr, mode)
     textMode(mode)
 end
 
+function stroke(...)
+    return styles:setAttributeColor('stroke', ...)
+end
+
+function strokeWidth(width)
+    return styles:setAttribute('strokeWidth', width)
+end
+
+function noStroke()
+    return styles:setAttribute('stroke', nil, true)
+end
+
+function lineCapMode(mode)
+    return styles:setAttribute('lineCapMode', mode)
+end
+
 function fill(...)
     return styles:setAttributeColor('fill', ...)
 end
@@ -124,12 +144,12 @@ function noFill()
     return styles:setAttribute('fill', nil, true)
 end
 
-function stroke(...)
-    return styles:setAttributeColor('stroke', ...)
+function tint(...)
+    return styles:setAttributeColor('tint', ...)
 end
 
-function noStroke()
-    return styles:setAttribute('stroke', nil, true)
+function noTint()
+    return styles:setAttribute('tint', nil, true)
 end
 
 function light(...)
@@ -138,20 +158,6 @@ end
 
 function noLight()
     return styles:setAttribute('light', nil, true)
-end
-
--- TODO
-function tint(...)
-    return styles:setAttributeColor('tint', ...)
-end
-
--- TODO
-function noTint()
-    return styles:setAttribute('tint', nil, true)
-end
-
-function strokeWidth(width)
-    return styles:setAttribute('strokeWidth', width)
 end
 
 function rectMode(mode)
@@ -182,31 +188,25 @@ function textMode(mode)
     return styles:setAttribute('textMode', mode)
 end
 
--- TODO
+-- TODO : textWrapWidth
 function textWrapWidth(width)
     return styles:setAttribute('textWrapWidth', width)
 end
 
--- TODO
+-- TODO : textAlign
 function textAlign(mode)
     return styles:setAttribute('textAlign', mode)
 end
 
-function lineCapMode(mode)
-    return styles:setAttribute('lineCapMode', mode)
-end
-
--- TODO
+-- TODO : smooth
 function smooth(mode)
     return styles:setAttribute('smooth', mode)
 end
 
--- TODO
 function noSmooth()
     return styles:setAttribute('smooth', nil, true)
 end
 
--- TODO
 function clip(x, y, w, h)
     if x then
         gl.glEnable(gl.GL_SCISSOR_TEST)
@@ -244,7 +244,7 @@ ANY = LANDSCAPE_ANY + PORTRAIT_ANY
 function supportedOrientations(mode)
     if mode then
         env.__orientation = mode
-        
+
         if not bitAND(mode, LANDSCAPE_ANY) then
             engine:portrait()
         end
@@ -256,6 +256,5 @@ function supportedOrientations(mode)
 end
 
 function displayMode(mode)
-    -- TODO : implement displayMode
     assert(mode)
 end

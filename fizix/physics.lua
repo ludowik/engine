@@ -4,6 +4,8 @@ function Physics.setup()
 end
 
 function Physics:init(instance)
+    env.physics = self
+
     self.instance = instance or Fizix()
 
     self.pause = function(...)
@@ -41,7 +43,6 @@ function Physics:init(instance)
     self.queryAABB = function (lowerLeft, upperRight, category1, category2)
         return self.instance:queryAABB(lowerLeft, upperRight, category1, category2)
     end
-
 end
 
 function Physics.properties.get:deltaTime()

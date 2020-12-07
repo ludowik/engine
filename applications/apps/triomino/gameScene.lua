@@ -3,6 +3,8 @@ class('GameScene', UIScene)
 function GameScene:init()
     UIScene.init(self)
 
+    self.bgColor = color(52)
+    
     self.touch = Table()
 
     self.layoutProc = Layout.column

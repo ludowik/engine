@@ -30,8 +30,10 @@ function Engine:initEvents()
             ['m'] = callback('portrait/landscape', self, Engine.flip),
 
             [','] = callback('introspection', self, Engine.introspection),
+            
+            ['s'] = callback('vsync', self, Engine.vsync),
 
-            ['f1'] = callback('help', self, Engine.toggleHelp),
+            ['f1'] = callback('help', self.info, Info.toggleHelp),
             ['f2'] = callback('opengl or opengl es', self, Engine.toggleRenderVersion),
 
             ['f11'] = callback('fullscreen', self, Sdl.toggleWindowDisplayMode),
@@ -89,8 +91,11 @@ function Engine:initEvents()
         callback('ui test', self,
             function()
                 engine:on('update', function()
-                        mouse:mouseEvent(0, BEGAN, screen.MARGE_X + math.random(W), math.random(H), 0, 0, true, false)
-                        mouse:mouseEvent(0, ENDED, screen.MARGE_X + math.random(W), math.random(H), 0, 0, false, false)
+                        local x = screen.MARGE_X + math.random(screen.W) * screen.ratio
+                        local y = screen.MARGE_Y + math.random(screen.H) * screen.ratio
+                        
+                        mouse:mouseEvent(0, BEGAN, x, y, 0, 0, true, false)
+                        mouse:mouseEvent(0, ENDED, x, y, 0, 0, false, false)
                     end)
             end))
 end

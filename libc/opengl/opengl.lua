@@ -170,7 +170,7 @@ end
 function OpenGL:initialize()
     self:loadProcAdresses()
 
-    print('Supported '..ffi.string(gl.glGetString(gl.GL_SHADING_LANGUAGE_VERSION)))
+    print('GLSL '..ffi.string(gl.glGetString(gl.GL_SHADING_LANGUAGE_VERSION)))
 
     self.intptr = ffi.new('GLint[1]')
     self.idptr  = ffi.new('GLuint[1]')

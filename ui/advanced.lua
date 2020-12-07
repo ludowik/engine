@@ -17,7 +17,7 @@ function Dialog:init(label)
                 app:popScene()
             end))
 
-    self.position = vec3(WIDTH/2, HEIGHT/2)
+    self.position = vec3(screen.W/2, screen.H/2)
 
     self.alignment = 'v-center,h-center'
 

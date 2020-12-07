@@ -1,17 +1,17 @@
-GRID_MARGE = 5
-CELL_MARGE = 2
-
-GRID_SIZE = min(WIDTH, HEIGHT)
-
-CELL_SIZE = floor((GRID_SIZE - GRID_MARGE * 2) / (GRID_SIZE == WIDTH and 7 or 9))
-
-BALL_SIZE = floor(CELL_SIZE / 6)
-
-AREA_WIDTH  = CELL_SIZE * 7
-AREA_HEIGHT = CELL_SIZE * 9
-
 function setup()
     supportedOrientations(PORTRAIT)
+
+    GRID_MARGE = 5
+    CELL_MARGE = 2
+
+    GRID_SIZE = min(WIDTH, HEIGHT)
+
+    CELL_SIZE = floor((GRID_SIZE - GRID_MARGE * 2) / (GRID_SIZE == WIDTH and 7 or 9))
+
+    BALL_SIZE = floor(CELL_SIZE / 6)
+
+    AREA_WIDTH  = CELL_SIZE * 7
+    AREA_HEIGHT = CELL_SIZE * 9
 
     fizix = Fizix(0, 0)
     fizix:gravity(vec2())
@@ -236,8 +236,6 @@ function draw()
             emitter.position.x + linearVelocity.x,
             emitter.position.y + linearVelocity.y)
     end
-
-    fizix:draw()
 end
 
 function touched(touch)

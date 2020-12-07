@@ -106,6 +106,10 @@ function Node:draw()
                 end
 
                 node:draw()
+
+                if node.body and env.physics.debug then
+                    node.body:draw(dt)
+                end
             end
             popMatrix()
         end
@@ -167,10 +171,10 @@ function Node:touched(touch)
         if node and node.touched and node:contains(touch) then
             node:touched(touch)
             return true
---            local res = node:touched(touch)
---            if res then
---                return res
---            end
+            --            local res = node:touched(touch)
+            --            if res then
+            --                return res
+            --            end
         end
     end
 end

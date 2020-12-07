@@ -11,15 +11,17 @@ function Fizix.setup()
 end
 
 function Fizix:init()
-    fizix = self
-    env.physics = self
+    env.fizix = self
 
     self.bodies = Array()
     self.contacts = Array()
 
     self.g = vec3(0, -9.81)
+    
+    self.worldCenter = vec2()
 
     self.pixelRatio = 32
+    
     self.debug = true
 
     self.deltaTime = 0
@@ -96,9 +98,6 @@ function Fizix:update(dt)
             assert()
             self:step(-dt)
         end
-        
-        -- TODO : collision each step, no ?
-        self:collision()
     end
     self:updateProperties()
 
@@ -113,13 +112,15 @@ function Fizix:setProperties()
     for _,body in ipairs(self.bodies) do
         item = body.item
         if item then
-            body.x = item.position.x
-            body.y = item.position.y
+            -- est-ce la bonne méthode : pour l'initialisation ok mais après ????
+--            body.position.x = item.position.x
+--            body.position.y = item.position.y
 
-            body.previousPosition.x = item.position.x
-            body.previousPosition.y = item.position.y
+--            body.previousPosition.x = item.position.x
+--            body.previousPosition.y = item.position.y
 
             if item.linearVelocity then
+                assert() -- pas la bonne méthode -> changer la velocity directement
                 body.linearVelocity = item.linearVelocity
                 item.linearVelocity = nil
             end
@@ -136,11 +137,35 @@ function Fizix:updateProperties()
     end
 end
 
--- TODO : body or object => fix this
 function Fizix:step(dt)
     for _,body in ipairs(self.bodies) do
         if body.type == DYNAMIC then
             body:integration(dt)
+        end
+
+        if body.keepInArea then
+            if body.position.x < -screen.W/2 then
+                body.position.x = body.position.x + screen.W
+            elseif body.position.x > screen.W/2 then
+                body.position.x = body.position.x - screen.W
+            end
+
+            if body.position.y < -screen.H/2 then
+                body.position.y = body.position.y + screen.H
+            elseif body.position.y > screen.H/2 then
+                body.position.y = body.position.y - screen.H
+            end
+        end
+    end
+    self:collision()
+end
+
+function Fizix:canCollide(categories, mask)
+    for categoryA in ipairs(categories) do
+        for categoryB in ipairs(mask) do
+            if categoryA == categoryB then
+                return true
+            end
         end
     end
 end
@@ -151,8 +176,8 @@ function Fizix:collision()
     local bodies = self.bodies
     local contacts = self.contacts
 
-    for i,object in bodies:iterator() do
-        object.contact = nil
+    for i,body in bodies:iterator() do
+        body.contact = nil
     end
 
     for i=1,#bodies do
@@ -161,12 +186,14 @@ function Fizix:collision()
         for j=i+1,#bodies do
             local bodyB = bodies[j]
 
-            if Fizix.Collision.collide(bodyA, bodyB) then
-                local contact = Fizix.Contact(bodyA, bodyB)
-                contacts:insert(contact)
+            if self:canCollide(bodyA.categories, bodyB.mask) then
+                if Fizix.Collision.collide(bodyA, bodyB) then
+                    local contact = Fizix.Contact(bodyA, bodyB)
+                    contacts:insert(contact)
 
-                bodyA.contact = bodyB
-                bodyB.contact = bodyA
+                    bodyA.contact = bodyB
+                    bodyB.contact = bodyA
+                end
             end
         end
     end
@@ -189,10 +216,24 @@ function Fizix:collision()
     end
 end
 
-function Fizix:draw()
-    if not self.debug then return end
+-- Performs a raycast from the start point to the end point.
+-- Any additional parameters are treated as category filters, allowing certain bodies to be ignored.
+-- This function only returns hit information on the closest rigid body detected.
+function Fizix:raycast(from, to, category1, category2)
+    -- TODO : raycast
+end
 
-    for _,body in ipairs(self.bodies) do
-        body:draw(dt)
-    end
+-- Performs a raycast from the start point to the end point.
+-- Any additional parameters are treated as category filters, allowing certain bodies to be ignored.
+-- This function returns an array of tables describing all objects hit along the ray, ordered from closest to farthest.
+function Fizix:raycastAll(from, to, category1, category2)
+    -- TODO : raycastAll
+    return {}
+end
+
+-- Performs a query to find all bodies within the supplied axis-aligned bounding box.
+-- Any additional parameters are treated as category filters, allowing certain bodies to be ignored.
+function Fizix:queryAABB(lowerLeft, upperRight, category1, category2)
+    -- TODO : queryAABB
+    return {}
 end

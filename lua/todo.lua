@@ -8,7 +8,7 @@ function scanTODO()
         local list = dirFiles(Path.sourcePath, true)
         for i,file in ipairs(list) do
 
-            local content = fs.read(file)
+            local content = load(file)
             if content then
 
                 local lines = content:split(NL)
@@ -16,7 +16,7 @@ function scanTODO()
                     for iline,line in ipairs(lines) do
 
                         for _,todoName in ipairs(todos) do
-                            local i,j,v = line:find('('..todoName..'[ :].*)')
+                            local i,j,v = line:find('([ -]'..todoName..'[ :]*.*)')
                             if i then
                                 local ref = file:gsub(Path.sourcePath..'/', '')
                                 todoLists[todoName]:insert(ref..':'..iline..': '..v)
@@ -30,15 +30,18 @@ function scanTODO()
         end
 
         for _,todoName in ipairs(todos) do
-            local data = todoLists[todoName]:concat(NL)..NL
-            print(data)
+            if #todoLists[todoName] > 0 then
+                local data = todoLists[todoName]:concat(NL)
+                
+                print(todoName)
+                print(data)
 
-            -- TOFIX
-            fs.write('todo', data, 'at')
+                save('todo', data, 'at')
+            end
         end
     end
-
-    fs.write('todo', '', 'wt')
+    
+    save('todo', '', 'wt')
 
     scan{
         'TODO',

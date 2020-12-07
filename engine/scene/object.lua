@@ -10,9 +10,6 @@ function Object:init(label)
 end
 
 function Object:update(dt)
-    if self.body then
-        self.position = self.body.position
-    end
 end
 
 function Object:draw()

@@ -1,4 +1,5 @@
--- TOFIX ne fonctionne pas sans UTF8
+-- TOTEST
+utf8 = require 'lib.utf8'
 
 local function char(i)
     if love then

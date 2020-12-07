@@ -83,7 +83,7 @@ function ShaderToy:create()
 end
 
 function loadShaders(all)
-    local directoryItems = fs.getDirectoryItems(appPath..'/shaders')
+    local directoryItems = getDirectoryItems(appPath..'/shaders')
 
     print(appPath)
     print(#directoryItems)

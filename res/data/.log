@@ -1,14 +1,8 @@
-C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine
-Generic PnP Monitor
-Supported 4.10 - Build 26.20.100.8141
-load applications/sketches3D/solar system
-memory at init    : 4.20 mo
-memory min        : 4.20 mo
-memory max        : 7.41 mo
-memory variation  : 3.21 mo
-memory at release : 7.44 mo
-boolean=3120
-number=2405
-color=2357
-vec3=1686
-cdata=1926
+Color LCD
+GLSL 4.10
+load applications/graph
+memory at start  : 1.99 mo
+memory min       : 1.99 mo
+memory max       : 23.85 mo
+memory variation : 21.86 mo
+memory at end    : 2.04 mo

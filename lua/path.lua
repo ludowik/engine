@@ -1,15 +1,13 @@
 class('Path')
 
-Path.sourcePath = lfs.currentdir()
-
-if windows then
-    Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries'
-else
-    Path.libraryPath = '/Users/ludo/Projets/Libraries'
-end
-
 function Path.setup()
-    print(Path.sourcePath)
+    Path.sourcePath = lfs.currentdir()
+
+    if windows then
+        Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries'
+    else
+        Path.libraryPath = '/Users/ludo/Projets/Libraries'
+    end
 end
 
 function getFullPath(path, directory)
@@ -62,7 +60,7 @@ function getReadPath(path)
     if ios then
         if lfs.attributes(path) then
             return path
-            
+
         elseif lfs.attributes(lfs.currentdir()..'/'..path) then
             return lfs.currentdir()..'/'..path
 

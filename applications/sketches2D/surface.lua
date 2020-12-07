@@ -4,8 +4,8 @@ function setup()
     vertices = {}
     for i=1,10 do
         local v = vec2(
-            random.range(W),
-            random.range(H)
+            randomInt(W),
+            randomInt(H)
         )
 
         table.insert(vertices, v)
@@ -164,7 +164,7 @@ function draw()
         vertex = vertices[j]
         circle(vertex.x, vertex.y, 5)
         vertex:add(vec2(
-                random.random(-2, 2),
-                random.random(-2, 2)))
+                random(-2, 2),
+                random(-2, 2)))
     end
 end

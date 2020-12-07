@@ -3,15 +3,16 @@ App('AppAsteroid')
 function AppAsteroid:init()
     Application.init(self)
 
-    self.scene = Scene()
-
     self.joystick1 = Joystick(ws(1), hs(1))
     self.joystick2 = Joystick(ws(9), hs(1))
 
-    self.scene:add(self.joystick1)
-    self.scene:add(self.joystick2)
+    self.ui:add(self.joystick1)
+    self.ui:add(self.joystick2)
 
     self.objectSize = 20
+    
+    physics.gravity(vec3())
+    physics.debug = true
 
     self.ship = Ship()
     self.scene:add(self.ship)
@@ -41,18 +42,10 @@ function AppAsteroid:update(dt)
             end
         end
     end
-end
 
-function AppAsteroid:translate()
-    translate(
+    self.scene.position = vec3(
         W / 2 - self.ship.body.position.x,
         H / 2 - self.ship.body.position.y)
-end
-
-function AppAsteroid:draw()
-    self:translate()
-
-    Application.draw(self)
 end
 
 function AppAsteroid:keyboard(key, isrepeat)

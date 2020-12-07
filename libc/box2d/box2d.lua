@@ -1,5 +1,3 @@
--- TODO optim : utiliser des tableaux d'action
-
 local accum = 0
 
 box2d.userdata = {}
@@ -44,7 +42,6 @@ function box2dRef.Physics()
     local unrefJoin = ffi.cast('unref', unrefJoin)
     box2d.setUnrefJoint(unrefJoin)
 
-    -- TODO : vérifier ce que contient Gravity dans codea
     Gravity = physicsBox2d.gravity()
     return physicsBox2d
 end

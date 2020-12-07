@@ -36,18 +36,15 @@ function Asteroid:init(asteroid, part)
 
     else
         self.body.position = vec2.random(W, H)
-        self.body.linearVelocity = vec2.random(25)
+        self.body.linearVelocity = vec2.random(10)
     end
 
     self.body.linearDamping = 0
+    self.body.angularDamping = 0
 
-    self.body.angularVelocity = deg( random(-PI, PI))
+    self.body.angularVelocity = deg(random(-PI, PI))
 
-    self.keepInArea = true
-end
-
-function Asteroid:update()
-    self.position:set(self.body.position)
+    self.body.keepInArea = true
 end
 
 function Asteroid:draw()
@@ -58,7 +55,5 @@ function Asteroid:draw()
 
     lineCapMode(ROUND)
 
---    rotate(self.body.angle)
-
-    polyline(self.vertices)
+    polygon(self.vertices)
 end

@@ -28,24 +28,26 @@ function Body:init(bodyType, shapeType, ...)
     self.shapeType = shapeType
 
     self.position = vec3()
+    self.positionDelta = vec3()
+
     self.previousPosition = vec3()
 
     self.force = vec3()
-
-    self.move = vec3()
-
     self.linearVelocity = vec3()
-    self.angularVelocity = 0
+    self.linearDamping = 0.1
 
-    self.linearDamping = 0.5
-    self.angularDamping = 0.5
+    self.angle = 0
+    self.angleDelta = 0
+    self.previousDelta = 0
+
+    self.torque = 0
+    self.angularVelocity = 0
+    self.angularDamping = 0.1
 
     self.restitution = 0.8
     self.friction = 1
 
     self.radius = 0
-
-    self.angle = 0
 
     self:setMass(1)
 
@@ -54,10 +56,13 @@ function Body:init(bodyType, shapeType, ...)
     self.maxAcceleration = 100
     self.maxSpeed = 100
 
-    self.interpolate = true -- TODO
-    self.sleepingAllowed = false -- TODO
+    self.categories = {0}
+    self.mask = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
+    
+    self.interpolate = true -- TODO : interpolate ?
+    self.sleepingAllowed = false -- TODO : fix them when they don't "move"
 
-    self.keepInArea = false -- TODO
+    self.keepInArea = false -- TODO : keepInArea, 'in' or 'cross'
 
     self.points = Buffer('vec3')
 
@@ -148,7 +153,7 @@ end
 function Body:computeSize()
     local left, right = math.maxinteger, -math.maxinteger
     local bottom, top = math.maxinteger, -math.maxinteger
-    
+
     for i,vertex in ipairs(self.points) do
         left = min(left, vertex.x)
         right = max(right, vertex.x)
@@ -166,52 +171,84 @@ end
 function Body:destroy()
 end
 
-function Body:applyForce(v)
+function Body:applyForce(force)
+    self.force = self.force + force
 end
 
-function Body:applyLinearImpulse(force)
+function Body:applyLinearImpulse(impulse)
+    self.linearVelocity = self.linearVelocity + impulse
 end
 
 function Body:applyTorque(torque)
+    self.torque = self.torque + torque
 end
 
-function Body:testOverlap( otherBody )
+function Body:applyAngularImpulse(impulse)
+    self.anle = self.angle + impulse
+end
+
+function Body:testOverlap(otherBody)
+    return Collision.collide(self, otherBody)
+end
+
+function Body:getLocalPoint(worldPoint)
+    return worldPoint - self.position
+end
+
+function Body:getWorldPoint(localPoint)
+    return localPoint + self.position
+end
+
+function Body:getLinearVelocityFromWorldPoint(worldPoint)
+	return self.m_linearVelocity + (worldPoint - self.world.worldCenter):crossFromScalar(m_angularVelocity)
+end
+
+function Body:getLinearVelocityFromLocalPoint(localPoint)
+	return self:getLinearVelocityFromWorldPoint(self:getWorldPoint(localPoint));
 end
 
 function Body:integration(dt)
+    -- position
     local position = self.position / self.world.pixelRatio
-    local angle = math.rad(self.angle)
-
     local linearVelocity = self.linearVelocity
-    local angularVelocity = self.angularVelocity
 
-    local acceleration = self.force + self.world.g * self.gravityScale * self.mass
+    local linearAcceleration = self.force + self.world.g * self.gravityScale * self.mass
 
-    linearVelocity = linearVelocity - (1 - self.linearDamping) * linearVelocity * dt
-    linearVelocity = linearVelocity + acceleration * self.invMass * dt
+    linearVelocity = linearVelocity - self.linearDamping * linearVelocity * dt
+    linearVelocity = linearVelocity + linearAcceleration * self.invMass * dt
 
-    local len = self.linearVelocity:len()
-    if len > self.maxSpeed then
+    if self.linearVelocity:len() > self.maxSpeed then
         self.linearVelocity = self.linearVelocity:normalize(self.maxSpeed)
     end
 
-    self.move = linearVelocity * dt
+    self.positionDelta = linearVelocity * dt
 
-    position = position + self.move
-    angle = angle + angularVelocity * dt
-
+    position = position + self.positionDelta
+    
     self.previousPosition:set(self.position)
     self.position = position * self.world.pixelRatio
-    
     self.linearVelocity = linearVelocity
 
-    angularVelocity = angularVelocity - (1 - self.angularDamping) * angularVelocity * dt
-    angle = angle + angularVelocity * dt
-
-    self.angularVelocity = angularVelocity
-    self.angle = math.deg(angle)
-
     self.force:set()
+    
+    -- angle
+    local angle = self.angle
+    local angularVelocity = self.angularVelocity
+    
+    local angularAcceleration = self.torque
+
+    angularVelocity = angularVelocity - self.angularDamping * angularVelocity * dt
+    angularVelocity = angularVelocity + angularAcceleration
+    
+    self.angleDelta = angularVelocity * dt
+    
+    angle = angle + self.angleDelta
+
+    self.previousAngle = self.angle
+    self.angle = angle
+    self.angularVelocity = angularVelocity
+
+    self.torque = 0
 end
 
 function Body:getBoundingBox()
@@ -244,7 +281,7 @@ function Body:draw()
 
     noStroke()
     fill(red)
-    circle(self.position.x, self.position.y, 2)
+    circle(0, 0, 2)
 
     stroke(gray)
     strokeWidth(2)
@@ -253,21 +290,21 @@ function Body:draw()
     Body.computeSize(self)
 
     -- bounding circle
-    circle(self.position.x, self.position.y, self.radius)
+    circle(0, 0, self.radius)
 
     -- bounding box
     rectMode(CENTER)
-    rect(self.position.x, self.position.y, self.w, self.h)
+    rect(0, 0, self.w, self.h)
 end
 
 function Body.circle:draw()
-    ellipseMode(CENTER)
-    circle(self.position.x, self.position.y, self.radius)
+    circleMode(CENTER)
+    circle(0, 0, self.radius)
 end
 
 function Body.rect:draw()
     rectMode(CENTER)
-    rect(self.position.x, self.position.y, self.w, self.h)
+    rect(0, 0, self.w, self.h)
 end
 
 function Body.polygon:draw()

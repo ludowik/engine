@@ -75,9 +75,6 @@ function Info:info(name, value)
 end
 
 function Info:draw()
-    pushMatrix()
-    resetMatrix()
-    textMode(CENTER)
-    text('DEMO', screen.W/2, screen.H/2)
-    popMatrix()
+    self:drawInfo()
+    self:drawHelp()
 end

@@ -6,6 +6,15 @@ function classItem:init(klass, k)
     self.klass = klass
     self.klassbases = attributeof('__bases', klass) or Table()
     self.klasschilds = Table()
+    
+    local hasChild = self.klassbases
+    local level = 0
+    while hasChild and #hasChild > 0 do
+        level = level +1
+        hasChild = attributeof('__bases', hasChild[1])
+    end
+    
+    self.level = level
 
     self.pos = vec3(W/2, H/2)
 
@@ -29,7 +38,7 @@ function classItem:draw()
 
     fill(cyan)
     textMode(CENTER)
-    text(self.label, self.pos.x, self.pos.y)
+    text(self.level, self.pos.x, self.pos.y)
 end
 
 function setup()
@@ -52,15 +61,16 @@ function setup()
             end
         end
     end
+
+    enrond()
 end
 
 function enrond()
+    local angle = 0
     for k,v in app.scene:iter() do
-        local startAngle = random(TAU)
-        for i,child in ipairs(v.klasschilds) do
-            child.orientation = v.orientation + TAU / #v.klasschilds * i
-            child.pos = v.pos + 150 * vec3(cos(child.orientation), sin(child.orientation))
-        end
+        angle = angle + TAU / app.scene.nodes:getnKeys()
+        v.orientation = angle
+        v.pos = vec3(W/2, H/2) + 250 * vec3(cos(v.orientation), sin(v.orientation))
     end
 end
 
@@ -70,10 +80,10 @@ function onsrendvisible(dt)
             if k1 ~= k2 then
                 local distance = v1.pos:dist(v2.pos)
                 local w = textSize(v1.label) + textSize(v2.label)
-                if distance < w then
+                if distance < 100 then
                     local v = v2.pos - v1.pos
                     v:normalize()
-                    
+
                     if v:len() == 0 then
                         v = vec3.random()
                     end
@@ -83,49 +93,48 @@ function onsrendvisible(dt)
                 end
             end
         end
+    end
 
---        for k3,v3 in ipairs(v1.klassbases) do
---            v3 = app.scene:ui(v3.__className)
---            if v3 then
---                local w = textSize(v1.klass.__className) + textSize(v3.__className)
---                local distance = v1.pos:dist(v3.pos)
---                if distance < w * 1 then
---                    local v = v3.pos - v1.pos
---                    v:normalize()
+--    for k3,v3 in ipairs(v1.klassbases) do
+--        v3 = app.scene:ui(v3.__className)
+--        if v3 then
+--            local w = textSize(v1.klass.__className) + textSize(v3.__className)
+--            local distance = v1.pos:dist(v3.pos)
+--            if distance < w * 1 then
+--                local v = v3.pos - v1.pos
+--                v:normalize()
 
---                    v1.pos:add(-v * dt)
---                    v3.pos:add( v * dt)
+--                v1.pos:add(-v * dt)
+--                v3.pos:add( v * dt)
 
---                elseif distance > w * 2 then
---                    local v = v3.pos - v1.pos
---                    v:normalize()
+--            elseif distance > w * 2 then
+--                local v = v3.pos - v1.pos
+--                v:normalize()
 
---                    v1.pos:add( v * dt)
---                    v3.pos:add(-v * dt)
---                end
+--                v1.pos:add( v * dt)
+--                v3.pos:add(-v * dt)
 --            end
 --        end
-    end
+--    end
 end
 
 function update(dt)
     onsrendvisible(dt)
---    enrond()
-    
+
     local vmin = vec3(0, 0)
     local vmax = vec3(W, H)
-    
+
     for k,v in app.scene:iter() do
         vmin.x = min(vmin.x, v.pos.x)
         vmin.y = min(vmin.y, v.pos.y)
-        
+
         vmax.x = max(vmax.x, v.pos.x)
         vmax.y = max(vmax.y, v.pos.y)
     end
-    
+
     w = vmax.x - vmin.x
     h = vmax.y - vmin.y
-    
+
     for k,v in app.scene:iter() do
         v.pos.x = (v.pos.x - vmin.x) / w * W
         v.pos.y = (v.pos.y - vmin.y) / h * H

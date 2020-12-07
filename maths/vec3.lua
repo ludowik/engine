@@ -45,15 +45,15 @@ end
 function mt.random(w, h, d)
     if w and h and d then
         return vec3(
-            random.range(w),
-            random.range(h),
-            random.range(d))
+            randomInt(w),
+            randomInt(h),
+            randomInt(d))
     else
         w = w or 1
         return vec3(
-            w * (random.random() * 2 - 1),
-            w * (random.random() * 2 - 1),
-            w * (random.random() * 2 - 1))
+            w * (random() * 2 - 1),
+            w * (random() * 2 - 1),
+            w * (random() * 2 - 1))
     end
 end
 

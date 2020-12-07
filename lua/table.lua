@@ -329,9 +329,9 @@ function table:copyFast()
 end
 
 function table.load(name)
-    if fs.getInfo(name) == nil then return end
+    if getInfo(name) == nil then return end
 
-    local content = fs.read(name)
+    local content = load(name)
     if content then
         local ftables = loadstring(content)
         return ftables and ftables() or nil
@@ -341,8 +341,8 @@ end
 function table:save(name)
     assert(name)
 
-    local code = "return "..table.format(self, name)
-    local file = fs.write(name, code)
+    local code = 'return '..table.format(self, name)
+    local file = save(name, code)
 end
 
 function table.range(min, max, step)
@@ -360,17 +360,17 @@ local conversions
 function table:tostring()
     if self == nil then return 'nil' end
 
-    local code = ""
+    local code = ''
     for _,iter in pairs({pairs, ipairs}) do
         for k,v in iter(self) do
-            code = code..tostring(k).." = "..tostring(v)..","..NL
+            code = code..tostring(k)..' = '..tostring(v)..','..NL
         end
     end
     return code
 end
 
 function table:random()
-    return self[random.range(1, #self)]
+    return self[randomInt(1, #self)]
 end
 
 function table:chainIt()
@@ -384,7 +384,6 @@ function table:chainIt()
     end
 end
 
--- TODO a refactorer et tester
 function table:min(var)
     local v = math.maxinteger
 

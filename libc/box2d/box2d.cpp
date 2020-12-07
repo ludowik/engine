@@ -446,7 +446,6 @@ extern "C" {
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_staticBody;
 		
-		// TODO which position
 		bodyDef.position.Set(0.0f, 0.0f);
 		
 		b2Body* body = world->CreateBody(&bodyDef);

@@ -1,40 +1,42 @@
 ft = require 'libc.freetype.ft'
 
-local path = Path.libraryPath..'/FreeType'
-
-if ft == nil then
-    if osx then
-
-        Library.load('freetype')
-
-        ft = Library.compileFile('libc/freetype/freetype.cpp',
-            'ft',
-            '-I '..path..'/FreeType.Framework/Headers',
-            path..'/FreeType.Framework/FreeType',
-            '-shared')
-
-    else
-
-        ft = Library.compileFileCPP('libc/freetype/freetype.cpp',
-            'ft',
-            '-I "'..path..'/include"',
-            '-L "'..path..'/win32" -l FreeType',
-            '-shared')
-
-    end
-
-else
-    if not love then
-        ftLib = Library.load('freetype')
-    else
-        ftLib = ffi.C
-    end
-end
-
-local code, defs = Library.precompile(io.read('libc/freetype/freetype.h'))
-ffi.cdef(code)
-
 class 'FreeType' : extends(Component) : meta(ft)
+
+function FreeType.setup()
+    local path = Path.libraryPath..'/FreeType'
+
+    if ft == nil then
+        if osx then
+
+            Library.load('freetype')
+
+            ft = Library.compileFile('libc/freetype/freetype.cpp',
+                'ft',
+                '-I '..path..'/FreeType.Framework/Headers',
+                path..'/FreeType.Framework/FreeType',
+                '-shared')
+
+        else
+
+            ft = Library.compileFileCPP('libc/freetype/freetype.cpp',
+                'ft',
+                '-I "'..path..'/include"',
+                '-L "'..path..'/win32" -l FreeType',
+                '-shared')
+
+        end
+
+    else
+        if not love then
+            ftLib = Library.load('freetype')
+        else
+            ftLib = ffi.C
+        end
+    end
+
+    local code, defs = Library.precompile(io.read('libc/freetype/freetype.h'))
+    ffi.cdef(code)
+end
 
 function FreeType:initialize()
     self.hLib = self.initModule(sdl.hdpi)

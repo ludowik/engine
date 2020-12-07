@@ -21,10 +21,10 @@ function Screen:init()
 
     self.MARGE_X = 50
     self.MARGE_Y = 10 
-    
+
     self.W = W
     self.H = H    
-    
+
     self:resize(W, H) 
 end
 
@@ -36,24 +36,24 @@ function Screen:resize(w, h)
     if w > h then
         self.W, self.H = max(self.W, self.H), min(self.W, self.H)
         self.MARGE_X, self.MARGE_Y = max(self.MARGE_X, self.MARGE_Y), min(self.MARGE_X, self.MARGE_Y)
-        
+
         if osx then
             self.ratio = 1
         else
             self.ratio = 1
         end
-        
+
     else
         self.W, self.H = min(self.W, self.H), max(self.W, self.H)
         self.MARGE_X, self.MARGE_Y = min(self.MARGE_X, self.MARGE_Y), max(self.MARGE_X, self.MARGE_Y)
-        
+
         if osx then
-            self.ratio = 1
+            self.ratio = 0.65
         else
             self.ratio = 0.75
         end
     end
-    
+
     if ios and love then
         self.W = self.w - 2 * self.MARGE_X
         self.H = self.h - 2 * self.MARGE_Y
@@ -61,5 +61,17 @@ function Screen:resize(w, h)
     else
         self.w = 2 * self.MARGE_X + self.W * self.ratio
         self.h = 2 * self.MARGE_Y + self.H * self.ratio
+    end
+
+    self:pushSize()
+end
+
+function Screen:pushSize()
+    if _G.env then
+        _G.env.W = self.W
+        _G.env.H = self.H
+
+        _G.env.WIDTH  = self.W
+        _G.env.HEIGHT = self.H
     end
 end

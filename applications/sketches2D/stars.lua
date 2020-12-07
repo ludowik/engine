@@ -11,14 +11,14 @@ function Star:init()
 
     self.position = vec3()
 
-    self.r = random.random(5)
+    self.r = random(5)
 
-    local angle = random.random(math.tau)
+    local angle = random(math.tau)
     self.velocity = vec3(
         math.cos(angle),
-        math.sin(angle)):mul(random.random(40, 50))
+        math.sin(angle)):mul(random(40, 50))
 
-    self.position:add(self.velocity:clone():normalize(random.random(MAX_DISTANCE)))
+    self.position:add(self.velocity:clone():normalize(random(MAX_DISTANCE)))
 end
 
 function Star:reset()
@@ -96,7 +96,7 @@ function Stars:draw()
             self.points[ref] = v.position
             ref = ref + 1
         end
-        
+
         points(self.points)
     end
 

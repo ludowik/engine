@@ -21,11 +21,13 @@ function Memory:update(dt)
 end
 
 function Memory:release()
+    gc()
+    
     self.ram.release = ram()
 
-    print('memory at init    : '..format_ram(self.ram.init))
-    print('memory min        : '..format_ram(self.ram.min))
-    print('memory max        : '..format_ram(self.ram.max))
-    print('memory variation  : '..format_ram(self.ram.max - self.ram.min))
-    print('memory at release : '..format_ram(self.ram.release))
+    print('memory at start  : '..format_ram(self.ram.init))
+    print('memory min       : '..format_ram(self.ram.min))
+    print('memory max       : '..format_ram(self.ram.max))
+    print('memory variation : '..format_ram(self.ram.max - self.ram.min))
+    print('memory at end    : '..format_ram(self.ram.release))
 end

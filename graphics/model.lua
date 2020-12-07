@@ -19,53 +19,42 @@ local b4 = {-1, 1,-1}
 
 local u5 = vec3(v, v, 1)
 
--- face
-texCoords_face = Buffer('vec2', {
-        vec2(0,0),
-        vec2(1,0),
-        vec2(1,1),
-        vec2(0,0),
-        vec2(1,1),
-        vec2(0,1)
-    })
-
--- triangle
-texCoords_triangle = Buffer('vec2', {
-        vec2(0,0),
-        vec2(1,0),
-        vec2(0.5,1)
-    })
-
--- pyramid
-vertices_pyramid = Buffer('vec3', {
-        f1,f2,u5, -- front
-        f2,b2,u5, -- right
-        b2,b1,u5, -- back
-        b1,f1,u5, -- left
-        f2,f1,b1,f2,b1,b2  -- down
-    })
-
--- tetrahedron
-vertices_tetra = Buffer('vec3', {
-        f1,f3,b4,
-        f1,b2,f3,
-        b2,b4,f3,
-        b2,f1,b4
-    })
+local cos, sin = math.cos, math.sin
 
 function Model.setup()
-    -- TODO
-    -- sin & cos
-    sinus = {}
-    cosinus = {}
+    -- face
+    texCoords_face = Buffer('vec2', {
+            vec2(0,0),
+            vec2(1,0),
+            vec2(1,1),
+            vec2(0,0),
+            vec2(1,1),
+            vec2(0,1)
+        })
 
-    local angle
-    for i=0,360*2 do
-        angle = math.rad(i)
+    -- triangle
+    texCoords_triangle = Buffer('vec2', {
+            vec2(0,0),
+            vec2(1,0),
+            vec2(0.5,1)
+        })
 
-        sinus[i] = math.sin(angle)
-        cosinus[i] = math.cos(angle)
-    end
+    -- pyramid
+    vertices_pyramid = Buffer('vec3', {
+            f1,f2,u5, -- front
+            f2,b2,u5, -- right
+            b2,b1,u5, -- back
+            b1,f1,u5, -- left
+            f2,f1,b1,f2,b1,b2  -- down
+        })
+
+    -- tetrahedron
+    vertices_tetra = Buffer('vec3', {
+            f1,f3,b4,
+            f1,b2,f3,
+            b2,b4,f3,
+            b2,f1,b4
+        })
 end
 
 function Model.mesh(vertices, texCoords, normals, indices)
@@ -108,7 +97,7 @@ function Model.computeIndices(vertices, texCoords, normals)
     local indices = Buffer('unsigned short')
     local verticesIndices = {}
     local nbIndices = 1
-    
+
     for i=1,#vertices do
         local find = false
 
@@ -143,7 +132,7 @@ function Model.computeIndices(vertices, texCoords, normals)
             nbIndices = nbIndices + 1
         end        
     end
-    
+
     log(string.format('Generate {indices} indices for {vertices} vertices', {indices=#v, vertices=#vertices}))
 
     return v, t, n, indices
@@ -419,12 +408,12 @@ function Model.ellipse(x, y, w, h)
 
     local n = 128
 
-    local x1, y1 = math.cos(0) / 2, math.sin(0) / 2
+    local x1, y1 = cos(0) / 2, sin(0) / 2
     local x2, y2 = 0, 0
 
     for i=n,0,-1 do
-        x2 = math.cos(math.tau * i / n) / 2
-        y2 = math.sin(math.tau * i / n) / 2
+        x2 = cos(math.tau * i / n) / 2
+        y2 = sin(math.tau * i / n) / 2
 
         vertices:insert(vec3())
         vertices:insert(vec3(x2, y2, 0))
@@ -449,8 +438,8 @@ function Model.ellipseBorder(x, y, w, h)
     local x, y
 
     for i=0,n do
-        x = math.cos(math.tau * i / n) / 2
-        y = math.sin(math.tau * i / n) / 2
+        x = cos(math.tau * i / n) / 2
+        y = sin(math.tau * i / n) / 2
 
         vertices:insert(vec3(x, y, 0))
     end
@@ -493,6 +482,7 @@ function Model.tetrahedron(x, y, z, w, h, d)
 
     vertices = vertices_tetra
     vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, d, 90)
+    
     return Model.mesh(vertices,
         nil,
         Model.computeNormals(vertices_tetra))
@@ -956,8 +946,8 @@ function Model.random.polygon(r, rmax)
         local len = math.random(rmin, rmax)
 
         local p = vec3(
-            len * math.cos(angle),
-            len * math.sin(angle),
+            len * cos(angle),
+            len * sin(angle),
             0)
 
         vertices:insert(p)

@@ -1,4 +1,3 @@
--- TODO : vérifier les formules de transformation pour s = l = 1
 function hsl(h, s, l, a)
     local r, g, b
     if s == 0 then
@@ -8,8 +7,8 @@ function hsl(h, s, l, a)
     else
         if h > 1 or s > 1 or l > 1 then
             h = h / 255
-            s = s / 255
-            l = l / 255
+            s = s / 100
+            l = l / 100
         end
         
         local var_1, var_2

@@ -42,20 +42,20 @@ end
 function mt:round()
     self.x = round(self.x)
     self.y = round(self.y)
-    
+
     return self
 end
 
 function mt.random(w, h)
     if w and h then
         return vec2(
-            random.range(w),
-            random.range(h))
+            randomInt(w),
+            randomInt(h))
     else
         w = w or 1
         return vec2(
-            w * (random.random() * 2 - 1),
-            w * (random.random() * 2 - 1))
+            w * (random() * 2 - 1),
+            w * (random() * 2 - 1))
     end
 end
 
@@ -166,6 +166,14 @@ end
 
 function mt:cross(v)
     return self:clone():crossInPlace(v)
+end
+
+function mt:crossByScalar(s)
+    return vec2(s * self.y, -s * self.x)
+end
+
+function mt:crossFromScalar(s)
+    return vec2(-s * self.y, s * self.x)
 end
 
 function mt:crossInPlace(v)

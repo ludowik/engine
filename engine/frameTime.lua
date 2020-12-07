@@ -1,6 +1,6 @@
 class 'FrameTime' : extends(Component)
 
-function FrameTime:init()
+function FrameTime:initialize()
     Component.init(self)
 
     self.nframes = 0
@@ -13,7 +13,7 @@ function FrameTime:init()
 
     self.deltaTime = 0
     self.deltaTimeAccum = 0
-    self.deltaTimeMax = 1 / self.fpsTarget
+    self.deltaTimeMax = 1/self.fpsTarget
 
     self.elapsedTime = 0
 
@@ -41,13 +41,6 @@ function FrameTime:update()
         end
 
         self.startTime = self.endTime
-
-        -- TODO : auto update fps target
---        if self.deltaTime >= self.deltaTimeMax then
---            self.fpsTarget = self.fpsTarget - 1
---        else
---            self.fpsTarget = self.fpsTarget + 1
---        end
     end
 
     self:update()
@@ -56,4 +49,11 @@ end
 function FrameTime:draw()
     self.nframes = self.nframes + 1
     self.deltaFramesBySecond = self.deltaFramesBySecond + 1
+
+    if self.deltaTime >= self.deltaTimeMax then
+        self.fpsTarget = self.fpsTarget - 1
+    else
+        self.fpsTarget = self.fpsTarget + 1
+    end
+    self.deltaTimeMax = 1/self.fpsTarget
 end

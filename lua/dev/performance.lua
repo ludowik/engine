@@ -51,7 +51,7 @@ end
 function Performance.compare(test, f1, f2, ...)
     local info1 = Performance.__timeit(test, false, f1, ...)
     local info2 = Performance.__timeit(test, false, f2, ...)
-    print(info1.deltaTime < info2.deltaTime and 'first is the best' or 'second is the best')
+    print(test..' : ' ..(info1.deltaTime < info2.deltaTime and 'first is the best' or 'second is the best'))
     return info1.deltaTime < info2.deltaTime
 end
 

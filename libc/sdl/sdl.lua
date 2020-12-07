@@ -65,12 +65,12 @@ function Sdl:initialize()
                 0, 0,
                 0, 0,
                 self.SDL_WINDOW_OPENGL +
-                --                self.SDL_WINDOW_ALLOW_HIGHDPI +
-                --                self.SDL_WINDOW_FULLSCREEN +
-                --                self.SDL_WINDOW_SHOWN +
-                --                self.SDL_WINDOW_BORDERLESS +
-                --                self.SDL_WINDOW_RESIZABLE +
-                --                self.SDL_WINDOW_MAXIMIZED +
+                self.SDL_WINDOW_RESIZABLE +
+--                self.SDL_WINDOW_ALLOW_HIGHDPI +
+--                self.SDL_WINDOW_FULLSCREEN +
+--                self.SDL_WINDOW_SHOWN +
+--                self.SDL_WINDOW_BORDERLESS +
+--                self.SDL_WINDOW_MAXIMIZED +
                 0)
 
             if window then
@@ -92,9 +92,6 @@ function Sdl:initialize()
         end
 
         print(ffi.string(sdl.SDL_GetDisplayName(displayIndex)))
-
-        -- TODEL
---        self:setWindowSize(screen)
 
         if self.context ~= NULL then
             local res = self.SDL_GL_MakeCurrent(self.window, self.context)
@@ -119,15 +116,13 @@ end
 function Sdl:setWindowSize(screen)
     self.SDL_HideWindow(self.window)
     do
---        self.SDL_MaximizeWindow(self.window)
-
         self.SDL_SetWindowSize(self.window,
             screen.w,
             screen.h)
 
         self.SDL_SetWindowPosition(self.window,
-            100,
-            100) --sdl.SDL_WINDOWPOS_CENTERED, sdl.SDL_WINDOWPOS_CENTERED)
+            sdl.SDL_WINDOWPOS_CENTERED,
+            sdl.SDL_WINDOWPOS_CENTERED)
     end
 
     self.SDL_ShowWindow(self.window)
@@ -173,8 +168,10 @@ function Sdl:event()
             if event.window.event == self.SDL_WINDOWEVENT_CLOSE then
                 engine:quit()
 
-            elseif event.window.event == sdl.SDL_WINDOWEVENT_RESIZED then
-                -- TODO
+            elseif event.window.event == sdl.SDL_WINDOWEVENT_SIZE_CHANGED then
+                local w = event.window.data1
+                local h = event.window.data2
+                screen:resize(w, h)
             end
 
         elseif event.type == self.SDL_KEYDOWN or event.type == sdl.SDL_TEXTINPUT then

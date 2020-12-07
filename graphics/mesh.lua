@@ -1,4 +1,4 @@
-class 'Mesh' : extends(MeshRender)
+mesh = class 'Mesh' : extends(MeshRender)
 
 function Mesh:init(vertices, colors)
     MeshRender.init(self)

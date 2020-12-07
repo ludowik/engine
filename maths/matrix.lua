@@ -141,7 +141,7 @@ function mt.rotate(...)
 end
 
 function mt.__mul(m1, m2, res)
-    res = res or meta_matrix()
+    res = res or __matrix()
 
     local value
 
@@ -215,20 +215,20 @@ function mt.perf()
         matrix(), matrix())
 end
 
-meta_matrix = ffi.metatype('matrix', mt)
+__matrix = ffi.metatype('matrix', mt)
 
-class 'matrix' : meta(meta_matrix)
+class 'matrix' : meta(__matrix)
 
 function matrix:init(i0, ...)
     local mat
     if i0 == nil then
-        mat = meta_matrix()
+        mat = __matrix()
         mat.i0 = 1
         mat.i5 = 1
         mat.i10 = 1
         mat.i15 = 1
     else
-        mat = meta_matrix(i0, ...)
+        mat = __matrix(i0, ...)
     end
     return mat
 end

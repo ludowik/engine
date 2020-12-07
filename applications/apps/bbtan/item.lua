@@ -7,9 +7,6 @@ function Item:init(i, j)
     local y = (j-1) * CELL_SIZE + CELL_SIZE / 2
 
     self.position = vec2(x, y)
-
---    self.body.restitution = 1
---    self.body.friction = 0
 end
 
 function Item:nextLine()

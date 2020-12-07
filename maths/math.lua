@@ -30,6 +30,9 @@ abs = math.abs
 math.maxinteger =  2^52
 math.mininteger = -2^52
 
+math.MAX_INTEGER = math.maxinteger
+math.MIN_INTEGER = math.mininteger
+
 function math.avg(a, b)
     return (a + b) / 2
 end

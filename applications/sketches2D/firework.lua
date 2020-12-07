@@ -10,8 +10,8 @@ function Firework:init()
 end
 
 function Firework:update(dt)
-    if random.random(10) < 1 then
-        local particle = ParticleFirework(vec2(random.random(W), 0), 'parent')
+    if random(10) < 1 then
+        local particle = ParticleFirework(vec2(random(W), 0), 'parent')
         particle:applyForce(vec2(0, 200))
 
         self.particles:add(particle)

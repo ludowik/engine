@@ -29,8 +29,8 @@ function Library.compileCode(code, moduleName, headers, links, options)
 end
 
 function Library:checkState(file, lib)
-    local infoFile = fs.getInfo(file)
-    local infoLib = fs.getInfo(lib)
+    local infoFile = getInfo(file)
+    local infoLib = getInfo(lib)
 
     if infoLib == nil or infoLib.modification < infoFile.modification then
         return false
@@ -152,7 +152,6 @@ ffi = require 'ffi'
 ffi.NULL = ffi.cast('void*', 0)
 NULL = ffi.NULL
 
--- TODO
--- Générer les header directement
+-- TODO : autogenerate header for library
 -- "gcc -F"..self.sdk.." -E     '"..stub.."' | grep -v '^#' > '"..cFile.."';"..
 -- "gcc -F"..self.sdk.." -dM -E '"..stub.."'                > '"..hFile.."';")

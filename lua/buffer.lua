@@ -12,9 +12,9 @@ ffi.cdef [[
     void free(void *ptr);
 ]]
 
-buffer_meta = {}
+__buffer = {}
 
-function buffer_meta.__init(buffer, buffer_class, data, ...)
+function __buffer.__init(buffer, buffer_class, data, ...)
     buffer.ct = buffer_class.ct
 
     buffer.id = id('buffer')
@@ -40,7 +40,7 @@ function buffer_meta.__init(buffer, buffer_class, data, ...)
     return buffer
 end
 
-function buffer_meta:set(data, ...)
+function __buffer:set(data, ...)
     if data then
         if type(data) == 'number' or type(data) == 'cdata' then
             data = {data, ...}
@@ -52,7 +52,7 @@ function buffer_meta:set(data, ...)
     end
 end
 
-function buffer_meta.clone(buffer)
+function __buffer.clone(buffer)
     local buf2 = Buffer(ffi.string(buffer.ct))
     buf2:resize(buffer.n)
     ffi.C.memcpy(buf2:addr(), buffer:addr(), buffer.sizeof_ctype * buffer.n)
@@ -60,15 +60,15 @@ function buffer_meta.clone(buffer)
     return buf2
 end
 
-function buffer_meta.__len(buffer)
+function __buffer.__len(buffer)
     return buffer.n
 end
 
-function buffer_meta.__gc(buffer)
+function __buffer.__gc(buffer)
     ffi.C.free(buffer.data)
 end
 
-function buffer_meta.resize(buffer, n)
+function __buffer.resize(buffer, n)
     if buffer.available < n then
         local previousAvailable = buffer.available
         local previousSize = buffer.size
@@ -89,7 +89,7 @@ function buffer_meta.resize(buffer, n)
 end
 
 local max = math.max
-function buffer_meta.__newindex(buffer, key, value)
+function __buffer.__newindex(buffer, key, value)
     if type(key) == 'number' then
         if buffer.available < key then
             buffer:resize(max(buffer.available * 2, key))
@@ -105,21 +105,21 @@ function buffer_meta.__newindex(buffer, key, value)
     end
 end
 
-function buffer_meta.__index(buffer, key)
+function __buffer.__index(buffer, key)
     if type(key) == 'number' then
         return buffer.data[key-1]
 
     else
-        return rawget(buffer_meta, key)
+        return rawget(__buffer, key)
     end
 end
 
-function buffer_meta.insert(buffer, value)
+function __buffer.insert(buffer, value)
     buffer[buffer.n+1] = value
 end
-buffer_meta.add = buffer_meta.insert
+__buffer.add = __buffer.insert
 
-function buffer_meta.addItems(buffer, buf2)
+function __buffer.addItems(buffer, buf2)
     local n = buffer.n + buf2.n
 
     if buffer.available < n then
@@ -132,7 +132,7 @@ function buffer_meta.addItems(buffer, buf2)
     buffer.version = buffer.version +1
 end
 
-function buffer_meta.remove(buffer, i)
+function __buffer.remove(buffer, i)
     if i > 0 and i <= buffer.n then
         if i < buffer.n then
             ffi.C.memmove(buffer:addr(i-1), buffer:addr(i), buffer.sizeof_ctype * (buffer.n-i))
@@ -142,24 +142,24 @@ function buffer_meta.remove(buffer, i)
     end
 end
 
-function buffer_meta.reset(buffer)
+function __buffer.reset(buffer)
     buffer.n = 0
     buffer.version = buffer.version +1
 end
 
-function buffer_meta.sizeof(buffer)
+function __buffer.sizeof(buffer)
     return buffer.sizeof_ctype * buffer.n
 end
 
-function buffer_meta.addr(buffer, i)
+function __buffer.addr(buffer, i)
     return buffer.data + (i or 0)
 end
 
-function buffer_meta.tobytes(buffer)
+function __buffer.tobytes(buffer)
     return buffer.data
 end
 
-function buffer_meta.__ipairs(buffer)
+function __buffer.__ipairs(buffer)
     local i = 0
     local f = function ()
         if i < buffer.n then
@@ -170,7 +170,7 @@ function buffer_meta.__ipairs(buffer)
     return f, v, nil
 end
 
-function buffer_meta.cast(buffer, ct)
+function __buffer.cast(buffer, ct)
     local buffer2 = Buffer(ct)
     buffer2.data = ffi.cast(ffi.typeof(buffer2.data), buffer.data)
 
@@ -224,7 +224,7 @@ function Buffer(ct, data, ...)
 
         ffi.cdef(buffer_class.typed_struct)
 
-        buffer_class.meta = ffi.metatype(buffer_class.ctAsType, buffer_meta)
+        buffer_class.meta = ffi.metatype(buffer_class.ctAsType, __buffer)
 
         buffer_classes[ct] = buffer_class
 

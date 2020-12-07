@@ -1,49 +1,49 @@
 function setup()
-    m = Mesh()
-    m.vertices = Buffer('vec3', 
-        {vec3(), vec3(), vec3(), vec3()})
-
-    parameter.boolean('withStroke', true)
+    parameter.boolean('use_stroke', true)
+    parameter.boolean('use_fill', true)
+    
+    parameter.number('use_strokeWidth', 0, 50, 20)
+    
+    parameter.number('use_angle', 0, 360, 0)
 end
 
 function draw()
-
-    background(cyan)
-
-    stroke(black)
-
-    fill(gray)
-
-    local x, y, h = 10, 0, 50
-
-    for i=1,80,5 do
-        y = 50
-        
-        if withStroke then
-            strokeWidth(floor(i/5))
-        else
-            strokeWidth(0)
-        end
-
---        y = y + h
---        point(x, y)
-
---        y = y + h
---        circle(x, y, i)
-
---        y = y + h
---        line(x+10, y+10, x+10, y+80)
-
---        y = y + h
---        line(x+10, y+10, x+80, y+80)
-
-        y = y + h
-        polygon {
-            vec3(x+10, y+10), vec3(x+80, y+80),
-            vec3(x+10, y+80), vec3(x+10, y+80)
-        }
-
-        x = x + i * 2
+    background(51)
+    
+    if use_stroke then
+        stroke(cyan)
+        strokeWidth(use_strokeWidth)
+    else
+        noStroke()
     end
+    
+    if use_fill then
+        fill(lightgray)
+    else
+        noFill()
+    end
+    
+    translate(200, 200)
+    rotate(use_angle)
+    
+    rectMode(CENTER)
+    rect(0, 0, 200, 300)
 
+    rotate(-use_angle)
+    
+    translate(400, 0)
+    rotate(use_angle)
+    
+    ellipseMode(CENTER)
+    ellipse(0, 0, 200, 300)
+    
+    rotate(-use_angle)
+    
+    translate(400, 0)
+    rotate(use_angle)
+    
+    tint(cyan)
+    
+    spriteMode(CENTER)
+    sprite(image('joconde'), 0, 0)
 end

@@ -41,10 +41,12 @@ function Engine:init()
         self.components:add(resourceManager)
         self.components:add(shaderManager)
         self.components:add(graphics)
-        self.components:add(RenderFrame)
 
+        self.components:add(RenderFrame)
         self.components:add(Profiler)
+
         self.components:add(self.info)
+        self.components:add(self.frameTime)
 
         self.components:add(tween)
 
@@ -77,7 +79,6 @@ function Engine:initialize()
     call('setup')
 
     self.components:initialize()
-    self.frameTime:init() -- TODO : by components ? 
 
     self:initEvents()
 
@@ -103,8 +104,6 @@ end
 function Engine:run(appPath)
     self.appPath = self.appPath or appPath
 
-    counterutype = Array()
-
     repeat
 
         self:initialize()
@@ -122,13 +121,6 @@ function Engine:run(appPath)
         self:release()
 
     until self.active ~= 'restart'
-
-    counterutype:sort(function (a, b) return a <= b end)
-    for k,v in pairs(counterutype) do
-        print(k..'='..v)
-    end
-
-    debugger.off()
 end
 
 function loop()
@@ -163,15 +155,13 @@ function Engine:frame(forceDraw)
 
     self.frameTime:update()
 
-    if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw then
+    if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw or sdl.SDL_GL_GetSwapInterval() == 0 then
 
         DeltaTime = self.frameTime.deltaTimeAccum
         ElapsedTime = self.frameTime.elapsedTime
 
         self:update(DeltaTime)
-
         self:draw()
-        self.frameTime:draw() -- -- TODO : by components ? 
 
         self.frameTime.deltaTimeAccum = (
             self.frameTime.deltaTimeAccum -
@@ -255,8 +245,8 @@ function Engine:toggleRenderVersion()
     end
 end
 
-function Engine:toggleHelp()
-    self.info:toggleHelp()
+function Engine:vsync()
+    sdl.SDL_GL_SetSwapInterval(0)
 end
 
 function Engine:update(dt)
@@ -274,16 +264,10 @@ function Engine:update(dt)
         self.action()
     end
 
-    -- TODO : à gerer dans ComponentsManager
-    if classnameof(env.physics) == 'physics' then
-        env.physics.update(dt)
-
-    elseif classnameof(env.physics) == 'fizix' then
-        env.physics:update(dt)
-    end
+    env.parameter:update(dt)
+    env.physics.update(dt)
 
     self.app:__update(dt)
-    env.parameter:update(dt)
 end
 
 function Engine:draw(f)
@@ -316,9 +300,6 @@ function Engine:draw(f)
             line(screen.W/2, 0, screen.W/2, screen.H)
 
             self.app:__drawParameter()
-
-            self:drawInfo()
-            self:drawHelp()
 
             self.components:draw()
         end,
@@ -357,14 +338,6 @@ function Engine:postRender(f, renderFrame, resetBackground)
         screen.MARGE_Y,
         screen.W * screen.ratio,
         screen.H * screen.ratio)
-end
-
-function Engine:drawInfo()
-    self.info:drawInfo()
-end
-
-function Engine:drawHelp()
-    self.info:drawHelp()
 end
 
 function Engine:keydown(key, isrepeat)
@@ -433,13 +406,13 @@ function Engine:touched(_touch)
 
             elseif touch.x > screen.w - screen.MARGE_X then
                 if touch.y > screen.h * 2 / 3 then
-                    engine:nextApp()
+                    applicationManager:nextApp()
 
                 elseif touch.y > screen.h * 1 / 3 then
-                    engine:previousApp()
+                    applicationManager:previousApp()
 
                 else
-                    engine:loopApp()
+                    applicationManager:loopApp()
                 end            
             end
         end

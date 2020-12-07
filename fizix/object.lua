@@ -42,7 +42,7 @@ function PolygonObject:init(x, y)
 end
 
 function PolygonObject:addToPhysics(bodyType)
-    return fizix:add(self, bodyType or DYNAMIC, self.shapeType, self.vertices)
+    return env.fizix:add(self, bodyType or DYNAMIC, self.shapeType, self.vertices)
 end
 
 class('MeshObject', Object)
@@ -59,7 +59,7 @@ function MeshObject:init(object, ...)
 end
 
 function MeshObject:addToPhysics(bodyType)
-    return fizix:add(self, bodyType or DYNAMIC, self.shapeType, self.radius)
+    return env.fizix:add(self, bodyType or DYNAMIC, self.shapeType, self.radius)
 end
 
 function MeshObject:draw()

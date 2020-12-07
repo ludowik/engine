@@ -1,6 +1,41 @@
-fs = {}
+if love then
+    lfs = {}
 
--- TODO : fs.
+    lfs.attributes = function (name)
+        local info = love.filesystem.getInfo(name)
+        if info then
+            return {
+                mode = info.type,
+                modification = info.modtime
+            }
+        end
+    end
+
+    lfs.currentdir = function ()
+        return love.filesystem.getWorkingDirectory()
+    end
+
+    lfs.mkdir = function (name)
+        love.filesystem.createDirectory(name)
+    end
+
+    lfs.dir = function (path)
+        local files = Table()
+        local items = love.filesystem.getDirectoryItems(path)
+        for i,item in ipairs(items) do
+            files:add(item)
+        end
+        local i = 0
+        return function ()
+            if i == #files then return nil end
+            i = i + 1
+            return files[i]
+        end
+    end
+
+else
+    lfs = require 'lfs'
+end
 
 function splitPath(path)
     local j = path:findLast('/')
@@ -9,6 +44,16 @@ function splitPath(path)
     local directory = j and path:sub(1, j) or ''
 
     return name, directory
+end
+
+function splitFilePath(strFilename)
+    -- Returns the Path, Filename, and Extension as 3 values
+	if lfs.attributes(strFilename,"mode") == "directory" then
+		local strPath = strFilename:gsub("[\\/]$","")
+		return strPath.."\\","",""
+	end
+	strFilename = strFilename.."."
+	return strFilename:match("^(.-)([^\\/]-)%.([^\\/%.]-)%.?$")
 end
 
 function isApp(path)
@@ -37,15 +82,15 @@ end
 
 function isFileMode(path, mode)
     if not path then return false end
-    local info = fs.getInfo(path, mode)
+    local info = getInfo(path, mode)
     return info and true or false
 end
 
 function exists(path)
-    return fs.getInfo(path) and true or false
+    return getInfo(path) and true or false
 end
 
-function fs.getInfo(path, mode)
+function getInfo(path, mode)
     local info = lfs.attributes(getReadPath(path))
     if info then
         if mode == nil or mode == info.mode then
@@ -55,12 +100,12 @@ function fs.getInfo(path, mode)
     end
 end
 
-function fs.getLastModifiedTime(path)
-    local info = fs.getInfo(path)
+function getLastModifiedTime(path)
+    local info = getInfo(path)
     return info and info.modification
 end
 
-function fs.getDirectoryItems(path)
+function getDirectoryItems(path)
     local lists = {}
     for fname in lfs.dir(getReadPath(path)) do
         if fname ~= '.' and fname ~= '..' then
@@ -71,24 +116,15 @@ function fs.getDirectoryItems(path)
     return lists
 end
 
--- TODO : duplicate with io.read
-function fs.read(path)
-    return io.read(getSavePath(path))
-end
-
-function fs.write(path, content, mode)
+function save(path, content, mode)
     return io.write(getSavePath(path), content, mode)
 end
 
-function save(path, content, mode)
-    return fs.write(path, content, mode)
-end
-
 function load(path)
-    return fs.read(path)
+    return io.read(getSavePath(path))
 end
 
-function fs.mkdir(path)
+function mkdir(path)
     local fullPath = getSavePath(path)
     lfs.mkdir(fullPath)
 end
@@ -131,7 +167,7 @@ function loadFile(file, filesPath)
     local code = nil
     local path = filesPath and filesPath..'/'..file or file
     if isFile(path) then
-        code = fs.read(path)
+        code = load(path)
     else
         code = file
     end
@@ -163,7 +199,7 @@ local function checkFile(file, filesPath, time)
     assert(file)
 
     local path = filesPath and filesPath..'/'..file or file
-    local currentTime = fs.getLastModifiedTime(path)
+    local currentTime = getLastModifiedTime(path)
 
     return max(currentTime or 0, time)
 end
@@ -180,14 +216,4 @@ function checkFiles(files, filesPath, time)
     end
 
     return time
-end
-
-function fs.splitFilePath(strFilename)
-    -- Returns the Path, Filename, and Extension as 3 values
-	if lfs.attributes(strFilename,"mode") == "directory" then
-		local strPath = strFilename:gsub("[\\/]$","")
-		return strPath.."\\","",""
-	end
-	strFilename = strFilename.."."
-	return strFilename:match("^(.-)([^\\/]-)%.([^\\/%.]-)%.?$")
 end

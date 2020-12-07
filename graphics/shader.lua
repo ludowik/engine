@@ -8,8 +8,6 @@ function Shader:init(name, path)
 
     self.attributes = {}
 
-    self.uniformsSent = {}
-
     self.uniformsLocations = {}
     self.uniformsGlslTypes = {}
     self.uniformsTypes = {}
@@ -53,7 +51,7 @@ end
 
 function Shader:check(shaderType, shaderName, shaderExtension)
     local path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
-    local info = fs.getInfo(path)
+    local info = getInfo(path)
     if info and info.modification > self.modifications[shaderType] then
         return false
     end
@@ -126,7 +124,7 @@ function Shader:compile(shaderType, source, path)
     end
 
     if path then
-        self.modifications[shaderType] = fs.getInfo(path).modification
+        self.modifications[shaderType] = getInfo(path).modification
     else
         self.modifications[shaderType] = 0
     end
@@ -137,12 +135,6 @@ function Shader:compile(shaderType, source, path)
 end
 
 function Shader:release()
-    -- TODO : associate with renderer
-    if self.vao and gl.glIsVertexArray(self.vao) == gl.GL_TRUE then
-        gl.glDeleteVertexArray(self.vao)
-        self.vao = nil
-    end
-
     if gl.glIsProgram(self.program_id) == gl.GL_TRUE then
         for _,id in pairs(self.ids) do
             if gl.glIsShader(id) == gl.GL_TRUE then
@@ -245,18 +237,9 @@ function Shader:sendUniforms(uniforms)
 end
 
 function Shader:send(k, v)
---    if self.uniformsSent[k] == v then
---        return
---    end
-
     local location = self.uniformsLocations[k]
-    if location == nil then        
-        self.uniformsLocations[k] = gl.glGetUniformLocation(self.program_id, k)
-        location = self.uniformsLocations[k]
-        assert(location == -1)
-    end
 
-    if location ~= -1 then
+    if location then
         local uid = location.uniformLocation
 
 --        log(string.format('send uniform {k} with value {v}', {k=k, v=v}))
@@ -267,9 +250,7 @@ function Shader:send(k, v)
             utype = self.uniformsTypes[k]
         end
 
-        counterutype[utype] = (counterutype[utype] or 0) + 1
-
-        if utype == 'matrix' or utype == 'cdata' then
+        if utype == 'matrix' then
             gl.glUniformMatrix4fv(uid, 1, gl.GL_TRUE, v:tobytes())
 
         elseif utype == 'vec3' then
@@ -305,8 +286,6 @@ function Shader:send(k, v)
         else
             error("shader : unmanaged type "..utype.." for "..k)
         end
-
-        self.uniformsSent[k] = v
 
     else
         log(self.name.." : unknown uniform '"..k.."'")

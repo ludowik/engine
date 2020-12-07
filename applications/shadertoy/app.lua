@@ -153,7 +153,7 @@ function draw()
 
         fontSize(8)
 
-        local path, name, ext = fs.splitFilePath(shader.name)
+        local path, name, ext = splitFilePath(shader.name)
         textMode(CENTER)
         text(name, x+size.x/2, y-size.y-h/2)
 

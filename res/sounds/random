@@ -1,27 +1,28 @@
 local 
 s={
+ envelope={
+  sustain=0.32359413616961;
+  decay=0.49511709942884;
+ };
  change={
  };
- vibrato={
+ volume={
  };
- phaser={
- };
- duty={
- };
- repeatspeed=0.51095577938383;
  highpass={
  };
  lowpass={
  };
- volume={
- };
- envelope={
-  decay=0.14766130584839;
-  sustain=0.079698475693197;
- };
  frequency={
-  slide=0.36856827889353;
-  start=0.27719120285366;
+  start=0.33148541823459;
+  slide=0.31134611999534;
  };
+ vibrato={
+ };
+ duty={
+ };
+ phaser={
+  offset=-0.0090668230733217;
+ };
+ repeatspeed=0.43773039985139;
 };
 return s, "0.0.2"

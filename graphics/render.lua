@@ -2,6 +2,8 @@ function renderFunction(f, context)
     pushMatrix()
     pushStyle()
     do
+        noClip()
+        
         noLight()
 
         resetMatrix(true)

@@ -12,9 +12,9 @@ function Image:init(w, h)
 
     elseif type(w) == 'string' then
         local path = self.getPath(w)
-        if fs.getInfo(path) == nil then
+        if getInfo(path) == nil then
             path = self.getPath(w, 'jpg')
-            if fs.getInfo(path) == nil then
+            if getInfo(path) == nil then
                 warning("image doesn't exists", 3)
                 return self:init(100, 100)
             end
@@ -144,7 +144,6 @@ function Image:makeTexture(surface)
     return self
 end
 
--- TODO
 function Image:loadSubPixels(pixels, formatRGB, x, y, w, h, texParam, texClamp)
     texParam = texParam or gl.GL_LINEAR
     texClamp = texClamp or gl.GL_CLAMP_TO_EDGE

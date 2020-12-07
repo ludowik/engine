@@ -101,7 +101,7 @@ function class(...)
     end
 
     local store = _G.env or _G
-        
+
     if #classNamePath == 0 then
         rawset(store, className, k)
     else
@@ -124,10 +124,10 @@ function classWithProperties(proto)
     local get = proto.properties.get
     if table.getnKeys(get) > 0 then
         proto.__index = function(tbl, key)
-            if get[key] then
-                return get[key](tbl)
-            elseif proto[key] then
+            if proto[key] then
                 return proto[key]
+            elseif get[key] then
+                return get[key](tbl)
             elseif type(key) == 'number' and get.index then
                 return get.index(tbl, key)
             else
@@ -139,10 +139,10 @@ function classWithProperties(proto)
     local set = proto.properties.set
     if table.getnKeys(set) > 0 then
         proto.__newindex = function(tbl, key, value)
-            if set[key] then
-                set[key](tbl, value)
-            elseif proto[key] then
+            if proto[key] then
                 proto[key] = value
+            elseif set[key] then
+                set[key](tbl, value)
             elseif type(key) == 'number' and set.index then
                 set.index(tbl, key, value)
             else
@@ -158,17 +158,25 @@ function typeof(object)
         return classnameof(object) or 'table'
 
     elseif typeof == 'cdata' then
-        if ffi.typeof(object) == __vec2 then
-            return 'vec2'
-        elseif ffi.typeof(object) == __vec3 then
-            return 'vec3'
-        elseif ffi.typeof(object) == __vec4 then
-            return 'vec4'
-        elseif ffi.typeof(object) == __color then
-            return 'color'
-        end
-        return 'cdata'
+        typeof = ffi.typeof(object)
 
+        if typeof == __matrix then
+            return 'matrix'
+
+        elseif typeof == __vec3 then
+            return 'vec3'
+
+        elseif typeof == __color then
+            return 'color'
+
+        elseif typeof == __vec2 then
+            return 'vec2'
+
+        elseif typeof == __vec4 then
+            return 'vec4'
+        end
+
+        return 'cdata'
     end
     return typeof
 end

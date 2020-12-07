@@ -55,6 +55,7 @@ typedef enum {
 int SDL_SetThreadPriority(SDL_ThreadPriority priority);
 
 int SDL_GL_SetSwapInterval(int interval);
+int SDL_GL_GetSwapInterval(void);
 
 Uint32 SDL_GetTicks(void);
 

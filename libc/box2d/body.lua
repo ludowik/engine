@@ -123,8 +123,7 @@ local b2Body_mt = ffi.metatype('b2Body', {
                 box2d.b2Body_set_angularDamping(tbl, value)
 
             elseif key == 'interpolate' then
-                -- TODO vérifier comment est implémenté cette fonction dans codea
-                -- b2World.b2Body_set_interpolate(value)
+                 b2World.b2Body_set_interpolate(value)
 
             elseif key == 'sleepingAllowed' then
                 box2d.b2Body_set_sleepingAllowed(tbl, value)

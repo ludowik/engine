@@ -11,6 +11,13 @@ function MeshRender:init()
     self.size = vec3()
 end
 
+function MeshRender:release()
+    if self.vao and gl.glIsVertexArray(self.vao) == gl.GL_TRUE then
+        gl.glDeleteVertexArray(self.vao)
+        self.vao = nil
+    end
+end
+
 function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     assert(shader)
     assert(drawMode)
@@ -81,43 +88,16 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
 
         self:sendUniforms(shader.uniformsLocations)
 
-        if not ios then
-            -- TODO : simplifier cette partie
-            if img or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
-                gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+        if img or config.wireframe == 'fill' or config.wireframe == 'fill&line'  then
+            self:renderDraw(drawMode, img, nInstances)
+        end
 
-                if self.indices then
-                    gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
-                else
-                    gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
-                end
-            end
+        if img then
+            img:unuse()
+        end
 
-            if img then
-                img:unuse()
-            end
-
-            if config.wireframe == 'line' or config.wireframe == 'fill&line' then
-                if shader.uniformsLocations.stroke then
-                    gl.glUniform4fv(shader.uniformsLocations.stroke.uniformLocation, 1, red:tobytes())
-                end
-                if shader.uniformsLocations.fill then
-                    gl.glUniform4fv(shader.uniformsLocations.fill.uniformLocation, 1, red:tobytes())
-                end
-
-                gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
-                if self.indices then
-                    gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
-                else
-                    gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
-                end
-            end
-        else
-            gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
-
-            if img then
-                img:unuse()
-            end
+        if config.wireframe == 'line' or config.wireframe == 'fill&line' then
+            self:renderWireframe(shader, drawMode, img, nInstances)
         end
 
         for attributeName,attribute in pairs(shader.attributes) do
@@ -131,6 +111,33 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
         end
 
         shader:unuse()
+    end
+end
+
+function MeshRender:renderDraw(drawMode, img, nInstances)
+    gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
+
+    if self.indices and not ios then
+        gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
+    else
+        gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
+    end
+end
+
+function MeshRender:renderWireframe(shader, drawMode, img, nInstances)
+    if shader.uniformsLocations.stroke then
+        gl.glUniform4fv(shader.uniformsLocations.stroke.uniformLocation, 1, red:tobytes())
+    end
+    if shader.uniformsLocations.fill then
+        gl.glUniform4fv(shader.uniformsLocations.fill.uniformLocation, 1, red:tobytes())
+    end
+
+    gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
+
+    if self.indices and not ios then
+        gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
+    else
+        gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
     end
 end
 
@@ -182,19 +189,22 @@ function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bu
         if type(buffer) == 'table' then
             if ffi.typeof(buffer[1]) == __vec3 then
                 buffer = Buffer('vec3', buffer)
-                nComponents = 3
+                assert(nComponents==3)
 
             elseif ffi.typeof(buffer[1]) == __color then
                 buffer = Buffer('color', buffer)
-                nComponents = 4
+                assert(nComponents==4)
 
             elseif ffi.typeof(buffer[1]) == __vec2 then
-                buffer = Buffer('vec2', buffer)
-                nComponents = 2
+                if nComponents == 2 then
+                    buffer = Buffer('vec2', buffer)
+                elseif nComponents == 3 then
+                    buffer = Buffer('vec3', table.map(buffer, function (_, i, v) return v:tovec3() end))
+                end
 
             elseif type(buffer[1]) == 'number' then
                 buffer = Buffer('float', buffer)
-                nComponents = 1
+                assert(nComponents==1)
 
             else
                 error(ffi.typeof(buffer[1]))
