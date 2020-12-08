@@ -94,13 +94,17 @@ function math.map(value, min_in, max_in, min_out, max_out)
     if min_in == max_in then
         return max_out
     end
+
+    value = clamp(value, min_in, max_in)
+
     value = (value - min_in) * (max_out - min_out) / (max_in - min_in) + (min_out)
 
-    if min_in < max_out then
-        return clamp(value, min_out, max_out)
-    else
-        return clamp(value, max_out, min_out)
-    end
+--    if min_out < max_out then
+--        return clamp(value, min_out, max_out)
+--    else
+--        return clamp(value, max_out, min_out)
+--    end
+    return value
 end
 map = math.map
 

@@ -5,6 +5,8 @@ else
     debugger = require 'luajit.lualibs.mobdebug.mobdebug'
 end
 
+debugger = require 'debug'
+
 jit.on()
 
 function startDebug()
