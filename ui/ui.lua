@@ -1,4 +1,4 @@
-class('UI', Object)
+class 'UI' : extends(Object)
 
 function UI.setup()
     UI.bgColor = blue

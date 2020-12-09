@@ -1,7 +1,8 @@
-class('Expression', UI, Bind)
+class('Expression', UI)
 
 function Expression:init(label)
     UI.init(self, label)
+    
     self.expression = expression or label
 
     if label and expression then

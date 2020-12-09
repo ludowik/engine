@@ -1,12 +1,13 @@
 class 'classItem' : extends(Object)
 
-function classItem:init(k, klass)
-    Object.init(self, klass.__className or k)
+function classItem:init(className, classRef)
+    Object.init(self, classRef.__className or className)
 
-    self.id = id()
+    self.id = id('classItem')
+    self.description = className
 
-    self.klass = klass
-    self.klassbases = attributeof('__bases', klass) or Table()
+    self.classRef = classRef
+    self.klassbases = attributeof('__bases', classRef) or Table()
 
     self.klasschilds = Table()
     self.klassparents = Table()
@@ -22,21 +23,33 @@ function classItem:init(k, klass)
 
     self.position = vec2.random(W, H)
 
-    self.orientation = random(TAU)
+    font(DEFAULT_FONT_NAME)
+    fontSize(10)
+
+    self.size = vec2(textSize(self.description))
 end
 
 function classItem:draw()
     zLevel(-1)
 
-    stroke(white)
-    strokeWidth(2)
-
     for i,v in ipairs(self.klassbases) do
-        local klass = app.scene:ui(v.__className)
-        if klass then
-            line(0, 0,
-                klass.position.x - self.position.x,
-                klass.position.y - self.position.y)
+        local base = app.scene:ui(v.__className)
+        if base then
+            local a = self.position
+            local b = base.position
+
+            local direction = b - a
+
+            local start = direction * 0.1
+            local to = direction * 0.9
+
+            stroke(gray)
+    strokeWidth(1)
+            line(start.x, start.y, to.x, to.y)
+            
+            stroke(red)
+    strokeWidth(3)
+            point(to.x, to.y)
         end
     end
 
@@ -44,8 +57,11 @@ function classItem:draw()
 
     fill(cyan)
 
+    font(DEFAULT_FONT_NAME)
+    fontSize(10)
+
     textMode(CENTER)
-    text(self.level, 0, 0)
+    text(self.description, 0, 0)
 end
 
 function setup()
@@ -54,7 +70,6 @@ function setup()
             local item = app.scene:ui(v.__className)
             if item == nil then
                 item = classItem(k, v)
-
                 app.scene:add(item)
             end
         end
@@ -68,10 +83,14 @@ function setup()
             if node then
                 node.klasschilds:add(item)
                 item.klassparents:add(node)
+
                 links[item.id..'/'..node.id] = true
             end
         end
     end
+
+    parameter.number('pivot', 1, 1000, 80)
+    parameter.number('force', 1, 1000, 250)
 end
 
 function constraints(dt)
@@ -79,8 +98,6 @@ function constraints(dt)
         item.force = vec2()
     end
 
-    local pivot = 50
-    
     local n = #app.scene.nodes
 
     for i=1,n-1 do
@@ -94,26 +111,32 @@ function constraints(dt)
 
             direction:normalizeInPlace()
 
-            if dist < pivot then
-                direction:mul(-math.map(dist, 0, pivot, 10, 0))
+            local level = pivot + (a.level + b.level)
+
+            if dist < level then
+                direction:mul(math.map(dist, 0, level, 10, 0))
                 a.force = a.force - direction
                 b.force = b.force + direction
 
-            elseif dist > pivot then                    
-                if links[a.id..'/'..b.id] then
-                    direction:mul(math.map(dist, pivot, 100, 0, 10))
+            elseif dist > level then
+                if (links[a.id..'/'..b.id] or
+                    links[b.id..'/'..a.id])
+                then
+                    direction:mul(math.map(dist, level, W, 0, 250))
+                    a.force = a.force + direction
+                    b.force = b.force - direction
                 else
-                    direction:mul(math.map(dist, pivot, 200, 0, 1))
+                    direction:mul(math.map(dist, level, W, 0, 10))
+                    a.force = a.force + direction
+                    b.force = b.force - direction
                 end
-                a.force = a.force + direction
-                b.force = b.force - direction
             end
 
         end
     end
 
     for _,item in app.scene:iter() do
-        item.position = item.position + item.force * dt
+        item.position = item.position + item.force * 5 * dt
     end
 end
 
@@ -125,18 +148,16 @@ function rebase()
         maxx = max(maxx, item.position.x)
         maxy = max(maxy, item.position.y)
     end
-    
-    print(minx, maxx)
 
     local w = maxx - minx
     local h = maxy - miny
 
     local rx = W/w
     local ry = H/h
-    
+
     for _,item in app.scene:iter() do
-        item.position.x = (item.position.x - minx) * rx
-        item.position.y = (item.position.y - miny) * ry
+        item.position.x = (item.position.x - minx) * rx * 0.9 + 0.05 * W
+        item.position.y = (item.position.y - miny) * ry * 0.9 + 0.05 * H
     end
 end
 
@@ -146,5 +167,14 @@ function update(dt)
 end
 
 function draw()
+    depthMode(true)
     app.scene:draw()
+end
+
+function keyboard(key)
+    if key == 'return' then
+        for _,item in app.scene:iter() do
+            item.position = vec2.random(W, H)
+        end
+    end
 end

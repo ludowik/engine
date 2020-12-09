@@ -1,4 +1,4 @@
-class('Slider', Button, Bind)
+class('Slider', Button)
 
 function Slider:init(var, min, max, default, integer, callback)
     Button.init(self, var, callback)
