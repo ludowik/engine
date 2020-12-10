@@ -138,6 +138,8 @@ function constraints(dt)
     for _,item in app.scene:iter() do
         item.position = item.position + item.force * 5 * dt
     end
+
+    rebase()
 end
 
 function rebase()
@@ -162,8 +164,9 @@ function rebase()
 end
 
 function update(dt)
-    constraints(dt)
-    rebase()
+    for i=1,10 do
+        constraints(0.015)
+    end
 end
 
 function draw()
