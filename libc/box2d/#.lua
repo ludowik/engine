@@ -1,19 +1,23 @@
-local code, defs = Library.precompile(io.read('libc/box2d/box2d.h'))
-ffi.cdef(code)
+class 'Libbox2d'
 
-local path = Path.libraryPath..'/box2d-master'
+function Libbox2d.setup()
+    local code, defs = Library.precompile(io.read('libc/box2d/box2d.h'))
+    ffi.cdef(code)
 
-box2d = class 'box2d' : meta(Library.compileFileCPP('libc/box2d/box2d.cpp',
-    'box2d',
-    '-I "'..path..'/include"',
-    '-L "'..path..'/build/src/release" -l box2d',
-    '-MT -std=c++17'))
+    local path = Path.libraryPath..'/box2d-master'
 
-pixelToMeterRatio = 32
-mtpRatio = pixelToMeterRatio
-ptmRatio = 1 / mtpRatio
+    box2d = class 'box2d' : meta(Library.compileFileCPP('libc/box2d/box2d.cpp',
+            'box2d',
+            '-I "'..path..'/include"',
+            '-L "'..path..'/build/src/release" -l box2d',
+            '-MT -std=c++17'))
 
-requireLib(
-    'box2d',
-    'body',
-    'joint')
+    pixelToMeterRatio = 32
+    mtpRatio = pixelToMeterRatio
+    ptmRatio = 1 / mtpRatio
+
+    requireLib(
+        'box2d',
+        'body',
+        'joint')
+end

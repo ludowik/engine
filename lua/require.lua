@@ -4,6 +4,7 @@ function requireLib(...)
     end
 end
 
+-- TODO : unusable ?
 function requirePlist(name)
     local plist = load(name)
 

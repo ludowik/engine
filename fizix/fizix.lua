@@ -3,11 +3,6 @@ Fizix = class('Fizix')
 Gravity = vec3(0, -9.81)
 
 function Fizix.setup()
-    Physics2d = Fizix
-    Physics3d = Fizix
-
-    Object2d = Object
-    Object3d = Object
 end
 
 function Fizix:init()

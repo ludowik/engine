@@ -7,19 +7,18 @@ function classItem:init(className, classRef)
     self.description = className
 
     self.classRef = classRef
-    self.klassbases = attributeof('__bases', classRef) or Table()
+    self.basesRef = attributeof('__bases', classRef) or Table()
 
-    self.klasschilds = Table()
-    self.klassparents = Table()
+    self.childs = Table()
+    self.parents = Table()
 
-    local hasChild = self.klassbases
-    local level = 0
-    while hasChild and #hasChild > 0 do
-        level = level +1
-        hasChild = attributeof('__bases', hasChild[1])
+    local basesRef = self.basesRef
+    
+    self.level = 
+    while basesRef and #basesRef > 0 do
+        self.level = self.level + 1
+        basesRef = attributeof('__bases', basesRef[1])
     end
-
-    self.level = level
 
     self.position = vec2.random(W, H)
 
@@ -32,7 +31,7 @@ end
 function classItem:draw()
     zLevel(-1)
 
-    for i,v in ipairs(self.klassbases) do
+    for i,v in ipairs(self.basesRef) do
         local base = app.scene:ui(v.__className)
         if base then
             local a = self.position
@@ -44,11 +43,11 @@ function classItem:draw()
             local to = direction * 0.9
 
             stroke(gray)
-    strokeWidth(1)
+            strokeWidth(1)
             line(start.x, start.y, to.x, to.y)
-            
+
             stroke(red)
-    strokeWidth(3)
+            strokeWidth(5)
             point(to.x, to.y)
         end
     end
@@ -78,19 +77,19 @@ function setup()
     links = {}
 
     for _,item in app.scene:iter() do
-        for i,base in ipairs(item.klassbases) do
+        for i,base in ipairs(item.basesRef) do
             local node = app.scene:ui(base.__className)
             if node then
-                node.klasschilds:add(item)
-                item.klassparents:add(node)
+                item.parents:add(node)
+                node.childs:add(item)                
 
-                links[item.id..'/'..node.id] = true
+                links[node.id..'/'..item.id] = true
             end
         end
     end
 
     parameter.number('pivot', 1, 1000, 80)
-    parameter.number('force', 1, 1000, 250)
+    parameter.number('attraction', 1, 1000, 160)
 end
 
 function constraints(dt)
@@ -111,7 +110,7 @@ function constraints(dt)
 
             direction:normalizeInPlace()
 
-            local level = pivot + (a.level + b.level)
+            local level = pivot
 
             if dist < level then
                 direction:mul(math.map(dist, 0, level, 10, 0))
@@ -119,12 +118,11 @@ function constraints(dt)
                 b.force = b.force + direction
 
             elseif dist > level then
-                if (links[a.id..'/'..b.id] or
-                    links[b.id..'/'..a.id])
-                then
-                    direction:mul(math.map(dist, level, W, 0, 250))
+                if links[a.id..'/'..b.id] or links[b.id..'/'..a.id]  then
+                    direction:mul(math.map(dist, level, W, 0, attraction))
                     a.force = a.force + direction
                     b.force = b.force - direction
+                    
                 else
                     direction:mul(math.map(dist, level, W, 0, 10))
                     a.force = a.force + direction
@@ -162,6 +160,7 @@ function rebase()
 end
 
 function update(dt)
+    rebase()
     constraints(dt)
     rebase()
 end
