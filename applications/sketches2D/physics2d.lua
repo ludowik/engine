@@ -1,6 +1,6 @@
 local physics
 function setup()
-    physics = Physics2d(0, -10)
+    physics = Physics(0, -10)
 
     local marge = 25
 

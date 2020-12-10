@@ -201,76 +201,77 @@ function Application:help()
     self:pushScene(Dialog('Help !!!!!!'))
 end
 
-class('Sketche', Application)
+-- TODEL
+--class('Sketch', Application)
 
-function Sketche:init()
-    Application.init(self)
-    if env.setup then
-        env.setup()
-    end
-end
+--function Sketch:init()
+--    Application.init(self)
+--    if env.setup then
+--        env.setup()
+--    end
+--end
 
-function Sketche:release()
-    if env.release then
-        env.release()
-    else
-        Application.release(self)
-    end
-end
+--function Sketch:release()
+--    if env.release then
+--        env.release()
+--    else
+--        Application.release(self)
+--    end
+--end
 
-function Sketche:suspend()
-    if env.suspend then
-        env.suspend()
-    else
-        Application.suspend(self)
-    end
-end
+--function Sketch:suspend()
+--    if env.suspend then
+--        env.suspend()
+--    else
+--        Application.suspend(self)
+--    end
+--end
 
-function Sketche:update(dt)
-    if env.update then
-        env.update(dt)
-        self:updateCoroutine(dt)
-    else
-        Application.update(self, dt)
-    end
-end
+--function Sketch:update(dt)
+--    if env.update then
+--        env.update(dt)
+--        self:updateCoroutine(dt)
+--    else
+--        Application.update(self, dt)
+--    end
+--end
 
-function Sketche:draw()
-    if env.draw then
-        env.draw()
-    else
-        Application.draw(self)
-    end
-end
+--function Sketch:draw()
+--    if env.draw then
+--        env.draw()
+--    else
+--        Application.draw(self)
+--    end
+--end
 
-function Sketche:keyboard(key, isrepeat)
-    if env.keyboard then
-        env.keyboard(key, isrepeat)
-    else
-        Application.keyboard(self, key, isrepeat)
-    end
-end
+--function Sketch:keyboard(key, isrepeat)
+--    if env.keyboard then
+--        env.keyboard(key, isrepeat)
+--    else
+--        Application.keyboard(self, key, isrepeat)
+--    end
+--end
 
-function Sketche:touched(touch)
-    if env.touched then
-        env.touched(touch)
-    else
-        Application.touched(self, touch)
-    end
-end
+--function Sketch:touched(touch)
+--    if env.touched then
+--        env.touched(touch)
+--    else
+--        Application.touched(self, touch)
+--    end
+--end
 
-function Sketche:wheelmoved(mouse)
-    if env.wheelmoved then
-        env.wheelmoved(mouse)
-    else
-        Application.wheelmoved(self, mouse)
-    end
-end
+--function Sketch:wheelmoved(mouse)
+--    if env.wheelmoved then
+--        env.wheelmoved(mouse)
+--    else
+--        Application.wheelmoved(self, mouse)
+--    end
+--end
 
-function Sketche:collide(contact)
-    if env.collide then
-        env.collide(contact)
-    else
-        Application.collide(self, contact)
-    end
-end
+--function Sketch:collide(contact)
+--    if env.collide then
+--        env.collide(contact)
+--    else
+--        Application.collide(self, contact)
+--    end
+--end

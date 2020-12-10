@@ -1,13 +1,13 @@
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
 
-    physics = Physics3d(0, -10)
+    physics = Physics(0, -10)
 
     physics:setArea(-5, 0, -5, 10, 10, 10)
 
     function addBall()
         r = 1
-        ball = Object3d(
+        ball = Object(
             random(-0.5, 0.5),
             4,
             0, r, r, r)

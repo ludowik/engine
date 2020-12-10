@@ -1,6 +1,6 @@
-class 'UI' : extends(Object)
+class 'UI' : extends(Object, Bind)
 
-function UI.setup()
+function UI.setup()    
     UI.bgColor = blue
     UI.textColor = white
 

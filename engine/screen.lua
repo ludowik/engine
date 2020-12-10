@@ -7,7 +7,7 @@ function Screen:init()
         H = H or self:w2h(W)
 
     elseif windows then
-        W = W or 1024
+        W = W or 1480
         H = H or self:w2h(W)
 
     elseif ios then

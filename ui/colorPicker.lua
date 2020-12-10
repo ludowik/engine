@@ -1,8 +1,7 @@
-class('ColorPicker', UI, Bind)
+class('ColorPicker', UI)
 
 function ColorPicker:init(var, clr, ...)
     UI.init(self, var)
-    Bind.init(self)
     
     self.clr = Color(clr)
 

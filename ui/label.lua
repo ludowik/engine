@@ -1,8 +1,7 @@
-class('Label', UI, Bind)
+class('Label', UI)
 
 function Label:init(label)
     UI.init(self, label)
-    Bind.init(self)
 end
 
 function Label:getLabel()

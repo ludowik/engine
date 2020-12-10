@@ -1,8 +1,16 @@
-Color LCD
-GLSL 4.10
+Generic PnP Monitor
+GLSL 4.10 - Build 26.20.100.8141
 load applications/graph
+<<<<<<< HEAD
 memory at start  : 1.97 mo
 memory min       : 1.97 mo
 memory max       : 24.28 mo
 memory variation : 22.31 mo
 memory at end    : 2.15 mo
+=======
+memory at start  : 4.18 mo
+memory min       : 4.18 mo
+memory max       : 22.05 mo
+memory variation : 17.87 mo
+memory at end    : 1.77 mo
+>>>>>>> 1e1510505f6f3c2d871336f498bdbb9177861d3f
