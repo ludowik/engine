@@ -64,8 +64,8 @@ function Sdl:initialize()
             window = self.SDL_CreateWindow('Engine',
                 0, 0,
                 0, 0,
---                self.SDL_WINDOW_OPENGL +
-                self.SDL_WINDOW_VULKAN +
+                self.SDL_WINDOW_OPENGL +
+--                self.SDL_WINDOW_VULKAN +
                 self.SDL_WINDOW_RESIZABLE +
 --                self.SDL_WINDOW_ALLOW_HIGHDPI +
 --                self.SDL_WINDOW_FULLSCREEN +
