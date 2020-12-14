@@ -1,0 +1,1188 @@
+#define CAST_USER_ADDR_T(a_ptr) ((user_addr_t)((uintptr_t)(a_ptr)))
+#define INT16_C(v) (v)
+#define INT16_MAX 32767
+#define INT16_MIN -32768
+#define INT32_C(v) (v)
+#define INT32_MAX 2147483647
+#define INT32_MIN (-INT32_MAX-1)
+#define INT64_C(v) (v ## LL)
+#define INT64_MAX 9223372036854775807LL
+#define INT64_MIN (-INT64_MAX-1)
+#define INT8_C(v) (v)
+#define INT8_MAX 127
+#define INT8_MIN -128
+#define INTMAX_C(v) (v ## L)
+#define INTMAX_MAX INTMAX_C(9223372036854775807)
+#define INTMAX_MIN (-INTMAX_MAX-1)
+#define INTPTR_MAX 9223372036854775807L
+#define INTPTR_MIN (-INTPTR_MAX-1)
+#define INT_FAST16_MAX INT16_MAX
+#define INT_FAST16_MIN INT16_MIN
+#define INT_FAST32_MAX INT32_MAX
+#define INT_FAST32_MIN INT32_MIN
+#define INT_FAST64_MAX INT64_MAX
+#define INT_FAST64_MIN INT64_MIN
+#define INT_FAST8_MAX INT8_MAX
+#define INT_FAST8_MIN INT8_MIN
+#define INT_LEAST16_MAX INT16_MAX
+#define INT_LEAST16_MIN INT16_MIN
+#define INT_LEAST32_MAX INT32_MAX
+#define INT_LEAST32_MIN INT32_MIN
+#define INT_LEAST64_MAX INT64_MAX
+#define INT_LEAST64_MIN INT64_MIN
+#define INT_LEAST8_MAX INT8_MAX
+#define INT_LEAST8_MIN INT8_MIN
+#define NULL ((void*)0)
+#define PTRDIFF_MAX INTMAX_MAX
+#define PTRDIFF_MIN INTMAX_MIN
+#define RSIZE_MAX (SIZE_MAX >> 1)
+#define SIG_ATOMIC_MAX INT32_MAX
+#define SIG_ATOMIC_MIN INT32_MIN
+#define SIZE_MAX UINTPTR_MAX
+#define UINT16_C(v) (v)
+#define UINT16_MAX 65535
+#define UINT32_C(v) (v ## U)
+#define UINT32_MAX 4294967295U
+#define UINT64_C(v) (v ## ULL)
+#define UINT64_MAX 18446744073709551615ULL
+#define UINT8_C(v) (v)
+#define UINT8_MAX 255
+#define UINTMAX_C(v) (v ## UL)
+#define UINTMAX_MAX UINTMAX_C(18446744073709551615)
+#define UINTPTR_MAX 18446744073709551615UL
+#define UINT_FAST16_MAX UINT16_MAX
+#define UINT_FAST32_MAX UINT32_MAX
+#define UINT_FAST64_MAX UINT64_MAX
+#define UINT_FAST8_MAX UINT8_MAX
+#define UINT_LEAST16_MAX UINT16_MAX
+#define UINT_LEAST32_MAX UINT32_MAX
+#define UINT_LEAST64_MAX UINT64_MAX
+#define UINT_LEAST8_MAX UINT8_MAX
+#define USER_ADDR_NULL ((user_addr_t) 0)
+#define VKAPI_ATTR 
+#define VKAPI_CALL 
+#define VKAPI_PTR 
+#define VK_AMD_BUFFER_MARKER_EXTENSION_NAME "VK_AMD_buffer_marker"
+#define VK_AMD_BUFFER_MARKER_SPEC_VERSION 1
+#define VK_AMD_DEVICE_COHERENT_MEMORY_EXTENSION_NAME "VK_AMD_device_coherent_memory"
+#define VK_AMD_DEVICE_COHERENT_MEMORY_SPEC_VERSION 1
+#define VK_AMD_DISPLAY_NATIVE_HDR_EXTENSION_NAME "VK_AMD_display_native_hdr"
+#define VK_AMD_DISPLAY_NATIVE_HDR_SPEC_VERSION 1
+#define VK_AMD_DRAW_INDIRECT_COUNT_EXTENSION_NAME "VK_AMD_draw_indirect_count"
+#define VK_AMD_DRAW_INDIRECT_COUNT_SPEC_VERSION 2
+#define VK_AMD_GCN_SHADER_EXTENSION_NAME "VK_AMD_gcn_shader"
+#define VK_AMD_GCN_SHADER_SPEC_VERSION 1
+#define VK_AMD_GPU_SHADER_HALF_FLOAT_EXTENSION_NAME "VK_AMD_gpu_shader_half_float"
+#define VK_AMD_GPU_SHADER_HALF_FLOAT_SPEC_VERSION 2
+#define VK_AMD_GPU_SHADER_INT16_EXTENSION_NAME "VK_AMD_gpu_shader_int16"
+#define VK_AMD_GPU_SHADER_INT16_SPEC_VERSION 2
+#define VK_AMD_MEMORY_OVERALLOCATION_BEHAVIOR_EXTENSION_NAME "VK_AMD_memory_overallocation_behavior"
+#define VK_AMD_MEMORY_OVERALLOCATION_BEHAVIOR_SPEC_VERSION 1
+#define VK_AMD_MIXED_ATTACHMENT_SAMPLES_EXTENSION_NAME "VK_AMD_mixed_attachment_samples"
+#define VK_AMD_MIXED_ATTACHMENT_SAMPLES_SPEC_VERSION 1
+#define VK_AMD_NEGATIVE_VIEWPORT_HEIGHT_EXTENSION_NAME "VK_AMD_negative_viewport_height"
+#define VK_AMD_NEGATIVE_VIEWPORT_HEIGHT_SPEC_VERSION 1
+#define VK_AMD_PIPELINE_COMPILER_CONTROL_EXTENSION_NAME "VK_AMD_pipeline_compiler_control"
+#define VK_AMD_PIPELINE_COMPILER_CONTROL_SPEC_VERSION 1
+#define VK_AMD_RASTERIZATION_ORDER_EXTENSION_NAME "VK_AMD_rasterization_order"
+#define VK_AMD_RASTERIZATION_ORDER_SPEC_VERSION 1
+#define VK_AMD_SHADER_BALLOT_EXTENSION_NAME "VK_AMD_shader_ballot"
+#define VK_AMD_SHADER_BALLOT_SPEC_VERSION 1
+#define VK_AMD_SHADER_CORE_PROPERTIES_2_EXTENSION_NAME "VK_AMD_shader_core_properties2"
+#define VK_AMD_SHADER_CORE_PROPERTIES_2_SPEC_VERSION 1
+#define VK_AMD_SHADER_CORE_PROPERTIES_EXTENSION_NAME "VK_AMD_shader_core_properties"
+#define VK_AMD_SHADER_CORE_PROPERTIES_SPEC_VERSION 2
+#define VK_AMD_SHADER_EXPLICIT_VERTEX_PARAMETER_EXTENSION_NAME "VK_AMD_shader_explicit_vertex_parameter"
+#define VK_AMD_SHADER_EXPLICIT_VERTEX_PARAMETER_SPEC_VERSION 1
+#define VK_AMD_SHADER_FRAGMENT_MASK_EXTENSION_NAME "VK_AMD_shader_fragment_mask"
+#define VK_AMD_SHADER_FRAGMENT_MASK_SPEC_VERSION 1
+#define VK_AMD_SHADER_IMAGE_LOAD_STORE_LOD_EXTENSION_NAME "VK_AMD_shader_image_load_store_lod"
+#define VK_AMD_SHADER_IMAGE_LOAD_STORE_LOD_SPEC_VERSION 1
+#define VK_AMD_SHADER_INFO_EXTENSION_NAME "VK_AMD_shader_info"
+#define VK_AMD_SHADER_INFO_SPEC_VERSION 1
+#define VK_AMD_SHADER_TRINARY_MINMAX_EXTENSION_NAME "VK_AMD_shader_trinary_minmax"
+#define VK_AMD_SHADER_TRINARY_MINMAX_SPEC_VERSION 1
+#define VK_AMD_TEXTURE_GATHER_BIAS_LOD_EXTENSION_NAME "VK_AMD_texture_gather_bias_lod"
+#define VK_AMD_TEXTURE_GATHER_BIAS_LOD_SPEC_VERSION 1
+#define VK_AMD_buffer_marker 1
+#define VK_AMD_device_coherent_memory 1
+#define VK_AMD_display_native_hdr 1
+#define VK_AMD_draw_indirect_count 1
+#define VK_AMD_gcn_shader 1
+#define VK_AMD_gpu_shader_half_float 1
+#define VK_AMD_gpu_shader_int16 1
+#define VK_AMD_memory_overallocation_behavior 1
+#define VK_AMD_mixed_attachment_samples 1
+#define VK_AMD_negative_viewport_height 1
+#define VK_AMD_pipeline_compiler_control 1
+#define VK_AMD_rasterization_order 1
+#define VK_AMD_shader_ballot 1
+#define VK_AMD_shader_core_properties 1
+#define VK_AMD_shader_core_properties2 1
+#define VK_AMD_shader_explicit_vertex_parameter 1
+#define VK_AMD_shader_fragment_mask 1
+#define VK_AMD_shader_image_load_store_lod 1
+#define VK_AMD_shader_info 1
+#define VK_AMD_shader_trinary_minmax 1
+#define VK_AMD_texture_gather_bias_lod 1
+#define VK_API_VERSION_1_0 VK_MAKE_VERSION(1, 0, 0)
+#define VK_API_VERSION_1_1 VK_MAKE_VERSION(1, 1, 0)
+#define VK_ATTACHMENT_UNUSED (~0U)
+#define VK_DEFINE_HANDLE(object) typedef struct object##_T* object;
+#define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef struct object##_T *object;
+#define VK_EXT_ASTC_DECODE_MODE_EXTENSION_NAME "VK_EXT_astc_decode_mode"
+#define VK_EXT_ASTC_DECODE_MODE_SPEC_VERSION 1
+#define VK_EXT_BLEND_OPERATION_ADVANCED_EXTENSION_NAME "VK_EXT_blend_operation_advanced"
+#define VK_EXT_BLEND_OPERATION_ADVANCED_SPEC_VERSION 2
+#define VK_EXT_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME "VK_EXT_buffer_device_address"
+#define VK_EXT_BUFFER_DEVICE_ADDRESS_SPEC_VERSION 2
+#define VK_EXT_CALIBRATED_TIMESTAMPS_EXTENSION_NAME "VK_EXT_calibrated_timestamps"
+#define VK_EXT_CALIBRATED_TIMESTAMPS_SPEC_VERSION 1
+#define VK_EXT_CONDITIONAL_RENDERING_EXTENSION_NAME "VK_EXT_conditional_rendering"
+#define VK_EXT_CONDITIONAL_RENDERING_SPEC_VERSION 2
+#define VK_EXT_CONSERVATIVE_RASTERIZATION_EXTENSION_NAME "VK_EXT_conservative_rasterization"
+#define VK_EXT_CONSERVATIVE_RASTERIZATION_SPEC_VERSION 1
+#define VK_EXT_DEBUG_MARKER_EXTENSION_NAME "VK_EXT_debug_marker"
+#define VK_EXT_DEBUG_MARKER_SPEC_VERSION 4
+#define VK_EXT_DEBUG_REPORT_EXTENSION_NAME "VK_EXT_debug_report"
+#define VK_EXT_DEBUG_REPORT_SPEC_VERSION 9
+#define VK_EXT_DEBUG_UTILS_EXTENSION_NAME "VK_EXT_debug_utils"
+#define VK_EXT_DEBUG_UTILS_SPEC_VERSION 1
+#define VK_EXT_DEPTH_CLIP_ENABLE_EXTENSION_NAME "VK_EXT_depth_clip_enable"
+#define VK_EXT_DEPTH_CLIP_ENABLE_SPEC_VERSION 1
+#define VK_EXT_DEPTH_RANGE_UNRESTRICTED_EXTENSION_NAME "VK_EXT_depth_range_unrestricted"
+#define VK_EXT_DEPTH_RANGE_UNRESTRICTED_SPEC_VERSION 1
+#define VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME "VK_EXT_descriptor_indexing"
+#define VK_EXT_DESCRIPTOR_INDEXING_SPEC_VERSION 2
+#define VK_EXT_DIRECT_MODE_DISPLAY_EXTENSION_NAME "VK_EXT_direct_mode_display"
+#define VK_EXT_DIRECT_MODE_DISPLAY_SPEC_VERSION 1
+#define VK_EXT_DISCARD_RECTANGLES_EXTENSION_NAME "VK_EXT_discard_rectangles"
+#define VK_EXT_DISCARD_RECTANGLES_SPEC_VERSION 1
+#define VK_EXT_DISPLAY_CONTROL_EXTENSION_NAME "VK_EXT_display_control"
+#define VK_EXT_DISPLAY_CONTROL_SPEC_VERSION 1
+#define VK_EXT_DISPLAY_SURFACE_COUNTER_EXTENSION_NAME "VK_EXT_display_surface_counter"
+#define VK_EXT_DISPLAY_SURFACE_COUNTER_SPEC_VERSION 1
+#define VK_EXT_EXTERNAL_MEMORY_DMA_BUF_EXTENSION_NAME "VK_EXT_external_memory_dma_buf"
+#define VK_EXT_EXTERNAL_MEMORY_DMA_BUF_SPEC_VERSION 1
+#define VK_EXT_EXTERNAL_MEMORY_HOST_EXTENSION_NAME "VK_EXT_external_memory_host"
+#define VK_EXT_EXTERNAL_MEMORY_HOST_SPEC_VERSION 1
+#define VK_EXT_FILTER_CUBIC_EXTENSION_NAME "VK_EXT_filter_cubic"
+#define VK_EXT_FILTER_CUBIC_SPEC_VERSION 2
+#define VK_EXT_FRAGMENT_DENSITY_MAP_EXTENSION_NAME "VK_EXT_fragment_density_map"
+#define VK_EXT_FRAGMENT_DENSITY_MAP_SPEC_VERSION 1
+#define VK_EXT_FRAGMENT_SHADER_INTERLOCK_EXTENSION_NAME "VK_EXT_fragment_shader_interlock"
+#define VK_EXT_FRAGMENT_SHADER_INTERLOCK_SPEC_VERSION 1
+#define VK_EXT_GLOBAL_PRIORITY_EXTENSION_NAME "VK_EXT_global_priority"
+#define VK_EXT_GLOBAL_PRIORITY_SPEC_VERSION 2
+#define VK_EXT_HDR_METADATA_EXTENSION_NAME "VK_EXT_hdr_metadata"
+#define VK_EXT_HDR_METADATA_SPEC_VERSION 2
+#define VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME "VK_EXT_headless_surface"
+#define VK_EXT_HEADLESS_SURFACE_SPEC_VERSION 0
+#define VK_EXT_HOST_QUERY_RESET_EXTENSION_NAME "VK_EXT_host_query_reset"
+#define VK_EXT_HOST_QUERY_RESET_SPEC_VERSION 1
+#define VK_EXT_IMAGE_DRM_FORMAT_MODIFIER_EXTENSION_NAME "VK_EXT_image_drm_format_modifier"
+#define VK_EXT_IMAGE_DRM_FORMAT_MODIFIER_SPEC_VERSION 1
+#define VK_EXT_INDEX_TYPE_UINT8_EXTENSION_NAME "VK_EXT_index_type_uint8"
+#define VK_EXT_INDEX_TYPE_UINT8_SPEC_VERSION 1
+#define VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME "VK_EXT_inline_uniform_block"
+#define VK_EXT_INLINE_UNIFORM_BLOCK_SPEC_VERSION 1
+#define VK_EXT_LINE_RASTERIZATION_EXTENSION_NAME "VK_EXT_line_rasterization"
+#define VK_EXT_LINE_RASTERIZATION_SPEC_VERSION 1
+#define VK_EXT_MEMORY_BUDGET_EXTENSION_NAME "VK_EXT_memory_budget"
+#define VK_EXT_MEMORY_BUDGET_SPEC_VERSION 1
+#define VK_EXT_MEMORY_PRIORITY_EXTENSION_NAME "VK_EXT_memory_priority"
+#define VK_EXT_MEMORY_PRIORITY_SPEC_VERSION 1
+#define VK_EXT_PCI_BUS_INFO_EXTENSION_NAME "VK_EXT_pci_bus_info"
+#define VK_EXT_PCI_BUS_INFO_SPEC_VERSION 2
+#define VK_EXT_PIPELINE_CREATION_FEEDBACK_EXTENSION_NAME "VK_EXT_pipeline_creation_feedback"
+#define VK_EXT_PIPELINE_CREATION_FEEDBACK_SPEC_VERSION 1
+#define VK_EXT_POST_DEPTH_COVERAGE_EXTENSION_NAME "VK_EXT_post_depth_coverage"
+#define VK_EXT_POST_DEPTH_COVERAGE_SPEC_VERSION 1
+#define VK_EXT_QUEUE_FAMILY_FOREIGN_EXTENSION_NAME "VK_EXT_queue_family_foreign"
+#define VK_EXT_QUEUE_FAMILY_FOREIGN_SPEC_VERSION 1
+#define VK_EXT_SAMPLER_FILTER_MINMAX_EXTENSION_NAME "VK_EXT_sampler_filter_minmax"
+#define VK_EXT_SAMPLER_FILTER_MINMAX_SPEC_VERSION 2
+#define VK_EXT_SAMPLE_LOCATIONS_EXTENSION_NAME "VK_EXT_sample_locations"
+#define VK_EXT_SAMPLE_LOCATIONS_SPEC_VERSION 1
+#define VK_EXT_SCALAR_BLOCK_LAYOUT_EXTENSION_NAME "VK_EXT_scalar_block_layout"
+#define VK_EXT_SCALAR_BLOCK_LAYOUT_SPEC_VERSION 1
+#define VK_EXT_SEPARATE_STENCIL_USAGE_EXTENSION_NAME "VK_EXT_separate_stencil_usage"
+#define VK_EXT_SEPARATE_STENCIL_USAGE_SPEC_VERSION 1
+#define VK_EXT_SHADER_DEMOTE_TO_HELPER_INVOCATION_EXTENSION_NAME "VK_EXT_shader_demote_to_helper_invocation"
+#define VK_EXT_SHADER_DEMOTE_TO_HELPER_INVOCATION_SPEC_VERSION 1
+#define VK_EXT_SHADER_STENCIL_EXPORT_EXTENSION_NAME "VK_EXT_shader_stencil_export"
+#define VK_EXT_SHADER_STENCIL_EXPORT_SPEC_VERSION 1
+#define VK_EXT_SHADER_SUBGROUP_BALLOT_EXTENSION_NAME "VK_EXT_shader_subgroup_ballot"
+#define VK_EXT_SHADER_SUBGROUP_BALLOT_SPEC_VERSION 1
+#define VK_EXT_SHADER_SUBGROUP_VOTE_EXTENSION_NAME "VK_EXT_shader_subgroup_vote"
+#define VK_EXT_SHADER_SUBGROUP_VOTE_SPEC_VERSION 1
+#define VK_EXT_SHADER_VIEWPORT_INDEX_LAYER_EXTENSION_NAME "VK_EXT_shader_viewport_index_layer"
+#define VK_EXT_SHADER_VIEWPORT_INDEX_LAYER_SPEC_VERSION 1
+#define VK_EXT_SUBGROUP_SIZE_CONTROL_EXTENSION_NAME "VK_EXT_subgroup_size_control"
+#define VK_EXT_SUBGROUP_SIZE_CONTROL_SPEC_VERSION 2
+#define VK_EXT_SWAPCHAIN_COLOR_SPACE_EXTENSION_NAME "VK_EXT_swapchain_colorspace"
+#define VK_EXT_SWAPCHAIN_COLOR_SPACE_SPEC_VERSION 4
+#define VK_EXT_TEXEL_BUFFER_ALIGNMENT_EXTENSION_NAME "VK_EXT_texel_buffer_alignment"
+#define VK_EXT_TEXEL_BUFFER_ALIGNMENT_SPEC_VERSION 1
+#define VK_EXT_TEXTURE_COMPRESSION_ASTC_HDR_EXTENSION_NAME "VK_EXT_texture_compression_astc_hdr"
+#define VK_EXT_TEXTURE_COMPRESSION_ASTC_HDR_SPEC_VERSION 1
+#define VK_EXT_TRANSFORM_FEEDBACK_EXTENSION_NAME "VK_EXT_transform_feedback"
+#define VK_EXT_TRANSFORM_FEEDBACK_SPEC_VERSION 1
+#define VK_EXT_VALIDATION_CACHE_EXTENSION_NAME "VK_EXT_validation_cache"
+#define VK_EXT_VALIDATION_CACHE_SPEC_VERSION 1
+#define VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME "VK_EXT_validation_features"
+#define VK_EXT_VALIDATION_FEATURES_SPEC_VERSION 2
+#define VK_EXT_VALIDATION_FLAGS_EXTENSION_NAME "VK_EXT_validation_flags"
+#define VK_EXT_VALIDATION_FLAGS_SPEC_VERSION 1
+#define VK_EXT_VERTEX_ATTRIBUTE_DIVISOR_EXTENSION_NAME "VK_EXT_vertex_attribute_divisor"
+#define VK_EXT_VERTEX_ATTRIBUTE_DIVISOR_SPEC_VERSION 3
+#define VK_EXT_YCBCR_IMAGE_ARRAYS_EXTENSION_NAME "VK_EXT_ycbcr_image_arrays"
+#define VK_EXT_YCBCR_IMAGE_ARRAYS_SPEC_VERSION 1
+#define VK_EXT_astc_decode_mode 1
+#define VK_EXT_blend_operation_advanced 1
+#define VK_EXT_buffer_device_address 1
+#define VK_EXT_calibrated_timestamps 1
+#define VK_EXT_conditional_rendering 1
+#define VK_EXT_conservative_rasterization 1
+#define VK_EXT_debug_marker 1
+#define VK_EXT_debug_report 1
+#define VK_EXT_debug_utils 1
+#define VK_EXT_depth_clip_enable 1
+#define VK_EXT_depth_range_unrestricted 1
+#define VK_EXT_descriptor_indexing 1
+#define VK_EXT_direct_mode_display 1
+#define VK_EXT_discard_rectangles 1
+#define VK_EXT_display_control 1
+#define VK_EXT_display_surface_counter 1
+#define VK_EXT_external_memory_dma_buf 1
+#define VK_EXT_external_memory_host 1
+#define VK_EXT_filter_cubic 1
+#define VK_EXT_fragment_density_map 1
+#define VK_EXT_fragment_shader_interlock 1
+#define VK_EXT_global_priority 1
+#define VK_EXT_hdr_metadata 1
+#define VK_EXT_headless_surface 1
+#define VK_EXT_host_query_reset 1
+#define VK_EXT_image_drm_format_modifier 1
+#define VK_EXT_index_type_uint8 1
+#define VK_EXT_inline_uniform_block 1
+#define VK_EXT_line_rasterization 1
+#define VK_EXT_memory_budget 1
+#define VK_EXT_memory_priority 1
+#define VK_EXT_pci_bus_info 1
+#define VK_EXT_pipeline_creation_feedback 1
+#define VK_EXT_post_depth_coverage 1
+#define VK_EXT_queue_family_foreign 1
+#define VK_EXT_sample_locations 1
+#define VK_EXT_sampler_filter_minmax 1
+#define VK_EXT_scalar_block_layout 1
+#define VK_EXT_separate_stencil_usage 1
+#define VK_EXT_shader_demote_to_helper_invocation 1
+#define VK_EXT_shader_stencil_export 1
+#define VK_EXT_shader_subgroup_ballot 1
+#define VK_EXT_shader_subgroup_vote 1
+#define VK_EXT_shader_viewport_index_layer 1
+#define VK_EXT_subgroup_size_control 1
+#define VK_EXT_swapchain_colorspace 1
+#define VK_EXT_texel_buffer_alignment 1
+#define VK_EXT_texture_compression_astc_hdr 1
+#define VK_EXT_transform_feedback 1
+#define VK_EXT_validation_cache 1
+#define VK_EXT_validation_features 1
+#define VK_EXT_validation_flags 1
+#define VK_EXT_vertex_attribute_divisor 1
+#define VK_EXT_ycbcr_image_arrays 1
+#define VK_FALSE 0
+#define VK_GOOGLE_DECORATE_STRING_EXTENSION_NAME "VK_GOOGLE_decorate_string"
+#define VK_GOOGLE_DECORATE_STRING_SPEC_VERSION 1
+#define VK_GOOGLE_DISPLAY_TIMING_EXTENSION_NAME "VK_GOOGLE_display_timing"
+#define VK_GOOGLE_DISPLAY_TIMING_SPEC_VERSION 1
+#define VK_GOOGLE_HLSL_FUNCTIONALITY1_EXTENSION_NAME "VK_GOOGLE_hlsl_functionality1"
+#define VK_GOOGLE_HLSL_FUNCTIONALITY1_SPEC_VERSION 1
+#define VK_GOOGLE_decorate_string 1
+#define VK_GOOGLE_display_timing 1
+#define VK_GOOGLE_hlsl_functionality1 1
+#define VK_HEADER_VERSION 121
+#define VK_IMG_FILTER_CUBIC_EXTENSION_NAME "VK_IMG_filter_cubic"
+#define VK_IMG_FILTER_CUBIC_SPEC_VERSION 1
+#define VK_IMG_FORMAT_PVRTC_EXTENSION_NAME "VK_IMG_format_pvrtc"
+#define VK_IMG_FORMAT_PVRTC_SPEC_VERSION 1
+#define VK_IMG_filter_cubic 1
+#define VK_IMG_format_pvrtc 1
+#define VK_INTEL_PERFORMANCE_QUERY_EXTENSION_NAME "VK_INTEL_performance_query"
+#define VK_INTEL_PERFORMANCE_QUERY_SPEC_VERSION 1
+#define VK_INTEL_SHADER_INTEGER_FUNCTIONS_2_EXTENSION_NAME "VK_INTEL_shader_integer_functions2"
+#define VK_INTEL_SHADER_INTEGER_FUNCTIONS_2_SPEC_VERSION 1
+#define VK_INTEL_performance_query 1
+#define VK_INTEL_shader_integer_functions2 1
+#define VK_KHR_16BIT_STORAGE_EXTENSION_NAME "VK_KHR_16bit_storage"
+#define VK_KHR_16BIT_STORAGE_SPEC_VERSION 1
+#define VK_KHR_16bit_storage 1
+#define VK_KHR_8BIT_STORAGE_EXTENSION_NAME "VK_KHR_8bit_storage"
+#define VK_KHR_8BIT_STORAGE_SPEC_VERSION 1
+#define VK_KHR_8bit_storage 1
+#define VK_KHR_BIND_MEMORY_2_EXTENSION_NAME "VK_KHR_bind_memory2"
+#define VK_KHR_BIND_MEMORY_2_SPEC_VERSION 1
+#define VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME "VK_KHR_create_renderpass2"
+#define VK_KHR_CREATE_RENDERPASS_2_SPEC_VERSION 1
+#define VK_KHR_DEDICATED_ALLOCATION_EXTENSION_NAME "VK_KHR_dedicated_allocation"
+#define VK_KHR_DEDICATED_ALLOCATION_SPEC_VERSION 3
+#define VK_KHR_DEPTH_STENCIL_RESOLVE_EXTENSION_NAME "VK_KHR_depth_stencil_resolve"
+#define VK_KHR_DEPTH_STENCIL_RESOLVE_SPEC_VERSION 1
+#define VK_KHR_DESCRIPTOR_UPDATE_TEMPLATE_EXTENSION_NAME "VK_KHR_descriptor_update_template"
+#define VK_KHR_DESCRIPTOR_UPDATE_TEMPLATE_SPEC_VERSION 1
+#define VK_KHR_DEVICE_GROUP_CREATION_EXTENSION_NAME "VK_KHR_device_group_creation"
+#define VK_KHR_DEVICE_GROUP_CREATION_SPEC_VERSION 1
+#define VK_KHR_DEVICE_GROUP_EXTENSION_NAME "VK_KHR_device_group"
+#define VK_KHR_DEVICE_GROUP_SPEC_VERSION 4
+#define VK_KHR_DISPLAY_EXTENSION_NAME "VK_KHR_display"
+#define VK_KHR_DISPLAY_SPEC_VERSION 23
+#define VK_KHR_DISPLAY_SWAPCHAIN_EXTENSION_NAME "VK_KHR_display_swapchain"
+#define VK_KHR_DISPLAY_SWAPCHAIN_SPEC_VERSION 10
+#define VK_KHR_DRAW_INDIRECT_COUNT_EXTENSION_NAME "VK_KHR_draw_indirect_count"
+#define VK_KHR_DRAW_INDIRECT_COUNT_SPEC_VERSION 1
+#define VK_KHR_DRIVER_PROPERTIES_EXTENSION_NAME "VK_KHR_driver_properties"
+#define VK_KHR_DRIVER_PROPERTIES_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_FENCE_CAPABILITIES_EXTENSION_NAME "VK_KHR_external_fence_capabilities"
+#define VK_KHR_EXTERNAL_FENCE_CAPABILITIES_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_FENCE_EXTENSION_NAME "VK_KHR_external_fence"
+#define VK_KHR_EXTERNAL_FENCE_FD_EXTENSION_NAME "VK_KHR_external_fence_fd"
+#define VK_KHR_EXTERNAL_FENCE_FD_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_FENCE_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_MEMORY_CAPABILITIES_EXTENSION_NAME "VK_KHR_external_memory_capabilities"
+#define VK_KHR_EXTERNAL_MEMORY_CAPABILITIES_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_MEMORY_EXTENSION_NAME "VK_KHR_external_memory"
+#define VK_KHR_EXTERNAL_MEMORY_FD_EXTENSION_NAME "VK_KHR_external_memory_fd"
+#define VK_KHR_EXTERNAL_MEMORY_FD_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_MEMORY_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_SEMAPHORE_CAPABILITIES_EXTENSION_NAME "VK_KHR_external_semaphore_capabilities"
+#define VK_KHR_EXTERNAL_SEMAPHORE_CAPABILITIES_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_KHR_external_semaphore"
+#define VK_KHR_EXTERNAL_SEMAPHORE_FD_EXTENSION_NAME "VK_KHR_external_semaphore_fd"
+#define VK_KHR_EXTERNAL_SEMAPHORE_FD_SPEC_VERSION 1
+#define VK_KHR_EXTERNAL_SEMAPHORE_SPEC_VERSION 1
+#define VK_KHR_GET_DISPLAY_PROPERTIES_2_EXTENSION_NAME "VK_KHR_get_display_properties2"
+#define VK_KHR_GET_DISPLAY_PROPERTIES_2_SPEC_VERSION 1
+#define VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME "VK_KHR_get_memory_requirements2"
+#define VK_KHR_GET_MEMORY_REQUIREMENTS_2_SPEC_VERSION 1
+#define VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME "VK_KHR_get_physical_device_properties2"
+#define VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_SPEC_VERSION 2
+#define VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME "VK_KHR_get_surface_capabilities2"
+#define VK_KHR_GET_SURFACE_CAPABILITIES_2_SPEC_VERSION 1
+#define VK_KHR_IMAGELESS_FRAMEBUFFER_EXTENSION_NAME "VK_KHR_imageless_framebuffer"
+#define VK_KHR_IMAGELESS_FRAMEBUFFER_SPEC_VERSION 1
+#define VK_KHR_IMAGE_FORMAT_LIST_EXTENSION_NAME "VK_KHR_image_format_list"
+#define VK_KHR_IMAGE_FORMAT_LIST_SPEC_VERSION 1
+#define VK_KHR_INCREMENTAL_PRESENT_EXTENSION_NAME "VK_KHR_incremental_present"
+#define VK_KHR_INCREMENTAL_PRESENT_SPEC_VERSION 1
+#define VK_KHR_MAINTENANCE1_EXTENSION_NAME "VK_KHR_maintenance1"
+#define VK_KHR_MAINTENANCE1_SPEC_VERSION 2
+#define VK_KHR_MAINTENANCE2_EXTENSION_NAME "VK_KHR_maintenance2"
+#define VK_KHR_MAINTENANCE2_SPEC_VERSION 1
+#define VK_KHR_MAINTENANCE3_EXTENSION_NAME "VK_KHR_maintenance3"
+#define VK_KHR_MAINTENANCE3_SPEC_VERSION 1
+#define VK_KHR_MULTIVIEW_EXTENSION_NAME "VK_KHR_multiview"
+#define VK_KHR_MULTIVIEW_SPEC_VERSION 1
+#define VK_KHR_PIPELINE_EXECUTABLE_PROPERTIES_EXTENSION_NAME "VK_KHR_pipeline_executable_properties"
+#define VK_KHR_PIPELINE_EXECUTABLE_PROPERTIES_SPEC_VERSION 1
+#define VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME "VK_KHR_push_descriptor"
+#define VK_KHR_PUSH_DESCRIPTOR_SPEC_VERSION 2
+#define VK_KHR_RELAXED_BLOCK_LAYOUT_EXTENSION_NAME "VK_KHR_relaxed_block_layout"
+#define VK_KHR_RELAXED_BLOCK_LAYOUT_SPEC_VERSION 1
+#define VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_EXTENSION_NAME "VK_KHR_sampler_mirror_clamp_to_edge"
+#define VK_KHR_SAMPLER_MIRROR_CLAMP_TO_EDGE_SPEC_VERSION 3
+#define VK_KHR_SAMPLER_YCBCR_CONVERSION_EXTENSION_NAME "VK_KHR_sampler_ycbcr_conversion"
+#define VK_KHR_SAMPLER_YCBCR_CONVERSION_SPEC_VERSION 14
+#define VK_KHR_SHADER_ATOMIC_INT64_EXTENSION_NAME "VK_KHR_shader_atomic_int64"
+#define VK_KHR_SHADER_ATOMIC_INT64_SPEC_VERSION 1
+#define VK_KHR_SHADER_DRAW_PARAMETERS_EXTENSION_NAME "VK_KHR_shader_draw_parameters"
+#define VK_KHR_SHADER_DRAW_PARAMETERS_SPEC_VERSION 1
+#define VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME "VK_KHR_shader_float16_int8"
+#define VK_KHR_SHADER_FLOAT16_INT8_SPEC_VERSION 1
+#define VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME "VK_KHR_shader_float_controls"
+#define VK_KHR_SHADER_FLOAT_CONTROLS_SPEC_VERSION 4
+#define VK_KHR_SHARED_PRESENTABLE_IMAGE_EXTENSION_NAME "VK_KHR_shared_presentable_image"
+#define VK_KHR_SHARED_PRESENTABLE_IMAGE_SPEC_VERSION 1
+#define VK_KHR_STORAGE_BUFFER_STORAGE_CLASS_EXTENSION_NAME "VK_KHR_storage_buffer_storage_class"
+#define VK_KHR_STORAGE_BUFFER_STORAGE_CLASS_SPEC_VERSION 1
+#define VK_KHR_SURFACE_EXTENSION_NAME "VK_KHR_surface"
+#define VK_KHR_SURFACE_PROTECTED_CAPABILITIES_EXTENSION_NAME "VK_KHR_surface_protected_capabilities"
+#define VK_KHR_SURFACE_PROTECTED_CAPABILITIES_SPEC_VERSION 1
+#define VK_KHR_SURFACE_SPEC_VERSION 25
+#define VK_KHR_SWAPCHAIN_EXTENSION_NAME "VK_KHR_swapchain"
+#define VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_EXTENSION_NAME "VK_KHR_swapchain_mutable_format"
+#define VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_SPEC_VERSION 1
+#define VK_KHR_SWAPCHAIN_SPEC_VERSION 70
+#define VK_KHR_UNIFORM_BUFFER_STANDARD_LAYOUT_EXTENSION_NAME "VK_KHR_uniform_buffer_standard_layout"
+#define VK_KHR_UNIFORM_BUFFER_STANDARD_LAYOUT_SPEC_VERSION 1
+#define VK_KHR_VARIABLE_POINTERS_EXTENSION_NAME "VK_KHR_variable_pointers"
+#define VK_KHR_VARIABLE_POINTERS_SPEC_VERSION 1
+#define VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME "VK_KHR_vulkan_memory_model"
+#define VK_KHR_VULKAN_MEMORY_MODEL_SPEC_VERSION 3
+#define VK_KHR_bind_memory2 1
+#define VK_KHR_create_renderpass2 1
+#define VK_KHR_dedicated_allocation 1
+#define VK_KHR_depth_stencil_resolve 1
+#define VK_KHR_descriptor_update_template 1
+#define VK_KHR_device_group 1
+#define VK_KHR_device_group_creation 1
+#define VK_KHR_display 1
+#define VK_KHR_display_swapchain 1
+#define VK_KHR_draw_indirect_count 1
+#define VK_KHR_driver_properties 1
+#define VK_KHR_external_fence 1
+#define VK_KHR_external_fence_capabilities 1
+#define VK_KHR_external_fence_fd 1
+#define VK_KHR_external_memory 1
+#define VK_KHR_external_memory_capabilities 1
+#define VK_KHR_external_memory_fd 1
+#define VK_KHR_external_semaphore 1
+#define VK_KHR_external_semaphore_capabilities 1
+#define VK_KHR_external_semaphore_fd 1
+#define VK_KHR_get_display_properties2 1
+#define VK_KHR_get_memory_requirements2 1
+#define VK_KHR_get_physical_device_properties2 1
+#define VK_KHR_get_surface_capabilities2 1
+#define VK_KHR_image_format_list 1
+#define VK_KHR_imageless_framebuffer 1
+#define VK_KHR_incremental_present 1
+#define VK_KHR_maintenance1 1
+#define VK_KHR_maintenance2 1
+#define VK_KHR_maintenance3 1
+#define VK_KHR_multiview 1
+#define VK_KHR_pipeline_executable_properties 1
+#define VK_KHR_push_descriptor 1
+#define VK_KHR_relaxed_block_layout 1
+#define VK_KHR_sampler_mirror_clamp_to_edge 1
+#define VK_KHR_sampler_ycbcr_conversion 1
+#define VK_KHR_shader_atomic_int64 1
+#define VK_KHR_shader_draw_parameters 1
+#define VK_KHR_shader_float16_int8 1
+#define VK_KHR_shader_float_controls 1
+#define VK_KHR_shared_presentable_image 1
+#define VK_KHR_storage_buffer_storage_class 1
+#define VK_KHR_surface 1
+#define VK_KHR_surface_protected_capabilities 1
+#define VK_KHR_swapchain 1
+#define VK_KHR_swapchain_mutable_format 1
+#define VK_KHR_uniform_buffer_standard_layout 1
+#define VK_KHR_variable_pointers 1
+#define VK_KHR_vulkan_memory_model 1
+#define VK_LOD_CLAMP_NONE 1000.0f
+#define VK_LUID_SIZE 8
+#define VK_LUID_SIZE_KHR VK_LUID_SIZE
+#define VK_MAKE_VERSION(major,minor,patch) (((major) << 22) | ((minor) << 12) | (patch))
+#define VK_MAX_DESCRIPTION_SIZE 256
+#define VK_MAX_DEVICE_GROUP_SIZE 32
+#define VK_MAX_DEVICE_GROUP_SIZE_KHR VK_MAX_DEVICE_GROUP_SIZE
+#define VK_MAX_DRIVER_INFO_SIZE_KHR 256
+#define VK_MAX_DRIVER_NAME_SIZE_KHR 256
+#define VK_MAX_EXTENSION_NAME_SIZE 256
+#define VK_MAX_MEMORY_HEAPS 16
+#define VK_MAX_MEMORY_TYPES 32
+#define VK_MAX_PHYSICAL_DEVICE_NAME_SIZE 256
+#define VK_NULL_HANDLE 0
+#define VK_NVX_DEVICE_GENERATED_COMMANDS_EXTENSION_NAME "VK_NVX_device_generated_commands"
+#define VK_NVX_DEVICE_GENERATED_COMMANDS_SPEC_VERSION 3
+#define VK_NVX_IMAGE_VIEW_HANDLE_EXTENSION_NAME "VK_NVX_image_view_handle"
+#define VK_NVX_IMAGE_VIEW_HANDLE_SPEC_VERSION 1
+#define VK_NVX_MULTIVIEW_PER_VIEW_ATTRIBUTES_EXTENSION_NAME "VK_NVX_multiview_per_view_attributes"
+#define VK_NVX_MULTIVIEW_PER_VIEW_ATTRIBUTES_SPEC_VERSION 1
+#define VK_NVX_device_generated_commands 1
+#define VK_NVX_image_view_handle 1
+#define VK_NVX_multiview_per_view_attributes 1
+#define VK_NV_CLIP_SPACE_W_SCALING_EXTENSION_NAME "VK_NV_clip_space_w_scaling"
+#define VK_NV_CLIP_SPACE_W_SCALING_SPEC_VERSION 1
+#define VK_NV_COMPUTE_SHADER_DERIVATIVES_EXTENSION_NAME "VK_NV_compute_shader_derivatives"
+#define VK_NV_COMPUTE_SHADER_DERIVATIVES_SPEC_VERSION 1
+#define VK_NV_COOPERATIVE_MATRIX_EXTENSION_NAME "VK_NV_cooperative_matrix"
+#define VK_NV_COOPERATIVE_MATRIX_SPEC_VERSION 1
+#define VK_NV_CORNER_SAMPLED_IMAGE_EXTENSION_NAME "VK_NV_corner_sampled_image"
+#define VK_NV_CORNER_SAMPLED_IMAGE_SPEC_VERSION 2
+#define VK_NV_COVERAGE_REDUCTION_MODE_EXTENSION_NAME "VK_NV_coverage_reduction_mode"
+#define VK_NV_COVERAGE_REDUCTION_MODE_SPEC_VERSION 1
+#define VK_NV_DEDICATED_ALLOCATION_EXTENSION_NAME "VK_NV_dedicated_allocation"
+#define VK_NV_DEDICATED_ALLOCATION_IMAGE_ALIASING_EXTENSION_NAME "VK_NV_dedicated_allocation_image_aliasing"
+#define VK_NV_DEDICATED_ALLOCATION_IMAGE_ALIASING_SPEC_VERSION 1
+#define VK_NV_DEDICATED_ALLOCATION_SPEC_VERSION 1
+#define VK_NV_DEVICE_DIAGNOSTIC_CHECKPOINTS_EXTENSION_NAME "VK_NV_device_diagnostic_checkpoints"
+#define VK_NV_DEVICE_DIAGNOSTIC_CHECKPOINTS_SPEC_VERSION 2
+#define VK_NV_EXTERNAL_MEMORY_CAPABILITIES_EXTENSION_NAME "VK_NV_external_memory_capabilities"
+#define VK_NV_EXTERNAL_MEMORY_CAPABILITIES_SPEC_VERSION 1
+#define VK_NV_EXTERNAL_MEMORY_EXTENSION_NAME "VK_NV_external_memory"
+#define VK_NV_EXTERNAL_MEMORY_SPEC_VERSION 1
+#define VK_NV_FILL_RECTANGLE_EXTENSION_NAME "VK_NV_fill_rectangle"
+#define VK_NV_FILL_RECTANGLE_SPEC_VERSION 1
+#define VK_NV_FRAGMENT_COVERAGE_TO_COLOR_EXTENSION_NAME "VK_NV_fragment_coverage_to_color"
+#define VK_NV_FRAGMENT_COVERAGE_TO_COLOR_SPEC_VERSION 1
+#define VK_NV_FRAGMENT_SHADER_BARYCENTRIC_EXTENSION_NAME "VK_NV_fragment_shader_barycentric"
+#define VK_NV_FRAGMENT_SHADER_BARYCENTRIC_SPEC_VERSION 1
+#define VK_NV_FRAMEBUFFER_MIXED_SAMPLES_EXTENSION_NAME "VK_NV_framebuffer_mixed_samples"
+#define VK_NV_FRAMEBUFFER_MIXED_SAMPLES_SPEC_VERSION 1
+#define VK_NV_GEOMETRY_SHADER_PASSTHROUGH_EXTENSION_NAME "VK_NV_geometry_shader_passthrough"
+#define VK_NV_GEOMETRY_SHADER_PASSTHROUGH_SPEC_VERSION 1
+#define VK_NV_GLSL_SHADER_EXTENSION_NAME "VK_NV_glsl_shader"
+#define VK_NV_GLSL_SHADER_SPEC_VERSION 1
+#define VK_NV_MESH_SHADER_EXTENSION_NAME "VK_NV_mesh_shader"
+#define VK_NV_MESH_SHADER_SPEC_VERSION 1
+#define VK_NV_RAY_TRACING_EXTENSION_NAME "VK_NV_ray_tracing"
+#define VK_NV_RAY_TRACING_SPEC_VERSION 3
+#define VK_NV_REPRESENTATIVE_FRAGMENT_TEST_EXTENSION_NAME "VK_NV_representative_fragment_test"
+#define VK_NV_REPRESENTATIVE_FRAGMENT_TEST_SPEC_VERSION 2
+#define VK_NV_SAMPLE_MASK_OVERRIDE_COVERAGE_EXTENSION_NAME "VK_NV_sample_mask_override_coverage"
+#define VK_NV_SAMPLE_MASK_OVERRIDE_COVERAGE_SPEC_VERSION 1
+#define VK_NV_SCISSOR_EXCLUSIVE_EXTENSION_NAME "VK_NV_scissor_exclusive"
+#define VK_NV_SCISSOR_EXCLUSIVE_SPEC_VERSION 1
+#define VK_NV_SHADER_IMAGE_FOOTPRINT_EXTENSION_NAME "VK_NV_shader_image_footprint"
+#define VK_NV_SHADER_IMAGE_FOOTPRINT_SPEC_VERSION 2
+#define VK_NV_SHADER_SM_BUILTINS_EXTENSION_NAME "VK_NV_shader_sm_builtins"
+#define VK_NV_SHADER_SM_BUILTINS_SPEC_VERSION 1
+#define VK_NV_SHADER_SUBGROUP_PARTITIONED_EXTENSION_NAME "VK_NV_shader_subgroup_partitioned"
+#define VK_NV_SHADER_SUBGROUP_PARTITIONED_SPEC_VERSION 1
+#define VK_NV_SHADING_RATE_IMAGE_EXTENSION_NAME "VK_NV_shading_rate_image"
+#define VK_NV_SHADING_RATE_IMAGE_SPEC_VERSION 3
+#define VK_NV_VIEWPORT_ARRAY2_EXTENSION_NAME "VK_NV_viewport_array2"
+#define VK_NV_VIEWPORT_ARRAY2_SPEC_VERSION 1
+#define VK_NV_VIEWPORT_SWIZZLE_EXTENSION_NAME "VK_NV_viewport_swizzle"
+#define VK_NV_VIEWPORT_SWIZZLE_SPEC_VERSION 1
+#define VK_NV_clip_space_w_scaling 1
+#define VK_NV_compute_shader_derivatives 1
+#define VK_NV_cooperative_matrix 1
+#define VK_NV_corner_sampled_image 1
+#define VK_NV_coverage_reduction_mode 1
+#define VK_NV_dedicated_allocation 1
+#define VK_NV_dedicated_allocation_image_aliasing 1
+#define VK_NV_device_diagnostic_checkpoints 1
+#define VK_NV_external_memory 1
+#define VK_NV_external_memory_capabilities 1
+#define VK_NV_fill_rectangle 1
+#define VK_NV_fragment_coverage_to_color 1
+#define VK_NV_fragment_shader_barycentric 1
+#define VK_NV_framebuffer_mixed_samples 1
+#define VK_NV_geometry_shader_passthrough 1
+#define VK_NV_glsl_shader 1
+#define VK_NV_mesh_shader 1
+#define VK_NV_ray_tracing 1
+#define VK_NV_representative_fragment_test 1
+#define VK_NV_sample_mask_override_coverage 1
+#define VK_NV_scissor_exclusive 1
+#define VK_NV_shader_image_footprint 1
+#define VK_NV_shader_sm_builtins 1
+#define VK_NV_shader_subgroup_partitioned 1
+#define VK_NV_shading_rate_image 1
+#define VK_NV_viewport_array2 1
+#define VK_NV_viewport_swizzle 1
+#define VK_PLATFORM_H_ 
+#define VK_QUEUE_FAMILY_EXTERNAL (~0U-1)
+#define VK_QUEUE_FAMILY_EXTERNAL_KHR VK_QUEUE_FAMILY_EXTERNAL
+#define VK_QUEUE_FAMILY_FOREIGN_EXT (~0U-2)
+#define VK_QUEUE_FAMILY_IGNORED (~0U)
+#define VK_REMAINING_ARRAY_LAYERS (~0U)
+#define VK_REMAINING_MIP_LEVELS (~0U)
+#define VK_SHADER_UNUSED_NV (~0U)
+#define VK_SUBPASS_EXTERNAL (~0U)
+#define VK_TRUE 1
+#define VK_UUID_SIZE 16
+#define VK_VERSION_1_0 1
+#define VK_VERSION_1_1 1
+#define VK_VERSION_MAJOR(version) ((uint32_t)(version) >> 22)
+#define VK_VERSION_MINOR(version) (((uint32_t)(version) >> 12) & 0x3ff)
+#define VK_VERSION_PATCH(version) ((uint32_t)(version) & 0xfff)
+#define VK_WHOLE_SIZE (~0ULL)
+#define VULKAN_CORE_H_ 1
+#define VULKAN_H_ 1
+#define WCHAR_MAX __WCHAR_MAX__
+#define WCHAR_MIN (-WCHAR_MAX-1)
+#define WINT_MAX INT32_MAX
+#define WINT_MIN INT32_MIN
+#define _BSD_I386__TYPES_H_ 
+#define _BSD_MACHINE_TYPES_H_ 
+#define _BSD_MACHINE__TYPES_H_ 
+#define _CDEFS_H_ 
+#define _DARWIN_FEATURE_64_BIT_INODE 1
+#define _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE 1
+#define _DARWIN_FEATURE_UNIX_CONFORMANCE 3
+#define _INT16_T 
+#define _INT32_T 
+#define _INT64_T 
+#define _INT8_T 
+#define _INTMAX_T 
+#define _INTPTR_T 
+#define _LP64 1
+#define _MACHTYPES_H_ 
+#define _PTRDIFF_T 
+#define _SIZE_T 
+#define _STDINT_H_ 
+#define _SYS__PTHREAD_TYPES_H_ 
+#define _SYS__TYPES_H_ 
+#define _UINT16_T 
+#define _UINT32_T 
+#define _UINT64_T 
+#define _UINT8_T 
+#define _UINTMAX_T 
+#define _UINTPTR_T 
+#define _U_INT16_T 
+#define _U_INT32_T 
+#define _U_INT64_T 
+#define _U_INT8_T 
+#define _WCHAR_T 
+#define __APPLE_CC__ 6000
+#define __APPLE__ 1
+#define __ATOMIC_ACQUIRE 2
+#define __ATOMIC_ACQ_REL 4
+#define __ATOMIC_CONSUME 1
+#define __ATOMIC_RELAXED 0
+#define __ATOMIC_RELEASE 3
+#define __ATOMIC_SEQ_CST 5
+#define __BEGIN_DECLS 
+#define __BIGGEST_ALIGNMENT__ 16
+#define __BLOCKS__ 1
+#define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
+#define __CAST_AWAY_QUALIFIER(variable,qualifier,type) (type) (long)(variable)
+#define __CHAR16_TYPE__ unsigned short
+#define __CHAR32_TYPE__ unsigned int
+#define __CHAR_BIT__ 8
+#define __CLANG_ATOMIC_BOOL_LOCK_FREE 2
+#define __CLANG_ATOMIC_CHAR16_T_LOCK_FREE 2
+#define __CLANG_ATOMIC_CHAR32_T_LOCK_FREE 2
+#define __CLANG_ATOMIC_CHAR_LOCK_FREE 2
+#define __CLANG_ATOMIC_INT_LOCK_FREE 2
+#define __CLANG_ATOMIC_LLONG_LOCK_FREE 2
+#define __CLANG_ATOMIC_LONG_LOCK_FREE 2
+#define __CLANG_ATOMIC_POINTER_LOCK_FREE 2
+#define __CLANG_ATOMIC_SHORT_LOCK_FREE 2
+#define __CLANG_ATOMIC_WCHAR_T_LOCK_FREE 2
+#define __CLANG_MAX_ALIGN_T_DEFINED 
+#define __CLANG_STDINT_H 
+#define __CONCAT(x,y) x ## y
+#define __CONSTANT_CFSTRINGS__ 1
+#define __COPYRIGHT(s) __IDSTRING(copyright,s)
+#define __DARWIN_1050(sym) __asm("_" __STRING(sym) __DARWIN_SUF_1050)
+#define __DARWIN_1050ALIAS(sym) __asm("_" __STRING(sym) __DARWIN_SUF_1050 __DARWIN_SUF_UNIX03)
+#define __DARWIN_1050ALIAS_C(sym) __asm("_" __STRING(sym) __DARWIN_SUF_1050 __DARWIN_SUF_NON_CANCELABLE __DARWIN_SUF_UNIX03)
+#define __DARWIN_1050ALIAS_I(sym) __asm("_" __STRING(sym) __DARWIN_SUF_1050 __DARWIN_SUF_64_BIT_INO_T __DARWIN_SUF_UNIX03)
+#define __DARWIN_1050INODE64(sym) __asm("_" __STRING(sym) __DARWIN_SUF_1050 __DARWIN_SUF_64_BIT_INO_T)
+#define __DARWIN_64_BIT_INO_T 1
+#define __DARWIN_ALIAS(sym) __asm("_" __STRING(sym) __DARWIN_SUF_UNIX03)
+#define __DARWIN_ALIAS_C(sym) __asm("_" __STRING(sym) __DARWIN_SUF_NON_CANCELABLE __DARWIN_SUF_UNIX03)
+#define __DARWIN_ALIAS_I(sym) __asm("_" __STRING(sym) __DARWIN_SUF_64_BIT_INO_T __DARWIN_SUF_UNIX03)
+#define __DARWIN_ALIAS_STARTING(_mac,_iphone,x) __DARWIN_ALIAS_STARTING_MAC_##_mac(x)
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_10_3(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_3(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_11_4(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_3(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_12_4(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_3(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_4(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_5(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_6(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_13_7(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_14_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_14_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_14_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_2_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_2_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_2_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_3_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_3_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_3_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_4_3(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_5_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_5_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_6_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_6_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_7_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_7_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_3(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_8_4(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_0(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_1(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_2(x) 
+#define __DARWIN_ALIAS_STARTING_IPHONE___IPHONE_9_3(x) 
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_0(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_1(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_10(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_2(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_10_3(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_11(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_2(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_3(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_11_4(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_12(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_1(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_2(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_12_4(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_13(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_1(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_2(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_13_4(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_14(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_1(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_4(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_5(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_14_6(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_15(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_15_1(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_16(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_2(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_3(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_4(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_5(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_6(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_7(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_8(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_10_9(x) x
+#define __DARWIN_ALIAS_STARTING_MAC___MAC_11_0(x) x
+#define __DARWIN_C_ANSI 010000L
+#define __DARWIN_C_FULL 900000L
+#define __DARWIN_C_LEVEL __DARWIN_C_FULL
+#define __DARWIN_EXTSN(sym) __asm("_" __STRING(sym) __DARWIN_SUF_EXTSN)
+#define __DARWIN_EXTSN_C(sym) __asm("_" __STRING(sym) __DARWIN_SUF_EXTSN __DARWIN_SUF_NON_CANCELABLE)
+#define __DARWIN_INODE64(sym) __asm("_" __STRING(sym) __DARWIN_SUF_64_BIT_INO_T)
+#define __DARWIN_NOCANCEL(sym) __asm("_" __STRING(sym) __DARWIN_SUF_NON_CANCELABLE)
+#define __DARWIN_NON_CANCELABLE 0
+#define __DARWIN_NO_LONG_LONG 0
+#define __DARWIN_NULL ((void *)0)
+#define __DARWIN_ONLY_64_BIT_INO_T 0
+#define __DARWIN_ONLY_UNIX_CONFORMANCE 1
+#define __DARWIN_ONLY_VERS_1050 0
+#define __DARWIN_SUF_1050 "$1050"
+#define __DARWIN_SUF_64_BIT_INO_T "$INODE64"
+#define __DARWIN_SUF_EXTSN "$DARWIN_EXTSN"
+#define __DARWIN_SUF_NON_CANCELABLE 
+#define __DARWIN_SUF_UNIX03 
+#define __DARWIN_UNIX03 1
+#define __DARWIN_VERS_1050 1
+#define __DBL_DECIMAL_DIG__ 17
+#define __DBL_DENORM_MIN__ 4.9406564584124654e-324
+#define __DBL_DIG__ 15
+#define __DBL_EPSILON__ 2.2204460492503131e-16
+#define __DBL_HAS_DENORM__ 1
+#define __DBL_HAS_INFINITY__ 1
+#define __DBL_HAS_QUIET_NAN__ 1
+#define __DBL_MANT_DIG__ 53
+#define __DBL_MAX_10_EXP__ 308
+#define __DBL_MAX_EXP__ 1024
+#define __DBL_MAX__ 1.7976931348623157e+308
+#define __DBL_MIN_10_EXP__ (-307)
+#define __DBL_MIN_EXP__ (-1021)
+#define __DBL_MIN__ 2.2250738585072014e-308
+#define __DECIMAL_DIG__ __LDBL_DECIMAL_DIG__
+#define __DECONST(type,var) __CAST_AWAY_QUALIFIER(var, const, type)
+#define __DEQUALIFY(type,var) __CAST_AWAY_QUALIFIER(var, const volatile, type)
+#define __DEVOLATILE(type,var) __CAST_AWAY_QUALIFIER(var, volatile, type)
+#define __DYNAMIC__ 1
+#define __END_DECLS 
+#define __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ 110000
+#define __FBSDID(s) 
+#define __FINITE_MATH_ONLY__ 0
+#define __FLT16_DECIMAL_DIG__ 5
+#define __FLT16_DENORM_MIN__ 5.9604644775390625e-8F16
+#define __FLT16_DIG__ 3
+#define __FLT16_EPSILON__ 9.765625e-4F16
+#define __FLT16_HAS_DENORM__ 1
+#define __FLT16_HAS_INFINITY__ 1
+#define __FLT16_HAS_QUIET_NAN__ 1
+#define __FLT16_MANT_DIG__ 11
+#define __FLT16_MAX_10_EXP__ 4
+#define __FLT16_MAX_EXP__ 16
+#define __FLT16_MAX__ 6.5504e+4F16
+#define __FLT16_MIN_10_EXP__ (-4)
+#define __FLT16_MIN_EXP__ (-13)
+#define __FLT16_MIN__ 6.103515625e-5F16
+#define __FLT_DECIMAL_DIG__ 9
+#define __FLT_DENORM_MIN__ 1.40129846e-45F
+#define __FLT_DIG__ 6
+#define __FLT_EPSILON__ 1.19209290e-7F
+#define __FLT_EVAL_METHOD__ 0
+#define __FLT_HAS_DENORM__ 1
+#define __FLT_HAS_INFINITY__ 1
+#define __FLT_HAS_QUIET_NAN__ 1
+#define __FLT_MANT_DIG__ 24
+#define __FLT_MAX_10_EXP__ 38
+#define __FLT_MAX_EXP__ 128
+#define __FLT_MAX__ 3.40282347e+38F
+#define __FLT_MIN_10_EXP__ (-37)
+#define __FLT_MIN_EXP__ (-125)
+#define __FLT_MIN__ 1.17549435e-38F
+#define __FLT_RADIX__ 2
+#define __FXSR__ 1
+#define __GCC_ASM_FLAG_OUTPUTS__ 1
+#define __GCC_ATOMIC_BOOL_LOCK_FREE 2
+#define __GCC_ATOMIC_CHAR16_T_LOCK_FREE 2
+#define __GCC_ATOMIC_CHAR32_T_LOCK_FREE 2
+#define __GCC_ATOMIC_CHAR_LOCK_FREE 2
+#define __GCC_ATOMIC_INT_LOCK_FREE 2
+#define __GCC_ATOMIC_LLONG_LOCK_FREE 2
+#define __GCC_ATOMIC_LONG_LOCK_FREE 2
+#define __GCC_ATOMIC_POINTER_LOCK_FREE 2
+#define __GCC_ATOMIC_SHORT_LOCK_FREE 2
+#define __GCC_ATOMIC_TEST_AND_SET_TRUEVAL 1
+#define __GCC_ATOMIC_WCHAR_T_LOCK_FREE 2
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_1 1
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16 1
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2 1
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4 1
+#define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8 1
+#define __GNUC_MINOR__ 2
+#define __GNUC_PATCHLEVEL__ 1
+#define __GNUC_STDC_INLINE__ 1
+#define __GNUC__ 4
+#define __GXX_ABI_VERSION 1002
+#define __IDSTRING(name,string) static const char name[] __used = string
+#define __INT16_C_SUFFIX__ 
+#define __INT16_FMTd__ "hd"
+#define __INT16_FMTi__ "hi"
+#define __INT16_MAX__ 32767
+#define __INT16_TYPE__ short
+#define __INT32_C_SUFFIX__ 
+#define __INT32_FMTd__ "d"
+#define __INT32_FMTi__ "i"
+#define __INT32_MAX__ 2147483647
+#define __INT32_TYPE__ int
+#define __INT64_C_SUFFIX__ LL
+#define __INT64_FMTd__ "lld"
+#define __INT64_FMTi__ "lli"
+#define __INT64_MAX__ 9223372036854775807LL
+#define __INT64_TYPE__ long long int
+#define __INT8_C_SUFFIX__ 
+#define __INT8_FMTd__ "hhd"
+#define __INT8_FMTi__ "hhi"
+#define __INT8_MAX__ 127
+#define __INT8_TYPE__ signed char
+#define __INTMAX_C_SUFFIX__ L
+#define __INTMAX_FMTd__ "ld"
+#define __INTMAX_FMTi__ "li"
+#define __INTMAX_MAX__ 9223372036854775807L
+#define __INTMAX_TYPE__ long int
+#define __INTMAX_WIDTH__ 64
+#define __INTPTR_FMTd__ "ld"
+#define __INTPTR_FMTi__ "li"
+#define __INTPTR_MAX__ 9223372036854775807L
+#define __INTPTR_TYPE__ long int
+#define __INTPTR_WIDTH__ 64
+#define __INT_FAST16_FMTd__ "hd"
+#define __INT_FAST16_FMTi__ "hi"
+#define __INT_FAST16_MAX__ 32767
+#define __INT_FAST16_TYPE__ short
+#define __INT_FAST32_FMTd__ "d"
+#define __INT_FAST32_FMTi__ "i"
+#define __INT_FAST32_MAX__ 2147483647
+#define __INT_FAST32_TYPE__ int
+#define __INT_FAST64_FMTd__ "lld"
+#define __INT_FAST64_FMTi__ "lli"
+#define __INT_FAST64_MAX__ 9223372036854775807LL
+#define __INT_FAST64_TYPE__ long long int
+#define __INT_FAST8_FMTd__ "hhd"
+#define __INT_FAST8_FMTi__ "hhi"
+#define __INT_FAST8_MAX__ 127
+#define __INT_FAST8_TYPE__ signed char
+#define __INT_LEAST16_FMTd__ "hd"
+#define __INT_LEAST16_FMTi__ "hi"
+#define __INT_LEAST16_MAX__ 32767
+#define __INT_LEAST16_TYPE__ short
+#define __INT_LEAST32_FMTd__ "d"
+#define __INT_LEAST32_FMTi__ "i"
+#define __INT_LEAST32_MAX__ 2147483647
+#define __INT_LEAST32_TYPE__ int
+#define __INT_LEAST64_FMTd__ "lld"
+#define __INT_LEAST64_FMTi__ "lli"
+#define __INT_LEAST64_MAX__ 9223372036854775807LL
+#define __INT_LEAST64_TYPE__ long long int
+#define __INT_LEAST8_FMTd__ "hhd"
+#define __INT_LEAST8_FMTi__ "hhi"
+#define __INT_LEAST8_MAX__ 127
+#define __INT_LEAST8_TYPE__ signed char
+#define __INT_MAX__ 2147483647
+#define __LDBL_DECIMAL_DIG__ 21
+#define __LDBL_DENORM_MIN__ 3.64519953188247460253e-4951L
+#define __LDBL_DIG__ 18
+#define __LDBL_EPSILON__ 1.08420217248550443401e-19L
+#define __LDBL_HAS_DENORM__ 1
+#define __LDBL_HAS_INFINITY__ 1
+#define __LDBL_HAS_QUIET_NAN__ 1
+#define __LDBL_MANT_DIG__ 64
+#define __LDBL_MAX_10_EXP__ 4932
+#define __LDBL_MAX_EXP__ 16384
+#define __LDBL_MAX__ 1.18973149535723176502e+4932L
+#define __LDBL_MIN_10_EXP__ (-4931)
+#define __LDBL_MIN_EXP__ (-16381)
+#define __LDBL_MIN__ 3.36210314311209350626e-4932L
+#define __LITTLE_ENDIAN__ 1
+#define __LONG_LONG_MAX__ 9223372036854775807LL
+#define __LONG_MAX__ 9223372036854775807L
+#define __LP64__ 1
+#define __MACH__ 1
+#define __MMX__ 1
+#define __NO_INLINE__ 1
+#define __NO_MATH_INLINES 1
+#define __OBJC_BOOL_IS_BOOL 0
+#define __OPENCL_MEMORY_SCOPE_ALL_SVM_DEVICES 3
+#define __OPENCL_MEMORY_SCOPE_DEVICE 2
+#define __OPENCL_MEMORY_SCOPE_SUB_GROUP 4
+#define __OPENCL_MEMORY_SCOPE_WORK_GROUP 1
+#define __OPENCL_MEMORY_SCOPE_WORK_ITEM 0
+#define __ORDER_BIG_ENDIAN__ 4321
+#define __ORDER_LITTLE_ENDIAN__ 1234
+#define __ORDER_PDP_ENDIAN__ 3412
+#define __P(protos) protos
+#define __PIC__ 2
+#define __POINTER_WIDTH__ 64
+#define __POSIX_C_DEPRECATED(ver) ___POSIX_C_DEPRECATED_STARTING_##ver
+#define __PRAGMA_REDEFINE_EXTNAME 1
+#define __PROJECT_VERSION(s) __IDSTRING(project_version,s)
+#define __PTHREAD_ATTR_SIZE__ 56
+#define __PTHREAD_CONDATTR_SIZE__ 8
+#define __PTHREAD_COND_SIZE__ 40
+#define __PTHREAD_MUTEXATTR_SIZE__ 8
+#define __PTHREAD_MUTEX_SIZE__ 56
+#define __PTHREAD_ONCE_SIZE__ 8
+#define __PTHREAD_RWLOCKATTR_SIZE__ 16
+#define __PTHREAD_RWLOCK_SIZE__ 192
+#define __PTHREAD_SIZE__ 8176
+#define __PTRDIFF_FMTd__ "ld"
+#define __PTRDIFF_FMTi__ "li"
+#define __PTRDIFF_MAX__ 9223372036854775807L
+#define __PTRDIFF_TYPE__ long int
+#define __PTRDIFF_WIDTH__ 64
+#define __RCSID(s) __IDSTRING(rcsid,s)
+#define __REGISTER_PREFIX__ 
+#define __SCCSID(s) __IDSTRING(sccsid,s)
+#define __SCHAR_MAX__ 127
+#define __SEG_FS 1
+#define __SEG_GS 1
+#define __SHRT_MAX__ 32767
+#define __SIG_ATOMIC_MAX__ 2147483647
+#define __SIG_ATOMIC_WIDTH__ 32
+#define __SIZEOF_DOUBLE__ 8
+#define __SIZEOF_FLOAT__ 4
+#define __SIZEOF_INT128__ 16
+#define __SIZEOF_INT__ 4
+#define __SIZEOF_LONG_DOUBLE__ 16
+#define __SIZEOF_LONG_LONG__ 8
+#define __SIZEOF_LONG__ 8
+#define __SIZEOF_POINTER__ 8
+#define __SIZEOF_PTRDIFF_T__ 8
+#define __SIZEOF_SHORT__ 2
+#define __SIZEOF_SIZE_T__ 8
+#define __SIZEOF_WCHAR_T__ 4
+#define __SIZEOF_WINT_T__ 4
+#define __SIZE_FMTX__ "lX"
+#define __SIZE_FMTo__ "lo"
+#define __SIZE_FMTu__ "lu"
+#define __SIZE_FMTx__ "lx"
+#define __SIZE_MAX__ 18446744073709551615UL
+#define __SIZE_TYPE__ long unsigned int
+#define __SIZE_WIDTH__ 64
+#define __SSE2_MATH__ 1
+#define __SSE2__ 1
+#define __SSE3__ 1
+#define __SSE4_1__ 1
+#define __SSE_MATH__ 1
+#define __SSE__ 1
+#define __SSP__ 1
+#define __SSSE3__ 1
+#define __STDC_HOSTED__ 1
+#define __STDC_NO_THREADS__ 1
+#define __STDC_UTF_16__ 1
+#define __STDC_UTF_32__ 1
+#define __STDC_VERSION__ 201112L
+#define __STDC_WANT_LIB_EXT1__ 1
+#define __STDC__ 1
+#define __STDDEF_H 
+#define __STRING(x) #x
+#define __UINT16_C_SUFFIX__ 
+#define __UINT16_FMTX__ "hX"
+#define __UINT16_FMTo__ "ho"
+#define __UINT16_FMTu__ "hu"
+#define __UINT16_FMTx__ "hx"
+#define __UINT16_MAX__ 65535
+#define __UINT16_TYPE__ unsigned short
+#define __UINT32_C_SUFFIX__ U
+#define __UINT32_FMTX__ "X"
+#define __UINT32_FMTo__ "o"
+#define __UINT32_FMTu__ "u"
+#define __UINT32_FMTx__ "x"
+#define __UINT32_MAX__ 4294967295U
+#define __UINT32_TYPE__ unsigned int
+#define __UINT64_C_SUFFIX__ ULL
+#define __UINT64_FMTX__ "llX"
+#define __UINT64_FMTo__ "llo"
+#define __UINT64_FMTu__ "llu"
+#define __UINT64_FMTx__ "llx"
+#define __UINT64_MAX__ 18446744073709551615ULL
+#define __UINT64_TYPE__ long long unsigned int
+#define __UINT8_C_SUFFIX__ 
+#define __UINT8_FMTX__ "hhX"
+#define __UINT8_FMTo__ "hho"
+#define __UINT8_FMTu__ "hhu"
+#define __UINT8_FMTx__ "hhx"
+#define __UINT8_MAX__ 255
+#define __UINT8_TYPE__ unsigned char
+#define __UINTMAX_C_SUFFIX__ UL
+#define __UINTMAX_FMTX__ "lX"
+#define __UINTMAX_FMTo__ "lo"
+#define __UINTMAX_FMTu__ "lu"
+#define __UINTMAX_FMTx__ "lx"
+#define __UINTMAX_MAX__ 18446744073709551615UL
+#define __UINTMAX_TYPE__ long unsigned int
+#define __UINTMAX_WIDTH__ 64
+#define __UINTPTR_FMTX__ "lX"
+#define __UINTPTR_FMTo__ "lo"
+#define __UINTPTR_FMTu__ "lu"
+#define __UINTPTR_FMTx__ "lx"
+#define __UINTPTR_MAX__ 18446744073709551615UL
+#define __UINTPTR_TYPE__ long unsigned int
+#define __UINTPTR_WIDTH__ 64
+#define __UINT_FAST16_FMTX__ "hX"
+#define __UINT_FAST16_FMTo__ "ho"
+#define __UINT_FAST16_FMTu__ "hu"
+#define __UINT_FAST16_FMTx__ "hx"
+#define __UINT_FAST16_MAX__ 65535
+#define __UINT_FAST16_TYPE__ unsigned short
+#define __UINT_FAST32_FMTX__ "X"
+#define __UINT_FAST32_FMTo__ "o"
+#define __UINT_FAST32_FMTu__ "u"
+#define __UINT_FAST32_FMTx__ "x"
+#define __UINT_FAST32_MAX__ 4294967295U
+#define __UINT_FAST32_TYPE__ unsigned int
+#define __UINT_FAST64_FMTX__ "llX"
+#define __UINT_FAST64_FMTo__ "llo"
+#define __UINT_FAST64_FMTu__ "llu"
+#define __UINT_FAST64_FMTx__ "llx"
+#define __UINT_FAST64_MAX__ 18446744073709551615ULL
+#define __UINT_FAST64_TYPE__ long long unsigned int
+#define __UINT_FAST8_FMTX__ "hhX"
+#define __UINT_FAST8_FMTo__ "hho"
+#define __UINT_FAST8_FMTu__ "hhu"
+#define __UINT_FAST8_FMTx__ "hhx"
+#define __UINT_FAST8_MAX__ 255
+#define __UINT_FAST8_TYPE__ unsigned char
+#define __UINT_LEAST16_FMTX__ "hX"
+#define __UINT_LEAST16_FMTo__ "ho"
+#define __UINT_LEAST16_FMTu__ "hu"
+#define __UINT_LEAST16_FMTx__ "hx"
+#define __UINT_LEAST16_MAX__ 65535
+#define __UINT_LEAST16_TYPE__ unsigned short
+#define __UINT_LEAST32_FMTX__ "X"
+#define __UINT_LEAST32_FMTo__ "o"
+#define __UINT_LEAST32_FMTu__ "u"
+#define __UINT_LEAST32_FMTx__ "x"
+#define __UINT_LEAST32_MAX__ 4294967295U
+#define __UINT_LEAST32_TYPE__ unsigned int
+#define __UINT_LEAST64_FMTX__ "llX"
+#define __UINT_LEAST64_FMTo__ "llo"
+#define __UINT_LEAST64_FMTu__ "llu"
+#define __UINT_LEAST64_FMTx__ "llx"
+#define __UINT_LEAST64_MAX__ 18446744073709551615ULL
+#define __UINT_LEAST64_TYPE__ long long unsigned int
+#define __UINT_LEAST8_FMTX__ "hhX"
+#define __UINT_LEAST8_FMTo__ "hho"
+#define __UINT_LEAST8_FMTu__ "hhu"
+#define __UINT_LEAST8_FMTx__ "hhx"
+#define __UINT_LEAST8_MAX__ 255
+#define __UINT_LEAST8_TYPE__ unsigned char
+#define __USER_LABEL_PREFIX__ _
+#define __VERSION__ "Apple LLVM 12.0.0 (clang-1200.0.32.27)"
+#define __WCHAR_MAX__ 2147483647
+#define __WCHAR_TYPE__ int
+#define __WCHAR_WIDTH__ 32
+#define __WINT_MAX__ 2147483647
+#define __WINT_TYPE__ int
+#define __WINT_WIDTH__ 32
+#define __WORDSIZE 64
+#define __XNU_PRIVATE_EXTERN __attribute__((visibility("hidden")))
+#define ___POSIX_C_DEPRECATED_STARTING_198808L 
+#define ___POSIX_C_DEPRECATED_STARTING_199009L 
+#define ___POSIX_C_DEPRECATED_STARTING_199209L 
+#define ___POSIX_C_DEPRECATED_STARTING_199309L 
+#define ___POSIX_C_DEPRECATED_STARTING_199506L 
+#define ___POSIX_C_DEPRECATED_STARTING_200112L 
+#define ___POSIX_C_DEPRECATED_STARTING_200809L 
+#define __abortlike __dead2 __cold __not_tail_called
+#define __alloc_size(...) __attribute__((alloc_size(__VA_ARGS__)))
+#define __amd64 1
+#define __amd64__ 1
+#define __apple_build_version__ 12000032
+#define __block __attribute__((__blocks__(byref)))
+#define __clang__ 1
+#define __clang_major__ 12
+#define __clang_minor__ 0
+#define __clang_patchlevel__ 0
+#define __clang_version__ "12.0.0 (clang-1200.0.32.27)"
+#define __code_model_small_ 1
+#define __cold __attribute__((__cold__))
+#define __compiler_barrier() __asm__ __volatile__("" ::: "memory")
+#define __const const
+#define __core2 1
+#define __core2__ 1
+#define __dead 
+#define __dead2 __attribute__((__noreturn__))
+#define __deprecated __attribute__((__deprecated__))
+#define __deprecated_enum_msg(_msg) __deprecated_msg(_msg)
+#define __deprecated_msg(_msg) __attribute__((__deprecated__(_msg)))
+#define __disable_tail_calls __attribute__((__disable_tail_calls__))
+#define __enum_closed __attribute__((__enum_extensibility__(closed)))
+#define __enum_closed_decl(_name,_type,...) typedef enum : _type __VA_ARGS__ __enum_closed _name
+#define __enum_decl(_name,_type,...) typedef enum : _type __VA_ARGS__ __enum_open _name
+#define __enum_open __attribute__((__enum_extensibility__(open)))
+#define __enum_options __attribute__((__flag_enum__))
+#define __exported __attribute__((__visibility__("default")))
+#define __exported_pop _Pragma("GCC visibility pop")
+#define __exported_push _Pragma("GCC visibility push(default)")
+#define __header_always_inline __header_inline __attribute__ ((__always_inline__))
+#define __header_inline inline
+#define __kpi_deprecated(_msg) 
+#define __kpi_deprecated_arm64_macos_unavailable 
+#define __kpi_unavailable 
+#define __llvm__ 1
+#define __nonnull _Nonnull
+#define __not_tail_called __attribute__((__not_tail_called__))
+#define __null_unspecified _Null_unspecified
+#define __nullable _Nullable
+#define __offsetof(type,field) __builtin_offsetof(type, field)
+#define __options_closed_decl(_name,_type,...) typedef enum : _type __VA_ARGS__ __enum_closed __enum_options _name
+#define __options_decl(_name,_type,...) typedef enum : _type __VA_ARGS__ __enum_open __enum_options _name
+#define __pic__ 2
+#define __printf0like(fmtarg,firstvararg) __attribute__((__format__ (__printf0__, fmtarg, firstvararg)))
+#define __printflike(fmtarg,firstvararg) __attribute__((__format__ (__printf__, fmtarg, firstvararg)))
+#define __pure 
+#define __pure2 __attribute__((__const__))
+#define __restrict restrict
+#define __result_use_check __attribute__((__warn_unused_result__))
+#define __scanflike(fmtarg,firstvararg) __attribute__((__format__ (__scanf__, fmtarg, firstvararg)))
+#define __seg_fs __attribute__((address_space(257)))
+#define __seg_gs __attribute__((address_space(256)))
+#define __signed signed
+#define __strong 
+#define __swift_unavailable(_msg) __attribute__((__availability__(swift, unavailable, message=_msg)))
+#define __tune_core2__ 1
+#define __unavailable __attribute__((__unavailable__))
+#define __unreachable_ok_pop _Pragma("clang diagnostic pop")
+#define __unreachable_ok_push _Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wunreachable-code\"")
+#define __unsafe_unretained 
+#define __unused __attribute__((__unused__))
+#define __used __attribute__((__used__))
+#define __volatile volatile
+#define __weak __attribute__((objc_gc(weak)))
+#define __x86_64 1
+#define __x86_64__ 1
+#define offsetof(t,d) __builtin_offsetof(t, d)

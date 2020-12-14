@@ -1,19 +1,23 @@
 function setup()
     stars = {}
-    for i=1,W do
+    for i=1,1000 do
         stars[i] = {
             angle = random(TAU),
-            len = i,
+            angularSpeed = random(-0.01, -0.1),
+            
+            len = 0,
+            linearSpeed = random(2, 15),
+            
             width = random(1,5),
-            speed = random(-0.001, -0.01),
+            
             clr = Color.random()
         }
     end
     
-    parameter.number('speed', 0, 5, 0)
+    parameter.number('speed', 0, 50, 20)
 end
 
-function draw()
+function draw(dt)
     noStroke()
 
     fill(0, 0, 0, 0.05)
@@ -22,6 +26,8 @@ function draw()
     rect(0, 0, WIDTH, HEIGHT)
 
     translate(W/2, H/2)
+    
+    area = Rect(-W/2, -H/2, W, H)
 
     local position = vec3()
     
@@ -39,6 +45,11 @@ function draw()
 
         point(position)
 
-        star.angle = star.angle + star.speed * speed
+        star.angle = star.angle + star.angularSpeed * speed * DeltaTime
+        star.len = star.len + star.linearSpeed * speed * DeltaTime
+        
+        if not area:contains(position) then
+            star.len = 0
+        end
     end
 end

@@ -75,6 +75,8 @@ function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
         Gravity.x = Gravity.x + dx * 0.1
         Gravity.y = Gravity.y - dy * 0.1
     end
+    
+    CurrentTouch = mouse:transform()
 end
 
 function Mouse:mouseMove(id, state, x, y, dx, dy, isTouch, tapCount)
@@ -100,5 +102,3 @@ function Mouse:mouseWheel(id, dx, dy)
 end
 
 mouse = Mouse()
-
-CurrentTouch = mouse

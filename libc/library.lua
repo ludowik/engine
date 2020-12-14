@@ -100,7 +100,6 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
 
         print('compile '..moduleName)
 
-
         if windows then
             params.compiler = [[
             set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
@@ -151,7 +150,3 @@ ffi = require 'ffi'
 
 ffi.NULL = ffi.cast('void*', 0)
 NULL = ffi.NULL
-
--- TODO : autogenerate header for library
--- "gcc -F"..self.sdk.." -E     '"..stub.."' | grep -v '^#' > '"..cFile.."';"..
--- "gcc -F"..self.sdk.." -dM -E '"..stub.."'                > '"..hFile.."';")

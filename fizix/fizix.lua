@@ -1,8 +1,7 @@
 Fizix = class('Fizix')
 
-Gravity = vec3(0, -9.81)
-
 function Fizix.setup()
+    Gravity = vec3(0, -9.81)
 end
 
 function Fizix:init()
@@ -11,23 +10,24 @@ function Fizix:init()
     self.bodies = Array()
     self.contacts = Array()
 
-    self.g = vec3(0, -9.81)
-    
     self.worldCenter = vec2()
 
     self.pixelRatio = 32
-    
+
+    self.gravityForce = vec3(0, -9.81) * self.pixelRatio
+
     self.debug = true
 
     self.deltaTime = 0
     self.elapsedTime = 0
+    self.remainTime = 0
 
     self:resume()
 end
 
 function Fizix:gravity(...)
-    self.g:set(...)
-    return self.g
+    self.gravityForce:set(...)
+    return self.gravityForce
 end
 
 function Fizix:joint(...)
@@ -84,15 +84,15 @@ function Fizix:update(dt)
 
     self:setProperties()
     do
-        local ds = dt -- 0.015
-        while dt > 0 do
+        dt = dt + self.remainTime
+        
+        local ds = min(0.002, dt)
+        while dt >= ds do
             self:step(ds)
             dt = dt - ds
         end
-        if dt < 0 then
-            assert()
-            self:step(-dt)
-        end
+        
+        self.remainTime = dt
     end
     self:updateProperties()
 
@@ -139,6 +139,7 @@ function Fizix:step(dt)
         end
 
         if body.keepInArea then
+            assert()
             if body.position.x < -screen.W/2 then
                 body.position.x = body.position.x + screen.W
             elseif body.position.x > screen.W/2 then
@@ -163,6 +164,8 @@ function Fizix:canCollide(categories, mask)
             end
         end
     end
+    assert()
+    return false
 end
 
 function Fizix:collision()
@@ -175,7 +178,7 @@ function Fizix:collision()
         body.contact = nil
     end
 
-    for i=1,#bodies do
+    for i=1,#bodies-1 do
         local bodyA = bodies[i]
 
         for j=i+1,#bodies do

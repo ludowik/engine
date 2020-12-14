@@ -15,6 +15,7 @@ function Engine:init()
 
     -- create components
     sdl = Sdl()
+    vulkan = Vulkan()
     gl = OpenGL()
     al = OpenAL()
     ft = FreeType()
@@ -34,7 +35,8 @@ function Engine:init()
         self.components:add(Path())
 
         self.components:add(sdl)
-        self.components:add(gl)
+        self.components:add(vulkan)
+--        self.components:add(gl)
         self.components:add(al)
         self.components:add(ft)
 

@@ -1,4 +1,4 @@
-local luapath = './luajit/lualibs/?.lua;;./luajit/lualibs/?/?.lua'..';?/#.lua;?/main.lua'
+local luapath = './luajit/lualibs/?.lua;;./luajit/lualibs/?/?.lua'..';?/#.lua;?/main.lua;'
 local cpath = './luajit/clibs/?.dll'
 
 package.path = package.path..';'..luapath

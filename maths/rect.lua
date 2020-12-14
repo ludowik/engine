@@ -8,8 +8,13 @@ function Rect:init(x, y, w, h)
 end
 
 function Rect:setPosition(x, y)
+    if y == nil then
+        x, y = x.x, x.y
+    end
+    
     self.position.x = x
     self.position.y = y
+    
     return self
 end
 
@@ -25,6 +30,14 @@ function Rect:contains(x, y)
         y >= 0 and y <= self.size.y) then
         return true
     end
+end
+
+function Rect:w()
+    return self.size.x
+end
+
+function Rect:h()
+    return self.size.y
 end
 
 function Rect:x1()
@@ -70,4 +83,10 @@ end
 function Rect:zc()
     local dz = self.alignMode == CENTER and 0 or (self.size.z / 2)
     return self.absolutePosition.z + dz
+end
+
+function Rect:fx()
+    local a = self:h() / self:w()
+    local b = self:y2() - (a * self:x2())
+    return a, b
 end

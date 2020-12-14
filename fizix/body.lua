@@ -210,15 +210,16 @@ end
 function Body:integration(dt)
     -- position
     local position = self.position / self.world.pixelRatio
-    local linearVelocity = self.linearVelocity
+    local linearVelocity = self.linearVelocity / self.world.pixelRatio
 
-    local linearAcceleration = self.force + self.world.g * self.gravityScale * self.mass
+    local linearAcceleration = self.force + self.world.gravityForce * self.gravityScale * self.mass
+    linearAcceleration = linearAcceleration / self.world.pixelRatio
 
     linearVelocity = linearVelocity - self.linearDamping * linearVelocity * dt
     linearVelocity = linearVelocity + linearAcceleration * self.invMass * dt
 
-    if self.linearVelocity:len() > self.maxSpeed then
-        self.linearVelocity = self.linearVelocity:normalize(self.maxSpeed)
+    if linearVelocity:len() > self.maxSpeed then
+        linearVelocity = linearVelocity:normalize(self.maxSpeed)
     end
 
     self.positionDelta = linearVelocity * dt
@@ -227,7 +228,7 @@ function Body:integration(dt)
     
     self.previousPosition:set(self.position)
     self.position = position * self.world.pixelRatio
-    self.linearVelocity = linearVelocity
+    self.linearVelocity = linearVelocity * self.world.pixelRatio
 
     self.force:set()
     

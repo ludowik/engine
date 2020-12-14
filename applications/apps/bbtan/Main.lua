@@ -216,7 +216,12 @@ function draw()
 
     textMode(CORNER)
     for i,body in ipairs(fizix.bodies) do
-        local info = classnameof(body.item)..' '..body.shapeType..' at '..body.position:tostring()
+        local info = (classnameof(body.item)..' '..
+            body.shapeType..' at:'..
+            body.position:tostring()..' r:'..
+            body.radius..' v:'..
+            body.linearVelocity:tostring())
+            
         text(info, 0)
     end
 
@@ -230,6 +235,7 @@ function draw()
     app.scene:draw()
 
     if linearVelocity then
+        stroke(white)
         line(
             emitter.position.x,
             emitter.position.y,
@@ -240,14 +246,14 @@ end
 
 function touched(touch)
     local position = emitter.position
-    local direction = vec2(CurrentTouch.x, CurrentTouch.y) - areaPosition
-    linearVelocity = (direction - position):normalize() * 10 -- AREA_HEIGHT
+    local direction = vec2(touch.x, touch.y) - areaPosition
+    linearVelocity = (direction - position):normalize() * AREA_HEIGHT
 
     if touch.state == ENDED then
         if #emitter > 0 then
 --            for i,ball in ipairs(balls) do
             emitter.linearVelocity = linearVelocity
-            --            end
+--            end
         end
         linearVelocity = nil
     end

@@ -25,7 +25,7 @@ void main() {
     
     if (strokeWidth > 0.) {
         float sEdge = smoothstep(
-            vLen - width - 2.,
+            vLen - width - 1.,
             vLen - width,
             vLen * distance
         );
@@ -34,7 +34,7 @@ void main() {
     }
 
     gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(
-        vLen - 2.0,
+        vLen - 1.0,
         vLen,
         vLen * distance
     ));

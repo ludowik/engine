@@ -195,16 +195,16 @@ function draw()
 end
 
 function touched(touch)
-    if CurrentTouch.state == BEGAN or CurrentTouch.state == MOVING then
-        lastDelta = CurrentTouch.deltaX
+    if touch.state == BEGAN or touch.state == MOVING then
+        lastDelta = touch.deltaX
 
         if gameover == false and won == false then
             -- If bat is touched launch ball
             if ballIsMoving == false then
-                if CurrentTouch.x < bat:right() + 10 and
-                CurrentTouch.x > bat:left() - 10 and
-                CurrentTouch.y < bat:top() + 20 and
-                CurrentTouch.y > bat:bottom() then
+                if touch.x < bat:right() + 10 and
+                touch.x > bat:left() - 10 and
+                touch.y < bat:top() + 20 and
+                touch.y > bat:bottom() then
                     if ballIsMoving == false then
                         ballIsMoving = true
                     end
@@ -219,7 +219,7 @@ function touched(touch)
             end
         elseif gameover == true or won == true then
             -- If centre of screen is touched restart game
-            if CurrentTouch.tapCount == 1 then
+            if touch.tapCount == 1 then
                 resetGame()
             end
         end
