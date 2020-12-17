@@ -3,7 +3,7 @@ class('GameScene', UIScene)
 function GameScene:init()
     UIScene.init(self)
 
-    self.bgColor = color(52)
+    self.bgColor = color(51)
     
     self.touch = Table()
 
@@ -87,6 +87,25 @@ function GameScene:touched(touch)
     onTouch[touch.state](self, touch)
 end
 
+--function GameScene:touched(touch)
+--    if self.touch[touch.id] then
+--        local i = self.touch[touch.id]
+--        local mino = self.minos:get(i):get(1)
+--        local clockwise = touch.x > mino.position.x
+--        tween(0.2, mino,
+--            {angle=clockwise and 90 or -90},
+--            tween.easing.linear,
+--            function ()
+--                local rotatedMino = mino:rotate(clockwise)
+--                self.minos[i]:remove(1)
+--                self.minos[i]:add(rotatedMino)
+--                self:animateMino(rotatedMino)
+--            end)
+--    end
+
+--    self.touch[touch.id] = nil
+--end
+
 function GameScene:touchedBegan(touch)
     if self.grid.tweenId then
         tween.reset(self.grid.tweenId)
@@ -115,8 +134,6 @@ function GameScene:touchedMoving(touch)
 
         mino.translation = mino.translation + vec3(touch.deltaX, -touch.deltaY)
         mino.scaling = vec3(1, 1)
-
-        print(mino.translation + mino.parent.absolutePosition)
 
         local pos = self.grid:inGrid(mino)
 
@@ -153,25 +170,6 @@ function GameScene:touchedEnded(touch)
             self.bestScore = math.max(self.bestScore, self.score)
             app:pushScene(GameOver())
         end
-    end
-
-    self.touch[touch.id] = nil
-end
-
-function GameScene:touched(touch)    
-    if self.touch[touch.id] then
-        local i = self.touch[touch.id]
-        local mino = self.minos:get(i):get(1)
-        local clockwise = touch.x > mino.position.x
-        tween(0.2, mino,
-            {angle=clockwise and 90 or -90},
-            tween.easing.linear,
-            function ()
-                local rotatedMino = mino:rotate(clockwise)
-                self.minos[i]:remove(1)
-                self.minos[i]:add(rotatedMino)
-                self:animateMino(rotatedMino)
-            end)
     end
 
     self.touch[touch.id] = nil

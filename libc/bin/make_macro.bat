@@ -1,0 +1,2 @@
+            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
+            clang.exe -F/Windows/System32 -dM -E 'libc/Vulkan/stub.c'                > 'libc/Vulkan/Vulkan.macro';

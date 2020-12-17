@@ -52,14 +52,8 @@ function Calc:operator(operator)
     elseif self.accOperator == '=' then
     end
 
-    if operator == '=' then
-        self.accOperator = operator
-        self.acc2 = self.acc1
-        self.acc1 = 0
-    else
-        self.accOperator = operator
-        self.acc1 = 0
-    end
+    self.accOperator = operator
+    self.acc1 = 0
 end
 
 function Calc:test()

@@ -68,6 +68,8 @@ end
 function TrioGrid:inGrid(grid)
     local x1 = grid:x1() + grid.cellSize + grid.translation.x
     local y1 = grid:y1() + grid.cellSize + grid.translation.y
+    
+    print(grid:x1(), grid:y1(), self:x1(), self:y1())
 
     return self:inCell(x1, y1)
 end

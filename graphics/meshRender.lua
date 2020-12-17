@@ -214,11 +214,11 @@ function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bu
             log('convert buffer '..buffer.id..' ('..tostring(buffer)..') for shader '..self.shader.name)
         end
 
-        log(string.format('send buffer {attributeName} (id:{id}, version:{version}) to shader {shaderName}', {
-                    attributeName = attributeName,
-                    id = buffer.id,
-                    version = buffer.version,
-                    shaderName = self.shader.name}))
+--        log(string.format('send buffer {attributeName} (id:{id}, version:{version}) to shader {shaderName}', {
+--                    attributeName = attributeName,
+--                    id = buffer.id,
+--                    version = buffer.version,
+--                    shaderName = self.shader.name}))
 
         gl.glBufferData(bufferType, buffer:sizeof(), buffer:tobytes(), gl.GL_STATIC_DRAW)
     end

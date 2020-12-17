@@ -42,7 +42,7 @@ end
 
 function Fps:computeSize()
     font(DEFAULT_FONT_NAME)
-    fontSize(self.textSize)
+    fontSize(self.fontSize)
 
     self.size.x, self.size.y = textSize(' 60 ')
 end
@@ -83,7 +83,7 @@ function Fps:drawCounter(x, y)
     textMode(CENTER)
 
     font(DEFAULT_FONT_NAME)
-    fontSize(self.textSize)
+    fontSize(self.fontSize)
 
     text(fps,
         x + self.size.x / 2,

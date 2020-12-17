@@ -1,0 +1,4 @@
+
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine>set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%PATH%; 
+
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine>clang.exe -F/Windows/System32 -E     'libc/Vulkan/stub.c'   | grep -v '#'  1>'libc/Vulkan/Vulkan.header' 

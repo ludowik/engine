@@ -7,7 +7,7 @@ function Screen:init()
         H = H or self:w2h(W)
 
     elseif windows then
-        W = W or 1480
+        W = W or 1024
         H = H or self:w2h(W)
 
     elseif ios then
@@ -30,6 +30,10 @@ end
 
 function Screen:w2h(w)
     return math.floor(w * 9 / 16)
+end
+
+function Screen:orientation()
+    return self.W > self.H and LANDSCAPE or PORTRAIT
 end
 
 function Screen:resize(w, h)

@@ -2,6 +2,10 @@
 
 App('AppCalc')
 
+function AppCalc.setup()
+    supportedOrientations(PORTRAIT)
+end
+
 function AppCalc:init()
     Application.init(self)
 
@@ -19,8 +23,7 @@ function AppCalc:init()
         self.unites.uniteConvertie = self.unites.uniteDeBase
     end
 
-    self.scene = UIScene()
-    self.scene.alignment = 'v-center,h-center'
+    self.ui.alignment = 'v-center,h-center'
 
     self.calc = Calc()
 
@@ -36,7 +39,7 @@ end
 function AppCalc:initUI()
     self.uiCalc = UIScene(Layout.column)
 
-    self.scene:add(self.uiCalc)	
+    self.ui:add(self.uiCalc)	
 
     function setProperties(node, id)
         local row = UIScene(Layout.row)
@@ -85,15 +88,15 @@ function AppCalc:initUI()
         local button = Button(label, object, f)
         button.bgColor = bgColor
         button.textColor = textColor
-        button.textSize = 45
-        button.fixedSize = vec2(w, h)
+        button.fontSize = 65
+--        button.fixedSize = vec2(w, h)
         return button
     end
 
     self.buttons = UIScene():setLayoutFlow(Layout.grid, 4)
     self.uiCalc:add(self.buttons)
 
-    local w = WIDTH > HEIGHT and hs(1) or ws(2)
+    local w = WIDTH > HEIGHT and hs(1) or ws(1)
 
     self.buttons:add(
         Button('AC' , white, darkgray, w, w, self, self.ac),

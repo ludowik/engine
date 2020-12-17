@@ -7,11 +7,6 @@ function setup()
     app = AppCalc()
 end
 
-function draw()
-    app:update(DeltaTime)
-    app:draw()
-end
-
 function touched(touch)
     if touch.state == BEGAN then
         beganPos = touch.pos

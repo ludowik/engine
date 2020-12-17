@@ -308,11 +308,15 @@ function Engine:draw(f)
         engine.renderFrameInfo,
         true)
 
-    local w, h = textSize(self.frameTime.fps)
+    local w, h, x, y = textSize(self.frameTime.fps)
+    if screen:orientation() == LANDSCAPE then
+        x, y = screen.MARGE_X/2 , screen.h - screen.MARGE_Y - h/2
+    else
+        x, y = screen.MARGE_X + w/2 , screen.h - screen.MARGE_Y + h/2
+    end
+
     textMode(CENTER)
-    text(self.frameTime.fps,
-        screen.MARGE_X/2,
-        screen.h - screen.MARGE_Y - h/2)
+    text(self.frameTime.fps, x, y)
 
     sdl:swap()
 end
@@ -400,7 +404,7 @@ function Engine:touched(_touch)
                     self.info.infoHide = not self.info.infoHide
 
                 elseif touch.y > screen.h * 1 / 3 then
-                    engine:managerApp()
+                    applicationManager:managerApp()
 
                 else
                     ffi.C.exit(0)

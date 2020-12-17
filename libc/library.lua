@@ -58,8 +58,8 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
 
         if windows then
             params.compiler = [[
-            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
-            clang.exe]]
+                set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
+                clang.exe]]
 
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
             io.write('libc/bin/make.bat', command)
