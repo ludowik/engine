@@ -1,0 +1,17 @@
+!include <make\win32.mak> 
+
+path = -I "C:\Users\LMILHAU\Documents\Mes Projets Persos\Libraries\Bullet3-master\src"
+
+bin = ..\bin\win
+pathlib = lib\win
+
+all: $(bin)\bullet.dll
+
+$(bin)\bullet.obj: src\bullet.cpp
+	$(cc) $(cdebug) $(cflags) $(cvardll) /EHsc /MDd $(path) /Fd$(bin)\vc140.pdb /Fo$(bin)\ src\bullet.cpp
+
+$(bin)\bullet.dll: $(bin)\bullet.obj
+    $(link) $(ldebug) $(dlllflags) $(conlibdll) -out:$(bin)\bullet.dll $(bin)\bullet.obj $(pathlib)\LinearMath_vs2010_debug.lib $(pathlib)\BulletDynamics_vs2010_debug.lib $(pathlib)\BulletCollision_vs2010_debug.lib
+
+clean:
+	del $(bin)\*.obj

@@ -1,0 +1,5 @@
+void main() {
+    if (useTexture == 1) {
+        fragColor = vec4(1.0, 1.0, 1.0, texture(uSampler, vTexCoord).a) * tintColor;
+    }
+}

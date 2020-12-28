@@ -1,0 +1,50 @@
+#define precision
+#define highp
+    
+#if VERSION >= 300
+    #define attribute
+    #define varying
+    out vec4 fragColor;
+#else
+    #define texture texture2D
+    #define fragColor gl_FragColor
+#endif
+
+// colors
+highp vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
+
+highp vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
+highp vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
+highp vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
+
+highp vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+
+// math
+#define PI 3.14159265359
+
+uniform highp mat4 modelMatrix;
+uniform highp mat4 pvMatrix;
+
+uniform highp vec2 p1;
+uniform highp vec2 p2;
+
+uniform highp vec2 pos;
+uniform highp vec2 size;
+
+uniform highp int useLight;
+uniform highp int useTexture;
+uniform highp int useColors;
+
+uniform highp float strokeWidth;
+uniform highp vec4 strokeColor;
+uniform highp vec4 fillColor;
+uniform highp vec4 tintColor;
+
+uniform highp sampler2D uSampler;
+
+
+varying highp vec3 vPosition;
+varying highp vec4 vColor;
+varying highp vec2 vTexCoord;
+varying highp vec3 vNormal;
+varying highp vec3 aNormal;

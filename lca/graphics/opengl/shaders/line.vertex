@@ -1,0 +1,22 @@
+void main() {
+    vec4 v = vec4(VertexPosition.xyz, 1.0);
+    vec2 size = vec2(p2.x-p1.x, p2.y-p1.y);
+            
+    v.x *= size.x;
+    v.y *= size.y;
+    
+    v += vec4(p1.xy, 0.0, 0.0);
+    
+    vec4 delta = normalize(vec4(size.y, -size.x, 0.0, 0.0)) * strokeWidth / 2.0;
+    delta.x *= VertexTranslation.x;
+    delta.y *= VertexTranslation.y;
+    
+    v += vec4(delta.xy, 0.0, 0.0);
+    
+    gl_Position = pvMatrix * modelMatrix * v;
+    
+    vPosition = VertexPosition;
+    vColor = VertexColor;
+    vTexCoord = VertexTexCoord;
+    vNormal = VertexNormal;
+}

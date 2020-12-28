@@ -1,0 +1,19 @@
+!include <..\bin\make\win32.mak>
+
+path = -I "C:\Users\LMILHAU\Documents\Persos\Mes Projets Persos\Libraries\box2d-master\box2d\box2d"\
+       -I "C:\Users\LMILHAU\Documents\Persos\Mes Projets Persos\Libraries\box2d-master\box2d"\
+       -I "C:\Users\LMILHAU\Documents\Persos\Mes Projets Persos\Perso\Libraries\box2d-master\box2d\box2d\common"
+
+bin = ..\bin\win
+pathlib = lib\win
+
+all: $(bin)\box2d.dll
+
+$(bin)\box2d.obj: src\box2d.cpp
+	$(cc) $(cdebug) $(cflags) $(cvardll) /EHsc /MDd $(path) /Fd$(bin)\vc140.pdb /Fo$(bin)\ src\box2d.cpp
+
+$(bin)\box2d.dll: $(bin)\box2d.obj
+    $(link) $(ldebug) $(dlllflags) $(conlibdll) -out:$(bin)\box2d.dll $(bin)\box2d.obj $(pathlib)\Box2D.lib
+
+clean:
+	del $(bin)\*.obj

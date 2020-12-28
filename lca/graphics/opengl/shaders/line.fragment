@@ -1,0 +1,10 @@
+void main() {
+    highp vec4 texColor;
+    if (useTexture == 1) {
+        texColor = texture(uSampler, vTexCoord);
+    } else {
+        texColor = white;
+    }
+    
+    fragColor = strokeColor * texColor;
+}

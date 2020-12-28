@@ -1,0 +1,10 @@
+void main() {
+    gl_Position = pvMatrix * modelMatrix * vec4(VertexPosition.xyz, 1.0);
+
+    vPosition = VertexPosition;
+    vColor = VertexColor;
+    vNormal = VertexNormal;
+    vTexCoord = VertexTexCoord;
+    
+    aNormal = mat3(transpose(inverse(modelMatrix))) * vNormal; 
+}

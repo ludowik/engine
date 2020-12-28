@@ -1,0 +1,39 @@
+void main() {
+    highp vec4 texColor; 
+    if (useTexture == 1) {
+        texColor = texture(uSampler, vTexCoord);
+    } else {
+        texColor = white;
+    }
+    
+    highp float x = vTexCoord.x * size.x;
+    highp float y = vTexCoord.y * size.y;
+    
+    highp float dx = strokeWidth;
+    highp float dy = strokeWidth;
+    
+    highp float delta = 2.0 * strokeWidth / size.x;
+    highp float rs = 0.15;
+    
+    if (x <= dx || x >= size.x-dx ||
+        y <= dy || y >= size.y-dy) {
+        
+        /*float r = smoothstep(0, dx, x);
+        r = r * smoothstep(size.x, size.x-dx, x);
+        r = r * smoothstep(0, dy, y);
+        r = r * smoothstep(size.y, size.y-dy, y);
+        */
+        
+        if (strokeColor.a > 0.0) {
+            fragColor = strokeColor * texColor;
+            return;
+        }
+    }
+    
+    if (fillColor.a > 0.0) {
+        fragColor = fillColor * texColor;
+        return;
+    }
+    
+    discard;
+}
