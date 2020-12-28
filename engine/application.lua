@@ -71,6 +71,15 @@ function Application:__setup()
     end
 end
 
+function Application:resize()
+    if self.scene.resize then
+        self.scene:resize()
+    end
+    if self.ui.resize then
+        self.iu:resize()
+    end
+end
+
 function Application:__update(dt)
     self.scene:update(dt)
 
@@ -173,7 +182,7 @@ function Application:keyboard(key, isrepeat)
     end
 end
 
-function Application:touched(touch)
+function Application:touched(touch)    
     if not self.ui:touched(touch) then
         if not self.scene:touched(touch) then
         end
@@ -200,78 +209,3 @@ end
 function Application:help()
     self:pushScene(Dialog('Help !!!!!!'))
 end
-
--- TODEL
---class('Sketch', Application)
-
---function Sketch:init()
---    Application.init(self)
---    if env.setup then
---        env.setup()
---    end
---end
-
---function Sketch:release()
---    if env.release then
---        env.release()
---    else
---        Application.release(self)
---    end
---end
-
---function Sketch:suspend()
---    if env.suspend then
---        env.suspend()
---    else
---        Application.suspend(self)
---    end
---end
-
---function Sketch:update(dt)
---    if env.update then
---        env.update(dt)
---        self:updateCoroutine(dt)
---    else
---        Application.update(self, dt)
---    end
---end
-
---function Sketch:draw()
---    if env.draw then
---        env.draw()
---    else
---        Application.draw(self)
---    end
---end
-
---function Sketch:keyboard(key, isrepeat)
---    if env.keyboard then
---        env.keyboard(key, isrepeat)
---    else
---        Application.keyboard(self, key, isrepeat)
---    end
---end
-
---function Sketch:touched(touch)
---    if env.touched then
---        env.touched(touch)
---    else
---        Application.touched(self, touch)
---    end
---end
-
---function Sketch:wheelmoved(mouse)
---    if env.wheelmoved then
---        env.wheelmoved(mouse)
---    else
---        Application.wheelmoved(self, mouse)
---    end
---end
-
---function Sketch:collide(contact)
---    if env.collide then
---        env.collide(contact)
---    else
---        Application.collide(self, contact)
---    end
---end

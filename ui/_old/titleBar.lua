@@ -1,3 +1,5 @@
+-- TODO : implement TitleBar
+
 class('TitleBar', LayoutBar)
 
 function TitleBar:init(x, y, verticalDirection)

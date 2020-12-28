@@ -31,13 +31,13 @@ function Layout:layout(mode, n)
 
     self.rowSize = self.rowSize or {}
     self.colSize = self.colSize or {}
-    
+
     self.nodeSize = self.nodeSize or vec2()
 
     local i, j = 1, 1
     for index=1,#self.nodes do
         local node = self.nodes[index]
-        
+
         node.position.x = position.x
         node.position.y = position.y
 
@@ -45,13 +45,13 @@ function Layout:layout(mode, n)
 
         self.colSize[i] = self.colSize[i] or vec2()
         self.rowSize[j] = self.rowSize[j] or vec2()
-        
+
         self.colSize[i].x = max(self.colSize[i].x, node.size.x)
         self.colSize[i].y = max(self.colSize[i].y, node.size.y)
 
         self.rowSize[j].x = max(self.rowSize[j].x, node.size.x)
         self.rowSize[j].y = max(self.rowSize[j].y, node.size.y)
-        
+
         self.nodeSize.x = max(self.nodeSize.x, node.size.x)
         self.nodeSize.y = max(self.nodeSize.y, node.size.y)
 
@@ -81,7 +81,7 @@ function Layout:layout(mode, n)
                 i = i + 1
             end
         end
-        
+
         size.x = max(size.x, node.position.x + node.size.x + outerMarge)
         size.y = max(size.y, node.position.y + node.size.y + outerMarge)
     end
@@ -120,10 +120,10 @@ function Layout:computeAbsolutePosition(x, y)
     self.absolutePosition.x = x
     self.absolutePosition.y = y
 
-    if self.translation then
-        self.absolutePosition.x = self.absolutePosition.x + self.translation.x
-        self.absolutePosition.y = self.absolutePosition.y + self.translation.y
-    end
+--    if self.translation then
+--        self.absolutePosition.x = self.absolutePosition.x + self.translation.x
+--        self.absolutePosition.y = self.absolutePosition.y + self.translation.y
+--    end
 
     if self.nodes and self.layoutFlow then
         for i,v in ipairs(self.nodes) do
@@ -137,8 +137,19 @@ function Layout:computeAbsolutePosition(x, y)
 end
 
 function Layout:align()
-    local w = self.parent == nil and screen.W  or self.parent.size.x
-    local h = self.parent == nil and screen.H or self.parent.size.y
+    local outerMarge = self.outerMarge or Layout.outerMarge
+    local innerMarge = self.innerMarge or Layout.innerMarge
+    
+    local w, h
+    if self.parent then
+        w = self.parent.size.x
+        h = self.parent.size.y
+        w = w - outerMarge * 2
+        h = h - outerMarge * 2
+    else
+        w = screen.W
+        h = screen.H
+    end
 
     local alignments = self.alignment:split(',')
     if alignments:findItem('center') or alignments:findItem('h-center') then

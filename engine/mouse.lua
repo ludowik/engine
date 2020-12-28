@@ -43,6 +43,12 @@ function Mouse:transform()
     touch.x = touch.x / screen.ratio
     touch.y = touch.y / screen.ratio
     
+    touch.dx = touch.dx / screen.ratio
+    touch.dy = touch.dy / screen.ratio
+    
+    touch.deltaX = touch.dx
+    touch.deltaY = touch.dy
+    
     return touch
 end
 
@@ -57,14 +63,14 @@ function Mouse:_mouseProc(id, state, x, y, dx, dy, isTouch, tapCount)
     self.position:set(mouse.x, mouse.y)
 
     mouse.deltaX, mouse.dx = dx, dx
-    mouse.deltaY, mouse.dy = dy, dy
+    mouse.deltaY, mouse.dy = -dy, -dy
 
     if state == BEGAN then
         self.totalX = 0
         self.totalY = 0
     else
         self.totalX = self.totalX + dx
-        self.totalY = self.totalY + dy
+        self.totalY = self.totalY - dy
     end
 
     mouse.isTouch = isTouch

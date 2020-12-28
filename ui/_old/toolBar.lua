@@ -1,3 +1,5 @@
+-- TODO : implement ToolBar
+
 class('ToolBar', LayoutBar)
 
 function ToolBar:init(x, y, verticalDirection)

@@ -1,3 +1,5 @@
+-- TODO : implement UILine
+
 Class('UILine', 'Widget')
 
 function UILine:UILine()

@@ -139,7 +139,6 @@ function Fizix:step(dt)
         end
 
         if body.keepInArea then
-            assert()
             if body.position.x < -screen.W/2 then
                 body.position.x = body.position.x + screen.W
             elseif body.position.x > screen.W/2 then

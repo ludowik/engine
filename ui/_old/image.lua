@@ -1,3 +1,5 @@
+-- TODO : implement UIImage
+
 Class('UIImage', Widget)
 
 function UIImage:UIImage(label, img)

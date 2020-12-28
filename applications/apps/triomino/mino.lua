@@ -10,9 +10,10 @@ function Mino(state, ...)
     local r = 1
     local grid = TrioGrid(m, n)
     grid.selectable = false
-    grid.translation = vec3()
-
+    
+    grid.translation = vec3()    
     grid.scaling = defaultScale()
+    grid.angle = 0
 
     grid.fixedSize = vec3(2, 2):mul(grid.cellSize)
 

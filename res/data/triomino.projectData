@@ -1,0 +1,4 @@
+return {
+    ["score"] = 10,
+    ["bestScore"] = 0,
+}

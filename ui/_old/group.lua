@@ -1,3 +1,5 @@
+-- TODO : implement UIGroup
+
 Class('UIGroup', UIScene)
 
 UIGroup.headerColor = brown

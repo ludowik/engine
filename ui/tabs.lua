@@ -9,7 +9,7 @@ function Tabs:init()
     self:add(self.buttons)
     self:add(self.tabs)
 
-    self.layoutProc = Layout.column
+    self.layoutFlow = Layout.column
 end
 
 function Tabs:add(...)

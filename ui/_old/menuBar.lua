@@ -1,3 +1,5 @@
+-- TODO : implement MenbuBar
+
 class('MenuBar', LayoutBar)
 
 function MenuBar:init(x, y, verticalDirection)

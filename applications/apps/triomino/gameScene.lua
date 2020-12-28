@@ -3,12 +3,12 @@ class('GameScene', UIScene)
 function GameScene:init()
     UIScene.init(self)
 
-    self.bgColor = color(51)
-    
+    self.bgColor = color(102)
+
     self.touch = Table()
 
-    self.layoutProc = Layout.column
-    self.alignment = 'v-center,h-center'
+    self.layoutFlow = Layout.column
+    self.alignment = 'h-center'
 
     self.marge = 0
 
@@ -24,24 +24,32 @@ function GameScene:init()
     self.minos = UIScene(Layout.row)
     for i=1,3 do
         self.minos:add(UIScene()
-            --:attribs{alignment = 'center'}
             :setGridSize(2, 2))
     end
     self:resetMinos()
 
-    self:add(UIScene()
-        :attribs{alignment = 'center'}
-        :add(UIScene(Layout.column)
-            :add(self.minos,
-                Button('new', function ()
-                        self:resetMinos()
-                    end))))
+    self:add(self.minos
+        :attribs{alignment = 'h-center'})
+
+    self:add(Button('new', function ()
+                self:resetMinos()
+            end))
 
     self:add(Button('reset', function ()
                 self.grid:reset()
             end))
 
     self:load()
+end
+
+function GameScene:resize()
+    if screen:orientation() == PORTRAIT then
+        self.layoutFlow = Layout.column
+        self.alignment = 'h-center'
+    else
+        self.layoutFlow = Layout.row
+        self.alignment = 'v-center'
+    end
 end
 
 function GameScene:save()
@@ -72,39 +80,23 @@ end
 function GameScene:setMino(id, mino)
     id = self.touch[id]
 
-    self.minos[id]:remove(1)
-    self.minos[id]:add(mino)
+    self.minos.nodes[id]:remove(1)
+    self.minos.nodes[id]:add(mino)
 end
 
 function GameScene:touched(touch)
-    onTouch = {
-        [BEGAN] = GameScene.touchedBegan,
-        [MOVING] = GameScene.touchedMoving,
-        [ENDED] = GameScene.touchedEnded,
-        [CANCELLED] = GameScene.touchedCancelled
+    local onTouch = {
+        [BEGAN] = self.touchedBegan,
+        [MOVING] = self.touchedMoving,
+        [ENDED] = self.touchedEnded,
+        [CANCELLED] = self.touchedCancelled
     }
 
-    onTouch[touch.state](self, touch)
+
+    if onTouch[touch.state] then
+        onTouch[touch.state](self, touch)
+    end
 end
-
---function GameScene:touched(touch)
---    if self.touch[touch.id] then
---        local i = self.touch[touch.id]
---        local mino = self.minos:get(i):get(1)
---        local clockwise = touch.x > mino.position.x
---        tween(0.2, mino,
---            {angle=clockwise and 90 or -90},
---            tween.easing.linear,
---            function ()
---                local rotatedMino = mino:rotate(clockwise)
---                self.minos[i]:remove(1)
---                self.minos[i]:add(rotatedMino)
---                self:animateMino(rotatedMino)
---            end)
---    end
-
---    self.touch[touch.id] = nil
---end
 
 function GameScene:touchedBegan(touch)
     if self.grid.tweenId then
@@ -132,7 +124,7 @@ function GameScene:touchedMoving(touch)
             mino.translation = mino.translation + vec3(0, mino.size.y/2)
         end
 
-        mino.translation = mino.translation + vec3(touch.deltaX, -touch.deltaY)
+        mino.translation = mino.translation + vec3(touch.deltaX, touch.deltaY)
         mino.scaling = vec3(1, 1)
 
         local pos = self.grid:inGrid(mino)
@@ -146,33 +138,53 @@ function GameScene:touchedMoving(touch)
 end
 
 function GameScene:touchedEnded(touch)
-    if self.touch[touch.id] then
-        self.grid:unselect()
-
-        local mino = self:getMino(touch.id)
-        mino.translation = mino.translation + vec3(touch.deltaX, -touch.deltaY)
-
-        local pos = self.grid:inGrid(mino)
-        if pos and self.grid:isSelectable(pos, mino) then
-            self.grid:add(pos, mino)
-            self.score = self.score + self.grid:check()
-            self:save()
-
-            self:setMino(touch.id, createMino())
-
-            self:getMino(touch.id).position = mino.position
-        else
-            tween(0.2, mino, {translation = vec3()}, tween.easing.linear)
-            self:animateMino(mino)
+    if touch.totalX == 0 and touch.totalY == 0 then
+        if self.touch[touch.id] then
+            local i = self.touch[touch.id]
+            local mino = self.minos:get(i):get(1)
+            if mino then
+                local clockwise = touch.x > mino.position.x
+                tween(0.2, mino,
+                    {angle=clockwise and 90 or -90},
+                    tween.easing.linear,
+                    function ()
+                        local rotatedMino = mino:rotate(clockwise)
+                        self.minos.nodes[i]:remove(1)
+                        self.minos.nodes[i]:add(rotatedMino)
+                        self:animateMino(rotatedMino)
+                    end)
+            end
         end
+        self.touch[touch.id] = nil
 
-        if self:test() == false then
-            self.bestScore = math.max(self.bestScore, self.score)
-            app:pushScene(GameOver())
+    else
+        if self.touch[touch.id] then
+            self.grid:unselect()
+
+            local mino = self:getMino(touch.id)
+            mino.translation = mino.translation + vec3(touch.deltaX, touch.deltaY)
+
+            local pos = self.grid:inGrid(mino)
+            if pos and self.grid:isSelectable(pos, mino) then
+                self.grid:add(pos, mino)
+                self.score = self.score + self.grid:check()
+                self:save()
+
+                self:setMino(touch.id, createMino())
+
+                self:getMino(touch.id).position = mino.position
+            else
+                tween(0.2, mino, {translation = vec3()}, tween.easing.linear)
+                self:animateMino(mino)
+            end
+
+            if self:test() == false then
+                self.bestScore = math.max(self.bestScore, self.score)
+                app:pushScene(GameOver())
+            end
         end
+        self.touch[touch.id] = nil
     end
-
-    self.touch[touch.id] = nil
 end
 
 function GameScene:animateMino(mino)

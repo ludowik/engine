@@ -1,3 +1,5 @@
+-- TODO : implement UIComboBox
+
 Class('UIComboBox', UIScene)
 
 function UIComboBox:UIComboBox(label)

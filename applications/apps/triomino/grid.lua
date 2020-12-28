@@ -6,7 +6,9 @@ TrioGrid.selectColor = color(230, 224, 224, 133)
 function TrioGrid:init(w, h, state)
     UI.init(self)
 
-    self.cellSize = min(ws(0.5), hs(0.5))
+    self.alignment = 'h-center'
+
+    self.cellSize = min(ws(0.75), hs(0.75))
 
     -- x, y == m, n == c, r
     self.w = w or 10
@@ -55,10 +57,13 @@ function TrioGrid:rotate(clockwise)
         end
     end
 
-    grid.position = self.position
     grid.selectable = self.selectable
+    
+    grid.position = self.position    
 
+    grid.translation = vec3()    
     grid.scaling = defaultScale()
+    grid.angle = 0
 
     grid.fixedSize = self.fixedSize
 
@@ -69,8 +74,6 @@ function TrioGrid:inGrid(grid)
     local x1 = grid:x1() + grid.cellSize + grid.translation.x
     local y1 = grid:y1() + grid.cellSize + grid.translation.y
     
-    print(grid:x1(), grid:y1(), self:x1(), self:y1())
-
     return self:inCell(x1, y1)
 end
 

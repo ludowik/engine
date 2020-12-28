@@ -107,6 +107,12 @@ function Node:draw()
 
                 node:draw()
 
+                if node.absolutePosition then
+                    pushMatrix()
+                    circle(node.absolutePosition.x, node.absolutePosition.y, 5)
+                    popMatrix()
+                end
+
                 if node.body and env.physics.debug then
                     node.body:draw(dt)
                 end
@@ -168,13 +174,11 @@ end
 function Node:touched(touch)
     for i=1,#self.nodes do
         local node = self.nodes[i]
-        if node and node.touched and node:contains(touch) then
-            node:touched(touch)
-            return true
-            --            local res = node:touched(touch)
-            --            if res then
-            --                return res
-            --            end
+        if node and node:contains(touch) then
+            if node.touched then
+                node:touched(touch)
+                return true
+            end
         end
     end
 end

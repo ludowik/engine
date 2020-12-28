@@ -21,9 +21,8 @@ function Scene:layout()
             Layout.align(self)
         end
 
-        Layout.computeAbsolutePosition(self)
-
         if self.parent == nil then
+            Layout.computeAbsolutePosition(self)
             Layout.reverse(self)
         end
     end
@@ -47,11 +46,11 @@ function Scene:draw()
                 depthMode(true)
                 cullingMode(true)
             end
-            
+
             if self.position then
                 translate(self.position.x, self.position.y)
             end
-            
+
             if self.bgColor then
                 background(self.bgColor)
             end

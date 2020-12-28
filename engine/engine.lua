@@ -218,6 +218,10 @@ function Engine:resize(w, h)
     screen:resize(w, h)
 
     sdl:setWindowSize(screen)
+
+    if env.app then
+        env.app:resize()
+    end
 end
 
 function Engine:restart()
