@@ -149,4 +149,7 @@ string.test = function ()
     ut.assert('contains=false', string.contains('test', 'et') == false)
 
     ut.assert('replace', string.replace('test', 'e', 'E') == 'tEst')
+    
+    ut.assert('repeat', string.rep('a', 5) == 'aaaaa')
+    ut.assert('repeat', string.rep('ab', 2) == 'abab')
 end

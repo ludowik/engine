@@ -112,7 +112,7 @@ end
 
 function Grid:duplicate()
     local array = Grid(self.w, self.h, self.defaultValue)
-    
+
     for i=1,array.w do
         for j=1,array.h do
             local value = self:get(i, j)
@@ -121,7 +121,7 @@ function Grid:duplicate()
             end
         end
     end
-    
+
     return array
 end
 
@@ -174,6 +174,17 @@ function Grid:draw(draw)
             draw(x, y, self:get(x, y))
         end
     end
+end
+
+function Grid:asText()
+    local text = string.rep('-', self.w)..NL
+    for x,y,cell in self:ipairs() do
+        text = text..(cell.value or ' ')
+        if x == self.w and y ~= self.h then
+            text = text..NL
+        end
+    end
+    return text
 end
 
 function Grid.test()

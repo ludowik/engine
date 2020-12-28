@@ -1,4 +1,4 @@
-local renderer = 'SDL'
+local renderer = 'OPENGL'
 
 if renderer == 'OPENGL' then
     require 'graphics.renderer.meshRender'
