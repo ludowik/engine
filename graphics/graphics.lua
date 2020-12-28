@@ -86,29 +86,7 @@ function blendMode(mode)
     if mode then
         if styles.blendMode ~= mode then
             styles.blendMode = mode
-
-            if mode == NORMAL then
-                gl.glEnable(gl.GL_BLEND)
-                gl.glBlendEquation(gl.GL_FUNC_ADD)
-                gl.glBlendFuncSeparate(
-                    gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA,
-                    gl.GL_ONE, gl.GL_ONE_MINUS_SRC_ALPHA)
-
-            elseif mode == ADDITIVE then
-                gl.glEnable(gl.GL_BLEND)
-                gl.glBlendEquation(gl.GL_FUNC_ADD)
-                gl.glBlendFunc(gl.GL_ONE, gl.GL_ONE)
-
-            elseif mode == MULTIPLY then
-                gl.glEnable(gl.GL_BLEND)
-                gl.glBlendEquation(gl.GL_FUNC_ADD)
-                gl.glBlendFuncSeparate(
-                    gl.GL_DST_COLOR, gl.GL_ZERO,
-                    gl.GL_DST_ALPHA, gl.GL_ZERO)
-
-            else
-                assert(false, mode)
-            end
+            renderer:blendMode(mode)
         end
     end
     return styles.blendMode
@@ -117,19 +95,7 @@ end
 function cullingMode(culling)
     if culling ~= nil then
         styles.cullingMode = culling
-
-        if culling then
-            gl.glEnable(gl.GL_CULL_FACE)
-
-            gl.glFrontFace(gl.GL_CCW)
-            if cullingFace == 'front' then
-                gl.glCullFace(gl.GL_FRONT)
-            else
-                gl.glCullFace(gl.GL_BACK)
-            end
-        else
-            gl.glDisable(gl.GL_CULL_FACE)
-        end
+        renderer:cullingMode(mode)
     end
     return styles.cullingMode
 end
@@ -137,26 +103,14 @@ end
 function depthMode(mode)
     if mode ~= nil then
         styles.depthMode = mode
-
-        if mode then
-            gl.glEnable(gl.GL_DEPTH_TEST)
-            gl.glDepthFunc(gl.GL_LEQUAL)
-        else
-            gl.glDisable(gl.GL_DEPTH_TEST)
-        end
+        renderer:depthMode(mode)
     end
     return styles.depthMode
 end
 
 function background(clr, ...)
     clr = Color.args(clr, ...)
-
-    gl.glClearColor(clr.r, clr.g, clr.b, clr.a)
-    gl.glClearDepthf(1)
-
-    gl.glClear(
-        gl.GL_COLOR_BUFFER_BIT +
-        gl.GL_DEPTH_BUFFER_BIT)
+    renderer:clear(clr)
 end
 
 local function centerFromCorner(mode, x, y, w, h)
@@ -195,7 +149,7 @@ function point(...)
     point = function(x, y)
         local diameter = max(strokeWidth(), 0)
         meshPoint.inst_pos = Buffer('vec3', {vec3(x,y)})
-        meshPoint:render(meshPoint.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
+        meshPoint:render(meshPoint.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
     end
 
     point(...)
@@ -207,7 +161,7 @@ function points(vertices, ...)
     if stroke() then
         local diameter = max(strokeWidth(), 0)
         meshPoints.inst_pos = vertices
-        meshPoints:render(meshPoints.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1, #meshPoints.inst_pos)
+        meshPoints:render(meshPoints.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1, #meshPoints.inst_pos)
     end
 end
 
@@ -231,7 +185,7 @@ primitive('line',
     end,
 
     function (x1, y1, x2, y2)
-        meshLine:render(meshLine.shader, gl.GL_TRIANGLE_STRIP, nil, x1, y1, Z, x2-x1, y2-y1, 1)
+        meshLine:render(meshLine.shader, renderer.GL_TRIANGLE_STRIP, nil, x1, y1, Z, x2-x1, y2-y1, 1)
     end)
 
 function lines(vertices)
@@ -246,7 +200,7 @@ function lines(vertices)
         meshLines.inst_size:add(vertices[i+1]-vertices[i])
     end
 
-    meshLines:render(meshLines.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshLines.inst_pos)
+    meshLines:render(meshLines.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshLines.inst_pos)
 end
 
 function polyline(vertices)
@@ -261,7 +215,7 @@ function polyline(vertices)
         meshPolyline.inst_size:add(vertices[i+1]-vertices[i])
     end
 
-    meshPolyline:render(meshPolyline.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshPolyline.inst_pos)
+    meshPolyline:render(meshPolyline.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshPolyline.inst_pos)
 end
 
 function polygon(vertices)
@@ -279,7 +233,7 @@ function polygon(vertices)
     meshPolygon.inst_pos:add(vertices[#vertices])
     meshPolygon.inst_size:add(vertices[1]-vertices[#vertices])
 
-    meshPolygon:render(meshPolygon.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshPolygon.inst_pos)
+    meshPolygon:render(meshPolygon.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshPolygon.inst_pos)
 end
 
 function rect(...)
@@ -294,14 +248,14 @@ function rect(...)
         x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
 
         if r then
-            meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y+r, Z, w, h-2*r, 1)
-            meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x+r, y, Z, w-2*r, h, 1)
+            meshRect:render(meshRect.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y+r, Z, w, h-2*r, 1)
+            meshRect:render(meshRect.shader, renderer.GL_TRIANGLE_STRIP, nil, x+r, y, Z, w-2*r, h, 1)
             circle(x  +r+0.5, y  +r+0.5, r)
             circle(x+w-r-0.5, y  +r+0.5, r)
             circle(x  +r+0.5, y+h-r-0.5, r)
             circle(x+w-r-0.5, y+h-r-0.5, r)
         else
-            meshRect:render(meshRect.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+            meshRect:render(meshRect.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
         end
     end
 
@@ -316,14 +270,14 @@ function circle(x, y, r, mode)
     local w, h = r*2, r*2
     x, y = cornerFromCenter(mode or circleMode(), x, y, w, h)
 
-    meshCircle:render(meshCircle.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+    meshCircle:render(meshCircle.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
 end
 
 function ellipse(x, y, w, h, mode)
     h = h or w
     x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
 
-    meshEllipse:render(meshEllipse.shader, gl.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+    meshEllipse:render(meshEllipse.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
 end
 
 function sprite(img, x, y, w, h, mode)
@@ -337,7 +291,7 @@ function sprite(img, x, y, w, h, mode)
 
         x, y = centerFromCorner(mode or spriteMode(), x, y, w, h)
 
-        meshSprite:render(meshSprite.shader, gl.GL_TRIANGLES, img, x, y, Z, w, h, 1)
+        meshSprite:render(meshSprite.shader, renderer.GL_TRIANGLES, img, x, y, Z, w, h, 1)
     end
 end
 
@@ -383,7 +337,7 @@ function textProc(draw, str, x, y)
 
         if draw then
             y = y - lh
-            meshText:render(meshText.shader, gl.GL_TRIANGLES, img,
+            meshText:render(meshText.shader, renderer.GL_TRIANGLES, img,
                 x, y - marge, Z,
                 lw, lh, 1)
         end
@@ -421,7 +375,7 @@ function box(w, h, d, img)
     h = h or w
     d = d or w
 
-    meshBox:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
+    meshBox:render(meshBox.shader, renderer.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
 end
 
 function sphere(w, h, d, img)
@@ -433,7 +387,7 @@ function sphere(w, h, d, img)
     h = h or w
     d = d or w
 
-    meshSphere:render(meshBox.shader, gl.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
+    meshSphere:render(meshBox.shader, renderer.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
 end
 
 function pyramid()

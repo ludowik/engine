@@ -1,0 +1,18 @@
+lib('love2d',
+    'os',
+    'codea',
+    'graphics',
+    'timer',
+    'fs',
+    'window',
+    'event',
+    'system',
+    'joystick',
+    'sound',
+    'physics',
+    'image',
+    'keyboard',
+    'math',
+    'mouse',
+    'meshRender'
+)

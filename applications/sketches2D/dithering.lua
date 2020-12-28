@@ -267,7 +267,7 @@ end
 
 function Image.Filter.Shader:run(source, target)
     setContext(target)
-    self.mesh:render(self.shader, gl.GL_TRIANGLES, source, 0, 0, 0, source.width, source.height, 1)
+    self.mesh:render(self.shader, renderer.GL_TRIANGLES, source, 0, 0, 0, source.width, source.height, 1)
 end
 
 class 'Image.Filter.Compose' : extends(Image.Filter)

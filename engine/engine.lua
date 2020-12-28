@@ -15,8 +15,7 @@ function Engine:init()
 
     -- create components
     sdl = Sdl()
---    vulkan = Vulkan()
-    gl = OpenGL()
+    renderer = Renderer()
     al = OpenAL()
     ft = FreeType()
 
@@ -35,8 +34,7 @@ function Engine:init()
         self.components:add(Path())
 
         self.components:add(sdl)
-        self.components:add(vulkan)
-        self.components:add(gl)
+        self.components:add(renderer)
         self.components:add(al)
         self.components:add(ft)
 
@@ -151,8 +149,7 @@ function Engine:frame(forceDraw)
     end
 
     if ios and love then
-        self.defaultRenderBuffer = gl.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
-        self.defaultFrameBuffer = gl.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
+        renderer:saveDefaultContext()
     end
 
     self.frameTime:update()
@@ -251,8 +248,8 @@ function Engine:toggleRenderVersion()
     end
 end
 
-function Engine:vsync()
-    sdl.SDL_GL_SetSwapInterval(0)
+function Engine:vsync(interval)
+    gl:vsync(interval)
 end
 
 function Engine:update(dt)

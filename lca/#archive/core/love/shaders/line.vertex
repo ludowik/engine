@@ -1,0 +1,30 @@
+//attribute vec3 VertexPosition;
+//attribute vec2 VertexTexCoord;
+//attribute vec3 VertexColor;
+attribute vec3 VertexNormal;
+attribute vec3 VertexTranslation;
+
+uniform mat4 pvMatrix;
+uniform mat4 modelMatrix;
+
+uniform vec2 p1;
+uniform vec2 p2;
+
+uniform float strokeWidth;
+
+vec4 position(mat4 transform_projection, vec4 vertex_position) {
+    vec4 v = vertex_position;
+    vec2 size = vec2(p2.x-p1.x, p2.y-p1.y);
+            
+    v.x *= size.x;
+    v.y *= size.y;
+    
+    v += vec4(p1.xy, 0.0, 0.0);
+    
+    vec4 delta = normalize(vec4(size.y, -size.x, 0.0, 0.0)) * strokeWidth / 2.0;
+    delta.x *= VertexTranslation.x;
+    delta.y *= VertexTranslation.y;
+    v += vec4(delta.xy, 0.0, 0.0);
+    
+    return pvMatrix * modelMatrix * v;
+}

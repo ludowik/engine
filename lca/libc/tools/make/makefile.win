@@ -1,0 +1,17 @@
+!include <..\bin\make\win32.mak>
+
+path = 
+
+bin = ..\bin\win
+pathlib = lib\win
+
+all: $(bin)\tools.dll
+
+$(bin)\tools.obj: src\tools.cpp
+	$(cc) $(cdebug) $(cflags) $(cvardll) /EHsc /MDd $(path) /Fd$(bin)\vc140.pdb /Fo$(bin)\ src\tools.cpp
+
+$(bin)\tools.dll: $(bin)\tools.obj
+    $(link) $(ldebug) $(dlllflags) $(conlibdll) -out:$(bin)\tools.dll $(bin)\tools.obj
+
+clean:
+	del $(bin)\*.obj

@@ -1,0 +1,11 @@
+all: compile
+
+path = -I /users/lca/projets/lua/libraries/box2d-master/box2d/box2d -I /users/lca/projets/lua/libraries/box2d-master/box2d -I /users/lca/projets/lua/libraries/box2d-master/box2d/box2d/common
+bin = ../bin/osx
+pathlib = lib/osx
+
+compile:
+	g++ -arch x86_64 -m64 -W -Wall -g -fPIC -shared -I src $(path) -L $(pathlib) -l Box2D.64 -o $(bin)/box2d.so src/box2d.cpp
+	
+clean:
+	rm $(bin)/*.so

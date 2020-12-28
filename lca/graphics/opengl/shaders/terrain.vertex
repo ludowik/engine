@@ -1,0 +1,30 @@
+varying float elevation;
+
+void main() {
+    mat4 mm = modelMatrix;
+
+    float d = 0.5; // distance(VertexPosition.xyz, vec3(0.0, 0.0, 0.0));
+    elevation = d * 4
+        + snoise(VertexPosition.xyz*10.) * 0.5
+        + snoise(VertexPosition.xyz/2.0) * 0.25
+        + snoise(VertexPosition.xyz/4.0) * 0.125;
+
+    vec4 position = vec4(VertexPosition.xyz * elevation, 1.0);
+    
+    vec4 worldPosition = mm * vec4(position.xyz, 1.0);
+    vec3 worldNormal = (mm * vec4(VertexNormal, 0.0)).xyz;
+    
+    vPosition = worldPosition.xyz;
+    vNormal = worldNormal;
+    
+    vTexCoord = VertexTexCoord.xy;
+    if (useColors > 0) {
+        vColor = VertexColor;
+    } else {
+        vColor = strokeColor;
+    }
+    
+    aNormal = mat3(transpose(inverse(modelMatrix))) * vNormal; 
+    
+    gl_Position = pvMatrix * modelMatrix * position;
+}

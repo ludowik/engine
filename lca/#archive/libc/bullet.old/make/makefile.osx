@@ -1,0 +1,11 @@
+all: compile
+
+path = -I /users/lca/projets/lua/libraries/bullet3-master/src
+bin = ../bin/osx
+pathlib = lib/osx
+
+compile:
+	g++ -arch x86_64 -m64 -W -Wall -g -fPIC -shared -I src $(path) -L $(pathlib) -l LinearMath_xcode4_x64_debug -l BulletDynamics_xcode4_x64_debug -l BulletCollision_xcode4_x64_debug -o $(bin)/bullet.so src/bullet.cpp
+	
+clean:
+	rm $(bin)/*.so

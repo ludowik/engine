@@ -1,0 +1,168 @@
+return {
+    ["boxes"] = {
+    [1] = {
+    ["collision"] = 1,
+    ["size"] = {
+    ["y"] = 106,
+    ["x"] = 106,
+    ["__formatting"] = true,
+},
+    ["__formatting"] = true,
+    ["position"] = {
+    ["y"] = 825,
+    ["x"] = 55,
+    ["__formatting"] = true,
+},
+    ["body"] = cdata<struct b2Body *>: 0x7fcda38df300,
+    ["itemType"] = "rect",
+    ["cell"] = {
+    ["y"] = 8,
+    ["x"] = 1,
+    ["__formatting"] = true,
+},
+},
+    [2] = {
+    ["collision"] = 1,
+    ["size"] = {
+    ["y"] = 106,
+    ["x"] = 106,
+    ["__formatting"] = true,
+},
+    ["__formatting"] = true,
+    ["position"] = {
+    ["y"] = 825,
+    ["x"] = 275,
+    ["__formatting"] = true,
+},
+    ["body"] = cdata<struct b2Body *>: 0x7fcda38df3c0,
+    ["itemType"] = "rect",
+    ["cell"] = {
+    ["y"] = 8,
+    ["x"] = 3,
+    ["__formatting"] = true,
+},
+},
+    [3] = {
+    ["collision"] = 1,
+    ["size"] = {
+    ["y"] = 106,
+    ["x"] = 106,
+    ["__formatting"] = true,
+},
+    ["__formatting"] = true,
+    ["position"] = {
+    ["y"] = 825,
+    ["x"] = 385,
+    ["__formatting"] = true,
+},
+    ["body"] = cdata<struct b2Body *>: 0x7fcda38df480,
+    ["itemType"] = "rect",
+    ["cell"] = {
+    ["y"] = 8,
+    ["x"] = 4,
+    ["__formatting"] = true,
+},
+},
+    [4] = {
+    ["collision"] = 1,
+    ["size"] = {
+    ["y"] = 106,
+    ["x"] = 106,
+    ["__formatting"] = true,
+},
+    ["__formatting"] = true,
+    ["position"] = {
+    ["y"] = 825,
+    ["x"] = 605,
+    ["__formatting"] = true,
+},
+    ["body"] = cdata<struct b2Body *>: 0x7fcda38df540,
+    ["itemType"] = "rect",
+    ["cell"] = {
+    ["y"] = 8,
+    ["x"] = 6,
+    ["__formatting"] = true,
+},
+},
+    [5] = {
+    ["collision"] = 1,
+    ["size"] = {
+    ["y"] = 106,
+    ["x"] = 106,
+    ["__formatting"] = true,
+},
+    ["__formatting"] = true,
+    ["position"] = {
+    ["y"] = 825,
+    ["x"] = 715,
+    ["__formatting"] = true,
+},
+    ["body"] = cdata<struct b2Body *>: 0x7fcda38df600,
+    ["itemType"] = "rect",
+    ["cell"] = {
+    ["y"] = 8,
+    ["x"] = 7,
+    ["__formatting"] = true,
+},
+},
+    ["__formatting"] = true,
+},
+    ["balls"] = {
+    [1] = {
+    ["__formatting"] = true,
+    ["position"] = {
+    ["y"] = 55,
+    ["x"] = 385,
+    ["__formatting"] = true,
+},
+    ["id"] = 1,
+    ["image"] = {
+    ["ids"] = {
+    ["__formatting"] = true,
+    ["tex"] = 7,
+},
+    ["width"] = 38,
+    ["__formatting"] = true,
+    ["pixels"] = cdata<unsigned char [?]>: 0x25839cc8,
+    ["depthrenderbuffer"] = 2,
+    ["framebufferName"] = 2,
+    ["height"] = 38,
+    ["formatRGB"] = cdata<unsigned int>: 0x01e370d8,
+},
+    ["body"] = cdata<struct b2Body *>: 0x7fcda38df780,
+    ["size"] = {
+    ["y"] = 18,
+    ["x"] = 18,
+    ["__formatting"] = true,
+},
+    ["cell"] = {
+    ["y"] = 1,
+    ["x"] = 4,
+    ["__formatting"] = true,
+},
+},
+    ["__formatting"] = true,
+},
+    ["bonuses"] = {
+    [1] = {
+    ["size"] = {
+    ["y"] = 55,
+    ["x"] = 55,
+    ["__formatting"] = true,
+},
+    ["__formatting"] = true,
+    ["body"] = cdata<struct b2Body *>: 0x7fcda38df6c0,
+    ["position"] = {
+    ["y"] = 715,
+    ["x"] = 495,
+    ["__formatting"] = true,
+},
+    ["cell"] = {
+    ["y"] = 7,
+    ["x"] = 5,
+    ["__formatting"] = true,
+},
+},
+    ["__formatting"] = true,
+},
+}

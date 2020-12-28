@@ -1,0 +1,20 @@
+attribute vec3 vertex;
+attribute vec2 texCoords;
+
+uniform mat4 matrixModel;
+uniform mat4 matrixPV;
+
+uniform vec3 pos;
+uniform vec3 size;
+
+out vec3 vPosition;
+out vec2 vTexCoords;
+
+void main() {
+    vec3 vertexPosition = vertex * size + pos;
+
+    gl_Position = matrixPV * matrixModel * vec4(vertexPosition.xyz, 1.);
+
+    vPosition = vertexPosition;
+    vTexCoords = texCoords;
+}

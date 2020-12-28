@@ -12,16 +12,6 @@ function Sdl:init()
 end
 
 function Sdl:initialize()
-    opengles = ios
-
-    if opengles then
-        config.glMajorVersion = 3
-        config.glMinorVersion = 2
-    else
-        config.glMajorVersion = 4
-        config.glMinorVersion = 1
-    end
-
     if love then
         self.window = sdl.SDL_GL_GetCurrentWindow()
         if self.window ~= NULL then
@@ -34,38 +24,13 @@ function Sdl:initialize()
     if self.window == NULL then
         if self.SDL_Init(self.SDL_INIT_EVERYTHING) == 0 then
             self:setCursor(sdl.SDL_SYSTEM_CURSOR_WAIT)
-
-            if self.SDL_GL_LoadLibrary(ffi.NULL) == 1 then
-                self.SDL_Log("SDL_GL_LoadLibrary: %s", self.SDL_GetError())
-                error('SDL_GL_LoadLibrary')
-            end
-
-            if opengles then
-                sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_ES)
-
-            else
-                if config.glMajorVersion == 4 then
-                    self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_CORE)
-
-                else
-                    config.glMajorVersion = 3
-                    config.glMinorVersion = 1
-
-                    self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_PROFILE_MASK, self.SDL_GL_CONTEXT_PROFILE_COMPATIBILITY)
-                end
-            end
-
-            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MAJOR_VERSION, config.glMajorVersion)
-            self.SDL_GL_SetAttribute(self.SDL_GL_CONTEXT_MINOR_VERSION, config.glMinorVersion)
-
-            self.SDL_GL_SetAttribute(self.SDL_GL_DOUBLEBUFFER, 1)
-            self.SDL_GL_SetAttribute(self.SDL_GL_DEPTH_SIZE, 24)
-
+            
+            renderer:load()
+            
             window = self.SDL_CreateWindow('Engine',
                 0, 0,
                 0, 0,
-                self.SDL_WINDOW_OPENGL +
---                self.SDL_WINDOW_VULKAN +
+                renderer.flag +
                 self.SDL_WINDOW_RESIZABLE +
 --                self.SDL_WINDOW_ALLOW_HIGHDPI +
 --                self.SDL_WINDOW_FULLSCREEN +
@@ -75,7 +40,7 @@ function Sdl:initialize()
                 0)
 
             if window then
-                context = self.SDL_GL_CreateContext(window)
+                context = renderer:createContext(window)
                 if context then
                     self.window = window
                     self.context = context
@@ -95,11 +60,7 @@ function Sdl:initialize()
         print(ffi.string(sdl.SDL_GetDisplayName(displayIndex)))
 
         if self.context ~= NULL then
-            local res = self.SDL_GL_MakeCurrent(self.window, self.context)
-            assert(res == 0)
-
-            -- 0 for immediate updates, 1 for updates synchronized with the vertical retrace, -1 for adaptive vsync
-            self.SDL_GL_SetSwapInterval(1)
+            renderer:vsync(1)
 
             local ddpi, hdpi, vdpi = ffi.new('float[1]'), ffi.new('float[1]'), ffi.new('float[1]')
             self.SDL_GetDisplayDPI(displayIndex,
@@ -140,14 +101,14 @@ end
 
 function Sdl:release()
     if self.context then
-        self.SDL_GL_DeleteContext(self.context)
+        renderer:deleteContext(self.context)
         self.context = NULL
 
         if self.window then
             self.SDL_DestroyWindow(self.window)
             self.window = NULL
         end
-        self.SDL_GL_UnloadLibrary()
+        renderer:unload()
     end
     self.SDL_Quit()
 end
@@ -238,5 +199,5 @@ function Sdl:event()
 end
 
 function Sdl:swap()
-    self.SDL_GL_SwapWindow(self.window)
+    renderer:swap()
 end

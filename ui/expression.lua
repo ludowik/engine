@@ -1,6 +1,6 @@
 class('Expression', UI)
 
-function Expression:init(label)
+function Expression:init(label, expression)
     UI.init(self, label)
     
     self.expression = expression or label

@@ -1,0 +1,31 @@
+--[[
+Best practices:
+  - comment in English to avoid upload problem to Codea with accented caracter
+  - tag code
+    + TODO need implementation
+    + TOREFACT need refactoring
+    + TODEL need deletion (when you i'm ready...)
+    + TOFIX need correction
+    + TOTEST need qualification
+
+Naming convention -> function
+    - .setup : global/lib/module setup
+    - .release : global/lib/module release  
+    - :init : instance initialization
+    - :destroy : instance liberation
+    - :add : add something (1 item or N from an array)
+    - :remove : remove something
+    - :clear : remove all
+
+Naming convention -> variable
+    - clr : a color
+
+Angle
+    - vector.rotate : The angle is assumed to be radians
+    - math : The angle is assumed to be radians
+    - matrix.rotate : The angle is assumed to be degrees
+    - rotate : The angle is assumed to be degrees
+    
+Axis orientation
+    - right handed
+]]

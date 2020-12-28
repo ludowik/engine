@@ -1,0 +1,34 @@
+varying vec3 vPosition;
+varying vec3 vNormal;
+varying vec4 vColor;
+varying vec2 vTexCoord;
+
+// colors
+vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
+vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
+
+vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
+vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
+vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
+
+vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+
+// math
+#define PI 3.14159265359
+
+// pvm matrix
+uniform mat4 modelMatrix;
+uniform mat4 projectionViewMatrix;
+
+// uniform color
+// uniform int useUniformColor;
+// uniform vec4 uniformColor;
+
+// texture
+uniform float useTexture;
+
+float levels = 3.;
+
+vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
+    return red;
+}

@@ -1,0 +1,9 @@
+void main() {
+    gl_Position = pvMatrix * modelMatrix * vec4(VertexPosition.xyz, 1.0);
+    
+    if (useColors > 0) {
+        vColor = VertexColor;
+    } else {
+        vColor = strokeColor;
+    }
+}

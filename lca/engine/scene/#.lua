@@ -1,0 +1,4 @@
+requireLib(
+    'object',
+    'node',
+    'scene')

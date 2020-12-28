@@ -4,10 +4,10 @@ require 'graphics.colorConvert'
 
 require 'graphics.style'
 
-require 'graphics.shader'
 require 'graphics.shaderManager'
 
-require 'graphics.meshRender'
+require 'graphics.renderer'
+
 require 'graphics.mesh'
 
 require 'graphics.model'

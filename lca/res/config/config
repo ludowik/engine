@@ -1,0 +1,16 @@
+return {
+    ["frameSync"] = false,
+    ["delayBeforeLoop"] = 0.016666666666667,
+    ["fullScreen"] = false,
+    ["forceCompilation"] = false,
+    ["appPath"] = "apps/sketches3D/graphics3d",
+    ["orientation"] = "portrait",
+    ["wireframe"] = "fill",
+    ["frameBeforeLoop"] = 1,
+    ["lightMode"] = "on",
+    ["highDPI"] = false,
+    ["framerate"] = 60,
+    ["volume"] = 0.05,
+    ["noOptimization"] = true,
+    ["drawInfo"] = true,
+}

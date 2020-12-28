@@ -86,7 +86,7 @@ function Fizix:update(dt)
     do
         dt = dt + self.remainTime
         
-        local ds = min(0.002, dt)
+        local ds = max(min(0.002, dt), 0.002)
         while dt >= ds do
             self:step(ds)
             dt = dt - ds
@@ -139,6 +139,7 @@ function Fizix:step(dt)
         end
 
         if body.keepInArea then
+            -- TODO : usefullv ?
             if body.position.x < -screen.W/2 then
                 body.position.x = body.position.x + screen.W
             elseif body.position.x > screen.W/2 then

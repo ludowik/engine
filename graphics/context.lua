@@ -33,20 +33,14 @@ function Context.setContext(context)
 
     if context.framebufferName == nil then
         context:createFramebuffer()
-
 --        context:createColorBuffer(context.width, context.height)
         context:createDepthBuffer(context.width, context.height)
-
         context:attachTexture2D(context.texture_id)
 
-        if gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) ~= gl.GL_FRAMEBUFFER_COMPLETE then
-            assert(false)
-        end
-
         background(transparent)
-        
+
     else
-        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, context.framebufferName)
+        renderer:bind(context.framebufferName)
     end
 
     Context.viewport(0, 0, context.width, context.height)
@@ -74,8 +68,7 @@ end
 function Context.noContext(id)
     Context.closeCurrentContext()
 
-    gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, engine.defaultFrameBuffer or 0)
-    gl.glBindRenderbuffer(gl.GL_RENDERBUFFER, engine.defaultRenderBuffer or 0)
+    renderer:defaultContext()
 
     Context.viewport(0, 0, screen.w, screen.h, config.highDPI)
 
@@ -84,8 +77,8 @@ end
 
 function Context.viewport(x, y, w, h, highDPI)
     if highDPI and ( osx or ios ) then
-        gl.glViewport(x, y, w*2, h*2)
+        renderer:viewport(x, y, w*2, h*2)
     else
-        gl.glViewport(x, y, w, h)
+        renderer:viewport(x, y, w, h)
     end
 end

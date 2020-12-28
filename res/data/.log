@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Generic PnP Monitor
 GLSL 4.10 - Build 26.20.100.8141
 load applications/codea/Cargo-Bot
@@ -74,3 +75,12 @@ memory min       : 4.20 mo
 memory max       : 160.73 mo
 memory variation : 156.53 mo
 memory at end    : 110.02 mo
+=======
+Color LCD
+load applications/apps/2048
+memory at start  : 4.41 mo
+memory min       : 4.41 mo
+memory max       : 24.84 mo
+memory variation : 20.43 mo
+memory at end    : 2.66 mo
+>>>>>>> 3e74eab19965baf4a8035b4c2d144ebf4c420d7a

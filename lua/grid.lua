@@ -1,12 +1,12 @@
 class('Grid')
 
-function Grid:init(w, h)
+function Grid:init(w, h, defaultValue)
     self.w = w or 1
     self.h = h or self.w
 
-    self.defaultValue = nil
+    self.defaultValue = defaultValue or nil
 
-    self:clear()
+    self:clear(self.defaultValue)
 end
 
 function Grid:newCell(x, y, value)
@@ -77,6 +77,12 @@ function Grid:cell(x, y, cell)
     end
 end
 
+function Grid:randomCell()
+    local x = randomInt(1, self.w)
+    local y = randomInt(1, self.h)
+    return self:cell(x, y)
+end
+
 function Grid:ipairs()
     local x = 0
     local y = 1
@@ -104,6 +110,21 @@ function Grid:rotate()
     return array
 end
 
+function Grid:duplicate()
+    local array = Grid(self.w, self.h, self.defaultValue)
+    
+    for i=1,array.w do
+        for j=1,array.h do
+            local value = self:get(i, j)
+            if value then
+                array:set(i, j, value)
+            end
+        end
+    end
+    
+    return array
+end
+
 function Grid:copy(array, xt, yt)
     for i=1,array.w do
         for j=1,array.h do
@@ -113,6 +134,18 @@ function Grid:copy(array, xt, yt)
             end
         end
     end
+end
+
+function Grid:countNotDefault()
+    local count = 0
+    for i=1,self.w do
+        for j=1,self.h do
+            if self:get(i, j) ~= self.defaultValue then
+                count = count + 1
+            end
+        end
+    end
+    return count
 end
 
 function Grid:save()

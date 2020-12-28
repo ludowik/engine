@@ -1,0 +1,34 @@
+local 
+s={
+ change={
+  amount=-0.74651272994021;
+  speed=0.8774824688542;
+ };
+ vibrato={
+  depth=0.26843251542303;
+  speed=0.38523252011017;
+ };
+ waveform=3;
+ phaser={
+  sweep=-0.19457157355591;
+  offset=-0.22450356274077;
+ };
+ duty={
+ };
+ highpass={
+ };
+ lowpass={
+ };
+ volume={
+ };
+ envelope={
+  punch=0.52603552038626;
+  decay=0.43826610077727;
+  sustain=0.30021490229129;
+ };
+ frequency={
+  slide=0.2842420621177;
+  start=0.10736130436711;
+ };
+};
+return s, "0.0.2"

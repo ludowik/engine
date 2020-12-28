@@ -1,0 +1,183 @@
+varying vec3 vPosition;
+varying vec3 vNormal;
+varying vec4 vColor;
+varying vec2 vTexCoord;
+
+// colors
+vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
+vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
+
+vec4 red   = vec4(1.0, 0.0, 0.0, 1.0);
+vec4 green = vec4(0.0, 1.0, 0.0, 1.0);
+vec4 blue  = vec4(0.0, 0.0, 1.0, 1.0);
+
+vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+
+// math
+#define PI 3.14159265359
+
+// pvm matrix
+uniform mat4 modelMatrix;
+uniform mat4 projectionViewMatrix;
+
+// camera
+uniform vec3 cameraPosition;
+
+// uniform color
+// uniform int useUniformColor;
+// uniform vec4 uniformColor;
+
+// texture
+uniform float useTexture;
+
+// cel shading
+uniform float useCellShading;
+
+// lights
+uniform float useLight;
+struct Light {
+    float on;
+    
+    vec3 position;
+    vec4 color;
+    vec3 direction;
+    
+    float ambientStrength;
+    float diffuseStrength;
+    float specularStrength;
+    
+    float constant;
+    float linear;
+    float quadratic;
+    
+    float innerCutOff;
+    float outerCutOff;
+};
+uniform Light lights[10];
+
+// material
+struct Material {
+    float ambientStrength;
+    float diffuseStrength;
+    float specularStrength;
+    
+    float shininess;
+    
+    float alpha;
+};
+uniform Material material;
+
+uniform float drawBorder;
+
+float levels = 3.;
+
+vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
+    vec4 glFragColor;
+
+    vec4 objectColor;
+    vec3 fragNormal = vNormal;
+
+    objectColor = color;
+    
+    /*if (drawBorder > 0.0) {
+        float aspect = 1.0;
+        float border_width = 0.01;
+        float minX = border_width;
+        float maxX = 1.0 - border_width;
+        float minY = minX / aspect;
+        float maxY = maxX / aspect;
+
+        if (texture_coords.x > maxX || texture_coords.x < minX ||
+            texture_coords.y > maxY || texture_coords.y < minY) {
+            glFragColor = red;
+            return glFragColor;
+        }
+        if (drawBorder == 1.0) {
+            discard;
+        }
+    }*/
+    
+    useTexture;
+    //if (useTexture == 1.0) {
+        objectColor = Texel(tex, vTexCoord) * objectColor; // vColor
+    //}
+    
+    float activeLights = 0.0;
+    
+    if (useLight > 0.0) {
+        vec4 finalColor = transparent;
+        int nbLights = int(useLight);
+        for (int i=0; i<10; ++i) {
+            Light light = lights[i];
+            if (light.on == 0.0) {
+                continue;
+            }
+            
+            activeLights++;
+            
+            // ambient color
+            vec3 ambient =
+                (light.color.xyz * light.ambientStrength) *
+                (objectColor.xyz * material.ambientStrength);
+            
+            // diffuse
+            vec3 lightDirection;
+            lightDirection = light.position - vPosition;
+            
+            vec3 unitNormal = normalize(fragNormal);
+            vec3 unitLightDirection = normalize(lightDirection);
+            
+            float nDot = dot(unitNormal, unitLightDirection);
+            float brightness = max(nDot, 0.0);
+            
+            if (useCellShading > 0.0) {
+                float level = floor(brightness * levels);
+                brightness = level / levels;
+            }
+            
+            vec3 diffuse = 
+                (light.color.xyz * light.diffuseStrength) *
+                (objectColor.xyz * material.diffuseStrength) * brightness;
+            
+            // specular
+            vec3 viewDir = normalize(cameraPosition - vPosition);
+            vec3 reflectDir = reflect(-unitLightDirection, unitNormal);
+            
+            float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+            
+            vec3 specular = 
+                (light.color.xyz * light.specularStrength) *
+                (objectColor.xyz * material.specularStrength) * spec;
+            
+            // spotlight (soft edges)
+            if (light.innerCutOff > 0.0) {
+                float innerCutOff = min(light.innerCutOff, light.outerCutOff);
+                float outerCutOff = max(light.innerCutOff, light.outerCutOff);
+                
+                float theta = dot(unitLightDirection, normalize(-light.direction));
+                
+                float epsilon = (innerCutOff - outerCutOff);
+                float intensity = clamp((theta - outerCutOff) / epsilon, 0.0, 1.0);
+
+                diffuse *= intensity;
+                specular *= intensity;
+            }
+            
+            // attenuation
+            float distance = length(lightDirection);
+            float attenuation = 1.0 / (light.constant +
+                light.linear * distance +
+                light.quadratic * (distance * distance));
+        
+            ambient *= attenuation;
+            diffuse *= attenuation;
+            specular *= attenuation;
+
+            finalColor = finalColor + vec4(ambient + diffuse + specular, material.alpha);
+        }
+        glFragColor = finalColor / activeLights;
+    } else {
+        glFragColor = objectColor;
+    }
+    return glFragColor;
+}

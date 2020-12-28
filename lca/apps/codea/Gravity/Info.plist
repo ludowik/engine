@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Simeon</string>
+	<key>Buffer Order</key>
+	<array>
+		<string>Main</string>
+	</array>
+	<key>Description</key>
+	<string>Shows you how to use the Gravity vector, which tells you about the rotation of your device</string>
+	<key>LocalizedDescription</key>
+	<string>EXAMPLE_GRAVITY_DESCRIPTION</string>
+	<key>LocalizedName</key>
+	<string>EXAMPLE_GRAVITY_NAME</string>
+	<key>Order</key>
+	<integer>26</integer>
+	<key>Introduced</key>
+	<integer>118</integer>
+</dict>
+</plist>
