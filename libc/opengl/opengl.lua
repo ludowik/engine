@@ -3,6 +3,198 @@ ffi.cdef(code)
 
 class 'OpenGL' : extends(Component)
 
+function OpenGL:load()
+    opengles = ios
+
+    if opengles then
+        config.glMajorVersion = 3
+        config.glMinorVersion = 2
+    else
+        config.glMajorVersion = 4
+        config.glMinorVersion = 1
+    end
+
+    if sdl.SDL_GL_LoadLibrary(ffi.NULL) == 1 then
+        sdl.SDL_Log("SDL_GL_LoadLibrary: %s", sdl.SDL_GetError())
+        error('SDL_GL_LoadLibrary')
+    end
+
+    if opengles then
+        sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_ES)
+
+    else
+        if config.glMajorVersion == 4 then
+            sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_CORE)
+
+        else
+            config.glMajorVersion = 3
+            config.glMinorVersion = 1
+
+            sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_PROFILE_MASK, sdl.SDL_GL_CONTEXT_PROFILE_COMPATIBILITY)
+        end
+    end
+
+    sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MAJOR_VERSION, config.glMajorVersion)
+    sdl.SDL_GL_SetAttribute(sdl.SDL_GL_CONTEXT_MINOR_VERSION, config.glMinorVersion)
+
+    sdl.SDL_GL_SetAttribute(sdl.SDL_GL_DOUBLEBUFFER, 1)
+    sdl.SDL_GL_SetAttribute(sdl.SDL_GL_DEPTH_SIZE, 24)
+
+    self.flag = sdl.SDL_WINDOW_OPENGL
+end
+
+function OpenGL:unload()
+    sdl.SDL_GL_UnloadLibrary()
+end
+
+function OpenGL:createContext(window)
+    local context = sdl.SDL_GL_CreateContext(window)
+    local res = sdl.SDL_GL_MakeCurrent(window, context)
+    assert(res == 0)
+    return context
+end
+
+function OpenGL:deleteContext(context)
+    sdl.SDL_GL_DeleteContext(context)
+end
+
+function OpenGL:initialize()
+    self:loadProcAdresses()
+
+    print('GLSL '..ffi.string(self.glGetString(self.GL_SHADING_LANGUAGE_VERSION)))
+
+    self.intptr = ffi.new('GLint[1]')
+    self.idptr  = ffi.new('GLuint[1]')
+    self.floatptr = ffi.new('GLfloat[4]')
+
+    if not opengles then
+        -- Smooth
+        self.glEnable(self.GL_LINE_SMOOTH)
+        self.glEnable(self.GL_POLYGON_SMOOTH)
+
+        -- Hint
+        self.glHint(self.GL_LINE_SMOOTH_HINT, self.GL_NICEST)
+        self.glHint(self.GL_POLYGON_SMOOTH_HINT, self.GL_NICEST)
+
+        -- Multi Sampling
+        self.glEnable(self.GL_MULTISAMPLE)
+    end
+
+    -- Disable states
+    self.glDisable(self.GL_DITHER)
+    self.glDisable(self.GL_STENCIL_TEST)
+
+    function self.glGetInteger(id)
+        self.glGetIntegerv(id, self.intptr)
+        return self.intptr[0]
+    end
+
+    function self.glShaderSource(id, code)
+        local s = ffi.new('const GLchar*[1]', {code})
+        local l = ffi.new('GLint[1]', #code)
+
+        self.defs.glShaderSource(id, 1, s, l)
+    end
+
+    function self.glGetShaderiv(id, flag)
+        self.defs.glGetShaderiv(id, flag, self.intptr)
+        return self.intptr[0]
+    end
+
+    function self.glGetShaderInfoLog(id)
+        local len = self.glGetShaderiv(id, self.GL_INFO_LOG_LENGTH)
+        len = len > 0 and len or 128
+
+        local info = ffi.new('GLchar[?]', len or 1)
+        self.defs.glGetShaderInfoLog(id, len, nil, info)
+
+        return ffi.string(info, len - 1):gsub('ERROR: 0', '')
+    end
+
+    function self.glGetProgramiv(id, flag)
+        self.defs.glGetProgramiv(id, flag, self.intptr)
+        return self.intptr[0]
+    end
+
+    function self.glGetProgramInfoLog(id)
+        local len = self.glGetProgramiv(id, self.GL_INFO_LOG_LENGTH)
+        len = len > 0 and len or 128
+
+        local info = ffi.new('GLchar[?]', len or 1)
+        self.defs.glGetProgramInfoLog(id, len, nil, info)
+
+        return ffi.string(info, len - 1)
+    end
+
+    function self.glGenBuffer()
+        self.defs.glGenBuffers(1, self.idptr)
+        return self.idptr[0]
+    end
+
+    function self.glDeleteBuffer(buffer)
+        self.idptr[0] = buffer
+        self.defs.glDeleteBuffers(1, self.idptr)
+    end
+
+    function self.glGenVertexArray()
+        self.defs.glGenVertexArrays(1, self.idptr)
+        return self.idptr[0]
+    end
+
+    function self.glDeleteVertexArray(buffer)
+        self.idptr[0] = buffer
+        self.defs.glDeleteVertexArrays(1, self.idptr)
+    end
+
+    function self.glGenTexture()
+        self.glGenTextures(1, self.idptr)
+        return self.idptr[0]
+    end
+
+    function self.glDeleteTexture(id)
+        self.idptr[0] = id
+        self.glDeleteTextures(1, self.idptr)
+    end
+
+    function self.glGenFramebuffer()
+        self.glGenFramebuffers(1, self.idptr)
+        return self.idptr[0]
+    end
+
+    function self.glDeleteFramebuffer(id)
+        self.idptr[0] = id
+        self.glDeleteFramebuffers(1, self.idptr)
+    end
+
+    function self.glGenRenderbuffer()
+        self.glGenRenderbuffers(1, self.idptr)
+        return self.idptr[0]
+    end
+
+    function self.glDeleteRenderbuffer(id)
+        self.idptr[0] = id
+        self.glDeleteRenderbuffers(1, self.idptr)
+    end
+
+    function self.glDrawBuffer(id)
+        self.idptr[0] = id
+        self.glDrawBuffers(1, self.idptr)
+    end
+
+    function self.glGetString(name)
+        local str = self.defs.glGetString(name)
+        if str ~= NULL then
+            return ffi.string(str)
+        end
+        return nil
+    end
+
+    background(black)
+
+    self:swap()
+    background(black)
+end
+
 function OpenGL:loadProcAdresses()
     self.defs = {
         -- error
@@ -167,143 +359,6 @@ function OpenGL:loadProcAdresses()
     end
 end
 
-function OpenGL:initialize()
-    self:loadProcAdresses()
-
-    print('GLSL '..ffi.string(gl.glGetString(gl.GL_SHADING_LANGUAGE_VERSION)))
-
-    self.intptr = ffi.new('GLint[1]')
-    self.idptr  = ffi.new('GLuint[1]')
-    self.floatptr = ffi.new('GLfloat[4]')
-
-    if not opengles then
-        -- Smooth
-        self.glEnable(gl.GL_LINE_SMOOTH)
-        self.glEnable(gl.GL_POLYGON_SMOOTH)
-
-        -- Hint
-        self.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST)
-        self.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST)
-
-        -- Multi Sampling
-        self.glEnable(gl.GL_MULTISAMPLE)
-    end
-
-    -- Disable states
-    self.glDisable(gl.GL_DITHER)
-    self.glDisable(gl.GL_STENCIL_TEST)
-
-    function self.glGetInteger(id)
-        gl.glGetIntegerv(id, self.intptr)
-        return self.intptr[0]
-    end
-
-    function self.glShaderSource(id, code)
-        local s = ffi.new('const GLchar*[1]', {code})
-        local l = ffi.new('GLint[1]', #code)
-
-        self.defs.glShaderSource(id, 1, s, l)
-    end
-
-    function self.glGetShaderiv(id, flag)
-        self.defs.glGetShaderiv(id, flag, self.intptr)
-        return self.intptr[0]
-    end
-
-    function self.glGetShaderInfoLog(id)
-        local len = self.glGetShaderiv(id, self.GL_INFO_LOG_LENGTH)
-        len = len > 0 and len or 128
-
-        local info = ffi.new('GLchar[?]', len or 1)
-        self.defs.glGetShaderInfoLog(id, len, nil, info)
-
-        return ffi.string(info, len - 1):gsub('ERROR: 0', '')
-    end
-
-    function self.glGetProgramiv(id, flag)
-        self.defs.glGetProgramiv(id, flag, self.intptr)
-        return self.intptr[0]
-    end
-
-    function self.glGetProgramInfoLog(id)
-        local len = self.glGetProgramiv(id, self.GL_INFO_LOG_LENGTH)
-        len = len > 0 and len or 128
-
-        local info = ffi.new('GLchar[?]', len or 1)
-        self.defs.glGetProgramInfoLog(id, len, nil, info)
-
-        return ffi.string(info, len - 1)
-    end
-
-    function self.glGenBuffer()
-        self.defs.glGenBuffers(1, self.idptr)
-        return self.idptr[0]
-    end
-
-    function self.glDeleteBuffer(buffer)
-        self.idptr[0] = buffer
-        self.defs.glDeleteBuffers(1, self.idptr)
-    end
-
-    function self.glGenVertexArray()
-        self.defs.glGenVertexArrays(1, self.idptr)
-        return self.idptr[0]
-    end
-
-    function self.glDeleteVertexArray(buffer)
-        self.idptr[0] = buffer
-        self.defs.glDeleteVertexArrays(1, self.idptr)
-    end
-
-    function self.glGenTexture()
-        self.glGenTextures(1, self.idptr)
-        return self.idptr[0]
-    end
-
-    function self.glDeleteTexture(id)
-        self.idptr[0] = id
-        self.glDeleteTextures(1, self.idptr)
-    end
-
-    function self.glGenFramebuffer()
-        self.glGenFramebuffers(1, self.idptr)
-        return self.idptr[0]
-    end
-
-    function gl.glDeleteFramebuffer(id)
-        self.idptr[0] = id
-        gl.glDeleteFramebuffers(1, self.idptr)
-    end
-
-    function self.glGenRenderbuffer()
-        self.glGenRenderbuffers(1, self.idptr)
-        return self.idptr[0]
-    end
-
-    function gl.glDeleteRenderbuffer(id)
-        self.idptr[0] = id
-        gl.glDeleteRenderbuffers(1, self.idptr)
-    end
-
-    function gl.glDrawBuffer(id)
-        self.idptr[0] = id
-        gl.glDrawBuffers(1, self.idptr)
-    end
-
-    function gl.glGetString(name)
-        local str = gl.defs.glGetString(name)
-        if str ~= NULL then
-            return ffi.string(str)
-        end
-        return nil
-    end
-
-    background(black)
-    sdl.SDL_GL_SwapWindow(sdl.window)
-    background(black)
-
-end
-
 function OpenGL:release()
 end
 
@@ -315,7 +370,7 @@ function OpenGL:getGlslVersion()
     if opengles then
         return 300
     end
-    
+
     local glVersion = self:getOpenGLVersion()
     if glVersion == 200 then
         return 110
@@ -329,4 +384,97 @@ function OpenGL:getGlslVersion()
         return 150
     end
     return glVersion
+end
+
+function OpenGL:vsync(interval)
+    sdl.SDL_GL_SetSwapInterval(interval or 1)
+end
+
+function OpenGL:swap()
+    sdl.SDL_GL_SwapWindow(sdl.window)
+end
+
+function OpenGL:clear(clr)
+    self.glClearColor(clr.r, clr.g, clr.b, clr.a)
+    self.glClearDepthf(1)
+
+    self.glClear(
+        self.GL_COLOR_BUFFER_BIT +
+        self.GL_DEPTH_BUFFER_BIT)
+end
+
+function OpenGL:blendMode(mode)
+    if mode == NORMAL then
+        self.glEnable(self.GL_BLEND)
+        self.glBlendEquation(self.GL_FUNC_ADD)
+        self.glBlendFuncSeparate(
+            self.GL_SRC_ALPHA, self.GL_ONE_MINUS_SRC_ALPHA,
+            self.GL_ONE, self.GL_ONE_MINUS_SRC_ALPHA)
+
+    elseif mode == ADDITIVE then
+        self.glEnable(self.GL_BLEND)
+        self.glBlendEquation(self.GL_FUNC_ADD)
+        self.glBlendFunc(self.GL_ONE, self.GL_ONE)
+
+    elseif mode == MULTIPLY then
+        self.glEnable(self.GL_BLEND)
+        self.glBlendEquation(self.GL_FUNC_ADD)
+        self.glBlendFuncSeparate(
+            self.GL_DST_COLOR, self.GL_ZERO,
+            self.GL_DST_ALPHA, self.GL_ZERO)
+
+    else
+        assert(false, mode)
+    end
+end
+
+function OpenGL:cullingMode(culling)
+    if culling then
+        self.glEnable(self.GL_CULL_FACE)
+
+        self.glFrontFace(self.GL_CCW)
+        if cullingFace == 'front' then
+            self.glCullFace(self.GL_FRONT)
+        else
+            self.glCullFace(self.GL_BACK)
+        end
+    else
+        self.glDisable(self.GL_CULL_FACE)
+    end
+end
+
+function OpenGL:depthMode(mode)
+    if mode then
+        self.glEnable(self.GL_DEPTH_TEST)
+        self.glDepthFunc(self.GL_LEQUAL)
+    else
+        self.glDisable(self.GL_DEPTH_TEST)
+    end
+end
+
+function OpenGL:clip(x, y, w, h)
+    if x then
+        self.glEnable(self.GL_SCISSOR_TEST)
+        self.glScissor(x, y, w, h)
+    else
+        self.glDisable(self.GL_SCISSOR_TEST)
+    end
+end
+
+function OpenGL:saveDefaultContext()
+    self.defaultRenderBuffer = self.glGetInteger(gl.GL_RENDERBUFFER_BINDING)
+    self.defaultFrameBuffer = self.glGetInteger(gl.GL_FRAMEBUFFER_BINDING)
+end
+
+function OpenGL:defaultContext()
+    self.glBindFramebuffer(self.GL_FRAMEBUFFER, self.defaultFrameBuffer or 0)
+    self.glBindRenderbuffer(self.GL_RENDERBUFFER, self.defaultRenderBuffer or 0)
+end
+
+function OpenGL:bind(buffer)
+    self.glBindFramebuffer(self.GL_FRAMEBUFFER, buffer)
+end
+
+function OpenGL:viewport(x, y, w, h)
+    self.glViewport(x, y, w, h)
 end

@@ -1,4 +1,4 @@
-class 'Shader'
+local Shader = class 'Shader'
 
 function Shader:init(name, path)
     self.name = name
@@ -23,8 +23,8 @@ function Shader:create()
     self.program_id = gl.glCreateProgram()
 
     self.ids = {
-        vertex = self:build(gl.GL_VERTEX_SHADER, self.name, 'vertex'),
-        fragment = self:build(gl.GL_FRAGMENT_SHADER, self.name, 'fragment'),
+        vertex = self:build(gl.GL_VERTEX_SHADER, self.nameVertex or self.name, 'vertex'),
+        fragment = self:build(gl.GL_FRAGMENT_SHADER, self.nameFragment or self.name, 'fragment'),
     }
 
     gl.glLinkProgram(self.program_id)
@@ -40,8 +40,8 @@ function Shader:create()
 end
 
 function Shader:update()
-    if (not self:check(gl.GL_VERTEX_SHADER, self.name, 'vertex') or 
-        not self:check(gl.GL_FRAGMENT_SHADER, self.name, 'fragment'))
+    if (not self:check(gl.GL_VERTEX_SHADER, self.nameVertex or self.name, 'vertex') or 
+        not self:check(gl.GL_FRAGMENT_SHADER, self.nameFragment or self.name, 'fragment'))
     then
         self:unuse()
         self:release()
@@ -50,23 +50,36 @@ function Shader:update()
 end
 
 function Shader:check(shaderType, shaderName, shaderExtension)
-    local path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
-    local info = getInfo(path)
-    if info and info.modification > self.modifications[shaderType] then
-        return false
+    local path = self.path..'/'..shaderName
+    if not isFile(path) then
+        path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
     end
-    return true
+    if isFile(path) then
+        local info = getInfo(path)
+        if info and info.modification > self.modifications[shaderType] then
+            return false
+        end
+        return true
+    end
 end
 
 function Shader:build(shaderType, shaderName, shaderExtension)
-    local path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
+    local path = self.path..'/'..shaderName
+    if not isFile(path) then
+        path = self.path..'/'..shaderName..(shaderExtension and ('.'..shaderExtension) or '')
+    end
     if isFile(path) then
         local source = io.read(path)
         if source then
+            source = self:complete(shaderType, source)
             return self:compile(shaderType, source, path)
         end
     end
     return -1
+end
+
+function Shader:complete(shaderType, source)
+    return source
 end
 
 function Shader:compile(shaderType, source, path)
@@ -83,12 +96,12 @@ function Shader:compile(shaderType, source, path)
     end
 
     include = include..[[
-        #include "_include.glsl"
-        
-//        #include "_math.glsl"
-        
-        #include "_noise2D.glsl"
-        #include "_noise3D.glsl"
+    #include "_include.glsl"
+
+    //        #include "_math.glsl"
+
+    #include "_noise2D.glsl"
+    #include "_noise3D.glsl"
     ]]
 
     local includes = {}
@@ -230,10 +243,10 @@ end
 
 function Shader:sendUniforms(uniforms)
     self:needByShader(uniforms)
-    
---    Performance.compare('need by shader or push by renderer',
---        function () self:needByShader(uniforms) end,
---        function () self:pushByRender(uniforms) end)
+
+    --    Performance.compare('need by shader or push by renderer',
+    --        function () self:needByShader(uniforms) end,
+    --        function () self:pushByRender(uniforms) end)
 end
 
 function Shader:send(k, v)
@@ -242,7 +255,7 @@ function Shader:send(k, v)
     if location then
         local uid = location.uniformLocation
 
---        log(string.format('send uniform {k} with value {v}', {k=k, v=v}))
+        --        log(string.format('send uniform {k} with value {v}', {k=k, v=v}))
 
         local utype = self.uniformsTypes[k]
         if utype == nil then
@@ -297,7 +310,7 @@ function Shader:pushTableToShader(table, name, option)
     t[option] = #table
 
     self:pushToShader(t)
-    
+
     for i,item in ipairs(table) do
         self:pushToShader(item, name, i-1)
     end

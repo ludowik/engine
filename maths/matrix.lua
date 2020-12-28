@@ -177,8 +177,8 @@ function mt:mulVector(b)
     b = matrix(
         b.x, 0, 0, 0,
         b.y, 0, 0, 0,
-        b.z, 0, 0, 0,
-        1  , 0, 0, 0)
+        b.z or 0, 0, 0, 0,
+        1, 0, 0, 0)
 
     self:__mul(b, res)
 

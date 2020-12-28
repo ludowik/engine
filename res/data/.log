@@ -1,8 +1,7 @@
 Color LCD
-GLSL 4.10
-load applications/collision
-memory at start  : 4.42 mo
-memory min       : 4.42 mo
-memory max       : 15.03 mo
-memory variation : 10.61 mo
-memory at end    : 2.64 mo
+load applications/apps/2048
+memory at start  : 4.41 mo
+memory min       : 4.41 mo
+memory max       : 24.84 mo
+memory variation : 20.43 mo
+memory at end    : 2.66 mo

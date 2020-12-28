@@ -17,8 +17,15 @@ code, defs = Library.precompile(io.read('libc/vulkan/vulkan.macro'))
 
 class 'Vulkan' : extends(Component) : meta(not loaded and Library.load('Vulkan') or ffi.C)
 
-function Vulkan:initialize()
+function Vulkan:load()
+    self.flag = sdl.SDL_WINDOW_VULKAN
+end
 
+function Vulkan:createContext(window)
+    return sdl.SDL_GL_CreateContext(window)
+end
+
+function Vulkan:initialize()
     for k,v in pairs(defs) do
         self[k] = v
     end
@@ -44,7 +51,10 @@ function Vulkan:initialize()
     print('init vulkan ok')
 end
 
-function lshift(value, n)
+function Vulkan:release()
+end
+
+local function lshift(value, n)
     return value * 2^n
 end
 

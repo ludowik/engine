@@ -64,7 +64,7 @@ function Parameter.default(name, min, max, default, notify)
 end
 
 function Parameter.watch(label, expression)
-    env.parameter.add(Expression(expression or label))
+    env.parameter.add(Expression(label, expression))
 end
 
 function Parameter.text(var, default, notify)

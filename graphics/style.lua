@@ -208,12 +208,7 @@ function noSmooth()
 end
 
 function clip(x, y, w, h)
-    if x then
-        gl.glEnable(gl.GL_SCISSOR_TEST)
-        gl.glScissor(x, y, w, h)
-    else
-        gl.glDisable(gl.GL_SCISSOR_TEST)
-    end
+    renderer:clip(x, y, w, h)
 end
 
 function noClip()

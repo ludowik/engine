@@ -14,11 +14,11 @@ function Mesh:clear(vertices, colors)
 end
 
 function Mesh:draw(img, x, y, z, w, h, d)
-    self:render(self.shader or shaders['default'], gl.GL_TRIANGLES, img, x, y, z, w, h, d)
+    self:render(self.shader or shaders['default'], renderer.GL_TRIANGLES, img, x, y, z, w, h, d)
 end
 
 function Mesh:drawInstanced(nInstances, img, x, y, z, w, h, d)
-    self:render(self.shader or shaders['default'], gl.GL_TRIANGLES, img, x, y, z, w, h, d, nInstances)
+    self:render(self.shader or shaders['default'], renderer.GL_TRIANGLES, img, x, y, z, w, h, d, nInstances)
 end
 
 function Mesh:normalize(norm)

@@ -373,6 +373,8 @@ int SDL_GetDisplayBounds(int displayIndex, SDL_Rect* rect);
 int SDL_GetDisplayDPI(int displayIndex, float* ddpi, float* hdpi, float* vdpi);
 const char* SDL_GetDisplayName(int displayIndex);
 
+int SDL_RenderSetViewport(SDL_Renderer* renderer, const SDL_Rect* rect);
+
 int SDL_PollEvent(SDL_Event* event);
 
 int SDL_SetRenderDrawColor(SDL_Renderer* renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a);

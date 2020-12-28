@@ -46,6 +46,7 @@ require 'engine.font'
 require 'libc'
 
 require 'graphics'
+
 require 'ui'
 
 require 'sound'
