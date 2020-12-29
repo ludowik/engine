@@ -3,6 +3,6 @@ GLSL 4.10 - Build 26.20.100.8141
 load applications/apps/morpion/morpion
 memory at start  : 4.21 mo
 memory min       : 4.21 mo
-memory max       : 12.69 mo
-memory variation : 8.48 mo
-memory at end    : 1.82 mo
+memory max       : 12.49 mo
+memory variation : 8.29 mo
+memory at end    : 1.61 mo
