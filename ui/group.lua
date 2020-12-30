@@ -12,7 +12,7 @@ function Group:init(label)
 
     self.reduced = readLocalData('Group.'..self.label..'.reduce', true)
 
-    self:add(UIHeader(self.label):attribs{
+    self:add(Header(self.label):attribs{
             backgroundColor = self.backgroundColor,
             click = function (_, ...) self.click(self, ...) end,
             fontSize = self.fontSize
@@ -92,4 +92,27 @@ function Group:setFontSize(fontSize)
         node.fontSize = fontSize
     end
     return self
+end
+
+class('Header', UI)
+
+Header.headerColor = Group.headerColor
+Header.backgroundColor = Group.headerColor
+
+function Header:UIHeader(label)
+    Widget.init(self, label)
+end
+
+function Header:getLabel()
+    return self.parent:getLabel()
+end
+
+class('Params', Group)
+
+Params.headerColor = brown * 0.8
+Params.backgroundColor = Params.headerColor
+
+function Params:UIParams(...)
+    self:UIGroup(...)
+    self.translation = vec3()
 end

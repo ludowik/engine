@@ -1,4 +1,0 @@
-requireLib(
-    'object',
-    'node',
-    'scene')

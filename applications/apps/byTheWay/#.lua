@@ -1,0 +1,9 @@
+requireLib('appByTheWay',
+    'area',
+    'areaDirection',
+    'bot',
+    'botGenerator',
+    'level',
+    'touch',
+    'way',
+    'theme')

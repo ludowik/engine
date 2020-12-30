@@ -201,3 +201,26 @@ end
 function Sdl:swap()
     renderer:swap()
 end
+
+function Sdl:keys2SDL(keys)
+    local newKeys = {}
+
+    for k,v in pairs(keys) do
+        local scanName = sdl.SDL_GetScancodeName(sdl.scancode[k])
+
+        if scanName ~= k then
+            newKeys[scanName] = v
+        end
+    end
+
+    table.addKeys(keysKeys, newKeys)
+end
+
+function Sdl:loadWav(file)
+    local wavspec = ffi.new('SDL_AudioSpec[1]')
+    local wavbuf = ffi.new('uint8_t*[1]')
+    local wavlen = ffi.new('uint32_t[1]')
+
+    wavspec = sdl.SDL_LoadWAV_RW(sdl.SDL_RWFromFile(file, "rb"), 1, wavspec, wavbuf, wavlen)
+    return wavspec, wavbuf, wavlen
+end

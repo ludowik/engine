@@ -11,7 +11,7 @@ end
 function draw()
     background()
 
-    font('Foundation-icons')
+    font('Foundation-Icons')
     fontSize(22)
 
     textMode(CORNER)

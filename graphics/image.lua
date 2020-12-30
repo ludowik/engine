@@ -330,7 +330,7 @@ function Image:save(imageName, ext)
     if surface ~= NULL then
         self:reverseSurface(surface, 4)
 
-        sdl.image.IMG_SavePNG(surface, getFullPath(image.getPath(imageName, ext)))
+        sdl.image.IMG_SaveJPG(surface, getFullPath(image.getPath(imageName, ext)), 1)
         self:freeSurface(surface)
     end
 end

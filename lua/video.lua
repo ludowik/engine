@@ -1,16 +1,15 @@
--- recording
-do
-    local recording = false
+-- TODO : implement recording
 
-    function startRecording()
-        recording = true
-    end
+local recording = false
 
-    function stopRecording()
-        recording = false
-    end
+function startRecording()
+    recording = true
+end
 
-    function isRecording()
-        return recording
-    end
+function stopRecording()
+    recording = false
+end
+
+function isRecording()
+    return recording
 end

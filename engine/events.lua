@@ -30,11 +30,16 @@ function Engine:initEvents()
             ['m'] = callback('portrait/landscape', self, Engine.flip),
 
             [','] = callback('introspection', self, Engine.introspection),
-            
+
             ['s'] = callback('vsync', self, Engine.vsync),
 
             ['f1'] = callback('help', self.info, Info.toggleHelp),
             ['f2'] = callback('opengl or opengl es', self, Engine.toggleRenderVersion),
+
+            ['f3'] = callback('save image', self,
+                function ()
+                    RenderFrame.getRenderFrame():save('test', 'jpeg')
+                end),
 
             ['f11'] = callback('fullscreen', self, Sdl.toggleWindowDisplayMode),
 
@@ -93,7 +98,7 @@ function Engine:initEvents()
                 engine:on('update', function()
                         local x = screen.MARGE_X + math.random(screen.W) * screen.ratio
                         local y = screen.MARGE_Y + math.random(screen.H) * screen.ratio
-                        
+
                         mouse:mouseEvent(0, BEGAN, x, y, 0, 0, true, false)
                         mouse:mouseEvent(0, ENDED, x, y, 0, 0, false, false)
                     end)

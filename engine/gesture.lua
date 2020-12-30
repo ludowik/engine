@@ -26,6 +26,17 @@ local function ratio(a)
     return cos(90-a) / cos(a)
 end
 
+function isDownDirection(direction)
+    if CurrentTouch.state == BEGAN or CurrentTouch.state == MOVING then
+        if direction == 'up' and CurrentTouch.x > WIDTH/2 then
+            return true
+        elseif direction == 'down' and CurrentTouch.x <= WIDTH/2 then
+            return true
+        end
+    end
+    return false
+end
+
 function gestureDirection(touch)
     local x = touch.totalX
     local y = touch.totalY

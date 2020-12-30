@@ -1,16 +1,8 @@
-Color LCD
-GLSL 4.10
-load applications/apps/morpion/morpion
-<<<<<<< HEAD
-memory at start  : 4.21 mo
-memory min       : 4.21 mo
-memory max       : 12.49 mo
-memory variation : 8.29 mo
-memory at end    : 1.61 mo
-=======
-memory at start  : 2.01 mo
-memory min       : 2.01 mo
-memory max       : 24.10 mo
-memory variation : 22.09 mo
-memory at end    : 2.28 mo
->>>>>>> a172ff935c5c33afc33f1b3cc7ed69e1ce72ff8a
+Generic PnP Monitor
+GLSL 4.10 - Build 26.20.100.8141
+load applications/appManager
+memory at start  : 4.23 mo
+memory min       : 4.23 mo
+memory max       : 12.76 mo
+memory variation : 8.53 mo
+memory at end    : 1.60 mo

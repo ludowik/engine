@@ -1,9 +1,0 @@
-varying float elevation;
-
-float minElevation = 2. - 1.75;
-float maxElevation = 2. + 1.75;
-
-void main() {
-    float zNorm = (elevation - minElevation) / (maxElevation - minElevation);
-    fragColor = vec4(vColor.xyz * zNorm, 1.0);
-}

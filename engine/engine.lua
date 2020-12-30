@@ -56,6 +56,7 @@ function Engine:init()
     screen = Screen(W, H)
 end
 
+-- TODO : move to keyboard class
 function Engine:on(event, key, callback)
     if not self.onEvents[event] then
         self.onEvents[event] = {}

@@ -1,2 +1,0 @@
---math = love.math
---math.noise =love.math.noise

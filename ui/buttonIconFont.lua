@@ -13,7 +13,7 @@ function ButtonIconFont:draw()
 
         fill(white)
 
-        font('Foundation-icons')
+        font('Foundation-Icons')
         fontSize(self.width)
 
         textMode(CENTER)

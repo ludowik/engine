@@ -1,5 +1,0 @@
-require 'core.love.physics2d.body'
-require 'core.love.physics2d.contact'
-require 'core.love.physics2d.edge'
-require 'core.love.physics2d.joint'
-require 'core.love.physics2d.physics'

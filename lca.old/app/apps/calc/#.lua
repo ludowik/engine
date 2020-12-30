@@ -1,3 +1,0 @@
-lib('appCalc',
-    'calc',
-    'unit')
