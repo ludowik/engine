@@ -142,7 +142,7 @@ function draw()
         if file.mode == 'directory' then
             file.pct = file.size / disk.size
 
-            arc(x, y, radius, pct * tau, (pct + file.pct) * tau)
+            arc(x, y, radius, pct * TAU, (pct + file.pct) * TAU)
 
             pct = pct + file.pct
 
