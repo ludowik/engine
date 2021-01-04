@@ -89,6 +89,12 @@ function mt:len()
         self.y^2)
 end
 
+function mt:lenSquared()
+    return 
+        self.x^2 +
+        self.y^2
+end
+
 function mt:dist(v)
     return math.sqrt(
         (v.x - self.x)^2 +
@@ -128,8 +134,13 @@ function mt:__unm()
 end
 
 function mt:mul(coef)
-    self.x = self.x * coef
-    self.y = self.y * coef
+    if type(coef) == 'number' then
+        self.x = self.x * coef
+        self.y = self.y * coef
+    else
+        self.x = self.x * coef.x
+        self.y = self.y * coef.y
+    end
     return self
 end
 
@@ -164,16 +175,16 @@ function mt:normalizeInPlace(coef)
     return self
 end
 
-function mt:cross(v)
-    return self:clone():crossInPlace(v)
-end
-
 function mt:crossByScalar(s)
     return vec2(s * self.y, -s * self.x)
 end
 
 function mt:crossFromScalar(s)
     return vec2(-s * self.y, s * self.x)
+end
+
+function mt:cross(v)
+    return self:clone():crossInPlace(v)
 end
 
 function mt:crossInPlace(v)
@@ -186,15 +197,16 @@ function mt:crossInPlace(v)
     return self
 end
 
-function mt:rotate(phi)
-    local c, s = cos(phi), sin(phi)
-    return vec2(
-        c * self.x - s * self.y,
-        s * self.x + c * self.y)
+function mt:rotate(phi, origin)
+    return self:clone():rotateInPlace(phi, origin)
 end
 
-function mt:rotateInPlace(phi)
+function mt:rotateInPlace(phi, origin)
     local c, s = cos(phi), sin(phi)
+
+    if origin then
+        self:sub(origin)
+    end
 
     local x, y
     x = c * self.x - s * self.y
@@ -202,6 +214,10 @@ function mt:rotateInPlace(phi)
 
     self.x = x
     self.y = y
+
+    if origin then
+        self:add(origin)
+    end
 
     return self
 end

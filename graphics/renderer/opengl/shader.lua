@@ -126,14 +126,15 @@ function Shader:compile(shaderType, source, path)
     local status = gl.glGetShaderiv(shader_id, gl.GL_COMPILE_STATUS)
     if status == gl.GL_FALSE then        
         local errors = gl.glGetShaderInfoLog(shader_id)
-        errors = errors:gsub('(%d+):(%d+):',
+        errors = errors:gsub('ERROR: (%d+):(%d+):',
             function (ifile, iline)
                 ifile = tonumber(ifile)
                 iline = tonumber(iline)
-                return lfs.currentdir()..'/'..includes[ifile]..' :'..(iline)..':'
+                return lfs.currentdir()..'/'..includes[ifile]..' :'..(iline+1)..':'
             end)
 
-        error(errors)
+        print(errors)
+        error()
     end
 
     if path then

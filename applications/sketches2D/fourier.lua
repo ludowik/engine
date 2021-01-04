@@ -46,7 +46,7 @@ function draw()
 
         line(x, y, x+px, y+py)
         strokeWidth(5)
-        points(x+px, y+py)
+        point(x+px, y+py)
 
         x = x + px
         y = y + py

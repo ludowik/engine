@@ -5,16 +5,19 @@ function Rect:init(x, y, w, h)
     self.size = vec3(w, h)
 
     self.absolutePosition = vec3(x, y)
+
+    self.rotation = 0
 end
 
-function Rect:setPosition(x, y)
+function Rect:setPosition(x, y, z)
     if y == nil then
-        x, y = x.x, x.y
+        x, y, z = x.x, x.y, x.z or 0
     end
-    
+
     self.position.x = x
     self.position.y = y
-    
+    self.position.z = z or 0
+
     return self
 end
 
@@ -85,8 +88,30 @@ function Rect:zc()
     return self.absolutePosition.z + dz
 end
 
+function Rect:leftBottom()
+    return vec3(
+        min(self:x1(), self:x2()),
+        min(self:y1(), self:y2()))
+end
+
+function Rect:rightTop()
+    return vec3(
+        max(self:x1(), self:x2()),
+        max(self:y1(), self:y2()))
+end
+
+function Rect:center()
+    return vec3(
+        self:xc(),
+        self:yc())
+end
+
 function Rect:fx()
-    local a = self:h() / self:w()
+    local w, h = self:w(), self:h()
+    if w == 0 then
+        return self.position.x, nil
+    end
+    local a = h / w
     local b = self:y2() - (a * self:x2())
     return a, b
 end

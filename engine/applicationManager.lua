@@ -18,7 +18,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     saveGlobalData('appPath', appPath)
 
     self.appPath = appPath
-    self.appName, self.appDirectory = splitPath(appPath)
+    self.appDirectory, self.appName = splitPath(appPath)
 
     sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..appPath)
 
@@ -35,7 +35,14 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         screen:pushSize()
 
         package.loaded[appPath] = nil
-        require(appPath)
+        
+        local directory, filename = splitPath(appPath)
+        if isFile(getFullPath(appPath..'/'..filename..'.lua')) and
+           not isFile(getFullPath(appPath..'/#.lua')) then
+            require(appPath..'/'..filename)
+        else
+            require(appPath)
+        end
 
         env.physics = Physics()
         env.parameter = Parameter()

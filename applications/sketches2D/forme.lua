@@ -1,7 +1,7 @@
 function setup()
     local x, y = WIDTH/2, HEIGHT/2
 
-    vertices = Array{vec3(x, y)}
+    vertices = Buffer('vec3', {vec3(x, y)})
 
     function animate(n)
         local r = 200
@@ -34,13 +34,12 @@ function draw()
     background(51)
 
     stroke(white)
+
     noFill()
 
     if #vertices > 2 then
         polyline(vertices)
     end
 
-    for i,pos in ipairs(vertices) do
-        points(pos.x, pos.y)
-    end
+    points(vertices)
 end

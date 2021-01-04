@@ -43,24 +43,37 @@ function splitPath(path)
     local name = j and path:sub(j+1) or path
     local directory = j and path:sub(1, j) or ''
 
-    return name, directory
+    return directory, name
 end
 
 function splitFilePath(strFilename)
     -- Returns the Path, Filename, and Extension as 3 values
-	if lfs.attributes(strFilename,"mode") == "directory" then
-		local strPath = strFilename:gsub("[\\/]$","")
-		return strPath.."\\","",""
-	end
-	strFilename = strFilename.."."
-	return strFilename:match("^(.-)([^\\/]-)%.([^\\/%.]-)%.?$")
+    if lfs.attributes(strFilename, 'mode') == 'directory' then
+        local strPath = strFilename:gsub('[\\/]$', '')
+        return strPath..'\\', '', ''
+    end
+    strFilename = strFilename..'.'
+    return strFilename:match('^(.-)([^\\/]-)%.([^\\/%.]-)%.?$')
 end
 
 function isApp(path)
+    local directory, filename = splitPath(path)
+    local _, _, ext = splitFilePath(path)
     if (
+        ( 
+            (
+                ( 
+                    isFile(path) and
+                    ext == 'lua'
+                    ) or
+                isFile(path..'.lua')
+                ) and
+            not isFile(directory..'/#.lua') and
+            not isFile(directory..'/main.lua')
+            ) or
         isFile(path..'/#.lua') or
         isFile(path..'/main.lua') or
-        isFile(path..'.lua'))
+        isFile(path..'/'..filename..'.lua'))
     then
         return true
     end
@@ -135,14 +148,13 @@ function dir(path, checkType, recursivly, list, subPath)
     list = list or Array()
     for file in lfs.dir(path) do
         if not file:startWith('.') then
-            if checkType(path..'/'..file) then
-                --                table.insert(list, subPath and (subPath..'/'..file) or file)
-                table.insert(list, path..'/'..file)
-            end
-
             if recursivly and isDirectory(path..'/'..file) then
-                --                dir(path..'/'..file, checkType, recursivly, list, subPath and (subPath..'/'..file) or file)
+--                dir(path..'/'..file, checkType, recursivly, list, subPath and (subPath..'/'..file) or file)
                 dir(path..'/'..file, checkType, recursivly, list)
+
+            elseif checkType(path..'/'..file) then
+--                table.insert(list, subPath and (subPath..'/'..file) or file)
+                table.insert(list, path..'/'..file)
             end
         end
     end

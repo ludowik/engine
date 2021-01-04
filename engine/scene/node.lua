@@ -109,7 +109,15 @@ function Node:draw()
 
                 if node.absolutePosition then
                     pushMatrix()
-                    circle(node.absolutePosition.x, node.absolutePosition.y, 5)
+                    resetMatrix()
+                    pushStyle()
+                    local z = zLevel()
+                    zLevel(10)
+                    stroke(white)
+                    strokeWidth(10)
+                    point(node.absolutePosition.x, node.absolutePosition.y)
+                    zLevel(z)
+                    popStyle()
                     popMatrix()
                 end
 

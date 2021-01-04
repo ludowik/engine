@@ -3,7 +3,7 @@ ffi.cdef(code)
 
 class 'OpenGL' : extends(Component)
 
-function OpenGL:load()
+function OpenGL:init()
     opengles = ios
 
     if opengles then
@@ -13,7 +13,9 @@ function OpenGL:load()
         config.glMajorVersion = 4
         config.glMinorVersion = 1
     end
+end
 
+function OpenGL:load()
     if sdl.SDL_GL_LoadLibrary(ffi.NULL) == 1 then
         sdl.SDL_Log("SDL_GL_LoadLibrary: %s", sdl.SDL_GetError())
         error('SDL_GL_LoadLibrary')

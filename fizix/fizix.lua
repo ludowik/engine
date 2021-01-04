@@ -42,6 +42,12 @@ function Fizix:resume()
     self.running = true
 end
 
+function Fizix:draw()
+    for _,body in ipairs(self.bodies) do
+        body:draw()
+    end
+end
+
 function Fizix:body(...)
     return self:add(nil, DYNAMIC, ...)
 end

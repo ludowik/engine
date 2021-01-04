@@ -28,7 +28,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     x = x or 0
     y = y or 0
     z = z or zLevel()
-
+    
     w = w or 1
     h = h or 1
     d = d or 1
@@ -117,7 +117,7 @@ end
 function MeshRender:renderDraw(drawMode, img, nInstances)
     gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL)
 
-    if self.indices and not ios then
+    if self.indices and #self.indices > 0 and not ios then
         gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
     else
         gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)
@@ -134,7 +134,7 @@ function MeshRender:renderWireframe(shader, drawMode, img, nInstances)
 
     gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
 
-    if self.indices and not ios then
+    if self.indices and #self.indices > 0 and not ios then
         gl.glDrawElementsInstanced(drawMode, #self.indices, gl.GL_UNSIGNED_SHORT, NULL, nInstances or 1)
     else
         gl.glDrawArraysInstanced(drawMode, 0, #self.vertices, nInstances or 1)

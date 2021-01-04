@@ -59,6 +59,30 @@ function table:iterator()
     return ipairs(self)
 end
 
+function table:by2()
+    local i = 0
+    local n = #self
+    return function ()
+        i = i + 1
+        if i < n then
+            return i, self[i], self[i+1]
+        end
+        return nil
+    end
+end
+
+function table:by3()
+    local i = 0
+    local n = #self
+    return function ()
+        i = i + 1
+        if i < n-1 then
+            return i, self[i], self[i+1], self[i+2]
+        end
+        return nil
+    end
+end
+
 function table:attribs(vars)
     for var,value in pairs(vars) do
         self[var] = value

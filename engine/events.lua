@@ -93,7 +93,7 @@ function Engine:initEvents()
     }
 
     engine:on('keydown', 'u',
-        callback('ui test', self,
+        callback('UI test', self,
             function()
                 engine:on('update', function()
                         local x = screen.MARGE_X + math.random(screen.W) * screen.ratio

@@ -7,7 +7,7 @@ function renderFunction(f, context)
         noLight()
 
         resetMatrix(true)
-        resetStyle(NORMAL, false, false)
+        resetStyle(NORMAL, true, false)
 
         if context then
             setContext(context)

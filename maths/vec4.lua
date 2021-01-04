@@ -99,6 +99,20 @@ function mt:len()
         self.z^2)
 end
 
+function mt:lenSquared()
+    return 
+        self.x^2 +
+        self.y^2 +
+        self.z^2
+end
+
+function mt:len()
+    return math.sqrt(
+        self.x^2 +
+        self.y^2 +
+        self.z^2)
+end
+
 function mt:dist(v)
     return math.sqrt(
         (v.x - self.x)^2 +

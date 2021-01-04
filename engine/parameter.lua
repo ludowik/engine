@@ -29,7 +29,7 @@ function Parameter:draw()
     pushStyle()
     
     resetMatrix(true)
-    resetStyle(NORMAL, false, false)
+    resetStyle(NORMAL, true, false)
 
     ortho()
 

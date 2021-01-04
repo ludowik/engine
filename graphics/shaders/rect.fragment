@@ -14,13 +14,7 @@ void main() {
 
     gl_FragColor = fill;
  
-//    vec2 vSize = normalize(vTexCoords);
-//    vSize.x *= size.x;
-//    vSize.y *= size.y;
-    
-//    vec2 vLen = abs(vSize);
-    
-    if (strokeWidth > 0.) {
+    if (stroke.a > 0. && strokeWidth > 0.) {
         float sEdge = smoothstep(
             size.x - strokeWidth - 2.,
             size.x - strokeWidth,

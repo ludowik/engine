@@ -1,3 +1,8 @@
 Color LCD
 GLSL 4.10
-load applications/demo/files
+load applications/collision
+memory at start  : 2.11 mo
+memory min       : 2.11 mo
+memory max       : 23.39 mo
+memory variation : 21.28 mo
+memory at end    : 2.06 mo

@@ -43,6 +43,11 @@ function Physics:init(instance)
     self.queryAABB = function (lowerLeft, upperRight, category1, category2)
         return self.instance:queryAABB(lowerLeft, upperRight, category1, category2)
     end
+    
+    self.setArea = function (x, y, w, h)
+        return self.instance:setArea(x, y, w, h)
+    end
+
 end
 
 function Physics.properties.get:deltaTime()
