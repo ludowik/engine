@@ -201,6 +201,9 @@ function mt:rotate(phi, origin)
     return self:clone():rotateInPlace(phi, origin)
 end
 
+local cos = math.cos
+local sin = math.sin
+
 function mt:rotateInPlace(phi, origin)
     local c, s = cos(phi), sin(phi)
 

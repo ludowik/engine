@@ -58,7 +58,7 @@ function Body:init(bodyType, shapeType, ...)
 
     self.categories = {0}
     self.mask = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
-    
+
     self.interpolate = true -- TODO : interpolate ?
     self.sleepingAllowed = false -- TODO : fix them when they don't "move"
 
@@ -200,11 +200,11 @@ function Body:getWorldPoint(localPoint)
 end
 
 function Body:getLinearVelocityFromWorldPoint(worldPoint)
-	return self.m_linearVelocity + (worldPoint - self.world.worldCenter):crossFromScalar(m_angularVelocity)
+    return self.linearVelocity + (worldPoint - self.world.worldCenter):crossFromScalar(self.angularVelocity)
 end
 
 function Body:getLinearVelocityFromLocalPoint(localPoint)
-	return self:getLinearVelocityFromWorldPoint(self:getWorldPoint(localPoint));
+    return self:getLinearVelocityFromWorldPoint(self:getWorldPoint(localPoint));
 end
 
 function Body:integration(dt)
@@ -225,24 +225,24 @@ function Body:integration(dt)
     self.positionDelta = linearVelocity * dt
 
     position = position + self.positionDelta
-    
+
     self.previousPosition:set(self.position)
     self.position = position * self.world.pixelRatio
     self.linearVelocity = linearVelocity * self.world.pixelRatio
 
     self.force:set()
-    
+
     -- angle
     local angle = self.angle
     local angularVelocity = self.angularVelocity
-    
+
     local angularAcceleration = self.torque
 
     angularVelocity = angularVelocity - self.angularDamping * angularVelocity * dt
     angularVelocity = angularVelocity + angularAcceleration
-    
+
     self.angleDelta = angularVelocity * dt
-    
+
     angle = angle + self.angleDelta
 
     self.previousAngle = self.angle
@@ -265,6 +265,16 @@ function Body:getBoundingCircle()
     self.position.x,
     self.position.y,
     self.radius
+end
+
+function Body:getBox2d()
+    local r = Rect(
+        self.position.x - self.w/2,
+        self.position.y - self.h/2,
+        self.position.x + self.w/2,
+        self.position.y + self.h/2)
+    r.angle = self.angle
+    return r
 end
 
 function Body:draw()

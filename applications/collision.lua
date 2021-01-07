@@ -58,21 +58,37 @@ function draw()
     r1 = Rect(640, 300, 140, 154)
     r1.rotation = angle
 
+    local c1, c2
     if lineIntersectBox2d(lmouse, r1) then
-        fill(blue)
+        c1 = blue
     elseif pointInAABB(CurrentTouch, r1) then
-        fill(red)
+        c1 = red
     else
-        fill(white)
+        c1 = white
     end
-    noStroke()
 
-    pushMatrix()
-    translate(r1:xc(), r1:yc())
-    rotate(deg(r1.rotation))
-    rectMode(CENTER)
-    rect(0, 0, r1:w(), r1:h())
-    popMatrix()
+    r2 = Rect(830, 300, 120, 154)
+    r2.rotation = -angle
+
+    if box2dIntersectBox2d(r2, r1) then
+        c2 = green
+    else
+        c2 = white
+    end
+
+    function drawRect(r, clr)
+        noStroke()
+        fill(clr)
+        pushMatrix()
+        translate(r:xc(), r:yc())
+        rotate(deg(r.rotation))
+        rectMode(CENTER)
+        rect(0, 0, r:w(), r:h())
+        popMatrix()
+    end
+
+    drawRect(r1, c1)
+    drawRect(r2, c2)
 
     -- cursor position
     stroke(blue)
@@ -80,184 +96,4 @@ function draw()
     point(CurrentTouch.x, CurrentTouch.y)
 
     line(lmouse:x1(), lmouse:y1(), lmouse:x2(), lmouse:y2())
-end
-
-local function sameValue(a, b)
-    return abs(a-b) < 1
-end
-
-local function samePoint(a, b)
-    if sameValue(a.x, b.x) and sameValue(a.y, b.y) then
-        return true
-    end
-    return false
-end
-
-function pointOnLine(point, line)
-    local a, b = line:fx()
-
-    if b == nil then
-        if sameValue(point.x, a) then
-            if (
-                point.y >= min(line.position.y, line.position.y + line.size.y) and
-                point.y <= max(line.position.y, line.position.y + line.size.y))
-            then
-                return true
-            end
-        end
-        return false
-    end
-
-    local resolution = point:clone()
-    resolution.y = a * resolution.x + b 
-
-    if samePoint(point, resolution) then
-        if (
-            resolution.x >= min(line.position.x, line.position.x + line.size.x) and
-            resolution.x <= max(line.position.x, line.position.x + line.size.x))
-        then
-            return true
-        end
-    end
-    
-    return false
-end
-
-assert(pointOnLine(vec2(), Rect(0, 0, 0, 100)))
-
-function pointInCircle(point, circle)
-    local dist = vec2(point):dist(circle.position)
-
-    if dist <= circle.r then
-        return true
-    end
-    return false
-end
-
-function pointInAABB(point, rect)
-    return rect:contains(point)
-end
-
-function lineIntersectLine(l1, l2)
-    local a, b = l1:fx()
-    local c, d = l2:fx()
-
-    if b == nil and d == nil then
-        return sameValue(a, c)
-    end
-
-    local x, y
-    if b == nil then
-        x = a
-        y = c*x+d
-    elseif d == nil then
-        x = c
-        y = a*x+b
-    else
-        x = (d-b)/(a-c)
-        y = a*x+b
-        --        y = c*x+d
-    end
-
-    local point = vec3(x, y)
-    if pointOnLine(point, l1) and pointOnLine(point, l2) then
-        return true
-    end
-    
-    return false
-end
-
-function lineIntersectCircle(line, circle)
-    if pointInCircle(line.position, circle) or pointInCircle(line.position+line.size, circle) then
-        return true
-    end
-    local ab = line.size
-
-    local circleCenter = circle.position
-    local lineStartToCircleCenter = circleCenter - line.position
-    local t = lineStartToCircleCenter:dot(ab) / ab:dot(ab)
-
-    if t >= 0 and t <= 1 then
-        local closestPoint = line.position + ab * t
-        return pointInCircle(closestPoint, circle)
-    end
-    
-    return false
-end
-
-function lineIntersectAABB(line, rect)
-    if pointInAABB(line.position, rect) or pointInAABB(line.position+line.size, rect) then
-        return true
-    end
-
-    local unitVector = line.size:normalize()
-
-    unitVector.x = unitVector.x ~= 0 and (1/unitVector.x) or 0
-    unitVector.y = unitVector.y ~= 0 and (1/unitVector.y) or 0
-
-    local leftBottom = (rect:leftBottom() - line.position) * unitVector
-    local rightTop = (rect:rightTop() - line.position) * unitVector
-
-    local tmin = max(min(leftBottom.x, rightTop.x), min(leftBottom.y, rightTop.y))
-    local tmax = min(max(leftBottom.x, rightTop.x), max(leftBottom.y, rightTop.y))
-
-    if tmax >= 0 and tmin <= tmax then    
-        local t = tmin < 0 and tmax or tmin
-        return t > 0 and (t * t < line.size:lenSquared())
-    end
-    
-    return false
-end
-
-function lineIntersectBox2d(line, box)
-    local theta = -box.rotation
-    local center = box:center()
-    local localStart = vec2(line.position):rotate(theta, center)
-    local localEnd = vec2(line.position + line.size):rotate(theta, center)
-
-    local localSize = localEnd - localStart
-    local localLine = Rect(localStart.x, localStart.y, localSize.x, localSize.y)
-
-    return lineIntersectAABB(localLine, box)
-end
-
-function raycastCircle(ray, circle)
-    local raycast = {}
-
-    local rayPosition = ray.position
-    local rayDirection = ray.size:normalize()
-
-    local originToCircle = circle.position - rayPosition
-
-    local radiusSquared = circle.r * circle.r
-
-    local originToCircleLenSquared = originToCircle:lenSquared()
-
-    -- project the vector from the ray origin onto the direction of the ray
-    local a = originToCircle:dot(rayDirection)
-    local bSquared = originToCircleLenSquared - a^2
-
-    if radiusSquared - bSquared < 0 then
-        return nil
-    end
-
-    local f = sqrt(radiusSquared - bSquared)
-    local t = 0
-
-    if originToCircleLenSquared < radiusSquared then
-        -- ray starts inside the circle
-        t = a + f
-    else
-        t = a - f
-    end
-
-    if t < 0 then
-        return nil
-    end
-
-    raycast.point = rayPosition + rayDirection * t
-    raycast.normal = (raycast.point - circle.position):normalize()
-    raycast.t = t
-
-    return raycast
 end

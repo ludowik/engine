@@ -1,8 +1,8 @@
 Color LCD
 GLSL 4.10
-load applications/collision
-memory at start  : 2.11 mo
-memory min       : 2.11 mo
-memory max       : 23.39 mo
-memory variation : 21.28 mo
-memory at end    : 2.06 mo
+load applications/physics/Physics
+memory at start  : 2.14 mo
+memory min       : 2.14 mo
+memory max       : 15.53 mo
+memory variation : 13.39 mo
+memory at end    : 2.08 mo

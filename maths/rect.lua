@@ -94,6 +94,18 @@ function Rect:leftBottom()
         min(self:y1(), self:y2()))
 end
 
+function Rect:leftTop()
+    return vec3(
+        min(self:x1(), self:x2()),
+        max(self:y1(), self:y2()))
+end
+
+function Rect:rightBottom()
+    return vec3(
+        max(self:x1(), self:x2()),
+        min(self:y1(), self:y2()))
+end
+
 function Rect:rightTop()
     return vec3(
         max(self:x1(), self:x2()),
