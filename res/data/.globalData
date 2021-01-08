@@ -1,3 +1,7 @@
 return {
+<<<<<<< HEAD
     ["appPath"] = "applications/apps/byTheWay",
+=======
+    ["appPath"] = "applications/physics/Basic Physics",
+>>>>>>> ec9d2dd18a763001deb2d33c5ca2545450a5608f
 }

@@ -15,15 +15,15 @@ function setup()
     local left = makeBox(WIDTH/4, HEIGHT/2, WIDTH/3, 15, -30)
     left.type = STATIC
 
-    local right = makeBox(WIDTH - WIDTH/4, HEIGHT/2, WIDTH/3, 15, 30)
-    right.type = STATIC
+--    local right = makeBox(WIDTH - WIDTH/4, HEIGHT/2, WIDTH/3, 15, 30)
+--    right.type = STATIC
 
-    local floor = makeBox(WIDTH/2, 10, WIDTH, 20, 0)
-    floor.type = STATIC
+--    local floor = makeBox(WIDTH/2, 10, WIDTH, 20, 0)
+--    floor.type = STATIC
 
     table.insert(bodies, left)
-    table.insert(bodies, right)
-    table.insert(bodies, floor)
+--    table.insert(bodies, right)
+--    table.insert(bodies, floor)
 end
 
 -- This function gets called once every frame

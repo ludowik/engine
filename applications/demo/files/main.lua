@@ -22,7 +22,7 @@ function Coroutine:resume()
 end
 
 function setup()
-    disk = Directory('/')
+    disk = Directory('/users/ludo/projets')
 
     nbFilesTot = 0
     sizeTot = 0
@@ -142,7 +142,9 @@ function draw()
         if file.mode == 'directory' then
             file.pct = file.size / disk.size
 
-            arc(x, y, radius, pct * tau, (pct + file.pct) * tau)
+            fill(color(file.pct))
+            
+            arc(x, y, radius, pct * TAU, (pct + file.pct) * TAU)
 
             pct = pct + file.pct
 

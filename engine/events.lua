@@ -9,10 +9,11 @@ function Engine:initEvents()
         },
 
         keyup = {
-            ['r'] = callback('restart', self, Engine.restart),
             ['escape'] = callback('quit', self, Engine.quit),
 
             ['t'] = callback('todos', self, scanTODO),
+
+            ['r'] = callback('restart', applicationManager, ApplicationManager.restartApp),
 
             ['d'] = callback('default application', applicationManager, ApplicationManager.defaultApp),
             ['a'] = callback('applications', applicationManager, ApplicationManager.managerApp),
@@ -93,7 +94,7 @@ function Engine:initEvents()
     }
 
     engine:on('keydown', 'u',
-        callback('ui test', self,
+        callback('UI test', self,
             function()
                 engine:on('update', function()
                         local x = screen.MARGE_X + math.random(screen.W) * screen.ratio

@@ -19,8 +19,9 @@ function Icon:init()
     menu:add(Button('reset', function (btn) self:reset() end))
 
     local function load(btn)
-        self:load(btn.id)
+        self:load(btn.label)
     end
+    
     menu:add(Button('quit', load))
     menu:add(Button('restart', load))
     menu:add(Button('menu', load))
@@ -82,7 +83,7 @@ function Icon:draw()
 
     stroke(red)
     noFill()
-    
+
     rectMode(CORNER)
     rect(x, y, w, h)
 end
@@ -92,21 +93,19 @@ function Icon:touched(touch)
 
     local h = self.icon.height * self.ratio
     local y = HEIGHT - self.position.y - h
+
     touch.x = touch.x - self.position.x
     touch.y = touch.y - y
-    touch = touch / self.ratio
 
-    local i, j
-    i = math.floor(touch.x / self.pixelSize) * self.pixelSize
-    j = math.floor(touch.y / self.pixelSize) * self.pixelSize
+    touch = (vec2(touch) / self.ratio / self.pixelSize):floor() * self.pixelSize
 
     setContext(self.icon)    
     do
         noStroke()
         fill(self.color)
-        
+
         rectMode(CORNER)
-        rect(i, j, self.pixelSize, self.pixelSize)
+        rect(touch.x, touch.y, self.pixelSize, self.pixelSize)
     end
     setContext()
 

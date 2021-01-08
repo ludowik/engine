@@ -1,67 +1,99 @@
 function setup()
+    angle = 0
+end
+
+
+function update(dt)
+    angle = angle +dt
 end
 
 function draw()
-    l = Rect(100, 100, 340, 454)
+    background(51)
 
-    if pointOnLine(CurrentTouch, l) then
+    l1 = Rect(100, 100, 340, 454)
+    l2 = Rect(100, 100, 0, 454)
+
+    lmouse = Rect(
+        CurrentTouch.x-20, CurrentTouch.y-20,
+        60, 40)
+
+    function testPointOnLine(point, l)
+        if lineIntersectLine(lmouse, l) or pointOnLine(point, l) then
+            stroke(red)
+        else
+            stroke(white)
+        end
+
+        line(l:x1(), l:y1(), l:x2(), l:y2())
+    end
+
+    testPointOnLine(CurrentTouch, l1)
+    testPointOnLine(CurrentTouch, l2)
+
+    c1 = {position=vec2(500, 200), r=34}
+
+    if lineIntersectCircle(lmouse, c1) then
+        fill(blue)
+    elseif pointInCircle(CurrentTouch, c1) then
+        fill(red)
+    else
+        fill(white)
+    end
+
+    local raycast = raycastCircle(lmouse, c1)
+    if raycast then
         stroke(red)
+        strokeWidth(5)
+        point(raycast.point)
+        line(
+            raycast.point.x, raycast.point.y,
+            raycast.point.x + raycast.normal.x*10, raycast.point.y + raycast.normal.y*10)
     else
-        stroke(white)
+        noStroke()
     end
 
-    line(l:x1(), l:y1(), l:x2(), l:y2())
-    
-    c = {x=500, y=200, r=34}
-    
-    if pointInCircle(CurrentTouch, c) then
-        fill(red)
+    circleMode(CENTER)
+    circle(c1.position.x, c1.position.y, c1.r)
+
+    r1 = Rect(640, 300, 140, 154)
+    r1.rotation = angle
+
+    local c1, c2
+    if lineIntersectBox2d(lmouse, r1) then
+        c1 = blue
+    elseif pointInAABB(CurrentTouch, r1) then
+        c1 = red
     else
-        fill(white)
+        c1 = white
     end
-    noStroke()
-    
-    circle(c.x, c.y, c.r)
-    
-    l = Rect(640, 300, 140, 154)
 
-    if pointInRect(CurrentTouch, l) then
-        fill(red)
+    r2 = Rect(830, 300, 120, 154)
+    r2.rotation = -angle
+
+    if box2dIntersectBox2d(r2, r1) then
+        c2 = green
     else
-        fill(white)
+        c2 = white
     end
-    noStroke()
 
-    rect(l:x1(), l:y1(), l:w(), l:h())
-end
-
-function samePoint(a, b)
-    if abs(a.x-b.x) < 1 and abs(a.y-b.y) < 1 then
-        return true
+    function drawRect(r, clr)
+        noStroke()
+        fill(clr)
+        pushMatrix()
+        translate(r:xc(), r:yc())
+        rotate(deg(r.rotation))
+        rectMode(CENTER)
+        rect(0, 0, r:w(), r:h())
+        popMatrix()
     end
-end
 
-function pointOnLine(point, line)
-    local a, b = line:fx()
-    
-    local resolution = point:clone()
-    resolution.y = a * resolution.x + b 
+    drawRect(r1, c1)
+    drawRect(r2, c2)
 
-    if samePoint(point, resolution) then
-        return true
-    end
-    return false
-end
+    -- cursor position
+    stroke(blue)
+    strokeWidth(2)
+    point(CurrentTouch.x, CurrentTouch.y)
 
-function pointInCircle(point, circle)
-    local dist = vec2(point):dist(circle)
-    
-    if dist <= circle.r then
-        return true
-    end
-    return false
-end
-
-function pointInRect(point, rect)
-    return rect:contains(point)
+    line(lmouse:x1(), lmouse:y1(), lmouse:x2(), lmouse:y2())
 end

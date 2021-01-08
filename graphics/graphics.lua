@@ -32,14 +32,19 @@ function Graphics:initialize()
             vec3(0, 0), vec3(0, 0)})
     meshPolygon.shader = shaders['polygon']
 
-    meshCircle = Mesh() -- Model.ellipse(0, 0, 1, 1)
+    meshCircle = Mesh()
     meshCircle.shader = shaders['circle']
     meshCircle.vertices = Buffer('vec3', {
             vec3(), vec3(), vec3(), vec3()})
 
-    meshEllipse = Mesh() -- Model.ellipse(0, 0, 1, 1)
+    meshEllipse = Mesh()
     meshEllipse.shader = shaders['ellipse']
     meshEllipse.vertices = Buffer('vec3', {
+            vec3(), vec3(), vec3(), vec3()})
+    
+    meshArc = Mesh()
+    meshArc.shader = shaders['circle']
+    meshArc.vertices = Buffer('vec3', {
             vec3(), vec3(), vec3(), vec3()})
 
     meshSprite = Model.rect(0, 0, 1, 1)
@@ -148,7 +153,7 @@ function point(...)
 
     point = function(x, y)
         local diameter = max(strokeWidth(), 0)
-        meshPoint.inst_pos = Buffer('vec3', {vec3(x,y)})
+        meshPoint.inst_pos = Buffer('vec3', {vec3(x,y,Z)})
         meshPoint:render(meshPoint.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
     end
 
@@ -278,6 +283,18 @@ function ellipse(x, y, w, h, mode)
     x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
 
     meshEllipse:render(meshEllipse.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
+end
+
+function arc(x, y, r, angleMin, angleMax)
+    local w, h = r*2, r*2
+    x, y = cornerFromCenter(mode or circleMode(), x, y, w, h)
+    
+    meshArc.uniforms.useAngle = 1
+    
+    meshArc.uniforms.angleMin = angleMin
+    meshArc.uniforms.angleMax = angleMax
+
+    meshArc:render(meshArc.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
 end
 
 function sprite(img, x, y, w, h, mode)

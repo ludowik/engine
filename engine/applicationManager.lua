@@ -5,6 +5,8 @@ function ApplicationManager:init()
 end
 
 function ApplicationManager:loadApp(appPath, reloadApp)
+    self.action = nil
+    
     if not isApp(appPath) then
         self:managerApp()
         return
@@ -18,7 +20,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     saveGlobalData('appPath', appPath)
 
     self.appPath = appPath
-    self.appName, self.appDirectory = splitPath(appPath)
+    self.appDirectory, self.appName = splitPath(appPath)
 
     sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..appPath)
 
@@ -35,7 +37,14 @@ function ApplicationManager:loadApp(appPath, reloadApp)
         screen:pushSize()
 
         package.loaded[appPath] = nil
-        require(appPath)
+        
+        local directory, filename = splitPath(appPath)
+        if isFile(getFullPath(appPath..'/'..filename..'.lua')) and
+           not isFile(getFullPath(appPath..'/#.lua')) then
+            require(appPath..'/'..filename)
+        else
+            require(appPath)
+        end
 
         env.physics = Physics()
         env.parameter = Parameter()
@@ -74,8 +83,11 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     end
 end
 
+function ApplicationManager:restartApp()
+    self:loadApp(self.appPath, true)
+end
+
 function ApplicationManager:managerApp()
-    self.action = nil
     self:loadApp('applications/appManager')
 end
 
@@ -84,7 +96,6 @@ function ApplicationManager:lastApp()
 end
 
 function ApplicationManager:defaultApp()
-    self.action = nil
     self:loadApp('applications/main')
 end
 
@@ -143,7 +154,6 @@ function ApplicationManager:loopAppProc(delay)
         self.loopAppDelay = delay or 0
 
         if self.loopAppRef == 0 then
-            self.action = nil
             self:managerApp()
         end
     else

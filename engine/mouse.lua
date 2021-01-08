@@ -108,3 +108,4 @@ function Mouse:mouseWheel(id, dx, dy)
 end
 
 mouse = Mouse()
+CurrentTouch = Mouse()

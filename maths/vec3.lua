@@ -91,6 +91,13 @@ function mt:len()
         self.z^2)
 end
 
+function mt:lenSquared()
+    return 
+        self.x^2 +
+        self.y^2 +
+        self.z^2
+end
+
 function mt:dist(v)
     return math.sqrt(
         (v.x - self.x)^2 +
@@ -134,9 +141,15 @@ function mt:__unm()
 end
 
 function mt:mul(coef)
-    self.x = self.x * coef
-    self.y = self.y * coef
-    self.z = self.z * coef
+    if type(coef) == 'number' then
+        self.x = self.x * coef
+        self.y = self.y * coef
+        self.z = self.z * coef
+    else
+        self.x = self.x * coef.x
+        self.y = self.y * coef.y
+        self.z = self.z * coef.z
+    end
     return self
 end
 

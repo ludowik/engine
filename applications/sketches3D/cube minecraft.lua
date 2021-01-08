@@ -14,7 +14,7 @@ end
 function Cube:myTexture2()
     self.aaa = image(size*4, size*3)
 
-    render(self.aaa, function ()
+    renderFunction(function ()
             noStroke()
             rectMode(CORNER)
 
@@ -38,17 +38,17 @@ function Cube:myTexture2()
             face(size*3, size, red)
             face(size*1, size*2, white)
             face(size*1, size*0, yellow)
-        end)
+        end,
+        self.aaa)
 end
 
 function Cube:draw()
     background(51)
 
+    perspective()
+    box(1, 1, 1, self.aaa)
+
+    resetMatrix(true)
     spriteMode(CORNER)
     sprite(self.aaa, 0, 0)
-
-    perspective()
-    camera(2, 3, 10)
-
-    box(1, 1, 1, self.aaa)
 end

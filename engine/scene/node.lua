@@ -97,8 +97,12 @@ function Node:draw()
                 end
 
                 if node.rotation then
-                    rotate(node.rotation.y, 1, 0, 0)
-                    rotate(node.rotation.x, 0, 1, 0)
+                    if type(node.rotation) == 'number' then
+                        rotate(node.rotation)
+                    else
+                        rotate(node.rotation.y, 1, 0, 0)
+                        rotate(node.rotation.x, 0, 1, 0)
+                    end
                 end
 
                 if node.drawMode == CENTER then
@@ -109,7 +113,15 @@ function Node:draw()
 
                 if node.absolutePosition then
                     pushMatrix()
-                    circle(node.absolutePosition.x, node.absolutePosition.y, 5)
+                    resetMatrix()
+                    pushStyle()
+                    local z = zLevel()
+                    zLevel(10)
+                    stroke(white)
+                    strokeWidth(10)
+                    point(node.absolutePosition.x, node.absolutePosition.y)
+                    zLevel(z)
+                    popStyle()
                     popMatrix()
                 end
 

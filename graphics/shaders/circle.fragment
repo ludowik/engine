@@ -5,9 +5,25 @@ uniform vec4 stroke;
 
 uniform float strokeWidth;
 
+uniform int useAngle;
+
+uniform float angleMin;
+uniform float angleMax;
+
 in vec2 vTexCoords;
 
 void main() {
+    if (useAngle == 1) {
+        float angle = atan(vTexCoords.x, vTexCoords.y);
+        if (angle < 0) {
+            angle += TAU;
+        }
+        
+        if (angle < angleMin || angle > angleMax) {
+            discard;
+        }
+    }
+
     float distance = length(vTexCoords);
     if (distance > 1.) {
         discard;
@@ -17,13 +33,9 @@ void main() {
 
     gl_FragColor = fill;
     
-//    vec2 vSize = normalize(vTexCoords);
-//    vSize.x *= inst_size.x;
-//    vSize.y *= inst_size.y;
-    
     float vLen = length(size);
     
-    if (strokeWidth > 0.) {
+    if (stroke.a > 0. && strokeWidth > 0.) {
         float sEdge = smoothstep(
             vLen - width - 1.,
             vLen - width,

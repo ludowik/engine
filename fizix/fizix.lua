@@ -42,6 +42,12 @@ function Fizix:resume()
     self.running = true
 end
 
+function Fizix:draw()
+    for _,body in ipairs(self.bodies) do
+        body:draw()
+    end
+end
+
 function Fizix:body(...)
     return self:add(nil, DYNAMIC, ...)
 end
@@ -86,7 +92,7 @@ function Fizix:update(dt)
     do
         dt = dt + self.remainTime
         
-        local ds = max(min(0.002, dt), 0.002)
+        local ds = max(min(0.015, dt), 0.015)
         while dt >= ds do
             self:step(ds)
             dt = dt - ds
@@ -139,7 +145,7 @@ function Fizix:step(dt)
         end
 
         if body.keepInArea then
-            -- TODO : usefullv ?
+            -- TODO : usefull ?
             if body.position.x < -screen.W/2 then
                 body.position.x = body.position.x + screen.W
             elseif body.position.x > screen.W/2 then

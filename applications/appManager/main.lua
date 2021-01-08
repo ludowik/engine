@@ -25,7 +25,7 @@ function initMenu(path)
 
     local apps = applicationManager:dirApps(path) + applicationManager:dirFiles(path)
     for i,appPath in ipairs(apps) do
-        local appName, appDirectory = splitPath(appPath)
+        local appDirectory, appName = splitPath(appPath)
         app.ui:add(
             Button(appName,
                 function (btn)
