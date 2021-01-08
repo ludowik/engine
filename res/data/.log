@@ -1,8 +1,5 @@
 Generic PnP Monitor
 GLSL 4.10 - Build 26.20.100.8141
-load applications/appManager
-memory at start  : 4.23 mo
-memory min       : 4.23 mo
-memory max       : 12.76 mo
-memory variation : 8.53 mo
-memory at end    : 1.60 mo
+load applications/apps/asteroid
+load applications/apps/bbtan
+load applications/apps/byTheWay
