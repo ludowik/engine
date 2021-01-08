@@ -9,10 +9,11 @@ function Engine:initEvents()
         },
 
         keyup = {
-            ['r'] = callback('restart', self, Engine.restart),
             ['escape'] = callback('quit', self, Engine.quit),
 
             ['t'] = callback('todos', self, scanTODO),
+
+            ['r'] = callback('restart', applicationManager, ApplicationManager.restartApp),
 
             ['d'] = callback('default application', applicationManager, ApplicationManager.defaultApp),
             ['a'] = callback('applications', applicationManager, ApplicationManager.managerApp),

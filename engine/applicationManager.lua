@@ -5,6 +5,8 @@ function ApplicationManager:init()
 end
 
 function ApplicationManager:loadApp(appPath, reloadApp)
+    self.action = nil
+    
     if not isApp(appPath) then
         self:managerApp()
         return
@@ -81,8 +83,11 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     end
 end
 
+function ApplicationManager:restartApp()
+    self:loadApp(self.appPath, true)
+end
+
 function ApplicationManager:managerApp()
-    self.action = nil
     self:loadApp('applications/appManager')
 end
 
@@ -91,7 +96,6 @@ function ApplicationManager:lastApp()
 end
 
 function ApplicationManager:defaultApp()
-    self.action = nil
     self:loadApp('applications/main')
 end
 
@@ -150,7 +154,6 @@ function ApplicationManager:loopAppProc(delay)
         self.loopAppDelay = delay or 0
 
         if self.loopAppRef == 0 then
-            self.action = nil
             self:managerApp()
         end
     else

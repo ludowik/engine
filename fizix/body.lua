@@ -271,9 +271,9 @@ function Body:getBox2d()
     local r = Rect(
         self.position.x - self.w/2,
         self.position.y - self.h/2,
-        self.position.x + self.w/2,
-        self.position.y + self.h/2)
-    r.angle = self.angle
+        self.w,
+        self.h)
+    r.rotation = deg(self.angle)
     return r
 end
 

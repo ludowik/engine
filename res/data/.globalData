@@ -1,3 +1,3 @@
 return {
-    ["appPath"] = "applications/physics/Physics",
+    ["appPath"] = "applications/physics/Basic Physics",
 }
