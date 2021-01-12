@@ -6,12 +6,16 @@ local size = tileSize * 10
 function Cube:init()
     Application.init(self)
 
-    self:myTexture2()
+    self:createTexture()
+    
+    self.box = Model.box()
+    self.box.inst_pos = Buffer('vec3')
+    self.box.inst_pos:resize(1024)
 
     camera(0, 0, 10)
 end
 
-function Cube:myTexture2()
+function Cube:createTexture()
     self.aaa = image(size*4, size*3)
 
     renderFunction(function ()
@@ -46,7 +50,17 @@ function Cube:draw()
     background(51)
 
     perspective()
-    box(1, 1, 1, self.aaa)
+    
+    self.box.inst_pos:reset()
+    for x=1,100 do
+        for z=1,100 do
+            self.box.inst_pos:add(vec3(x,0,z))
+        end
+    end
+    
+    self.box.texture = self.aaa
+    self.box:drawInstanced(#self.box.inst_pos)
+--    box(1, 1, 1, self.aaa)
 
     resetMatrix(true)
     spriteMode(CORNER)

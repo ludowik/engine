@@ -36,11 +36,11 @@ function reset()
     gridSize = gridSize or 2
 
     local gridScene = UIScene(Layout.grid, gridSize)
-    app.scene = UIScene(Layout.column):add(
+    app.ui = UIScene(Layout.column):add(
         app.uiScene,
         gridScene)
 
-    app.scene.alignment = 'v-center,h-center'
+    app.ui.alignment = 'v-center,h-center'
 
     for i=1,nbGroups do
         local node = UIScene(Layout.grid, gridSize)

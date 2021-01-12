@@ -21,6 +21,14 @@ end
 function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     assert(shader)
     assert(drawMode)
+    
+    if self.texture then
+        if type(self.texture) == 'string' then
+            img = resourceManager:get('image', self.texture, image)
+        else
+            img = self.texture
+        end
+    end
 
     self.shader = shader
     self.img = img
@@ -35,14 +43,6 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
 
     self.pos:set(x, y, z)
     self.size:set(w, h, d)
-
-    if self.texture then
-        if type(self.texture) == 'string' then
-            img = resourceManager:get('image', self.texture, image)
-        else
-            img = self.texture
-        end
-    end
 
     do
         shader:use()

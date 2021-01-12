@@ -1,3 +1,7 @@
 return {
+<<<<<<< HEAD
     ["appPath"] = "applications/sketches2D/fractal tree",
+=======
+    ["appPath"] = "applications/appManager",
+>>>>>>> 5e05fdfe06d754ae8004cf53abd1ce5d5a76740f
 }

@@ -7,17 +7,17 @@ local p2 = vec3( v, -v, 0)
 local p3 = vec3( v,  v, 0)
 local p4 = vec3(-v,  v, 0)
 
-local f1 = {-1,-1, 1}
-local f2 = { 1,-1, 1}
-local f3 = { 1, 1, 1}
-local f4 = {-1, 1, 1}
+local f1 = {-v,-v, v}
+local f2 = { v,-v, v}
+local f3 = { v, v, v}
+local f4 = {-v, v, v}
 
-local b1 = {-1,-1,-1}
-local b2 = { 1,-1,-1}
-local b3 = { 1, 1,-1}
-local b4 = {-1, 1,-1}
+local b1 = {-v,-v,-v}
+local b2 = { v,-v,-v}
+local b3 = { v, v,-v}
+local b4 = {-v, v,-v}
 
-local u5 = vec3(v, v, 1)
+local u5 = vec3(v, v, v)
 
 local cos, sin = math.cos, math.sin
 
@@ -459,6 +459,7 @@ function Model.box(w, h, d)
 
     local wt = 1/4-1/100
     local ht = 1/3-1/100
+    
     local texCoords = Buffer('vec2')
 
     function add(coords, dx, dy)

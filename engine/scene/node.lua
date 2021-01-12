@@ -98,7 +98,9 @@ function Node:draw()
 
                 if node.rotation then
                     if type(node.rotation) == 'number' then
-                        rotate(node.rotation)
+                        if node.rotation ~= 0 then
+                            rotate(node.rotation)
+                        end
                     else
                         rotate(node.rotation.y, 1, 0, 0)
                         rotate(node.rotation.x, 0, 1, 0)
@@ -110,20 +112,6 @@ function Node:draw()
                 end
 
                 node:draw()
-
-                if node.absolutePosition then
-                    pushMatrix()
-                    resetMatrix()
-                    pushStyle()
-                    local z = zLevel()
-                    zLevel(10)
-                    stroke(white)
-                    strokeWidth(10)
-                    point(node.absolutePosition.x, node.absolutePosition.y)
-                    zLevel(z)
-                    popStyle()
-                    popMatrix()
-                end
 
                 if node.body and env.physics.debug then
                     node.body:draw(dt)
@@ -144,6 +132,25 @@ function Node:draw()
 
     rectMode(CORNER)
     rect(0, 0, self.size.x, self.size.y)
+end
+
+function Node:drawAbsolutePosition()
+    if not self.absolutePosition then return end
+
+    stroke(white)
+    strokeWidth(10)
+
+    for i,node in self.nodes:items() do
+        if node.absolutePosition then
+            point(
+                node.absolutePosition.x-self.absolutePosition.x,
+                node.absolutePosition.y-self.absolutePosition.y)
+
+            if node.drawAbsolutePosition then
+                node:drawAbsolutePosition()
+            end
+        end
+    end
 end
 
 function Node:nextFocus()

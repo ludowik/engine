@@ -56,7 +56,7 @@ function Engine:init()
     screen = Screen(W, H)
 end
 
--- TODO : move to keyboard class
+-- TODO : move to events
 function Engine:on(event, key, callback)
     if not self.onEvents[event] then
         self.onEvents[event] = {}
@@ -274,13 +274,11 @@ function Engine:update(dt)
     self.app:__update(dt)
 end
 
-function Engine:draw(f)
+function Engine:draw(f)    
     self:preRender()
 
     self:postRender(
         function ()
-            zLevel(0)
-
             if f then
                 f()
             else
@@ -305,6 +303,8 @@ function Engine:draw(f)
 
             self.app:__drawParameter()
 
+            resetStyle()
+
             self.components:draw()
         end,
         engine.renderFrameInfo,
@@ -326,6 +326,7 @@ end
 function Engine:preRender()
     Context.noContext()
     background(transparent)
+    zLevel(0)
 end
 
 function Engine:postRender(f, renderFrame, resetBackground)
@@ -338,6 +339,7 @@ function Engine:postRender(f, renderFrame, resetBackground)
     renderFunction(f, renderFrame)
 
     resetMatrix(true)
+    resetStyle()
 
     Context.noContext()
 
@@ -351,14 +353,14 @@ end
 function Engine:keydown(key, isrepeat)
     if self.onEvents.keydown[key] then
         self.onEvents.keydown[key]()
-    else
-        self.app:__keyboard(key, isrepeat)
     end
 end
 
 function Engine:keyup(key)
-    if self.onEvents.keyup[key] then
-        self.onEvents.keyup[key]()
+    if not self.app:__keyboard(key, isrepeat) then    
+        if self.onEvents.keyup[key] then
+            self.onEvents.keyup[key]()
+        end
     end
 end
 

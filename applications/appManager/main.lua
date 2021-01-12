@@ -9,14 +9,17 @@ end
 
 function initMenu(path)
     if app.currentPath then
-        local ui = app.ui
-
+        app.previousPath = app.currentPath
+        app.previousUI = app.ui
+        
         initUI()
+        
         app.ui:add(
             Button('..',
                 function (btn)
-                    app.ui = ui
+                    app.ui = app.previousUI
                 end))
+        
     else
         initUI()
     end
@@ -49,6 +52,11 @@ function initMenu(path)
     end
 end
 
-function touched(touch)
-    return app.ui:touched(touch)
+function keyboard(key)
+    if key == 'a' then
+        if app.previousUI then
+            app.ui = app.previousUI
+            return true
+        end
+    end
 end

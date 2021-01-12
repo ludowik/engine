@@ -17,7 +17,7 @@ function update(dt)
         step()
     end
 
-    waterDrop(random(size), random(size), random(100, 1000))
+    waterDrop(random(size), random(size))
     
     img:setPixels(pixels)
 end
@@ -78,5 +78,5 @@ end
 
 function waterDrop(x, y, h)
     local offset = getOffset(x, y)
-    buf1[offset] = h
+    buf1[offset] = h or random(100, 1000)
 end

@@ -8,6 +8,9 @@ function Engine:initEvents()
             [BUTTON_X2] = callback('previous application', applicationManager, ApplicationManager.previousApp),
         },
 
+        keydown = {
+        },
+
         keyup = {
             ['escape'] = callback('quit', self, Engine.quit),
 
@@ -93,7 +96,7 @@ function Engine:initEvents()
         }
     }
 
-    engine:on('keydown', 'u',
+    engine:on('keyup', 'u',
         callback('UI test', self,
             function()
                 engine:on('update', function()
