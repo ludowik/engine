@@ -48,7 +48,6 @@ function Info:drawInfo()
     self:info('opengl version', config.glMajorVersion)
     self:info('wireframe', config.wireframe)
     self:info('light', config.light)
-
     self:info('bodies', #env.physics.bodies)
 end
 
@@ -58,6 +57,9 @@ function Info:drawHelp()
     if self.showHelp then
         fontSize(DEFAULT_FONT_SIZE)
         for k,v in pairs(engine.onEvents.keydown) do
+            self:info(k, v)
+        end
+        for k,v in pairs(engine.onEvents.keyup) do
             self:info(k, v)
         end
     end

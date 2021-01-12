@@ -171,14 +171,17 @@ end
 function Application:keyboard(key, isrepeat)
     if key == 'down' then
         self.ui:nextFocus()
+        
     elseif key == 'up' then
         self.ui:previousFocus()
+        
     elseif key == 'return' then
         if self.ui.focus then
             self.ui.focus:action()
         end
+        
     else
-        self.ui:keyboard(key, isrepeat)
+        return self.ui:keyboard(key, isrepeat)
     end
 end
 

@@ -5,8 +5,6 @@ function ApplicationManager:init()
 end
 
 function ApplicationManager:loadApp(appPath, reloadApp)
-    self.action = nil
-    
     if not isApp(appPath) then
         self:managerApp()
         return

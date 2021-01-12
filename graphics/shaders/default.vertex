@@ -6,7 +6,8 @@ attribute vec3 normal;
 uniform mat4 matrixModel;
 uniform mat4 matrixPV;
 
-uniform vec3 pos;
+//uniform vec3 pos;
+attribute vec3 inst_pos;
 uniform vec3 size;
 
 uniform vec4 fill;
@@ -23,7 +24,7 @@ out vec4 vColor;
 out vec2 vTexCoords;
 
 void main() {
-    vec3 vertexPosition = vertex * size + pos;
+    vec3 vertexPosition = vertex * size + inst_pos;
 
     vec4 worldPosition = matrixModel * vec4(vertexPosition.xyz, 1.);
     vec4 worldNormal = matrixModel * vec4(normal, 0.0);

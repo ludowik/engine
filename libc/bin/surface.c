@@ -1,12 +1,20 @@
     #include <float.h>
     #include <math.h>
     #include <stdlib.h>
+    
+    #ifdef _WIN32
+        #define EXPORT __declspec(dllexport)
+    #else
+        #define EXPORT
+    #endif
 
+    #ifndef min
     float min(float a, float b) {
         if (a < b) return a;
         return b;
     }
-
+    #endif
+    
     #define n 10
 
     typedef struct vec2 {
@@ -23,7 +31,7 @@
     float minDistance = 0;
     float maxDistance = 0;
 
-    void init(int w, int h) {
+    EXPORT void init(int w, int h) {
         for(int j = 0; j < n; ++j) {
             vertices[j].x = rand() % w;
             vertices[j].y = rand() % h;
@@ -36,7 +44,7 @@
         return vertices[0].x;
     }
 
-    void mafunction(int w, int h, unsigned char* pixels) {
+    EXPORT void mafunction(int w, int h, unsigned char* pixels) {
 
         int i = 0;
 

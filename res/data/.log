@@ -1,18 +1,8 @@
-<<<<<<< HEAD
 Generic PnP Monitor
 GLSL 4.10 - Build 26.20.100.8141
-load applications/apps/asteroid
-load applications/apps/bbtan
-load applications/apps/byTheWay
-=======
-Color LCD
-GLSL 4.10
-load applications/physics/Basic Physics
-Hello Physics!
-Touch the screen to make boxes
-memory at start  : 2.14 mo
-memory min       : 2.14 mo
-memory max       : 23.75 mo
-memory variation : 21.62 mo
-memory at end    : 2.14 mo
->>>>>>> ec9d2dd18a763001deb2d33c5ca2545450a5608f
+load applications/appManager
+memory at start  : 4.26 mo
+memory min       : 4.26 mo
+memory max       : 12.66 mo
+memory variation : 8.40 mo
+memory at end    : 1.91 mo
