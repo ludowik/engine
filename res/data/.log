@@ -1,10 +1,8 @@
 Color LCD
 GLSL 4.10
-load applications/physics/Basic Physics
-Hello Physics!
-Touch the screen to make boxes
-memory at start  : 2.14 mo
-memory min       : 2.14 mo
-memory max       : 23.75 mo
-memory variation : 21.62 mo
-memory at end    : 2.14 mo
+load applications/sketches2D/fractal tree
+memory at start  : 2.13 mo
+memory min       : 2.13 mo
+memory max       : 24.00 mo
+memory variation : 21.87 mo
+memory at end    : 2.15 mo

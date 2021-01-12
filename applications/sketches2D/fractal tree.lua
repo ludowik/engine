@@ -3,14 +3,16 @@ App('FractalTree')
 function FractalTree:init()
     Application.init(self)
 
+    parameter.number('lenBranch', 100, 500, 120)
+    parameter.integer('levelBranch', 0, 10, 6)
     parameter.number('angleBranch', 0, 90, 45)
-    parameter.number('levelBranch', 0, 10, 6)
+    parameter.number('ratioBranch', 0.2, 0.8, 0.63)
 end
 
 function FractalTree:draw()
     background(51)
 
-    b = Branch(WIDTH/2, 150, 120, 0)
+    b = Branch(WIDTH/2, 150, lenBranch, 0)
     b:draw()
 end
 
@@ -27,8 +29,8 @@ function Branch:init(x, y, len, angle, level)
     self.angle = angle
 
     if level < levelBranch then
-        self.branchA = Branch(0, len, len*0.63,  angleBranch, level)
-        self.branchB = Branch(0, len, len*0.63, -angleBranch, level)
+        self.branchA = Branch(0, len, len*ratioBranch,  angleBranch, level)
+        self.branchB = Branch(0, len, len*ratioBranch, -angleBranch, level)
     end
 end
 
