@@ -59,6 +59,10 @@ function Engine:initEvents()
                     Performance.run()
                 end),
 
+            ['f9'] = callback('perspective', self, function ()
+                    config.projectionMode = 'perspective'
+                end),
+
             ['p'] = callback('profiler', self,
                 function()
                     Profiler.resetClasses()

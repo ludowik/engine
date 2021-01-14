@@ -1,3 +1,5 @@
+-- TODO : doublon avec primitive 
+
 function setup()
     parameter.boolean('use_stroke', true)
     parameter.boolean('use_fill', true)

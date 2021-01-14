@@ -208,6 +208,10 @@ function lineIntersectAABB(line, rect)
     return false
 end
 
+function rotatePoint(point, center, theta)
+    return vec2(point):rotate(theta, center)
+end
+
 function rotateLine(line, center, theta)
     local localStart = vec2(line.position):rotate(theta, center)
     local localEnd = vec2(line.position + line.size):rotate(theta, center)
@@ -276,8 +280,53 @@ function raycastCircle(ray, circle)
     end
 
     raycast.point = rayPosition + rayDirection * t
+-- TODO : la normale est-elle normale
     raycast.normal = (raycast.point - circle.position):normalize()
     raycast.t = t
 
     return raycast
 end
+
+function raycastAABB(ray, rect)
+    local raycast = {}
+
+    local rayPosition = ray.position
+    local rayDirection = ray.size:normalize()
+
+    local unitVector = rayDirection:clone()
+
+    unitVector.x = unitVector.x ~= 0 and (1/unitVector.x) or 0
+    unitVector.y = unitVector.y ~= 0 and (1/unitVector.y) or 0
+
+    local leftBottom = (rect:leftBottom() - ray.position) * unitVector
+    local rightTop = (rect:rightTop() - ray.position) * unitVector
+
+    local tmin = max(min(leftBottom.x, rightTop.x), min(leftBottom.y, rightTop.y))
+    local tmax = min(max(leftBottom.x, rightTop.x), max(leftBottom.y, rightTop.y))
+
+    if tmax >= 0 and tmin <= tmax then    
+        local t = tmin < 0 and tmax or tmin
+        local hit = t > 0
+        if hit then
+            raycast.point = rayPosition + rayDirection * t
+            raycast.normal = (rayPosition - raycast.point):normalize()
+            raycast.t = t
+            return raycast
+        end
+    end
+
+    return false
+end
+
+function raycastBox2d(line, box)
+    local localLine = rotateLine(line, box:center(), -box.rotation)
+    local raycast = raycastAABB(localLine, box)
+    if raycast then
+        local normal = Rect(raycast.point.x, raycast.point.y, raycast.normal.x, raycast.normal.y)
+        normal = rotateLine(normal, box:center(), box.rotation)
+        raycast.point = normal.position
+        raycast.normal = normal.size
+        return raycast
+    end
+end
+

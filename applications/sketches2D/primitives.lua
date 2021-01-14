@@ -1,3 +1,5 @@
+--TODO : light sur les primitives 3D
+
 App('appPrimitives')
 
 function appPrimitives:init()
@@ -5,16 +7,16 @@ function appPrimitives:init()
 
     supportedOrientations(LANDSCAPE_ANY)
 
-    self.primitiveWidth = 60
+    self.primitiveWidth = 80
     self.angle = 0
 
-    self.w = #primitives * self.primitiveWidth
-    self.h = #styles * self.primitiveWidth
+    self.w = self.primitiveWidth * #primitives
+    self.h = self.primitiveWidth * #styles
 
-    self.x = (WIDTH  - self.w) / 2
-    self.y = (HEIGHT - self.h) / 2
+    self.x = (W - self.w) / 2
+    self.y = (H - self.h) / 2
 
-    self.vectors = Model.random.polygon(self.primitiveWidth / 2)
+    self.vectors = Model.random.polygon(self.primitiveWidth/2)
 
     self.mesh = mesh(Model.triangulate(self.vectors))
     self.mesh.shader = Shader('polygon')
@@ -72,7 +74,7 @@ function appPrimitives:draw()
             infos, w, h)
 
         for _,primitive in ipairs(primitives) do
-            drawPrimitive(self, primitive, self.transformIndex, w, h)
+            drawPrimitive(self, primitive, self.transformIndex, w/2, h-25)
         end
 
         x = 0
@@ -95,6 +97,7 @@ styles = {
         stroke(white)
         strokeWidth(5)
         fill(red)
+        tint(red)
         self.transformIndex = 1
         return 'stroke(white, 5)\nfill(red)\nrotate'
     end,
@@ -102,6 +105,7 @@ styles = {
     function (self)
         noStroke()
         fill(blue)
+        tint(blue)
         self.transformIndex = 1
         return 'nostroke\nfill(blue)\nrotate'
     end,
@@ -110,6 +114,7 @@ styles = {
         stroke(green)
         strokeWidth(5)
         fill(blue)
+        tint(blue)
         self.transformIndex = 2
         return 'stroke(green, 5)\nfill(blue)\nscale'
     end,
@@ -120,6 +125,7 @@ styles = {
         stroke(color(s))
         strokeWidth(5)
         fill(color(c))
+        tint(color(c))
         self.transformIndex = 0
         return 'stroke(gray, 5)\nfill(gray)\ncolor'
     end
@@ -127,7 +133,7 @@ styles = {
 
 transforms = {
     function (self)
-        rotate(self.angle)
+        rotate(deg(self.angle))
     end,
 
     function (self)
@@ -158,7 +164,7 @@ primitives = {
 
     function (self, w, h)
         ellipseMode(CENTER)
-        circle(0, 0, w)
+        circle(0, 0, w/2)
     end,
 
     function (self, w, h)

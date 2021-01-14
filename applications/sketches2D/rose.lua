@@ -35,7 +35,7 @@ function draw()
             local y = radius + diameter * (n-1) - (9 * diameter) / 2
 
             if roses[m..n] then
-                polygon(roses[m..n])
+                roses[m..n]:draw()
             else
                 noFill()
                 beginShape()
