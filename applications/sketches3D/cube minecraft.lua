@@ -60,7 +60,7 @@ function Cube:draw()
     
     self.box.texture = self.aaa
     self.box:drawInstanced(#self.box.inst_pos)
---    box(1, 1, 1, self.aaa)
+    box(1, 1, 1, self.aaa)
 
     resetMatrix(true)
     spriteMode(CORNER)

@@ -280,7 +280,6 @@ function raycastCircle(ray, circle)
     end
 
     raycast.point = rayPosition + rayDirection * t
--- TODO : la normale est-elle normale
     raycast.normal = (raycast.point - circle.position):normalize()
     raycast.t = t
 
@@ -309,7 +308,16 @@ function raycastAABB(ray, rect)
         local hit = t > 0
         if hit then
             raycast.point = rayPosition + rayDirection * t
-            raycast.normal = (rayPosition - raycast.point):normalize()
+
+            if sameValue(raycast.point.x, rect:leftBottom().x) then
+                raycast.normal = vec3(-1,0)
+            elseif sameValue(raycast.point.x, rect:rightTop().x) then
+                raycast.normal = vec3(1,0)
+            elseif sameValue(raycast.point.y, rect:leftBottom().y) then
+                raycast.normal = vec3(0,-1)
+            else
+                raycast.normal = vec3(0,1)
+            end
             raycast.t = t
             return raycast
         end
@@ -320,7 +328,9 @@ end
 
 function raycastBox2d(line, box)
     local localLine = rotateLine(line, box:center(), -box.rotation)
+
     local raycast = raycastAABB(localLine, box)
+
     if raycast then
         local normal = Rect(raycast.point.x, raycast.point.y, raycast.normal.x, raycast.normal.y)
         normal = rotateLine(normal, box:center(), box.rotation)

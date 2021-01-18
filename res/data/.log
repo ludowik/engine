@@ -1,8 +1,11 @@
 Color LCD
 GLSL 4.10
-load applications/physics/fizix
-memory at start  : 2.14 mo
-memory min       : 2.14 mo
-memory max       : 23.82 mo
-memory variation : 21.68 mo
-memory at end    : 2.20 mo
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 179 indices for 252 vertices
+load applications/default
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3

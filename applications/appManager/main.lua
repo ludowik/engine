@@ -3,30 +3,29 @@ function setup()
 end
 
 function initUI()
+    app.previousUI = app.ui
+    
     app.ui = UIScene(Layout.grid, 4)
     app.ui.alignment = 'h-center,v-center'
 end
 
 function initMenu(path)
+    initUI()
+
     if app.currentPath then
         app.previousPath = app.currentPath
-        app.previousUI = app.ui
-        
-        initUI()
-        
+
         app.ui:add(
             Button('..',
                 function (btn)
                     app.ui = app.previousUI
                 end))
-        
-    else
-        initUI()
+
     end
 
     app.currentPath = path
 
-    local apps = applicationManager:dirApps(path) + applicationManager:dirFiles(path)
+    local apps = applicationManager:dirApps(path) -- + applicationManager:dirFiles(path)
     for i,appPath in ipairs(apps) do
         local appDirectory, appName = splitPath(appPath)
         app.ui:add(

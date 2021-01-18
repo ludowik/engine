@@ -1,3 +1,3 @@
 return {
-    ["appPath"] = "applications/physics/fizix",
+    ["appPath"] = "applications/default",
 }

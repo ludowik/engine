@@ -474,7 +474,7 @@ function table:scan(attr, f, classType, className)
 
         table.forEachKey(t,
             function (v, k, t)
-                local isClassType = (classType == nil or typeOf(v) == classType)
+                local isClassType = (classType == nil or typeof(v) == classType)
                 local isClassName = (className == nil or left(k, #className) == className)
 
                 if isClassType and isClassName then

@@ -97,6 +97,10 @@ function Layout:column()
     return Layout.layout(self, 'column')
 end
 
+function Layout:topleft()
+    return Layout.layout(self, 'topleft')
+end
+
 function Layout:grid(n)
     return Layout.layout(self, 'grid', n or self.n)
 end

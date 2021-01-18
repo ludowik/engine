@@ -128,11 +128,11 @@ function isometric(n)
     end
 end
 
-function ortho3d(w, h)
+function ortho3d(w, h, ratio)
     w = w or screen.W
     h = h or screen.H
 
-    camera(w/2, h/2, w, w/2, h/2, 0)
+    camera(w/2, h/2, ratio or w*0.775, w/2, h/2, 0)
 
     perspective()
 end
@@ -140,6 +140,6 @@ end
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     env.app.scene.camera = Camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     env.app.scene.camera:setViewMatrix()
-    
+
     return env.app.scene.camera
 end

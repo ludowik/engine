@@ -19,6 +19,7 @@ function Horloge:draw()
     if config.projectionMode == 'perspective' then
         ortho3d()
     else
+        app.scene.camera = nil
         ortho()
     end
 

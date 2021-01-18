@@ -7,11 +7,13 @@ function appPrimitives:init()
 
     supportedOrientations(LANDSCAPE_ANY)
 
-    self.primitiveWidth = 80
+    self.primitiveWidth = 100
+    self.primitiveHeight = 120
+    
     self.angle = 0
 
     self.w = self.primitiveWidth * #primitives
-    self.h = self.primitiveWidth * #styles
+    self.h = self.primitiveHeight * #styles
 
     self.x = (W - self.w) / 2
     self.y = (H - self.h) / 2
@@ -20,6 +22,8 @@ function appPrimitives:init()
 
     self.mesh = mesh(Model.triangulate(self.vectors))
     self.mesh.shader = Shader('polygon')
+
+    parameter.number('use_strokeWidth', 0, 50, 20)
 end
 
 function appPrimitives:update(dt)
@@ -31,9 +35,9 @@ function appPrimitives:draw()
 
     if config.projectionMode == 'perspective' then
         ortho3d(self.w, self.h)
-
     else
         translate(self.x, self.y)
+        app.scene.camera = nil
         ortho()
     end
 
@@ -44,18 +48,16 @@ function appPrimitives:draw()
         pushMatrix()
         do
             translate(x+w/2, y+h/2)
-
             if transformIndex > 0 and transformIndex <= #transforms then
                 transforms[transformIndex](self)
             end
-
             primitive(self, ...)
         end
         popMatrix()
 
         x = x + w
     end
-
+    
     for _,style in ipairs(styles) do
         pushStyle()
 
@@ -64,7 +66,6 @@ function appPrimitives:draw()
                 pushStyle()
                 do
                     fontSize(14)
-
                     textMode(CENTER)
                     text(infos or '', 0, 0)
                 end
@@ -74,11 +75,11 @@ function appPrimitives:draw()
             infos, w, h)
 
         for _,primitive in ipairs(primitives) do
-            drawPrimitive(self, primitive, self.transformIndex, w/2, h-25)
+            drawPrimitive(self, primitive, self.transformIndex, w/2, h/2)
         end
 
         x = 0
-        y = y + h
+        y = y + self.primitiveHeight
 
         popStyle()
     end
@@ -87,19 +88,19 @@ end
 styles = {
     function (self)
         stroke(white)
-        strokeWidth(10)
+        strokeWidth(use_strokeWidth)
         noFill()
         self.transformIndex = 1
-        return 'stroke(white, 10)\nnofill\nrotate'
+        return 'stroke(white, '..(use_strokeWidth)..')\nnofill\nrotate'
     end,
 
     function (self)
         stroke(white)
-        strokeWidth(5)
+        strokeWidth(use_strokeWidth/2)
         fill(red)
         tint(red)
         self.transformIndex = 1
-        return 'stroke(white, 5)\nfill(red)\nrotate'
+        return 'stroke(white, '..(use_strokeWidth/2)..')\nfill(red)\nrotate'
     end,
 
     function (self)
@@ -112,22 +113,22 @@ styles = {
 
     function (self)
         stroke(green)
-        strokeWidth(5)
+        strokeWidth(use_strokeWidth/2)
         fill(blue)
         tint(blue)
         self.transformIndex = 2
-        return 'stroke(green, 5)\nfill(blue)\nscale'
+        return 'stroke(green, '..(use_strokeWidth/2)..')\nfill(blue)\nscale'
     end,
 
     function (self)
         local c = map(cos(self.angle), -1, 1, 0, 1)
         local s = map(sin(self.angle), -1, 1, 0, 1)
         stroke(color(s))
-        strokeWidth(5)
+        strokeWidth(use_strokeWidth/2)
         fill(color(c))
         tint(color(c))
         self.transformIndex = 0
-        return 'stroke(gray, 5)\nfill(gray)\ncolor'
+        return 'stroke(gray, '..(use_strokeWidth/2)..')\nfill(gray)\ncolor'
     end
 }
 
@@ -182,7 +183,7 @@ primitives = {
     function (self, w, h)
         fontSize(32)
         textMode(CENTER)
-        text('hello', 0, 0)
+        text('lca', 0, 0)
     end,
 
     function (self, w, h)
@@ -190,6 +191,7 @@ primitives = {
     end,
 
     function (self, w, h)
+        light()
         box(w)
     end,
 

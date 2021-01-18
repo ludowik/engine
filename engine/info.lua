@@ -49,6 +49,7 @@ function Info:drawInfo()
     self:info('wireframe', config.wireframe)
     self:info('light', config.light)
     self:info('bodies', #env.physics.bodies)
+    self:info('projection', config.projectionMode)
 end
 
 function Info:drawHelp()

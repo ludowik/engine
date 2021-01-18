@@ -38,7 +38,7 @@ function Dashboard:draw()
     local columnsSize = self.columnsSize
     local columnsConvert = self.columnsConvert
 
-    local area = Rect(0, 0, W, H)
+    local area = Rect(0, 0, screen.W, screen.H)
 
     if self.sortFunction then
         table.sort(self.array, self.sortFunction)
