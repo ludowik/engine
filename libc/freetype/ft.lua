@@ -20,13 +20,15 @@ function ft.releaseModule(library)
     ftLib.FT_Done_FreeType(library)
 end
 
+local char_ratio = 64
+
 function ft.loadFont(library, font_name, font_size)
     local face = ffi.new('FT_Face[1]')
     
     local error = ftLib.FT_New_Face(library, ffi.string(font_name), 0 , face)
 
     if error == 1 then
-        print('Unknown font : use vera font')
+        print('Unknown font '..font_name..' : use vera font')
         local addr = ffi.cast('const FT_Byte*', Vera_ttf:tobytes())
         error = ftLib.FT_New_Memory_Face(library,
             addr, -- first byte in memory
@@ -38,8 +40,6 @@ function ft.loadFont(library, font_name, font_size)
             return nil
         end
     end
-
-    local char_ratio = 64
 
     ftLib.FT_Set_Char_Size(
         face[0],                -- handle to face object
@@ -78,7 +78,8 @@ function ft.loadText(face, text)
 
     local slot = face.glyph
 
-    local H = floor(tonumber(face.size.metrics.ascender - face.size.metrics.descender) / 64)
+    local metrics = face.size.metrics
+    local H = floor(tonumber(metrics.ascender - metrics.descender) / char_ratio)
 
     local x, w, h, top, bottom, dy = 0, 0, 0, 0, 0, 0
 
@@ -104,8 +105,8 @@ function ft.loadText(face, text)
         end
     end
 
-    top = floor(max(top, abs(face.ascender) / 64))
-    bottom = floor(max(bottom, abs(face.descender) / 64))
+    top = floor(max(top, abs(metrics.ascender) / char_ratio))
+    bottom = floor(max(bottom, abs(metrics.descender) / char_ratio))
 
     h = max(top + bottom, H)
 

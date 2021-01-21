@@ -5,7 +5,10 @@ local buf, meshPoints, meshLine, meshPolyline, meshPolygon, meshRect, meshEllips
 function Graphics:initialize()
     meshPoints = Mesh()
     meshPoints.vertices = Buffer('vec3', {
-            vec3(), vec3(), vec3(), vec3()})
+            vec3(),
+            vec3(),
+            vec3(),
+            vec3()})
     meshPoints.shader = shaders['points']
 
     meshLines = Mesh()
@@ -35,17 +38,26 @@ function Graphics:initialize()
     meshCircle = Mesh()
     meshCircle.shader = shaders['circle']
     meshCircle.vertices = Buffer('vec3', {
-            vec3(), vec3(), vec3(), vec3()})
+            vec3(),
+            vec3(),
+            vec3(),
+            vec3()})
 
     meshEllipse = Mesh()
     meshEllipse.shader = shaders['ellipse']
     meshEllipse.vertices = Buffer('vec3', {
-            vec3(), vec3(), vec3(), vec3()})
-    
+            vec3(),
+            vec3(),
+            vec3(),
+            vec3()})
+
     meshArc = Mesh()
     meshArc.shader = shaders['circle']
     meshArc.vertices = Buffer('vec3', {
-            vec3(), vec3(), vec3(), vec3()})
+            vec3(),
+            vec3(),
+            vec3(),
+            vec3()})
 
     meshSprite = Model.rect(0, 0, 1, 1)
     meshSprite.shader = shaders['sprite']
@@ -250,7 +262,7 @@ function rect(...)
 
     rect = function (x, y, w, h, r, mode)
         h = h or w
-        x, y = centerFromCorner(mode or rectMode(), x, y, w, h)
+        x, y = centerFromCorner(mode or styles.attributes.rectMode, x, y, w, h)
 
         if r then
             meshRect:render(meshRect.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y+r, Z, w, h-2*r, 1)
@@ -273,24 +285,24 @@ end
 
 function circle(x, y, r, mode)
     local w, h = r*2, r*2
-    x, y = cornerFromCenter(mode or circleMode(), x, y, w, h)
+    x, y = cornerFromCenter(mode or styles.attributes.circleMode, x, y, w, h)
 
     meshCircle:render(meshCircle.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
 end
 
 function ellipse(x, y, w, h, mode)
     h = h or w
-    x, y = cornerFromCenter(mode or ellipseMode(), x, y, w, h)
+    x, y = cornerFromCenter(mode or styles.attributes.ellipseMode, x, y, w, h)
 
     meshEllipse:render(meshEllipse.shader, renderer.GL_TRIANGLE_STRIP, nil, x, y, Z, w, h, 1)
 end
 
-function arc(x, y, r, angleMin, angleMax)
+function arc(x, y, r, angleMin, angleMax, mode)
     local w, h = r*2, r*2
-    x, y = cornerFromCenter(mode or circleMode(), x, y, w, h)
-    
+    x, y = cornerFromCenter(mode or styles.attributes.circleMode, x, y, w, h)
+
     meshArc.uniforms.useAngle = 1
-    
+
     meshArc.uniforms.angleMin = angleMin
     meshArc.uniforms.angleMax = angleMax
 
@@ -306,7 +318,7 @@ function sprite(img, x, y, w, h, mode)
         w = w or img.surface.w
         h = h or img.surface.h * w / img.surface.w
 
-        x, y = centerFromCorner(mode or spriteMode(), x, y, w, h)
+        x, y = centerFromCorner(mode or styles.attributes.spriteMode, x, y, w, h)
 
         meshSprite:render(meshSprite.shader, renderer.GL_TRIANGLES, img, x, y, Z, w, h, 1)
     end
@@ -322,62 +334,80 @@ function spriteSize(img)
     return 0,0
 end
 
-function textProc(draw, str, x, y)
-    local w, h = 0, 0
-
-    if draw then
-        local tw, th = textProc(false, str)
-
-        x = x or 0
-
-        if y then
-            TEXT_NEXT_Y = y - th
-        else
-            TEXT_NEXT_Y = TEXT_NEXT_Y - th
-            y = TEXT_NEXT_Y
-        end
-
-        x, y = centerFromCorner(mode or textMode(), x, y, tw, th)
-
-        y = y + th
-    end
-
-    local marge = 2
-    local ratio = osx and 2 or 1
-
-    local lines = str:split(NL, false)
-
-    for i,line in ipairs(lines) do
-        local img = ft:getText(line).img
-
-        local lw, lh = img.surface.w/ratio, img.surface.h/ratio
-
-        if draw then
-            y = y - lh
-            meshText:render(meshText.shader, renderer.GL_TRIANGLES, img,
-                x, y - marge, Z,
-                lw, lh, 1)
-        end
-
-        lh = lh + marge * 2
-
-        w = max(w, lw)
-        h = h + lh
-    end
-
-    return w, h
-end
-
-function text(str, x, y)
-    str = tostring(str)
+function text(str, x, y, mode)
     if fill() then
-        return textProc(true, str, x, y)
+        return textProc(true, str, x, y, mode)
     end
     return textProc(false, str)
 end
 
 function textSize(str)
-    return textProc(false, tostring(str))
+    return textProc(false, str)
+end
+
+do
+    local lastRequest = {}
+
+    local ratio = osx and 2 or 1
+    local marge = 2    
+
+    function textProc(draw, str, x, y, mode)
+        local w, h = 0, 0
+
+        if draw then
+            local tw, th = textProc(false, str)
+
+            x = x or 0
+
+            if y then
+                TEXT_NEXT_Y = y - th
+            else
+                TEXT_NEXT_Y = TEXT_NEXT_Y - th
+                y = TEXT_NEXT_Y
+            end
+
+            x, y = centerFromCorner(mode or styles.attributes.textMode, x, y, tw, th)
+
+            y = y + th
+
+        elseif lastRequest.str == str and lastRequest.font == ft:getFont() then
+            return lastRequest.w, lastRequest.h
+        end
+
+        local lines
+        if lastRequest.str == str then
+            lines = lastRequest.lines
+        else
+            lines = tostring(str):split(NL, false)
+        end
+
+        for i,line in ipairs(lines) do
+            local img = ft:getText(line).img
+
+            local lw, lh = img.surface.w/ratio, img.surface.h/ratio
+
+            if draw then
+                y = y - lh
+                meshText:render(meshText.shader, renderer.GL_TRIANGLES, img,
+                    x, y - marge, Z,
+                    lw, lh, 1)
+            end
+
+            lh = lh + marge * 2
+
+            w = max(w, lw)
+            h = h + lh
+        end
+
+        lastRequest.font = ft:getFont()
+        lastRequest.str = str
+        lastRequest.lines = lines
+
+        lastRequest.w = w
+        lastRequest.h = h
+
+        return w, h
+    end
 end
 
 -- TODO: new file 3d

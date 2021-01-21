@@ -34,7 +34,6 @@ end
 decorate('print',
     function (f, str, ...)
         str = tostring(str)
-        assert(str ~= '96')
 
         f(str, ...)
 
