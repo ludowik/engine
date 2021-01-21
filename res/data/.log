@@ -1,11 +1,8 @@
 Color LCD
 GLSL 4.10
-Generate 4 indices for 6 vertices
-Generate 24 indices for 36 vertices
-Generate 128 indices for 192 vertices
-Generate 16 indices for 18 vertices
-Generate 179 indices for 252 vertices
 load applications/default
-shader.vao: 1
-shader.vao: 2
-shader.vao: 3
+memory at start  : 2.16 mo
+memory min       : 2.16 mo
+memory max       : 28.83 mo
+memory variation : 26.66 mo
+memory at end    : 4.62 mo

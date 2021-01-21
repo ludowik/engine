@@ -73,6 +73,8 @@ function Node:update(dt)
 end
 
 function Node:draw()
+    if self.visible == false then return end
+    
     for i,node in self.nodes:items() do
         if node.draw then
             pushMatrix()
@@ -135,6 +137,7 @@ function Node:draw()
 end
 
 function Node:drawAbsolutePosition()
+    if self.visible == false then return end
     if not self.absolutePosition then return end
 
     stroke(white)
