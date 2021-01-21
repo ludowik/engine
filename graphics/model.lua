@@ -943,7 +943,7 @@ function Model.random.polygon(r, rmax)
     local vertices = Buffer('vec3')
 
     local angle = 0
-    while angle < math.pi * 2 do
+    while angle < math.tau do
         local len = math.random(rmin, rmax)
 
         local p = vec3(

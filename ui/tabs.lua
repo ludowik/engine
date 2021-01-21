@@ -1,13 +1,16 @@
 class('Tabs', UI)
 
-function Tabs:init()
-    UI.init(self, 'tabs')
+function Tabs:init(label)
+    UI.init(self, 'tabs'..label)
 
-    self.buttons = UIScene():attribs{layoutFlow='row'}
-    self.tabs = UIScene():attribs{layoutFlow='topleft'}
+    self.buttons = UIScene(Layout.row)
+    self.tabs = UIScene(Layout.topleft)
 
-    self:add(self.buttons)
-    self:add(self.tabs)
+--    self:add(self.buttons)
+--    self:add(self.tabs)
+
+    self.buttons.parent = self
+    self.tabs.parent = self
 
     self.layoutFlow = Layout.column
 end
@@ -20,7 +23,7 @@ end
 function Tabs:addTabs(tabs)
     for i=1,#tabs do
         local tab = tabs[i]
-        if typeOf(tab) == 'UITab' then
+        if classnameof(tab) == 'tab' then
             local button = Button(tab.label)
             button.tab = tab
             button.click = function (button)
@@ -38,16 +41,12 @@ function Tabs:addTabs(tabs)
             else
                 tab.visible = false
             end
-        else
-            UIScene.add(self, tab)
         end
     end
     return self
 end
 
-function Tabs:_draw()
-    self:layout()
-
+function Tabs:draw()
     self.buttons:draw()
     if self.currentTab then
         self.currentTab:draw()
@@ -66,5 +65,5 @@ end
 class('Tab', UIScene)
 
 function Tab:init(label)
-    UIScene:init(self, label)
+    UIScene.init(self, label, Layout.column)
 end

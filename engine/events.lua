@@ -35,12 +35,17 @@ function Engine:initEvents()
 
             [','] = callback('introspection', self, Engine.introspection),
 
-            ['s'] = callback('vsync', self, Engine.vsync),
+            ['s'] = callback('vsync', self,
+                function ()
+                    renderer:vsync(renderer:vsync() == 0 and 1 or 0)
+                end),
 
             ['f1'] = callback('help', self.info, Info.toggleHelp),
+            
             ['f2'] = callback('opengl or opengl es', self, Engine.toggleRenderVersion),
+            ['f3'] = callback('renderer', self, Engine.toggleRenderer),
 
-            ['f3'] = callback('save image', self,
+            ['f4'] = callback('save image', self,
                 function ()
                     RenderFrame.getRenderFrame():save('test', 'jpeg')
                 end),
@@ -59,6 +64,15 @@ function Engine:initEvents()
                     Performance.run()
                 end),
 
+            ['f9'] = callback('perspective', self, function ()
+                    if config.projectionMode == 'perspective' then
+                        config.projectionMode = 'ortho'
+                    else
+                        config.projectionMode = 'perspective'
+                    end
+                end),
+
+            -- TODO : le profiler ne s'affiche pas
             ['p'] = callback('profiler', self,
                 function()
                     Profiler.resetClasses()

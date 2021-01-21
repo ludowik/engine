@@ -153,9 +153,12 @@ function Engine:frame(forceDraw)
         renderer:saveDefaultContext()
     end
 
-    self.frameTime:update()
+    self.frameTime:__update()
 
-    if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw or sdl.SDL_GL_GetSwapInterval() == 0 then
+    if (self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or
+        forceDraw or
+        renderer:vsync() == 0)
+    then
 
         DeltaTime = self.frameTime.deltaTimeAccum
         ElapsedTime = self.frameTime.elapsedTime
@@ -163,9 +166,12 @@ function Engine:frame(forceDraw)
         self:update(DeltaTime)
         self:draw()
 
+        self.frameTime:__update()
+        self.frameTime:__draw()
+            
         self.frameTime.deltaTimeAccum = (
             self.frameTime.deltaTimeAccum -
-            math.floor(self.frameTime.deltaTimeAccum / self.frameTime.deltaTimeMax) * self.frameTime.deltaTimeMax)
+            self.frameTime.deltaTimeMax)
 
     end
 end
@@ -247,6 +253,11 @@ function Engine:toggleRenderVersion()
         assert(false)
         return 'restart'
     end
+end
+
+function Engine:toggleRenderer()
+    renderer = sgl()
+    renderer:load()
 end
 
 function Engine:vsync(interval)

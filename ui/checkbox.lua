@@ -2,7 +2,7 @@ class('CheckBox', Label)
 
 function CheckBox:init(var, default, notify)
     Label.init(self, var)
-    self:bind(self, var, value(default, false), notify)
+    self:bind(var, value(default, false), notify)
 end
 
 function CheckBox:update(dt)

@@ -21,10 +21,10 @@ function FrameTime:initialize()
     self.deltaFramesBySecond = 0
 end
 
-function FrameTime:update()
+function FrameTime:__update()
     self.startTime = sdl.SDL_GetTicks() * 0.001
 
-    self.update = function (self, ...)
+    self.__update = function (self, ...)
         self.endTime = sdl.SDL_GetTicks() * 0.001
 
         self.deltaTime = self.endTime - self.startTime
@@ -43,17 +43,17 @@ function FrameTime:update()
         self.startTime = self.endTime
     end
 
-    self:update()
+    self:__update()
 end
 
-function FrameTime:draw()
+function FrameTime:__draw()
     self.nframes = self.nframes + 1
     self.deltaFramesBySecond = self.deltaFramesBySecond + 1
 
-    if self.deltaTime >= self.deltaTimeMax then
-        self.fpsTarget = self.fpsTarget - 1
-    else
-        self.fpsTarget = self.fpsTarget + 1
+    if self.deltaTime > 1/35 then
+        self.fpsTarget = 30
+    elseif self.deltaTime < 1/65 then
+        self.fpsTarget = 60
     end
     self.deltaTimeMax = 1/self.fpsTarget
 end

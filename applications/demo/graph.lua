@@ -90,50 +90,50 @@ function setup()
     parameter.number('attraction', 1, 1000, 160)
 end
 
-function constraints(dt)
-    for _,item in app.scene:iter() do
-        item.force:set()
-    end
+local map = math.map
 
+function constraints(dt)
     local nodes = app.scene.nodes
     local n = #nodes
 
-    local a, b, direction, dist, level
+    local a, b, direction, dist, a_position, a_force
 
-    for i=1,n-1 do
+    dt = dt * 5
+    
+    for i=1,n do
+        nodes[i].force:set()
+    end
+
+    for i=1,n do
         a = nodes[i]
-
+        
+        a_position = a.position
+        a_force = a.force
+        
         for j=i+1,n do
             b = nodes[j]
 
-            direction = b.position - a.position
+            direction = b.position - a_position
             dist = direction:len()
 
-            direction:normalizeInPlace()
+            direction:div(dist)
 
             if dist < pivot then
-                direction:mul(math.map(dist, 0, pivot, 10, 0))
-                a.force:sub(direction)
-                b.force:add(direction)
+                direction:mul(map(dist, 0, pivot, 10, 0))
 
-            elseif dist > pivot then
-                if a.childs[b] or a.parents[b] then
-                    direction:mul(math.map(dist, pivot, W, 0, attraction))
-                    a.force:add(direction)
-                    b.force:sub(direction)
+            elseif a.childs[b] or a.parents[b] then
+                direction:mul(-map(dist, pivot, W, 0, attraction))
 
-                else
-                    direction:mul(math.map(dist, pivot, W, 0, 10))
-                    a.force:add(direction)
-                    b.force:sub(direction)
-                end
+            else
+                direction:mul(-map(dist, pivot, W, 0, 10))
             end
+            
+            a_force:sub(direction)
+            b.force:add(direction)
 
         end
-    end
-
-    for _,item in app.scene:iter() do
-        item.position:add(item.force:mul(5 * dt))
+        
+        a_position:add(a_force:mul(dt))
     end
 end
 

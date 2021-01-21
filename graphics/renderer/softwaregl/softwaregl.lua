@@ -20,6 +20,7 @@ function GL:deleteContext(context)
 end
 
 function GL:vsync(interval)
+    return interval
 end
 
 function GL:blendMode(mode)

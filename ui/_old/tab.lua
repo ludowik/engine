@@ -22,7 +22,7 @@ end
 function UITabs:addTabs(tabs)
     for i=1,#tabs do
         local tab = tabs[i]
-        if typeOf(tab) == 'UITab' then
+        if typeof(tab) == 'Tab' then
             local button = Button(tab.label)
             button.tab = tab
             button.click = function (button)

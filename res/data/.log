@@ -1,3 +1,17 @@
+<<<<<<< HEAD
 Generic PnP Monitor
 GLSL 4.10 - Build 26.20.100.8141
 load applications/sketches2D/font
+=======
+Color LCD
+GLSL 4.10
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 179 indices for 252 vertices
+load applications/default
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+>>>>>>> 7cb54ccc056c654c1774f1a4bcf02862842618f9

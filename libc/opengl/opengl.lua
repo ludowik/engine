@@ -389,7 +389,10 @@ function OpenGL:getGlslVersion()
 end
 
 function OpenGL:vsync(interval)
-    sdl.SDL_GL_SetSwapInterval(interval or 1)
+    if interval then
+        sdl.SDL_GL_SetSwapInterval(interval)
+    end
+    return sdl.SDL_GL_GetSwapInterval()
 end
 
 function OpenGL:swap()

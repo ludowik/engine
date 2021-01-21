@@ -15,7 +15,7 @@ function draw()
 
     lmouse = Rect(
         CurrentTouch.x-20, CurrentTouch.y-20,
-        60, 40)
+        65, 40)
 
     function testPointOnLine(point, l)
         if lineIntersectLine(lmouse, l) or pointOnLine(point, l) then
@@ -40,25 +40,28 @@ function draw()
         fill(white)
     end
 
-    local raycast = raycastCircle(lmouse, c1)
-    if raycast then
-        stroke(red)
-        strokeWidth(5)
-        point(raycast.point)
-        line(
-            raycast.point.x, raycast.point.y,
-            raycast.point.x + raycast.normal.x*10, raycast.point.y + raycast.normal.y*10)
-    else
-        noStroke()
+    function drawRaycast(raycast)
+        if raycast then
+            strokeWidth(5)
+            stroke(red)
+            line(
+                raycast.point.x, raycast.point.y,
+                raycast.point.x + raycast.normal.x*10, raycast.point.y + raycast.normal.y*10)
+            strokeWidth(10)
+            stroke(red)
+            point(raycast.point)
+        end
     end
+    
+    drawRaycast(raycastCircle(lmouse, c1))
 
     circleMode(CENTER)
     circle(c1.position.x, c1.position.y, c1.r)
 
     r1 = Rect(640, 300, 140, 154)
     r1.rotation = angle
-
-    local c1, c2
+    
+    local c1, c2, c3
     if lineIntersectBox2d(lmouse, r1) then
         c1 = blue
     elseif pointInAABB(CurrentTouch, r1) then
@@ -75,10 +78,20 @@ function draw()
     else
         c2 = white
     end
+    
+    r3 = Rect(640, 600, 140, 154)
+    drawRaycast(raycastBox2d(lmouse, r3))
+    drawRaycast(raycastBox2d(lmouse, r2))
+    
+    if lineIntersectBox2d(lmouse, r3) then
+        c3 = brown
+    else
+        c3 = white
+    end
 
     function drawRect(r, clr)
         noStroke()
-        fill(clr)
+        fill(clr or white)
         pushMatrix()
         translate(r:xc(), r:yc())
         rotate(deg(r.rotation))
@@ -89,6 +102,7 @@ function draw()
 
     drawRect(r1, c1)
     drawRect(r2, c2)
+    drawRect(r3, c3)
 
     -- cursor position
     stroke(blue)

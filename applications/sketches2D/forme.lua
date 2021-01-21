@@ -3,8 +3,10 @@ function setup()
 
     vertices = Buffer('vec3', {vec3(x, y)})
 
+    N = 100
+
     function animate(n)
-        local r = 200
+        local r = 360
         local a = 0
 
         for i=#vertices,n-1 do
@@ -12,13 +14,15 @@ function setup()
         end
 
         for i=1,n do
-            tween(0.5, vertices[i],
+            tween(0.2, vertices[i],
                 vec3(
                     x + cos(a) * r,
-                    y + sin(a) * r),
+                    y + sin(a) * r
+                ),
                 tween.easing.linear,
                 function ()
-                    if i == n and n < 20 then
+                    if i == n and n < N then
+                        tween.stopAll()
                         animate(n+1)
                     end
                 end)
@@ -34,12 +38,16 @@ function draw()
     background(51)
 
     stroke(white)
+    strokeWidth(0.5)
 
     noFill()
 
     if #vertices > 2 then
         polyline(vertices)
     end
+
+    stroke(red)
+    strokeWidth(5)
 
     points(vertices)
 end

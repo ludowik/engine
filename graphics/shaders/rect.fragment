@@ -13,17 +13,35 @@ void main() {
     float dy = abs(vTexCoords.y);
 
     gl_FragColor = fill;
+    
+    vec3 pos = size;
+    
+    pos.x *= dx;
+    pos.y *= dy;
+    
+    float x = size.x - strokeWidth;
+    float y = size.y - strokeWidth;
  
     if (stroke.a > 0. && strokeWidth > 0.) {
-        float sEdge = smoothstep(
-            size.x - strokeWidth - 2.,
-            size.x - strokeWidth,
-            size.x * dx
-        ) + smoothstep(
-            size.y - strokeWidth - 2.,
-            size.y - strokeWidth,
-            size.y * dy
-        );
+        float sEdge = 0.;
+        if (pos.x >= x - 2. && pos.y < y) {
+            sEdge += smoothstep(
+                x - 2.,
+                x,
+                pos.x);
+        } else if (pos.y >= y - 2. && pos.x < x) {
+            sEdge += smoothstep(
+                y - 2.,
+                y,
+                pos.y);
+        }
+        
+        if (pos.y >= y && pos.x >= x) {
+            sEdge += smoothstep(
+                x - 2.,
+                x,
+                pos.x);
+        }
         
         gl_FragColor = (stroke * sEdge) + ((1.0 - sEdge) * gl_FragColor);
     }
