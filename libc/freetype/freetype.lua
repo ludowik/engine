@@ -76,12 +76,16 @@ function FreeType:setFont(fontName, fontSize)
         self.hFonts[self.fontRef] = self.loadFont(self.hLib, self.fontPath, self.fontSize)
 
         if self.hFonts[self.fontRef] == ffi.NULL then
-            print('Unknown font : use default')
+            print('Unknown font '..fontName..' : use default')
             return self:setFontName()
         end
     end
 
     self.hFont = self.hFonts[self.fontRef]
+end
+
+function FreeType:getFont()
+    return self.hFont
 end
 
 class 'Text'

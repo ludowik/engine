@@ -1,8 +1,20 @@
+<<<<<<< HEAD
+Generic PnP Monitor
+GLSL 4.10 - Build 26.20.100.8141
+load applications/sketches2D/font
+=======
 Color LCD
 GLSL 4.10
 load applications/default
+<<<<<<< HEAD
 memory at start  : 2.16 mo
 memory min       : 2.16 mo
 memory max       : 28.83 mo
 memory variation : 26.66 mo
 memory at end    : 4.62 mo
+=======
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+>>>>>>> 7cb54ccc056c654c1774f1a4bcf02862842618f9
+>>>>>>> 2e8625973e2eb8bfdaf587e67db711c0a75c2ca3

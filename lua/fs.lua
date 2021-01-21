@@ -142,6 +142,7 @@ function mkdir(path)
     lfs.mkdir(fullPath)
 end
 
+-- TODO : clean code, usefull subPath
 function dir(path, checkType, recursivly, list, subPath)
     assert(subPath == nil)
 
@@ -152,7 +153,7 @@ function dir(path, checkType, recursivly, list, subPath)
 --                dir(path..'/'..file, checkType, recursivly, list, subPath and (subPath..'/'..file) or file)
                 dir(path..'/'..file, checkType, recursivly, list)
 
-            elseif checkType(path..'/'..file) then
+            elseif not checkType or checkType(path..'/'..file) then
 --                table.insert(list, subPath and (subPath..'/'..file) or file)
                 table.insert(list, path..'/'..file)
             end
@@ -162,14 +163,17 @@ function dir(path, checkType, recursivly, list, subPath)
 end
 
 function dirApps(path, recursivly, list, subPath)
+    -- TODO : clean code, usefull subPath
     return dir(path, isApp, recursivly, list, subPath)
 end
 
 function dirFiles(path, recursivly, list, subPath)
+    -- TODO : clean code, usefull subPath 
     return dir(path, isFile, recursivly, list, subPath)
 end
 
 function dirDirectories(path, recursivly, list, subPath)
+    -- TODO : clean code, usefull subPath
     return dir(path, isDirectory, recursivly, list, subPath)
 end
 

@@ -57,10 +57,14 @@ function Styles:getAttribute(attribute_name)
     return self.attributes[attribute_name]
 end
 
+function resetTextNextY()
+    TEXT_NEXT_Y = screen.H
+end
+
 function resetStyle(blend, depth, culling)
     styles = Styles()
 
-    TEXT_NEXT_Y = screen.H
+    resetTextNextY()
 
     blendMode(blend or NORMAL)
     depthMode(value(depth, true))
@@ -77,6 +81,7 @@ function pushStyle()
     push('__style', styles:clone())
 end
 
+-- TODO : emttre tous les styles dans attributes
 function popStyle()
     styles = pop('__style')
 
