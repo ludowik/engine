@@ -105,8 +105,8 @@ function ft.loadText(face, text)
         end
     end
 
-    top = floor(max(top, abs(metrics.ascender) / char_ratio))
-    bottom = floor(max(bottom, abs(metrics.descender) / char_ratio))
+    top = floor(max(top, abs(tonumber(metrics.ascender)) / char_ratio))
+    bottom = floor(max(bottom, abs(tonumber(metrics.descender)) / char_ratio))
 
     h = max(top + bottom, H)
 

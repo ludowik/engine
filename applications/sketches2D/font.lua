@@ -3,11 +3,11 @@ function setup()
     fontNameIndex = 1
     
     alphabet = ''
-    for i=0,255 do
+    for i=0,255*2 do
         if i%32 == 0 and i~= 0 then
             alphabet = alphabet..NL
         end
-        alphabet = alphabet..utf8char.char(i)
+        alphabet = alphabet..utf8.char(iconsFont.address_book+i)
     end
 end
 
