@@ -25,4 +25,6 @@ requireLib(
     'group',
     'separator',
     'tabs',
-    'dashboard')
+    'dashboard',
+    'sprite',
+    'line')

@@ -1,34 +1,30 @@
-ui/console.lua:3:  TODO or TODEL
-ui/tab.lua:1:  TODO : implement UITabs
-ui/_old/tab.lua:1:  TODEL
-ui/_old/layoutBar.lua:1:  TODO : implement LayoutBar
-ui/_old/titleBar.lua:1:  TODO : implement TitleBar
-ui/_old/menuBar.lua:1:  TODO : implement MenbuBar
-ui/_old/line.lua:1:  TODO : implement UILine
-ui/_old/image.lua:1:  TODO : implement UIImage
-libc/vulkan/vulkan.lua:1:  TODO : autogenerate header for library
-lua/require.lua:7:  TODO : unusable ?
-lua/video.lua:1:  TODO : implement recording
+applications/sketches2D/primitives.lua:1:  TODO : light sur les primitives 3D
+engine/engine.lua:59:  TODO : move to events
+engine/engine.lua:270:  TODO : à gerer dans ComponentsManager
+engine/engine.lua:275:  TODO : à gerer dans ComponentsManager ?
+engine/events.lua:75:  TODO : le profiler ne s'affiche pas
+fizix/body.lua:62:  TODO : interpolate ?
+fizix/body.lua:63:  TODO : fix them when they don't "move"
+fizix/body.lua:65:  TODO : keepInArea, 'in' or 'cross'
 fizix/fizix.lua:148:  TODO : usefull ?
 fizix/fizix.lua:227:  TODO : raycast
 fizix/fizix.lua:234:  TODO : raycastAll
 fizix/fizix.lua:241:  TODO : queryAABB
-fizix/body.lua:62:  TODO : interpolate ?
-fizix/body.lua:63:  TODO : fix them when they don't "move"
-fizix/body.lua:65:  TODO : keepInArea, 'in' or 'cross'
-applications/sketches2D/primitives2.lua:1:  TODO : doublon avec primitive
-applications/sketches2D/primitives.lua:1: -TODO : light sur les primitives 3D
-graphics/graphics.lua:77:  TODO : is the right place
-graphics/graphics.lua:82:  TODO : release mesh
-graphics/graphics.lua:383:  TODO: new file 3d
+graphics/graphics.lua:89:  TODO : is the right place
+graphics/graphics.lua:94:  TODO : release mesh
+graphics/graphics.lua:413:  TODO: new file 3d
 graphics/shaders/webgl-noise-master/src/psrdnoise2D.glsl:60:  TODO: One-pixel wide artefacts used to occur due to precision issues with
-graphics/style.lua:191:  TODO : textWrapWidth
-graphics/style.lua:196:  TODO : textAlign
-graphics/style.lua:201:  TODO : smooth
-_guideLines:5:  TODO need implementation
+graphics/style.lua:84:  TODO : emttre tous les styles dans attributes
+graphics/style.lua:196:  TODO : textWrapWidth
+graphics/style.lua:201:  TODO : textAlign
+graphics/style.lua:206:  TODO : smooth
+libc/vulkan/vulkan.lua:1:  TODO : autogenerate header for library
+lua/fs.lua:145:  TODO : clean code, usefull subPath
+lua/fs.lua:166:  TODO : clean code, usefull subPath
+lua/fs.lua:171:  TODO : clean code, usefull subPath
+lua/fs.lua:176:  TODO : clean code, usefull subPath
+lua/video.lua:1:  TODO : implement recording
 sound/sound.lua:173:  TODO : can also be DATA followed by a base64 string encoding the parameters
-engine/engine.lua:59:  TODO : move to events
-engine/engine.lua:259:  TODO : à gerer dans ComponentsManager
-engine/engine.lua:264:  TODO : à gerer dans ComponentsManager ?ui/console.lua:3:  TODEL
-_guideLines:7:  TODEL need deletion (when you i'm ready...)_guideLines:8:  TOFIX need correctionapplications/sketches2D/icons font.lua:1:  TOTEST
-_guideLines:9:  TOTEST need qualification
+ui/console.lua:3:  TODO or TODEL
+_guideLines:5:  TODO need implementationui/console.lua:3:  TODEL
+_guideLines:7:  TODEL need deletion (when you i'm ready...)_guideLines:8:  TOFIX need correction_guideLines:9:  TOTEST need qualification

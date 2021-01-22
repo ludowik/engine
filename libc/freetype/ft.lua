@@ -76,20 +76,17 @@ function ft.loadText(face, text)
         return glyph
     end
 
-    local slot = face.glyph
-
     local metrics = face.size.metrics
+    local slot = face.glyph    
+    
     local H = floor(tonumber(metrics.ascender - metrics.descender) / char_ratio)
 
     local x, w, h, top, bottom, dy = 0, 0, 0, 0, 0, 0
 
     local space_width = 8
 
-    local len = text:len()
-    for n=1,len do
-        local char = text:sub(n, n)
-        local error = ftLib.FT_Load_Char(face, char:byte(1), ftLib.FT_LOAD_RENDER)
-        slot = face.glyph
+    for char in utf8.gensub(text) do
+        local error = ftLib.FT_Load_Char(face, utf8.byte(char), ftLib.FT_LOAD_RENDER)
         if error == 0 then
             w = w + max(0, slot.bitmap_left)
             if char == ' ' then
@@ -116,10 +113,8 @@ function ft.loadText(face, text)
 
     local pixels = ffi.new('GLubyte[?]', size)
 
-    for n=1,len do
-        local char = text:sub(n, n)
-        local error = ftLib.FT_Load_Char(face, char:byte(1), ftLib.FT_LOAD_RENDER)
-        slot = face.glyph
+    for char in utf8.gensub(text) do
+        local error = ftLib.FT_Load_Char(face, utf8.byte(char), ftLib.FT_LOAD_RENDER)
         if error == 0 then
             local index_bitmap = 0
             for j=0,slot.bitmap.rows-1 do
@@ -165,7 +160,6 @@ end
 
 function ft.releaseText(glyph)
     if glyph.pixels then
---        ffi.C.free(glyph.pixels)
         glyph.pixels = nil
     end
 end

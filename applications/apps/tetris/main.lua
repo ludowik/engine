@@ -3,30 +3,19 @@ App('Tetris')
 Tetris.itemSize = floor(WIDTH/30)
 Tetris.gridSize = vec2(10, 12)
 
-class('myScene', Scene)
-
-function myScene:init()
-    Scene.init(self)
-end
-
-function myScene:computeSize()
-    self.nodes[1]:computeSize()
-    self.size = self.nodes[1].size
-end
-
 function Tetris:init()
     Application.init(self)
 
     supportedOrientations(PORTRAIT)
 
-    self.scene = UIScene(Layout.row)
-    self.scene.alignment = 'v-center,h-center'
+    self.ui = UIScene(Layout.row)
+    self.ui.alignment = 'v-center,h-center'
 
     self.ui.state = UITimer('pause', 3, function ()
             self.active = true
         end)
 
-    self.scene:add(UIScene(Layout.column):add(
+    self.ui:add(UIScene(Layout.column):add(
             Label('level'),
             Expression('app.level'),
             Label('score'),
@@ -46,7 +35,7 @@ function Tetris:init()
     self.grid = TetrisGrid(self.gridSize.x, self.gridSize.y, self.itemSize)
     self.tetrimino = Scene()
 
-    self.scene:add(UIScene():add(self.grid, self.tetrimino))
+    self.ui:add(UIScene():add(self.grid, self.tetrimino))
 
     self.tetriminos = {
         Tetrimino('I', {0,0,2,3,4,5,0,0}, blue:lighten()),

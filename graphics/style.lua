@@ -81,14 +81,13 @@ function pushStyle()
     push('__style', styles:clone())
 end
 
--- TODO : emttre tous les styles dans attributes
 function popStyle()
     styles = pop('__style')
 
-    blendMode(styles.blendMode)
-    depthMode(styles.depthMode)
+    blendMode(styles.attributes.blendMode)
+    depthMode(styles.attributes.depthMode)
 
-    cullingMode(styles.cullingMode)
+    cullingMode(styles.attributes.cullingMode)
 
     font()
     fontSize()

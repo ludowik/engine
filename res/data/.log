@@ -1,8 +1,14 @@
-Color LCD
-GLSL 4.10
-load applications/sketches2D/font
-memory at start  : 2.17 mo
-memory min       : 2.17 mo
-memory max       : 16.38 mo
-memory variation : 14.21 mo
-memory at end    : 2.01 mo
+Generic PnP Monitor
+GLSL 4.10 - Build 26.20.100.8141
+load applications/default
+load applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/phyllotaxis
+memory at start  : 4.30 mo
+memory min       : 4.30 mo
+memory max       : 32.69 mo
+memory variation : 28.39 mo
+memory at end    : 17.52 mo

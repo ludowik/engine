@@ -93,8 +93,8 @@ class 'Text'
 local maxStrLen = 64
 
 function Text:init(str)
-    if str:len() > maxStrLen then
-        str = str:left(maxStrLen)
+    if utf8.len(str) > maxStrLen then
+        str = utf8.sub(str, maxStrLen)
     end
     local surface = ft.loadText(ft.hFont, str)
     self.img = Image():makeTexture(surface)
