@@ -1,8 +1,8 @@
 Color LCD
 GLSL 4.10
 load applications/sketches2D/font
-memory at start  : 2.17 mo
-memory min       : 2.17 mo
-memory max       : 16.38 mo
-memory variation : 14.21 mo
-memory at end    : 2.01 mo
+memory at start  : 2.16 mo
+memory min       : 2.16 mo
+memory max       : 22.42 mo
+memory variation : 20.26 mo
+memory at end    : 2.15 mo
