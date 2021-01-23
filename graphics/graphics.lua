@@ -101,28 +101,28 @@ MULTIPLY = 3
 
 function blendMode(mode)
     if mode then
-        if styles.blendMode ~= mode then
-            styles.blendMode = mode
+        if styles.attributes.blendMode ~= mode then
+            styles.attributes.blendMode = mode
             renderer:blendMode(mode)
         end
     end
-    return styles.blendMode
+    return styles.attributes.blendMode
 end
 
 function cullingMode(culling)
     if culling ~= nil then
-        styles.cullingMode = culling
+        styles.attributes.cullingMode = culling
         renderer:cullingMode(mode)
     end
-    return styles.cullingMode
+    return styles.attributes.cullingMode
 end
 
 function depthMode(mode)
     if mode ~= nil then
-        styles.depthMode = mode
+        styles.attributes.depthMode = mode
         renderer:depthMode(mode)
     end
-    return styles.depthMode
+    return styles.attributes.depthMode
 end
 
 function background(clr, ...)

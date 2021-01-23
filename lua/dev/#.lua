@@ -1,5 +1,7 @@
-requireLib(
-    'performance',
-    'performanceCheck',
-    'profiler',
-    'reporting')
+--requireLib(
+--    'performance',
+--    'performanceCheck',
+--    'profiler',
+--    'reporting')
+
+requirePlist('lua/dev/#.plist')

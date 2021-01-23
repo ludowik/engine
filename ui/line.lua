@@ -1,13 +1,13 @@
--- TODO : implement UILine
+class('UILine', UI)
 
-Class('UILine', 'Widget')
-
-function UILine:UILine()
-    self:Widget('line')
+function UILine:init()
+    UI.init(self)
 end
 
 function UILine:computeSize()
-    Widget.computeSize(self)
+    UI.computeSize(self)
+    
+    self.size.x = self.parent.size.x - self.size.x
     self.size.y = 3
 end
 

@@ -1034,6 +1034,10 @@ local function utf8gsub(str, regex, repl, limit)
     return ret .. utf8sub(str, prevEnd), n
 end
 
+function utf8left(s, n)
+    return utf8.sub(s, 1, n)
+end
+
 local utf8 = {}
 utf8.len = utf8len
 utf8.sub = utf8sub
@@ -1051,4 +1055,5 @@ utf8.format = format
 utf8.lower = lower
 utf8.upper = upper
 utf8.rep = rep
+utf8.left = left
 return utf8

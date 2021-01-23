@@ -188,8 +188,10 @@ end
 function Application:touched(touch)    
     if not self.ui:touched(touch) then
         if not self.scene:touched(touch) then
+            return false
         end
     end
+    return true
 end
 
 function Application:mouseWheel(mouse)

@@ -4,12 +4,11 @@ function requireLib(...)
     end
 end
 
--- TODO : unusable ?
 function requirePlist(name)
     local plist = load(name)
 
     for res in (plist:match('<array>(.-)</array>'):gmatch('<string>(.-)</string>')) do
-        require('apps/physics2d/'..res)
+        require(scriptPath(3)..'/'..res)
     end
 end
 
