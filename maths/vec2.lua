@@ -337,6 +337,7 @@ function xy(x, y, coef)
 end
 
 __vec2 = ffi.metatype('vec2', mt)
+__vec2ref = ffi.typeof('vec2&')
 
 class 'vec2' : meta(__vec2)
 

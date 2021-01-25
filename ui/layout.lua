@@ -124,11 +124,6 @@ function Layout:computeAbsolutePosition(x, y)
     self.absolutePosition.x = x
     self.absolutePosition.y = y
 
---    if self.translation then
---        self.absolutePosition.x = self.absolutePosition.x + self.translation.x
---        self.absolutePosition.y = self.absolutePosition.y + self.translation.y
---    end
-
     if self.nodes and self.layoutFlow then
         for i,v in ipairs(self.nodes) do
             if v.position then

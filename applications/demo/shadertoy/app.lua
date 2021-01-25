@@ -108,11 +108,6 @@ function drawShader(shader, ui)
 end
 
 function update(dt)
-    for i,shader in ipairs(shaders) do
-        if shader.active then
-            shader:update()
-        end
-    end
 end
 
 function draw()

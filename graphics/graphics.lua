@@ -163,10 +163,10 @@ function point(...)
     meshPoint.vertices = Buffer('vec3', {vec3(), vec3(), vec3(), vec3()})
     meshPoint.shader = shaders['point']
 
-    point = function(x, y)
+    point = function(x, y, z)
         local diameter = max(strokeWidth(), 0)
-        meshPoint.inst_pos = Buffer('vec3', {vec3(x,y,Z)})
-        meshPoint:render(meshPoint.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
+        meshPoint.inst_pos = Buffer('vec3', {vec3(x,y,z or Z)})
+        meshPoint:render(meshPoint.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, 0, diameter, diameter, 1)
     end
 
     point(...)

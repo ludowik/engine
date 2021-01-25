@@ -57,7 +57,7 @@ function Scene:draw()
         end
 
         Node.draw(self)
-        Node.drawAbsolutePosition(self)
+--        Node.drawAbsolutePosition(self)
     end
     popMatrix()
 end

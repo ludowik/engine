@@ -7,8 +7,8 @@ end
 function MeshRender:init()
     self.uniforms = {}
 
-    self.pos = vec3()
-    self.size = vec3()
+    self.meshPosition = vec3()
+    self.meshSize = vec3()
 end
 
 function MeshRender:release()
@@ -21,7 +21,7 @@ end
 function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     assert(shader)
     assert(drawMode)
-    
+
     if self.texture then
         if type(self.texture) == 'string' then
             img = resourceManager:get('image', self.texture, image)
@@ -36,13 +36,13 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
     x = x or 0
     y = y or 0
     z = z or zLevel()
-    
+
     w = w or 1
     h = h or 1
     d = d or 1
 
-    self.pos:set(x, y, z)
-    self.size:set(w, h, d)
+    self.meshPosition:set(x, y, z)
+    self.meshSize:set(w, h, d)
 
     do
         shader:use()
@@ -69,7 +69,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
                 if shader.buffPos == nil then
                     shader.buffPos = Buffer('vec3')
                 end
-                shader.buffPos[1] = self.pos                
+                shader.buffPos[1] = self.meshPosition                
                 self:sendAttributes('inst_pos', shader.buffPos, 3, nil, true)
             end
         end
@@ -81,7 +81,7 @@ function MeshRender:render(shader, drawMode, img, x, y, z, w, h, d, nInstances)
                 if shader.buffSize == nil then
                     shader.buffSize = Buffer('vec3')
                 end
-                shader.buffSize[1] = self.size
+                shader.buffSize[1] = self.meshSize
                 self:sendAttributes('inst_size', shader.buffSize, 3, nil, true)
             end
         end
@@ -187,15 +187,16 @@ function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bu
 
         local bytes
         if type(buffer) == 'table' then
-            if ffi.typeof(buffer[1]) == __vec3 then
+            local t = ffi.typeof(buffer[1])
+            if t == __vec3 or t == __vec3ref then
                 buffer = Buffer('vec3', buffer)
                 assert(nComponents==3)
 
-            elseif ffi.typeof(buffer[1]) == __color then
+            elseif t == __color or t == __colorref  then
                 buffer = Buffer('color', buffer)
                 assert(nComponents==4)
 
-            elseif ffi.typeof(buffer[1]) == __vec2 then
+            elseif t == __vec2 or t == __vec2ref then
                 if nComponents == 2 then
                     buffer = Buffer('vec2', buffer)
                 elseif nComponents == 3 then
@@ -244,8 +245,8 @@ function MeshRender:sendUniforms(uniformsLocations)
     uniforms.matrixPV = pvMatrix()
     uniforms.matrixModel = modelMatrix()
 
-    uniforms.pos = self.pos
-    uniforms.size = self.size
+    uniforms.pos = self.meshPosition
+    uniforms.size = self.meshSize
 
     uniforms.time = ElapsedTime
 
@@ -266,10 +267,14 @@ function MeshRender:sendUniforms(uniformsLocations)
 
     uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
 
-    uniforms.lights = lights
-
-    if uniformsLocations['lights[0].on'] then
-        shader:pushTableToShader(lights, 'lights', 'useLights')
+    if uniforms.useLight == 1 then
+        uniforms.lights = lights
+        uniforms.nLights = #lights
+        if uniformsLocations['lights[0].on'] then
+            shader:pushTableToShader(lights, 'lights', 'useLights')
+        end
+    else
+        uniforms.nLights = 0
     end
 
     shader:sendUniforms(uniforms)

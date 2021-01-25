@@ -1,13 +1,17 @@
 function setup()
-    fonts = dir('res/fonts')
+--    setFontPath('/System/Library/Fonts')
+    
+    fonts = dir(getFontPath())
     fontNameIndex = 1
     
+    size = 12
+    
     alphabet = ''
-    for i=0,255*2 do
-        if i%32 == 0 and i~= 0 then
+    for i=32,127 do
+        if i%size == 0 and #alphabet > 0 then
             alphabet = alphabet..NL
         end
-        alphabet = alphabet..utf8.char(iconsFont.address_book+i)
+        alphabet = alphabet..string.char(i)
     end
 end
 
@@ -17,7 +21,10 @@ function draw()
     textMode(CORNER)
 
     resetTextNextY()
-    local _, fontNameRandom = splitFilePath(fonts[fontNameIndex]) -- :random())
+    
+--    fontNameIndex = randomInt(#fonts)
+    
+    local _, fontNameRandom = splitFilePath(fonts[fontNameIndex])
     font(fontNameRandom)    
     for i = 1,24 do
         fontSize(i)
@@ -43,7 +50,7 @@ function draw()
     end
     
     resetTextNextY()
-    fontSize(12)
+    fontSize(24)
     font(fontNameRandom)
     fill(white)
     text(alphabet, W*2/3)

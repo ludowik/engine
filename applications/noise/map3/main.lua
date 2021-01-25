@@ -32,8 +32,6 @@ function draw()
 
     model.shader.uniforms = uniforms
 
-    model.shader:update()
-
     local x, y, z = tointeger(cam.vEye.x), tointeger(cam.vEye.y), tointeger(cam.vEye.z)
 
     local w = 256

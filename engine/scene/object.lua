@@ -1,10 +1,13 @@
 class 'Object' : extends(Rect)
 
-function Object:init(label)
-    Rect.init(self)
+function Object:init(label, ...)
+    Rect.init(self, ...)
 
-    self.label = label or ''
-
+    if label and #label > 0 then
+        self.label = label
+    else
+        self.label = self.__className..id(self.__className)
+    end
     self.fixedSize = nil
     self.gridSize = nil
 end
@@ -35,3 +38,6 @@ function Object:setGridSize(i, j)
     self.gridSize = vec2(i, j)
     return self
 end
+
+Object2D  = Object
+Object3D  = Object

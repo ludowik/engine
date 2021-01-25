@@ -169,9 +169,7 @@ function Engine:frame(forceDraw)
         self.frameTime:__update()
         self.frameTime:__draw()
             
-        self.frameTime.deltaTimeAccum = (
-            self.frameTime.deltaTimeAccum -
-            self.frameTime.deltaTimeMax)
+        self.frameTime.deltaTimeAccum = self.frameTime.deltaTimeAccum - DeltaTime
 
     end
 end

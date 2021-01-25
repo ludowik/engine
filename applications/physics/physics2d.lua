@@ -8,7 +8,7 @@ function setup()
 
     function addBall()
         r = 10
-        ball = Object(150, 250, r, r)
+        ball = Object2D('ball', 150, 250, r, r)
         fizix:add(ball, DYNAMIC, CIRCLE)
     end
 
@@ -17,12 +17,12 @@ function setup()
     local y = 100 + 10
     local size = 20
     fizix:addItems({
-            Object(200, y, size,  size),
-            Object(200+size, y, size,  size),
-            Object(200+2*size, y, size,  size),
-            Object(200+size/2, y+size, size,  size),
-            Object(200+size+size/2, y+size, size,  size),
-            Object(200+size, y+2*size, size,  size),
+            Object2D('ball', 200, y, size,  size),
+            Object2D('ball', 200+size, y, size,  size),
+            Object2D('ball', 200+2*size, y, size,  size),
+            Object2D('ball', 200+size/2, y+size, size,  size),
+            Object2D('ball', 200+size+size/2, y+size, size,  size),
+            Object2D('ball', 200+size, y+2*size, size,  size),
             }, DYNAMIC, RECT)
 
     parameter.action('add ball', function () addBall() end)

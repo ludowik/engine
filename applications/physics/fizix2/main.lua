@@ -9,7 +9,7 @@ function setup()
     fizix:add(ground, STATIC, RECT, ground.size.x, ground.size.y)
 
     for i=1,10 do
-        local object = Object():setPosition(
+        local object = Object2D():setPosition(
             math.random(WIDTH),
             math.random(HEIGHT))
 

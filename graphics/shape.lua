@@ -32,6 +32,12 @@ function vertex(x, y, z)
     shape.vertices[#shape.vertices+1] = v
 end
 
+function scaleShape(n)
+    for i=1,#shape.vertices do
+        shape.vertices[i]:mul(n)
+    end
+end
+
 function endShape(mode)
     shape.mode = mode
     shape:draw()

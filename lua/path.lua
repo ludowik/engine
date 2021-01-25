@@ -11,6 +11,9 @@ function Path.setup()
 end
 
 function getFullPath(path, directory)
+    if path:left(1) == '/' then 
+        return path
+    end
     return (directory or lfs.currentdir())..'/'..path
 end
 
@@ -44,8 +47,14 @@ function getModelPath()
     return validatePath('res/models')
 end
 
+DEF_FONT_PATH = 'res/fonts'
+function setFontPath(fontPath)
+    DEF_FONT_PATH = fontPath
+end
+
 function getFontPath(fontName, ext)
-    return 'res/fonts/'..fontName..'.'..(ext or 'ttf')
+    if not fontName then return DEF_FONT_PATH end
+    return DEF_FONT_PATH..'/'..fontName..'.'..(ext or 'ttf')
 end
 
 function getSavePath(path)

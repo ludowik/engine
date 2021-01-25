@@ -46,6 +46,8 @@ function Shader:update()
         self:unuse()
         self:release()
         self:create()
+        
+        print('reload shader '..self.name)
     end
 end
 

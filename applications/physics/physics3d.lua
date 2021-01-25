@@ -7,7 +7,7 @@ function setup()
 
     function addBall()
         r = 1
-        ball = Object(
+        ball = Object3D('ball',
             random(-0.5, 0.5),
             4,
             0, r, r, r)

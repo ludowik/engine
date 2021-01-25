@@ -49,13 +49,13 @@ function Parameter:mouseWheel(touch)
 end
 
 function Parameter.default(name, min, max, default, notify)
-    local value = loadstring('return '..name)()
+    local value = loadstring('return env.'..name)()
 
-    if value == nil then
+    if value == nil or value == _G[name] then
         default = default or min
         if default ~= nil then
             _G.__value__ = default
-            loadstring(name..'=_G.__value__')()
+            loadstring('env.'..name..'=_G.__value__')()
             if notify then
                 notify(default)
             end

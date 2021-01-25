@@ -33,6 +33,12 @@ function ShaderManager:initialize()
     }
 end
 
+function ShaderManager:update()
+    for shaderName,shader in pairs(shaders) do
+        shader:update()
+    end
+end
+
 function ShaderManager:release()
     for shaderName,shader in pairs(shaders) do
         shader:release()

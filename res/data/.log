@@ -1,25 +1,8 @@
-<<<<<<< HEAD
 Color LCD
 GLSL 4.10
-load applications/sketches2D/font
-memory at start  : 2.16 mo
-memory min       : 2.16 mo
-memory max       : 22.42 mo
-memory variation : 20.26 mo
-memory at end    : 2.15 mo
-=======
-Generic PnP Monitor
-GLSL 4.10 - Build 26.20.100.8141
-load applications/default
-load applications/appManager
-load applications/apps/morpion/morpion
-load applications/artwork/dots
-load applications/artwork/firework
-load applications/artwork/lines
-load applications/artwork/phyllotaxis
-memory at start  : 4.30 mo
-memory min       : 4.30 mo
-memory max       : 32.69 mo
-memory variation : 28.39 mo
-memory at end    : 17.52 mo
->>>>>>> 5bffa268f0fe551796b5947ba1c1067fea72bfc6
+load applications/sketches3D/graphics3d
+memory at start  : 2.23 mo
+memory min       : 2.23 mo
+memory max       : 24.30 mo
+memory variation : 22.07 mo
+memory at end    : 2.35 mo

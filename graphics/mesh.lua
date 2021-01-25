@@ -5,6 +5,10 @@ function Mesh:init(vertices, colors)
     self:clear(vertices, colors)
 end
 
+function Mesh.properties.get:size()
+    return #self.vertices
+end
+
 function Mesh:clear(vertices, colors)
     self.vertices = vertices or Buffer('vec3')
     self.colors = colors or Buffer('color')

@@ -307,6 +307,7 @@ function mt.visibleColor(clr)
 end
 
 __color = ffi.metatype('color', mt)
+__colorref = ffi.typeof('color&')
 
 color = class 'Color' : meta(__color)
 function Color:init(r, g, b, a)

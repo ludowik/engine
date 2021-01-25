@@ -6,6 +6,8 @@ function Image.getPath(imageName, ext)
     return path -- getFullPath(path)
 end
 
+readImage = image
+
 function Image:init(w, h)
     if type(w) == 'number' then
         self:create(w, h or w)
@@ -47,7 +49,9 @@ function Image:init(w, h)
     self.pixels = ffi.cast('GLubyte*', self.surface.pixels)
 end
 
-function Image:copy()
+function Image:copy(x, y, w, h)
+    assert(x == nil)
+    
     local copy = Image(self.width, self.height)
     copy:makeTexture(self.surface)
     return copy
