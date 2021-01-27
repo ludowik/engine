@@ -46,11 +46,14 @@ vec3 ambientLight(light l) {
 }
 
 // point light
-light pointLight(light l, vec3 surfacePos, vec3 position) {
+light pointLight(light l, vec3 surfacePos, vec3 normal) {
 //    light l;
-    l.surfaceToLight = normalize(position.xyz - surfacePos);
+    l.surfaceToLight = normalize(l.position.xyz - surfacePos);
+    
+    float diff = max(dot(normal, -l.surfaceToLight), 0.0);
+    vec3 diffuse = diff * l.color.rgb;
 
-    float distanceToLight = length(position.xyz - surfacePos);
+    float distanceToLight = length(l.position.xyz - surfacePos);
     l.attenuation = 1.0 / (1.0 + l.diffuseStrength * pow(distanceToLight, 2.));
 
     return l;
@@ -62,10 +65,10 @@ vec3 sunPosition = vec3(500000., 1000000., 1000.);
 light directionalLight(light l, vec3 surfacePos, vec3 normal) {
 //    light l;
 
-    vec3 direction = l.position-surfacePos;
+    vec3 direction = l.position;
 
     l.surfaceToLight = normalize(direction.xyz);
-    l.attenuation = 1.0; // no attenuation for directional lights
+//    l.attenuation = 1.0; // no attenuation for directional lights
 
     l.coefficient = max(0.0, dot(normal, l.surfaceToLight));
 

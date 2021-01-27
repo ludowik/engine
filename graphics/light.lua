@@ -9,7 +9,7 @@ function Light.reset()
     lights:clear()
 
     lights:add(Light.ambient())
-    lights:add(Light.sun())
+--    lights:add(Light.sun())
 
 --    lights:add(Light.random())
 --    lights:add(Light.random())
@@ -18,7 +18,7 @@ function Light.reset()
 end
 
 function Light:init()
-    self.on = true
+    self.status = 1
 
     self.position = vec3()
     self.direction = vec3()
@@ -54,7 +54,7 @@ end
 
 function Light.ambient(ambientStrength, clr)
     local light = Light()
-    light.type = 2
+    light.type = 0
     
     light.color = clr or white
 
