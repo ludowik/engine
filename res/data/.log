@@ -1,8 +1,8 @@
-Color LCD
-GLSL 4.10
+Generic PnP Monitor
+GLSL 4.10 - Build 26.20.100.8141
 load applications/sketches3D/graphics3d
-memory at start  : 2.23 mo
-memory min       : 2.23 mo
-memory max       : 24.30 mo
-memory variation : 22.07 mo
-memory at end    : 2.35 mo
+memory at start  : 4.30 mo
+memory min       : 4.30 mo
+memory max       : 12.76 mo
+memory variation : 8.46 mo
+memory at end    : 1.81 mo

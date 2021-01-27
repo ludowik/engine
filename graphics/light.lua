@@ -9,7 +9,7 @@ function Light.reset()
     lights:clear()
 
     lights:add(Light.ambient())
-    lights:add(Light.sun())
+    --lights:add(Light.sun())
 
 --    lights:add(Light.random())
 --    lights:add(Light.random())
@@ -18,7 +18,7 @@ function Light.reset()
 end
 
 function Light:init()
-    self.on = true
+    self.state = 1
 
     self.position = vec3()
     self.direction = vec3()
@@ -54,11 +54,11 @@ end
 
 function Light.ambient(ambientStrength, clr)
     local light = Light()
-    light.type = 2
-    
+    light.type = 0
+
     light.color = clr or white
 
-    light.ambientStrength = ambientStrength or 0.3
+    light.ambientStrength = 1 --ambientStrength or 0.3
 
     return light
 end
@@ -66,12 +66,12 @@ end
 function Light.sun(diffuseStrength, specularStrength)
     local light = Light()
     light.type = 1
-    
+
     light.position = vec3(500000., 1000000., 1000.)
     light.color = clr or yellow
 
-    light.ambientStrength = ambientStrength or 0.2
-    light.diffuseStrength = diffuseStrength or 0.6
+    light.ambientStrength = ambientStrength or 0.4
+    light.diffuseStrength = diffuseStrength or 0.8
     light.specularStrength = specularStrength or 0.8
 
     return light

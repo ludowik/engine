@@ -19,14 +19,19 @@ function setup()
 
     parameter.number('n', 0, 20, model.n)
 
-    parameter.integer('parts', 2, 128, 16, function () array = Buffer('vec3') end)
-    
+    array = Buffer('vec3')
+    parameter.integer('parts', 2, 128, 16, function () array:reset() end)
+
     parameter.boolean('scale_shape', true)
 
-    config.wireframe = 'fill&line'
-
---    ortho3d()
-    draw = draw2d
+    parameter.boolean('_3d', true, function ()
+            if not _3d then
+                draw = draw2d
+            else
+                ortho3d()
+                draw = draw3d
+            end
+        end)
 end
 
 function update(dt)
@@ -40,8 +45,11 @@ function draw2d()
     local len, maxLen = 0, 0
     local x, y
 
+    local alpha_n = parts * 2
+    local delta = TAU / alpha_n
+    
     beginShape()
-    for theta=0,TAU,0.01 do
+    for theta=0,TAU,delta do
         len = r(theta) * shape_size
 
         maxLen = max(maxLen, len)
@@ -61,6 +69,8 @@ end
 
 function draw3d()
     background(51)
+    
+    light(true)
 
     perspective()
 
@@ -125,7 +135,13 @@ function draw3d()
         v:mul(ratio)
     end
 
+    fill(white)
+    
+    cullingMode(false)
+    
     mesh = Mesh(array)
+    mesh.normals = Model.computeNormals(mesh.vertices, nil, true)
+    
     mesh:render(shaders['default'], gl.GL_TRIANGLE_STRIP)
 end
 

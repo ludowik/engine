@@ -13,10 +13,16 @@ uniform sampler2D tex0;
 
 uniform vec3 cameraPosition;
 
+struct material {
+    vec4 color;
+    float emissive;
+};
+
+#define GLOBAL 0
+
 struct light {
-    int on;
-    
     int type;
+    int state;
     
     vec3 position;
     vec3 direction;
@@ -26,9 +32,11 @@ struct light {
     float ambientStrength;
     float diffuseStrength;
     float specularStrength;
-    
-    vec3 surfaceToLight;
-    
+};
+
+struct lightResult {
+    vec3 color;
+    vec3 surfaceToLight;    
     float attenuation;
     float coefficient;
 };
@@ -41,35 +49,41 @@ in vec3 vNormal;
 in vec4 vColor;
 in vec2 vTexCoords;
 
-vec3 ambientLight(light l) {
-    return l.ambientStrength * l.color.rgb;
+lightResult ambientLight(light l) {
+    lightResult res;
+    res.color = l.ambientStrength * l.color.rgb;
+    return res;
 }
 
 // point light
-light pointLight(light l, vec3 surfacePos, vec3 position) {
-//    light l;
-    l.surfaceToLight = normalize(position.xyz - surfacePos);
+lightResult pointLight(light l, vec3 surfacePos, vec3 position) {
+    lightResult res;
+    res.surfaceToLight = normalize(position.xyz - surfacePos);
 
     float distanceToLight = length(position.xyz - surfacePos);
-    l.attenuation = 1.0 / (1.0 + l.diffuseStrength * pow(distanceToLight, 2.));
+    res.attenuation = 1.0 / (1.0 + l.diffuseStrength * pow(distanceToLight, 2.));
+    
+    res.color = l.color.rgb / res.attenuation;
 
-    return l;
+    return res;
 }
 
 vec3 sunPosition = vec3(500000., 1000000., 1000.);
 
 // directional light
-light directionalLight(light l, vec3 surfacePos, vec3 normal) {
-//    light l;
+lightResult directionalLight(light l, vec3 surfacePos, vec3 normal) {
+    lightResult res;
 
     vec3 direction = l.position-surfacePos;
 
-    l.surfaceToLight = normalize(direction.xyz);
-    l.attenuation = 1.0; // no attenuation for directional lights
+    res.surfaceToLight = normalize(direction.xyz);
+    res.attenuation = 1.0; // no attenuation for directional lights
 
-    l.coefficient = max(0.0, dot(normal, l.surfaceToLight));
+    res.coefficient = max(0.0, dot(normal, res.surfaceToLight));
+    
+    res.color = l.color.rgb / res.attenuation;
 
-    return l;
+    return res;
 }
 
 void main() {
@@ -86,20 +100,24 @@ void main() {
         
         vec3 surfacePos = vPosition;
         vec4 surfaceColor = vColor;
+        
+        vec3 aggregateColor;
 
         for (int i=0 ; i<nLights ; ++i) {
-            if (lights[i].on == 1) {
-                if (lights[i].type == 1) {
-                    light l = directionalLight(lights[i], surfacePos, normal);
-                    finalColor = vec4(vec3(finalColor * l.color) * l.coefficient, finalColor.a);
+            light l = lights[i];
+            if (l.state == 1) {
+                if (l.type == 0) {
+                    lightResult res = ambientLight(l);
+                    aggregateColor += vec3(finalColor) * white.rgb; //res.color;
                     
-                } if (lights[i].type == 2) {
-                    vec3 v = ambientLight(lights[i]);
-                    finalColor = vec4(vec3(finalColor) * v, finalColor.a);
+                } else if (l.type == 1) {
+                    lightResult res = directionalLight(l, surfacePos, normal);
+                    aggregateColor += vec3(finalColor) * l.color.rgb * res.coefficient;
+                    
                 }
             }
         }
-        gl_FragColor = finalColor;
+        gl_FragColor = vec4(aggregateColor, finalColor.a);
     } else {
         gl_FragColor = finalColor;
     }

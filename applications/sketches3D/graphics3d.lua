@@ -5,8 +5,6 @@ function setup()
     setModelName(modelName)
 
     app.scene.camera = Camera(2, 2, 2)
-
-    parameter.watch('#model.vertices')
 end
 
 function createUI()
@@ -14,8 +12,44 @@ function createUI()
     createUILight()
 end
 
+function createUIObjects()
+    menuObjects = menuObjects or MenuBar()
+    menuObjects:clear()
+
+    menuObjects:add(Expression('app.model.shader.name'))
+    menuObjects:add(Expression('#app.model.vertices'))
+    menuObjects:add(Expression('#app.model.texCoords'))
+    menuObjects:add(Expression('#app.model.colors'))
+    menuObjects:add(Expression('#app.model.normals'))
+
+    local function changeModel(btn)
+        setModelName(btn.label)
+    end
+
+    menuObjects:add(
+        ListBox(
+            {
+                'plane',
+                'box',
+                'sphere',
+                'pyramid',
+                'tetrahedron',
+                'planet',    
+                'teapot',
+                'trumpet',
+                'airboat',
+                'roi',
+                'shuttle',
+                'dragon',
+                'musclecar',
+                "rubyk's cube"
+                }, setModelName))
+
+    app.ui:add(menuObjects)
+end
+
 function createUILight(reset)
-    local menuLights = menuLights or MenuBar()
+    menuLights = menuLights or MenuBar()
     menuLights:clear()
 
     menuLights:add(Button('light',
@@ -75,14 +109,14 @@ function setModelName(modelName)
 
     elseif modelName then
         model = Model.load(modelName, true) or Model.box()
-        
+
     else
         model = Model.box()
     end
 
     model.shader = model.shader or shaders['model3d']
 
-    setModel(model:normalize(), keepColor)
+    setModel(model:normalize(2):center(), keepColor)
 
     saveProjectData('modelName', modelName)
 end
@@ -98,41 +132,6 @@ function setModel(model, keepColor)
     end
 
     return model
-end
-
-function createUIObjects()
-    local menuObjects = menuObjects or MenuBar()
-    menuObjects:clear()
-
-    menuObjects:add(Expression('#app.model.vertices'))
-    menuObjects:add(Expression('#app.model.texCoords'))
-    menuObjects:add(Expression('#app.model.colors'))
-    menuObjects:add(Expression('#app.model.normals'))
-    menuObjects:add(Expression('app.model.shader.name'))
-
-    local function changeModel(btn)
-        setModelName(btn.label)
-    end
-
-    menuObjects:add(Button('plane'      , changeModel))
-    menuObjects:add(Button('box'        , changeModel))
-    menuObjects:add(Button('sphere'     , changeModel))
-    menuObjects:add(Button('pyramid'    , changeModel))
-    menuObjects:add(Button('tetrahedron', changeModel))
-
-    menuObjects:add(Button('planet'     , changeModel))
-
-    menuObjects:add(Button('teapot'     , changeModel))
-    menuObjects:add(Button('trumpet'    , changeModel))
-    menuObjects:add(Button('airboat'    , changeModel))
-    menuObjects:add(Button('roi'        , changeModel))
-    menuObjects:add(Button('shuttle'    , changeModel))
-    menuObjects:add(Button('dragon'     , changeModel))
-    menuObjects:add(Button('musclecar'  , changeModel))
-
-    menuObjects:add(Button("rubyk's cube", changeModel))
-
-    app.ui:add(menuObjects)
 end
 
 function update(dt)
