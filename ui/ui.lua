@@ -34,9 +34,13 @@ function UI:getFontSize()
     return self.fontSize or UI.fontSize
 end
 
-function UI:contains(v)
-    local x = v.x - self.absolutePosition.x
-    local y = v.y - self.absolutePosition.y
+function UI:contains(x, y)
+    if y == nil then
+        x, y = x.x, x.y
+    end
+
+    x = x - self.absolutePosition.x
+    y = y - self.absolutePosition.y
 
     if (x >= 0 and x <= self.size.x and
         y >= 0 and y <= self.size.y) then

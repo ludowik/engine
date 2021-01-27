@@ -265,7 +265,7 @@ function MeshRender:sendUniforms(uniformsLocations)
 
     uniforms.lineCapMode = styles.attributes.lineCapMode   
 
-    uniforms.useLight = self.normals and #self.normals > 0 and styles.attributes.light and config.light and 1 or 0
+    uniforms.useLight = styles.attributes.light and config.light and 1 or 0
 
     if uniforms.useLight == 1 then
         uniforms.lights = lights

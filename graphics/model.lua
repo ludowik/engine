@@ -138,7 +138,7 @@ function Model.computeIndices(vertices, texCoords, normals)
     return v, t, n, indices
 end
 
-function Model.computeNormals(vertices, indices)
+function Model.computeNormals(vertices, indices, mode)
     local normals = Buffer('vec3')
 
     local n = indices and #indices or #vertices
@@ -146,25 +146,51 @@ function Model.computeNormals(vertices, indices)
     local v12, v13 = vec3(), vec3()
 
     local v1, v2, v3
-    for i=1,n,3 do
-        if indices then
-            v1 = vertices[indices[i]]
-            v2 = vertices[indices[i+1]]
-            v3 = vertices[indices[i+2]]
-        else
-            v1 = vertices[i]
-            v2 = vertices[i+1]
-            v3 = vertices[i+2]
+
+    if mode == nil then
+        for i=1,n,3 do
+            if indices then
+                v1 = vertices[indices[i]]
+                v2 = vertices[indices[i+1]]
+                v3 = vertices[indices[i+2]]
+            else
+                v1 = vertices[i]
+                v2 = vertices[i+1]
+                v3 = vertices[i+2]
+            end
+
+            v12:set(v2):sub(v1)
+            v13:set(v3):sub(v1)
+
+            local normal = v12:crossInPlace(v13):normalizeInPlace()
+
+            normals[i  ] = normal
+            normals[i+1] = normal
+            normals[i+2] = normal
         end
+    else
+        for i=1,n-2 do
+            if indices then
+                v1 = vertices[indices[i]]
+                v2 = vertices[indices[i+1]]
+                v3 = vertices[indices[i+2]]
+            else
+                v1 = vertices[i]
+                v2 = vertices[i+1]
+                v3 = vertices[i+2]
+            end
 
-        v12:set(v2):sub(v1)
-        v13:set(v3):sub(v1)
+            v12:set(v2):sub(v1)
+            v13:set(v3):sub(v1)
 
-        local normal = v12:crossInPlace(v13)
-
-        normals[i  ] = normal
-        normals[i+1] = normal
-        normals[i+2] = normal
+            local normal = v12:crossInPlace(v13):normalizeInPlace()
+            
+            if i%2 == 0 then
+                normals[i] = normal
+            else
+                normals[i] = normal:unm()
+            end
+        end
     end
 
     return normals
@@ -173,7 +199,7 @@ end
 function Model.averageNormals(vertices, normals)
     local t = Buffer('vec3')
 
-    for i = 1, #normals do
+    for i=1,#normals do
         local vertex = vertices[i]
         local normal = normals[i]
 
@@ -184,6 +210,10 @@ function Model.averageNormals(vertices, normals)
         else
             t[ref] = t[ref] + normal
         end
+    end
+
+    for i=1,#normals do
+        normals[i]:normalizeInPlace()
     end
 
     return t
@@ -459,7 +489,7 @@ function Model.box(w, h, d)
 
     local wt = 1/4-1/100
     local ht = 1/3-1/100
-    
+
     local texCoords = Buffer('vec2')
 
     function add(coords, dx, dy)
@@ -483,7 +513,7 @@ function Model.tetrahedron(x, y, z, w, h, d)
 
     vertices = vertices_tetra
     vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, d, 90)
-    
+
     return Model.mesh(vertices,
         nil,
         Model.computeNormals(vertices_tetra))

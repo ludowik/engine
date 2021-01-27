@@ -191,7 +191,7 @@ primitives = {
     end,
 
     function (self, w, h)
-        light()
+        light(true)
         box(w)
     end,
 
