@@ -269,8 +269,10 @@ function MeshRender:sendUniforms(uniformsLocations)
 
     if uniforms.useLight == 1 then
         uniforms.lights = lights
+        
         uniforms.nLights = #lights
-        if uniformsLocations['lights[0].on'] then
+        
+        if uniformsLocations['lights[0].state'] then
             shader:pushTableToShader(lights, 'lights', 'useLights')
         end
     else

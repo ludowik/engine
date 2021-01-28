@@ -22,6 +22,7 @@ struct material {
 
 struct light {
     int type;
+    
     int state;
     
     vec3 position;
@@ -108,7 +109,7 @@ void main() {
             if (l.state == 1) {
                 if (l.type == 0) {
                     lightResult res = ambientLight(l);
-                    aggregateColor += vec3(finalColor) * white.rgb; //res.color;
+                    aggregateColor += vec3(finalColor) * res.color;
                     
                 } else if (l.type == 1) {
                     lightResult res = directionalLight(l, surfacePos, normal);
