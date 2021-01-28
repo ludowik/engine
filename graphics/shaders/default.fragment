@@ -18,7 +18,8 @@ struct material {
     float emissive;
 };
 
-#define GLOBAL 0
+#define LIGHT_AMBIENT 0
+#define LIGHT_DIRECTIONNAL 1
 
 struct light {
     int type;
@@ -37,8 +38,13 @@ struct light {
 
 struct lightResult {
     vec3 color;
+    
     vec3 surfaceToLight;    
-    float attenuation;
+    
+    float constant;
+    float linear;
+    float quadratic;
+    
     float coefficient;
 };
 
@@ -62,9 +68,9 @@ lightResult pointLight(light l, vec3 surfacePos, vec3 position) {
     res.surfaceToLight = normalize(position.xyz - surfacePos);
 
     float distanceToLight = length(position.xyz - surfacePos);
-    res.attenuation = 1.0 / (1.0 + l.diffuseStrength * pow(distanceToLight, 2.));
+    res.constant = 1.0 / (1.0 + l.diffuseStrength * pow(distanceToLight, 2.));
     
-    res.color = l.color.rgb / res.attenuation;
+    res.color = l.color.rgb / res.constant;
 
     return res;
 }
@@ -75,14 +81,12 @@ vec3 sunPosition = vec3(500000., 1000000., 1000.);
 lightResult directionalLight(light l, vec3 surfacePos, vec3 normal) {
     lightResult res;
 
-    vec3 direction = l.position;
-
+    vec3 direction = l.position - surfacePos;
     res.surfaceToLight = normalize(direction.xyz);
-    res.attenuation = 1.0; // no attenuation for directional lights
 
     res.coefficient = max(0.0, dot(normal, res.surfaceToLight));
     
-    res.color = l.color.rgb / res.attenuation;
+    res.color = l.color.rgb * res.coefficient / (1. - res.constant);
 
     return res;
 }
@@ -107,13 +111,13 @@ void main() {
         for (int i=0 ; i<nLights ; ++i) {
             light l = lights[i];
             if (l.state == 1) {
-                if (l.type == 0) {
+                if (l.type == LIGHT_AMBIENT) {
                     lightResult res = ambientLight(l);
                     aggregateColor += vec3(finalColor) * res.color;
                     
-                } else if (l.type == 1) {
+                } else if (l.type == LIGHT_DIRECTIONNAL) {
                     lightResult res = directionalLight(l, surfacePos, normal);
-                    aggregateColor += vec3(finalColor) * l.color.rgb * res.coefficient;
+                    aggregateColor += vec3(finalColor) * res.color;
                     
                 }
             }

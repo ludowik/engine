@@ -3,13 +3,16 @@ class('Light')
 function Light.setup()
     lights = Table()
     Light.reset()
+    
+    LIGHT_AMBIENT = 0
+    LIGHT_DIRECTIONNAL = 1
 end
 
 function Light.reset()
     lights:clear()
 
     lights:add(Light.ambient(0.5, red))
---    lights:add(Light.sun())
+    lights:add(Light.sun())
 
 --    lights:add(Light.random())
 --    lights:add(Light.random())
@@ -40,11 +43,11 @@ function Light:init()
 end
 
 function Light:update(dt)
---    local time = ElapsedTime
+    local time = ElapsedTime
 
---    self.color.r = (sin( time * 2.0 ) + 1) / 2
---    self.color.g = (sin( time * 0.7 ) + 1) / 2
---    self.color.b = (sin( time * 1.3 ) + 1) / 2
+    self.color.r = (sin( time * 2.0 ) + 1) / 2
+    self.color.g = (sin( time * 0.7 ) + 1) / 2
+    self.color.b = (sin( time * 1.3 ) + 1) / 2
 end
 
 function Light:draw()
@@ -75,6 +78,10 @@ function Light.sun(diffuseStrength, specularStrength)
     light.ambientStrength = ambientStrength or 0.4
     light.diffuseStrength = diffuseStrength or 0.8
     light.specularStrength = specularStrength or 0.8
+    
+    light.constant = 0
+    light.linear = 0
+    light.quadratic = 0
 
     return light
 end

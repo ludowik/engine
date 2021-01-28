@@ -79,6 +79,7 @@ function Engine:initialize()
 
     call('setup')
 
+    self.components:add(lights)
     self.components:initialize()
 
     self:initEvents()

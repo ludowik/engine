@@ -65,7 +65,7 @@ function createUILight(reset)
 
     if lights then
         for i,light in pairs(lights) do
-            menuLights:add(CheckBox(tostring(i)):bind(lights[i], 'on'))
+            menuLights:add(CheckBox(tostring(i)):bind(lights[i], 'state'))
         end
     end
 
