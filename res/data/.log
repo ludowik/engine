@@ -1,8 +1,8 @@
 Generic PnP Monitor
 GLSL 4.10 - Build 26.20.100.8141
-load applications/sketches3D/graphics3d
+load applications/sketches3D/cube minecraft
 memory at start  : 4.31 mo
 memory min       : 4.31 mo
-memory max       : 13.65 mo
-memory variation : 9.34 mo
-memory at end    : 1.87 mo
+memory max       : 12.93 mo
+memory variation : 8.62 mo
+memory at end    : 1.89 mo

@@ -23,6 +23,8 @@ function __buffer.__init(buffer, buffer_class, data, ...)
 
     buffer.sizeof_ctype = buffer_class.sizeof_ctype
     buffer.size = buffer_class.sizeof_ctype * buffer.available
+    
+    buffer.idBuffer = 0
 
     buffer.data = ffi.cast(buffer_class.ctype,
         ffi.C.malloc(
@@ -212,6 +214,7 @@ function Buffer(ct, data, ...)
                     int size;
                     int n;
                     int version;
+                    unsigned int idBuffer;
                     {ct}* data;
                     } {ctAsType};
             ]]

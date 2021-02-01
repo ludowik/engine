@@ -3,16 +3,27 @@ App('Cube')
 local tileSize = 5
 local size = tileSize * 10
 
+local chunkSize = 250
+
 function Cube:init()
     Application.init(self)
 
     self:createTexture()
-    
-    self.box = Model.box()
-    self.box.inst_pos = Buffer('vec3')
-    self.box.inst_pos:resize(1024)
 
-    camera(0, 0, 10)
+    self.chunks = Array()
+
+    for x=0,2 do
+        for y=0,2 do
+            local chunk = Model.box()
+            chunk.inst_pos = Buffer('vec3')
+            chunk.inst_pos:resize(1024)    
+            chunk.needUpdate = true
+            chunk.position = vec3(x*chunkSize, 0, y*chunkSize)
+            self.chunks:add(chunk)
+        end
+    end
+
+    camera(0, 100, 50)
 end
 
 function Cube:createTexture()
@@ -46,23 +57,40 @@ function Cube:createTexture()
         self.aaa)
 end
 
+function Cube:update(dt)
+    local position
+    for i,chunk in ipairs(self.chunks) do
+        if chunk.needUpdate == true then
+            position = chunk.position
+
+            chunk.needUpdate = false
+            chunk.inst_pos:reset()
+            
+            chunk.inst_pos.idBuffer = gl.glGenBuffer()
+            
+            for x=0,chunkSize-1 do
+                for z=0,chunkSize-1 do
+                    chunk.inst_pos:add(vec3(
+                            position.x+x,
+                            0,
+                            position.z+z))
+                end
+            end
+        end
+    end
+end
+
 function Cube:draw()
     background(51)
 
     perspective()
-    
-    self.box.inst_pos:reset()
-    for x=1,100 do
-        for z=1,100 do
-            self.box.inst_pos:add(vec3(x,0,z))
-        end
-    end
-    
-    self.box.texture = self.aaa
-    self.box:drawInstanced(#self.box.inst_pos)
-    box(1, 1, 1, self.aaa)
 
-    resetMatrix(true)
-    spriteMode(CORNER)
-    sprite(self.aaa, 0, 0)
+    for i,chunk in ipairs(self.chunks) do
+        chunk.texture = self.aaa
+--        chunk:drawInstanced(#chunk.inst_pos)
+    end
+
+--    resetMatrix(true)
+--    spriteMode(CORNER)
+--    sprite(self.aaa, 0, 0)
 end

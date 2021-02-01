@@ -172,18 +172,29 @@ function MeshRender:sendIndices(attributeName, buffer, nComponents, bufferType)
     end
 end
 
+local map = {}
 function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bufferType)
-    gl.glBindBuffer(bufferType, attribute.id)
+    local idBuffer, ref
+    if buffer.idBuffer > 0 then
+        idBuffer = buffer.idBuffer
+        map[buffer] = map[buffer] or {}
+        ref = map[buffer]
+    else
+        idBuffer = attribute.id
+        ref = attribute
+    end
+    
+    gl.glBindBuffer(bufferType, idBuffer)
 
     local n = #buffer
 
-    if (attribute.sent == nil or attribute.sent ~= n or
-        buffer.id == nil or buffer.id ~= attribute.bufferId or
-        buffer.version == nil or buffer.version ~= attribute.bufferVersion)
+    if (ref.sent == nil or ref.sent ~= n or
+        buffer.id == nil or buffer.id ~= ref.bufferId or
+        buffer.version == nil or buffer.version ~= ref.bufferVersion)
     then
-        attribute.sent = n
-        attribute.bufferVersion = buffer.version
-        attribute.bufferId = buffer.id
+        ref.sent = n
+        ref.bufferVersion = buffer.version
+        ref.bufferId = buffer.id
 
         local bytes
         if type(buffer) == 'table' then
