@@ -19,12 +19,12 @@ end
 engine = Engine()
 
 if love then
-    love.run = function ()
+    love.load = function()
         engine:initialize()
+    end
 
-        return function ()
-            engine:frame(true)
-        end
+    love.draw = function()
+        engine:frame(true)
     end
 
 else

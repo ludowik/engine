@@ -20,7 +20,7 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     self.appPath = appPath
     self.appDirectory, self.appName = splitPath(appPath)
 
-    sdl.SDL_SetWindowTitle(sdl.window, 'Engine : '..appPath)
+    sdl:setWindowTitle('Engine : '..appPath)
 
     if self.envs[appPath] == nil or reloadApp then
         print('load '..appPath)

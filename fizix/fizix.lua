@@ -86,7 +86,7 @@ end
 function Fizix:update(dt)
     if not self.running then return end
 
-    local startTime = sdl.SDL_GetTicks() * 0.001
+    local startTime = sdl.getTicks() * 0.001
 
     self:setProperties()
     do
@@ -102,7 +102,7 @@ function Fizix:update(dt)
     end
     self:updateProperties()
 
-    local endTime = sdl.SDL_GetTicks() * 0.001
+    local endTime = sdl.getTicks() * 0.001
 
     self.deltaTime = endTime - startTime
     self.elapsedTime = self.elapsedTime + self.deltaTime

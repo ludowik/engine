@@ -218,9 +218,21 @@ function table:call(method, ...)
     local object, f
     for i=1,#self do
         object = self[i]
-
         f = object[method]
         if f then
+            f(object, ...)
+        end
+    end
+end
+
+function table:callWithLog(method, ...)
+    local object, f
+    for i=1,#self do
+        object = self[i]
+        f = object[method]
+        if f then
+            print(method..' '..classnameof(object))
+            io.flush()
             f(object, ...)
         end
     end

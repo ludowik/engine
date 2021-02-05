@@ -11,16 +11,26 @@ function Keys.setup()
         mapKeysReverse[v] = k
     end
 
-    BUTTON_LEFT = sdl.SDL_BUTTON_LEFT
-    BUTTON_MIDDLE = sdl.SDL_BUTTON_MIDDLE
-    BUTTON_RIGHT = sdl.SDL_BUTTON_RIGHT
-    BUTTON_X1 = sdl.SDL_BUTTON_X1
-    BUTTON_X2 = sdl.SDL_BUTTON_X2
+    if love then
+        BUTTON_LEFT = 'BUTTON_LEFT'
+        BUTTON_MIDDLE = 'BUTTON_MIDDLE'
+        BUTTON_RIGHT = 'BUTTON_RIGHT'
+        BUTTON_X1 = 'BUTTON_X1'
+        BUTTON_X2 = 'BUTTON_X2'        
+    else
+        BUTTON_LEFT = sdl.SDL_BUTTON_LEFT
+        BUTTON_MIDDLE = sdl.SDL_BUTTON_MIDDLE
+        BUTTON_RIGHT = sdl.SDL_BUTTON_RIGHT
+        BUTTON_X1 = sdl.SDL_BUTTONv_X1
+        BUTTON_X2 = sdl.SDL_BUTTON_X2
+    end
 end
 
 local keysState
 
 function mapKey(key, reverse)
+    if love then return key end
+    
     if reverse then
         if mapKeysReverse[key] then
             return mapKeysReverse[key]
@@ -34,14 +44,9 @@ function mapKey(key, reverse)
 end
 
 function isDown(key)
-    key = mapKey(key)
-
-    keysState = sdl.SDL_GetKeyboardState(nil)
-
-    local scanCode = sdl.SDL_GetScancodeFromName(key)
-    return keysState[scanCode] == 1 and true or false
+    return sdl:isDown(mapKey(key))
 end
 
 function isButtonDown(button)
-    return hasbit(sdl.SDL_GetMouseState(nil, nil), 2^(button-1))
+    return sdl:isButtonDown(button)
 end

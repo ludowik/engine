@@ -44,6 +44,10 @@ function Application:popScene()
     self.scene = pop(ref)
 end
 
+function Application:updateCamera(dt)
+    updateCamera(dt)
+end
+
 function Application:updateCoroutine(dt)
     if self.coroutine then
         local status = coroutine.status(self.coroutine)
@@ -81,11 +85,14 @@ function Application:resize()
 end
 
 function Application:__update(dt)
+    self:updateCoroutine(dt)
+    self:updateCamera(dt)
+    
     self.scene:update(dt)
+    self.ui:update(dt)
 
     if _G.env.update then
         _G.env.update(dt)
-        self:updateCoroutine(dt)
     else
         self:update(dt)
     end
@@ -143,12 +150,6 @@ function Application:setup()
 end
 
 function Application:update(dt)
-    self:updateCoroutine(dt)
-
-    updateCamera(dt)
-
-    self.scene:update(dt)
-    self.ui:update(dt)
 end
 
 function Application:draw()

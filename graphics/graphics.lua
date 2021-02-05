@@ -382,21 +382,25 @@ do
         end
 
         for i,line in ipairs(lines) do
-            local img = ft:getText(line).img
+            local text = ft:getText(line)
+            if text then
+                local img = ft:getText(line).img
+                if img then
+                    local lw, lh = img.surface.w/ratio, img.surface.h/ratio
 
-            local lw, lh = img.surface.w/ratio, img.surface.h/ratio
+                    if draw then
+                        y = y - lh
+                        meshText:render(meshText.shader, renderer.GL_TRIANGLES, img,
+                            x, y - marge, Z,
+                            lw, lh, 1)
+                    end
 
-            if draw then
-                y = y - lh
-                meshText:render(meshText.shader, renderer.GL_TRIANGLES, img,
-                    x, y - marge, Z,
-                    lw, lh, 1)
+                    lh = lh + marge * 2
+
+                    w = max(w, lw)
+                    h = h + lh
+                end
             end
-
-            lh = lh + marge * 2
-
-            w = max(w, lw)
-            h = h + lh
         end
 
         lastRequest.font = ft:getFont()

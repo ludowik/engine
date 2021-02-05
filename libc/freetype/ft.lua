@@ -1,28 +1,26 @@
 require 'libc.freetype.verra'
 
-local dpi
+class('libFreeType')
 
-local ft = class('ft')
-
-function ft.initModule(_dpi)
+function libFreeType.initModule(dpi)
     local library = ffi.new('FT_Library[1]')
 
     local error = ftLib.FT_Init_FreeType(library)
     if error == 1 then
         return nil
     end
-    dpi = _dpi
+    libFreeType.dpi = dpi
 
     return library[0]
 end
 
-function ft.releaseModule(library)
+function libFreeType.releaseModule(library)
     ftLib.FT_Done_FreeType(library)
 end
 
 local char_ratio = 64
 
-function ft.loadFont(library, font_name, font_size)
+function libFreeType.loadFont(library, font_name, font_size)
     local face = ffi.new('FT_Face[1]')
     
     local error = ftLib.FT_New_Face(library, ffi.string(font_name), 0 , face)
@@ -45,19 +43,19 @@ function ft.loadFont(library, font_name, font_size)
         face[0],                -- handle to face object
         0,                      -- char_width in 1/64th of points
         font_size * char_ratio, -- char_height in 1/64th of points
-        dpi,                    -- horizontal device resolution
+        libFreeType.dpi,           -- horizontal device resolution
         0)                      -- vertical device resolution
 
     return face[0]
 end
 
-function ft.releaseFont(face)
+function libFreeType.releaseFont(face)
     ftLib.FT_Done_Face(face)
 end
 
 local BytesPerPixel = 4
 
-function ft.loadText(face, text)
+function libFreeType.loadText(face, text)
     local glyph = {
         w = 0,
         h = 0,
@@ -158,10 +156,10 @@ function ft.loadText(face, text)
     return glyph
 end
 
-function ft.releaseText(glyph)
+function libFreeType.releaseText(glyph)
     if glyph.pixels then
         glyph.pixels = nil
     end
 end
 
-return ft
+return libFreeType

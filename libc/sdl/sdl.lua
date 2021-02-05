@@ -14,6 +14,11 @@ end
 function Sdl:initialize()
     if love then
         self.window = sdl.SDL_GL_GetCurrentWindow()
+        
+        if self.window == NULL then
+            self.window = sdl.SDL_GetWindowFromID(0)
+        end
+        
         if self.window ~= NULL then
             self.context = sdl.SDL_GL_GetCurrentContext()
             if self.context ~= NULL then
@@ -73,6 +78,10 @@ function Sdl:initialize()
     end
 
     sdl.image = class 'SdlImage' : meta(windows and Library.load('SDL2_image') or ffi.C)
+end
+
+function Sdl:setWindowTitle(title)
+    self.SDL_SetWindowTitle(self.window, title)
 end
 
 function Sdl:setWindowSize(screen)
@@ -198,10 +207,6 @@ function Sdl:event()
     end
 end
 
-function Sdl:swap()
-    renderer:swap()
-end
-
 function Sdl:keys2SDL(keys)
     local newKeys = {}
 
@@ -216,6 +221,17 @@ function Sdl:keys2SDL(keys)
     table.addKeys(keysKeys, newKeys)
 end
 
+function Sdl:isDown(key)
+    local scanCode = self.SDL_GetScancodeFromName(key)
+    
+    keysState = self.SDL_GetKeyboardState(nil)
+    return keysState[scanCode] == 1 and true or false
+end
+
+function Sdl:isButtonDown(button)
+    return hasbit(self.SDL_GetMouseState(nil, nil), 2^(button-1))
+end
+
 function Sdl:loadWav(file)
     local wavspec = ffi.new('SDL_AudioSpec[1]')
     local wavbuf = ffi.new('uint8_t*[1]')
@@ -223,4 +239,12 @@ function Sdl:loadWav(file)
 
     wavspec = sdl.SDL_LoadWAV_RW(sdl.SDL_RWFromFile(file, "rb"), 1, wavspec, wavbuf, wavlen)
     return wavspec, wavbuf, wavlen
+end
+
+function Sdl:getTicks()
+    return sdl.SDL_GetTicks()
+end
+
+function Sdl:loadImage(path)
+    return image.IMG_Load(path)
 end

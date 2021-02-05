@@ -121,7 +121,17 @@ function mt:unpack()
     return self.r, self.g, self.b, self.a
 end
 
-function mt.random()
+function mt.random(clr, delta)
+    if clr then
+        delta = delta or 0.05
+        local h, s, l, a = rgb2hsl(clr)
+        return hsl(
+            h + random(-delta, delta),
+            s,
+            l,
+            a)
+    end
+
     return Color(
         math.random(),
         math.random(),

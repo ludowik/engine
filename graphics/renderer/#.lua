@@ -1,6 +1,12 @@
 local renderer = 'OPENGL'
 
-require 'graphics.renderer.meshRender'
+if love then
+    renderer = 'LOVE2D'
+end
+
+require 'graphics.renderer.mediaInterface'
+require 'graphics.renderer.rendererInterface'
+require 'graphics.renderer.audioInterface'
 
 if renderer == 'OPENGL' then
     require 'graphics.renderer.opengl.meshRender'
@@ -41,6 +47,16 @@ elseif renderer == 'SDL' then
     sgl = SoftwareGL()
 
     renderer = sgl
+    
+elseif renderer == 'LOVE2D' then
+    require 'graphics.renderer.love2d.love2d'
+    require 'graphics.renderer.shader'    
+
+    require 'graphics.mesh'
+    
+    require 'graphics.image'
+
+    renderer = Love2dRenderer()
 end
 
 function Renderer()

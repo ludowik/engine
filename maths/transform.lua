@@ -90,7 +90,12 @@ function ortho(left, right, bottom, top, near, far)
 end
 
 function perspective(fovy, aspect, near, far)
-    fovy = fovy or 45
+    local camera = getCamera()
+    if camera then
+        fovy = camera.fovy or fovy or 45
+    else
+        fovy = fovy or 45
+    end
 
     aspect = aspect or (screen.W / screen.H)
 

@@ -22,10 +22,10 @@ function FrameTime:initialize()
 end
 
 function FrameTime:__update()
-    self.startTime = sdl.SDL_GetTicks() * 0.001
+    self.startTime = sdl.getTicks() * 0.001
 
     self.__update = function (self, ...)
-        self.endTime = sdl.SDL_GetTicks() * 0.001
+        self.endTime = sdl.getTicks() * 0.001
 
         self.deltaTime = self.endTime - self.startTime
         self.deltaTimeAccum = self.deltaTimeAccum + self.deltaTime

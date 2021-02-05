@@ -107,6 +107,7 @@ typedef enum
 } SDL_GLprofile;
 
 SDL_Window* SDL_CreateWindow(const char* title, int x, int y, int w, int h, Uint32 flags);
+SDL_Window* SDL_GetWindowFromID(Uint32 id);
 SDL_Window* SDL_GL_GetCurrentWindow(void);
 void SDL_DestroyWindow(SDL_Window* window);
 

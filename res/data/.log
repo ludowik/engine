@@ -1,8 +1,16 @@
+initialize memory
+initialize sdl
 Generic PnP Monitor
+initialize opengl
 GLSL 4.10 - Build 26.20.100.8141
-load applications/default
-memory at start  : 4.31 mo
-memory min       : 4.31 mo
-memory max       : 13.25 mo
-memory variation : 8.94 mo
-memory at end    : 2.04 mo
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/appManager
+memory at start  : 4.33 mo
+memory min       : 4.33 mo
+memory max       : 10.29 mo
+memory variation : 5.96 mo
+memory at end    : 1.70 mo

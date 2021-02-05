@@ -22,7 +22,7 @@ function Image:init(w, h)
             end
         end
 
-        self.surface = sdl.image.IMG_Load(path)
+        self.surface = sdl:loadImage(path)
 
         if self.surface == ffi.NULL then
             warning("image doesn't exists", 3)
@@ -83,6 +83,8 @@ function Image:create(w, h)
 
     self.width = w
     self.height = h
+    
+    self.wh = self.width * self.height
 
     self:makeTexture(surface)
 end

@@ -14,10 +14,21 @@ function Engine:init()
     self.frameTime = FrameTime()
 
     -- create components
-    sdl = Sdl()
+    if love then
+    else
+        sdl = Sdl()
+        al = OpenAL()
+        ft = FreeType()
+    end
+
     renderer = Renderer()
-    al = OpenAL()
-    ft = FreeType()
+
+    if love then
+        sdl = Love2dSDL()
+        ft = renderer
+        gl = renderer
+        al = AudioInterface()
+    end
 
     resourceManager = ResourceManager()
     shaderManager = ShaderManager()
@@ -156,10 +167,11 @@ function Engine:frame(forceDraw)
 
     self.frameTime:__update()
 
-    forceDraw = true
-    if (self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or
-        forceDraw or
-        renderer:vsync() == 0)
+    if (
+        renderer:vsync() == 0 or
+        self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or
+        forceDraw
+    )
     then
 
         DeltaTime = self.frameTime.deltaTimeAccum
@@ -170,7 +182,7 @@ function Engine:frame(forceDraw)
 
         self.frameTime:__update()
         self.frameTime:__draw()
-            
+
         self.frameTime.deltaTimeAccum = self.frameTime.deltaTimeAccum - DeltaTime
 
     end
@@ -331,7 +343,7 @@ function Engine:draw(f)
     textMode(CENTER)
     text(self.frameTime.fps, x, y)
 
-    sdl:swap()
+    renderer:swap()
 end
 
 function Engine:preRender()

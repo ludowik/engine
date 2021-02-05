@@ -34,6 +34,10 @@ function mt:__tostring()
     return str:trim(NL):trim(',')
 end
 
+function mt:unpack()
+    return self.i0, self.i1, self.i2, self.i3, self.i4, self.i5, self.i6, self.i7, self.i8, self.i9, self.i10, self.i11, self.i12, self.i13, self.i14, self.i15
+end
+
 function mt:set(...)
     self.values = {...}
 end

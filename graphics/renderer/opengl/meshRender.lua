@@ -1,4 +1,4 @@
---local MeshRender = class 'MeshRender.OpenGL'
+MeshRender = class 'RendererInterface.OpenGL' : extends(RendererInterface)
 
 function MeshRender.setup()
     config.wireframe = config.wireframe or 'fill'

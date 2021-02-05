@@ -6,6 +6,11 @@ local cos  = math.cos
 local asin  = math.asin
 local acos  = math.acos
 
+function Camera.setup()
+    CAMERA_FPS = 'fps'
+    CAMERA_MODEL = 'model'
+end
+
 function Camera:init(...)
     self.vEye = vec3()
     self.vAt = vec3()
@@ -99,6 +104,37 @@ function Camera:right()
     return self.vRight
 end
 
+function Camera:getMode()
+    return not isDown(KEY_FOR_MOUSE_MOVING) and CAMERA_FPS or CAMERA_MODEL
+end
+
+function Camera:update(dt)
+    local dist = 10
+    if isDown('up') or isDown('a')  then
+        if self:getMode() == CAMERA_MODEL then
+            self:processKeyboardMovement('up', dt)
+        else
+            self:processKeyboardMovement('forward', dt)
+        end
+    end
+
+    if isDown('down') or isDown('q') then
+        if self:getMode() == CAMERA_MODEL then
+            self:processKeyboardMovement('down', dt)
+        else
+            self:processKeyboardMovement('backward', dt)
+        end
+    end
+
+    if isDown('left') then
+        self:processKeyboardMovement('left', dt)
+    end
+
+    if isDown('right') then
+        self:processKeyboardMovement('right', dt)
+    end
+end
+
 function Camera:rotateX(a)
     self:processMovement(a)
     self:updateVectors()
@@ -139,21 +175,26 @@ end
 function Camera:processKeyboardMovement(direction, dt)
     if direction == 'up' then
         self:moveUp(1, dt)
+
     elseif direction == 'down' then
         self:moveUp(-1, dt)
+
     elseif direction == 'forward' then
         self:moveForward(1, dt)
+
     elseif direction == 'backward' then
         self:moveForward(-1, dt)
+
     elseif direction == 'left' then
         self:moveSideward(1, dt)
+
     elseif direction == 'right' then
         self:moveSideward(-1, dt)
     end
 end
 
 function Camera:processMouseMovement(touch, constrainPitch)
-    if isDown(KEY_FOR_MOUSE_MOVING) == false then
+    if self:getMode() == CAMERA_MODEL then
         self.vEye = self:rotateAround(self:at(), touch.deltaX, touch.deltaY, constrainPitch)
         self:updateAngles()
     else
@@ -179,6 +220,15 @@ function Camera:processMovement(yaw, pitch, deltaX, deltaY, constrainPitch)
     end
 
     return yaw, pitch
+end
+
+function Camera:processWheelMoveOnCamera(touch)
+    if self:getMode() == CAMERA_MODEL then
+        self:moveSideward(touch.dx, DeltaTime)
+        self:moveUp(touch.dy, DeltaTime)
+    else
+        self:zoom(0, touch.dy, DeltaTime)
+    end
 end
 
 function Camera:rotateAround(at, deltaX, deltaY, constrainPitch)

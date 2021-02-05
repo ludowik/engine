@@ -142,7 +142,7 @@ function draw3d()
     mesh = Mesh(array)
     mesh.normals = Model.computeNormals(mesh.vertices, nil, true)
     
-    mesh:render(shaders['default'], gl.GL_TRIANGLE_STRIP)
+    mesh:render(shaders['default'], renderer.GL_TRIANGLE_STRIP)
 end
 
 function r(theta)

@@ -25,7 +25,7 @@ function ComponentManager:add(component)
 end
 
 function ComponentManager:initialize(dt)
-    self.componentsToInitialize:call('initialize')
+    self.componentsToInitialize:callWithLog('initialize')
 end
 
 function ComponentManager:update(dt)

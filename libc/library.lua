@@ -76,9 +76,9 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
 
     end
 
-    if love then
-        params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
-    end
+--    if love then
+--        params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
+--    end
 
     return ffi.load(params.libName)
 end

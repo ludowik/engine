@@ -1,4 +1,16 @@
-return {
+return {    
+    -- lua
+    typeof = {
+        type = "function",
+        description = "collide function"
+    },
+    
+    classnameof = {
+        type = "function",
+        description = "collide function"
+    },
+    
+    -- sketch
     setup = {
         type = "function",
         description = "setup function"
@@ -28,5 +40,5 @@ return {
     collide = {
         type = "function",
         description = "collide function"
-    }
+    },
 }
