@@ -152,8 +152,15 @@ function Camera:processKeyboardMovement(direction, dt)
     end
 end
 
+local CAMERA_FPS = 'fps'
+local CAMERA_MODEL = 'model'
+
+function Camera:getMode()
+    return not isDown(KEY_FOR_MOUSE_MOVING) and CAMERA_FPS or CAMERA_MODEL
+end
+
 function Camera:processMouseMovement(touch, constrainPitch)
-    if isDown(KEY_FOR_MOUSE_MOVING) == false then
+    if self:getMode() == CAMERA_MODEL then
         self.vEye = self:rotateAround(self:at(), touch.deltaX, touch.deltaY, constrainPitch)
         self:updateAngles()
     else

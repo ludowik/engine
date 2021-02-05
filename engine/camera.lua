@@ -7,7 +7,7 @@ function updateCamera(dt)
     if camera then
         local dist = 10
         if isDown('up') or isDown('a')  then
-            if isDown(KEY_FOR_MOUSE_MOVING) then
+            if camera:getMode() == CAMERA_MODEL then
                 camera:processKeyboardMovement('up', dt)
             else
                 camera:processKeyboardMovement('forward', dt)
@@ -15,7 +15,7 @@ function updateCamera(dt)
         end
 
         if isDown('down') or isDown('q') then
-            if isDown(KEY_FOR_MOUSE_MOVING) then
+            if camera:getMode() == CAMERA_MODEL then
                 camera:processKeyboardMovement('down', dt)
             else
                 camera:processKeyboardMovement('backward', dt)
@@ -42,7 +42,7 @@ end
 function processWheelMoveOnCamera(touch)
     local camera = getCamera()
     if camera then
-        if isDown(KEY_FOR_MOUSE_MOVING) then
+        if camera:getMode() == CAMERA_MODEL then
             camera:moveSideward(touch.dx, DeltaTime)
             camera:moveUp(touch.dy, DeltaTime)
         else
