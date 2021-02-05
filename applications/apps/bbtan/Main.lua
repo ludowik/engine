@@ -13,7 +13,7 @@ function setup()
     AREA_WIDTH  = CELL_SIZE * 7
     AREA_HEIGHT = CELL_SIZE * 9
 
-    fizix = Fizix(0, 0)
+    fizix = Fizix()
     fizix:gravity(vec2())
     fizix:setArea(0, 0, AREA_WIDTH, AREA_HEIGHT)
 

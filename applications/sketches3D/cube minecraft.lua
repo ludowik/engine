@@ -85,10 +85,10 @@ function Cube:draw()
 
     perspective()
 
-    for i,chunk in ipairs(self.chunks) do
-        chunk.texture = self.aaa
+--    for i,chunk in ipairs(self.chunks) do
+--        chunk.texture = self.aaa
 --        chunk:drawInstanced(#chunk.inst_pos)
-    end
+--    end
 
 --    resetMatrix(true)
 --    spriteMode(CORNER)

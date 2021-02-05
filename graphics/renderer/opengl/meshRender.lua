@@ -175,7 +175,7 @@ end
 local map = {}
 function MeshRender:sendBuffer(attributeName, attribute, buffer, nComponents, bufferType)
     local idBuffer, ref
-    if buffer.idBuffer > 0 then
+    if buffer.idBuffer and buffer.idBuffer > 0 then
         idBuffer = buffer.idBuffer
         map[buffer] = map[buffer] or {}
         ref = map[buffer]

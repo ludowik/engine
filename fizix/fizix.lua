@@ -170,7 +170,6 @@ function Fizix:canCollide(categories, mask)
             end
         end
     end
-    assert()
     return false
 end
 

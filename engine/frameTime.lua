@@ -55,5 +55,6 @@ function FrameTime:__draw()
     elseif self.deltaTime < 1/65 then
         self.fpsTarget = 60
     end
+    
     self.deltaTimeMax = 1/self.fpsTarget
 end

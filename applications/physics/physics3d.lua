@@ -1,7 +1,7 @@
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
 
-    fizix = Fizix(0, -10)
+    fizix = Fizix()
 
     fizix:setArea(-5, 0, -5, 10, 10, 10)
 

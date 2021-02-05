@@ -1,6 +1,6 @@
 local fizix
 function setup()
-    fizix = Fizix(0, -10)
+    fizix = Fizix()
 
     local marge = 25
 

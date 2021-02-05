@@ -156,6 +156,7 @@ function Engine:frame(forceDraw)
 
     self.frameTime:__update()
 
+    forceDraw = true
     if (self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or
         forceDraw or
         renderer:vsync() == 0)
