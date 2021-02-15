@@ -21,7 +21,11 @@ function validatePath(path, directory, absolute)
     fullPath = getFullPath(path, directory)
 
     if not isDirectory(fullPath) then
-        lfs.mkdir(fullPath)
+        if love then
+            lfs.mkdir(path)
+        else
+            lfs.mkdir(fullPath)
+        end
     end
 
     return absolute and fullPath or path
@@ -58,23 +62,27 @@ function getFontPath(fontName, ext)
 end
 
 function getSavePath(path)
-    if ios and love then
-        return love.filesystem.getSaveDirectory()..'/'..path
+    if love then
+        return (
+            love.filesystem.getSaveDirectory()..'/'..
+            love.filesystem.getIdentity()..'/'..
+            path
+        )
     else
         return path
     end
 end
 
 function getReadPath(path)
-    if ios then
+    if love then
         if lfs.attributes(path) then
             return path
 
         elseif lfs.attributes(lfs.currentdir()..'/'..path) then
             return lfs.currentdir()..'/'..path
 
-        elseif love and lfs.attributes(love.filesystem.getSaveDirectory()..'/'..path) then
-            return love.filesystem.getSaveDirectory()..'/'..path
+        elseif love and lfs.attributes(getSavePath(path)) then
+            return getSavePath(path)
         end
     end
     return path

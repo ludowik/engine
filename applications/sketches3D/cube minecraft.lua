@@ -25,6 +25,8 @@ function Cube:init()
     end
 
     camera(0, 1.7, 0, 0, 0, 30)
+
+    getCamera().mode = CAMERA_FPS
 end
 
 function Cube:createTexture()
@@ -67,19 +69,30 @@ function Cube:update(dt)
 
             chunk.needUpdate = false
             chunk.inst_pos:reset()
-            
+
             chunk.inst_pos.idBuffer = gl.glGenBuffer()
-            
+
             for x=0,chunkSize-1 do
                 for z=0,chunkSize-1 do
                     v.x = position.x + x
                     v.z = position.z + z
-                    
+
                     chunk.inst_pos:add(v)
                 end
             end
         end
     end
+
+    if isDown('right') then
+        local self = getCamera()
+        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, 2, 0, constrainPitch)
+        self:updateVectors()
+    elseif isDown('left') then
+        local self = getCamera()
+        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, -2, 0, constrainPitch)
+        self:updateVectors()
+    end
+
 end
 
 function Cube:draw()

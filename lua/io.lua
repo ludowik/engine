@@ -8,9 +8,9 @@ if love then
     
     function io.write(path, content, mode)
         path = path:gsub('%./', '')
-        local res = love.filesystem.write(
-            path, content)
-        return res
+        local success, message = love.filesystem.write(path, content)
+        assert(success, message)
+        return success
     end
     
 else
@@ -26,9 +26,10 @@ else
     function io.write(path, content, mode)
         local file = io.open(path, mode or 'wt')
         if file then
-            local res = file:write(content)
+            local success, message = file:write(content)
+            assert(success, message)
             file:close()
-            return res
+            return success
         end
     end
 end

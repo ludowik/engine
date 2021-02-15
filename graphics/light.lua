@@ -28,7 +28,7 @@ function Light:init()
     self.position = vec3()
     self.direction = vec3()
 
-    self.color = white
+    self.color = color(white)
 
     self.ambientStrength = 0
     self.diffuseStrength = 0
@@ -61,7 +61,7 @@ function Light.ambient(ambientStrength, clr)
     local light = Light()
     light.type = 0
     
-    light.color = clr or white
+    light.color = color(clr or white)
 
     light.ambientStrength = ambientStrength or 0.3
 
@@ -73,7 +73,7 @@ function Light.sun(diffuseStrength, specularStrength)
     light.type = 1
 
     light.position = vec3(500000., 1000000., 1000.)
-    light.color = clr or yellow
+    light.color = color(clr or yellow)
 
     light.ambientStrength = ambientStrength or 0.4
     light.diffuseStrength = diffuseStrength or 0.8
@@ -89,7 +89,7 @@ end
 function Light.point()
     local light = Light()
     light.position = vec3(0, 2, 0)
-    light.color = red
+    light.color = color(red)
 
     light.diffuseStrength = 0.5
     light.specularStrength = 0.5
@@ -106,7 +106,7 @@ function Light.spot()
     light.position = vec3(0, 10, 0)
     light.direction = vec3(0, 1, 0)
 
-    light.color = red
+    light.color = color(red)
 
     light.diffuseStrength = 0.5
     light.specularStrength = 0.5
@@ -124,7 +124,7 @@ end
 function Light.random(clr)
     local light = Light()
     light.position = vec3.random():normalizeInPlace(10)
-    light.color = clr or color.random()
+    light.color = color(clr or color.random())
     light.diffuseStrength = random(0.2, 0.8)
     return light
 end

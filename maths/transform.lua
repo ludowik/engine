@@ -133,7 +133,7 @@ function isometric(n)
     end
 end
 
-function ortho3d(w, h, ratio)
+function ortho3D(w, h, ratio)
     w = w or screen.W
     h = h or screen.H
 

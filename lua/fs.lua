@@ -129,17 +129,21 @@ function getDirectoryItems(path)
     return lists
 end
 
-function save(path, content, mode)
-    return io.write(getSavePath(path), content, mode)
-end
-
-function load(path)
-    return io.read(getSavePath(path))
-end
-
 function mkdir(path)
     local fullPath = getSavePath(path)
     lfs.mkdir(fullPath)
+end
+
+function save(path, content, mode)
+    if love then
+        return io.write(path, content, mode)
+    else
+        return io.write(getSavePath(path), content, mode)
+    end
+end
+
+function load(path)
+    return io.read(getReadPath(path))
 end
 
 -- TODO : clean code, usefull subPath

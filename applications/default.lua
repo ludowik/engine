@@ -1,33 +1,32 @@
 function setup()
-    particles = Array()
-
+    array = Array()
     for i=1,100 do
-        particles:add(Particle(vec3.random(W, H, 0)))
+        array:add(Cube.random(W, W, W, 50))
     end
-end
 
-function update(dt)
-    particles:update(dt)
+    parameter.number('AREA_SIZE', 100, 20000, W)
+    parameter.number('CUBE_SIZE', 1, 1000, 100)
+    
+    camera(W/2, W/2, -W)
 end
 
 function draw()
     background()
-    particles:draw()
-end
 
-class 'Particle'
+    light(true)
 
-function Particle:init(x, y, z)
-    self.body = fizix:body(CIRCLE, 5)
-    self.body.type = DYNAMIC
-    self.body.mask = {}
-    self.body.mass = 0.1
-    self.body.position = vec3(x, y, z)
-end
+    perspective()
+    
+    translate(-W/2, -W/2, -W/2)
 
-function Particle:draw()
-    stroke(blue)
-    strokeWidth(5)
+    depthMode(true)
+    cullingMode(true)
 
-    point(self.body.position)
+    q = Octree(AREA_SIZE, CUBE_SIZE)
+
+    for i=1,#array do
+        q:add(array[i])
+    end
+
+    q:draw()
 end

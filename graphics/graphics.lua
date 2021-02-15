@@ -18,6 +18,14 @@ function Graphics:initialize()
             vec3(0, 0), vec3(0, 0),
             vec3(0, 0), vec3(0, 0)})
     meshLines.shader = shaders['lines']
+    
+    meshLines3D = Mesh()
+    meshLines3D.vertices = Buffer('vec3', {
+            vec3(1, 1, 1), vec3(1, 1, 1),
+            vec3(1, 1, 1), vec3(1, 1, 1),
+            vec3(0, 0), vec3(0, 0),
+            vec3(0, 0), vec3(0, 0)})
+    meshLines3D.shader = shaders['lines']
 
     meshPolyline = Mesh()
     meshPolyline.vertices = Buffer('vec3', {
@@ -202,7 +210,22 @@ primitive('line',
     end,
 
     function (x1, y1, x2, y2)
-        meshLine:render(meshLine.shader, renderer.GL_TRIANGLE_STRIP, nil, x1, y1, Z, x2-x1, y2-y1, 1)
+        meshLine:render(meshLine.shader, renderer.GL_TRIANGLE_STRIP, nil, x1, y1, Z, x2-x1, y2-y1, 0)
+    end)
+
+primitive('line3D',
+    function ()
+        meshLine3D = Mesh()
+        meshLine3D.vertices = Buffer('vec3', {
+                vec3(1, 1, 1), vec3(1, 1, 1),
+                vec3(1, 1, 1), vec3(1, 1, 1),
+                vec3(), vec3(),
+                vec3(), vec3()})
+        meshLine3D.shader = shaders['line']
+    end,
+
+    function (x1, y1, z1, x2, y2, z2)
+        meshLine3D:render(meshLine3D.shader, renderer.GL_TRIANGLE_STRIP, nil, x1, y1, z1, x2-x1, y2-y1, z2-z1)
     end)
 
 function lines(vertices)
@@ -218,6 +241,21 @@ function lines(vertices)
     end
 
     meshLines:render(meshLines.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, 1, 1, 1, #meshLines.inst_pos)
+end
+
+function lines3D(vertices)
+    meshLines3D.inst_pos = meshLines3D.inst_pos or Buffer('vec3')
+    meshLines3D.inst_size = meshLines3D.inst_size or Buffer('vec3')
+
+    meshLines3D.inst_pos:reset()
+    meshLines3D.inst_size:reset()
+
+    for i=1,#vertices,2 do
+        meshLines3D.inst_pos:add(vertices[i])
+        meshLines3D.inst_size:add(vertices[i+1]-vertices[i])
+    end
+
+    meshLines3D:render(meshLines3D.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, 0, 1, 1, 1, #meshLines3D.inst_pos)
 end
 
 function polyline(vertices)
@@ -418,28 +456,49 @@ end
 function plane()
 end
 
-function box(w, h, d, img)
-    if type(w) == 'table' then
-        img = w
+function xyz_whd_img(...)
+    local args = {...}
+    local x, y, z, w, h, d, img = 0, 0, Z, 1, 1, 1, nil
+
+    if #args == 1 then
+        if typeof(args[1]) == 'image' then
+            img = args[1]
+        else
+            w, h, d = args[1], args[1], args[1]
+        end
+
+    elseif #args == 3 then
+        w, h, d = args[1], args[2], args[3]
+
+    elseif #args == 4 then
+        if typeof(args[1]) == 'image' then
+            w, h, d = args[1], args[2], args[3]
+            img = args[4]
+        else
+            x, y, z = args[1], args[2], args[3]
+            w, h, d = args[4], args[4], args[4]
+        end
+
+    elseif #args == 6 then
+        x, y, z = args[1], args[2], args[3]
+        w, h, d = args[4], args[5], args[6]
+
+    elseif #args == 7 then
+        x, y, z = args[1], args[2], args[3]
+        w, h, d = args[4], args[5], args[6]
+        img = args[7]
     end
-
-    w = w or 1
-    h = h or w
-    d = d or w
-
-    meshBox:render(meshBox.shader, renderer.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
+    return x, y, z, w, h, d, img
 end
 
-function sphere(w, h, d, img)
-    if type(w) == 'table' then
-        img = w
-    end
+function box(...)
+    local x, y, z, w, h, d, img = xyz_whd_img(...)
+    meshBox:render(meshBox.shader, renderer.GL_TRIANGLES, img, x, y, z, w, h, d)
+end
 
-    w = w or 1
-    h = h or w
-    d = d or w
-
-    meshSphere:render(meshBox.shader, renderer.GL_TRIANGLES, img, 0, 0, Z, w, h, d)
+function sphere(...)
+    local x, y, z, w, h, d, img = xyz_whd_img(...)
+    meshSphere:render(meshBox.shader, renderer.GL_TRIANGLES, img, x, y, z, w, h, d)
 end
 
 function pyramid()
