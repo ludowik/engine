@@ -88,6 +88,8 @@ function Engine:initialize()
     DeltaTime = 0
     ElapsedTime = 0
 
+    FrameCount = 0
+
     call('setup')
 
     self.components:add(lights)
@@ -176,6 +178,8 @@ function Engine:frame(forceDraw)
 
         DeltaTime = self.frameTime.deltaTimeAccum
         ElapsedTime = self.frameTime.elapsedTime
+
+        FrameCount = FrameCount + 1
 
         self:update(DeltaTime)
         self:draw()
