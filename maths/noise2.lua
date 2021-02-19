@@ -1,4 +1,4 @@
--- Noise
+local __abs, __floor = math.abs, math.floor
 
 local p = {}
 local permutation = {
@@ -22,9 +22,6 @@ for i = 1,256 do
     p[256+i] = p[i] 
 end
 
-local abs = math.abs
-local mod = math.modf
- 
 local function fade(t)
     return t * t * t * ( t * ( t * 6 - 15 ) + 10 )
 end
@@ -35,7 +32,7 @@ end
 
 -- pseudo binary and
 local function band(a,b)
-    return abs(a) % b
+    return __abs(a) % b
 end
 
 -- CONVERT LO 4 BITS OF HASH CODE INTO 12 GRADIENT DIRECTIONS
@@ -53,9 +50,9 @@ function noise(x, y, z)
     y = y or 0
     z = z or 0
     
-    local xf = math.floor(x)
-    local yf = math.floor(y)
-    local zf = math.floor(z)
+    local xf = __floor(x)
+    local yf = __floor(y)
+    local zf = __floor(z)
     
     -- FIND UNIT CUBE THAT CONTAINS POINT    
     local X = band(xf, 256)

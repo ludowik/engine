@@ -1,3 +1,5 @@
+local __floor, __random = math.floor, math.random
+
 class 'Random'
 
 function Random:init(...)
@@ -13,7 +15,7 @@ function Random.range(min, max)
         return 0
     end
 
-    return math.floor(random() * max ^ 2) % (max - min + 1) + min
+    return __floor(__random() * max ^ 2) % (max - min + 1) + min
 end
 
 function Random.random(min, max)
@@ -23,7 +25,7 @@ function Random.random(min, max)
         min, max = 0, min
     end
 
-    return math.random() * (max - min) + min
+    return __random() * (max - min) + min
 end
 
 seed = math.randomseed

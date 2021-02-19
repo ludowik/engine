@@ -1,4 +1,4 @@
--- timer
+local __round = math.round
 
 Timer = class('timer')
 
@@ -32,7 +32,7 @@ function Timer:deltaTime()
 end
 
 function Timer:fps()
-    local fps = math.round(1 / (self.ellapsedTime / self.frames))
+    local fps = __round(1 / (self.ellapsedTime / self.frames))
     return fps
 end
 

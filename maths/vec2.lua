@@ -1,3 +1,5 @@
+local __cos, __sin, __degrees, __radians, __atan2, __sqrt = math.cos, math.sin, math.deg, math.rad, math.atan2, math.sqrt
+
 ffi = require 'ffi'
 
 ffi.cdef [[
@@ -84,7 +86,7 @@ function mt:floor()
 end
 
 function mt:len()
-    return math.sqrt(
+    return __sqrt(
         self.x^2 +
         self.y^2)
 end
@@ -96,7 +98,7 @@ function mt:lenSquared()
 end
 
 function mt:dist(v)
-    return math.sqrt(
+    return __sqrt(
         (v.x - self.x)^2 +
         (v.y - self.y)^2)
 end
@@ -197,15 +199,19 @@ function mt:crossInPlace(v)
     return self
 end
 
-function mt:rotate(phi, origin)
-    return self:clone():rotateInPlace(phi, origin)
+function mt:rotate(phi, origin, mode)
+    return self:clone():rotateInPlace(phi, origin, mode)
 end
 
-local cos = math.cos
-local sin = math.sin
-
-function mt:rotateInPlace(phi, origin)
-    local c, s = cos(phi), sin(phi)
+function mt:rotateInPlace(phi, origin, mode)
+    local c, s
+    
+    mode = mode or angleMode()    
+    if mode == DEGREES then
+        c, s = __cos(__radians(phi)), __sin(__radians(phi))
+    else
+        c, s = __cos(phi), __sin(phi)
+    end
 
     if origin then
         self:sub(origin)
@@ -226,8 +232,8 @@ function mt:rotateInPlace(phi, origin)
 end
 
 function mt:angleBetween(other)
-    local alpha1 = atan2(self.y, self.x)
-    local alpha2 = atan2(other.y, other.x)
+    local alpha1 = __atan2(self.y, self.x)
+    local alpha2 = __atan2(other.y, other.x)
 
     return alpha2 - alpha1
 end
@@ -282,14 +288,14 @@ end
 local ORDER = 'counter-clockwise'
 
 function mt.enclosedAngle(v1, v2, v3)
-    local a1 = math.atan2(v1.y - v2.y, v1.x - v2.x)
-    local a2 = math.atan2(v3.y - v2.y, v3.x - v2.x)
+    local a1 = __atan2(v1.y - v2.y, v1.x - v2.x)
+    local a2 = __atan2(v3.y - v2.y, v3.x - v2.x)
 
     local da
     if ORDER == 'clockwise' then
-        da = math.deg(a2 - a1)
+        da = __degrees(a2 - a1)
     else
-        da = math.deg(a1 - a2)
+        da = __degrees(a1 - a2)
     end
 
     if da < -180 then

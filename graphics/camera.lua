@@ -1,10 +1,6 @@
 class('Camera')
 
-local sin  = math.sin
-local cos  = math.cos
-
-local asin  = math.asin
-local acos  = math.acos
+local cos, sin, acos, asin = math.cos, math.sin, math.acos, math.asin
 
 function Camera.setup()
     CAMERA_FPS = 'fps'

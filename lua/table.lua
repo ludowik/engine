@@ -1,3 +1,5 @@
+local __mininteger, __maxinteger = math.mininteger, math.maxinteger
+
 Table = {}
 setmetatable(Table, table)
 
@@ -421,7 +423,7 @@ function table:chainIt()
 end
 
 function table:min(var)
-    local v = math.maxinteger
+    local v = __maxinteger
 
     if var then
         for i=1,#self do
@@ -437,7 +439,7 @@ function table:min(var)
 end
 
 function table:max(var)
-    local v = math.mininteger
+    local v = __mininteger
 
     if var then
         for i=1,#self do

@@ -191,10 +191,12 @@ function attributeof(attrName, object)
 end
 
 function callOnObject(fname, object)
-    local f = attributeof(fname, object)
-    if f and type(f) == 'function' then
-        f(object)
-        return true
+    if type(object) == 'table' then
+        local f = attributeof(fname, object)
+        if f and type(f) == 'function' then
+            f(object)
+            return true
+        end
     end
 end
 

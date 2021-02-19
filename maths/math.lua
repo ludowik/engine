@@ -1,3 +1,5 @@
+local __min, __max, __floor, __ceil = math.min, math.max, math.floor, math.ceil
+
 math.PI = math.pi
 
 math.tau = 2 * math.pi
@@ -51,24 +53,24 @@ sign = math.sign
 function ceil(num, idp)
     idp = idp or 0
     local mult = 10^idp
-    return math.ceil(num * mult) / mult
+    return __ceil(num * mult) / mult
 end
 
 function floor(num, idp)
     idp = idp or 0
     local mult = 10^idp
-    return math.floor(num * mult) / mult
+    return __floor(num * mult) / mult
 end
 
 function math.round(num, idp)
     idp = idp or 0
     local mult = 10^idp
-    return math.floor(num * mult + 0.5) / mult
+    return __floor(num * mult + 0.5) / mult
 end
 round = math.round
 
 function math.clamp(value, _min, _max)
-    return math.min(math.max(value, _min), _max)
+    return __min(__max(value, _min), _max)
 end
 clamp = math.clamp
 
@@ -104,7 +106,7 @@ end
 map = math.map
 
 function math.quotient(dividend, divisor)
-    return math.ceil(dividend / divisor)
+    return __ceil(dividend / divisor)
 end
 quotient = math.quotient
 

@@ -323,9 +323,9 @@ function Model.scaleAndTranslateAndRotate(vertices, x, y, z, w, h, e, ax, ay, az
 
     m1 = m:translate(x, y, z)
 
-    m2 = m:rotate(ax, 1,0,0)
-    m3 = m:rotate(ay, 0,1,0)
-    m4 = m:rotate(az, 0,0,1)
+    m2 = m:rotate(ax, 1,0,0, nil, DEGREES)
+    m3 = m:rotate(ay, 0,1,0, nil, DEGREES)
+    m4 = m:rotate(az, 0,0,1, nil, DEGREES)
 
     m5 = m:scale(w, h, e)
 

@@ -1,3 +1,5 @@
+local __degrees, __tan, __atan, __rad = math.deg, math.tan, math.atan, math.rad
+
 class ('Transform')
 
 function Transform.setup()
@@ -68,12 +70,8 @@ function scale(sx, sy, sz)
     __modelMatrix = __modelMatrix:scale(sx, sy, sz)
 end
 
-function rotate(angle, x, y, z)
-    if angleMode() == DEGREES then
-        __modelMatrix = __modelMatrix:rotate(angle, x, y, z)
-    else
-        __modelMatrix = __modelMatrix:rotate(deg(angle), x, y, z)
-    end
+function rotate(angle, x, y, z, mode)
+    __modelMatrix = __modelMatrix:rotate(angle, x, y, z, nil, mode)
 end
 
 function rotateX(angle)
@@ -118,7 +116,7 @@ function perspective(fovy, aspect, near, far)
     near = near or 0.1
     far = far or 100000
 
-    local range = math.tan(math.rad(fovy*0.5)) * near
+    local range = __tan(__rad(fovy*0.5)) * near
 
     local left = -range * aspect
     local right = range * aspect
@@ -138,7 +136,7 @@ function isometric(n)
 
     translate(screen.W/2, screen.H/2)
 
-    local alpha = deg(atan(1/sqrt(2)))
+    local alpha = __degrees(__atan(1/sqrt(2)))
     local beta = 45
 
     rotate(alpha, 1, 0, 0)

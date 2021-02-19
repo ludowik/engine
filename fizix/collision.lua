@@ -229,12 +229,12 @@ function lineIntersectAABB(line, rect)
 end
 
 function rotatePoint(point, center, theta)
-    return vec2(point):rotate(theta, center)
+    return vec2(point):rotate(theta, center, RADIANS)
 end
 
 function rotateLine(line, center, theta)
-    local localStart = vec2(line.position):rotate(theta, center)
-    local localEnd = vec2(line.position + line.size):rotate(theta, center)
+    local localStart = vec2(line.position):rotate(theta, center, RADIANS)
+    local localEnd = vec2(line.position + line.size):rotate(theta, center, RADIANS)
 
     local localSize = localEnd - localStart
     local localLine = Rect(localStart.x, localStart.y, localSize.x, localSize.y)

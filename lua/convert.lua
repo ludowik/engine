@@ -1,8 +1,8 @@
-local floor = math.floor
-local string_format = string.format
+local __floor = math.floor
+local __format, __byte = string.format, string.byte
 
 function tointeger(number)
-    return floor(tonumber(number) or 0)
+    return __floor(tonumber(number) or 0)
 end
 
 function toboolean(v)
@@ -26,26 +26,26 @@ function format(value)
 end
 
 function formatNumber(number)
-    local s = string_format('%.6f', number)
+    local s = __format('%.6f', number)
     local len = s:len()
     for i=len,1,-1 do
-        if s:byte(i) ~= string.byte('0') then
+        if s:byte(i) ~= __byte('0') then
             break
         end
         len = len-1
     end
-    if s:byte(len) == string.byte('.') then
+    if s:byte(len) == __byte('.') then
         len = len - 1
     end
     return s:left(len)
 end
 
 function formatInteger(number)
-    return string_format('%d', number)
+    return __format('%d', number)
 end
 
 function formatPercent(number)
-    return string_format('%.1f%%', number * 100)
+    return __format('%.1f%%', number * 100)
 end
 
 unitsMemory = {'o', 'ko', 'mo', 'go', 'to'}
@@ -58,7 +58,7 @@ function convertMemory(size, index)
         size = size / 1024
         index = index + 1
     end
-    return string_format('%.1f', size)..' '..unitsMemory[index]
+    return __format('%.1f', size)..' '..unitsMemory[index]
 end
 
 unitsNumber = {'', 'milliers', 'millions', 'milliards', 'billion', 'billiard'}
@@ -69,5 +69,5 @@ function convertNumber(number)
         number = number / 1000
         index = index + 1
     end
-    return string_format('%.2f', number)..' '..unitsNumber[index]
+    return __format('%.2f', number)..' '..unitsNumber[index]
 end

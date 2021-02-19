@@ -9144,3 +9144,411 @@ memory max       : 28.68 mo
 memory variation : 26.42 mo
 memory at end    : 2.43 mo
 >>>>>>> 777bd7b5bcd0f73c5a50cfd8aae5c687dc32dd81
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/default
+load applications/appManager
+switch applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+load applications/artwork/superformula
+load applications/artwork/tron
+switch applications/default
+load applications/demo/animation/animation
+load applications/demo/dashboard
+load applications/demo/graph
+load applications/demo/introspection/introspection
+load applications/demo/sounds/sounds
+load applications/demo/ui/ui
+new color : color{r=1, g=0, b=0, a=1}
+load applications/font/fonts
+load applications/font/icons font
+load applications/physics/fizix
+load applications/physics/physics2d
+load applications/physics/physics3d
+load applications/sketches2D/blendMode
+load applications/sketches2D/canevas
+load applications/sketches2D/chaos
+load applications/sketches2D/collatz
+load applications/sketches2D/compteur
+load applications/sketches2D/courbes
+load applications/sketches2D/dithering
+load applications/sketches2D/fluid
+load applications/sketches2D/forme
+load applications/sketches2D/fourier
+load applications/sketches2D/fractal tree
+load applications/sketches2D/galactic
+load applications/sketches2D/gol
+load applications/sketches2D/graphics2d
+load applications/sketches2D/horloge
+load applications/sketches2D/logo
+load applications/sketches2D/mandelbrot
+load applications/sketches2D/maze
+load applications/sketches2D/mode
+load applications/sketches2D/pi
+load applications/sketches2D/primitives
+load applications/sketches2D/reaction diffusion
+load applications/sketches2D/rose
+load applications/sketches2D/sandpiles
+memory at start  : 4.38 mo
+memory min       : 4.38 mo
+memory max       : 136.80 mo
+memory variation : 132.42 mo
+memory at end    : 125.40 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/sandpiles
+shader.vao: 1
+shader.vao: 2
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/sandpiles
+shader.vao: 1
+shader.vao: 2
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/sandpiles
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/sandpiles
+load applications/appManager
+switch applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+load applications/artwork/superformula
+load applications/artwork/tron
+load applications/default
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/default
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+shader.vao: 5
+load applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/dots
+shader.vao: 6
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+shader.vao: 7
+load applications/artwork/superformula
+shader.vao: 8
+default : unknown uniform 'useLights'
+default : unknown uniform 'lights[0].outerCutOff'
+default : unknown uniform 'lights[0].innerCutOff'
+default : unknown uniform 'lights[0].constant'
+default : unknown uniform 'lights[0].quadratic'
+default : unknown uniform 'lights[0].linear'
+default : unknown uniform 'lights[1].outerCutOff'
+default : unknown uniform 'lights[1].innerCutOff'
+default : unknown uniform 'lights[1].constant'
+default : unknown uniform 'lights[1].quadratic'
+default : unknown uniform 'lights[1].linear'
+load applications/artwork/tron
+switch applications/default
+load applications/demo/animation/animation
+load applications/demo/dashboard
+load applications/demo/graph
+load applications/demo/introspection/introspection
+load applications/demo/sounds/sounds
+shader.vao: 9
+load applications/demo/ui/ui
+new color : color{r=1, g=0, b=0, a=1}
+load applications/font/fonts
+draw
+parameter
+keyboard
+W
+H
+WIDTH
+HEIGHT
+physics
+fizix
+setup
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/font/fonts
+load applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+switch applications/appManager
+switch applications/apps/morpion/morpion
+switch applications/artwork/dots
+switch applications/artwork/firework
+switch applications/artwork/lines
+switch applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+load applications/artwork/superformula
+load applications/artwork/tron
+load applications/default
+load applications/demo/animation/animation
+load applications/demo/dashboard
+load applications/demo/graph
+load applications/demo/introspection/introspection
+load applications/demo/sounds/sounds
+load applications/demo/ui/ui
+new color : color{r=1, g=0, b=0, a=1}
+switch applications/font/fonts
+load applications/font/icons font
+load applications/physics/fizix
+load applications/physics/physics2d
+load applications/physics/physics3d
+load applications/sketches2D/blendMode
+load applications/sketches2D/canevas
+load applications/sketches2D/chaos
+load applications/sketches2D/collatz
+load applications/sketches2D/compteur
+load applications/sketches2D/courbes
+load applications/sketches2D/dithering
+load applications/sketches2D/fluid
+load applications/sketches2D/forme
+load applications/sketches2D/fourier
+load applications/sketches2D/fractal tree
+load applications/sketches2D/galactic
+load applications/sketches2D/gol
+load applications/sketches2D/graphics2d
+load applications/sketches2D/horloge
+load applications/sketches2D/logo
+load applications/sketches2D/mandelbrot
+load applications/sketches2D/maze
+load applications/sketches2D/mode
+load applications/sketches2D/pi
+load applications/sketches2D/primitives
+load applications/sketches2D/reaction diffusion
+load applications/sketches2D/rose
+memory at start  : 4.38 mo
+memory min       : 4.38 mo
+memory max       : 135.96 mo
+memory variation : 131.58 mo
+memory at end    : 112.59 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/rose
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/rose
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/rose
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/rose
+shader.vao: 1
+shader.vao: 2
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/rose
+load applications/appManager
+switch applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+load applications/artwork/superformula
+load applications/artwork/tron
+load applications/default
+load applications/demo/animation/animation
+load applications/demo/dashboard
+load applications/demo/graph
+load applications/demo/introspection/introspection
+load applications/demo/sounds/sounds
+load applications/demo/ui/ui
+new color : color{r=1, g=0, b=0, a=1}
+load applications/font/fonts
+load applications/font/icons font
+load applications/physics/fizix
+load applications/physics/physics2d
+load applications/physics/physics3d
+load applications/sketches2D/blendMode
+load applications/sketches2D/canevas
+load applications/sketches2D/chaos
+memory at start  : 4.38 mo
+memory min       : 4.38 mo
+memory max       : 80.88 mo
+memory variation : 76.50 mo
+memory at end    : 61.18 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/chaos
+load applications/appManager
+memory at start  : 4.38 mo
+memory min       : 4.38 mo
+memory max       : 15.66 mo
+memory variation : 11.28 mo
+memory at end    : 4.65 mo
