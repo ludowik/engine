@@ -21,7 +21,7 @@ function Keys.setup()
         BUTTON_LEFT = sdl.SDL_BUTTON_LEFT
         BUTTON_MIDDLE = sdl.SDL_BUTTON_MIDDLE
         BUTTON_RIGHT = sdl.SDL_BUTTON_RIGHT
-        BUTTON_X1 = sdl.SDL_BUTTONv_X1
+        BUTTON_X1 = sdl.SDL_BUTTON_X1
         BUTTON_X2 = sdl.SDL_BUTTON_X2
     end
 end

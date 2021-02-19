@@ -6,6 +6,7 @@ end
 
 function Parameter:release()
     self.ui = MenuBar()
+    self.ui.alignment = 'right'
 end
 
 function Parameter.add(param)
