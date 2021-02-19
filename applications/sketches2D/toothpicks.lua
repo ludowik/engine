@@ -5,7 +5,7 @@ len = 67
 function Toothpick:init(x, y, angle, from)
     self.x = x
     self.y = y
-    
+
     local rx = round(cos(angle), 2)
     local ry = round(sin(angle), 2)
 
@@ -14,7 +14,7 @@ function Toothpick:init(x, y, angle, from)
     else
         self.len = sqrt(len^2/2)
     end
-    
+
     if from == 'a' then
         self.xa = x
         self.ya = y
@@ -42,6 +42,11 @@ function Toothpick:init(x, y, angle, from)
     self.new = true
 end
 
+function Toothpick:line(buf)
+    buf:add(vec3(self.xa, self.ya))
+    buf:add(vec3(self.xb, self.yb))
+end
+
 function Toothpick:draw()
     strokeWidth(2)
 
@@ -56,7 +61,7 @@ end
 
 function Toothpick:contact(x, y)
     local dist = distFromPoint2Segment(x, y, self.xa, self.ya, self.xb, self.yb)
-    if dist < 1 then
+    if dist <= 1 then
         return true
     end
 end
@@ -132,6 +137,28 @@ function draw()
     ratio = H / (maxY - minY)
     scale(ratio, ratio)
 
-    Toothpicks:draw()
+    buf_new = buf_new or Buffer('vec3')
+    buf_new:reset()
+
+    buf_old = buf_old or Buffer('vec3')
+    buf_old:reset()
+
+    Toothpicks:forEach(
+        function (t)
+            if t.new then
+                t:line(buf_new)
+            else
+                t:line(buf_old)
+            end
+        end
+    )
+
+    strokeWidth(2)
+    
+    stroke(black)
+    lines(buf_old)
+    
+    stroke(blue)
+    lines(buf_new)
 end
 

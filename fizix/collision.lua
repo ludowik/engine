@@ -184,6 +184,26 @@ function lineIntersectCircle(line, circle)
     return false
 end
 
+function AABBintersectAABB(r1, r2)
+    if r1:xmin() > r2:xmax() then return false end
+    if r1:xmax() < r2:xmin() then return false end
+    if r1:ymin() > r2:ymax() then return false end
+    if r1:ymax() < r2:ymin() then return false end
+
+    return true
+end
+
+function cubeIntersectCube(r1, r2)
+    if r1:xmin() > r2:xmax() then return false end
+    if r1:xmax() < r2:xmin() then return false end
+    if r1:ymin() > r2:ymax() then return false end
+    if r1:ymax() < r2:ymin() then return false end
+    if r1:zmin() > r2:zmax() then return false end
+    if r1:zmax() < r2:zmin() then return false end
+
+    return true
+end
+
 function lineIntersectAABB(line, rect)
     if pointInAABB(line.position, rect) or pointInAABB(line.position+line.size, rect) then
         return true

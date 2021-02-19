@@ -31,7 +31,9 @@ require 'lua.attribs'
 require 'lua.enum'
 require 'lua.args'
 
+require 'lua.quadtree'
 require 'lua.octree'
+
 require 'lua.http'
 require 'lua.video'
 require 'lua.url'

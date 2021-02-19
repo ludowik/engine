@@ -13,6 +13,9 @@ function Styles.setup()
     SQUARE = 0
     ROUND = 1
     PROJECT = 2
+    
+    DEGREES = 'degrees'
+    RADIANS = 'radians'
 end
 
 function Styles:init()
@@ -34,6 +37,8 @@ function Styles:init()
         spriteMode = CENTER,
 
         lineCapMode = ROUND,
+        
+        angleMode = DEGREES,
 
         light = false
     }
@@ -257,4 +262,8 @@ end
 
 function displayMode(mode)
     assert(mode)
+end
+
+function angleMode(mode)
+    return styles:setAttribute('angleMode', mode)
 end

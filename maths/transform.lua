@@ -69,7 +69,23 @@ function scale(sx, sy, sz)
 end
 
 function rotate(angle, x, y, z)
-    __modelMatrix = __modelMatrix:rotate(angle, x, y, z)
+    if angleMode() == DEGREES then
+        __modelMatrix = __modelMatrix:rotate(angle, x, y, z)
+    else
+        __modelMatrix = __modelMatrix:rotate(deg(angle), x, y, z)
+    end
+end
+
+function rotateX(angle)
+    return rotate(angle, 1, 0, 0)
+end
+
+function rotateY(angle)
+    return rotate(angle, 0, 1, 0)
+end
+
+function rotateZ(angle)
+    return rotate(angle, 0, 0, 1)
 end
 
 function ortho(left, right, bottom, top, near, far)
@@ -133,7 +149,7 @@ function isometric(n)
     end
 end
 
-function ortho3d(w, h, ratio)
+function ortho3D(w, h, ratio)
     w = w or screen.W
     h = h or screen.H
 

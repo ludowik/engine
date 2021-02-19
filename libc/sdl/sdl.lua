@@ -246,5 +246,5 @@ function Sdl:getTicks()
 end
 
 function Sdl:loadImage(path)
-    return image.IMG_Load(path)
+    return sdl.image.IMG_Load(path)
 end

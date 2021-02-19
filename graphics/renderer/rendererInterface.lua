@@ -4,10 +4,6 @@ function RendererInterface.setup()
 end
 
 function RendererInterface.load()
-    self.flag = 0
-
-    self.GL_TRIANGLES = 'triangles'
-    self.GL_TRIANGLE_STRIP = 'triangleStrip'
 end
 
 function RendererInterface:init()

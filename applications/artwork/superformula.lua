@@ -28,7 +28,7 @@ function setup()
             if not _3d then
                 draw = draw2d
             else
-                ortho3d()
+                ortho3D()
                 draw = draw3d
             end
         end)

@@ -378,12 +378,29 @@ end
 function Model.line(x, y, w, h)
     x = x or 0
     y = y or 0
+    
     w = w or 1
     h = h or 1
 
     local vertices = Buffer('vec3',
         vec3(x, y, 0),
         vec3(x+w, y+h, 0))
+
+    return Model.mesh(vertices)
+end
+
+function Model.line3D(x, y, z, w, h, d)
+    x = x or 0
+    y = y or 0
+    z = z or 0
+    
+    w = w or 1
+    h = h or 1
+    d = d or 1
+
+    local vertices = Buffer('vec3',
+        vec3(x, y, z),
+        vec3(x+w, y+h, z+d))
 
     return Model.mesh(vertices)
 end

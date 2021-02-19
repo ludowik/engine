@@ -34,7 +34,7 @@ function appPrimitives:draw()
     background(51)
 
     if config.projectionMode == 'perspective' then
-        ortho3d(self.w, self.h)
+        ortho3D(self.w, self.h)
     else
         translate(self.x, self.y)
         app.scene.camera = nil
