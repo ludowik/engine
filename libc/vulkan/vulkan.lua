@@ -4,7 +4,7 @@ function Library.makeHeader(srcName, moduleName)
     if osx then
         libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..moduleName)
     else
-        libDir = libDir or ('/Windows/System32')
+        libDir = libDir or ('/Users/ludov/Documents/Projets/Libraries/bin')
     end
     
     stub = 'libc/'..moduleName..'/'..srcName

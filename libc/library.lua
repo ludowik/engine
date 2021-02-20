@@ -131,7 +131,7 @@ function Library.load(libName, libNamewindows, libDir)
     if osx then
         libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..libName)
     else
-        libDir = libDir or ('/Windows/System32')
+        libDir = libDir or ('/Users/ludov/Documents/Projets/Libraries/bin/32')
     end
 
     local libPath
