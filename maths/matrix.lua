@@ -1,3 +1,5 @@
+local __cos, __sin, __degrees, __radians = math.cos, math.sin, math.deg, math.rad
+
 ffi = require 'ffi'
 
 ffi.cdef [[
@@ -107,15 +109,19 @@ function mt.translate(...)
     return mt.translate(...)
 end
 
-function mt.rotate(...)
+function mt.rotate(...)    
     local m2x = matrix()
     local m2y = matrix()
     local m2z = matrix()
 
     local c, s
-    function mt.rotate(m1, angle, x, y, z, res)
-        c = math.cos(math.rad(angle))
-        s = math.sin(math.rad(angle))
+    function mt.rotate(m1, angle, x, y, z, res, mode)
+        mode = mode or angleMode()
+        if mode == DEGREES then
+            c, s = __cos(__radians(angle)), __sin(__radians(angle))
+        else
+            c, s = __cos(angle), __sin(angle)
+        end
 
         if x == 1 then
             m2x.i5 = c

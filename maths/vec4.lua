@@ -1,3 +1,5 @@
+local __sqrt, __floor = math.sqrt, math.floor
+
 ffi = require 'ffi'
 
 ffi.cdef [[
@@ -86,14 +88,14 @@ end
 
 function mt:floor()
     return vec4(
-        floor(self.x),
-        floor(self.y),
-        floor(self.z),
+        __floor(self.x),
+        __floor(self.y),
+        __floor(self.z),
         1)
 end
 
 function mt:len()
-    return math.sqrt(
+    return __sqrt(
         self.x^2 +
         self.y^2 +
         self.z^2)
@@ -107,14 +109,14 @@ function mt:lenSquared()
 end
 
 function mt:len()
-    return math.sqrt(
+    return __sqrt(
         self.x^2 +
         self.y^2 +
         self.z^2)
 end
 
 function mt:dist(v)
-    return math.sqrt(
+    return __sqrt(
         (v.x - self.x)^2 +
         (v.y - self.y)^2 +
         (v.z - self.z)^2)

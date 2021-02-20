@@ -21,7 +21,12 @@ void main() {
     vec3 vertexPosition = vertex * inst_size + inst_pos;
     
     vec3 direction = normalize(inst_size);    
-    vec3 perpendicular = vec3(-direction.y, direction.x, direction.z);
+    vec3 perpendicular;
+    
+    if (direction.x == 0 && direction.y == 0)
+        perpendicular = vec3(-direction.y, direction.z, direction.x);
+    else
+        perpendicular = vec3(-direction.y, direction.x, direction.z);
     
     vec3 normal = perpendicular * (strokeWidth + 1.) / 2.;
     vec3 projection = direction * (strokeWidth + 1.) / 2.;

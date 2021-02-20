@@ -1,4 +1,6 @@
-noise = function (x, y)
+local __PI, __pow, __random = math.pi, math.pow, math.random
+
+function noise(x, y)
     if x and y and z then
         return noise3(x, y, z)
     elseif x and y then
@@ -13,7 +15,7 @@ function lerp(a, b, t)
 end
 
 function remap_cos(t)
-    return (1 - cos(t * math.pi)) * 0.5
+    return (1 - cos(t * __PI)) * 0.5
 end
 
 function remap_smoothstep(t)
@@ -21,12 +23,12 @@ function remap_smoothstep(t)
 end
 
 function remap_perlin(t)
-    return 6 * pow(t, 5) - 15 * math.pow(t, 4) + 10 * math.pow(t, 3)
+    return 6 * __pow(t, 5) - 15 * __pow(t, 4) + 10 * __pow(t, 3)
 end
 
 function frand(x)
     seed(x)
-    return math.random()
+    return __random()
 end
 
 function noise1(x)
@@ -103,7 +105,7 @@ function pink(x)
 
     for i=0,numLayers-1 do
         -- change in frequency and amplitude
-        pinkNoise = pinkNoise + noise1(x * pow(rateOfChange, i)) / pow(rateOfChange, i)
+        pinkNoise = pinkNoise + noise1(x * __pow(rateOfChange, i)) / __pow(rateOfChange, i)
     end
 
     return pinkNoise

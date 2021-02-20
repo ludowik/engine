@@ -87,7 +87,7 @@ end
 function Application:__update(dt)
     self:updateCoroutine(dt)
     self:updateCamera(dt)
-    
+
     self.scene:update(dt)
     self.ui:update(dt)
 
@@ -116,7 +116,10 @@ end
 
 function Application:__keyboard(...)
     if _G.env.keyboard then
-        return _G.env.keyboard(...)
+        local res = _G.env.keyboard(...)
+        if not res then
+            return self:keyboard(...)
+        end
     else
         return self:keyboard(...)
     end
@@ -172,15 +175,15 @@ end
 function Application:keyboard(key, isrepeat)
     if key == 'down' then
         self.ui:nextFocus()
-        
+
     elseif key == 'up' then
         self.ui:previousFocus()
-        
+
     elseif key == 'return' then
         if self.ui.focus then
             self.ui.focus:action()
         end
-        
+
     else
         return self.ui:keyboard(key, isrepeat)
     end

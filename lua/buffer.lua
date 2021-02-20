@@ -1,3 +1,5 @@
+local __max = math.max
+
 ffi = require 'ffi'
 
 ffi.cdef [[
@@ -90,7 +92,6 @@ function __buffer.resize(buffer, n)
     return buffer
 end
 
-local max = math.max
 function __buffer.__newindex(buffer, key, value)
     if type(key) == 'number' then
         if buffer.available < key then
@@ -99,7 +100,7 @@ function __buffer.__newindex(buffer, key, value)
 
         buffer.data[key-1] = value
 
-        buffer.n = max(buffer.n, key)
+        buffer.n = __max(buffer.n, key)
         buffer.version = buffer.version +1
 
     else

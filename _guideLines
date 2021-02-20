@@ -21,10 +21,10 @@ Naming convention -> variable
     - clr : a color
 
 Angle
-    - vector.rotate : The angle is assumed to be radians
-    - math : The angle is assumed to be radians
-    - matrix.rotate : The angle is assumed to be degrees
-    - rotate : The angle is assumed to be degrees
+    - math : The angle is assumed to be in radians
+    - vector.rotate : The angle is assumed to be in degrees
+    - matrix.rotate : The angle is assumed to be in degrees
+    - rotate : The angle is assumed to be in degrees
     
 Axis orientation
     - right handed

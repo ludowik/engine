@@ -1,7 +1,7 @@
 class 'Log'
 
 function Log.setup()
-    save(getDataPath()..'/.log', '', 'w')
+    save(getDataPath()..'/#.log', '', 'w')
 
     if debugging() then
         log = Log.log

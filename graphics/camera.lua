@@ -1,10 +1,6 @@
 class('Camera')
 
-local sin  = math.sin
-local cos  = math.cos
-
-local asin  = math.asin
-local acos  = math.acos
+local cos, sin, acos, asin = math.cos, math.sin, math.acos, math.asin
 
 function Camera.setup()
     CAMERA_FPS = 'fps'
@@ -32,6 +28,8 @@ function Camera:init(...)
     self:updateVectors()
 
     self:set(...)
+
+    self.mode = CAMERA_MODEL
 end
 
 function Camera:set(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
@@ -105,7 +103,11 @@ function Camera:right()
 end
 
 function Camera:getMode()
-    return not isDown(KEY_FOR_MOUSE_MOVING) and CAMERA_FPS or CAMERA_MODEL
+    if self.mode == CAMERA_MODEL then
+        return not isDown(KEY_FOR_MOUSE_MOVING) and CAMERA_MODEL or CAMERA_FPS
+    else
+        return not isDown(KEY_FOR_MOUSE_MOVING) and CAMERA_FPS or CAMERA_MODEL
+    end
 end
 
 function Camera:update(dt)

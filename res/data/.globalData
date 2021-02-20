@@ -1,3 +1,7 @@
 return {
-    ["appPath"] = "applications/sketches2D/surface",
+<<<<<<< HEAD
+    ["appPath"] = "applications/artwork/phyllotaxis",
+=======
+    ["appPath"] = "applications/sketches2D/sparrows",
+>>>>>>> 777bd7b5bcd0f73c5a50cfd8aae5c687dc32dd81
 }

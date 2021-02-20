@@ -323,9 +323,9 @@ function Model.scaleAndTranslateAndRotate(vertices, x, y, z, w, h, e, ax, ay, az
 
     m1 = m:translate(x, y, z)
 
-    m2 = m:rotate(ax, 1,0,0)
-    m3 = m:rotate(ay, 0,1,0)
-    m4 = m:rotate(az, 0,0,1)
+    m2 = m:rotate(ax, 1,0,0, nil, DEGREES)
+    m3 = m:rotate(ay, 0,1,0, nil, DEGREES)
+    m4 = m:rotate(az, 0,0,1, nil, DEGREES)
 
     m5 = m:scale(w, h, e)
 
@@ -378,12 +378,29 @@ end
 function Model.line(x, y, w, h)
     x = x or 0
     y = y or 0
+    
     w = w or 1
     h = h or 1
 
     local vertices = Buffer('vec3',
         vec3(x, y, 0),
         vec3(x+w, y+h, 0))
+
+    return Model.mesh(vertices)
+end
+
+function Model.line3D(x, y, z, w, h, d)
+    x = x or 0
+    y = y or 0
+    z = z or 0
+    
+    w = w or 1
+    h = h or 1
+    d = d or 1
+
+    local vertices = Buffer('vec3',
+        vec3(x, y, z),
+        vec3(x+w, y+h, z+d))
 
     return Model.mesh(vertices)
 end

@@ -1,3 +1,5 @@
+local __min, __max = math.min, math.max
+
 Table = {}
 setmetatable(Table, table)
 
@@ -425,11 +427,11 @@ function table:min(var)
 
     if var then
         for i=1,#self do
-            v = min(v, self[i][var])
+            v = __min(v, self[i][var])
         end
     else
         for i=1,#self do
-            v = min(v, self[i])
+            v = __min(v, self[i])
         end
     end
 
@@ -441,11 +443,11 @@ function table:max(var)
 
     if var then
         for i=1,#self do
-            v = max(v, self[i][var])
+            v = __max(v, self[i][var])
         end
     else
         for i=1,#self do
-            v = max(v, self[i])
+            v = __max(v, self[i])
         end
     end
 

@@ -1,3 +1,5 @@
+local __sign = math.sign
+
 class('ListBox', UI)
 
 function ListBox:init(list, ...)
@@ -62,7 +64,7 @@ function ListBox:touched(touch)
 end
 
 function ListBox:wheelmoved(mouse)
-    local y = math.sign(mouse.deltaY) * 10
+    local y = __sign(mouse.deltaY) * 10
 
     if self.needScrollBar then
         self.dy = self.dy - y

@@ -35,19 +35,6 @@ elseif renderer == 'VULKAN' then
 
     renderer = vulkan
 
-elseif renderer == 'SDL' then
-    require 'graphics.renderer.softwaregl.softwaregl'
-    require 'graphics.renderer.shader'    
-
-    require 'graphics.mesh'
-    
-    require 'graphics.image'
-
-    gl = OpenGL()
-    sgl = SoftwareGL()
-
-    renderer = sgl
-    
 elseif renderer == 'LOVE2D' then
     require 'graphics.renderer.love2d.love2d'
     require 'graphics.renderer.shader'    

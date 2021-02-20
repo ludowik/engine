@@ -184,6 +184,26 @@ function lineIntersectCircle(line, circle)
     return false
 end
 
+function AABBintersectAABB(r1, r2)
+    if r1:xmin() > r2:xmax() then return false end
+    if r1:xmax() < r2:xmin() then return false end
+    if r1:ymin() > r2:ymax() then return false end
+    if r1:ymax() < r2:ymin() then return false end
+
+    return true
+end
+
+function cubeIntersectCube(r1, r2)
+    if r1:xmin() > r2:xmax() then return false end
+    if r1:xmax() < r2:xmin() then return false end
+    if r1:ymin() > r2:ymax() then return false end
+    if r1:ymax() < r2:ymin() then return false end
+    if r1:zmin() > r2:zmax() then return false end
+    if r1:zmax() < r2:zmin() then return false end
+
+    return true
+end
+
 function lineIntersectAABB(line, rect)
     if pointInAABB(line.position, rect) or pointInAABB(line.position+line.size, rect) then
         return true
@@ -209,12 +229,12 @@ function lineIntersectAABB(line, rect)
 end
 
 function rotatePoint(point, center, theta)
-    return vec2(point):rotate(theta, center)
+    return vec2(point):rotate(theta, center, RADIANS)
 end
 
 function rotateLine(line, center, theta)
-    local localStart = vec2(line.position):rotate(theta, center)
-    local localEnd = vec2(line.position + line.size):rotate(theta, center)
+    local localStart = vec2(line.position):rotate(theta, center, RADIANS)
+    local localEnd = vec2(line.position + line.size):rotate(theta, center, RADIANS)
 
     local localSize = localEnd - localStart
     local localLine = Rect(localStart.x, localStart.y, localSize.x, localSize.y)

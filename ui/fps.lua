@@ -1,3 +1,5 @@
+local __round, __map = math.round, math.map
+
 class('Fps', UI)
 
 function Fps:init()
@@ -37,7 +39,7 @@ function Fps:update(dt)
 end
 
 function Fps:fps()
-    return math.round(1 / (self.deltaTime / self.count))
+    return __round(1 / (self.deltaTime / self.count))
 end
 
 function Fps:computeSize()
@@ -70,7 +72,7 @@ function Fps:drawStats(x, y)
         else
             stroke(self.goodFps)
         end
-        line(x+i, y, x+i, y+math.map(fps, 0, config.framerate, 0, self.size.y))
+        line(x+i, y, x+i, y+__map(fps, 0, config.framerate, 0, self.size.y))
     end
 end
 
