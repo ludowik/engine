@@ -128,21 +128,7 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
 end
 
 function Library.load(libName, libNamewindows, libDir)
-    if osx then
-        libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..libName)
-    else
-        libDir = libDir or ('/Users/ludov/Documents/Projets/Libraries/bin/32')
-    end
-
-    local libPath
-    if osx then
-        libName = libName..'.framework/'..libName
-        libPath = libDir..'/'..libName
-    else
-        libName = libNamewindows or libName
-        libPath = libDir..'/'..libName
-    end
-
+    local libPath = getLibPath(libName, libNamewindows, libDir)
     return ffi.load(libPath)
 end
 

@@ -1,11 +1,7 @@
 -- TODO : autogenerate header for library
-
+    
 function Library.makeHeader(srcName, moduleName)
-    if osx then
-        libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..moduleName)
-    else
-        libDir = libDir or ('/Users/ludov/Documents/Projets/Libraries/bin')
-    end
+    libDir = getLibPath()
     
     stub = 'libc/'..moduleName..'/'..srcName
     

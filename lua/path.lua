@@ -2,12 +2,6 @@ class('Path')
 
 function Path.setup()
     Path.sourcePath = lfs.currentdir()
-
-    if windows then
-        Path.libraryPath = 'C:/Users/lmilhau/Documents/#Persos/Mes Projets Persos/Libraries'
-    else
-        Path.libraryPath = '/Users/ludo/Projets/Libraries'
-    end
 end
 
 function getFullPath(path, directory)
@@ -33,6 +27,35 @@ end
 
 function getSourcePath()
     return Path.sourcePath
+end
+
+function getLibPath(libName, libNamewindows, libDir)
+    if windows then
+        local userProfile = os.getenv('userprofile')
+        
+        Path.libraryPath = userProfile..'/Documents/#Persos/Mes Projets Persos/Libraries'        
+        Path.libraryPath = userProfile..'/Documents/Projets/Libraries/bin/32'
+    else
+        Path.libraryPath = '/Users/ludo/Projets/Libraries'
+    end
+    
+    local libPath
+    
+    libDir = libDir or Path.libraryPath
+    
+    if not libName then
+        return libDir
+    end
+    
+    if osx then
+        libName = libName..'.framework/'..libName
+        libPath = libDir..'/'..libName
+    else
+        libName = libNamewindows or libName
+        libPath = libDir..'/'..libName
+    end
+    
+    return libPath
 end
 
 function getDataPath()
