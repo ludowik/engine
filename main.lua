@@ -1,5 +1,7 @@
 --os.name = 'ios'
 
+love = nil
+
 require 'engine.#'
 
 if ios then

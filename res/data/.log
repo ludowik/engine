@@ -9790,3 +9790,55 @@ memory min       : 2.32 mo
 memory max       : 712.22 mo
 memory variation : 709.90 mo
 memory at end    : 342.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/appManager
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+memory at start  : 2.51 mo
+memory min       : 2.51 mo
+memory max       : 19.37 mo
+memory variation : 16.86 mo
+memory at end    : 1.69 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+load applications/artwork/superformula
+load applications/artwork/tron
+load applications/default
+load applications/demo/animation/animation
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 108.88 mo
+memory variation : 106.56 mo
+memory at end    : 54.65 mo
