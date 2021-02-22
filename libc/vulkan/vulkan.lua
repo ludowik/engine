@@ -1,20 +1,16 @@
 -- TODO : autogenerate header for library
-
+    
 function Library.makeHeader(srcName, moduleName)
-    if osx then
-        libDir = libDir or ('/Users/Ludo/Projets/Libraries/'..moduleName)
-    else
-        libDir = libDir or ('/Windows/System32')
-    end
+    libDir = getLibPath()
     
     stub = 'libc/'..moduleName..'/'..srcName
     
     local headerFile = 'libc/'..moduleName..'/'..moduleName..'.header'
     local macroFile = 'libc/'..moduleName..'/'..moduleName..'.macro'
     
-    local compiler = [[
-            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
-            clang.exe]]
+    local compiler =
+        'set PATH='..llvmLib..';%%PATH%%;'..NL..
+        'clang.exe'
 
     command =  compiler.." -F"..libDir.." -E     '"..stub.."' | grep -v '^#' > '"..headerFile.."';"
     

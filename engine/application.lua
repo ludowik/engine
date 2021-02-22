@@ -19,6 +19,11 @@ end
 
 function Application:release()
     self.scene:clear()
+    self.ui:clear()
+    
+    if _G.env.release then
+        _G.env.release()
+    end
 end
 
 function Application:suspend()

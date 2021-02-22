@@ -22,6 +22,10 @@ function setup()
     libSurface.init(W, H)
 end
 
+function release()
+    libSurface = nil
+end
+
 code = [[
     #include <float.h>
     #include <math.h>
@@ -163,6 +167,7 @@ function draw()
 
         image:makeTexture()
 
+        spriteMode(CORNER)
         sprite(image, 0, 0)
     end
 

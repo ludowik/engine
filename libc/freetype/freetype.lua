@@ -3,7 +3,7 @@ ft = require 'libc.freetype.ft'
 class 'FreeType' : extends(Component) : meta(ft)
 
 function FreeType.setup()
-    local path = Path.libraryPath..'/FreeType'
+    local path = getLibPath('FreeType')
 
     if ft == nil then
         if osx then

@@ -4,7 +4,7 @@ function Libbox2d.setup()
     local code, defs = Library.precompile(io.read('libc/box2d/box2d.h'))
     ffi.cdef(code)
 
-    local path = Path.libraryPath..'/box2d-master'
+    local path = getLibPath('box2d-master')
 
     box2d = class 'box2d' : meta(Library.compileFileCPP('libc/box2d/box2d.cpp',
             'box2d',
