@@ -34,7 +34,7 @@ function getLibPath(libName, libNamewindows, libDir)
         local userProfile = os.getenv('userprofile')
         
         Path.libraryPath = userProfile..'/Documents/#Persos/Mes Projets Persos/Libraries'        
-        Path.libraryPath = userProfile..'/Documents/Projets/Libraries/bin/32'
+        Path.libraryPath = '/windows/system32'
     else
         Path.libraryPath = '/Users/ludo/Projets/Libraries'
     end

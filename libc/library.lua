@@ -1,3 +1,11 @@
+--llvmBin = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\Llvm\\bin'
+llvmBin = 'C:\\Program Files (x86)\\LLVM\\bin'
+
+compilerPath = 'set PATH='..llvmBin..';'
+
+compilerC = compilerPath..NL..'clang.exe'
+compilerCPP = compilerPath..NL..'clang++.exe'
+
 class 'Library'
 
 function Library.precompile(str)
@@ -57,9 +65,7 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
         print('compile '..moduleName)
 
         if windows then
-            params.compiler = [[
-                set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
-                clang.exe]]
+            params.compiler = compilerC
 
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
             io.write('libc/bin/make.bat', command)
@@ -72,7 +78,7 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
             params.res = os.execute(command)
         end
 
-        assert(params.res == 0)
+        assert(params.res == 0 or params.res == true)
 
     end
 
@@ -101,9 +107,7 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
         print('compile '..moduleName)
 
         if windows then
-            params.compiler = [[
-            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
-            clang++.exe]]
+            params.compiler = compilerCPP
 
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
             io.write('libc/bin/make.bat', command)
@@ -116,7 +120,7 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
             params.res = os.execute(command)
         end
 
-        assert(params.res == 0)
+        assert(params.res == 0 or params.res == true)
 
     end
 

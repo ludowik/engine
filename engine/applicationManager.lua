@@ -23,6 +23,11 @@ function ApplicationManager:loadApp(appPath, reloadApp)
     sdl:setWindowTitle('Engine : '..appPath)
 
     if self.envs[appPath] == nil or reloadApp then
+        if self.envs[appPath] then
+            self.envs[appPath].app:release()
+            gc()
+        end
+        
         print('load '..appPath)
 
         local env = {}

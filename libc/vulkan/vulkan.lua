@@ -8,9 +8,9 @@ function Library.makeHeader(srcName, moduleName)
     local headerFile = 'libc/'..moduleName..'/'..moduleName..'.header'
     local macroFile = 'libc/'..moduleName..'/'..moduleName..'.macro'
     
-    local compiler = [[
-            set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;%%PATH%%;
-            clang.exe]]
+    local compiler =
+        'set PATH='..llvmLib..';%%PATH%%;'..NL..
+        'clang.exe'
 
     command =  compiler.." -F"..libDir.." -E     '"..stub.."' | grep -v '^#' > '"..headerFile.."';"
     

@@ -109,7 +109,10 @@ end
 function Engine:release()
     saveConfig()
 
-    self.envs = {}
+    for i,env in ipairs(applicationManager.envs) do
+        env.app:release()
+    end
+    applicationManager.envs = {}
 
     self.components:release()
 

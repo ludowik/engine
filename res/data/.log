@@ -9942,3 +9942,603 @@ initialize graphics
 initialize frametime
 load applications/sketches2D/surface
 compile surface
+initialize memory
+initialize sdl
+Generic Non-PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.39 mo
+memory min       : 4.39 mo
+memory max       : 11.90 mo
+memory variation : 7.51 mo
+memory at end    : 4.00 mo
+initialize memory
+initialize sdl
+Generic Non-PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+shader.vao: 5
+memory at start  : 5.18 mo
+memory min       : 5.18 mo
+memory max       : 11.47 mo
+memory variation : 6.29 mo
+memory at end    : 3.61 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.39 mo
+memory min       : 4.39 mo
+memory max       : 11.28 mo
+memory variation : 6.90 mo
+memory at end    : 3.95 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.39 mo
+memory min       : 4.39 mo
+memory max       : 12.16 mo
+memory variation : 7.77 mo
+memory at end    : 4.01 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.39 mo
+memory min       : 4.39 mo
+memory max       : 10.89 mo
+memory variation : 6.50 mo
+memory at end    : 4.00 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.39 mo
+memory min       : 4.39 mo
+memory max       : 10.31 mo
+memory variation : 5.92 mo
+memory at end    : 3.87 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 20.08 mo
+memory variation : 15.73 mo
+memory at end    : 3.73 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 13.34 mo
+memory variation : 9.00 mo
+memory at end    : 3.69 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 11.23 mo
+memory variation : 6.89 mo
+memory at end    : 3.69 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 12.62 mo
+memory variation : 8.28 mo
+memory at end    : 3.71 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 11.86 mo
+memory variation : 7.52 mo
+memory at end    : 3.69 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 17.01 mo
+memory variation : 12.67 mo
+memory at end    : 3.74 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 11.48 mo
+memory variation : 7.14 mo
+memory at end    : 3.72 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 12.37 mo
+memory variation : 8.02 mo
+memory at end    : 3.73 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+shader.vao: 5
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+shader.vao: 5
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+shader.vao: 5
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+shader.vao: 5
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+load applications/sketches2D/surface
+compile surface
+load applications/sketches2D/surface
+compile surface
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 11.55 mo
+memory variation : 7.21 mo
+memory at end    : 3.70 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+load applications/sketches2D/surface
+compile surface
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 17.08 mo
+memory variation : 12.73 mo
+memory at end    : 3.76 mo

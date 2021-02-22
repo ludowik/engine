@@ -1,4 +1,5 @@
 
-C:\Users\ludov\Documents\Projets\Lua\Engine>set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools\Llvm\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\ludov\AppData\Local\Microsoft\WindowsApps;; 
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine>set PATH=C:\Program Files (x86)\LLVM\bin; 
 
-C:\Users\ludov\Documents\Projets\Lua\Engine>clang.exe -Wall -shared  -o libc/bin/surface.dll libc/bin/surface.c  
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine>clang.exe -Wall -shared  -o libc/bin/surface.dll libc/bin/surface.c  
+   Cr‚ation de la bibliothŠque libc/bin/surface.lib et de l'objet libc/bin/surface.exp
