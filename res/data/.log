@@ -10542,3 +10542,20 @@ memory min       : 4.34 mo
 memory max       : 17.08 mo
 memory variation : 12.73 mo
 memory at end    : 3.76 mo
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/surface
+compile surface
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 11.20 mo
+memory variation : 6.85 mo
+memory at end    : 3.72 mo
