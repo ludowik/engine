@@ -10603,3 +10603,19 @@ memory at end    : 3.72 mo
 =======
 >>>>>>> a27894b2aa1541a3de87f1a75c0d95b6f0896a15
 >>>>>>> 159fcf0ef7bef74b7360bc421b46aaec510b7f58
+initialize memory
+initialize sdl
+Generic PnP Monitor
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/appManager
+memory at start  : 4.34 mo
+memory min       : 4.34 mo
+memory max       : 7.78 mo
+memory variation : 3.43 mo
+memory at end    : 1.50 mo

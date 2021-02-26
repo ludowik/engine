@@ -1,3 +1,3 @@
-function draw()
+function setup()
+    
 end
-
