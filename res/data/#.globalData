@@ -1,3 +1,7 @@
 return {
+<<<<<<< HEAD
+    ["appPath"] = "applications/demo/animation/animation",
+=======
     ["appPath"] = "applications/sketches2D/surface",
+>>>>>>> a27894b2aa1541a3de87f1a75c0d95b6f0896a15
 }

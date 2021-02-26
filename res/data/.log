@@ -9792,13 +9792,42 @@ memory variation : 709.90 mo
 memory at end    : 342.20 mo
 initialize memory
 initialize sdl
+<<<<<<< HEAD
+Color LCD
+initialize opengl
+GLSL 4.10
+=======
 Generic PnP Monitor
 initialize opengl
 GLSL 4.10 NVIDIA via Cg compiler
+>>>>>>> a27894b2aa1541a3de87f1a75c0d95b6f0896a15
 initialize openal
 initialize freetype
 initialize shadermanager
 initialize graphics
+<<<<<<< HEAD
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/appManager
+shader.vao: 1
+shader.vao: 2
+shader.vao: 3
+shader.vao: 4
+memory at start  : 2.51 mo
+memory min       : 2.51 mo
+memory max       : 19.37 mo
+memory variation : 16.86 mo
+memory at end    : 1.69 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+=======
 initialize frametime
 load applications/appManager
 switch applications/appManager
@@ -9872,13 +9901,17 @@ initialize sdl
 Generic PnP Monitor
 initialize opengl
 GLSL 4.10 NVIDIA via Cg compiler
+>>>>>>> a27894b2aa1541a3de87f1a75c0d95b6f0896a15
 initialize openal
 initialize freetype
 initialize shadermanager
 initialize graphics
 initialize frametime
 load applications/appManager
+<<<<<<< HEAD
+=======
 switch applications/appManager
+>>>>>>> a27894b2aa1541a3de87f1a75c0d95b6f0896a15
 load applications/apps/morpion/morpion
 load applications/artwork/dots
 load applications/artwork/firework
@@ -9890,6 +9923,13 @@ load applications/artwork/superformula
 load applications/artwork/tron
 load applications/default
 load applications/demo/animation/animation
+<<<<<<< HEAD
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 108.88 mo
+memory variation : 106.56 mo
+memory at end    : 54.65 mo
+=======
 load applications/demo/dashboard
 load applications/demo/graph
 load applications/demo/introspection/introspection
@@ -10542,6 +10582,7 @@ memory min       : 4.34 mo
 memory max       : 17.08 mo
 memory variation : 12.73 mo
 memory at end    : 3.76 mo
+<<<<<<< HEAD
 initialize memory
 initialize sdl
 Generic PnP Monitor
@@ -10559,3 +10600,6 @@ memory min       : 4.34 mo
 memory max       : 11.20 mo
 memory variation : 6.85 mo
 memory at end    : 3.72 mo
+=======
+>>>>>>> a27894b2aa1541a3de87f1a75c0d95b6f0896a15
+>>>>>>> 159fcf0ef7bef74b7360bc421b46aaec510b7f58
