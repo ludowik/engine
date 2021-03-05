@@ -12196,3 +12196,457 @@ memory max       : 7.78 mo
 memory variation : 3.43 mo
 memory at end    : 1.50 mo
 >>>>>>> 6898a62866b2a3ab3743e1720f5b598410b510ed
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/appManager
+load applications/parser
+./applications/appManager/main.lua
+./applications/apps/2048/#.lua
+./applications/apps/2048/app.lua
+./applications/apps/2048/board.lua
+./applications/apps/2048/cell.lua
+./applications/apps/2048/gameOver.lua
+./applications/apps/2048/grid.lua
+./applications/apps/2048/main.lua
+./applications/apps/2048/theme.lua
+./applications/apps/asteroid/#.lua
+./applications/apps/asteroid/app.lua
+./applications/apps/asteroid/asteroid.lua
+./applications/apps/asteroid/bullet.lua
+./applications/apps/asteroid/ship.lua
+./applications/apps/bbtan/#.lua
+./applications/apps/bbtan/Main.lua
+./applications/apps/bbtan/ball.lua
+./applications/apps/bbtan/bonus.lua
+./applications/apps/bbtan/box.lua
+./applications/apps/bbtan/item.lua
+./applications/apps/byTheWay/#.lua
+./applications/apps/byTheWay/appByTheWay.lua
+./applications/apps/byTheWay/area.lua
+./applications/apps/byTheWay/areaDirection.lua
+./applications/apps/byTheWay/bot.lua
+./applications/apps/byTheWay/botGenerator.lua
+./applications/apps/byTheWay/level.lua
+./applications/apps/byTheWay/theme.lua
+./applications/apps/byTheWay/touch.lua
+./applications/apps/byTheWay/way.lua
+./applications/apps/calc/#.lua
+./applications/apps/calc/Main.lua
+./applications/apps/calc/appCalc.lua
+./applications/apps/calc/calc.lua
+./applications/apps/calc/unit.lua
+./applications/apps/freeCell/main.lua
+./applications/apps/icon/#.lua
+./applications/apps/icon/icon.lua
+./applications/apps/morpion/morpion.lua
+./applications/apps/sudoku/#.lua
+./applications/apps/sudoku/grid.lua
+./applications/apps/sudoku/main.lua
+./applications/apps/sudoku/number.lua
+./applications/apps/sudoku/uicell.lua
+./applications/apps/sudoku/uigrid.lua
+./applications/apps/tetris/main.lua
+./applications/apps/triomino/#.lua
+./applications/apps/triomino/cell.lua
+./applications/apps/triomino/gameOver.lua
+./applications/apps/triomino/gameScene.lua
+./applications/apps/triomino/grid.lua
+./applications/apps/triomino/main.lua
+./applications/apps/triomino/mino.lua
+./applications/artwork/dots.lua
+./applications/artwork/firework.lua
+./applications/artwork/lines.lua
+./applications/artwork/particles.lua
+./applications/artwork/phyllotaxis.lua
+./applications/artwork/snowflakes.lua
+./applications/artwork/superformula.lua
+./applications/artwork/tron.lua
+./applications/codea/3D Lab/#.lua
+./applications/codea/3D Lab/main.lua
+./applications/codea/3D Lab/test1.lua
+./applications/codea/3D Lab/test2.lua
+./applications/codea/Animation/#.lua
+./applications/codea/Animation/basics.lua
+./applications/codea/Animation/circle.lua
+./applications/codea/Animation/loops.lua
+./applications/codea/Animation/main.lua
+./applications/codea/Animation/path.lua
+./applications/codea/Animation/sequence.lua
+./applications/codea/Animation/test.lua
+./applications/codea/Backgammon/main.lua
+./applications/codea/Bezier/main.lua
+./applications/codea/Blend Modes/Main.lua
+./applications/codea/Brickout/#.lua
+./applications/codea/Brickout/ball.lua
+./applications/codea/Brickout/bat.lua
+./applications/codea/Brickout/block.lua
+./applications/codea/Brickout/emitter.lua
+./applications/codea/Brickout/levels.lua
+./applications/codea/Brickout/main.lua
+./applications/codea/Brickout/numbers.lua
+./applications/codea/Bubbles/main.lua
+./applications/codea/Cargo-Bot/#.lua
+./applications/codea/Cargo-Bot/ABCMusic.lua
+./applications/codea/Cargo-Bot/ABCMusicData.lua
+./applications/codea/Cargo-Bot/BaseSelect.lua
+./applications/codea/Cargo-Bot/BaseStage.lua
+./applications/codea/Cargo-Bot/Button.lua
+./applications/codea/Cargo-Bot/Claw.lua
+./applications/codea/Cargo-Bot/Command.lua
+./applications/codea/Cargo-Bot/Crate.lua
+./applications/codea/Cargo-Bot/CreditsScreen.lua
+./applications/codea/Cargo-Bot/Events.lua
+./applications/codea/Cargo-Bot/Goal.lua
+./applications/codea/Cargo-Bot/HowScreen.lua
+./applications/codea/Cargo-Bot/IO.lua
+./applications/codea/Cargo-Bot/Level.lua
+./applications/codea/Cargo-Bot/LevelSelect.lua
+./applications/codea/Cargo-Bot/Levels.lua
+./applications/codea/Cargo-Bot/Main.lua
+./applications/codea/Cargo-Bot/Music.lua
+./applications/codea/Cargo-Bot/Notes.lua
+./applications/codea/Cargo-Bot/PackSelect.lua
+./applications/codea/Cargo-Bot/Panel.lua
+./applications/codea/Cargo-Bot/Pile.lua
+./applications/codea/Cargo-Bot/Popover.lua
+./applications/codea/Cargo-Bot/PositionObj.lua
+./applications/codea/Cargo-Bot/Program.lua
+./applications/codea/Cargo-Bot/RectObj.lua
+./applications/codea/Cargo-Bot/Register.lua
+./applications/codea/Cargo-Bot/Screen.lua
+./applications/codea/Cargo-Bot/ScrollingTexture.lua
+./applications/codea/Cargo-Bot/ShadowObj.lua
+./applications/codea/Cargo-Bot/ShakeDetector.lua
+./applications/codea/Cargo-Bot/Smoke.lua
+./applications/codea/Cargo-Bot/Solutions.lua
+./applications/codea/Cargo-Bot/Sounds.lua
+./applications/codea/Cargo-Bot/SplashScreen.lua
+./applications/codea/Cargo-Bot/SpriteObj.lua
+./applications/codea/Cargo-Bot/Stack.lua
+./applications/codea/Cargo-Bot/Stage.lua
+./applications/codea/Cargo-Bot/StagePhysics.lua
+./applications/codea/Cargo-Bot/StageWall.lua
+./applications/codea/Cargo-Bot/StartScreen.lua
+./applications/codea/Cargo-Bot/Table.lua
+./applications/codea/Cargo-Bot/Toolbox.lua
+./applications/codea/Cargo-Bot/TransitionScreen.lua
+./applications/codea/Cargo-Bot/Tutorial.lua
+./applications/codea/Cargo-Bot/Tweener.lua
+./applications/codea/Cargo-Bot/WinScreen.lua
+./applications/codea/Dungeon Roller/#.lua
+./applications/codea/Dungeon Roller/hero.lua
+./applications/codea/Dungeon Roller/heroAttack.lua
+./applications/codea/Dungeon Roller/loot.lua
+./applications/codea/Dungeon Roller/main.lua
+./applications/codea/Dungeon Roller/monster.lua
+./applications/codea/Dungeon Roller/utils.lua
+./applications/codea/Dungeon Roller/world.lua
+./applications/codea/Dungeon Roller/worldBlock.lua
+./applications/codea/FixedAreaBubble/main.lua
+./applications/codea/Gravity/Main.lua
+./applications/codea/Hammer/main.lua
+./applications/codea/Lines/main.lua
+./applications/codea/Orbital/main.lua
+./applications/codea/Parameters/main.lua
+./applications/codea/Roller Coaster/#.lua
+./applications/codea/Roller Coaster/colour.lua
+./applications/codea/Roller Coaster/colourNames.lua
+./applications/codea/Roller Coaster/main.lua
+./applications/codea/Roller Coaster/vec3.lua
+./applications/codea/ScreenSaver/main.lua
+./applications/codea/Voxel/#.lua
+./applications/codea/Voxel/camera.lua
+./applications/codea/Voxel/main.lua
+./applications/codea/Voxel/model.lua
+./applications/codea/Voxel/ui.lua
+./applications/codea/Web/main.lua
+./applications/default.lua
+./applications/demo/animation/animation.lua
+./applications/demo/dashboard.lua
+./applications/demo/files/main.lua
+./applications/demo/graph.lua
+./applications/demo/icon/#.lua
+./applications/demo/icon/icon.lua
+./applications/demo/introspection/introspection.lua
+./applications/demo/particles/#.lua
+./applications/demo/particles/emitter.lua
+./applications/demo/particles/main.lua
+./applications/demo/particles/particle.lua
+./applications/demo/shadertoy/#.lua
+./applications/demo/shadertoy/app.lua
+./applications/demo/shadertoy/shadertoy.lua
+./applications/demo/sounds/sounds.lua
+./applications/demo/ui/ui.lua
+./applications/font/fonts.lua
+./applications/font/icons font.lua
+./applications/noise/map1/#.lua
+./applications/noise/map1/heightMap.lua
+./applications/noise/map1/main.lua
+./applications/noise/map2/main.lua
+./applications/noise/map3/main.lua
+./applications/noise/noise1/main.lua
+./applications/noise/noise2/main.lua
+./applications/parser/#.lua
+./applications/parser/lexer.lua
+./applications/parser/parser.lua
+./applications/physics/Basic Physics/main.lua
+./applications/physics/Physics Lab/#.lua
+./applications/physics/Physics Lab/main.lua
+./applications/physics/Physics Lab/physicsDebugDraw.lua
+./applications/physics/Physics Lab/test1.lua
+./applications/physics/Physics Lab/test2.lua
+./applications/physics/Physics Lab/test3.lua
+./applications/physics/Physics Lab/test4.lua
+./applications/physics/Physics Lab/test5.lua
+./applications/physics/Physics Lab/test6.lua
+./applications/physics/Physics Lab/test7.lua
+./applications/physics/Physics Lab/test8.lua
+./applications/physics/Physics Lab/test9.lua
+./applications/physics/Physics/main.lua
+./applications/physics/fizix.lua
+./applications/physics/fizix2/#.lua
+./applications/physics/fizix2/main.lua
+./applications/physics/physics2d.lua
+./applications/physics/physics3d.lua
+./applications/sketches2D/blendMode.lua
+./applications/sketches2D/canevas.lua
+./applications/sketches2D/chaos.lua
+./applications/sketches2D/collatz.lua
+./applications/sketches2D/compteur.lua
+./applications/sketches2D/courbes.lua
+./applications/sketches2D/dithering.lua
+./applications/sketches2D/fluid.lua
+./applications/sketches2D/forme.lua
+./applications/sketches2D/fourier.lua
+./applications/sketches2D/fractal tree.lua
+./applications/sketches2D/galactic.lua
+./applications/sketches2D/gol.lua
+./applications/sketches2D/graphics2d.lua
+./applications/sketches2D/horloge.lua
+./applications/sketches2D/logo.lua
+./applications/sketches2D/mandelbrot.lua
+./applications/sketches2D/maze.lua
+./applications/sketches2D/mode.lua
+./applications/sketches2D/pi.lua
+./applications/sketches2D/primitives.lua
+./applications/sketches2D/reaction diffusion.lua
+./applications/sketches2D/rose.lua
+./applications/sketches2D/sandpiles.lua
+./applications/sketches2D/sparrows.lua
+./applications/sketches2D/squaregrid.lua
+./applications/sketches2D/stars.lua
+./applications/sketches2D/surface.lua
+./applications/sketches2D/toothpicks.lua
+./applications/sketches2D/water.lua
+./applications/sketches2D/waves.lua
+./applications/sketches3D/cube minecraft.lua
+./applications/sketches3D/cube wave.lua
+./applications/sketches3D/graphics3d.lua
+./applications/sketches3D/plane.lua
+./applications/sketches3D/solar system.lua
+./applications/sketches3D/sponge.lua
+./applications/structure/octree.lua
+./applications/structure/quadtree.lua
+./engine/#.lua
+./engine/application.lua
+./engine/applicationManager.lua
+./engine/camera.lua
+./engine/component.lua
+./engine/componentManager.lua
+./engine/config.lua
+./engine/engine.lua
+./engine/events.lua
+./engine/font.lua
+./engine/frameTime.lua
+./engine/gesture.lua
+./engine/info.lua
+./engine/introspection.lua
+./engine/keyboard.lua
+./engine/memory.lua
+./engine/mouse.lua
+./engine/parameter.lua
+./engine/renderFrame.lua
+./engine/resourceManager.lua
+./engine/scene/node.lua
+./engine/scene/object.lua
+./engine/scene/scene.lua
+./engine/screen.lua
+./fizix/#.lua
+./fizix/body.lua
+./fizix/collision.lua
+./fizix/contact.lua
+./fizix/fizix.lua
+./fizix/joint.lua
+./fizix/object.lua
+./fizix/physics.lua
+./graphics/#.lua
+./graphics/camera.lua
+./graphics/color.lua
+./graphics/colorConvert.lua
+./graphics/colors.lua
+./graphics/context.lua
+./graphics/drawing.lua
+./graphics/geometry.lua
+./graphics/graphics.lua
+./graphics/image.lua
+./graphics/light.lua
+./graphics/material.lua
+./graphics/mesh.lua
+./graphics/model.lua
+./graphics/modelLoader.lua
+./graphics/render.lua
+./graphics/renderer/#.lua
+./graphics/renderer/audioInterface.lua
+./graphics/renderer/love2d/love2d.lua
+./graphics/renderer/mediaInterface.lua
+./graphics/renderer/opengl/image.lua
+./graphics/renderer/opengl/meshBufferObject.lua
+./graphics/renderer/opengl/meshRender.lua
+./graphics/renderer/opengl/meshVertexArray.lua
+./graphics/renderer/opengl/shader.lua
+./graphics/renderer/rendererInterface.lua
+./graphics/renderer/shader.lua
+./graphics/sgl.lua
+./graphics/shaderManager.lua
+./graphics/shape.lua
+./graphics/size.lua
+./graphics/style.lua
+./lib/json.lua
+./lib/sfxr.lua
+./lib/utf8.lua
+./libc/#.lua
+./libc/box2d/#.lua
+./libc/box2d/body.lua
+./libc/box2d/box2d.lua
+./libc/box2d/joint.lua
+./libc/freetype/freetype.lua
+./libc/freetype/ft.lua
+./libc/library.lua
+./libc/openal/openal.lua
+./libc/opengl/opengl.lua
+./libc/sdl/sdl.lua
+./libc/vulkan/vulkan.lua
+./lua/#.lua
+./lua/args.lua
+./lua/array.lua
+./lua/attribs.lua
+./lua/bit.lua
+./lua/buffer.lua
+./lua/callback.lua
+./lua/cells3d.lua
+./lua/class.lua
+./lua/convert.lua
+./lua/data.lua
+./lua/date.lua
+./lua/debug.lua
+./lua/decorator.lua
+./lua/dev/#.lua
+./lua/dev/override.lua
+./lua/dev/performance.lua
+./lua/dev/performanceCheck.lua
+./lua/dev/profiler.lua
+./lua/dev/reporting.lua
+./lua/enum.lua
+./lua/eval.lua
+./lua/fs.lua
+./lua/grid.lua
+./lua/heap.lua
+./lua/http.lua
+./lua/id.lua
+./lua/io.lua
+./lua/log.lua
+./lua/memory.lua
+./lua/octree.lua
+./lua/os.lua
+./lua/path.lua
+./lua/quadtree.lua
+./lua/range.lua
+./lua/require.lua
+./lua/string.lua
+./lua/table.lua
+./lua/timer.lua
+./lua/timer2.lua
+./lua/todo.lua
+./lua/tween.lua
+./lua/url.lua
+./lua/ut.lua
+./lua/video.lua
+./luajit/lualibs/mobdebug/mobdebug.lua
+./luajit/lualibs/socket/ftp.lua
+./luajit/lualibs/socket/headers.lua
+./luajit/lualibs/socket/http.lua
+./luajit/lualibs/socket/smtp.lua
+./luajit/lualibs/socket/tp.lua
+./luajit/lualibs/socket/url.lua
+./main.lua
+./maths/#.lua
+./maths/math.lua
+./maths/matrix.lua
+./maths/noise.lua
+./maths/noise2.lua
+./maths/random.lua
+./maths/rect.lua
+./maths/transform.lua
+./maths/vec2.lua
+./maths/vec3.lua
+./maths/vec4.lua
+./res/zbs/api/lua/engine.lua
+./res/zbs/cfg/preferences.lua
+./res/zbs/interpreters/luabase.lua
+./res/zbs/packages/filetreecollapse.lua
+./res/zbs/packages/tildemenu.lua
+./res/zbs/spec/glsl.lua
+./sound/#.lua
+./sound/sound.lua
+./ui/#.lua
+./ui/advanced.lua
+./ui/background.lua
+./ui/bind.lua
+./ui/button.lua
+./ui/buttonColor.lua
+./ui/buttonIconFont.lua
+./ui/buttonImage.lua
+./ui/checkbox.lua
+./ui/colorPicker.lua
+./ui/combobox.lua
+./ui/console.lua
+./ui/dashboard.lua
+./ui/editor.lua
+./ui/expression.lua
+./ui/fps.lua
+./ui/group.lua
+./ui/iconsFont.lua
+./ui/joystick.lua
+./ui/label.lua
+./ui/layout.lua
+./ui/line.lua
+./ui/listbox.lua
+./ui/message.lua
+./ui/scene.lua
+./ui/separator.lua
+./ui/slider.lua
+./ui/space.lua
+./ui/sprite.lua
+./ui/tabs.lua
+./ui/timer.lua
+./ui/toolbar.lua
+./ui/ui.lua
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/parser

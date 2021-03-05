@@ -163,6 +163,8 @@ function dir(path, checkType, recursivly, list, subPath)
             end
         end
     end
+    list:sort()
+
     return list
 end
 

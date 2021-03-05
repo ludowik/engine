@@ -1,7 +1,3 @@
 return {
-<<<<<<< HEAD
-    ["appPath"] = "applications/default",
-=======
-    ["appPath"] = "applications/appManager",
->>>>>>> 6898a62866b2a3ab3743e1720f5b598410b510ed
+    ["appPath"] = "applications/parser",
 }

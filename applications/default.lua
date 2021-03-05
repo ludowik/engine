@@ -1,5 +1,4 @@
 function setup()
-<<<<<<< HEAD
     local pixelSize = 8
 
     img = image(
@@ -72,7 +71,3 @@ function draw()
     spriteMode(CORNER)
     sprite(img)
 end
-=======
-    
-end
->>>>>>> 6898a62866b2a3ab3743e1720f5b598410b510ed

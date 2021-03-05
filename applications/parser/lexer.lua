@@ -15,11 +15,11 @@ function io.read(path)
 end
 
 function lexer(source)
-    source = source:gsub("\\\'", "''") -- TOFIX
-    source = source:gsub('\\\"', '""') -- TOFIX
-    
     source = source:gsub('\\\\', '') -- TOFIX
-    
+
+    source = source:gsub("\\\'", "") -- TOFIX
+    source = source:gsub('\\\"', '') -- TOFIX
+
     local tokens = {}
 
     -- magic characters :  ( ) . % + - * ? [ ^ $
@@ -34,6 +34,7 @@ function lexer(source)
         {'string'     , '%[%[.-%]%]'},
         {'concatenate', '%.%.'},
         {'id'         , '[%a_]+'},
+        {'hexa'       , '0x%x+'},
         {'number'     , '%d+'},
         {'operator'   , '[%%%^%+%-%*%/]'},
         {'parenthese' , '[%(%)]'},
@@ -47,7 +48,7 @@ function lexer(source)
         {'distinct'   , '~='},
         {'assign'     , '='},
     }
-    
+
     local keywords = {
         'local',
         'function',
@@ -72,6 +73,8 @@ function lexer(source)
 --                print(string.byte(token, i))
 --            end
 
+--            print(token)
+
             table.insert(tokens, {
                     type = pattern[1],
                     token = token
@@ -86,33 +89,33 @@ function lexer(source)
     local pos = 1
     while true do
         find = false
-        
+
         for i,keyword in ipairs(keywords) do
-            len = searchForPattern(source, {'keyword',keyword}, 1)
+            len = searchForPattern(source, {'keyword', keyword}, pos)
             if len > 0 then
                 pos = pos + len
-                source = source:mid(len+1)
+--                source = source:mid(len+1)
                 find = true
                 break
             end
         end
-    
+
         for i,pattern in ipairs(patterns) do
-            len = searchForPattern(source, pattern, 1)
+            len = searchForPattern(source, pattern, pos)
             if len > 0 then
                 pos = pos + len
-                source = source:mid(len+1)
+--                source = source:mid(len+1)
                 find = true
                 break
             end
         end
-        
+
         if not find then
             break
         end
     end
 
-    if #source > 0 then
+    if #source > pos then
         local infos = ''
         for i,token in ipairs(tokens) do
             if token.type == 'new line' then
@@ -140,32 +143,22 @@ function lexer(source)
 
     else
         local infos = ''
+        local list = {}
         for i,token in ipairs(tokens) do
             if token.type == 'new line' then
-                infos = infos..'\n'
+                table.insert(list, '\n')
+--                infos = infos..'\n'
             elseif token.type == 'tab' then
-                infos = infos..' '
+                table.insert(list, ' ')
+--                infos = infos..' '
             elseif token.type == 'space' then
-                infos = infos..' '
+                table.insert(list, ' ')
+--                infos = infos..' '
             else
-                infos = infos..'['..token.type..':'..token.token..']'..'\n'
+                table.insert(list, '['..token.type..':'..token.token..']'..'\n')
+--                infos = infos..'['..token.type..':'..token.token..']'..'\n'
             end
         end
 --        print(infos)
     end
-end
-
-if false then
-
-    lexer('--[[Is the line segment a-b over c-d when seen from e?]]')
-
-else
-
-    local files = dir('.', isLuaFile, true)
-    for i,file in ipairs(files) do
-        print(file)
-        lexer(io.read(file))
-    end
-
-
 end
