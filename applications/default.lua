@@ -16,16 +16,17 @@ function setup()
     local pixels2 = img2:getPixels()
 
     local i = 0
-    for x=0,img.width-1 do
-        for y=0,img.height-1 do
-            pixels[i] = random(255)
-            pixels[i+1] = random(255)
-            pixels[i+2] = random(255)
+    for y=0,img.height-1 do
+        for x=0,img.width-1 do
+            if x == 0 then
+                pixels[i] = random(255)
+                --pixels[i+1] = random(255)
+                --pixels[i+2] = random(255)
+            else
+            end
+
             pixels[i+3] = 255
-            pixels2[i] = pixels[i]
-            pixels2[i+1] = pixels[i+1]
-            pixels2[i+2] = pixels[i+2]
-            pixels2[i+3] = 255
+
             i = i + 4
         end
     end
@@ -39,26 +40,45 @@ function setup()
 
     config.interpolate = false
     parameter.boolean('config.interpolate', false)
+    
+    parameter.watch('total')
 end
 
 function update()
     local pixels = img:getPixels()
-    local pixels2 = img2:getPixels()
 
+    setContext(img2)
+    spriteMode(CORNER)
+    sprite(img)
+    setContext()
+
+    local pixels2 = img2:getPixels()    
+    
     local i, r, d = 0, 0
-    for x=0,img.width-1 do
-        for y=0,img.height-1 do
-            r = pixels[i]
+    for y=0,img.height-1 do
+        for x=0,img.width-1 do
+            local a, b = i,(i+4)%(img.width*img.height*4)
 
-            d = randomInt(0, r)            
-            d = d - ((pixels2[i]+d) - min(255, (pixels2[i]+d)))
+            r = pixels[a]
 
-            pixels2[i] = pixels2[i] - d
-            pixels2[(i+img.width)%img.width] = pixels2[(i+img.width)%img.width] + d
+            d = randomInt(0, r)
+            d = min(255, pixels[b]+d) - pixels[b]
+
+            pixels2[a] = pixels2[a] - d
+            pixels2[b] = pixels2[b] + d
 
             i = i + 4
         end
     end
+    
+    i, total = 0, 0
+    for y=0,img.height-1 do
+        for x=0,img.width-1 do
+            total = total + pixels2[i]
+            i = i + 4
+        end
+    end
+    
 
     img2:update(true)
 

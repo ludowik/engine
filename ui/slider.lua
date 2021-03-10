@@ -59,10 +59,10 @@ function Slider:mouseButtonRight()
 end
 
 function Slider:touched(touch)
-    if touch.tapCount > 1 then
+    if touch.tapCount > 1 or touch.id == sdl.SDL_BUTTON_RIGHT then
         self:mouseButtonRight()
     else
-        local dx = touch.x - self.position.x
+        local dx = touch.x - self.absolutePosition.x
         local ratio = dx / self.size.x
 
         local newValue

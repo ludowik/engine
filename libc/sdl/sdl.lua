@@ -14,11 +14,11 @@ end
 function Sdl:initialize()
     if love then
         self.window = sdl.SDL_GL_GetCurrentWindow()
-        
+
         if self.window == NULL then
             self.window = sdl.SDL_GetWindowFromID(0)
         end
-        
+
         if self.window ~= NULL then
             self.context = sdl.SDL_GL_GetCurrentContext()
             if self.context ~= NULL then
@@ -29,9 +29,9 @@ function Sdl:initialize()
     if self.window == NULL then
         if self.SDL_Init(self.SDL_INIT_EVERYTHING) == 0 then
             self:setCursor(sdl.SDL_SYSTEM_CURSOR_WAIT)
-            
+
             renderer:load()
-            
+
             window = self.SDL_CreateWindow('Engine',
                 0, 0,
                 0, 0,
@@ -152,9 +152,11 @@ function Sdl:event()
             engine:keyup(self:scancode2key(event), event.key.isrepeat)
 
         elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
-            if event.button.button == self.SDL_BUTTON_LEFT then
+            if (event.button.button == self.SDL_BUTTON_LEFT or 
+                event.button.button == self.SDL_BUTTON_RIGHT)
+            then
                 mouse:mouseEvent(
-                    0,
+                    event.button.button,
                     BEGAN,
                     event.button.x, event.button.y,
                     0, 0,
@@ -165,10 +167,10 @@ function Sdl:event()
             end
 
         elseif event.type == sdl.SDL_MOUSEMOTION then
-            local isTouch = bitAND(event.motion.state, self.SDL_BUTTON_LMASK)
+            local isTouch = bitAND(event.motion.state, self.SDL_BUTTON_LMASK + self.SDL_BUTTON_RMASK)
             if isTouch then
                 mouse:mouseEvent(
-                    0,
+                    self.SDL_BUTTON_LEFT,
                     MOVING,
                     event.motion.x, event.motion.y,
                     event.motion.xrel, event.motion.yrel,
@@ -183,9 +185,11 @@ function Sdl:event()
             end
 
         elseif event.type == sdl.SDL_MOUSEBUTTONUP then
-            if event.button.button == self.SDL_BUTTON_LEFT then
+            if (event.button.button == self.SDL_BUTTON_LEFT or 
+                event.button.button == self.SDL_BUTTON_RIGHT)
+            then
                 mouse:mouseEvent(
-                    0,
+                    event.button.button,
                     ENDED,
                     event.button.x, event.button.y,
                     0, 0,
@@ -194,7 +198,7 @@ function Sdl:event()
                 engine:buttonup(event.button.button)
             end
 
-        elseif event.type == sdl.SDL_MOUSEWHEEL  then
+        elseif event.type == sdl.SDL_MOUSEWHEEL then
             mouse:mouseWheel(1, event.wheel.x, event.wheel.y)
 
         elseif event.type == sdl.SDL_MULTIGESTURE then
@@ -223,7 +227,7 @@ end
 
 function Sdl:isDown(key)
     local scanCode = self.SDL_GetScancodeFromName(key)
-    
+
     keysState = self.SDL_GetKeyboardState(nil)
     return keysState[scanCode] == 1 and true or false
 end
