@@ -2,7 +2,7 @@ requireLib(
     'lexer',
     'parser')
 
-if false then
+if truea then
 
     lexer(io.read('./libc/freetype/verra.lua'))
 

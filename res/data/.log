@@ -12650,3 +12650,3170 @@ initialize shadermanager
 initialize graphics
 initialize frametime
 load applications/parser
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/parser
+./applications/appManager/main.lua
+./applications/apps/2048/#.lua
+./applications/apps/2048/app.lua
+./applications/apps/2048/board.lua
+./applications/apps/2048/cell.lua
+./applications/apps/2048/gameOver.lua
+./applications/apps/2048/grid.lua
+./applications/apps/2048/main.lua
+./applications/apps/2048/theme.lua
+./applications/apps/asteroid/#.lua
+./applications/apps/asteroid/app.lua
+./applications/apps/asteroid/asteroid.lua
+./applications/apps/asteroid/bullet.lua
+./applications/apps/asteroid/ship.lua
+./applications/apps/bbtan/#.lua
+./applications/apps/bbtan/Main.lua
+./applications/apps/bbtan/ball.lua
+./applications/apps/bbtan/bonus.lua
+./applications/apps/bbtan/box.lua
+./applications/apps/bbtan/item.lua
+./applications/apps/byTheWay/#.lua
+./applications/apps/byTheWay/appByTheWay.lua
+./applications/apps/byTheWay/area.lua
+./applications/apps/byTheWay/areaDirection.lua
+./applications/apps/byTheWay/bot.lua
+./applications/apps/byTheWay/botGenerator.lua
+./applications/apps/byTheWay/level.lua
+./applications/apps/byTheWay/theme.lua
+./applications/apps/byTheWay/touch.lua
+./applications/apps/byTheWay/way.lua
+./applications/apps/calc/#.lua
+./applications/apps/calc/Main.lua
+./applications/apps/calc/appCalc.lua
+./applications/apps/calc/calc.lua
+./applications/apps/calc/unit.lua
+./applications/apps/freeCell/main.lua
+./applications/apps/icon/#.lua
+./applications/apps/icon/icon.lua
+./applications/apps/morpion/morpion.lua
+./applications/apps/sudoku/#.lua
+./applications/apps/sudoku/grid.lua
+./applications/apps/sudoku/main.lua
+./applications/apps/sudoku/number.lua
+./applications/apps/sudoku/uicell.lua
+./applications/apps/sudoku/uigrid.lua
+./applications/apps/tetris/main.lua
+./applications/apps/triomino/#.lua
+./applications/apps/triomino/cell.lua
+./applications/apps/triomino/gameOver.lua
+./applications/apps/triomino/gameScene.lua
+./applications/apps/triomino/grid.lua
+./applications/apps/triomino/main.lua
+./applications/apps/triomino/mino.lua
+./applications/artwork/dots.lua
+./applications/artwork/firework.lua
+./applications/artwork/lines.lua
+./applications/artwork/particles.lua
+./applications/artwork/phyllotaxis.lua
+./applications/artwork/snowflakes.lua
+./applications/artwork/superformula.lua
+./applications/artwork/tron.lua
+./applications/codea/3D Lab/#.lua
+./applications/codea/3D Lab/main.lua
+./applications/codea/3D Lab/test1.lua
+./applications/codea/3D Lab/test2.lua
+./applications/codea/Animation/#.lua
+./applications/codea/Animation/basics.lua
+./applications/codea/Animation/circle.lua
+./applications/codea/Animation/loops.lua
+./applications/codea/Animation/main.lua
+./applications/codea/Animation/path.lua
+./applications/codea/Animation/sequence.lua
+./applications/codea/Animation/test.lua
+./applications/codea/Backgammon/main.lua
+./applications/codea/Bezier/main.lua
+./applications/codea/Blend Modes/Main.lua
+./applications/codea/Brickout/#.lua
+./applications/codea/Brickout/ball.lua
+./applications/codea/Brickout/bat.lua
+./applications/codea/Brickout/block.lua
+./applications/codea/Brickout/emitter.lua
+./applications/codea/Brickout/levels.lua
+./applications/codea/Brickout/main.lua
+./applications/codea/Brickout/numbers.lua
+./applications/codea/Bubbles/main.lua
+./applications/codea/Cargo-Bot/#.lua
+./applications/codea/Cargo-Bot/ABCMusic.lua
+./applications/codea/Cargo-Bot/ABCMusicData.lua
+./applications/codea/Cargo-Bot/BaseSelect.lua
+./applications/codea/Cargo-Bot/BaseStage.lua
+./applications/codea/Cargo-Bot/Button.lua
+./applications/codea/Cargo-Bot/Claw.lua
+./applications/codea/Cargo-Bot/Command.lua
+./applications/codea/Cargo-Bot/Crate.lua
+./applications/codea/Cargo-Bot/CreditsScreen.lua
+./applications/codea/Cargo-Bot/Events.lua
+./applications/codea/Cargo-Bot/Goal.lua
+./applications/codea/Cargo-Bot/HowScreen.lua
+./applications/codea/Cargo-Bot/IO.lua
+./applications/codea/Cargo-Bot/Level.lua
+./applications/codea/Cargo-Bot/LevelSelect.lua
+./applications/codea/Cargo-Bot/Levels.lua
+./applications/codea/Cargo-Bot/Main.lua
+./applications/codea/Cargo-Bot/Music.lua
+./applications/codea/Cargo-Bot/Notes.lua
+./applications/codea/Cargo-Bot/PackSelect.lua
+./applications/codea/Cargo-Bot/Panel.lua
+./applications/codea/Cargo-Bot/Pile.lua
+./applications/codea/Cargo-Bot/Popover.lua
+./applications/codea/Cargo-Bot/PositionObj.lua
+./applications/codea/Cargo-Bot/Program.lua
+./applications/codea/Cargo-Bot/RectObj.lua
+./applications/codea/Cargo-Bot/Register.lua
+./applications/codea/Cargo-Bot/Screen.lua
+./applications/codea/Cargo-Bot/ScrollingTexture.lua
+./applications/codea/Cargo-Bot/ShadowObj.lua
+./applications/codea/Cargo-Bot/ShakeDetector.lua
+./applications/codea/Cargo-Bot/Smoke.lua
+./applications/codea/Cargo-Bot/Solutions.lua
+./applications/codea/Cargo-Bot/Sounds.lua
+./applications/codea/Cargo-Bot/SplashScreen.lua
+./applications/codea/Cargo-Bot/SpriteObj.lua
+./applications/codea/Cargo-Bot/Stack.lua
+./applications/codea/Cargo-Bot/Stage.lua
+./applications/codea/Cargo-Bot/StagePhysics.lua
+./applications/codea/Cargo-Bot/StageWall.lua
+./applications/codea/Cargo-Bot/StartScreen.lua
+./applications/codea/Cargo-Bot/Table.lua
+./applications/codea/Cargo-Bot/Toolbox.lua
+./applications/codea/Cargo-Bot/TransitionScreen.lua
+./applications/codea/Cargo-Bot/Tutorial.lua
+./applications/codea/Cargo-Bot/Tweener.lua
+./applications/codea/Cargo-Bot/WinScreen.lua
+./applications/codea/Dungeon Roller/#.lua
+./applications/codea/Dungeon Roller/hero.lua
+./applications/codea/Dungeon Roller/heroAttack.lua
+./applications/codea/Dungeon Roller/loot.lua
+./applications/codea/Dungeon Roller/main.lua
+./applications/codea/Dungeon Roller/monster.lua
+./applications/codea/Dungeon Roller/utils.lua
+./applications/codea/Dungeon Roller/world.lua
+./applications/codea/Dungeon Roller/worldBlock.lua
+./applications/codea/FixedAreaBubble/main.lua
+./applications/codea/Gravity/Main.lua
+./applications/codea/Hammer/main.lua
+./applications/codea/Lines/main.lua
+./applications/codea/Orbital/main.lua
+./applications/codea/Parameters/main.lua
+./applications/codea/Roller Coaster/#.lua
+./applications/codea/Roller Coaster/colour.lua
+./applications/codea/Roller Coaster/colourNames.lua
+./applications/codea/Roller Coaster/main.lua
+./applications/codea/Roller Coaster/vec3.lua
+./applications/codea/ScreenSaver/main.lua
+./applications/codea/Voxel/#.lua
+./applications/codea/Voxel/camera.lua
+./applications/codea/Voxel/main.lua
+./applications/codea/Voxel/model.lua
+./applications/codea/Voxel/ui.lua
+./applications/codea/Web/main.lua
+./applications/default.lua
+./applications/demo/animation/animation.lua
+./applications/demo/dashboard.lua
+./applications/demo/files/main.lua
+./applications/demo/graph.lua
+./applications/demo/icon/#.lua
+./applications/demo/icon/icon.lua
+./applications/demo/introspection/introspection.lua
+./applications/demo/particles/#.lua
+./applications/demo/particles/emitter.lua
+./applications/demo/particles/main.lua
+./applications/demo/particles/particle.lua
+./applications/demo/shadertoy/#.lua
+./applications/demo/shadertoy/app.lua
+./applications/demo/shadertoy/shadertoy.lua
+./applications/demo/sounds/sounds.lua
+./applications/demo/ui/ui.lua
+./applications/font/fonts.lua
+./applications/font/icons font.lua
+./applications/noise/map1/#.lua
+./applications/noise/map1/heightMap.lua
+./applications/noise/map1/main.lua
+./applications/noise/map2/main.lua
+./applications/noise/map3/main.lua
+./applications/noise/noise1/main.lua
+./applications/noise/noise2/main.lua
+./applications/parser/#.lua
+./applications/parser/lexer.lua
+./applications/parser/parser.lua
+./applications/physics/Basic Physics/main.lua
+./applications/physics/Physics Lab/#.lua
+./applications/physics/Physics Lab/main.lua
+./applications/physics/Physics Lab/physicsDebugDraw.lua
+./applications/physics/Physics Lab/test1.lua
+./applications/physics/Physics Lab/test2.lua
+./applications/physics/Physics Lab/test3.lua
+./applications/physics/Physics Lab/test4.lua
+./applications/physics/Physics Lab/test5.lua
+./applications/physics/Physics Lab/test6.lua
+./applications/physics/Physics Lab/test7.lua
+./applications/physics/Physics Lab/test8.lua
+./applications/physics/Physics Lab/test9.lua
+./applications/physics/Physics/main.lua
+./applications/physics/fizix.lua
+./applications/physics/fizix2/#.lua
+./applications/physics/fizix2/main.lua
+./applications/physics/physics2d.lua
+./applications/physics/physics3d.lua
+./applications/sketches2D/blendMode.lua
+./applications/sketches2D/canevas.lua
+./applications/sketches2D/chaos.lua
+./applications/sketches2D/collatz.lua
+./applications/sketches2D/compteur.lua
+./applications/sketches2D/courbes.lua
+./applications/sketches2D/dithering.lua
+./applications/sketches2D/fluid.lua
+./applications/sketches2D/forme.lua
+./applications/sketches2D/fourier.lua
+./applications/sketches2D/fractal tree.lua
+./applications/sketches2D/galactic.lua
+./applications/sketches2D/gol.lua
+./applications/sketches2D/graphics2d.lua
+./applications/sketches2D/horloge.lua
+./applications/sketches2D/logo.lua
+./applications/sketches2D/mandelbrot.lua
+./applications/sketches2D/maze.lua
+./applications/sketches2D/mode.lua
+./applications/sketches2D/pi.lua
+./applications/sketches2D/primitives.lua
+./applications/sketches2D/reaction diffusion.lua
+./applications/sketches2D/rose.lua
+./applications/sketches2D/sandpiles.lua
+./applications/sketches2D/sparrows.lua
+./applications/sketches2D/squaregrid.lua
+./applications/sketches2D/stars.lua
+./applications/sketches2D/surface.lua
+./applications/sketches2D/toothpicks.lua
+./applications/sketches2D/water.lua
+./applications/sketches2D/waves.lua
+./applications/sketches3D/cube minecraft.lua
+./applications/sketches3D/cube wave.lua
+./applications/sketches3D/graphics3d.lua
+./applications/sketches3D/plane.lua
+./applications/sketches3D/solar system.lua
+./applications/sketches3D/sponge.lua
+./applications/structure/octree.lua
+./applications/structure/quadtree.lua
+./engine/#.lua
+./engine/application.lua
+./engine/applicationManager.lua
+./engine/camera.lua
+./engine/component.lua
+./engine/componentManager.lua
+./engine/config.lua
+./engine/engine.lua
+./engine/events.lua
+./engine/font.lua
+./engine/frameTime.lua
+./engine/gesture.lua
+./engine/info.lua
+./engine/introspection.lua
+./engine/keyboard.lua
+./engine/memory.lua
+./engine/mouse.lua
+./engine/parameter.lua
+./engine/renderFrame.lua
+./engine/resourceManager.lua
+./engine/scene/node.lua
+./engine/scene/object.lua
+./engine/scene/scene.lua
+./engine/screen.lua
+./fizix/#.lua
+./fizix/body.lua
+./fizix/collision.lua
+./fizix/contact.lua
+./fizix/fizix.lua
+./fizix/joint.lua
+./fizix/object.lua
+./fizix/physics.lua
+./graphics/#.lua
+./graphics/camera.lua
+./graphics/color.lua
+./graphics/colorConvert.lua
+./graphics/colors.lua
+./graphics/context.lua
+./graphics/drawing.lua
+./graphics/geometry.lua
+./graphics/graphics.lua
+./graphics/image.lua
+./graphics/light.lua
+./graphics/material.lua
+./graphics/mesh.lua
+./graphics/model.lua
+./graphics/modelLoader.lua
+./graphics/render.lua
+./graphics/renderer/#.lua
+./graphics/renderer/audioInterface.lua
+./graphics/renderer/love2d/love2d.lua
+./graphics/renderer/mediaInterface.lua
+./graphics/renderer/opengl/image.lua
+./graphics/renderer/opengl/meshBufferObject.lua
+./graphics/renderer/opengl/meshRender.lua
+./graphics/renderer/opengl/meshVertexArray.lua
+./graphics/renderer/opengl/shader.lua
+./graphics/renderer/rendererInterface.lua
+./graphics/renderer/shader.lua
+./graphics/sgl.lua
+./graphics/shaderManager.lua
+./graphics/shape.lua
+./graphics/size.lua
+./graphics/style.lua
+./lib/json.lua
+./lib/sfxr.lua
+./lib/utf8.lua
+./libc/#.lua
+./libc/box2d/#.lua
+./libc/box2d/body.lua
+./libc/box2d/box2d.lua
+./libc/box2d/joint.lua
+./libc/freetype/freetype.lua
+./libc/freetype/ft.lua
+./libc/library.lua
+./libc/openal/openal.lua
+./libc/opengl/opengl.lua
+./libc/sdl/sdl.lua
+./libc/vulkan/vulkan.lua
+./lua/#.lua
+./lua/args.lua
+./lua/array.lua
+./lua/attribs.lua
+./lua/bit.lua
+./lua/buffer.lua
+./lua/callback.lua
+./lua/cells3d.lua
+./lua/class.lua
+./lua/convert.lua
+./lua/data.lua
+./lua/date.lua
+./lua/debug.lua
+./lua/decorator.lua
+./lua/dev/#.lua
+./lua/dev/override.lua
+./lua/dev/performance.lua
+./lua/dev/performanceCheck.lua
+./lua/dev/profiler.lua
+./lua/dev/reporting.lua
+./lua/enum.lua
+./lua/eval.lua
+./lua/fs.lua
+./lua/grid.lua
+./lua/heap.lua
+./lua/http.lua
+./lua/id.lua
+./lua/io.lua
+./lua/log.lua
+./lua/memory.lua
+./lua/octree.lua
+./lua/os.lua
+./lua/path.lua
+./lua/quadtree.lua
+./lua/range.lua
+./lua/require.lua
+./lua/string.lua
+./lua/table.lua
+./lua/timer.lua
+./lua/timer2.lua
+./lua/todo.lua
+./lua/tween.lua
+./lua/url.lua
+./lua/ut.lua
+./lua/video.lua
+./luajit/lualibs/mobdebug/mobdebug.lua
+./luajit/lualibs/socket/ftp.lua
+./luajit/lualibs/socket/headers.lua
+./luajit/lualibs/socket/http.lua
+./luajit/lualibs/socket/smtp.lua
+./luajit/lualibs/socket/tp.lua
+./luajit/lualibs/socket/url.lua
+./main.lua
+./maths/#.lua
+./maths/math.lua
+./maths/matrix.lua
+./maths/noise.lua
+./maths/noise2.lua
+./maths/random.lua
+./maths/rect.lua
+./maths/transform.lua
+./maths/vec2.lua
+./maths/vec3.lua
+./maths/vec4.lua
+./res/zbs/api/lua/engine.lua
+./res/zbs/cfg/preferences.lua
+./res/zbs/interpreters/luabase.lua
+./res/zbs/packages/filetreecollapse.lua
+./res/zbs/packages/tildemenu.lua
+./res/zbs/spec/glsl.lua
+./sound/#.lua
+./sound/sound.lua
+./ui/#.lua
+./ui/advanced.lua
+./ui/background.lua
+./ui/bind.lua
+./ui/button.lua
+./ui/buttonColor.lua
+./ui/buttonIconFont.lua
+./ui/buttonImage.lua
+./ui/checkbox.lua
+./ui/colorPicker.lua
+./ui/combobox.lua
+./ui/console.lua
+./ui/dashboard.lua
+./ui/editor.lua
+./ui/expression.lua
+./ui/fps.lua
+./ui/group.lua
+./ui/iconsFont.lua
+./ui/joystick.lua
+./ui/label.lua
+./ui/layout.lua
+./ui/line.lua
+./ui/listbox.lua
+./ui/message.lua
+./ui/scene.lua
+./ui/separator.lua
+./ui/slider.lua
+./ui/space.lua
+./ui/sprite.lua
+./ui/tabs.lua
+./ui/timer.lua
+./ui/toolbar.lua
+./ui/ui.lua
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 18.21 mo
+memory variation : 15.89 mo
+memory at end    : 2.54 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/parser
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 96.00 mo
+memory variation : 93.67 mo
+memory at end    : 26.11 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/parser
+load applications/appManager
+switch applications/appManager
+switch applications/appManager
+switch applications/appManager
+load applications/apps/morpion/morpion
+switch applications/appManager
+switch applications/apps/morpion/morpion
+switch applications/appManager
+switch applications/appManager
+switch applications/appManager
+load applications/appManager
+load applications/default
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 103.77 mo
+memory variation : 101.44 mo
+memory at end    : 40.04 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/default
+load applications/appManager
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 42.09 mo
+memory variation : 39.84 mo
+memory at end    : 7.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 16.40 mo
+memory variation : 14.07 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 18.58 mo
+memory variation : 16.32 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 18.76 mo
+memory variation : 16.44 mo
+memory at end    : 2.06 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 24.22 mo
+memory variation : 21.95 mo
+memory at end    : 2.10 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.25 mo
+memory min       : 2.25 mo
+memory max       : 17.47 mo
+memory variation : 15.22 mo
+memory at end    : 2.16 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 24.44 mo
+memory variation : 22.12 mo
+memory at end    : 2.24 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.62 mo
+memory variation : 21.29 mo
+memory at end    : 2.10 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.90 mo
+memory variation : 21.58 mo
+memory at end    : 2.24 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 21.20 mo
+memory variation : 18.87 mo
+memory at end    : 2.23 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.84 mo
+memory variation : 21.52 mo
+memory at end    : 2.22 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.25 mo
+memory min       : 2.25 mo
+memory max       : 29.05 mo
+memory variation : 26.80 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 24.01 mo
+memory variation : 21.68 mo
+memory at end    : 2.28 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.66 mo
+memory variation : 21.40 mo
+memory at end    : 2.13 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.66 mo
+memory variation : 21.40 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.87 mo
+memory variation : 21.55 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.65 mo
+memory variation : 21.39 mo
+memory at end    : 2.24 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.92 mo
+memory variation : 21.59 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.85 mo
+memory variation : 21.52 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 26.53 mo
+memory variation : 24.28 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.73 mo
+memory variation : 21.41 mo
+memory at end    : 2.33 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 19.50 mo
+memory variation : 17.17 mo
+memory at end    : 2.27 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.25 mo
+memory min       : 2.25 mo
+memory max       : 22.76 mo
+memory variation : 20.50 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.67 mo
+memory variation : 21.35 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.71 mo
+memory variation : 21.39 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.25 mo
+memory min       : 2.25 mo
+memory max       : 21.28 mo
+memory variation : 19.02 mo
+memory at end    : 2.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 19.09 mo
+memory variation : 16.76 mo
+memory at end    : 2.22 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 16.43 mo
+memory variation : 14.17 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 17.19 mo
+memory variation : 14.87 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 17.03 mo
+memory variation : 14.70 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 20.80 mo
+memory variation : 18.54 mo
+memory at end    : 2.11 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 19.59 mo
+memory variation : 17.33 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 16.71 mo
+memory variation : 14.39 mo
+memory at end    : 2.13 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 21.76 mo
+memory variation : 19.44 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 19.06 mo
+memory variation : 16.73 mo
+memory at end    : 2.40 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.81 mo
+memory variation : 21.55 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.30 mo
+memory variation : 21.04 mo
+memory at end    : 2.12 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.63 mo
+memory variation : 21.30 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.64 mo
+memory variation : 21.38 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 19.47 mo
+memory variation : 17.21 mo
+memory at end    : 2.25 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.68 mo
+memory variation : 21.35 mo
+memory at end    : 2.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.49 mo
+memory variation : 21.23 mo
+memory at end    : 2.39 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/circle
+shader.vao: 1
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 29.18 mo
+memory variation : 26.85 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+Generate 4 indices for 6 vertices
+Generate 24 indices for 36 vertices
+Generate 128 indices for 192 vertices
+Generate 16 indices for 18 vertices
+Generate 171 indices for 252 vertices
+initialize frametime
+load applications/circle
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 17.63 mo
+memory variation : 15.30 mo
+memory at end    : 2.22 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.86 mo
+memory variation : 21.52 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 24.24 mo
+memory variation : 21.92 mo
+memory at end    : 2.39 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.88 mo
+memory variation : 21.56 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.70 mo
+memory variation : 21.37 mo
+memory at end    : 2.12 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 28.98 mo
+memory variation : 26.73 mo
+memory at end    : 2.13 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.81 mo
+memory variation : 21.49 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 24.29 mo
+memory variation : 21.97 mo
+memory at end    : 2.47 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 24.13 mo
+memory variation : 21.87 mo
+memory at end    : 2.32 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 29.11 mo
+memory variation : 26.78 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 19.64 mo
+memory variation : 17.31 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.76 mo
+memory variation : 21.43 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.82 mo
+memory variation : 21.56 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.82 mo
+memory variation : 21.49 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 24.05 mo
+memory variation : 21.80 mo
+memory at end    : 2.28 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.94 mo
+memory variation : 21.68 mo
+memory at end    : 2.26 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.76 mo
+memory variation : 21.51 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 29.10 mo
+memory variation : 26.77 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.82 mo
+memory variation : 21.57 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 24.31 mo
+memory variation : 21.98 mo
+memory at end    : 2.39 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 29.19 mo
+memory variation : 26.87 mo
+memory at end    : 2.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.94 mo
+memory variation : 21.62 mo
+memory at end    : 2.23 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.94 mo
+memory variation : 21.62 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 24.01 mo
+memory variation : 21.69 mo
+memory at end    : 2.26 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.84 mo
+memory variation : 21.52 mo
+memory at end    : 2.17 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.71 mo
+memory variation : 21.39 mo
+memory at end    : 2.13 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 29.00 mo
+memory variation : 26.74 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.79 mo
+memory variation : 21.47 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.84 mo
+memory variation : 21.52 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.25 mo
+memory min       : 2.25 mo
+memory max       : 23.93 mo
+memory variation : 21.68 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 19.85 mo
+memory variation : 17.59 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 29.04 mo
+memory variation : 26.78 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 22.67 mo
+memory variation : 20.34 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.85 mo
+memory variation : 21.53 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.76 mo
+memory variation : 21.44 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 24.02 mo
+memory variation : 21.76 mo
+memory at end    : 2.25 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.91 mo
+memory variation : 21.59 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.80 mo
+memory variation : 21.47 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 24.19 mo
+memory variation : 21.86 mo
+memory at end    : 2.34 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.77 mo
+memory variation : 21.51 mo
+memory at end    : 2.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.88 mo
+memory variation : 21.55 mo
+memory at end    : 2.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.25 mo
+memory min       : 2.25 mo
+memory max       : 23.65 mo
+memory variation : 21.40 mo
+memory at end    : 2.11 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.92 mo
+memory variation : 21.66 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.89 mo
+memory variation : 21.55 mo
+memory at end    : 2.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 29.37 mo
+memory variation : 27.10 mo
+memory at end    : 2.30 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 29.15 mo
+memory variation : 26.88 mo
+memory at end    : 2.12 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 24.59 mo
+memory variation : 22.27 mo
+memory at end    : 2.54 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/circle
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 24.02 mo
+memory variation : 21.69 mo
+memory at end    : 2.25 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/appManager
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 21.67 mo
+memory variation : 19.34 mo
+memory at end    : 2.29 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 16.31 mo
+memory variation : 13.99 mo
+memory at end    : 2.16 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 18.83 mo
+memory variation : 16.50 mo
+memory at end    : 2.16 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 22.29 mo
+memory variation : 20.03 mo
+memory at end    : 2.12 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 25.44 mo
+memory variation : 23.18 mo
+memory at end    : 2.28 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 17.14 mo
+memory variation : 14.87 mo
+memory at end    : 2.32 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.99 mo
+memory variation : 21.67 mo
+memory at end    : 2.27 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 28.21 mo
+memory variation : 25.89 mo
+memory at end    : 2.12 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 28.96 mo
+memory variation : 26.64 mo
+memory at end    : 2.19 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.98 mo
+memory variation : 21.65 mo
+memory at end    : 2.25 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 29.15 mo
+memory variation : 26.83 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 29.14 mo
+memory variation : 26.81 mo
+memory at end    : 2.18 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 24.18 mo
+memory variation : 21.86 mo
+memory at end    : 2.34 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.71 mo
+memory variation : 21.39 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.88 mo
+memory variation : 21.55 mo
+memory at end    : 2.22 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 29.15 mo
+memory variation : 26.83 mo
+memory at end    : 2.25 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.75 mo
+memory variation : 21.49 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.60 mo
+memory variation : 21.27 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.53 mo
+memory variation : 21.21 mo
+memory at end    : 2.09 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.85 mo
+memory variation : 21.52 mo
+memory at end    : 2.20 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 21.62 mo
+memory variation : 19.29 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 29.10 mo
+memory variation : 26.77 mo
+memory at end    : 2.21 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 23.68 mo
+memory variation : 21.43 mo
+memory at end    : 2.12 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 24.52 mo
+memory variation : 22.19 mo
+memory at end    : 2.44 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 23.72 mo
+memory variation : 21.40 mo
+memory at end    : 2.16 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/electric
+load applications/appManager
+load applications/artwork/circles
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 43.31 mo
+memory variation : 40.99 mo
+memory at end    : 7.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 29.09 mo
+memory variation : 26.77 mo
+memory at end    : 2.15 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 23.49 mo
+memory variation : 21.16 mo
+memory at end    : 2.14 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 22.17 mo
+memory variation : 17.92 mo
+memory at end    : 1.46 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 22.27 mo
+memory variation : 18.02 mo
+memory at end    : 1.46 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 14.75 mo
+memory variation : 10.50 mo
+memory at end    : 1.43 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 15.47 mo
+memory variation : 11.21 mo
+memory at end    : 1.44 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 15.39 mo
+memory variation : 11.13 mo
+memory at end    : 1.42 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 17.49 mo
+memory variation : 13.24 mo
+memory at end    : 1.43 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 15.29 mo
+memory variation : 11.04 mo
+memory at end    : 1.42 mo
+load SDL2
+load OpenAL
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 17.48 mo
+memory variation : 13.23 mo
+memory at end    : 1.43 mo
+load SDL2
+load OpenAL
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 4.25 mo
+memory min       : 4.25 mo
+memory max       : 15.19 mo
+memory variation : 10.94 mo
+memory at end    : 1.43 mo
+load OpenAL
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 19.52 mo
+memory variation : 17.19 mo
+memory at end    : 2.16 mo
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 29.06 mo
+memory variation : 26.73 mo
+memory at end    : 2.16 mo
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/artwork/circles
+load applications/appManager
+switch applications/appManager
+load applications/apps/morpion/morpion
+switch applications/artwork/circles
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+load applications/artwork/superformula
+load applications/artwork/tron
+load applications/default
+load applications/demo/animation/animation
+load applications/demo/dashboard
+load applications/demo/graph
+load applications/demo/introspection/introspection
+load applications/demo/sounds/sounds
+load applications/demo/ui/ui
+new color : color{r=1, g=0, b=0, a=1}
+load applications/electric
+load applications/font/fonts
+load applications/font/icons font
+load applications/physics/fizix
+load applications/physics/physics2d
+load applications/physics/physics3d
+load applications/sketches2D/blendMode
+load applications/sketches2D/canevas
+load applications/sketches2D/chaos
+load applications/sketches2D/collatz
+load applications/sketches2D/compteur
+load applications/sketches2D/courbes
+load applications/sketches2D/dithering
+load applications/sketches2D/fluid
+load applications/sketches2D/forme
+load applications/sketches2D/fourier
+load applications/sketches2D/fractal tree
+load applications/sketches2D/galactic
+load applications/sketches2D/gol
+load applications/sketches2D/graphics2d
+load applications/sketches2D/horloge
+load applications/sketches2D/logo
+load applications/sketches2D/mandelbrot
+load applications/sketches2D/maze
+load applications/sketches2D/mode
+load applications/sketches2D/pi
+load applications/sketches2D/primitives
+load applications/sketches2D/reaction diffusion
+load applications/sketches2D/rose
+load applications/sketches2D/sandpiles
+load applications/sketches2D/sparrows
+load applications/sketches2D/squaregrid
+load applications/sketches2D/stars
+load applications/sketches2D/surface
+compile surface
+load applications/sketches2D/toothpicks
+load applications/sketches2D/water
+load applications/sketches2D/waves
+load applications/sketches3D/cube minecraft
+load applications/sketches3D/cube wave
+load applications/sketches3D/graphics3d
+load applications/sketches3D/plane
+load applications/sketches3D/solar system
+load applications/sketches3D/sponge
+load applications/structure/octree
+load applications/structure/quadtree
+switch applications/appManager
+switch applications/apps/morpion/morpion
+switch applications/artwork/circles
+switch applications/artwork/dots
+switch applications/artwork/firework
+switch applications/artwork/lines
+switch applications/artwork/particles
+switch applications/artwork/phyllotaxis
+switch applications/artwork/snowflakes
+switch applications/artwork/superformula
+switch applications/artwork/tron
+switch applications/default
+switch applications/demo/animation/animation
+switch applications/demo/dashboard
+switch applications/demo/graph
+switch applications/demo/introspection/introspection
+switch applications/demo/sounds/sounds
+switch applications/demo/ui/ui
+switch applications/electric
+switch applications/font/fonts
+switch applications/font/icons font
+switch applications/physics/fizix
+switch applications/physics/physics2d
+switch applications/physics/physics3d
+switch applications/sketches2D/blendMode
+switch applications/sketches2D/canevas
+switch applications/sketches2D/chaos
+switch applications/sketches2D/collatz
+switch applications/sketches2D/compteur
+switch applications/sketches2D/courbes
+switch applications/sketches2D/dithering
+switch applications/sketches2D/fluid
+switch applications/sketches2D/forme
+switch applications/sketches2D/fourier
+switch applications/sketches2D/fractal tree
+switch applications/sketches2D/galactic
+switch applications/sketches2D/gol
+switch applications/sketches2D/graphics2d
+switch applications/sketches2D/horloge
+switch applications/sketches2D/logo
+switch applications/sketches2D/mandelbrot
+switch applications/sketches2D/maze
+switch applications/sketches2D/mode
+switch applications/sketches2D/pi
+switch applications/sketches2D/primitives
+switch applications/sketches2D/reaction diffusion
+switch applications/sketches2D/rose
+switch applications/sketches2D/sandpiles
+switch applications/sketches2D/sparrows
+switch applications/sketches2D/squaregrid
+switch applications/sketches2D/stars
+switch applications/sketches2D/surface
+switch applications/sketches2D/toothpicks
+switch applications/sketches2D/water
+switch applications/sketches2D/waves
+switch applications/sketches3D/cube minecraft
+switch applications/sketches3D/cube wave
+switch applications/sketches3D/graphics3d
+switch applications/sketches3D/plane
+switch applications/sketches3D/solar system
+switch applications/sketches3D/sponge
+switch applications/structure/octree
+switch applications/structure/quadtree
+switch applications/apps/morpion/morpion
+switch applications/artwork/circles
+switch applications/artwork/dots
+switch applications/artwork/firework
+switch applications/artwork/lines
+switch applications/artwork/particles
+switch applications/artwork/phyllotaxis
+switch applications/artwork/snowflakes
+switch applications/artwork/superformula
+switch applications/artwork/tron
+switch applications/default
+switch applications/demo/animation/animation
+switch applications/demo/dashboard
+switch applications/demo/graph
+switch applications/demo/introspection/introspection
+switch applications/demo/sounds/sounds
+switch applications/demo/ui/ui
+switch applications/electric
+switch applications/font/fonts
+switch applications/font/icons font
+switch applications/physics/fizix
+switch applications/physics/physics2d
+switch applications/physics/physics3d
+switch applications/sketches2D/blendMode
+switch applications/sketches2D/canevas
+switch applications/sketches2D/chaos
+switch applications/sketches2D/collatz
+switch applications/sketches2D/compteur
+switch applications/sketches2D/courbes
+switch applications/sketches2D/dithering
+switch applications/sketches2D/fluid
+switch applications/sketches2D/forme
+switch applications/sketches2D/fourier
+switch applications/sketches2D/fractal tree
+switch applications/sketches2D/galactic
+switch applications/sketches2D/gol
+switch applications/sketches2D/graphics2d
+switch applications/sketches2D/horloge
+switch applications/sketches2D/logo
+switch applications/sketches2D/mandelbrot
+switch applications/sketches2D/maze
+switch applications/sketches2D/mode
+switch applications/sketches2D/pi
+switch applications/sketches2D/primitives
+switch applications/sketches2D/reaction diffusion
+switch applications/sketches2D/rose
+switch applications/sketches2D/sandpiles
+switch applications/sketches2D/sparrows
+switch applications/sketches2D/squaregrid
+switch applications/sketches2D/stars
+switch applications/sketches2D/surface
+switch applications/sketches2D/toothpicks
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 728.18 mo
+memory variation : 725.92 mo
+memory at end    : 141.15 mo
+load OpenAL
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/toothpicks
+load applications/appManager
+load applications/apps/morpion/morpion
+load applications/artwork/circles
+load applications/artwork/dots
+load applications/artwork/firework
+load applications/artwork/lines
+load applications/artwork/particles
+load applications/artwork/phyllotaxis
+load applications/artwork/snowflakes
+load applications/artwork/superformula
+load applications/artwork/tron
+load applications/default
+load applications/demo/animation/animation
+load applications/demo/dashboard
+load applications/demo/graph
+load applications/demo/introspection/introspection
+load applications/demo/sounds/sounds
+load applications/demo/ui/ui
+new color : color{r=1, g=0, b=0, a=1}
+load applications/electric
+load applications/font/fonts
+load applications/font/icons font
+load applications/physics/fizix
+load applications/physics/physics2d
+load applications/physics/physics3d
+load applications/sketches2D/blendMode
+load applications/sketches2D/canevas
+load applications/sketches2D/chaos
+load applications/sketches2D/collatz
+load applications/sketches2D/compteur
+load applications/sketches2D/courbes
+load applications/sketches2D/dithering
+load applications/sketches2D/fluid
+load applications/sketches2D/forme
+load applications/sketches2D/fourier
+load applications/sketches2D/fractal tree
+load applications/sketches2D/galactic
+load applications/sketches2D/gol
+load applications/sketches2D/graphics2d
+load applications/sketches2D/horloge
+load applications/sketches2D/logo
+load applications/sketches2D/mandelbrot
+load applications/sketches2D/maze
+load applications/sketches2D/mode
+load applications/sketches2D/pi
+load applications/sketches2D/primitives
+load applications/sketches2D/reaction diffusion
+load applications/sketches2D/rose
+load applications/sketches2D/sandpiles
+load applications/sketches2D/sparrows
+load applications/sketches2D/squaregrid
+load applications/sketches2D/stars
+load applications/sketches2D/surface
+compile surface
+switch applications/sketches2D/toothpicks
+load applications/sketches2D/water
+load applications/sketches2D/waves
+load applications/sketches3D/cube minecraft
+load applications/sketches3D/cube wave
+load applications/sketches3D/graphics3d
+load applications/sketches3D/plane
+load applications/sketches3D/solar system
+load applications/sketches3D/sponge
+load applications/structure/octree
+load applications/structure/quadtree
+switch applications/appManager
+switch applications/apps/morpion/morpion
+switch applications/artwork/circles
+switch applications/artwork/dots
+switch applications/artwork/firework
+switch applications/artwork/lines
+switch applications/artwork/particles
+switch applications/artwork/phyllotaxis
+switch applications/artwork/snowflakes
+switch applications/artwork/superformula
+switch applications/artwork/tron
+switch applications/default
+switch applications/demo/animation/animation
+switch applications/demo/dashboard
+switch applications/demo/graph
+switch applications/demo/introspection/introspection
+switch applications/demo/sounds/sounds
+switch applications/demo/ui/ui
+switch applications/electric
+switch applications/font/fonts
+switch applications/font/icons font
+switch applications/physics/fizix
+switch applications/physics/physics2d
+switch applications/physics/physics3d
+switch applications/sketches2D/blendMode
+switch applications/sketches2D/canevas
+switch applications/sketches2D/chaos
+switch applications/sketches2D/collatz
+switch applications/sketches2D/compteur
+switch applications/sketches2D/courbes
+switch applications/sketches2D/dithering
+switch applications/sketches2D/fluid
+switch applications/sketches2D/forme
+switch applications/sketches2D/fourier
+switch applications/sketches2D/fractal tree
+switch applications/sketches2D/galactic
+switch applications/sketches2D/gol
+switch applications/sketches2D/graphics2d
+switch applications/sketches2D/horloge
+switch applications/sketches2D/logo
+switch applications/sketches2D/mandelbrot
+switch applications/sketches2D/maze
+switch applications/sketches2D/mode
+switch applications/sketches2D/pi
+switch applications/sketches2D/primitives
+switch applications/sketches2D/reaction diffusion
+switch applications/sketches2D/rose
+switch applications/sketches2D/sandpiles
+switch applications/sketches2D/sparrows
+switch applications/sketches2D/squaregrid
+switch applications/sketches2D/stars
+switch applications/sketches2D/surface
+switch applications/sketches2D/toothpicks
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 696.10 mo
+memory variation : 693.84 mo
+memory at end    : 133.24 mo
+load OpenAL
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/sketches2D/toothpicks
+load applications/appManager
+switch applications/appManager
+load applications/demo/sounds
+memory at start  : 2.32 mo
+memory min       : 2.32 mo
+memory max       : 52.97 mo
+memory variation : 50.64 mo
+memory at end    : 11.95 mo
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/demo/sounds
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 24.24 mo
+memory variation : 21.98 mo
+memory at end    : 2.36 mo
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/demo/sounds
+memory at start  : 2.33 mo
+memory min       : 2.33 mo
+memory max       : 24.08 mo
+memory variation : 21.75 mo
+memory at end    : 2.32 mo
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+load freetype
+initialize memory
+initialize sdl
+Color LCD
+initialize opengl
+GLSL 4.10
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/demo/sounds
+load applications/appManager
+load applications/electric
+switch applications/appManager
+load applications/default
+switch applications/appManager
+load applications/artwork/circles
+memory at start  : 2.26 mo
+memory min       : 2.26 mo
+memory max       : 63.94 mo
+memory variation : 61.68 mo
+memory at end    : 16.49 mo

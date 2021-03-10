@@ -165,7 +165,7 @@ function ApplicationManager:loopAppProc(delay)
 end
 
 function ApplicationManager:package()
-    os.execute('cd /Users/Ludo/Projets/Lua/engine && zip -9 -r -u /Users/Ludo/Projets/Libraries2/love-11.3-ios-source/platform/xcode/applications.love .')
+    os.execute('cd '..getHomePath()..'/Projets/Lua/engine && zip -9 -r -u '..getHomePath()..'/Projets/Libraries2/love-11.3-ios-source/platform/xcode/applications.love .')
 end
 
 function ApplicationManager:dir(path, method, recursivly)

@@ -83,7 +83,7 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
     end
 
     if love and osx then
-        params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
+        params.libName = getHomePath()..'/Projets/Lua/Engine/'..params.libName
     end
 
     return ffi.load(params.libName)
@@ -125,13 +125,15 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
     end
 
     if love and osx then
-        params.libName = '/Users/Ludo/Projets/Lua/Engine/'..params.libName
+        params.libName = getHomePath()..'/Projets/Lua/Engine/'..params.libName
     end
 
     return ffi.load(params.libName)
 end
 
 function Library.load(libName, libNamewindows, libDir)
+    print('load '..libName)
+    
     local libPath = getLibPath(libName, libNamewindows, libDir)
     return ffi.load(libPath)
 end

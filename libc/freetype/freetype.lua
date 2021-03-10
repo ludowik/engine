@@ -6,6 +6,8 @@ function FreeType.setup()
     local path = getLibPath('FreeType')
 
     if ft == nil then
+        -- TOFIX
+        assert()
         if osx then
 
             Library.load('freetype')

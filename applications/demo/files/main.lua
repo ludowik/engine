@@ -22,7 +22,7 @@ function Coroutine:resume()
 end
 
 function setup()
-    disk = Directory('/users/ludo/projets')
+    disk = Directory(getHomePath()..'/Projets')
 
     nbFilesTot = 0
     sizeTot = 0

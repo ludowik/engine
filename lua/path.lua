@@ -31,31 +31,41 @@ end
 
 function getLibPath(libName, libNamewindows, libDir)
     if windows then
-        local userProfile = os.getenv('userprofile')
-        
-        Path.libraryPath = userProfile..'/Documents/#Persos/Mes Projets Persos/Libraries'        
+        local home = getHomePath()
+        -- TOFIX
+        Path.libraryPath = home..'/Documents/#Persos/Mes Projets Persos/Libraries'        
         Path.libraryPath = '/windows/system32'
     else
-        Path.libraryPath = '/Users/ludo/Projets/Libraries'
+        local home = getHomePath()
+        Path.libraryPath = home..'/Projets/Libraries'
     end
-    
+
     local libPath
-    
+
     libDir = libDir or Path.libraryPath
-    
+
     if not libName then
         return libDir
     end
-    
+
     if osx then
-        libName = libName..'.framework/'..libName
+        libName = libName..'/'..libName..'.framework/'..libName
         libPath = libDir..'/'..libName
     else
         libName = libNamewindows or libName
         libPath = libDir..'/'..libName
     end
-    
+
     return libPath
+end
+
+function getHomePath()
+    if windows then
+        return os.getenv('USERPROFILE')
+    else
+        return '/Users/Ludo'
+--        return os.getenv('HOME')
+    end
 end
 
 function getDataPath()

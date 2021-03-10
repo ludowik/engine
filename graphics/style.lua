@@ -39,7 +39,7 @@ function Styles:init()
         lineCapMode = ROUND,
         
         angleMode = DEGREES,
-
+        
         light = false
     }
 end

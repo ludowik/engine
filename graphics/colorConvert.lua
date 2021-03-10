@@ -1,4 +1,12 @@
 function hsl(h, s, l, a)
+    return Color(hsl2rgb(h, s, l, a))
+end
+
+function hsl2rgb(h, s, l, a)
+    h = h or 0.5
+    s = s or 0.5
+    l = l or 0.5
+    
     local r, g, b
     if s == 0 then
         r = l
@@ -23,7 +31,7 @@ function hsl(h, s, l, a)
         g = __hue2rgb(var_1, var_2, h)
         b = __hue2rgb(var_1, var_2, h - (1 / 3))
     end
-    return Color(r, g, b, a or 1)
+    return r, g, b, a or 1
 end
 
 function __hue2rgb(v1, v2, vH)
