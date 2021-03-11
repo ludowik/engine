@@ -1,30 +1,68 @@
 function setup()
-    local pixelSize = 8
+    N = 128
+    density = Buffer('float'):resize(N*N)
+    density_new = Buffer('float'):resize(N*N)
+    
+    for i=0,N*N-1 do
+        density[i] = 0
+        density_new[i] = 0
+    end
 
-    img = image(
-        floor(W/pixelSize),
-        floor(H/pixelSize))
+    img = image(N)
+    pixelSize = 12
 
-    img2 = image(
-        floor(W/pixelSize),
-        floor(H/pixelSize))
+    config.interpolate = false
+    parameter.boolean('config.interpolate')
+    
+    parameter.watch('total')
+end
 
-    setContext(img)
-    background(0, 0, 0, 1)
+function index(x, y)
+    return x + y * N
+end
 
+function touched(touch)
+    local x, y = floor(touch.x/pixelSize), floor(touch.y/pixelSize)
+    if x >= 0 and x < N and y >= 0 and y < N then
+        density[index(x, y)] = 2^8
+    end
+end
+
+function update(dt)
+    local a = dt * N * N
+
+    for x=1,20 do
+        for y=1,N-2 do
+            for x=1,N-2 do
+                density_new[index(x, y)] = density[index(x, y)] + dt * (
+                    density_new[index(x-1, y)] +
+                    density_new[index(x+1, y)] +
+                    density_new[index(x, y-1)] +
+                    density_new[index(x, y+1)] - 4 * density_new[index(x, y)]
+                )
+            end
+        end
+    end
+
+    density_new, density = density, density_new
+
+    total = 0
+    for i=0,N*N-1 do
+        total = total + density[i]
+    end
+    
+    total = floor(total)
+end
+
+function draw()
     local pixels = img:getPixels()
-    local pixels2 = img2:getPixels()
 
     local i = 0
-    for y=0,img.height-1 do
-        for x=0,img.width-1 do
-            if x == 0 then
-                pixels[i] = random(255)
-                --pixels[i+1] = random(255)
-                --pixels[i+2] = random(255)
-            else
-            end
-
+    for y=0,N-1 do
+        for x=0,N-1 do
+            pixels[i] = min(255, density[index(x, y)])
+            pixels[i+1] = pixels[i]
+            pixels[i+2] = pixels[i]
             pixels[i+3] = 255
 
             i = i + 4
@@ -33,60 +71,7 @@ function setup()
 
     img:update(true)
 
-    setContext(img2)
-    spriteMode(CORNER)
-    sprite(img)
-    img2:update(true)
-
-    config.interpolate = false
-    parameter.boolean('config.interpolate', false)
-    
-    parameter.watch('total')
-end
-
-function update()
-    local pixels = img:getPixels()
-
-    setContext(img2)
-    spriteMode(CORNER)
-    sprite(img)
-    setContext()
-
-    local pixels2 = img2:getPixels()    
-    
-    local i, r, d = 0, 0
-    for y=0,img.height-1 do
-        for x=0,img.width-1 do
-            local a, b = i,(i+4)%(img.width*img.height*4)
-
-            r = pixels[a]
-
-            d = randomInt(0, r)
-            d = min(255, pixels[b]+d) - pixels[b]
-
-            pixels2[a] = pixels2[a] - d
-            pixels2[b] = pixels2[b] + d
-
-            i = i + 4
-        end
-    end
-    
-    i, total = 0, 0
-    for y=0,img.height-1 do
-        for x=0,img.width-1 do
-            total = total + pixels2[i]
-            i = i + 4
-        end
-    end
-    
-
-    img2:update(true)
-
-    img, img2 = img2, img
-end
-
-function draw()
-    scale(W/img.width)
+    scale(pixelSize)
 
     spriteMode(CORNER)
     sprite(img)
