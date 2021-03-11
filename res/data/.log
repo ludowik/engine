@@ -48597,3 +48597,23 @@ memory min       : 4.35 mo
 memory max       : 12.72 mo
 memory variation : 8.38 mo
 memory at end    : 1.59 mo
+load SDL2
+load OpenAL
+load freetype
+initialize memory
+initialize sdl
+Generic PnP Monitor
+load SDL2_image
+initialize opengl
+GLSL 4.10 - Build 26.20.100.8141
+initialize openal
+initialize freetype
+initialize shadermanager
+initialize graphics
+initialize frametime
+load applications/default
+memory at start  : 4.35 mo
+memory min       : 4.35 mo
+memory max       : 8.65 mo
+memory variation : 4.30 mo
+memory at end    : 1.55 mo
